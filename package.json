@@ -1,0 +1,26 @@
+{
+  "name": "pkgs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sync": "tsx package-elm-lang-org/sync.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elm-docs/pkgs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/elm-docs/pkgs/issues"
+  },
+  "homepage": "https://github.com/elm-docs/pkgs#readme",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0"
+  }
+}
