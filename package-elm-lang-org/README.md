@@ -50,9 +50,8 @@ Re-running the script picks up any previously failed or incomplete downloads aut
 npm run sync
 
 # Pass flags after --
-npm run sync -- --max-packages=10
 npm run sync -- --concurrency=4 --delay=200
-npm run sync -- -c 4 -d 200 -m 50
+npm run sync -- --since=0
 ```
 
 #### Flags
@@ -61,7 +60,7 @@ npm run sync -- -c 4 -d 200 -m 50
 |------|-------|---------|-------------|
 | `--concurrency` | `-c` | `6` | Number of parallel download workers |
 | `--delay` | `-d` | `100` | Delay in ms between downloads per worker |
-| `--max-packages` | `-m` | all | Only process the first *n* packages from the API |
+| `--since` | `-s` | auto | Use this index instead of counting local `docs.json` files |
 | `--help` | `-h` | | Show help message |
 
 ### `status`
