@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sync": "tsx package-elm-lang-org/sync.ts",
-    "status": "tsx package-elm-lang-org/status.ts"
+    "status": "tsx package-elm-lang-org/status.ts",
+    "sync-github": "tsx package-elm-lang-org/syncGithub.ts"
   },
   "repository": {
     "type": "git",

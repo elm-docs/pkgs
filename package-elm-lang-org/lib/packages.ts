@@ -26,6 +26,15 @@ export function parsePackageString(raw: string): PackageVersion {
   return { org, pkg, version };
 }
 
+export interface Package {
+  org: string;
+  pkg: string;
+}
+
+export function packageDir(p: Package): string {
+  return join(PACKAGES_DIR, p.org, p.pkg);
+}
+
 export function versionDir(pv: PackageVersion): string {
   return join(PACKAGES_DIR, pv.org, pv.pkg, pv.version);
 }
