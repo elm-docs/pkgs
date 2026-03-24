@@ -11,8 +11,8 @@ import { green, red, yellow, dim, writeLine } from "./lib/term.ts";
 
 const { values: flags } = parseArgs({
   options: {
-    concurrency: { type: "string", short: "c", default: "6" },
-    delay: { type: "string", short: "d", default: "100" },
+    concurrency: { type: "string", short: "c", default: "2" },
+    delay: { type: "string", short: "d", default: "500" },
     update: { type: "boolean", default: false },
     token: { type: "string", short: "t" },
     help: { type: "boolean", short: "h", default: false },
@@ -24,8 +24,8 @@ if (flags.help) {
   console.log(`Usage: syncGithub.ts [options]
 
 Options:
-  -c, --concurrency <n>   Max parallel requests (default: 6)
-  -d, --delay <ms>        Delay in ms between requests (default: 100)
+  -c, --concurrency <n>   Max parallel requests (default: 2)
+  -d, --delay <ms>        Delay in ms between requests (default: 500)
       --update             Re-fetch even if github.json already exists
   -t, --token <token>     GitHub personal access token (default: GITHUB_TOKEN env var)
   -h, --help              Show this help message`);
@@ -68,6 +68,26 @@ interface GithubInfo {
   open_issues: DateStats;
   open_prs: DateStats;
 }
+
+interface GithubRedirect {
+  fetched_at: string;
+  original_repo: string;
+  redirected_to: string;
+  new_org: string;
+  new_name: string;
+}
+
+interface GithubMissing {
+  fetched_at: string;
+  repo: string;
+  user_exists: boolean;
+  user_type: string | null;
+}
+
+type GithubResult =
+  | { kind: "info"; data: GithubInfo }
+  | { kind: "redirect"; data: GithubRedirect }
+  | { kind: "missing"; data: GithubMissing };
 
 // ---------------------------------------------------------------------------
 // GitHub API helpers
@@ -139,7 +159,7 @@ async function throwIfNotOk(res: Response): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// GitHub API helpers
+// GitHub API helpers (with rate-limit awareness)
 // ---------------------------------------------------------------------------
 
 function githubHeaders(): Record<string, string> {
@@ -150,16 +170,50 @@ function githubHeaders(): Record<string, string> {
   };
 }
 
-async function githubGet(path: string): Promise<Response> {
-  const res = await fetch(`${GITHUB_API}${path}`, { headers: githubHeaders() });
+/**
+ * Check rate-limit headers and pause if we're about to hit the wall.
+ * GitHub returns:
+ *   x-ratelimit-remaining: number of requests left in this window
+ *   x-ratelimit-reset: unix timestamp when the window resets
+ *   retry-after: seconds to wait (on 429/403 rate-limit responses)
+ */
+async function respectRateLimit(res: Response): Promise<void> {
+  const remaining = res.headers.get("x-ratelimit-remaining");
+  const resetAt = res.headers.get("x-ratelimit-reset");
+  const retryAfter = res.headers.get("retry-after");
+
+  // If we got a retry-after header, wait that long
+  if (retryAfter) {
+    const waitSec = parseInt(retryAfter, 10);
+    if (waitSec > 0) {
+      writeLine(`${dim("[rate-limit]")} ${yellow("⏳")} Retry-After: pausing ${waitSec}s`);
+      await sleep(waitSec * 1000);
+      return;
+    }
+  }
+
+  // If remaining is low, proactively pause until the reset window
+  if (remaining && resetAt) {
+    const left = parseInt(remaining, 10);
+    if (left <= 10) {
+      const resetTime = parseInt(resetAt, 10) * 1000;
+      const waitMs = Math.max(0, resetTime - Date.now()) + 1000; // +1s buffer
+      const waitSec = Math.ceil(waitMs / 1000);
+      writeLine(`${dim("[rate-limit]")} ${yellow("⏳")} ${left} requests left, pausing ${waitSec}s until reset`);
+      await sleep(waitMs);
+    }
+  }
+}
+
+/** Core fetch wrapper: respects rate limits, returns raw Response. */
+async function githubFetch(url: string): Promise<Response> {
+  const res = await fetch(url, { headers: githubHeaders() });
+  await respectRateLimit(res);
   return res;
 }
 
-/** Like githubGet but throws a GithubApiError on non-2xx responses. */
-async function githubGetOk(path: string): Promise<Response> {
-  const res = await githubGet(path);
-  await throwIfNotOk(res);
-  return res;
+async function githubGet(path: string): Promise<Response> {
+  return githubFetch(`${GITHUB_API}${path}`);
 }
 
 /** Fetch all pages of a paginated GitHub endpoint. */
@@ -168,7 +222,7 @@ async function githubGetAll<T>(path: string): Promise<T[]> {
   let url: string | null = `${GITHUB_API}${path}${path.includes("?") ? "&" : "?"}per_page=100`;
 
   while (url) {
-    const res: Response = await fetch(url, { headers: githubHeaders() });
+    const res: Response = await githubFetch(url);
     await throwIfNotOk(res);
     const data: T[] = await res.json();
     results.push(...data);
@@ -253,12 +307,50 @@ async function fetchMaintainers(org: string, pkg: string): Promise<Set<string>> 
   return maintainers;
 }
 
-async function fetchGithubInfo(pkg: Package): Promise<GithubInfo> {
+async function fetchGithubInfo(pkg: Package): Promise<GithubResult> {
   const { org, pkg: name } = pkg;
+  const originalRepo = `${org}/${name}`;
 
-  // Fetch repo info — this is the critical call, throws GithubApiError on failure
-  const repoRes = await githubGetOk(`/repos/${org}/${name}`);
-  const repo: { stargazers_count: number } = await repoRes.json();
+  // Fetch repo info — this is the critical call
+  const repoRes = await githubGet(`/repos/${org}/${name}`);
+
+  // Handle 404: check whether the user/org still exists
+  if (repoRes.status === 404) {
+    const userRes = await githubGet(`/users/${org}`);
+    const userExists = userRes.ok;
+    let userType: string | null = null;
+    if (userExists) {
+      const user: { type?: string } = await userRes.json();
+      userType = user.type ?? null; // "User" or "Organization"
+    }
+    return {
+      kind: "missing",
+      data: {
+        fetched_at: new Date().toISOString(),
+        repo: originalRepo,
+        user_exists: userExists,
+        user_type: userType,
+      },
+    };
+  }
+
+  await throwIfNotOk(repoRes);
+  const repo: { full_name: string; stargazers_count: number } = await repoRes.json();
+
+  // Detect redirect: GitHub follows it transparently but the full_name will differ
+  if (repo.full_name.toLowerCase() !== originalRepo.toLowerCase()) {
+    const [newOrg, newName] = repo.full_name.split("/");
+    return {
+      kind: "redirect",
+      data: {
+        fetched_at: new Date().toISOString(),
+        original_repo: originalRepo,
+        redirected_to: repo.full_name,
+        new_org: newOrg,
+        new_name: newName,
+      },
+    };
+  }
 
   // Fetch last commit date
   const commitsRes = await githubGet(`/repos/${org}/${name}/commits?per_page=1`);
@@ -299,11 +391,14 @@ async function fetchGithubInfo(pkg: Package): Promise<GithubInfo> {
   const prs = await Promise.all(rawPrs.map(enrichItem));
 
   return {
-    fetched_at: new Date().toISOString(),
-    stargazers_count: repo.stargazers_count,
-    last_commit_at: lastCommitAt,
-    open_issues: computeDateStats(issues),
-    open_prs: computeDateStats(prs),
+    kind: "info",
+    data: {
+      fetched_at: new Date().toISOString(),
+      stargazers_count: repo.stargazers_count,
+      last_commit_at: lastCommitAt,
+      open_issues: computeDateStats(issues),
+      open_prs: computeDateStats(prs),
+    },
   };
 }
 
@@ -330,8 +425,12 @@ async function shouldFetch(pkg: Package): Promise<boolean> {
   if (UPDATE) return true;
 
   const dir = packageDir(pkg);
-  const hasInfo = await fileExists(join(dir, "github.json"));
-  return !hasInfo;
+  const [hasInfo, hasRedirect, hasMissing] = await Promise.all([
+    fileExists(join(dir, "github.json")),
+    fileExists(join(dir, "github-redirect.json")),
+    fileExists(join(dir, "github-missing.json")),
+  ]);
+  return !hasInfo && !hasRedirect && !hasMissing;
 }
 
 // ---------------------------------------------------------------------------
@@ -355,14 +454,24 @@ interface FetchResult {
 async function fetchOne(pkg: Package): Promise<FetchResult> {
   const dir = packageDir(pkg);
   const infoPath = join(dir, "github.json");
+  const redirectPath = join(dir, "github-redirect.json");
+  const missingPath = join(dir, "github-missing.json");
   const errorsPath = join(dir, "github-errors.json");
 
   async function attempt(): Promise<FetchResult> {
-    const info = await fetchGithubInfo(pkg);
-    await writeFile(infoPath, JSON.stringify(info, null, 2));
+    const result = await fetchGithubInfo(pkg);
 
-    if (await fileExists(errorsPath)) {
-      await rm(errorsPath);
+    // Write the appropriate result file
+    const writePath =
+      result.kind === "info" ? infoPath :
+      result.kind === "redirect" ? redirectPath :
+      missingPath;
+    await writeFile(writePath, JSON.stringify(result.data, null, 2));
+
+    // Clean up stale files from previous runs
+    const staleFiles = [infoPath, redirectPath, missingPath, errorsPath].filter((p) => p !== writePath);
+    for (const file of staleFiles) {
+      if (await fileExists(file)) await rm(file);
     }
 
     return { ok: true, pkg };
@@ -373,7 +482,7 @@ async function fetchOne(pkg: Package): Promise<FetchResult> {
   } catch (err: unknown) {
     // On rate limit, wait 10x delay and retry once
     if (err instanceof GithubApiError && err.reason === "rate_limit") {
-      const retryDelay = DELAY_MS * 10;
+      const retryDelay = DELAY_MS * 2;
       writeLine(
         `${dim("[fetch]")} ${yellow("⏳")} ${formatPkg(pkg)} rate limited, retrying in ${retryDelay}ms`,
       );
