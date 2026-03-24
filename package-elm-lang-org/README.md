@@ -1,43 +1,49 @@
 # package-elm-lang-org
 
-Syncs package documentation from https://package.elm-lang.org into the local `content/` directory.
+Tools for syncing and inspecting package documentation from https://package.elm-lang.org.
 
-## How it works
+## Content directory
 
-The `sync.ts` script runs in two phases:
-
-### 1. Discover
-
-Counts existing `docs.json` files under `content/packages/` to determine an index, then calls the `/all-packages/since/{index}` endpoint to get newly published package versions. For each new version it creates a directory with an empty `docs.json` and a `pending` marker file:
+Both scripts operate on the `content/packages/` directory. Each package version lives at:
 
 ```
 content/packages/{org}/{package}/{version}/
-  docs.json   (empty while pending)
-  pending     (empty marker)
 ```
 
-### 2. Fetch
+A version directory can be in one of four states:
 
-Finds all directories with a `pending` file and downloads the docs in parallel. After each download, the state becomes one of:
-
-**Success** -- `docs.json` is written with the full content and `pending` is removed:
+**Success** — `docs.json` contains the full documentation:
 ```
-content/packages/{org}/{package}/{version}/
-  docs.json
+docs.json
 ```
 
-**Failure** -- `docs.json` is left empty, `pending` is removed, and `errors.json` is written with details:
+**Failure** — `docs.json` is empty and `errors.json` has details:
 ```
-content/packages/{org}/{package}/{version}/
-  docs.json
-  errors.json
+docs.json
+errors.json
 ```
 
-Re-running the script will pick up any previously failed or incomplete downloads automatically.
+**Pending** — `docs.json` is empty and a `pending` marker is present:
+```
+docs.json
+pending
+```
 
-## Usage
+**Missing** — no directory exists for that version yet.
 
-The script is registered as an npm script. Use `--` to forward flags:
+## Scripts
+
+### `sync`
+
+Syncs package documentation into `content/`. Runs in two phases:
+
+**1. Discover** — counts existing `docs.json` files to determine an index, then calls `/all-packages/since/{index}` to get newly published versions. For each new version it creates a directory with an empty `docs.json` and a `pending` marker.
+
+**2. Fetch** — finds all directories with a `pending` file and downloads docs in parallel. On success, `docs.json` is written and `pending` is removed. On failure, `pending` is removed and `errors.json` is written.
+
+Re-running the script picks up any previously failed or incomplete downloads automatically.
+
+#### Usage
 
 ```sh
 # Sync all packages with defaults (6 workers, 100ms delay)
@@ -49,7 +55,7 @@ npm run sync -- --concurrency=4 --delay=200
 npm run sync -- -c 4 -d 200 -m 50
 ```
 
-### Flags
+#### Flags
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
@@ -57,3 +63,13 @@ npm run sync -- -c 4 -d 200 -m 50
 | `--delay` | `-d` | `100` | Delay in ms between downloads per worker |
 | `--max-packages` | `-m` | all | Only process the first *n* packages from the API |
 | `--help` | `-h` | | Show help message |
+
+### `status`
+
+Shows the sync status of all known packages. Fetches the full registry from `/all-packages/since/0`, classifies every version against the local `content/` directory, and prints a summary with counts and percentages for each state (success, pending, failure, missing).
+
+#### Usage
+
+```sh
+npm run status
+```
