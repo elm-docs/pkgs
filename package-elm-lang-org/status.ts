@@ -1,50 +1,9 @@
-import { stat } from "node:fs/promises";
 import { join } from "node:path";
-
-const CONTENT_DIR = join(import.meta.dirname!, "content");
-const PACKAGES_DIR = join(CONTENT_DIR, "packages");
-const BASE_URL = "https://package.elm-lang.org";
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-async function fileExists(path: string): Promise<boolean> {
-  try {
-    await stat(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-interface PackageVersion {
-  org: string;
-  pkg: string;
-  version: string;
-}
-
-function parsePackageString(raw: string): PackageVersion {
-  const [orgPkg, version] = raw.split("@");
-  const [org, pkg] = orgPkg.split("/");
-  return { org, pkg, version };
-}
-
-function versionDir({ org, pkg, version }: PackageVersion): string {
-  return join(PACKAGES_DIR, org, pkg, version);
-}
+import { BASE_URL, fileExists, parsePackageString, versionDir } from "./lib/packages.ts";
+import type { PackageVersion } from "./lib/packages.ts";
+import { bold, green, red, yellow, dim, printList } from "./lib/term.ts";
 
 type Status = "success" | "failure" | "pending" | "missing";
-
-// ---------------------------------------------------------------------------
-// ANSI colors
-// ---------------------------------------------------------------------------
-
-const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;
-const green = (s: string) => `\x1b[32m${s}\x1b[0m`;
-const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
-const yellow = (s: string) => `\x1b[33m${s}\x1b[0m`;
-const dim = (s: string) => `\x1b[2m${s}\x1b[0m`;
 
 // ---------------------------------------------------------------------------
 // Classify each package
@@ -65,31 +24,6 @@ async function classifyPackage(pv: PackageVersion): Promise<Status> {
   if (await fileExists(docsPath)) return "success";
 
   return "missing";
-}
-
-// ---------------------------------------------------------------------------
-// Display
-// ---------------------------------------------------------------------------
-
-const MAX_DISPLAY = 5;
-
-function formatLabel(pv: PackageVersion): string {
-  return `${pv.org}/${pv.pkg}@${pv.version}`;
-}
-
-function printList(title: string, color: (s: string) => string, items: PackageVersion[]): void {
-  if (items.length === 0) return;
-
-  console.log();
-  console.log(color(bold(title)));
-  const shown = items.slice(0, MAX_DISPLAY);
-  for (const pv of shown) {
-    console.log(`  ${dim("•")} ${formatLabel(pv)}`);
-  }
-  const remaining = items.length - shown.length;
-  if (remaining > 0) {
-    console.log(dim(`  … and ${remaining} more`));
-  }
 }
 
 // ---------------------------------------------------------------------------
