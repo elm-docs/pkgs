@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sync": "tsx package-elm-lang-org/sync.ts"
+    "sync": "tsx package-elm-lang-org/sync.ts",
+    "status": "tsx package-elm-lang-org/status.ts"
   },
   "repository": {
     "type": "git",
