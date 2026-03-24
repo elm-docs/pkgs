@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "sync": "tsx package-elm-lang-org/sync.ts",
     "status": "tsx package-elm-lang-org/status.ts",
-    "sync-github": "tsx package-elm-lang-org/syncGithub.ts"
+    "sync-github": "tsx package-elm-lang-org/syncGithub.ts",
+    "build-db": "tsx db/buildDb.ts"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,9 @@
   },
   "homepage": "https://github.com/elm-docs/pkgs#readme",
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^25.5.0",
+    "better-sqlite3": "^11.8.1",
     "tsx": "^4.21.0"
   }
 }

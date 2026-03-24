@@ -14,8 +14,9 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            # TypeScript
+            # TypeScript (python3 needed to compile better-sqlite3)
             nodejs_22
+            python3
             nodePackages.typescript
             nodePackages.typescript-language-server
 
