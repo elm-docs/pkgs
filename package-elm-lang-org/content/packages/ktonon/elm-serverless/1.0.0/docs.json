@@ -1,0 +1,103 @@
+[
+    {
+        "name": "Serverless",
+        "comment": " Define an HTTP API in elm.\n\n@docs httpApi, HttpApi, EndpointPort, Stage\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "EndpointPort",
+                "comment": " A port through which the HTTP request begins.\n\nIt receives the serverless stage as an parameter.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "(Stage -> msg) -> Sub msg"
+            },
+            {
+                "name": "HttpApi",
+                "comment": " Program for an HTTP API.\n\nDiffers from Platform.program as follows\n\n* endpointPort - port through which the HTTP request begins\n* responsePort - port through which the HTTP request ends\n* init - guaranteed to get a decoded Request\n",
+                "args": [
+                    "model",
+                    "msg"
+                ],
+                "type": "{ endpointPort : EndpointPort msg, responsePort : Port msg, init : Request -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg }"
+            },
+            {
+                "name": "Stage",
+                "comment": " A serverless stage (ex, \"dev\")\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "httpApi",
+                "comment": " Create an HttpApi.\n\nThis program guarantees a decoded Request for your init function. If an error\nhappens during decoding, it will send 500 through the responsePort that\nyou provide and never call init.\n",
+                "type": "HttpApi model msg -> Program Raw (Maybe model) msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Serverless.Response",
+        "comment": " Types to help send an HTTP response.\n\n@docs StatusCode, ResponseBody, Port\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Port",
+                "comment": " Defines the type that should be used for an elm port to send the response.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "( StatusCode, ResponseBody ) -> Cmd msg"
+            },
+            {
+                "name": "ResponseBody",
+                "comment": " Response body as a string\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "StatusCode",
+                "comment": " HTTP status code\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Serverless.Request",
+        "comment": " Defines an HTTP request.\n\n@docs decode, Method, Raw, Request\n",
+        "unions": [
+            {
+                "name": "Method",
+                "comment": " HTTP request message type\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Raw",
+                "comment": " A raw HTTP request, before decoding\n",
+                "args": [],
+                "type": "Value"
+            },
+            {
+                "name": "Request",
+                "comment": " HTTP Request (wip)\n",
+                "args": [],
+                "type": "{ method : Method, path : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decode a raw HTTP request\n",
+                "type": "Raw -> Result String Request"
+            }
+        ],
+        "binops": []
+    }
+]

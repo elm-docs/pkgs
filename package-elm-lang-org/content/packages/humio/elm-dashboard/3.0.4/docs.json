@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Dashboard",
+        "comment": " A dashboard library for moving and resizing widgets.\n\n\n# Lifecycle\n\n@docs Model, init, subscriptions, Msg, update, view\n\n\n# Widgets\n\n@docs Widget, widget\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Widget",
+                "comment": " ",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ dragState : Maybe DragState, windowWidth : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " a Task that will give you the initial dashboard model.\n",
+                "type": "Task Never Model"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Config { toMsg : Msg -> msg } -> List (Widget data msg) -> Msg -> Model -> ( Model, Cmd Msg, Maybe (List ( String, { x : Int, y : Int, height : Int, width : Int } )) )"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config { toMsg : Msg -> msg } -> Model -> List (Widget data msg) -> data -> Html msg"
+            },
+            {
+                "name": "widget",
+                "comment": " Creates a widget.\nthe `id` must be unique. `frame` in the size of the widget in grid dimensions.\n`toContent` is a function that produces the widget's content. It is passed\nthe actual size of the widget so you can adjust the content.\n",
+                "type": "String -> Frame -> (data -> Size -> Html msg) -> Widget data msg"
+            }
+        ],
+        "binops": []
+    }
+]

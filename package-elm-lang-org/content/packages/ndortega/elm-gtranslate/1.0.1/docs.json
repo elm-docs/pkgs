@@ -1,0 +1,122 @@
+[
+    {
+        "name": "GTranslate.Free",
+        "comment": " The goal of this library is to provide a type-safe way to interact with the Google Translation api. \n    This project will eventually come in two flavors: Free & Official. Currently, only the Free module \n    is implemented which allows you to make a limited number of translations / minute. \n\n\n# Core Functions\nThese functions are helpful when you want to translate one thing at a time.\n\n@docs   translate\n        , toEnglish\n        , toTargetLang\n\n\n# Advanced Functions\nThese functions are useful when you want to translate many things at the same time. Tranlsations like these are done\nsimulataneously and will not execute in any order. \n\n@docs batchStrings\n        , batchRecords\n        , apply\n\n\n# Opaque Types\n\n@docs Translation, Config\n\n\n# Config Functions \n\n@docs   initConfig\n        , withSourceLang\n        , withUID\n        , configSourceLang     \n        , configTargetLang\n        , configMessage\n        , configUID\n\n# Translation Functions \n\n@docs   translatedText\n        , originalText\n        , sourceLanguage       \n        , targetLanguage\n        , id \n        , changeID\n\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " This type is used to tell our library how to translate and \"tag\" each\n    translation. The 'a'in the type signature represents the custom record type \n    than you can optionally provide a function to create a unique ID for each \n    record. \n",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "Config a msg"
+            },
+            {
+                "name": "Translation",
+                "comment": " This is the type that is decoded from the JSON from the google translate api. This type \n    contains useful information like: translation, original text, source language, \n    target language, and confidence level.\n",
+                "args": [],
+                "type": "Translation"
+            }
+        ],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " This function is your bread & butter when it comes to handling bulk\n    translations. This function takes a config type, an update function, a list of \n    translations, and the list of records you want to apply the translations to. \n    If a uid generator is provided in the config this function will use that to \n    lookup the matching record to update. If no uid generator is provided, then \n    this function will automatically sort the list of translations to match the \n    original order of your records. Afterwards, this function will step over both\n    lists and update each translation with the adjacent record. \n\n    \n    import Http\n    import GTranslate.Free exposing (..)\n\n\n    -- Models\n    type alias Phrase =\n        { text: String\n        , id: Int\n        }\n\n    type alias Model =\n        { phrases: List Phrase\n        , translations: List Translation \n        }\n\n\n    init : ( Model, Cmd Msg )\n    init = \n        ({ phrases =  \n            [ Phrase \"Caballo regalado no se le mira el diente.\" 1\n            , Phrase \"Al mal tiempo, buena cara.\" 2\n            , Phrase \"A falta de pan, buenas son tortas.\" 3\n            , Phrase \"Barriga llena, corazón contento.\" 4\n            ]\n        , translations = [] }\n        , Cmd.none)\n\n    -- our configuration record used in the application\n    customConfig : Config Phrase Msg\n    customConfig =\n        Response -- 'Response' is our message \n            |> initConfig \"en\"      -- specify that english is our target language\n            |> withSourceLang \"es\"  -- specify that spanish is our source language\n            |> withUID (\\ p -> toString p.id )\n\n\n    -- MESSAGE\n    type Msg \n        = Response (Result Http.Error Translation )\n        | Translate \n        | Apply \n\n\n    -- UPDATE\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update message model =\n        case message of \n\n        Apply -> \n\n             let \n                -- The update function used to apply a translation to a phrase\n                update = (\\ translation phrase -> { phrase | text = translatedText translation } )\n\n                -- Apply the already completed translatations to our list of phrases\n                newPhrases = model.phrases |> apply customConfig update model.translations \n\n            in\n\n            -- update our model \n            ({ model | phrases = newPhrases }, Cmd.none )\n\n\n        Translate ->\n            -- Translate the all stored phrases\n            (model, batchRecords customConfig (\\p -> p.text) model.phrases ) \n\n        Response (Ok translation) -> \n            -- store our completed translations\n            ({ model | translations = translation :: model.translations }, Cmd.none)\n\n        Response (Err msg) ->  \n            -- handle error here\n            (model, Cmd.none)\n\n\n",
+                "type": "Config a msg -> (Translation -> a -> a) -> List Translation -> List a -> List a"
+            },
+            {
+                "name": "batchRecords",
+                "comment": " Convience function used translate a list of custom records from one language to another. \n    Each translation is assigned an id (as a String) based on the given UID generator function. \n    If no function is present in the config, then each record is assigned a string representing \n    the index it appears in the list. You can see an example usuage of this function in the 'apply' \n    function example.\n",
+                "type": "Config a msg -> (a -> String) -> List a -> Cmd msg"
+            },
+            {
+                "name": "batchStrings",
+                "comment": " Convience function used translate a list of strings from one language to another. \n    Each translation is assigned an id (as a String) which is just the index of the \n    text in the list.\n",
+                "type": "Config String msg -> List String -> Cmd msg"
+            },
+            {
+                "name": "changeID",
+                "comment": " Convience function to add/overwrite an id on a translation object  \n",
+                "type": "String -> Translation -> Translation"
+            },
+            {
+                "name": "configMessage",
+                "comment": " Gets the custom message used in this Config \n",
+                "type": "Config a msg -> Result Error Translation -> msg"
+            },
+            {
+                "name": "configSourceLang",
+                "comment": " Gets the source language used in this Config\n",
+                "type": "Config a msg -> Maybe String"
+            },
+            {
+                "name": "configTargetLang",
+                "comment": " Gets the target language used in this Config \n",
+                "type": "Config a msg -> String"
+            },
+            {
+                "name": "configUID",
+                "comment": " Gets the unique id generator function used in this config record\n",
+                "type": "Config a msg -> Maybe (a -> String)"
+            },
+            {
+                "name": "id",
+                "comment": " Get the id of this Translation if it exists. The id is optional and must be a string\n    \n    import GTranslate.Free exposing (Translation, id)\n\n    Translation \"1\" \"how are you doing?\" \"¿como estas?\" \"es\" \"en\" 0.98 \"sample-1\"\n        |> id \n        \n    --> \"1\"\n",
+                "type": "Translation -> Maybe String"
+            },
+            {
+                "name": "initConfig",
+                "comment": " This provides a helper function to create a bare bones config object with no\n    uidGenerator or sourceLanguage is specified\n",
+                "type": "String -> (Result Error Translation -> msg) -> Config a msg"
+            },
+            {
+                "name": "originalText",
+                "comment": " Get the original text from a Translation type\n\n    import GTranslate.Free exposing (Translation, originalText)\n\n    Translation \"how are you doing?\" \"¿como estas?\" \"es\" \"en\" 0.98\n        |> originalText \n        \n    --> \"¿como estas?\"\n",
+                "type": "Translation -> String"
+            },
+            {
+                "name": "sourceLanguage",
+                "comment": " Get the source language from a Translation type\n\n    import GTranslate.Free exposing (Translation, sourceLanguage)\n\n    Translation \"how are you doing?\" \"¿como estas?\" \"es\" \"en\" 0.98\n        |> sourceLanguage \n        \n    --> \"es\"\n",
+                "type": "Translation -> String"
+            },
+            {
+                "name": "targetLanguage",
+                "comment": " Get the target language from this Translation type\n\n    import GTranslate.Free exposing (Translation, targetLanguage)\n\n    Translation \"how are you doing?\" \"¿como estas?\" \"es\" \"en\" 0.98\n        |> targetLanguage \n        \n    --> \"en\"\n",
+                "type": "Translation -> String"
+            },
+            {
+                "name": "toEnglish",
+                "comment": " Translate any language into english.\n    For a comprehensive list of supported languages, go [here.](https://cloud.google.com/translate/docs/languages)\n\n    import Http\n    import GTranslate.Free exposing (Translation, toEnglish)\n\n    -- MESSAGE\n    type Msg \n        = Response (Result Http.Error Translation )\n        | Translate String \n\n\n    -- UPDATE\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update message model =\n        case message of \n\n            Translate text ->\n                (model, toEnglish Response text ) -- translate any language to english\n\n            Response (Ok translation) -> \n                -- do something with the translation\n                (model, Cmd.none)\n\n            Response (Err msg) ->  \n                -- handle error here\n                (model, Cmd.none)\n\n",
+                "type": "(Result Error Translation -> msg) -> String -> Cmd msg"
+            },
+            {
+                "name": "toTargetLang",
+                "comment": " Convert any language to a target language.\n    For a comprehensive list of supported languages, go [here.](https://cloud.google.com/translate/docs/languages)\n\n    import Http\n    import GTranslate.Free exposing (Translation, toTargetLang)\n\n    -- MESSAGE\n    type Msg \n        = Response (Result Http.Error Translation )\n        | Translate String \n\n\n    -- UPDATE\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update message model =\n        case message of \n\n            Translate text ->\n                (model, toTargetLang Response \"hy\" text ) -- translate any language to Armenian\n\n            Response (Ok translation) -> \n                -- do something with the translation\n                (model, Cmd.none)\n\n            Response (Err msg) ->  \n                -- handle error here\n                (model, Cmd.none)\n\n",
+                "type": "(Result Error Translation -> msg) -> String -> String -> Cmd msg"
+            },
+            {
+                "name": "translate",
+                "comment": " Translates text from a specific language into another specific language. This function takes an optional string\n    which can be used to 'id' or 'tag' this translation, a config, and the source text you want to translate.\n\n    For a comprehensive list of supported languages, go [here.](https://cloud.google.com/translate/docs/languages)\n\n    import Http\n    import GTranslate.Free exposing (Translation, translate)\n\n    -- MESSAGE\n    type Msg \n        = Response (Result Http.Error Translation )\n        | Translate String \n\n    -- our configuration record used in the application\n    customConfig : Config String Msg\n    customConfig =\n        Response -- 'Response' is our message \n            |> initConfig \"en\"      -- specify that english is our target language\n            |> withSourceLang \"es\"  -- specify that spanish is our source language\n\n    -- UPDATE\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update message model =\n        case message of \n\n            Translate text ->\n                -- Translate the 'text' input variable\n                (model, translate Nothing customConfig text ) -- translate spanish (es) to english (en)\n\n            Response (Ok translation) -> \n                -- do something with the translation\n                (model, Cmd.none)\n\n            Response (Err msg) ->  \n                -- handle error here\n                (model, Cmd.none)\n\n",
+                "type": "Maybe String -> Config a msg -> String -> Cmd msg"
+            },
+            {
+                "name": "translatedText",
+                "comment": " Get the translated text from a Translation type\n\n    import GTranslate.Free exposing (Translation, translatedText)\n\n    Translation \"how are you doing?\" \"¿como estas?\" \"es\" \"en\" 0.98\n        |> translatedText \n\n    --> \"how are you doing?\"\n",
+                "type": "Translation -> String"
+            },
+            {
+                "name": "withSourceLang",
+                "comment": " add/update a source language of a pre-existing Config \n",
+                "type": "String -> Config a msg -> Config a msg"
+            },
+            {
+                "name": "withUID",
+                "comment": " add/update a uid generator function of a pre-existing Config \n",
+                "type": "(a -> String) -> Config a msg -> Config a msg"
+            }
+        ],
+        "binops": []
+    }
+]

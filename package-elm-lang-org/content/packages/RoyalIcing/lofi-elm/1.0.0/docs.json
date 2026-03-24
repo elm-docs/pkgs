@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Lofi",
+        "comment": " A library for #lofi parsing\n\n# Parsing #lofi\n@docs parseElement\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parseElement",
+                "comment": " Turn a #lofi string into a #lofi Element.\n",
+                "type": "String -> Element"
+            }
+        ],
+        "binops": []
+    }
+]

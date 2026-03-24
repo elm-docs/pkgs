@@ -1,0 +1,46 @@
+[
+    {
+        "name": "ClockPicker",
+        "comment": " A customizable clock picker component.\n\n# Clock\n@docs Msg, ClockPicker, Time\n@docs init, update, view\n\n",
+        "unions": [
+            {
+                "name": "ClockPicker",
+                "comment": " The ClockPicker model.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " An opaque type representing messages that are passed inside the ClockPicker.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Time",
+                "comment": " The time response record\n",
+                "args": [],
+                "type": "{ hour : Int, minute : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " init\n",
+                "type": "( ClockPicker, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " update\n",
+                "type": "Msg -> ClockPicker -> ( ClockPicker, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " view\n",
+                "type": "ClockPicker -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

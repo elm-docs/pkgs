@@ -1,0 +1,123 @@
+[
+    {
+        "name": "Expo.LowLevel",
+        "comment": "\n@docs node\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "node",
+                "comment": " ",
+                "type": "String -> List (Attribute msg) -> List (Node msg) -> Node msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Expo.Attribute",
+        "comment": "\n@docs string, double, color\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "color",
+                "comment": " Use it to set attributes with numeric values. Examples:\n\n    import Color\n\n    Attr.color \"color\" Color.white\n    Attr.color \"backgroundColor\" Color.red\n    Attr.color \"shadowColor\" Color.black\n",
+                "type": "String -> Color -> Attribute msg"
+            },
+            {
+                "name": "double",
+                "comment": " Use it to set attributes with numeric values. Examples:\n\n    Attr.double \"flex\" 1\n    Attr.double \"width\" 80\n    Attr.double \"shadowOpacity\" 0.25\n\nIf you accidentally use `string` instead of `double` or `color`, you may get a\n\"Red Screen of Death\" in Expo, with an error message similar like below:\n\n    Error while updating property 'Sflex' in shadow node of type: RCTView\n\n    java.lang.String cannot be cast to java.lang.Double\n\n    updateShadowNodeProp - ViewManagersPropertyCache.java:113\n    setProperty - ViewmanagerPropertyUpdater.java:154\n    ...\n\nThe above example message would mean there are some `string \"flex\"` attributes\nin code, which have to be changed to `double \"flex\"`.\n",
+                "type": "String -> Float -> Attribute msg"
+            },
+            {
+                "name": "string",
+                "comment": " Use it to set attributes with string values. Examples:\n\n    Attr.string \"flexDirection\" \"row\"\n    Attr.string \"justifyContent\" \"space-between\"\n\n**Important Note:** for attributes with numeric values, use `double` instead;\nfor attributes with color values, use `color`.\n",
+                "type": "String -> String -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Expo",
+        "comment": " The `Expo` library is an experimental API for writing mobile apps in Elm,\nusing [Expo](https://expo.io). \n\n**IMPORTANT NOTE:** See the\n[github.com/akavel/elm-expo](https://github.com/akavel/elm-expo) repository for\ninformation how to install this package, including the required JavaScript\ndependencies. Note also that this is a **highly experimental library** and at a\nvery early stage; things may be missing, not working as expected, or not\nworking at all. Use at your own risk.\n\nOk, with all due warnings now behind us: *Happy Hacking! :)*\n\n# Program Start\n@docs program, beginnerProgram\n\n# Application Look\n@docs Node, node, view, text\n@docs Attribute\n\n# Per-node User Interactions\n@docs on, onWithOptions, Options\n\n# Deprecated Experiments — Do Not Use\n@docs attribute, Position, downs\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " Used to specify attributes on Expo nodes. See `Expo.Attribute` module for\nhelpers that you should use to set particular attributes.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Property msg"
+            },
+            {
+                "name": "Node",
+                "comment": " The core building block of a mobile application's interface.\nTo create a simple text node on Android:\n\n    import Expo.Attribute as Attr\n\n    hello : Node msg\n    hello =\n        node \"RCTText\" []\n            [ node \"RCTRawText\"\n                [ Attr.string \"text\" \"Hello world!\" ]\n                []\n            ]\n\nThe above common use case is wrapped in the helper function `text`, see below.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Node msg"
+            },
+            {
+                "name": "Options",
+                "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the nodes hierarchy, so it will not trigger any\nother event listeners on parent nodes. The `preventDefault` option is currently\nignored, as there are no default actions implemented.\n",
+                "args": [],
+                "type": "{ stopPropagation : Bool, preventDefault : Bool }"
+            },
+            {
+                "name": "Position",
+                "comment": " Deprecated. ",
+                "args": [],
+                "type": "{ x : Int, y : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "attribute",
+                "comment": " DEPRECATED: Use [`Expo.Attribute.string`](Expo-Attribute)/`.double`/... instead. ",
+                "type": "String -> String -> Attribute msg"
+            },
+            {
+                "name": "beginnerProgram",
+                "comment": " Check out the docs for [`Html.beginnerProgram`][prog].\nIt works exactly the same way, but for Expo applications.\n\n[prog]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#beginnerProgram\n",
+                "type": "{ model : model, view : model -> Node msg, update : msg -> model -> model } -> Program Never model msg"
+            },
+            {
+                "name": "downs",
+                "comment": " Deprecated. ",
+                "type": "(Position -> msg) -> Sub msg"
+            },
+            {
+                "name": "node",
+                "comment": " General way to create various Expo view nodes. See `view` for example use.\n",
+                "type": "String -> List (Attribute msg) -> List (Node msg) -> Node msg"
+            },
+            {
+                "name": "on",
+                "comment": " Create a custom event listener. Currently only supports touch events.\n\n    import Json.Decode as Json\n\n    onTouchEnd : msg -> Attribute msg\n    onTouchEnd msg =\n        on \"topTouchEnd\" (Json.succeed msg)\n",
+                "type": "String -> Decoder msg -> Attribute msg"
+            },
+            {
+                "name": "onWithOptions",
+                "comment": " Some as `on` but you can set a few options. ",
+                "type": "String -> Options -> Decoder msg -> Attribute msg"
+            },
+            {
+                "name": "program",
+                "comment": " Check out the docs for [`Html.program`][prog].\nIt works exactly the same way, but for Expo applications.\n\n[prog]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#program\n",
+                "type": "{ view : model -> Node msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg, init : ( model, Cmd msg ) } -> Program Never model msg"
+            },
+            {
+                "name": "text",
+                "comment": " A helper for creating raw text nodes. A simple \"Hello world\" GUI, as\ndescribed in `Node` documentation above, can be simplified as:\n\n    hello : Node msg\n    hello =\n        text \"Hello world!\"\n",
+                "type": "String -> Node msg"
+            },
+            {
+                "name": "view",
+                "comment": " A helper for creating the most common and generic \"View\" nodes. It is\ndefined as:\n\n    view =\n        node \"RCTView\"\n",
+                "type": "List (Attribute msg) -> List (Node msg) -> Node msg"
+            }
+        ],
+        "binops": []
+    }
+]

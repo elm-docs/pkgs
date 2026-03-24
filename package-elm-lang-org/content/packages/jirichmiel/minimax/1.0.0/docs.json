@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Minimax",
+        "comment": " This library implements minimax algorithm with alpha-beta pruning. \n\nFor details about algorithm see https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning.\n\n\nFor exmaple of usage see https://github.com/jirichmiel/minimax/blob/master/README.md.\n\n# Basic stuff\n@docs Node, minimax\n\n# Second stuff\n@docs NodeType, IntegerExt\n\n",
+        "unions": [
+            {
+                "name": "IntegerExt",
+                "comment": " It extends standard Number about positive/negative infinity.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Pos_Inf",
+                        []
+                    ],
+                    [
+                        "Neg_Inf",
+                        []
+                    ],
+                    [
+                        "Number",
+                        [
+                            "a"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "NodeType",
+                "comment": " Represents a node type.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Min",
+                        []
+                    ],
+                    [
+                        "Max",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Node",
+                "comment": " Represents a node in the search tree.\n\n  ```elm\n  type alias Node position move =\n  { nodeType : NodeType       -- MIN or MAX, it alternates throughout search tree levels (root is MAX, nodes at second level are MIN, nodes at third level are MAX, etc.)\n  , position : position       -- it tells what a solving problem's state is represented by this Node\n  , move : Maybe move         -- last move (an egde to nearest parent's node, or to best \"move\" node for root)  \n  , value : IntegerExt Int    -- value of node (IntegerExt extends Int about positive/negative infinity)\n  , alpha : IntegerExt Int    -- alpha (IntegerExt extends Int about positive/negative infinity)\n  , beta : IntegerExt Int     -- beta (IntegerExt extends Int about positive/negative infinity)\n  , depth : Int               -- depth of node (root node has 1)\n  }\n  ```\n\n",
+                "args": [
+                    "position",
+                    "move"
+                ],
+                "type": "{ nodeType : NodeType, position : position, move : Maybe move, value : IntegerExt Int, alpha : IntegerExt Int, beta : IntegerExt Int, depth : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "minimax",
+                "comment": " Run minimax and returns Node represents \"best move\" over the search tree.\n\n  `(Node position move -> move -> position)` as `moveFunc` - is a function that takes a node and one of its edges, and returns the following node.\n\n  `(Node position move -> Int)` as `valueFunc` - returns value of node.\n\n  `(Node position move -> List move)` as `possibleMoveFunc` - returns all possible edges from given node.\n\n  `position` as `initPosition` - defines a root of search tree.\n    \n  `Int` as `maxDepth` - tells how deep the algorithm can dive into the search tree (i.e. max height of tree).\n\n",
+                "type": "(Node position move -> move -> position) -> (Node position move -> Int) -> (Node position move -> List move) -> position -> Int -> Node position move"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,318 @@
+[
+    {
+        "name": "Slime.Engine",
+        "comment": " Engine provides a simple way to manage a growing game. To do so, it needs to be provided with a few values:\n\n    -- An entity deletor. This is composed via Slime.deleteEntity and Slime.(&->). (Entity creation is handled more lazily and therefor does not require a matching value)\n    -- A list of Systems. These are explained further later, but they basically conform to the usual ECS model.\n    -- A list of Listeners. These allow the world to be updated based on TEA messages.\n\n\n# The Engine\n@docs Engine, initEngine\n\n# Systems\n@docs System, applySystems\n\n# Listeners\n@docs Listener, applyListeners\n\n",
+        "unions": [
+            {
+                "name": "Listener",
+                "comment": " A Listener constructed in a similar way to Systems with a different purpose:\naccepting messages through TEA. It has the same options as System, except Time.\n",
+                "args": [
+                    "world",
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "Listen",
+                        [
+                            "msg -> world -> world"
+                        ]
+                    ],
+                    [
+                        "ListenAndDeletes",
+                        [
+                            "msg -> world -> ( world, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "ListenAndCommandsDeletes",
+                        [
+                            "msg -> world -> ( world, Cmd msg, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "ListenAndCommands",
+                        [
+                            "msg -> world -> ( world, Cmd msg )"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "System",
+                "comment": " A System constructed in this way will be used by Engine to update the world\nwith control over side effects (deleting entities and sending commands).\n\nEach of the types has a different function signature for different options:\n * Time: Accepts deltaTime as its first argument.\n * Commands: The return value includes messages. The extra value is included as part of a tuple.\n * Deletes: The return value includes EntityIDs which should be deleted. The extra value is included as part of a tuple.\n\nThere is also a Basic, which has no options.\n",
+                "args": [
+                    "world",
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "TimeAndDeletes",
+                        [
+                            "Float -> world -> ( world, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "Time",
+                        [
+                            "Float -> world -> world"
+                        ]
+                    ],
+                    [
+                        "Deletes",
+                        [
+                            "world -> ( world, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "TimeAndCommandsDeletes",
+                        [
+                            "Float -> world -> ( world, Cmd msg, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "TimeAndCommands",
+                        [
+                            "Float -> world -> ( world, Cmd msg )"
+                        ]
+                    ],
+                    [
+                        "CommandsDeletes",
+                        [
+                            "world -> ( world, Cmd msg, List EntityID )"
+                        ]
+                    ],
+                    [
+                        "Commands",
+                        [
+                            "world -> ( world, Cmd msg )"
+                        ]
+                    ],
+                    [
+                        "Basic",
+                        [
+                            "world -> world"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Engine",
+                "comment": " The Engine type is used as the first argument of applySystems and applyListeners.\n\nWith the engine, update functions can be massively simplified, in a true ECS fashion.\n",
+                "args": [
+                    "world",
+                    "msg"
+                ],
+                "type": "{ deleteEntity : EntityDeletor world, systems : List (System world msg), listeners : List (Listener world msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "applyListeners",
+                "comment": " A good way to use this is to curry the Engine out and use it in the catch-all\nof your update function:\n    runWorld = applySystems engine\nAnd then later...\n    _ ->\n        (updatedWorld, cmd) = runWorld msg\n",
+                "type": "Engine world msg -> world -> msg -> ( world, Cmd msg )"
+            },
+            {
+                "name": "applySystems",
+                "comment": " A good way to use this is to curry the Engine out:\n    runWorld = applySystems engine\nAnd then later...\n    (updatedWorld, cmd) = runWorld deltaTime\n",
+                "type": "Engine world msg -> world -> Float -> ( world, Cmd msg )"
+            },
+            {
+                "name": "initEngine",
+                "comment": " Initializes an Engine with a deletor, a list of systems, and a list of listeners.\n",
+                "type": "EntityDeletor world -> List (System world msg) -> List (Listener world msg) -> Engine world msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Slime",
+        "comment": " Experimental\n\nThis library provides an easy way to construct entity-component-system style\ncodeflow in Elm. It achieves this mostly by leveraging currying and getter/setters. For example:\n\n    type alias World =\n        EntitySet\n            { transforms : ComponentSet Rect\n            , balls : ComponentSet Ball\n            }\n\n    transforms : ComponentSpec Rect World\n    transforms =\n        { getter: .transforms,\n        , setter: (\\world -> \\comps -> {world | transforms = comps})\n        }\n\n\n    balls : ComponentSpec Ball World\n    balls =\n        { getter: .balls,\n        , setter: (\\world -> \\comps -> {world | balls = comps})\n        }\n\n    moveBalls : Float -> World -> World\n    moveBalls delta =\n        -- ...\n          stepEntities2 balls transforms (\\ent2 -> { ent2 | b = addVelocity ent2.a ent2.b delta })\n\nstepEntities2 goes through all the balls (any entity with a ball component and transform component)\nin this example and updates their location based on their velocity and the time elapsed.\n\nBecause moveBalls' type signature has no concept of the components involved, these systems can easily be\ncomposed to operate in sequence to create an ECS Engine.\n\n# Types\n@docs EntityID, EntitySet, ComponentSpec, ComponentSet, EntityDeletor, Entity, Entity2, Entity3\n\n# Updates and Maps\n@docs map, stepEntities, stepEntities2\n\n# Initialization\n@docs initComponents, initIdSource\n\n# Deletion\n@docs deleteEntity, (&->)\n\n# Retrieval\n@docs entities, entities2, getComponent, getEntityByUid, getEntity2ByUid, getEntity3ByUid, getUidFromId, getIdFromUid\n\n# Updates\n@docs setEntity, setEntity2\n\n# Creation\n@docs spawnEmpty, spawnEntity, spawnEntity2, spawnEntities, spawnEntities2\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ComponentSet",
+                "comment": " Include as a field in your world and initialize with `.initComponents`\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ contents : Array (Maybe a) }"
+            },
+            {
+                "name": "ComponentSpec",
+                "comment": " A simple {getter, setter} record which is used as a building block for complex functions on `world`\n",
+                "args": [
+                    "a",
+                    "world"
+                ],
+                "type": "{ getter : world -> ComponentSet a, setter : world -> ComponentSet a -> world }"
+            },
+            {
+                "name": "Entity",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ id : EntityID, a : a }"
+            },
+            {
+                "name": "Entity2",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "{ id : EntityID, a : a, b : b }"
+            },
+            {
+                "name": "Entity3",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "b",
+                    "c"
+                ],
+                "type": "{ id : EntityID, a : a, b : b, c : c }"
+            },
+            {
+                "name": "EntityDeletor",
+                "comment": " ",
+                "args": [
+                    "world"
+                ],
+                "type": "world -> EntityID -> world"
+            },
+            {
+                "name": "EntityID",
+                "comment": " ",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "EntitySet",
+                "comment": " Your world should be an EntitySet. Include an `.idSource` initialized with `initIdSource`\n",
+                "args": [
+                    "world"
+                ],
+                "type": "{ world | idSource : IDSource }"
+            }
+        ],
+        "values": [
+            {
+                "name": "deleteEntity",
+                "comment": " Use as the start of a deletion block:\n\n    deletor = deleteEntity transformSpec\n        &-> massSpec\n        &-> anotherSpec\n\nThe resulting deletor takes an EntityID and a world and clears the world of that Entity.\n",
+                "type": "ComponentSpec a (EntitySet world) -> EntityDeletor (EntitySet world)"
+            },
+            {
+                "name": "entities",
+                "comment": " Simple entity retrieval.\n",
+                "type": "ComponentSpec a world -> world -> List (Entity a)"
+            },
+            {
+                "name": "entities2",
+                "comment": " Simple entity retrieval. An entity is only included if both components provided exist for that entity.\n",
+                "type": "ComponentSpec a world -> ComponentSpec b world -> world -> List (Entity2 a b)"
+            },
+            {
+                "name": "getComponent",
+                "comment": " Simple retrieval from a component set.\n",
+                "type": "ComponentSet a -> EntityID -> Maybe a"
+            },
+            {
+                "name": "getEntity2ByUid",
+                "comment": " Returns an entity from a permanent UID.\n",
+                "type": "ComponentSpec a (EntitySet world) -> ComponentSpec b (EntitySet world) -> EntitySet world -> EntityID -> Maybe (Entity2 (Maybe a) (Maybe b))"
+            },
+            {
+                "name": "getEntity3ByUid",
+                "comment": " Returns an entity from a permanent UID.\n",
+                "type": "ComponentSpec a (EntitySet world) -> ComponentSpec b (EntitySet world) -> ComponentSpec c (EntitySet world) -> EntitySet world -> EntityID -> Maybe (Entity3 (Maybe a) (Maybe b) (Maybe c))"
+            },
+            {
+                "name": "getEntityByUid",
+                "comment": " Returns an entity from a permanent UID.\n",
+                "type": "ComponentSpec a (EntitySet world) -> EntitySet world -> EntityID -> Maybe (Entity (Maybe a))"
+            },
+            {
+                "name": "getIdFromUid",
+                "comment": " Retrieves a permanent UID from an entity ID.\n",
+                "type": "EntitySet world -> EntityID -> Maybe EntityID"
+            },
+            {
+                "name": "getUidFromId",
+                "comment": " Retrieves an entity ID based on a permanent UID.\n",
+                "type": "EntitySet world -> EntityID -> Maybe EntityID"
+            },
+            {
+                "name": "initComponents",
+                "comment": " Use to create component sets.\n",
+                "type": "ComponentSet a"
+            },
+            {
+                "name": "initIdSource",
+                "comment": " Use to create an ID source for an EntitySet.\n",
+                "type": "IDSource"
+            },
+            {
+                "name": "map",
+                "comment": " Creates a list of something for each existing component of a given type.\n",
+                "type": "ComponentSpec a world -> (a -> b) -> world -> List b"
+            },
+            {
+                "name": "setEntity",
+                "comment": " Sets the world with an entity's component updated.\n",
+                "type": "ComponentSpec a world -> world -> Entity a -> world"
+            },
+            {
+                "name": "setEntity2",
+                "comment": " Sets the world with an entity's component updated.\n",
+                "type": "ComponentSpec a world -> ComponentSpec b world -> world -> Entity2 a b -> world"
+            },
+            {
+                "name": "spawnEmpty",
+                "comment": " Spawns an empty Entity. Useful if you just need an Entity ID and want to\nset the components manually.\n",
+                "type": "EntitySet world -> ( EntitySet world, EntityID, EntityID )"
+            },
+            {
+                "name": "spawnEntities",
+                "comment": " A convenience method to spawn multiple entities, provided as a list.\n",
+                "type": "ComponentSpec a (EntitySet world) -> EntitySet world -> List { a : a } -> ( EntitySet world, List EntityID, List EntityID )"
+            },
+            {
+                "name": "spawnEntities2",
+                "comment": " A convenience method to spawn multiple entities, provided as a list.\n",
+                "type": "ComponentSpec a (EntitySet world) -> ComponentSpec b (EntitySet world) -> EntitySet world -> List { a : a, b : b } -> ( EntitySet world, List EntityID, List EntityID )"
+            },
+            {
+                "name": "spawnEntity",
+                "comment": " Spawns an Entity with one component.\n",
+                "type": "ComponentSpec a (EntitySet world) -> EntitySet world -> { a : a } -> ( EntitySet world, EntityID, EntityID )"
+            },
+            {
+                "name": "spawnEntity2",
+                "comment": " Spawns an Entity with two components.\n",
+                "type": "ComponentSpec a (EntitySet world) -> ComponentSpec b (EntitySet world) -> EntitySet world -> { a : a, b : b } -> ( EntitySet world, EntityID, EntityID )"
+            },
+            {
+                "name": "stepEntities",
+                "comment": " Step entities based only on one component.\n",
+                "type": "ComponentSpec a world -> (a -> a) -> world -> world"
+            },
+            {
+                "name": "stepEntities2",
+                "comment": " Step entities based on two component.\n",
+                "type": "ComponentSpec a world -> ComponentSpec b world -> (Entity2 a b -> Entity2 a b) -> world -> world"
+            }
+        ],
+        "binops": [
+            {
+                "name": "&->",
+                "comment": " ",
+                "type": "EntityDeletor (EntitySet world) -> ComponentSpec b (EntitySet world) -> EntityDeletor (EntitySet world)",
+                "associativity": "left",
+                "precedence": 1
+            }
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Opaque",
+        "comment": "\n\n@docs Buffer\n\n",
+        "unions": [
+            {
+                "name": "Buffer",
+                "comment": " Typically used for under-the-hood native buffers ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

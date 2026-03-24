@@ -1,0 +1,189 @@
+[
+    {
+        "name": "CachedRemoteData",
+        "comment": "\nAn extension to the `RemoteData` package that supports cached values. It makes\nno assumptions on how the data is cached and just manipulates a `Maybe a` to\nrepresent a value that may or may not be known.\n\nTo use the datatype, let's look at an example that loads and refreshes `News`\nfrom a feed.\n\nFirst you wrap the data in `CachedWebData` in your model:\n\n    ```elm\n    type alias Model =\n        { news: CachedWebData News }\n    ```\n\nThen add it in a message that will deliver the response and one that will\ntrigger a refresh based on user actions:\n\n    ```elm\n    type Msg\n        = NewsResponse (CachedWebData News)\n        | RefreshNews\n    ```\n\nNow you can create a couple of HTTP functions to get and refresh it:\n\n\n    ```elm\n    getNews : Cmd Msg\n    getNews =\n        Http.get \"/news\" decodeNews\n            |> CachedRemoteData.sendRequest\n            |> Cmd.map NewsResponse\n\n    refreshNews : CachedWebData News -> Cmd Msg\n    refreshNews oldNews =\n        Http.get \"/news\" decodeNews\n            |> CachedRemoteData.sendRequestWithCachedData oldNews\n            |> Cmd.map NewsResponse\n    ```\n\nWe trigger the initial retrieval in the `init` function:\n\n    ```elm\n    init : (Model, Cmd Msg)\n    init =\n        ( { news = Loading }\n        , getNews\n        )\n    ```\n\nWe handle the retrieval and refresh in our update function:\n\n    ```elm\n    update msg model =\n        case msg of\n            NewsResponse response ->\n                ( { model | news = response }\n                , Cmd.none\n                )\n            RefreshNews ->\n                let\n                    refreshingNews = CachedRemoteData.refresh model.news\n                in\n                    ( { model | news = refreshingNews\n                    , refreshNews refreshingNews\n                    )\n    ```\n\nMost of this you'd already have in your app, and the changes are just wrapping\nthe datatype in `CachedWebdata`, and replacing the `Http.send` call with\n`CachedRemoteData.sendRequest` or `CachedRemoteData.sendRequestWithCachedData`.\n\nNow we get to where we really want to be, rendering the data and handling the\ndifferent states in the UI gracefully:\n\n    ```elm\n    view : Model -> Html msg\n    view model =\n      case model.news of\n        NotAsked -> text \"Initialising.\"\n\n        Loading -> text \"Loading.\"\n\n        Failure err -> text (\"Error: \" ++ toString err)\n\n        Success news -> viewFreshNews news\n\n        Refreshing news -> viewRefreshingNews news\n\n        Stale err news -> viewStaleNews err news\n\n\n    viewFreshNews : News -> Html msg\n    viewFreshNews news =\n        div []\n            [ h1 [] [text \"Here are fresh news.\" ]\n            , button [onClick RefreshNews] [text \"Refresh\"]\n            , viewNews news\n            ]\n\n\n    viewRefreshingNews : News -> Html msg\n    viewRefreshingNews news =\n        div []\n            [ h1 [] [text \"Here are news.\" ]\n            , p [] [text \"Refreshing...\"]\n            , viewNews news\n            ]\n\n\n    viewStaleNews : Http.Error -> News -> Html msg\n    viewStaleNews err news =\n        div []\n            [ h1 [] [text \"Here are old and stale news.\" ]\n            , button [onClick RefreshNews] [text \"Refresh\"]\n            , viewNews news\n            ]\n\n\n    viewNews : News -> Html msg\n    ```\n\n#Data types\n@docs CachedRemoteData, CachedWebData\n\n#Constructors\n@docs fromRemoteData, fromValue, fromResult, fromValueAndResult, fromValueAndRemoteData\n\n#Data access and state checks\n@docs remoteData, value, result\n@docs isNotAsked, isLoading, isSuccess, isFailure, isRefreshing, isStale\n\n#Mapping and chaining\n@docs map, map2, map3, andMap, mapError, mapBoth, andThen\n\n#Sending HTTP requests\n@docs sendRequest, sendRequestWithValue, sendRequestWithCachedData\n\n#Convenience\n@docs refresh\n",
+        "unions": [
+            {
+                "name": "CachedRemoteData",
+                "comment": "\nA datatype representing fetched data with optional cached value.\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "NotAsked",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Failure",
+                        [
+                            "e"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "Refreshing",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "Stale",
+                        [
+                            "e",
+                            "a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CachedWebData",
+                "comment": "\nWhile `CachedRemoteData` can model any type of error, the most common one\nyou'll actually encounter is when you fetch data from a REST interface, and get\nback `CachedRemoteData Http.Error a`. Because that case is so common,\n`CachedWebData` is provided as a useful alias.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "CachedRemoteData Error a"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": "\nPut the results of two `CachedRemoteData` calls together. This function is\ndesigned to be piped with the `|>` operator:\n\n    ```\n    map (,,) a\n        |> andMap b\n        |> andMap c\n    ```\n\nAs it combines the values of multiple `CachedRemoteData` structures into one,\nit attempts to keep as much information as possible, favour error states over\nloading states and loading states over inactive ones, implementing the\nfollowing precendence:\n\n    `Stale`, `Failure`, `Refreshing`, `Loading`, `NotAsked`, `Success`\n\nConsequently, this function with only return `Success` if both arguments are\nin the `Success` state.\n",
+                "type": "CachedRemoteData e a -> CachedRemoteData e (a -> b) -> CachedRemoteData e b"
+            },
+            {
+                "name": "andThen",
+                "comment": "\nChain together CachedRemoteData function calls.\n",
+                "type": "(a -> CachedRemoteData e b) -> CachedRemoteData e a -> CachedRemoteData e b"
+            },
+            {
+                "name": "fromRemoteData",
+                "comment": "\nCreate a `CachedRemoteData` given a `RemoteData`.\n",
+                "type": "RemoteData e a -> CachedRemoteData e a"
+            },
+            {
+                "name": "fromResult",
+                "comment": "\nCreate a `CachedRemoteData` given a `Result`.\n",
+                "type": "Result e a -> CachedRemoteData e a"
+            },
+            {
+                "name": "fromValue",
+                "comment": "\nCreate a `CachedRemoteData` given a `Maybe` value.\n",
+                "type": "Maybe a -> CachedRemoteData e a"
+            },
+            {
+                "name": "fromValueAndRemoteData",
+                "comment": "\nCreate a `CachedRemoteData` given a `Maybe` value and `RemoteData`.\n",
+                "type": "Maybe a -> RemoteData e a -> CachedRemoteData e a"
+            },
+            {
+                "name": "fromValueAndResult",
+                "comment": "\nCreate a `CachedRemoteData` given a `Maybe` value and `Result`.\n",
+                "type": "Maybe a -> Result e a -> CachedRemoteData e a"
+            },
+            {
+                "name": "isFailure",
+                "comment": "\nState checking predicate. Returns true if we've failed to load some data.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "isLoading",
+                "comment": "\nState checking predicate. Returns true if we're loading.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "isNotAsked",
+                "comment": "\nState checking predicate. Returns true if we haven't asked for data yet.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "isRefreshing",
+                "comment": "\nState checking predicate. Returns true if we're refreshing data that was\npreviously successfully loaded.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "isStale",
+                "comment": "\nState checking predicate. Returns true if we previously sucessfully loaded some\ndata but failed the last time we attempted to refresh it.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "isSuccess",
+                "comment": "\nState checking predicate. Returns true if we've successfully loaded some data.\n",
+                "type": "CachedRemoteData e a -> Bool"
+            },
+            {
+                "name": "map",
+                "comment": "\nMap a `CachedRemoteData` from type `a` to type `b`\n",
+                "type": "(a -> b) -> CachedRemoteData e a -> CachedRemoteData e b"
+            },
+            {
+                "name": "map2",
+                "comment": "\nCombine two cached remote data sources with the given function. The result will\nsucceed when (and if) both sources succeed.\n",
+                "type": "(a -> b -> c) -> CachedRemoteData e a -> CachedRemoteData e b -> CachedRemoteData e c"
+            },
+            {
+                "name": "map3",
+                "comment": "\nCombine three cached remote data sources with the given function. The result will\nsucceed when (and if) all sources succeed.\n",
+                "type": "(a -> b -> c -> d) -> CachedRemoteData e a -> CachedRemoteData e b -> CachedRemoteData e c -> CachedRemoteData e d"
+            },
+            {
+                "name": "mapBoth",
+                "comment": "\nMap function into both the success and failure values.\n",
+                "type": "(a -> b) -> (e -> f) -> CachedRemoteData e a -> CachedRemoteData f b"
+            },
+            {
+                "name": "mapError",
+                "comment": "\nMap a `CachedRemoteData` error from type `e` to type `f`\n",
+                "type": "(e -> f) -> CachedRemoteData e a -> CachedRemoteData f a"
+            },
+            {
+                "name": "refresh",
+                "comment": "\nConvenience function to set a `CachedRemoteData` value to `Loading` or `Refreshing`\ndepending on its initial state.\n",
+                "type": "CachedRemoteData e a -> CachedRemoteData e a"
+            },
+            {
+                "name": "remoteData",
+                "comment": "\nTurn a `CachedRemoteData` into a `RemoteData`.\n",
+                "type": "CachedRemoteData e a -> RemoteData e a"
+            },
+            {
+                "name": "result",
+                "comment": "\nTurn a `CachedRemoteData` into a `Result`.\n",
+                "type": "CachedRemoteData e a -> Maybe (Result e a)"
+            },
+            {
+                "name": "sendRequest",
+                "comment": "\nConvenience function for dispatching `Http.Request`s.\nIt's like `Http.send`, but yields a `CachedWebData` response.\n",
+                "type": "Request a -> Cmd (CachedWebData a)"
+            },
+            {
+                "name": "sendRequestWithCachedData",
+                "comment": "\nDispatch a `Http.Request`s with an initial `CachedWebData` value. This can\ntypically be used when refreshing a previously retrieved `CachedWebData`\nresponse.\n",
+                "type": "CachedWebData a -> Request a -> Cmd (CachedWebData a)"
+            },
+            {
+                "name": "sendRequestWithValue",
+                "comment": "\nDispatch a `Http.Request`s with an initial value.\n",
+                "type": "Maybe a -> Request a -> Cmd (CachedWebData a)"
+            },
+            {
+                "name": "value",
+                "comment": "\nTurn a `CachedRemoteData` into a `Maybe` value.\n",
+                "type": "CachedRemoteData e a -> Maybe a"
+            }
+        ],
+        "binops": []
+    }
+]

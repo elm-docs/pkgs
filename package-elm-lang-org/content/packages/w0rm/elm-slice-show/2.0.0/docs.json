@@ -1,0 +1,123 @@
+[
+    {
+        "name": "SliceShow",
+        "comment": " This module helps you start your SliceShow application.\n# Start your Application\n@docs SliceShow, Config, init, show, setDimensions, setHash, setView, setUpdate, setInputs\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Slideshow Config type ",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Protected (PrivateConfig a b)"
+            },
+            {
+                "name": "SliceShow",
+                "comment": " SliceShow app, exposes html signal and tasks signal ",
+                "args": [],
+                "type": "{ html : Signal Html, tasks : Signal (Task Never ()) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Init Model from the list of slides ",
+                "type": "List (Slide a) -> Config a b"
+            },
+            {
+                "name": "setDimensions",
+                "comment": " Set initial dimensions taken from port ",
+                "type": "( Int, Int ) -> Config a b -> Config a b"
+            },
+            {
+                "name": "setHash",
+                "comment": " Set initial hash taken from port ",
+                "type": "String -> Config a b -> Config a b"
+            },
+            {
+                "name": "setInputs",
+                "comment": " Set inputs for the custom content ",
+                "type": "List (Signal b) -> Config a b -> Config a b"
+            },
+            {
+                "name": "setUpdate",
+                "comment": " Set update for the custom content ",
+                "type": "(b -> a -> ( a, Effects b )) -> Config a b -> Config a b"
+            },
+            {
+                "name": "setView",
+                "comment": " Set view for the custom content ",
+                "type": "(Address b -> a -> Html) -> Config a b -> Config a b"
+            },
+            {
+                "name": "show",
+                "comment": " Start the SliceShow with your `slides`:\n    app = show (init slides)\n    main = app.html\n    port tasks : Signal (Task.Task Never ())\n    port tasks = app.tasks\n",
+                "type": "Config a b -> SliceShow"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Slide",
+        "comment": " This module helps you define a slide\n@docs Slide, slide\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Slide",
+                "comment": " Slide type ",
+                "args": [
+                    "a"
+                ],
+                "type": "Protected (SlideData a)"
+            }
+        ],
+        "values": [
+            {
+                "name": "slide",
+                "comment": " Create new slide from a list of content items ",
+                "type": "List (Content a) -> Slide a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Content",
+        "comment": " This module helps you define Slide content\n@docs Content, item, container, custom, hide\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Content",
+                "comment": " Content type ",
+                "args": [
+                    "a"
+                ],
+                "type": "ContentData a"
+            }
+        ],
+        "values": [
+            {
+                "name": "container",
+                "comment": " A group of content items ",
+                "type": "(List Html -> Html) -> List (Content a) -> Content a"
+            },
+            {
+                "name": "custom",
+                "comment": " Custom content item ",
+                "type": "a -> Content a"
+            },
+            {
+                "name": "hide",
+                "comment": " Hide content ",
+                "type": "Content a -> Content a"
+            },
+            {
+                "name": "item",
+                "comment": " Single content item ",
+                "type": "Html -> Content a"
+            }
+        ],
+        "binops": []
+    }
+]

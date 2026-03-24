@@ -1,0 +1,45 @@
+[
+    {
+        "name": "TimeTravel.Navigation",
+        "comment": " Each functions in this module has the same interface as [Navigation](http://package.elm-lang.org/packages/elm-lang/navigation/1.0.0/Navigation)\n\n# Create a Program\n@docs program, programWithFlags\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "program",
+                "comment": " See [Navigation.program](http://package.elm-lang.org/packages/elm-lang/navigation/1.0.0/Navigation#program)\n",
+                "type": "Parser data -> { init : data -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), urlUpdate : data -> model -> ( model, Cmd msg ), view : model -> Html msg, subscriptions : model -> Sub msg } -> Program Never"
+            },
+            {
+                "name": "programWithFlags",
+                "comment": " See [Navigation.programWithFlags](http://package.elm-lang.org/packages/elm-lang/navigation/1.0.0/Navigation#programWithFlags)\n",
+                "type": "Parser data -> { init : flags -> data -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), urlUpdate : data -> model -> ( model, Cmd msg ), view : model -> Html msg, subscriptions : model -> Sub msg } -> Program flags"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "TimeTravel.Html.App",
+        "comment": " Each functions in this module has the same interface as [Html.App](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App)\n\n# Start your Program\n@docs beginnerProgram, program, programWithFlags\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "beginnerProgram",
+                "comment": " See [Html.App.beginnerProgram](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#beginnerProgram)\n",
+                "type": "{ model : model, view : model -> Html msg, update : msg -> model -> model } -> Program Never"
+            },
+            {
+                "name": "program",
+                "comment": " See [Html.App.program](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#program)\n",
+                "type": "{ init : ( model, Cmd msg ), view : model -> Html msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program Never"
+            },
+            {
+                "name": "programWithFlags",
+                "comment": " See [Html.App.programWithFlags](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#programWithFlags)\n",
+                "type": "{ init : flags -> ( model, Cmd msg ), view : model -> Html msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program flags"
+            }
+        ],
+        "binops": []
+    }
+]

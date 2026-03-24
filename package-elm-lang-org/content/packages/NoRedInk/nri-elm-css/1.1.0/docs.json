@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Nri",
+        "comment": " A collection of helpers for working with NoRedInk projects\n@docs name\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "name",
+                "comment": " NoRedInk's name!\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Colors",
+        "comment": " Helper module for working with colors\n@docs grayDarker\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "grayDarker",
+                "comment": " Darkest gray\n",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Stylers",
+        "comment": " Helper module for working with fonts\n\n@docs makeFont\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "makeFont",
+                "comment": "\ntakes a size and a color and creates a font\n",
+                "type": "FontSize a -> ColorValue b -> Mixin"
+            }
+        ],
+        "binops": []
+    }
+]

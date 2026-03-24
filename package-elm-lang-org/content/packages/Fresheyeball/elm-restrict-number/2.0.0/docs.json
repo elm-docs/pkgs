@@ -1,0 +1,174 @@
+[
+    {
+        "name": "Negative",
+        "comment": "\nNegative numbers exclude zero.\nBecause the constructor for `Negative` is not exported, you can be\nconfident that if you are using a `Negative`, then its `Negative`.\n\n@docs Negative, fromInt, fromFloat, toNum\n",
+        "unions": [
+            {
+                "name": "Negative",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromFloat",
+                "comment": " ",
+                "type": "Float -> Maybe (Negative Float)"
+            },
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe (Negative Int)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "Negative number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Natural",
+        "comment": "\nNatural numbers are positive whole numbers excluding zero.\nBecause the constructor for `Natural` is not exported, you can be\nconfident that if you are using a `Natural`, then its `Natural`.\n\n@docs Natural, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Natural",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Natural"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Natural -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Even",
+        "comment": "\nBecause the constructor for `Even` is not exported, you can be\nconfident that if you are using a `Even`, then its `Even`.\n\n@docs Even, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Even",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Even"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Even -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NonZero",
+        "comment": "\nNonZero numbers are numbers excluding zero.\nBecause the constructor for `NonZero` is not exported, you can be\nconfident that if you are using a `NonZero`, then its `NonZero`.\n\n@docs NonZero, fromNum, toNum\n",
+        "unions": [
+            {
+                "name": "NonZero",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromNum",
+                "comment": " ",
+                "type": "number -> Maybe (NonZero number)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "NonZero number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Positive",
+        "comment": "\nPositive numbers exclude zero.\nBecause the constructor for `Positive` is not exported, you can be\nconfident that if you are using a `Positive`, then its `Positive`.\n\n@docs Positive, fromInt, fromFloat, toNum\n",
+        "unions": [
+            {
+                "name": "Positive",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromFloat",
+                "comment": " ",
+                "type": "Float -> Maybe (Positive Float)"
+            },
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe (Positive Int)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "Positive number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Odd",
+        "comment": "\nBecause the constructor for `Odd` is not exported, you can be\nconfident that if you are using a `Odd`, then its `Odd`.\n\n@docs Odd, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Odd",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Odd"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Odd -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

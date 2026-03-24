@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Example",
+        "comment": "\n@docs add\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": "\n",
+                "type": "number -> number -> number"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Mouse.Compat",
+        "comment": " For compatibility with [elm-lang/mouse].\nThe `Mouse` module name is also used in [mpizenberg/elm-pointer-events].\nThis creates a [compiler error][issue-1625] if both packages are needed.\n\nTo circumvent this issue, elm-lang/mouse `Mouse` module\nis re-exposed here under the `Mouse.Compat` module name.\n\n[elm-lang/mouse]: http://package.elm-lang.org/packages/elm-lang/mouse/latest\n[mpizenberg/elm-pointer-events]: http://package.elm-lang.org/packages/mpizenberg/elm-pointer-events/latest\n[issue-1625]: https://github.com/elm-lang/elm-compiler/issues/1625\n\n\n# Mouse Position\n\n@docs Position, position\n\n\n# Subscriptions\n\n@docs clicks, moves, downs, ups\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Position",
+                "comment": " The position of the mouse\nrelative to the whole document (pageX, pageY).\nSo if you are scrolled down a bunch,\nyou are still getting a coordinate relative to\nthe very top left corner of the whole document.\n",
+                "args": [],
+                "type": "{ x : Int, y : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "clicks",
+                "comment": " Subscribe to mouse clicks anywhere on screen.\n",
+                "type": "(Position -> msg) -> Sub msg"
+            },
+            {
+                "name": "downs",
+                "comment": " Get a position whenever the user presses the mouse button.\n",
+                "type": "(Position -> msg) -> Sub msg"
+            },
+            {
+                "name": "moves",
+                "comment": " Subscribe to mouse moves anywhere on screen.\nIt is best to unsubscribe if you do not need these events.\nOtherwise you will handle a bunch of events for no benefit.\n",
+                "type": "(Position -> msg) -> Sub msg"
+            },
+            {
+                "name": "position",
+                "comment": " The decoder used to extract a Position from a JavaScript mouse event.\n",
+                "type": "Decoder Position"
+            },
+            {
+                "name": "ups",
+                "comment": " Get a position whenever the user releases the mouse button.\n",
+                "type": "(Position -> msg) -> Sub msg"
+            }
+        ],
+        "binops": []
+    }
+]

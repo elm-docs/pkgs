@@ -1,0 +1,78 @@
+[
+    {
+        "name": "Expo.LowLevel",
+        "comment": "\n@docs node\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "node",
+                "comment": " ",
+                "type": "String -> List (Attribute msg) -> List (Node msg) -> Node msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Expo",
+        "comment": "\n@docs beginnerProgram, program, Node, view, text, Attribute, attribute, Position, downs\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Property msg"
+            },
+            {
+                "name": "Node",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Node msg"
+            },
+            {
+                "name": "Position",
+                "comment": " ",
+                "args": [],
+                "type": "{ x : Int, y : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "attribute",
+                "comment": " ",
+                "type": "String -> String -> Attribute msg"
+            },
+            {
+                "name": "beginnerProgram",
+                "comment": " ",
+                "type": "{ model : model, view : model -> Node msg, update : msg -> model -> model } -> Program Never model msg"
+            },
+            {
+                "name": "downs",
+                "comment": " ",
+                "type": "(Position -> msg) -> Sub msg"
+            },
+            {
+                "name": "program",
+                "comment": " ",
+                "type": "{ view : model -> Node msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg, init : ( model, Cmd msg ) } -> Program Never model msg"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "String -> Node msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Node msg) -> Node msg"
+            }
+        ],
+        "binops": []
+    }
+]

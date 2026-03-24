@@ -1,0 +1,113 @@
+[
+    {
+        "name": "Graph.GraphViz",
+        "comment": " Exports a Graph in [GraphViz](http://www.graphviz.org) format.\n\n@docs string\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "string",
+                "comment": " A GraphViz representation of the Graph.\n",
+                "type": "Graph Node -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph",
+        "comment": " A network graph consists of a list of nodes connected by edges.\n\n## Types\n\n@docs Graph\n\n## Constructors\n\n@docs init, empty\n\n## Filtering\n\n@docs filter, filterByName\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Graph",
+                "comment": " A network graph consists of a list of nodes connected by edges.\n\nThe node type of the Graph is abstract to allow you to use records extending the\ntype Node. Most functions provided by this work with `Graph Node`.\n",
+                "args": [
+                    "node"
+                ],
+                "type": "{ edges : List Edge, nodes : List node }"
+            }
+        ],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " Creates an empty graph without edges or nodes.\n",
+                "type": "Graph Node"
+            },
+            {
+                "name": "filter",
+                "comment": " Filters a graph such that only nodes passing the test are included.\n",
+                "type": "(Node -> Bool) -> Graph Node -> Graph Node"
+            },
+            {
+                "name": "filterByName",
+                "comment": " Filter by name to include only nodes that start with the\nspecified name prefix.\n",
+                "type": "Name -> Graph Node -> Graph Node"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize a node from a list of edges (see Edge) and nodes (see Node).\n",
+                "type": "List Edge -> List Node -> Graph Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Edge",
+        "comment": " An edge connects two nodes in a graph. Edges are designed to work with the\ntype Node. You may however use an extensible record to add fields to Node\nwithout breaking the Edge implementation.\n\n@docs Edge, filterForIdentifiers\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Edge",
+                "comment": " Describes the link between two nodes in a Graph.\n",
+                "args": [],
+                "type": "{ from : Identifier, to : Identifier }"
+            }
+        ],
+        "values": [
+            {
+                "name": "filterForIdentifiers",
+                "comment": " Filter list of edges to only include edges referencing a node in the\ngiven list. This is useful to exclude external nodes that might have been\naccidentally referenced.\n",
+                "type": "Set Identifier -> List Edge -> List Edge"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Node",
+        "comment": " Node describes a node in a network graph. A Node is identified\nby `.identifier` which is used by Edge to reference two connected nodes.\n\nThe node's name is a list of strings to allow you to represent paths\n(e.g. for modules).\n\n## Types\n\n@docs Node, Identifier, Name\n\n## Constructor\n\n@docs fromName\n\n## Other\n@docs namePrefix\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Identifier",
+                "comment": " A simple type alias for String to make function signatures easier readable.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Name",
+                "comment": " A node's name is a list of strings to allow\nyou to represent paths (e.g. for modules).\n",
+                "args": [],
+                "type": "List String"
+            },
+            {
+                "name": "Node",
+                "comment": " Describes a node in a graph.\n",
+                "args": [],
+                "type": "{ identifier : Identifier, name : Name }"
+            }
+        ],
+        "values": [
+            {
+                "name": "fromName",
+                "comment": " Create a node from a name using. An identifier will be created\nautomatically. Use this function if all nodes in your graph have unique names.\n",
+                "type": "Name -> Node"
+            },
+            {
+                "name": "namePrefix",
+                "comment": " Returns the first *n* members of a name.\n",
+                "type": "Int -> Name -> Name"
+            }
+        ],
+        "binops": []
+    }
+]

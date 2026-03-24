@@ -1,0 +1,3588 @@
+[
+    {
+        "name": "Octicons",
+        "comment": " This library provides functions to generate Octicons Icons\n\n@docs IconOptions\n\n@docs icon, size, style, margin, color, width, height, fillRule, viewBox\n\n@docs defaultAlert, alertOptions, alertIcon\n\n@docs defaultArrowdown, arrowDownOptions, arrowDownIcon\n\n@docs defaultArrowleft, arrowLeftOptions, arrowLeftIcon\n\n@docs defaultArrowright, arrowRightOptions, arrowRightIcon\n\n@docs defaultArrowsmalldown, arrowSmallDownOptions, arrowSmallDownIcon\n\n@docs defaultArrowsmallleft, arrowSmallLeftOptions, arrowSmallLeftIcon\n\n@docs defaultArrowsmallright, arrowSmallRightOptions, arrowSmallRightIcon\n\n@docs defaultArrowsmallup, arrowSmallUpOptions, arrowSmallUpIcon\n\n@docs defaultArrowup, arrowUpOptions, arrowUpIcon\n\n@docs defaultBeaker, beakerOptions, beakerIcon\n\n@docs defaultBell, bellOptions, bellIcon\n\n@docs defaultBold, boldOptions, boldIcon\n\n@docs defaultBook, bookOptions, bookIcon\n\n@docs defaultBookmark, bookmarkOptions, bookmarkIcon\n\n@docs defaultBriefcase, briefcaseOptions, briefcaseIcon\n\n@docs defaultBroadcast, broadcastOptions, broadcastIcon\n\n@docs defaultBrowser, browserOptions, browserIcon\n\n@docs defaultBug, bugOptions, bugIcon\n\n@docs defaultCalendar, calendarOptions, calendarIcon\n\n@docs defaultCheck, checkOptions, checkIcon\n\n@docs defaultChecklist, checklistOptions, checklistIcon\n\n@docs defaultChevrondown, chevronDownOptions, chevronDownIcon\n\n@docs defaultChevronleft, chevronLeftOptions, chevronLeftIcon\n\n@docs defaultChevronright, chevronRightOptions, chevronRightIcon\n\n@docs defaultChevronup, chevronUpOptions, chevronUpIcon\n\n@docs defaultCircleslash, circleSlashOptions, circleSlashIcon\n\n@docs defaultCircuitboard, circuitBoardOptions, circuitBoardIcon\n\n@docs defaultClippy, clippyOptions, clippyIcon\n\n@docs defaultClock, clockOptions, clockIcon\n\n@docs defaultClouddownload, cloudDownloadOptions, cloudDownloadIcon\n\n@docs defaultCloudupload, cloudUploadOptions, cloudUploadIcon\n\n@docs defaultCode, codeOptions, codeIcon\n\n@docs defaultCommentdiscussion, commentDiscussionOptions, commentDiscussionIcon\n\n@docs defaultComment, commentOptions, commentIcon\n\n@docs defaultCreditcard, creditCardOptions, creditCardIcon\n\n@docs defaultDash, dashOptions, dashIcon\n\n@docs defaultDashboard, dashboardOptions, dashboardIcon\n\n@docs defaultDatabase, databaseOptions, databaseIcon\n\n@docs defaultDesktopdownload, desktopDownloadOptions, desktopDownloadIcon\n\n@docs defaultDevicecameravideo, deviceCameraVideoOptions, deviceCameraVideoIcon\n\n@docs defaultDevicecamera, deviceCameraOptions, deviceCameraIcon\n\n@docs defaultDevicedesktop, deviceDesktopOptions, deviceDesktopIcon\n\n@docs defaultDevicemobile, deviceMobileOptions, deviceMobileIcon\n\n@docs defaultDiffadded, diffAddedOptions, diffAddedIcon\n\n@docs defaultDiffignored, diffIgnoredOptions, diffIgnoredIcon\n\n@docs defaultDiffmodified, diffModifiedOptions, diffModifiedIcon\n\n@docs defaultDiffremoved, diffRemovedOptions, diffRemovedIcon\n\n@docs defaultDiffrenamed, diffRenamedOptions, diffRenamedIcon\n\n@docs defaultDiff, diffOptions, diffIcon\n\n@docs defaultEllipses, ellipsesOptions, ellipsesIcon\n\n@docs defaultEllipsis, ellipsisOptions, ellipsisIcon\n\n@docs defaultEye, eyeOptions, eyeIcon\n\n@docs defaultFilebinary, fileBinaryOptions, fileBinaryIcon\n\n@docs defaultFilecode, fileCodeOptions, fileCodeIcon\n\n@docs defaultFiledirectory, fileDirectoryOptions, fileDirectoryIcon\n\n@docs defaultFilemedia, fileMediaOptions, fileMediaIcon\n\n@docs defaultFilepdf, filePdfOptions, filePdfIcon\n\n@docs defaultFilesubmodule, fileSubmoduleOptions, fileSubmoduleIcon\n\n@docs defaultFilesymlinkdirectory, fileSymlinkDirectoryOptions, fileSymlinkDirectoryIcon\n\n@docs defaultFilesymlinkfile, fileSymlinkFileOptions, fileSymlinkFileIcon\n\n@docs defaultFiletext, fileTextOptions, fileTextIcon\n\n@docs defaultFilezip, fileZipOptions, fileZipIcon\n\n@docs defaultFile, fileOptions, fileIcon\n\n@docs defaultFlame, flameOptions, flameIcon\n\n@docs defaultFold, foldOptions, foldIcon\n\n@docs defaultGear, gearOptions, gearIcon\n\n@docs defaultGift, giftOptions, giftIcon\n\n@docs defaultGistsecret, gistSecretOptions, gistSecretIcon\n\n@docs defaultGist, gistOptions, gistIcon\n\n@docs defaultGitbranch, gitBranchOptions, gitBranchIcon\n\n@docs defaultGitcommit, gitCommitOptions, gitCommitIcon\n\n@docs defaultGitcompare, gitCompareOptions, gitCompareIcon\n\n@docs defaultGitmerge, gitMergeOptions, gitMergeIcon\n\n@docs defaultGitpullrequest, gitPullRequestOptions, gitPullRequestIcon\n\n@docs defaultGlobe, globeOptions, globeIcon\n\n@docs defaultGrabber, grabberOptions, grabberIcon\n\n@docs defaultGraph, graphOptions, graphIcon\n\n@docs defaultHeart, heartOptions, heartIcon\n\n@docs defaultHistory, historyOptions, historyIcon\n\n@docs defaultHome, homeOptions, homeIcon\n\n@docs defaultHorizontalrule, horizontalRuleOptions, horizontalRuleIcon\n\n@docs defaultHubot, hubotOptions, hubotIcon\n\n@docs defaultInbox, inboxOptions, inboxIcon\n\n@docs defaultInfo, infoOptions, infoIcon\n\n@docs defaultIssueclosed, issueClosedOptions, issueClosedIcon\n\n@docs defaultIssueopened, issueOpenedOptions, issueOpenedIcon\n\n@docs defaultIssuereopened, issueReopenedOptions, issueReopenedIcon\n\n@docs defaultItalic, italicOptions, italicIcon\n\n@docs defaultJersey, jerseyOptions, jerseyIcon\n\n@docs defaultKey, keyOptions, keyIcon\n\n@docs defaultKeyboard, keyboardOptions, keyboardIcon\n\n@docs defaultLaw, lawOptions, lawIcon\n\n@docs defaultLightbulb, lightBulbOptions, lightBulbIcon\n\n@docs defaultLinkexternal, linkExternalOptions, linkExternalIcon\n\n@docs defaultLink, linkOptions, linkIcon\n\n@docs defaultListordered, listOrderedOptions, listOrderedIcon\n\n@docs defaultListunordered, listUnorderedOptions, listUnorderedIcon\n\n@docs defaultLocation, locationOptions, locationIcon\n\n@docs defaultLock, lockOptions, lockIcon\n\n@docs defaultLogogist, logoGistOptions, logoGistIcon\n\n@docs defaultLogogithub, logoGithubOptions, logoGithubIcon\n\n@docs defaultMailread, mailReadOptions, mailReadIcon\n\n@docs defaultMailreply, mailReplyOptions, mailReplyIcon\n\n@docs defaultMail, mailOptions, mailIcon\n\n@docs defaultMarkgithub, markGithubOptions, markGithubIcon\n\n@docs defaultMarkdown, markdownOptions, markdownIcon\n\n@docs defaultMegaphone, megaphoneOptions, megaphoneIcon\n\n@docs defaultMention, mentionOptions, mentionIcon\n\n@docs defaultMilestone, milestoneOptions, milestoneIcon\n\n@docs defaultMirror, mirrorOptions, mirrorIcon\n\n@docs defaultMortarboard, mortarBoardOptions, mortarBoardIcon\n\n@docs defaultMute, muteOptions, muteIcon\n\n@docs defaultNonewline, noNewlineOptions, noNewlineIcon\n\n@docs defaultNote, noteOptions, noteIcon\n\n@docs defaultOctoface, octofaceOptions, octofaceIcon\n\n@docs defaultOrganization, organizationOptions, organizationIcon\n\n@docs defaultPackage, packageOptions, packageIcon\n\n@docs defaultPaintcan, paintcanOptions, paintcanIcon\n\n@docs defaultPencil, pencilOptions, pencilIcon\n\n@docs defaultPerson, personOptions, personIcon\n\n@docs defaultPin, pinOptions, pinIcon\n\n@docs defaultPlug, plugOptions, plugIcon\n\n@docs defaultPlussmall, plusSmallOptions, plusSmallIcon\n\n@docs defaultPlus, plusOptions, plusIcon\n\n@docs defaultPrimitivedot, primitiveDotOptions, primitiveDotIcon\n\n@docs defaultPrimitivesquare, primitiveSquareOptions, primitiveSquareIcon\n\n@docs defaultProject, projectOptions, projectIcon\n\n@docs defaultPulse, pulseOptions, pulseIcon\n\n@docs defaultQuestion, questionOptions, questionIcon\n\n@docs defaultQuote, quoteOptions, quoteIcon\n\n@docs defaultRadiotower, radioTowerOptions, radioTowerIcon\n\n@docs defaultReply, replyOptions, replyIcon\n\n@docs defaultRepoclone, repoCloneOptions, repoCloneIcon\n\n@docs defaultRepoforcepush, repoForcePushOptions, repoForcePushIcon\n\n@docs defaultRepoforked, repoForkedOptions, repoForkedIcon\n\n@docs defaultRepopull, repoPullOptions, repoPullIcon\n\n@docs defaultRepopush, repoPushOptions, repoPushIcon\n\n@docs defaultRepo, repoOptions, repoIcon\n\n@docs defaultRocket, rocketOptions, rocketIcon\n\n@docs defaultRss, rssOptions, rssIcon\n\n@docs defaultRuby, rubyOptions, rubyIcon\n\n@docs defaultScreenfull, screenFullOptions, screenFullIcon\n\n@docs defaultScreennormal, screenNormalOptions, screenNormalIcon\n\n@docs defaultSearch, searchOptions, searchIcon\n\n@docs defaultServer, serverOptions, serverIcon\n\n@docs defaultSettings, settingsOptions, settingsIcon\n\n@docs defaultShield, shieldOptions, shieldIcon\n\n@docs defaultSignin, signInOptions, signInIcon\n\n@docs defaultSignout, signOutOptions, signOutIcon\n\n@docs defaultSmiley, smileyOptions, smileyIcon\n\n@docs defaultSquirrel, squirrelOptions, squirrelIcon\n\n@docs defaultStar, starOptions, starIcon\n\n@docs defaultStop, stopOptions, stopIcon\n\n@docs defaultSync, syncOptions, syncIcon\n\n@docs defaultTag, tagOptions, tagIcon\n\n@docs defaultTasklist, tasklistOptions, tasklistIcon\n\n@docs defaultTelescope, telescopeOptions, telescopeIcon\n\n@docs defaultTerminal, terminalOptions, terminalIcon\n\n@docs defaultTextsize, textSizeOptions, textSizeIcon\n\n@docs defaultThreebars, threeBarsOptions, threeBarsIcon\n\n@docs defaultThumbsdown, thumbsdownOptions, thumbsdownIcon\n\n@docs defaultThumbsup, thumbsupOptions, thumbsupIcon\n\n@docs defaultTools, toolsOptions, toolsIcon\n\n@docs defaultTrashcan, trashcanOptions, trashcanIcon\n\n@docs defaultTriangledown, triangleDownOptions, triangleDownIcon\n\n@docs defaultTriangleleft, triangleLeftOptions, triangleLeftIcon\n\n@docs defaultTriangleright, triangleRightOptions, triangleRightIcon\n\n@docs defaultTriangleup, triangleUpOptions, triangleUpIcon\n\n@docs defaultUnfold, unfoldOptions, unfoldIcon\n\n@docs defaultUnmute, unmuteOptions, unmuteIcon\n\n@docs defaultUnverified, unverifiedOptions, unverifiedIcon\n\n@docs defaultVerified, verifiedOptions, verifiedIcon\n\n@docs defaultVersions, versionsOptions, versionsIcon\n\n@docs defaultWatch, watchOptions, watchIcon\n\n@docs defaultX, xOptions, xIcon\n\n@docs defaultZap, zapOptions, zapIcon\n\n@docs alertPath, arrowDownPolygon, arrowLeftPolygon, arrowRightPolygon, arrowSmallDownPolygon\n@docs arrowSmallLeftPolygon, arrowSmallRightPolygon, arrowSmallUpPolygon, arrowUpPolygon\n@docs beakerPath, bellPath, boldPath, bookPath, bookmarkPath, briefcasePath, broadcastPath\n@docs browserPath, bugPath, calendarPath, checkPolygon, checklistPath, chevronDownPolygon\n@docs chevronLeftPolygon, chevronRightPolygon, chevronUpPolygon, circleSlashPath\n@docs circuitBoardPath, clippyPath, clockPath, cloudDownloadPath, cloudUploadPath, codePath\n@docs commentDiscussionPath, commentPath, creditCardPath, dashPolygon, dashboardPath\n@docs databasePath, defaults, desktopDownloadPath, deviceCameraPath, deviceCameraVideoPath\n@docs deviceDesktopPath, deviceMobilePath, diffAddedPath, diffIgnoredPath\n@docs diffModifiedPath, diffPath, diffRemovedPath, diffRenamedPath, ellipsesPath\n@docs ellipsisPath, eyePath, fileBinaryPath, fileCodePath, fileDirectoryPath, fileMediaPath\n@docs filePath, filePdfPath, fileSubmodulePath, fileSymlinkDirectoryPath\n@docs fileSymlinkFilePath, fileTextPath, fileZipPath, flamePath, foldPath, gearPath\n@docs giftPath, gistPath, gistSecretPath, gitBranchPath, gitCommitPath, gitComparePath\n@docs gitMergePath, gitPullRequestPath, globePath, grabberPath, graphPath, heartPath\n@docs historyPath, homePath, horizontalRulePath, hubotPath, inboxPath, infoPath\n@docs issueClosedPath, issueOpenedPath, issueReopenedPath, italicPath, jerseyPath, keyPath\n@docs keyboardPath, lawPath, lightBulbPath, linkExternalPath, linkPath, listOrderedPath\n@docs listUnorderedPath, locationPath, lockPath, logoGistPath, logoGithubPath, mailPath\n@docs mailReadPath, mailReplyPath, markGithubPath, markdownPath, megaphonePath, mentionPath\n@docs milestonePath, mirrorPath, mortarBoardPath, mutePath, noNewlinePath, notePath\n@docs octofacePath, organizationPath, packagePath, paintcanPath, pencilPath, personPath\n@docs pinPath, plugPath, plusPolygon, plusSmallPath, primitiveDotPath\n@docs primitiveSquarePolygon, projectPath, pulsePolygon, questionPath, quotePath\n@docs radioTowerPath, replyPath, repoClonePath, repoForcePushPath, repoForkedPath, repoPath\n@docs repoPullPath, repoPushPath, rocketPath, rssPath, rubyPath, screenFullPath\n@docs screenNormalPath, searchPath, serverPath, settingsPath, shieldPath, signInPath\n@docs signOutPath, smileyPath, squirrelPath, starPolygon, stopPath, syncPath, tagPath\n@docs tasklistPath, telescopePath, terminalPath, textSizePath, threeBarsPath\n@docs thumbsdownPath, thumbsupPath, toolsPath, trashcanPath, triangleDownPolygon\n@docs triangleLeftPolygon, triangleRightPolygon, triangleUpPolygon, unfoldPath, unmutePath\n@docs unverifiedPath, verifiedPath, versionsPath, watchPath, xPolygon, zapPolygon\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "IconOptions",
+                "comment": " Record for managing the options possible on an icon\n",
+                "args": [],
+                "type": "IconOptions"
+            }
+        ],
+        "values": [
+            {
+                "name": "alertIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "alertOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "alertPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowDownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowDownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowDownPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowLeftIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowLeftOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowLeftPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowRightIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowRightOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowRightPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowSmallDownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowSmallDownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowSmallDownPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowSmallLeftIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowSmallLeftOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowSmallLeftPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowSmallRightIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowSmallRightOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowSmallRightPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowSmallUpIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowSmallUpOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowSmallUpPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "arrowUpIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "arrowUpOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "arrowUpPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "beakerIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "beakerOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "beakerPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "bellIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "bellOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "bellPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "boldIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "boldOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "boldPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "bookIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "bookOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "bookPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "bookmarkIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "bookmarkOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "bookmarkPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "briefcaseIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "briefcaseOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "briefcasePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "broadcastIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "broadcastOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "broadcastPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "browserIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "browserOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "browserPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "bugIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "bugOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "bugPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "calendarIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "calendarOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "calendarPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "checkIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "checkOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "checkPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "checklistIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "checklistOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "checklistPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "chevronDownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "chevronDownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "chevronDownPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "chevronLeftIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "chevronLeftOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "chevronLeftPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "chevronRightIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "chevronRightOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "chevronRightPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "chevronUpIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "chevronUpOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "chevronUpPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "circleSlashIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "circleSlashOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "circleSlashPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "circuitBoardIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "circuitBoardOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "circuitBoardPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "clippyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "clippyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "clippyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "clockIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "clockOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "clockPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "cloudDownloadIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "cloudDownloadOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "cloudDownloadPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "cloudUploadIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "cloudUploadOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "cloudUploadPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "codeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "codeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "codePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "color",
+                "comment": " Changes the fill color\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "commentDiscussionIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "commentDiscussionOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "commentDiscussionPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "commentIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "commentOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "commentPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "creditCardIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "creditCardOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "creditCardPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "dashIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "dashOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "dashPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "dashboardIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "dashboardOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "dashboardPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "databaseIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "databaseOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "databasePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "defaultAlert",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowdown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowleft",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowright",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowsmalldown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowsmallleft",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowsmallright",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowsmallup",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultArrowup",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBeaker",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBell",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBold",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBook",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBookmark",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBriefcase",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBroadcast",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBrowser",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultBug",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCalendar",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCheck",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultChecklist",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultChevrondown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultChevronleft",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultChevronright",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultChevronup",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCircleslash",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCircuitboard",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultClippy",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultClock",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultClouddownload",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCloudupload",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCode",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultComment",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCommentdiscussion",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultCreditcard",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDash",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDashboard",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDatabase",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDesktopdownload",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDevicecamera",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDevicecameravideo",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDevicedesktop",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDevicemobile",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiff",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiffadded",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiffignored",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiffmodified",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiffremoved",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultDiffrenamed",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultEllipses",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultEllipsis",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultEye",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFile",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilebinary",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilecode",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFiledirectory",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilemedia",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilepdf",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilesubmodule",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilesymlinkdirectory",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilesymlinkfile",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFiletext",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFilezip",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFlame",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultFold",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGear",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGift",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGist",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGistsecret",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGitbranch",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGitcommit",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGitcompare",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGitmerge",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGitpullrequest",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGlobe",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGrabber",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultGraph",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultHeart",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultHistory",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultHome",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultHorizontalrule",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultHubot",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultInbox",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultInfo",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultIssueclosed",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultIssueopened",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultIssuereopened",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultItalic",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultJersey",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultKey",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultKeyboard",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLaw",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLightbulb",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLink",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLinkexternal",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultListordered",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultListunordered",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLocation",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLock",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLogogist",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultLogogithub",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMail",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMailread",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMailreply",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMarkdown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMarkgithub",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMegaphone",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMention",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMilestone",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMirror",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMortarboard",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultMute",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultNonewline",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultNote",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultOctoface",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultOrganization",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPackage",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPaintcan",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPencil",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPerson",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPin",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPlug",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPlus",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPlussmall",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPrimitivedot",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPrimitivesquare",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultProject",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultPulse",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultQuestion",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultQuote",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRadiotower",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultReply",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepo",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepoclone",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepoforcepush",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepoforked",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepopull",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRepopush",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRocket",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRss",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultRuby",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultScreenfull",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultScreennormal",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSearch",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultServer",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSettings",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultShield",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSignin",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSignout",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSmiley",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSquirrel",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultStar",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultStop",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultSync",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTag",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTasklist",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTelescope",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTerminal",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTextsize",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultThreebars",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultThumbsdown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultThumbsup",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTools",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTrashcan",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTriangledown",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTriangleleft",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTriangleright",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultTriangleup",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultUnfold",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultUnmute",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultUnverified",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultVerified",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultVersions",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultWatch",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultX",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaultZap",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "defaults",
+                "comment": " Sets the defaults for all icons\n",
+                "type": "IconOptions"
+            },
+            {
+                "name": "desktopDownloadIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "desktopDownloadOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "desktopDownloadPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "deviceCameraIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "deviceCameraOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "deviceCameraPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "deviceCameraVideoIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "deviceCameraVideoOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "deviceCameraVideoPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "deviceDesktopIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "deviceDesktopOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "deviceDesktopPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "deviceMobileIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "deviceMobileOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "deviceMobilePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffAddedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffAddedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffAddedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffIgnoredIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffIgnoredOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffIgnoredPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffModifiedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffModifiedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffModifiedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffRemovedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffRemovedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffRemovedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "diffRenamedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "diffRenamedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "diffRenamedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "ellipsesIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "ellipsesOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "ellipsesPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "ellipsisIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "ellipsisOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "ellipsisPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "eyeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "eyeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "eyePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileBinaryIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileBinaryOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileBinaryPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileCodeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileCodeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileCodePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileDirectoryIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileDirectoryOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileDirectoryPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileMediaIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileMediaOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileMediaPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "filePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "filePdfIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "filePdfOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "filePdfPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileSubmoduleIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileSubmoduleOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileSubmodulePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileSymlinkDirectoryIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileSymlinkDirectoryOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileSymlinkDirectoryPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileSymlinkFileIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileSymlinkFileOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileSymlinkFilePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileTextIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileTextOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileTextPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fileZipIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "fileZipOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "fileZipPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "fillRule",
+                "comment": " Sets the fillRule. default is evenodd\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "flameIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "flameOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "flamePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "foldIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "foldOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "foldPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gearIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gearOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gearPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "giftIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "giftOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "giftPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gistIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gistOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gistPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gistSecretIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gistSecretOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gistSecretPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gitBranchIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gitBranchOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gitBranchPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gitCommitIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gitCommitOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gitCommitPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gitCompareIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gitCompareOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gitComparePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gitMergeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gitMergeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gitMergePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "gitPullRequestIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "gitPullRequestOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "gitPullRequestPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "globeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "globeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "globePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "grabberIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "grabberOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "grabberPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "graphIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "graphOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "graphPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "heartIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "heartOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "heartPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "height",
+                "comment": " Adjusts only the height\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "historyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "historyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "historyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "homeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "homeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "homePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "horizontalRuleIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "horizontalRuleOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "horizontalRulePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "hubotIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "hubotOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "hubotPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "icon",
+                "comment": " This is the main resolver dispatch. It will render a set of IconOptions\n",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "inboxIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "inboxOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "inboxPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "infoIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "infoOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "infoPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "issueClosedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "issueClosedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "issueClosedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "issueOpenedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "issueOpenedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "issueOpenedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "issueReopenedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "issueReopenedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "issueReopenedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "italicIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "italicOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "italicPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "jerseyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "jerseyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "jerseyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "keyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "keyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "keyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "keyboardIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "keyboardOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "keyboardPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "lawIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "lawOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "lawPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "lightBulbIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "lightBulbOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "lightBulbPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "linkExternalIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "linkExternalOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "linkExternalPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "linkIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "linkOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "linkPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "listOrderedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "listOrderedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "listOrderedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "listUnorderedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "listUnorderedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "listUnorderedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "locationIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "locationOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "locationPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "lockIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "lockOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "lockPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "logoGistIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "logoGistOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "logoGistPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "logoGithubIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "logoGithubOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "logoGithubPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mailIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mailOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mailPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mailReadIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mailReadOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mailReadPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mailReplyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mailReplyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mailReplyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "margin",
+                "comment": " Sets a margin in a style attribute on the icon's SVG\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "markGithubIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "markGithubOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "markGithubPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "markdownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "markdownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "markdownPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "megaphoneIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "megaphoneOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "megaphonePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mentionIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mentionOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mentionPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "milestoneIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "milestoneOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "milestonePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mirrorIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mirrorOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mirrorPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "mortarBoardIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "mortarBoardOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mortarBoardPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "muteIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "muteOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "mutePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "noNewlineIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "noNewlineOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "noNewlinePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "noteIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "noteOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "notePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "octofaceIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "octofaceOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "octofacePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "organizationIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "organizationOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "organizationPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "packageIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "packageOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "packagePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "paintcanIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "paintcanOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "paintcanPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "pencilIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "pencilOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "pencilPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "personIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "personOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "personPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "pinIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "pinOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "pinPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "plugIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "plugOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "plugPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "plusIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "plusOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "plusPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "plusSmallIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "plusSmallOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "plusSmallPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "primitiveDotIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "primitiveDotOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "primitiveDotPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "primitiveSquareIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "primitiveSquareOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "primitiveSquarePolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "projectIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "projectOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "projectPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "pulseIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "pulseOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "pulsePolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "questionIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "questionOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "questionPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "quoteIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "quoteOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "quotePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "radioTowerIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "radioTowerOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "radioTowerPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "replyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "replyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "replyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoCloneIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoCloneOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoClonePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoForcePushIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoForcePushOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoForcePushPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoForkedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoForkedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoForkedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoPullIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoPullOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoPullPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "repoPushIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "repoPushOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "repoPushPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "rocketIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "rocketOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "rocketPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "rssIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "rssOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "rssPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "rubyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "rubyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "rubyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "screenFullIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "screenFullOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "screenFullPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "screenNormalIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "screenNormalOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "screenNormalPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "searchIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "searchOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "searchPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "serverIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "serverOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "serverPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "settingsIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "settingsOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "settingsPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "shieldIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "shieldOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "shieldPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "signInIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "signInOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "signInPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "signOutIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "signOutOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "signOutPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "size",
+                "comment": " Size will set both the width and height but not affect the viewBox, thereby maintaining the aspect ratio.\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "smileyIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "smileyOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "smileyPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "squirrelIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "squirrelOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "squirrelPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "starIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "starOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "starPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "stopIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "stopOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "stopPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "style",
+                "comment": " Sets a style attribute on the icon's SVG\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "syncIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "syncOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "syncPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "tagIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "tagOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "tagPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "tasklistIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "tasklistOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "tasklistPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "telescopeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "telescopeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "telescopePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "terminalIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "terminalOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "terminalPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "textSizeIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "textSizeOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "textSizePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "threeBarsIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "threeBarsOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "threeBarsPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "thumbsdownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "thumbsdownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "thumbsdownPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "thumbsupIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "thumbsupOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "thumbsupPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "toolsIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "toolsOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "toolsPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "trashcanIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "trashcanOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "trashcanPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "triangleDownIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "triangleDownOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "triangleDownPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "triangleLeftIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "triangleLeftOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "triangleLeftPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "triangleRightIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "triangleRightOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "triangleRightPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "triangleUpIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "triangleUpOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "triangleUpPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "unfoldIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "unfoldOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "unfoldPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "unmuteIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "unmuteOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "unmutePath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "unverifiedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "unverifiedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "unverifiedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "verifiedIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "verifiedOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "verifiedPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "versionsIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "versionsOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "versionsPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "viewBox",
+                "comment": " Allows overriding the default viewBox\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "watchIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "watchOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "watchPath",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "width",
+                "comment": " Adjusts only the width\n",
+                "type": "String -> IconOptions -> IconOptions"
+            },
+            {
+                "name": "xIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "xOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "xPolygon",
+                "comment": " ",
+                "type": "String"
+            },
+            {
+                "name": "zapIcon",
+                "comment": " ",
+                "type": "IconOptions -> Html msg"
+            },
+            {
+                "name": "zapOptions",
+                "comment": " ",
+                "type": "IconOptions"
+            },
+            {
+                "name": "zapPolygon",
+                "comment": " ",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

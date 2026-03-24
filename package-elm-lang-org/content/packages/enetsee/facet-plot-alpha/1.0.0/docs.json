@@ -1,0 +1,874 @@
+[
+    {
+        "name": "Facet.Plot",
+        "comment": "\n@docs Plot, PlotError\n\n@docs plot, size, width, height\n\n@docs layer\n\n@docs facetGrid, facetRow, facetRowWrap, facetColumn, facetColumnWrap, facetRowFormat,facetColumnFormat\n\n@docs xAxis, yAxis\n\n@docs compile, compileWithTheme\n",
+        "unions": [
+            {
+                "name": "Plot",
+                "comment": " A `Plot` allows you to combine several layers of `Encodings` along with\n    the corresponding `Legends` and `Axis`.\n\n    In addition, you can specify how the plot should be facetted to create\n    [small multiples](https://en.wikipedia.org/wiki/Small_multiple).\n",
+                "args": [
+                    "data",
+                    "xdomain",
+                    "ydomain",
+                    "facetRow",
+                    "facetColumn"
+                ],
+                "cases": []
+            },
+            {
+                "name": "PlotError",
+                "comment": " Reasons why plot compilation may have failed\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoXAxis",
+                        []
+                    ],
+                    [
+                        "NoYAxis",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " Compile a plot using the default `Theme`.\n",
+                "type": "Plot data xdomain ydomain facetRow facetColumn -> List data -> Result (List PlotError) ( ViewBox, Scenegraph )"
+            },
+            {
+                "name": "compileWithTheme",
+                "comment": " Compile a plot with a custom `Theme`.\n",
+                "type": "Theme -> Plot data xdomain ydomain facetRow facetColumn -> List data -> Result (List PlotError) ( ViewBox, Scenegraph )"
+            },
+            {
+                "name": "facetColumn",
+                "comment": " Generate a column of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
+                "type": "Field data comparableColumn -> Plot data xdomain ydomain a b -> Plot data xdomain ydomain a comparableColumn"
+            },
+            {
+                "name": "facetColumnFormat",
+                "comment": " ",
+                "type": "(facetColumn -> String) -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "facetColumnWrap",
+                "comment": " Generate columns of small multiples, with a maximum height, using the same\n    scale and axes, allowing them to be easily compared.\n",
+                "type": "Field data comparableColumn -> Int -> Plot data xdomain ydomain a b -> Plot data xdomain ydomain a comparableColumn"
+            },
+            {
+                "name": "facetGrid",
+                "comment": " Generate a grid of small multiples using the same scale and axes\n    , allowing them to be easily compared.\n",
+                "type": "Field data comparableRow -> Field data comparableColumn -> Plot data xdomain ydomain a b -> Plot data xdomain ydomain comparableRow comparableColumn"
+            },
+            {
+                "name": "facetRow",
+                "comment": " Generate a row of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
+                "type": "Field data comparableRow -> Plot data xdomain ydomain a b -> Plot data xdomain ydomain comparableRow b"
+            },
+            {
+                "name": "facetRowFormat",
+                "comment": " Specify how the small multiple labels for each column in a row of\n    small multiples should be formatted\n",
+                "type": "(facetRow -> String) -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "facetRowWrap",
+                "comment": " Generate rows of small multiples, with a maximum length, using the same\n    scale and axes, allowing them to be easily compared.\n",
+                "type": "Field data comparableRow -> Int -> Plot data xdomain ydomain a b -> Plot data xdomain ydomain comparableRow b"
+            },
+            {
+                "name": "height",
+                "comment": " Specify the user-space height of a plot\n",
+                "type": "Float -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "layer",
+                "comment": " ",
+                "type": "Encoding data xdomain ydomain -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "plot",
+                "comment": " An empty `Plot` with an optional title\n",
+                "type": "Maybe String -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "size",
+                "comment": " Specify the user-space width and height of a plot\n",
+                "type": "Float -> Float -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "width",
+                "comment": " Specify the user-space width of a plot\n",
+                "type": "Float -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "xAxis",
+                "comment": " ",
+                "type": "Axis Vertical xdomain -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            },
+            {
+                "name": "yAxis",
+                "comment": " ",
+                "type": "Axis Horizontal ydomain -> Plot data xdomain ydomain facetRow facetColumn -> Plot data xdomain ydomain facetRow facetColumn"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Encoding",
+        "comment": "\n\n# Encoding\n@docs Encoding\n\n## Arc\n@docs arc\n\n@docs innerRadius, padAngle\n\n## Area\n@docs vArea, hArea\n\n## Line\n@docs line\n\n## Polygon\n@docs polygon\n\n## Rect\n@docs rect, bar\n@docs cornerRadius\n\n## Rule\n@docs rule\n\n## Symbol\n@docs symbol , point, arrow, cross, square, diamond, trangleUp, triangleDown, triangleLeft, triangleRight , shape\n\n@docs angle\n\n@docs size,sizeConstant\n\n## Text\n@docs text\n@docs relativePosition\n\n## Trail\n@docs trail\n\n## Fill\n@docs fill,fillConstant, fillOpacity, fillOpacityConstant\n\n\n## Stroke\n@docs stroke, strokeConstant,  strokeOpacity,strokeOpacityConstant, strokeWidth, strokeWidthConstant, strokeDash,  strokeDashConstant\n\n@docs tooltip\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Encoding",
+                "comment": "\n    # Encoding\n\n    An `Encoding` is a means of encoding data as visual mark by combining\n    several `Channel`s to represent variaus attributes of that visual mark.\n\n    A description of each encoding along with the required and optional `Channels`\n    is given below.\n\n    ## Arc\n\n    A cicular arc.\n\n    ### Required channels\n\n    - x position (`PositionalChannel`)\n    - y position (`PositionalChannel`)\n    - start angle in Radians (`FloatChannel`)\n    - end angle in Radians (`FloatChannel`)\n    - outer radius in user-space pixels (`FloatChannel`)\n\n    ### Optional channels\n\n    - inner radius in user-space pixels (`FloatChannel`)\n    - corner radius in user-space pixels (`FloatChannel`)\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Area\n\n    Filled area with either vertical or horizontal orientation.\n\n    ### Required channels\n\n    - x positions (`PositionalChannel`)\n    - y positions (`PositionalChannel`)\n\n    You must also provide an interpolation method and the preferred behaviour\n    when missing values are encountered\n\n    ### Optional channels\n\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Line\n\n    Stroked lines.\n\n    ### Required channels\n\n    - x positions (`PositionalChannel`)\n    - y positions (`PositionalChannel`)\n\n    You must also provide an interpolation method and the preferred behaviour\n    when missing values are encountered\n\n    ### Optional channels\n\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Polygon\n\n    Arbitrary filled polygons.\n\n    ### Required channels\n\n    - x positions (`PositionalChannel`)\n    - y positions (`PositionalChannel`)\n\n    You must also provide an interpolation method and the preferred behaviour\n    when missing values are encountered\n\n    ### Optional channels\n\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Rect\n\n    Filled rectangles.\n\n    ### Required channels\n\n    Either\n    - primary and secondary x and y positions\n    or\n    - primary x and y positions, width and height\n\n    ### Optional channels\n\n    - corner radius in user-space pixels (`FloatChannel`)\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Rule\n\n    Strkoed line segments.\n\n    ### Required channels\n\n    - primary and secondary x positions (`PositionalChannel`)\n    - primary and secondary y positions (`PositionalChannel`)\n\n    ### Optional channels\n\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Symbol\n\n    Plotting symbols, including circles, squares and other shapes.\n\n    ### Required channels\n\n    - shape (`ShapeChannel`)\n    - x position (`PositionalChannel`)\n    - y position (`PositionalChannel`)\n\n    ### Optional channels\n\n    - size in user-space pixels squared (`FloatChannel`)\n    - angle in Radians (`FloatChannel`)\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Text\n\n    Text labels with configurable fonts, alignment and angle.\n\n    ### Required Channels\n\n    - text (`TextChannel`)\n    - x position (`PositionalChannel`)\n    - y position (`PositionalChannel`)\n\n\n    ### Optional channels\n\n    - size in user-space pixels squared (`FloatChannel`)\n    - angle in Radians (`FloatChannel`)\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - stroke color (`ColorChannel`)\n    - stroke opacity, between 0 and 1 (`FloatChannel`)\n    - stroke width in user-space pixels (`FloatChannel`)\n    - stroke dash (`StrokeDashChannel`)\n    - tooltip (`TextChannel`)\n\n    ## Trail\n\n    Filled lines with varying width.\n\n    ### Required Channels\n\n    - widths (`FloatChannel`)\n    - x positions (`PositionalChannel`)\n    - y positions (`PositionalChannel`)\n\n\n    ### Optional channels\n\n    - fill color (`ColorChannel`)\n    - fill opacity, between 0 and 1 (`FloatChannel`)\n    - tooltip (`TextChannel`)\n\n",
+                "args": [
+                    "data",
+                    "xdomain",
+                    "ydomain"
+                ],
+                "type": "Encoding data xdomain ydomain"
+            }
+        ],
+        "values": [
+            {
+                "name": "angle",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "arc",
+                "comment": " Circular arc.\n",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> FloatChannel data -> FloatChannel data -> FloatChannel data -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "arrow",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "bar",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> Float -> PositionalChannel data Float -> Encoding data xdomain Float"
+            },
+            {
+                "name": "cornerRadius",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "cross",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "diamond",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "fill",
+                "comment": " ",
+                "type": "ColorChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "fillConstant",
+                "comment": " ",
+                "type": "Color -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "fillOpacity",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "fillOpacityConstant",
+                "comment": " ",
+                "type": "Float -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "hArea",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data number -> Interpolate -> Behaviour -> Encoding data xdomain number"
+            },
+            {
+                "name": "innerRadius",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "line",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Interpolate -> Behaviour -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "padAngle",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "point",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "polygon",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data number -> Interpolate -> Behaviour -> Encoding data xdomain number"
+            },
+            {
+                "name": "rect",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data xdomain -> PositionalChannel data ydomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "relativePosition",
+                "comment": " ",
+                "type": "Float -> Float -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "rule",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data xdomain -> PositionalChannel data ydomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "shape",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> SubPath -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "size",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "sizeConstant",
+                "comment": " ",
+                "type": "Float -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "square",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "stroke",
+                "comment": " ",
+                "type": "ColorChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeConstant",
+                "comment": " ",
+                "type": "Color -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeDash",
+                "comment": " ",
+                "type": "StrokeDashChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeDashConstant",
+                "comment": " ",
+                "type": "StrokeDash -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeOpacity",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeOpacityConstant",
+                "comment": " ",
+                "type": "Float -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " ",
+                "type": "FloatChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "strokeWidthConstant",
+                "comment": " ",
+                "type": "Float -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "symbol",
+                "comment": " ",
+                "type": "ShapeChannel data -> PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "TextChannel data -> PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "tooltip",
+                "comment": " ",
+                "type": "TextChannel data -> Encoding data xdomain ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "trail",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> FloatChannel data -> Behaviour -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "trangleUp",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "triangleDown",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "triangleLeft",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "triangleRight",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data ydomain -> Encoding data xdomain ydomain"
+            },
+            {
+                "name": "vArea",
+                "comment": " ",
+                "type": "PositionalChannel data xdomain -> PositionalChannel data number -> Interpolate -> Behaviour -> Encoding data xdomain number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Channel",
+        "comment": "\n\n# Channel\n\nA `Channel` is a means representing data as some attribute of a visual mark.\n\n## Positional Channel\n@docs PositionalChannel, positional, positionalCompareWith\n\n@docs ChannelWithLegend, channel, channelCompareWith\n\n## Angle Channel\n@docs AngleChannel, angle, angleCompareWith\n\n## Color Channel\n@docs ColorChannel, color, colorCompareWith\n\n## Float Channel\n@docs FloatChannel, float, floatCompareWith\n\n## Int Channel\n@docs IntChannel, int, intCompareWith\n\n## Shape Channel\n@docs ShapeChannel, shape, shapeCompareWith\n\n## Text Channel\n@docs TextChannel , text, textCompareWith\n\n## Stroke-dash Channel\n@docs StrokeDashChannel, strokeDash, strokeDashCompareWith\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AngleChannel",
+                "comment": " An `AngleChannel` is used to encode data as the rotation of a visual mark.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "AngleChannel data"
+            },
+            {
+                "name": "ChannelWithLegend",
+                "comment": " ",
+                "args": [
+                    "data",
+                    "range"
+                ],
+                "type": "ChannelWithLegend data range"
+            },
+            {
+                "name": "ColorChannel",
+                "comment": " A `ColorChannel` is used to encode data as either the fill color or stroke color\nof a visual mark.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "ColorChannel data"
+            },
+            {
+                "name": "FloatChannel",
+                "comment": " A `FloatChannel` is used to encode data as some non-positional numeric attribute\nof a visual mark e.g. stroke width, size, font size.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "FloatChannel data"
+            },
+            {
+                "name": "IntChannel",
+                "comment": " A `IntChannel` is used to encode data as some non-positional numeric attribute\nof a visual mark e.g. stroke width, size, font size.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "IntChannel data"
+            },
+            {
+                "name": "PositionalChannel",
+                "comment": " A `PositionalChannel` is used to associate a data value with a position on either\nthe x- or y-axis.\n",
+                "args": [
+                    "data",
+                    "domain"
+                ],
+                "type": "PositionalChannel data domain"
+            },
+            {
+                "name": "ShapeChannel",
+                "comment": " A `ShapeChannel` is used to encode data as the shape used in a `Symbol` visual\nmark.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "ShapeChannel data"
+            },
+            {
+                "name": "StrokeDashChannel",
+                "comment": " A `StrokeDashChannel` is used to encode data as the stroke dash array\nand (optional) stroke dash offset of a visual mark.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "StrokeDashChannel data"
+            },
+            {
+                "name": "TextChannel",
+                "comment": " A `TextChannel` is used to encode data as the text of a `Text` mark or as the\ntooltip of any visual mark.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "TextChannel data"
+            }
+        ],
+        "values": [
+            {
+                "name": "angle",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain Float -> Field data comparableDomain -> AngleChannel data"
+            },
+            {
+                "name": "angleCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain Float -> Field data domain -> AngleChannel data"
+            },
+            {
+                "name": "channel",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain range -> Field data comparableDomain -> ChannelWithLegend data range"
+            },
+            {
+                "name": "channelCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain range -> Field data domain -> ChannelWithLegend data range"
+            },
+            {
+                "name": "color",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain Color -> Field data comparableDomain -> ColorChannel data"
+            },
+            {
+                "name": "colorCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain Color -> Field data domain -> ColorChannel data"
+            },
+            {
+                "name": "float",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain Float -> Field data comparableDomain -> FloatChannel data"
+            },
+            {
+                "name": "floatCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain Float -> Field data domain -> FloatChannel data"
+            },
+            {
+                "name": "int",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain Int -> Field data comparableDomain -> IntChannel data"
+            },
+            {
+                "name": "intCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain Int -> Field data domain -> IntChannel data"
+            },
+            {
+                "name": "positional",
+                "comment": " ",
+                "type": "Field data comparableDomain -> PositionalChannel data comparableDomain"
+            },
+            {
+                "name": "positionalCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> Field data domain -> PositionalChannel data domain"
+            },
+            {
+                "name": "shape",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain Shape -> Field data comparableDomain -> ShapeChannel data"
+            },
+            {
+                "name": "shapeCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain Shape -> Field data domain -> ShapeChannel data"
+            },
+            {
+                "name": "strokeDash",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain StrokeDash -> Field data comparableDomain -> StrokeDashChannel data"
+            },
+            {
+                "name": "strokeDashCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain StrokeDash -> Field data domain -> StrokeDashChannel data"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "(comparableDomain -> String) -> Scale comparableDomain String -> Field data comparableDomain -> TextChannel data"
+            },
+            {
+                "name": "textCompareWith",
+                "comment": " ",
+                "type": "(domain -> domain -> Order) -> (domain -> String) -> Scale domain String -> Field data domain -> TextChannel data"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Axis",
+        "comment": "\n@docs Axis, Horizontal , Vertical\n\n@docs continuousX, continuousY\n\n@docs linearX, linearY, log10X, log10Y, sqrtX, sqrtY\n\n@docs discreteX, discreteY\n\n@docs bandX, customBandX , bandY, customBandY\n\n@docs continuousScale, ordinalScale\n\n@docs continuousDomain, ordinalDomain\n\n@docs ticks, labelFormat,orientTop, orientBottom, orientLeft,orientRight, labelAngle\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Axis",
+                "comment": " An `Axis` is a special type of `Legend` for positional channels\n",
+                "args": [
+                    "orientation",
+                    "domain"
+                ],
+                "type": "Axis orientation domain"
+            },
+            {
+                "name": "Horizontal",
+                "comment": " ",
+                "args": [],
+                "type": "Horizontal"
+            },
+            {
+                "name": "Vertical",
+                "comment": " ",
+                "args": [],
+                "type": "Vertical"
+            }
+        ],
+        "values": [
+            {
+                "name": "bandX",
+                "comment": " Create an x-axis with a band scale from a comparable domain\n",
+                "type": "Maybe String -> Axis Vertical comparableDomain"
+            },
+            {
+                "name": "bandY",
+                "comment": " Create a y-axis with a band scale from a comparable domain\n",
+                "type": "Maybe String -> Axis Horizontal comparableDomain"
+            },
+            {
+                "name": "continuousDomain",
+                "comment": " ",
+                "type": "( domain, domain ) -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "continuousScale",
+                "comment": " ",
+                "type": "(( domain, domain ) -> ( Float, Float ) -> Scale domain Float) -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "continuousX",
+                "comment": " Create an x-axis with a continuous domain, defined by an upper and lower\n    limit.\n",
+                "type": "Maybe String -> (( xdomain, xdomain ) -> ( Float, Float ) -> Scale xdomain Float) -> Axis Vertical xdomain"
+            },
+            {
+                "name": "continuousY",
+                "comment": " Create a y-axis with a continuos domain, defined by an upper and lower\n    limit.\n",
+                "type": "Maybe String -> (( ydomain, ydomain ) -> ( Float, Float ) -> Scale ydomain Float) -> Axis Horizontal ydomain"
+            },
+            {
+                "name": "customBandX",
+                "comment": " Create an x-axis with a band scale from an arbitrary domain\n",
+                "type": "Maybe String -> Axis Vertical anyDomain"
+            },
+            {
+                "name": "customBandY",
+                "comment": " ",
+                "type": "Maybe String -> Axis Horizontal anyDomain"
+            },
+            {
+                "name": "discreteX",
+                "comment": " Create an x-axis with a discrete domain, defined by the list of elements\n    in the domain.\n",
+                "type": "Maybe String -> (List xdomain -> ( Float, Float ) -> Scale xdomain Float) -> Axis Vertical xdomain"
+            },
+            {
+                "name": "discreteY",
+                "comment": " Create an x-axis with a discrete domain, explicitly providing a function\n    to construct an ordinal scale\n",
+                "type": "Maybe String -> (List ydomain -> ( Float, Float ) -> Scale ydomain Float) -> Axis Horizontal ydomain"
+            },
+            {
+                "name": "labelAngle",
+                "comment": " ",
+                "type": "Float -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "labelFormat",
+                "comment": " ",
+                "type": "(domain -> String) -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "linearX",
+                "comment": " ",
+                "type": "Maybe String -> Axis Vertical Float"
+            },
+            {
+                "name": "linearY",
+                "comment": " ",
+                "type": "Maybe String -> Axis Horizontal Float"
+            },
+            {
+                "name": "log10X",
+                "comment": " ",
+                "type": "Maybe String -> Axis Vertical Float"
+            },
+            {
+                "name": "log10Y",
+                "comment": " ",
+                "type": "Maybe String -> Axis Horizontal Float"
+            },
+            {
+                "name": "ordinalDomain",
+                "comment": " ",
+                "type": "List domain -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "ordinalScale",
+                "comment": " ",
+                "type": "(List domain -> ( Float, Float ) -> Scale domain Float) -> Axis orientation domain -> Axis orientation domain"
+            },
+            {
+                "name": "orientBottom",
+                "comment": " ",
+                "type": "Axis Vertical domain -> Axis Vertical domain"
+            },
+            {
+                "name": "orientLeft",
+                "comment": " ",
+                "type": "Axis Horizontal domain -> Axis Horizontal domain"
+            },
+            {
+                "name": "orientRight",
+                "comment": " ",
+                "type": "Axis Horizontal domain -> Axis Horizontal domain"
+            },
+            {
+                "name": "orientTop",
+                "comment": " ",
+                "type": "Axis Vertical domain -> Axis Vertical domain"
+            },
+            {
+                "name": "sqrtX",
+                "comment": " ",
+                "type": "Maybe String -> Axis Vertical Float"
+            },
+            {
+                "name": "sqrtY",
+                "comment": " ",
+                "type": "Maybe String -> Axis Horizontal Float"
+            },
+            {
+                "name": "ticks",
+                "comment": " ",
+                "type": "Int -> Axis orientation domain -> Axis orientation domain"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scale",
+        "comment": "\n@docs Scale,scale, unscale, ticks, legend\n\n@docs constant, sequential, continuous, ordinal, customOrdinal\n\n@docs  OutsideDomain, clamp, discard, allow\n\n@docs linear, linearNice , log10, naturalLog, sqrt\n\n@docs band, customBand\n\n@docs rgb, rgbBasis, hsl\n\n@docs tableau10, category10\n",
+        "unions": [
+            {
+                "name": "Scale",
+                "comment": " A scale provides a means of mapping between values of type _domain_ to\n    values of type _range_.\n",
+                "args": [
+                    "domain",
+                    "range"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "OutsideDomain",
+                "comment": " ",
+                "args": [],
+                "type": "OutsideDomain"
+            }
+        ],
+        "values": [
+            {
+                "name": "allow",
+                "comment": " ",
+                "type": "OutsideDomain"
+            },
+            {
+                "name": "band",
+                "comment": " ",
+                "type": "List comparable -> ( Float, Float ) -> Scale comparable Float"
+            },
+            {
+                "name": "category10",
+                "comment": " ",
+                "type": "List comparable -> Scale comparable Color"
+            },
+            {
+                "name": "clamp",
+                "comment": " ",
+                "type": "OutsideDomain"
+            },
+            {
+                "name": "constant",
+                "comment": " ",
+                "type": "a -> Scale domain a"
+            },
+            {
+                "name": "continuous",
+                "comment": " ",
+                "type": "{ a | compareDomain : domain -> domain -> Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolateRange : ( range, range ) -> Float -> range, outsideDomain : OutsideDomain, range : ( range, range ), reinterpolateDomain : ( domain, domain ) -> range -> domain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale domain range"
+            },
+            {
+                "name": "customBand",
+                "comment": " ",
+                "type": "List domain -> ( Float, Float ) -> Scale domain Float"
+            },
+            {
+                "name": "customOrdinal",
+                "comment": " ",
+                "type": "Custom a domain range -> Scale domain range"
+            },
+            {
+                "name": "discard",
+                "comment": " ",
+                "type": "OutsideDomain"
+            },
+            {
+                "name": "hsl",
+                "comment": " ",
+                "type": "Bool -> ( Float, Float ) -> ( Color, Color ) -> Scale Float Color"
+            },
+            {
+                "name": "legend",
+                "comment": " ",
+                "type": "Scale domain range -> Int -> List ( domain, range )"
+            },
+            {
+                "name": "linear",
+                "comment": " ",
+                "type": "( Float, Float ) -> ( Float, Float ) -> Scale Float Float"
+            },
+            {
+                "name": "linearNice",
+                "comment": " ",
+                "type": "Int -> ( Float, Float ) -> ( Float, Float ) -> Scale Float Float"
+            },
+            {
+                "name": "log10",
+                "comment": " ",
+                "type": "( Float, Float ) -> ( Float, Float ) -> Scale Float Float"
+            },
+            {
+                "name": "naturalLog",
+                "comment": " ",
+                "type": "( Float, Float ) -> ( Float, Float ) -> Scale Float Float"
+            },
+            {
+                "name": "ordinal",
+                "comment": " ",
+                "type": "Comparable a comparableDomain range -> Scale comparableDomain range"
+            },
+            {
+                "name": "rgb",
+                "comment": " ",
+                "type": "( Float, Float ) -> ( Color, Color ) -> Scale Float Color"
+            },
+            {
+                "name": "rgbBasis",
+                "comment": " ",
+                "type": "Bool -> ( Float, Float ) -> List Color -> Scale Float Color"
+            },
+            {
+                "name": "scale",
+                "comment": " ",
+                "type": "Scale domain range -> domain -> Maybe range"
+            },
+            {
+                "name": "sequential",
+                "comment": " ",
+                "type": "{ a | compareDomain : domain -> domain -> Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolator : Float -> range, outsideDomain : OutsideDomain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale domain range"
+            },
+            {
+                "name": "sqrt",
+                "comment": " ",
+                "type": "( Float, Float ) -> ( Float, Float ) -> Scale Float Float"
+            },
+            {
+                "name": "tableau10",
+                "comment": " ",
+                "type": "List comparable -> Scale comparable Color"
+            },
+            {
+                "name": "ticks",
+                "comment": " ",
+                "type": "Scale domain range -> Int -> List domain"
+            },
+            {
+                "name": "unscale",
+                "comment": " ",
+                "type": "Scale domain Float -> Float -> Maybe domain"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Field",
+        "comment": "\n@docs Field\n\n@docs constant\n\n@docs scalar, maybeScalar\n\n@docs aggregate, maybeAggregate\n\n@docs vector, maybeVector\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A `Field` is a means of extracting a value from some data type.\n\n    There are different `Field`s allowing you to extract different 'shapes'\n    of data:\n    - A scalar `Field` extracts single item from a single piece of data;\n    - A vector `Field` extracts a list of items from a list of data;\n    - An aggregate `Field` summarizes a list of data as a single item.\n\n    In addition, each type of field supports situations where the item you\n    are extracting may be missing.\n",
+                "args": [
+                    "data",
+                    "domain"
+                ],
+                "type": "Field data domain"
+            }
+        ],
+        "values": [
+            {
+                "name": "aggregate",
+                "comment": " ",
+                "type": "Maybe String -> (List data -> domain) -> Field data domain"
+            },
+            {
+                "name": "constant",
+                "comment": " ",
+                "type": "domain -> Field data domain"
+            },
+            {
+                "name": "maybeAggregate",
+                "comment": " ",
+                "type": "Maybe String -> (List data -> Maybe domain) -> Field data domain"
+            },
+            {
+                "name": "maybeScalar",
+                "comment": " ",
+                "type": "Maybe String -> (data -> Maybe domain) -> Field data domain"
+            },
+            {
+                "name": "maybeVector",
+                "comment": " ",
+                "type": "Maybe String -> (List data -> List (Maybe domain)) -> Field data domain"
+            },
+            {
+                "name": "scalar",
+                "comment": " ",
+                "type": "Maybe String -> (data -> domain) -> Field data domain"
+            },
+            {
+                "name": "vector",
+                "comment": " ",
+                "type": "Maybe String -> (List data -> List domain) -> Field data domain"
+            }
+        ],
+        "binops": []
+    }
+]

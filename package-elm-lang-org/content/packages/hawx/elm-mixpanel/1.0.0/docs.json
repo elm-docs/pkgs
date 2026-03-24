@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Mixpanel",
+        "comment": " This library allows you to send events to Mixpanel and update user profiles.\n\n# Setting up\n\n@docs Config\n\n# Tracking events\n\n@docs Event, Properties, track\n\n# Updating user profiles\n\n@docs EngageProperties, peopleAdd, peopleAppend, peopleDelete, peopleRemove, peopleSet, peopleSetOnce, peopleUnion, peopleUnset\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configuration for accessing Mixpanel, keep this in your Model.\n",
+                "args": [],
+                "type": "{ baseUrl : String, token : String }"
+            },
+            {
+                "name": "EngageProperties",
+                "comment": " Mixpanel tracks users by a distinctId, pass it here.\n",
+                "args": [],
+                "type": "{ distinctId : String }"
+            },
+            {
+                "name": "Event",
+                "comment": " A Mixpanel event has a name and some properties.\n",
+                "args": [],
+                "type": "{ event : String, properties : Properties }"
+            },
+            {
+                "name": "Properties",
+                "comment": " A list of extra properties to pass to Mixpanel.\n",
+                "args": [],
+                "type": "List ( String, Value )"
+            }
+        ],
+        "values": [
+            {
+                "name": "peopleAdd",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleAppend",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleDelete",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Task Error ()"
+            },
+            {
+                "name": "peopleRemove",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleSet",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleSetOnce",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleUnion",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> Properties -> Task Error ()"
+            },
+            {
+                "name": "peopleUnset",
+                "comment": " ",
+                "type": "Config -> EngageProperties -> List String -> Task Error ()"
+            },
+            {
+                "name": "track",
+                "comment": " Track sends an event to Mixpanel.\n",
+                "type": "Config -> Event -> Task Error ()"
+            }
+        ],
+        "binops": []
+    }
+]

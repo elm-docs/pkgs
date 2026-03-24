@@ -1,0 +1,160 @@
+[
+    {
+        "name": "MathUi",
+        "comment": " MathUi\n\n\n# Types\n\n@docs OpInfo, Exp, Model, Msg\n\n\n# Update\n\n@docs update, view, viewAll, latexRepr\n\n\n# Configuration\n\n\n##\n\n\n## build-in constructs\n\n@docs plus, divide, pow, elemIn, equals, sqrtOp, parentheses, sigma, infinity, vectorsymbol\n\n",
+        "unions": [
+            {
+                "name": "Exp",
+                "comment": " Homogeneous syntax tree\n",
+                "args": [],
+                "cases": [
+                    [
+                        "BinOp",
+                        [
+                            "OpInfo",
+                            "Exp",
+                            "Exp"
+                        ]
+                    ],
+                    [
+                        "BigOp",
+                        [
+                            "OpInfo",
+                            "Exp",
+                            "Exp",
+                            "Exp"
+                        ]
+                    ],
+                    [
+                        "UnaryOp",
+                        [
+                            "OpInfo",
+                            "Exp"
+                        ]
+                    ],
+                    [
+                        "Symbol",
+                        [
+                            "OpInfo"
+                        ]
+                    ],
+                    [
+                        "Vector",
+                        [
+                            "List Exp"
+                        ]
+                    ],
+                    [
+                        "Matrix",
+                        [
+                            "List (List Exp)"
+                        ]
+                    ],
+                    [
+                        "Id",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Hole",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ expression : Exp, breadCrum : BreadCrum }"
+            },
+            {
+                "name": "OpInfo",
+                "comment": " Contains Information for the Operation.\n",
+                "args": [],
+                "type": "{ shortName : String, longName : String, cssClass : String, latexOperator : String, latexBefore : String, latexAfter : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "divide",
+                "comment": " divide top bottom\n",
+                "type": "Exp -> Exp -> Exp"
+            },
+            {
+                "name": "elemIn",
+                "comment": " elemIn set item\n",
+                "type": "Exp -> Exp -> Exp"
+            },
+            {
+                "name": "equals",
+                "comment": " equals left right\n",
+                "type": "Exp -> Exp -> Exp"
+            },
+            {
+                "name": "infinity",
+                "comment": " infinity symbol\n",
+                "type": "Exp"
+            },
+            {
+                "name": "latexRepr",
+                "comment": " Represents the Expression as a latex-readable string.\n\n    latexRepr plus (Id \"a\") (Id \"b\") -- = {{{a}}+{{b}}}\n\n",
+                "type": "Exp -> String"
+            },
+            {
+                "name": "parentheses",
+                "comment": " enclose expression in parentheses\n",
+                "type": "Exp -> Exp"
+            },
+            {
+                "name": "plus",
+                "comment": " plus left right\n",
+                "type": "Exp -> Exp -> Exp"
+            },
+            {
+                "name": "pow",
+                "comment": " pow basis exponent\n",
+                "type": "Exp -> Exp -> Exp"
+            },
+            {
+                "name": "sigma",
+                "comment": " sigma from to over\n",
+                "type": "Exp -> Exp -> Exp -> Exp"
+            },
+            {
+                "name": "sqrtOp",
+                "comment": " sqrtOp operand\n",
+                "type": "Exp -> Exp"
+            },
+            {
+                "name": "update",
+                "comment": " the update function. Should be called by the caller's update function updating the model:\n\n    update : Msg -> Model -> Model\n    update msg model =\n        case msg of\n            MathUiMsg msg ->\n                { model | mathUi = MathUi.update msg model.mathUi }\n\n",
+                "type": "Msg -> Model -> Model"
+            },
+            {
+                "name": "vectorsymbol",
+                "comment": " place vector arrow above expression\n",
+                "type": "Exp -> Exp"
+            },
+            {
+                "name": "view",
+                "comment": " displays the model and lets the user change it\n",
+                "type": "Model -> Html Msg"
+            },
+            {
+                "name": "viewAll",
+                "comment": " displays the `view` component, the latex-string and a rendering of the latex-string\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

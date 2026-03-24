@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Drag",
+        "comment": " Open sourced this snippet so I could hack on new idea on train laptop. TODO:\nfill in readme details.\n\n\n@docs State, Msg, onMouseDown, subscriptions, update, init, delta\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [
+                    "interactionLocation"
+                ],
+                "cases": [
+                    [
+                        "Start",
+                        [
+                            "interactionLocation",
+                            "Position"
+                        ]
+                    ],
+                    [
+                        "Moved",
+                        [
+                            "interactionLocation",
+                            "Position"
+                        ]
+                    ],
+                    [
+                        "End",
+                        [
+                            "interactionLocation",
+                            "Position"
+                        ]
+                    ],
+                    [
+                        "Click",
+                        [
+                            "interactionLocation",
+                            "Position"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "State",
+                "comment": " ",
+                "args": [
+                    "interactionLocation"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "delta",
+                "comment": " ",
+                "type": "Msg interactionLocation -> State interactionLocation -> ( Int, Int )"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "State interactionLocation"
+            },
+            {
+                "name": "onMouseDown",
+                "comment": " ",
+                "type": "Options -> location -> Property (Msg location)"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "State interactionLocation -> Sub (Msg interactionLocation)"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg interactionLocation -> State interactionLocation -> State interactionLocation"
+            }
+        ],
+        "binops": []
+    }
+]

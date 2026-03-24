@@ -1,0 +1,2546 @@
+[
+    {
+        "name": "Nri.Ui.Outline.V1",
+        "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
+        "unions": [
+            {
+                "name": "NodeLayout",
+                "comment": " A wrapper for a node rendered into Html. This type exists to prevent us\nfrom accidentally wrapping a node in a container element before passing it as a\nchild to another node or segment. Such wrapping would break some of our\nstyling, which assumes nodes of the same level are sibblings in the Html tree.\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "NodeConfig",
+                "comment": " Defines how a node should look.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ label : Html msg, contents : Html msg, children : List (NodeLayout msg), selected : Bool, ghosted : Bool, attrs : List (Attribute msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "config",
+                "comment": " A default node configuration, allowing you to only set the properties you care about.\n\n    node { config | label = \"Claim\" }\n\n",
+                "type": "NodeConfig msg"
+            },
+            {
+                "name": "html",
+                "comment": " Wrap any html in a NodeLayout so you can use it as sibling content to nodes.\n\n    segment\n        [ node { config | label = \"This is a node\" }\n        , html (Html.text \"This is some random Html content!\")\n        ]\n\n",
+                "type": "Html msg -> NodeLayout msg"
+            },
+            {
+                "name": "node",
+                "comment": " Draw a node of an outline structure. You can draw other nodes inside it and\nconnecting lines will appear.\n\n    node { config | label = \"Claim\" }\n\n",
+                "type": "NodeConfig msg -> NodeLayout msg"
+            },
+            {
+                "name": "segment",
+                "comment": " A container to draw nodes in.\n\n    segment\n        [ node { config | label = \"First Node\" }\n        , node { config | label = \"Second Node\" }\n        ]\n\n",
+                "type": "List (NodeLayout msg) -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " Styles used by outline structures.\n",
+                "type": "Styles a Style b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.TextArea.V1",
+        "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, writing, contentCreation, Model, generateId, styles\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ value : String, autofocus : Bool, onInput : String -> msg, isInError : Bool, autoResize : Bool, placeholder : String, label : String, showLabel : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "contentCreation",
+                "comment": " Used for Content Creation\n",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "generateId",
+                "comment": " ",
+                "type": "String -> String"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "StylesWithAssets Never CssClasses msg (Assets r)"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "writing",
+                "comment": " Used for Writing Cycles\n",
+                "type": "Model msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.SegmentedControl.V3",
+        "comment": "\n\n@docs Config, Icon, Option, styles, view, CssClass\n\n",
+        "unions": [
+            {
+                "name": "CssClass",
+                "comment": " Classes for styling\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ onClick : a -> msg, options : List (Option a), selected : a }"
+            },
+            {
+                "name": "Icon",
+                "comment": " ",
+                "args": [],
+                "type": "{ alt : String, icon : IconType }"
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ value : a, icon : Maybe Icon, label : String, id : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClass msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Assets r -> Config a msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.SegmentedControl.V4",
+        "comment": "\n\n@docs Config, Icon, Option, styles, view, CssClass\n\n",
+        "unions": [
+            {
+                "name": "CssClass",
+                "comment": " Classes for styling\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ onClick : a -> msg, options : List (Option a), selected : a }"
+            },
+            {
+                "name": "Icon",
+                "comment": " ",
+                "args": [],
+                "type": "{ alt : String, icon : IconType }"
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ value : a, icon : Maybe Icon, label : String, id : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClass msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config a msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.SegmentedControl.V5",
+        "comment": "\n\n@docs Config, Icon, Option, styles, view, CssClass\n\n",
+        "unions": [
+            {
+                "name": "CssClass",
+                "comment": " Classes for styling\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ onClick : a -> msg, options : List (Option a), selected : a }"
+            },
+            {
+                "name": "Icon",
+                "comment": " ",
+                "args": [],
+                "type": "{ alt : String, icon : IconType }"
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ value : a, icon : Maybe Icon, label : String, id : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClass msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config a msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Checkbox.V1",
+        "comment": "\n\n@docs Model, Theme, ColorTheme\n\n@docs view, viewWithLabel, viewAttention, disabled\n@docs IsSelected\n@docs keyframeCss, styles\n\n\n## Premium\n\n@docs PremiumConfig, premium\n\n",
+        "unions": [
+            {
+                "name": "ColorTheme",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Default",
+                        []
+                    ],
+                    [
+                        "Gray",
+                        []
+                    ],
+                    [
+                        "Orange",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "IsSelected",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Selected",
+                        []
+                    ],
+                    [
+                        "NotSelected",
+                        []
+                    ],
+                    [
+                        "PartiallySelected",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Theme",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Square",
+                        [
+                            "ColorTheme"
+                        ]
+                    ],
+                    [
+                        "Round",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "Locked",
+                        []
+                    ],
+                    [
+                        "LockOnInside",
+                        []
+                    ],
+                    [
+                        "Unlockable",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ],
+                    [
+                        "Premium",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": "\n\n  - isChecked : Maybe Bool\n      - Just True == Checked (rendered checkmark)\n      - Just False == Not Checked (rendered blank)\n      - Nothing == Indeterminate (rendered dash)\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ identifier : String, label : String, setterMsg : Bool -> msg, isChecked : Maybe Bool, disabled : Bool, theme : Theme, noOpMsg : msg }"
+            },
+            {
+                "name": "PremiumConfig",
+                "comment": "\n\n  - `onChange`: A message for when the user toggles the checkbox\n  - `onLockedClick`: A message for when the user clicks a checkbox they don't have PremiumLevel for.\n    If you get this message, you should show an `Nri.Ui.Premium.Model.view`\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ label : String, id : String, selected : IsSelected, disabled : Bool, teacherPremiumLevel : PremiumLevel, contentPremiumLevel : PremiumLevel, showFlagWhenLocked : Bool, onChange : Bool -> msg, onLockedClick : msg, noOpMsg : msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "disabled",
+                "comment": " Show a disabled checkbox.\n",
+                "type": "String -> String -> Html msg"
+            },
+            {
+                "name": "keyframeCss",
+                "comment": " ",
+                "type": "Keyframe"
+            },
+            {
+                "name": "premium",
+                "comment": " A checkbox that should be used for premium content\n\nThis checkbox is locked when the premium level of the content is greater than the premium level of the teacher\n\n",
+                "type": "PremiumConfig msg -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "StylesWithAssets Never CssClasses msg (Assets r)"
+            },
+            {
+                "name": "view",
+                "comment": " Shows a checkbox (the label is only used for accessibility hints)\n",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "viewAttention",
+                "comment": " ",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "viewWithLabel",
+                "comment": " Shows a checkbox and its label text\n",
+                "type": "Model msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Checkbox.V2",
+        "comment": "\n\n@docs Model, Theme, ColorTheme\n\n@docs view, viewWithLabel, viewAttention, disabled\n@docs IsSelected\n@docs keyframeCss, styles\n\n\n## Premium\n\n@docs PremiumConfig, premium\n\n",
+        "unions": [
+            {
+                "name": "ColorTheme",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Default",
+                        []
+                    ],
+                    [
+                        "Gray",
+                        []
+                    ],
+                    [
+                        "Orange",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "IsSelected",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Selected",
+                        []
+                    ],
+                    [
+                        "NotSelected",
+                        []
+                    ],
+                    [
+                        "PartiallySelected",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Theme",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Square",
+                        [
+                            "ColorTheme"
+                        ]
+                    ],
+                    [
+                        "Round",
+                        []
+                    ],
+                    [
+                        "Locked",
+                        []
+                    ],
+                    [
+                        "LockOnInside",
+                        []
+                    ],
+                    [
+                        "Unlockable",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ],
+                    [
+                        "Premium",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": "\n\n  - isChecked : Maybe Bool\n      - Just True == Checked (rendered checkmark)\n      - Just False == Not Checked (rendered blank)\n      - Nothing == Indeterminate (rendered dash)\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ identifier : String, label : String, setterMsg : Bool -> msg, isChecked : Maybe Bool, disabled : Bool, theme : Theme, noOpMsg : msg }"
+            },
+            {
+                "name": "PremiumConfig",
+                "comment": "\n\n  - `onChange`: A message for when the user toggles the checkbox\n  - `onLockedClick`: A message for when the user clicks a checkbox they don't have PremiumLevel for.\n    If you get this message, you should show an `Nri.Ui.Premium.Model.view`\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ label : String, id : String, selected : IsSelected, disabled : Bool, teacherPremiumLevel : PremiumLevel, contentPremiumLevel : PremiumLevel, showFlagWhenLocked : Bool, onChange : Bool -> msg, onLockedClick : msg, noOpMsg : msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "disabled",
+                "comment": " Show a disabled checkbox.\n",
+                "type": "String -> String -> Html msg"
+            },
+            {
+                "name": "keyframeCss",
+                "comment": " ",
+                "type": "Keyframe"
+            },
+            {
+                "name": "premium",
+                "comment": " A checkbox that should be used for premium content\n\nThis checkbox is locked when the premium level of the content is greater than the premium level of the teacher\n\n",
+                "type": "PremiumConfig msg -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "StylesWithAssets Never CssClasses msg (Assets r)"
+            },
+            {
+                "name": "view",
+                "comment": " Shows a checkbox (the label is only used for accessibility hints)\n",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "viewAttention",
+                "comment": " ",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "viewWithLabel",
+                "comment": " Shows a checkbox and its label text\n",
+                "type": "Model msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Select.V2",
+        "comment": " Build a select input.\n\n\n# Configure\n\n@docs Config\n\n\n# Render\n\n@docs view, customView\n@docs styles\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Select-specific Choice.Config\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ choices : List { label : String, value : a }, current : a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "customView",
+                "comment": " A select dropdown with custom attributes.\nThis should be phased out as the new Select style is implemented,\nall pages should use the new, consistent style.\n",
+                "type": "List (Attribute a) -> Config a -> Html a"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses c"
+            },
+            {
+                "name": "view",
+                "comment": " A normal select dropdown\n",
+                "type": "Config a -> Html a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Modal.V1",
+        "comment": "\n\n@docs Model\n@docs info\n@docs styles\n@docs warning\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": "\n\n  - `onDismiss`: If `Nothing`, the modal will not be dismissable\n  - `visibleTitle`: If `False`, the title will still be used for screen readers\n  - `content`: This will be placed in a `width:100%` div in the main area of the modal\n  - `footerContent`: The optional items here will be stacked below the main content area and center-aligned.\n    Commonly you will either give a list of Nri.Ui.Buttons,\n    or an empty list.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ title : String, visibleTitle : Bool, content : Html msg, footerContent : List (Html msg), onDismiss : Maybe msg, width : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "info",
+                "comment": " ",
+                "type": "Model msg -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses b"
+            },
+            {
+                "name": "warning",
+                "comment": " ",
+                "type": "Model msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Text.Writing.V1",
+        "comment": " Text types for writing:\n\n@docs footnote\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "footnote",
+                "comment": " This is a little note or footnote.\n",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.TextInput.V1",
+        "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+        "unions": [
+            {
+                "name": "InputType",
+                "comment": " ",
+                "args": [
+                    "value"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [
+                    "value",
+                    "msg"
+                ],
+                "type": "{ label : String, isInError : Bool, onInput : value -> msg, placeholder : String, value : value, autofocus : Bool, type_ : InputType value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "number",
+                "comment": " An input that allows number entry\n",
+                "type": "InputType (Maybe Int)"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "text",
+                "comment": " An input that allows text entry\n",
+                "type": "InputType String"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Model value msg -> Html msg"
+            },
+            {
+                "name": "withInvisibleLabel",
+                "comment": " ",
+                "type": "Model value msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Tabs.V1",
+        "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
+        "unions": [
+            {
+                "name": "Alignment",
+                "comment": " Determines whether tabs are centered or floating to the left or right.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Center",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "id",
+                    "msg"
+                ],
+                "type": "{ title : Maybe String, onSelect : id -> msg, tabs : Zipper (Tab id), content : id -> Html msg, alignment : Alignment }"
+            },
+            {
+                "name": "LinkConfig",
+                "comment": " Configure a set a tab links\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ title : Maybe String, tabs : Zipper TabLink, content : Html msg, alignment : Alignment }"
+            },
+            {
+                "name": "Tab",
+                "comment": " ",
+                "args": [
+                    "id"
+                ],
+                "type": "{ label : String, id : id }"
+            },
+            {
+                "name": "TabLink",
+                "comment": " Describe a tab that is meant to link to another page\n",
+                "args": [],
+                "type": "{ label : String, href : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "links",
+                "comment": " View a set of tab links\n",
+                "type": "LinkConfig msg -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config id msg -> Html msg"
+            },
+            {
+                "name": "viewCustom",
+                "comment": " ",
+                "type": "Config id msg -> (Tab id -> Html msg) -> Html msg"
+            },
+            {
+                "name": "viewTabDefault",
+                "comment": " ",
+                "type": "Tab id -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Select.V1",
+        "comment": " Build a select input.\n\n\n# Configure\n\n@docs Config\n\n\n# Render\n\n@docs view, customView\n@docs styles\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Select-specific Choice.Config\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ choices : List { label : String, value : a }, current : a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "customView",
+                "comment": " A select dropdown with custom attributes.\nThis should be phased out as the new Select style is implemented,\nall pages should use the new, consistent style.\n",
+                "type": "List (Attribute a) -> Config a -> Html a"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses c"
+            },
+            {
+                "name": "view",
+                "comment": " A normal select dropdown\n",
+                "type": "Config a -> Html a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Palette.V1",
+        "comment": " Predefined color palettes for use in configurable components\n\n@docs Palette, PaletteName\n@docs white, gray, darkGray, blue, darkBlue, purple, turquoise, green, red, aqua, cornflower\n\n",
+        "unions": [
+            {
+                "name": "PaletteName",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Gray",
+                        []
+                    ],
+                    [
+                        "DarkGray",
+                        []
+                    ],
+                    [
+                        "Blue",
+                        []
+                    ],
+                    [
+                        "DarkBlue",
+                        []
+                    ],
+                    [
+                        "Purple",
+                        []
+                    ],
+                    [
+                        "Turquoise",
+                        []
+                    ],
+                    [
+                        "Red",
+                        []
+                    ],
+                    [
+                        "Green",
+                        []
+                    ],
+                    [
+                        "White",
+                        []
+                    ],
+                    [
+                        "Cornflower",
+                        []
+                    ],
+                    [
+                        "Aqua",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Palette",
+                "comment": " ",
+                "args": [],
+                "type": "{ border : Color, background : Color, primary : Color, name : PaletteName }"
+            }
+        ],
+        "values": [
+            {
+                "name": "aqua",
+                "comment": " Aqua palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "blue",
+                "comment": " Blue palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "cornflower",
+                "comment": " Cornflower palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "darkBlue",
+                "comment": " Dark blue palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "darkGray",
+                "comment": " Dark Gray palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "gray",
+                "comment": " Gray palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "green",
+                "comment": " Green palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "purple",
+                "comment": " Purple palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "red",
+                "comment": " Red palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "turquoise",
+                "comment": " Turquoise palette\n",
+                "type": "Palette"
+            },
+            {
+                "name": "white",
+                "comment": " White palette (borders are blue)\n",
+                "type": "Palette"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.SegmentedControl.V2",
+        "comment": "\n\n@docs Config, Option, styles, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ onClick : a -> msg, options : List (Option a), selected : a }"
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ value : a, label : String, id : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClass msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config a msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Text.V1",
+        "comment": "\n\n@docs styles\n\n\n## Semantic text types:\n\n@docs caption, heading, mediumBody, smallBody, smallBodyGray, subHeading, smallHeading, tagline\n\n\n## User-generated text styles:\n\n@docs ugMediumBody,ugSmallBody\n\n\n## Text class strings:\n\n@docs captionClassString, mediumBodyClassString, smallBodyClassString\n\n\n## Modifying strings to display nicely:\n\n@docs noWidow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "caption",
+                "comment": " This is a little note or caption.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "captionClassString",
+                "comment": " Stringified version of `captionClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "heading",
+                "comment": " This is a Page Heading.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "mediumBody",
+                "comment": " This is some medium body copy.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "mediumBodyClassString",
+                "comment": " Stringified version of `mediumBodyClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "noWidow",
+                "comment": " Eliminate widows (single words on their own line caused by\nwrapping) by inserting a non-breaking space if there are at least two\nwords.\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "smallBody",
+                "comment": " This is some small body copy.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "smallBodyClassString",
+                "comment": " Stringified version of `smallBodyClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "smallBodyGray",
+                "comment": " This is some small body copy but it's gray.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "smallHeading",
+                "comment": " This is a small Page Heading.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "subHeading",
+                "comment": " This is a subhead.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "tagline",
+                "comment": " This is a tagline for a page heading.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "ugMediumBody",
+                "comment": " User-generated text.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "ugSmallBody",
+                "comment": " User-generated text.\n",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.SegmentedControl.V1",
+        "comment": "\n\n@docs Config, Option, styles, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ onClick : a -> msg, options : List (Option a), selected : a }"
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ value : a, label : String, id : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClass msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Config a msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Table.V1",
+        "comment": "\n\n@docs Column, custom, string, styles\n\n@docs view, viewWithoutHeader\n\n@docs viewLoading, viewLoadingWithoutHeader\n\n@docs keyframes, keyframeStyles\n\n",
+        "unions": [
+            {
+                "name": "Column",
+                "comment": " Closed representation of how to render the header and cells of a column\nin the table\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "custom",
+                "comment": " A column that renders however you want it to\n",
+                "type": "{ header : Html msg, view : data -> Html msg, width : Int } -> Column data msg"
+            },
+            {
+                "name": "keyframeStyles",
+                "comment": " ",
+                "type": "Html msg"
+            },
+            {
+                "name": "keyframes",
+                "comment": " ",
+                "type": "List Keyframe"
+            },
+            {
+                "name": "string",
+                "comment": " A column that renders some aspect of a value as text\n",
+                "type": "{ header : String, value : data -> String, width : Int } -> Column data msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "view",
+                "comment": " Displays a table of data based on the provided column definitions\n",
+                "type": "List (Column data msg) -> List data -> Html msg"
+            },
+            {
+                "name": "viewLoading",
+                "comment": " Display a table with the given columns but instead of data, show blocked\nout text with an interesting animation. This view lets the user know that\ndata is on its way and what it will look like when it arrives.\n",
+                "type": "List (Column data msg) -> Html msg"
+            },
+            {
+                "name": "viewLoadingWithoutHeader",
+                "comment": " Display the loading table without a header row\n",
+                "type": "List (Column data msg) -> Html msg"
+            },
+            {
+                "name": "viewWithoutHeader",
+                "comment": " Displays a table of data without a header row\n",
+                "type": "List (Column data msg) -> List data -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Icon.V1",
+        "comment": "\n\n@docs icon, decorativeIcon, link, linkExternal, button\n@docs IconType, AssignmentType, IconSize\n@docs styles, CssClasses\n@docs Assets\n\n",
+        "unions": [
+            {
+                "name": "AssignmentType",
+                "comment": " Icons describing Assignment Types.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Diagnostic",
+                        []
+                    ],
+                    [
+                        "Practice",
+                        []
+                    ],
+                    [
+                        "Quiz",
+                        []
+                    ],
+                    [
+                        "WritingCycle",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "CssClasses",
+                "comment": " Classes for styling\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "IconSize",
+                "comment": " Used for determining sizes on Icon.buttons and Icon.links\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "IconType",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Activity",
+                        []
+                    ],
+                    [
+                        "Add",
+                        []
+                    ],
+                    [
+                        "ArrowDown",
+                        []
+                    ],
+                    [
+                        "ArrowLeft",
+                        []
+                    ],
+                    [
+                        "ArrowRight",
+                        []
+                    ],
+                    [
+                        "AssignmentType",
+                        [
+                            "AssignmentType"
+                        ]
+                    ],
+                    [
+                        "Attention",
+                        []
+                    ],
+                    [
+                        "Bang",
+                        []
+                    ],
+                    [
+                        "Bulb",
+                        []
+                    ],
+                    [
+                        "Calendar",
+                        []
+                    ],
+                    [
+                        "Caret",
+                        []
+                    ],
+                    [
+                        "CheckMark",
+                        []
+                    ],
+                    [
+                        "CheckMarkSquiggily",
+                        []
+                    ],
+                    [
+                        "CheckMarkSvg",
+                        []
+                    ],
+                    [
+                        "Class",
+                        []
+                    ],
+                    [
+                        "Clever",
+                        []
+                    ],
+                    [
+                        "Clock",
+                        []
+                    ],
+                    [
+                        "Close",
+                        []
+                    ],
+                    [
+                        "CompassSvg",
+                        []
+                    ],
+                    [
+                        "Copy",
+                        []
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "String",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "DarkBlueCheckMark",
+                        []
+                    ],
+                    [
+                        "Document",
+                        []
+                    ],
+                    [
+                        "Download",
+                        []
+                    ],
+                    [
+                        "Edit",
+                        []
+                    ],
+                    [
+                        "EditWriting",
+                        []
+                    ],
+                    [
+                        "EqualitySign",
+                        []
+                    ],
+                    [
+                        "Exclamation",
+                        []
+                    ],
+                    [
+                        "Facebook",
+                        []
+                    ],
+                    [
+                        "Flag",
+                        []
+                    ],
+                    [
+                        "Flipper",
+                        []
+                    ],
+                    [
+                        "Footsteps",
+                        []
+                    ],
+                    [
+                        "Gardening",
+                        []
+                    ],
+                    [
+                        "Gear",
+                        []
+                    ],
+                    [
+                        "GreenCheckMark",
+                        []
+                    ],
+                    [
+                        "Help",
+                        []
+                    ],
+                    [
+                        "HighFive",
+                        []
+                    ],
+                    [
+                        "Key",
+                        []
+                    ],
+                    [
+                        "Late",
+                        []
+                    ],
+                    [
+                        "Leaderboard",
+                        []
+                    ],
+                    [
+                        "LightBulb",
+                        []
+                    ],
+                    [
+                        "Lock",
+                        []
+                    ],
+                    [
+                        "LockDeprecated",
+                        []
+                    ],
+                    [
+                        "Logo",
+                        []
+                    ],
+                    [
+                        "Newspaper",
+                        []
+                    ],
+                    [
+                        "NotStarred",
+                        []
+                    ],
+                    [
+                        "Okay",
+                        []
+                    ],
+                    [
+                        "OpenClose",
+                        []
+                    ],
+                    [
+                        "PeerReview",
+                        []
+                    ],
+                    [
+                        "Performance",
+                        []
+                    ],
+                    [
+                        "PersonBlue",
+                        []
+                    ],
+                    [
+                        "Preview",
+                        []
+                    ],
+                    [
+                        "QuickWrite",
+                        []
+                    ],
+                    [
+                        "SeeMore",
+                        []
+                    ],
+                    [
+                        "Share",
+                        []
+                    ],
+                    [
+                        "Sort",
+                        []
+                    ],
+                    [
+                        "SortArrow",
+                        []
+                    ],
+                    [
+                        "Speedometer",
+                        []
+                    ],
+                    [
+                        "Starred",
+                        []
+                    ],
+                    [
+                        "ThumbsUp",
+                        []
+                    ],
+                    [
+                        "Twitter",
+                        []
+                    ],
+                    [
+                        "Unarchive",
+                        []
+                    ],
+                    [
+                        "WritingAssignment",
+                        []
+                    ],
+                    [
+                        "X",
+                        []
+                    ],
+                    [
+                        "XSvg",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Assets",
+                "comment": " ",
+                "args": [
+                    "r"
+                ],
+                "type": "{ r | activity : String, arrowDown : String, attention_svg : Asset, bulb : String, calendar : String, checkmark : String, class : String, clever : String, clock : String, commentNotStarred_png : Asset, commentStarred_png : Asset, compass : String, darkBlueCheckmark_svg : Asset, diagnostic : String, document : String, download : String, edit : String, editWriting : String, exclamation : String, exclamationPoint_svg : Asset, facebookBlue_svg : Asset, flipper : String, footsteps : String, gear : String, hint_png : Asset, iconCheck_png : Asset, iconFlag_png : Asset, icons_arrowDownBlue_svg : Asset, icons_arrowRightBlue_svg : Asset, icons_clockRed_svg : Asset, icons_equals_svg : Asset, icons_helpBlue_svg : Asset, icons_peerReview_svg : Asset, icons_plusBlue_svg : Asset, icons_quickWrite_svg : Asset, icons_xBlue_svg : Asset, key : String, leaderboard : String, leftArrowBlue_png : Asset, level1Badge_png : Asset, level2Badge_png : Asset, level3Badge_png : Asset, lock : String, logoRedBlack_svg : Asset, newspaper : String, openClose : String, performance : String, personBlue_svg : Asset, practice : String, premiumLock_svg : Asset, preview : String, quiz : String, seemore : String, share : String, smallCheckmark_png : Asset, sort : String, sortArrow : String, speedometer : String, squiggly_png : Asset, startingOffBadge_png : Asset, teach_assignments_copyWhite_svg : Asset, twitterBlue_svg : Asset, unarchiveBlue2x_png : Asset, writingAssignment : String, writingcycle : String, x : String, xWhite_svg : Asset }"
+            }
+        ],
+        "values": [
+            {
+                "name": "button",
+                "comment": " Create an accessible icon button with an onClick handler\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "Assets r -> IconButtonModel msg -> Html msg"
+            },
+            {
+                "name": "decorativeIcon",
+                "comment": " Use this icon for purely decorative content that would be distracting\nrather than helpful on a screenreader.\n",
+                "type": "Assets r -> IconType -> Html msg"
+            },
+            {
+                "name": "icon",
+                "comment": " ",
+                "type": "Assets r -> { alt : String, icon : IconType } -> Html msg"
+            },
+            {
+                "name": "link",
+                "comment": " Create an icon that links to a part of NRI\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "Assets r -> IconLinkModel -> Html msg"
+            },
+            {
+                "name": "linkExternal",
+                "comment": " Create an icon that links to an external site\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "Assets r -> IconLinkModel -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Effects.V1",
+        "comment": " Css mixins reused across Nri modules.\n\n@docs selectionShadow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "selectionShadow",
+                "comment": " Draw a 2 px thick ochre border around the element to indicate it is\nselected.\n\nThis uses a CSS box shadow to draw what looks like a border. Box shadows are\nperfect for this because they don't affect the elements positioning in any way.\nThis means we can be sure switching the selection shadow on and off is not\ngoing to make the element jump.\n\n",
+                "type": "List Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Dropdown.V1",
+        "comment": "\n\n@docs CssClasses\n@docs ViewOptionEntry\n@docs styles\n@docs view\n@docs viewWithoutLabel\n\n",
+        "unions": [
+            {
+                "name": "CssClasses",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ViewOptionEntry",
+                "comment": " This dropdown has atypical select tag behavior.\n\nThis dropdown, when closed, will display some default text, no matter\nwhat is actually selected.\n\nWhen the dropdown is opened, the first option will display that default text,\nbe selected, and disabled. The option the user has actually chosen's displayText\nwon't show up at all.\n\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ isSelected : Bool, val : a, displayText : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses c"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "String -> List (ViewOptionEntry a) -> (a -> msg) -> Html msg"
+            },
+            {
+                "name": "viewWithoutLabel",
+                "comment": " ",
+                "type": "String -> List (ViewOptionEntry a) -> (a -> msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Alert.V1",
+        "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ content : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "error",
+                "comment": " ",
+                "type": "Model -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "success",
+                "comment": " ",
+                "type": "Model -> Html msg"
+            },
+            {
+                "name": "tip",
+                "comment": " ",
+                "type": "Model -> Html msg"
+            },
+            {
+                "name": "viewResult",
+                "comment": " Show either an error or success alert depending on the given Result\n",
+                "type": "Result String String -> Html msg"
+            },
+            {
+                "name": "warning",
+                "comment": " ",
+                "type": "Model -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.BannerAlert.V1",
+        "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "error",
+                "comment": " A banner to show error alerts\n",
+                "type": "String -> Html msg"
+            },
+            {
+                "name": "neutral",
+                "comment": " A banner to show neutral alerts\n",
+                "type": "String -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses b"
+            },
+            {
+                "name": "success",
+                "comment": " A banner for success alerts\n",
+                "type": "String -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Button.V1",
+        "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
+        "unions": [
+            {
+                "name": "ButtonSize",
+                "comment": " Sizes for buttons that have button classes\n\nNOTE: if you add a size here, you need to add Css styles using the sizeStyle helper in the styles definition.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Tiny",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "ButtonState",
+                "comment": " Describes the state of a button. Has consequences for appearance and disabled attribute.\n\n  - Enabled: An enabled button. Takes the appearance of ButtonStyle\n  - Unfulfilled: A button which appears with the InactiveColors palette but is not disabled.\n  - Disabled: A button which appears with the InactiveColors palette and is disabled.\n  - Error: A button which appears with the ErrorColors palette and is not disabled.\n  - Loading: A button which appears with the LoadingColors palette and is disabled\n  - Success: A button which appears with the InactiveColors palette and is disabled\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Enabled",
+                        []
+                    ],
+                    [
+                        "Unfulfilled",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ],
+                    [
+                        "Error",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Success",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "ButtonStyle",
+                "comment": " Styleguide-approved styles for your buttons!\n\nNote on borderless buttons:\nA borderless button that performs an action on the current page\nThis button is intended to look like a link.\nOnly use a borderless button when the clickable text in question follows the same layout/margin/padding as a bordered button\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Primary",
+                        []
+                    ],
+                    [
+                        "Secondary",
+                        []
+                    ],
+                    [
+                        "Borderless",
+                        []
+                    ],
+                    [
+                        "Danger",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ButtonContent",
+                "comment": " ButtonContent, often changes based on ButtonState.\nFor example, a button in the \"Success\" state\nmay have a different label than a button in the \"Error\" state\n",
+                "args": [],
+                "type": "{ label : String, state : ButtonState }"
+            }
+        ],
+        "values": [
+            {
+                "name": "button",
+                "comment": " A delightful button which can trigger an effect when clicked!\n\nThis button will trigger the passed-in message if the button state is:\n\n  - Enabled\n  - Unfulfilled\n\nThis button will be Disabled if the button state is:\n\n  - Disabled\n  - Error\n  - Loading\n  - Success\n\n",
+                "type": "ButtonConfig msg -> ButtonContent -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " Required CSS styles for `Nri.Ui.Button`.\n",
+                "type": "Styles Never CssClasses msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Divider.V1",
+        "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "String -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Icon.V2",
+        "comment": "\n\n@docs icon, decorativeIcon, link, linkExternal, button\n@docs IconType, IconSize\n@docs styles\n@docs CssClasses\n@docs activity\n@docs add\n@docs arrowDown\n@docs arrowLeft\n@docs arrowRight\n@docs assignmentTypeDiagnostic\n@docs assignmentTypePractice\n@docs assignmentTypeQuiz\n@docs assignmentTypeWritingCycle\n@docs attention\n@docs bang\n@docs bulb\n@docs calendar\n@docs caret\n@docs checkMark\n@docs checkMarkSquiggily\n@docs checkMarkSvg\n@docs class\n@docs clever\n@docs clock\n@docs close\n@docs copy\n@docs compassSvg\n@docs custom\n@docs darkBlueCheckMark\n@docs document\n@docs download\n@docs edit\n@docs editWriting\n@docs equalitySign\n@docs exclamation\n@docs facebook\n@docs flag\n@docs flipper\n@docs footsteps\n@docs gardening\n@docs gear\n@docs greenCheckMark\n@docs guidedWrite\n@docs help\n@docs highFive\n@docs key\n@docs late\n@docs leaderboard\n@docs lightBulb\n@docs lock\n@docs lockDeprecated\n@docs logo\n@docs newspaper\n@docs notStarred\n@docs okay\n@docs openClose\n@docs peerReview\n@docs performance\n@docs personBlue\n@docs preview\n@docs quickWrite\n@docs seeMore\n@docs share\n@docs skip\n@docs sort\n@docs sortArrow\n@docs speedometer\n@docs starred\n@docs thumbsUp\n@docs twitter\n@docs unarchive\n@docs writingAssignment\n@docs x\n@docs xSvg\n@docs submitting, rating, revising\n\n",
+        "unions": [
+            {
+                "name": "CssClasses",
+                "comment": " Classes for styling\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "IconSize",
+                "comment": " Used for determining sizes on Icon.buttons and Icon.links\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "IconType",
+                "comment": " An icon that can be rendered using the functions provided by this module.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "activity",
+                "comment": " ",
+                "type": "{ r | activity : String } -> IconType"
+            },
+            {
+                "name": "add",
+                "comment": " ",
+                "type": "{ r | icons_plusBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "arrowDown",
+                "comment": " ",
+                "type": "{ r | arrowDown : String } -> IconType"
+            },
+            {
+                "name": "arrowLeft",
+                "comment": " ",
+                "type": "{ r | leftArrowBlue_png : Asset } -> IconType"
+            },
+            {
+                "name": "arrowRight",
+                "comment": " ",
+                "type": "{ r | icons_arrowRightBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "assignmentTypeDiagnostic",
+                "comment": " ",
+                "type": "{ r | diagnostic : String } -> IconType"
+            },
+            {
+                "name": "assignmentTypePractice",
+                "comment": " ",
+                "type": "{ r | practice : String } -> IconType"
+            },
+            {
+                "name": "assignmentTypeQuiz",
+                "comment": " ",
+                "type": "{ r | quiz : String } -> IconType"
+            },
+            {
+                "name": "assignmentTypeWritingCycle",
+                "comment": " ",
+                "type": "{ r | writingcycle : String } -> IconType"
+            },
+            {
+                "name": "attention",
+                "comment": " ",
+                "type": "{ r | attention_svg : Asset } -> IconType"
+            },
+            {
+                "name": "bang",
+                "comment": " ",
+                "type": "{ r | exclamationPoint_svg : Asset } -> IconType"
+            },
+            {
+                "name": "bulb",
+                "comment": " ",
+                "type": "{ r | bulb : String } -> IconType"
+            },
+            {
+                "name": "button",
+                "comment": " Create an accessible icon button with an onClick handler\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "IconButtonModel msg -> Html msg"
+            },
+            {
+                "name": "calendar",
+                "comment": " ",
+                "type": "{ r | calendar : String } -> IconType"
+            },
+            {
+                "name": "caret",
+                "comment": " ",
+                "type": "{ r | icons_arrowDownBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "checkMark",
+                "comment": " ",
+                "type": "{ r | iconCheck_png : Asset } -> IconType"
+            },
+            {
+                "name": "checkMarkSquiggily",
+                "comment": " ",
+                "type": "{ r | squiggly_png : Asset } -> IconType"
+            },
+            {
+                "name": "checkMarkSvg",
+                "comment": " ",
+                "type": "{ r | checkmark : String } -> IconType"
+            },
+            {
+                "name": "class",
+                "comment": " ",
+                "type": "{ r | class : String } -> IconType"
+            },
+            {
+                "name": "clever",
+                "comment": " ",
+                "type": "{ r | clever : String } -> IconType"
+            },
+            {
+                "name": "clock",
+                "comment": " ",
+                "type": "{ r | clock : String } -> IconType"
+            },
+            {
+                "name": "close",
+                "comment": " ",
+                "type": "{ r | icons_xBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "compassSvg",
+                "comment": " ",
+                "type": "{ r | compass : String } -> IconType"
+            },
+            {
+                "name": "copy",
+                "comment": " ",
+                "type": "{ r | teach_assignments_copyWhite_svg : Asset } -> IconType"
+            },
+            {
+                "name": "custom",
+                "comment": " ",
+                "type": "Asset -> IconType"
+            },
+            {
+                "name": "darkBlueCheckMark",
+                "comment": " ",
+                "type": "{ r | darkBlueCheckmark_svg : Asset } -> IconType"
+            },
+            {
+                "name": "decorativeIcon",
+                "comment": " Use this icon for purely decorative content that would be distracting\nrather than helpful on a screenreader.\n",
+                "type": "IconType -> Html msg"
+            },
+            {
+                "name": "document",
+                "comment": " ",
+                "type": "{ r | document : String } -> IconType"
+            },
+            {
+                "name": "download",
+                "comment": " ",
+                "type": "{ r | download : String } -> IconType"
+            },
+            {
+                "name": "edit",
+                "comment": " ",
+                "type": "{ r | edit : String } -> IconType"
+            },
+            {
+                "name": "editWriting",
+                "comment": " ",
+                "type": "{ r | editWriting : String } -> IconType"
+            },
+            {
+                "name": "equalitySign",
+                "comment": " ",
+                "type": "{ r | icons_equals_svg : Asset } -> IconType"
+            },
+            {
+                "name": "exclamation",
+                "comment": " ",
+                "type": "{ r | exclamation : String } -> IconType"
+            },
+            {
+                "name": "facebook",
+                "comment": " ",
+                "type": "{ r | facebookBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "flag",
+                "comment": " ",
+                "type": "{ r | iconFlag_png : Asset } -> IconType"
+            },
+            {
+                "name": "flipper",
+                "comment": " ",
+                "type": "{ r | flipper : String } -> IconType"
+            },
+            {
+                "name": "footsteps",
+                "comment": " ",
+                "type": "{ r | footsteps : String } -> IconType"
+            },
+            {
+                "name": "gardening",
+                "comment": " ",
+                "type": "{ r | startingOffBadge_png : Asset } -> IconType"
+            },
+            {
+                "name": "gear",
+                "comment": " ",
+                "type": "{ r | gear : String } -> IconType"
+            },
+            {
+                "name": "greenCheckMark",
+                "comment": " ",
+                "type": "{ r | smallCheckmark_png : Asset } -> IconType"
+            },
+            {
+                "name": "guidedWrite",
+                "comment": " ",
+                "type": "{ r | icons_guidedWrite_svg : Asset } -> IconType"
+            },
+            {
+                "name": "help",
+                "comment": " ",
+                "type": "{ r | icons_helpBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "highFive",
+                "comment": " ",
+                "type": "{ r | level3Badge_png : Asset } -> IconType"
+            },
+            {
+                "name": "icon",
+                "comment": " ",
+                "type": "{ alt : String, icon : IconType } -> Html msg"
+            },
+            {
+                "name": "key",
+                "comment": " ",
+                "type": "{ r | key : String } -> IconType"
+            },
+            {
+                "name": "late",
+                "comment": " ",
+                "type": "{ r | icons_clockRed_svg : Asset } -> IconType"
+            },
+            {
+                "name": "leaderboard",
+                "comment": " ",
+                "type": "{ r | leaderboard : String } -> IconType"
+            },
+            {
+                "name": "lightBulb",
+                "comment": " ",
+                "type": "{ r | hint_png : Asset } -> IconType"
+            },
+            {
+                "name": "link",
+                "comment": " Create an icon that links to a part of NRI\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "IconLinkModel -> Html msg"
+            },
+            {
+                "name": "linkExternal",
+                "comment": " Create an icon that links to an external site\nUses our default icon styles (25 x 25 px, azure)\n",
+                "type": "IconLinkModel -> Html msg"
+            },
+            {
+                "name": "lock",
+                "comment": " ",
+                "type": "{ r | lock : String } -> IconType"
+            },
+            {
+                "name": "lockDeprecated",
+                "comment": " ",
+                "type": "{ r | premiumLock_svg : Asset } -> IconType"
+            },
+            {
+                "name": "logo",
+                "comment": " ",
+                "type": "{ r | logoRedBlack_svg : Asset } -> IconType"
+            },
+            {
+                "name": "newspaper",
+                "comment": " ",
+                "type": "{ r | newspaper : String } -> IconType"
+            },
+            {
+                "name": "notStarred",
+                "comment": " ",
+                "type": "{ r | commentNotStarred_png : Asset } -> IconType"
+            },
+            {
+                "name": "okay",
+                "comment": " ",
+                "type": "{ r | level2Badge_png : Asset } -> IconType"
+            },
+            {
+                "name": "openClose",
+                "comment": " ",
+                "type": "{ r | openClose : String } -> IconType"
+            },
+            {
+                "name": "peerReview",
+                "comment": " ",
+                "type": "{ r | icons_peerReview_svg : Asset } -> IconType"
+            },
+            {
+                "name": "performance",
+                "comment": " ",
+                "type": "{ r | performance : String } -> IconType"
+            },
+            {
+                "name": "personBlue",
+                "comment": " ",
+                "type": "{ r | personBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "preview",
+                "comment": " ",
+                "type": "{ r | preview : String } -> IconType"
+            },
+            {
+                "name": "quickWrite",
+                "comment": " ",
+                "type": "{ r | icons_quickWrite_svg : Asset } -> IconType"
+            },
+            {
+                "name": "rating",
+                "comment": " ",
+                "type": "{ r | rating : String } -> IconType"
+            },
+            {
+                "name": "revising",
+                "comment": " ",
+                "type": "{ r | revising : String } -> IconType"
+            },
+            {
+                "name": "seeMore",
+                "comment": " ",
+                "type": "{ r | seemore : String } -> IconType"
+            },
+            {
+                "name": "share",
+                "comment": " ",
+                "type": "{ r | share : String } -> IconType"
+            },
+            {
+                "name": "skip",
+                "comment": " ",
+                "type": "{ r | skip : String } -> IconType"
+            },
+            {
+                "name": "sort",
+                "comment": " ",
+                "type": "{ r | sort : String } -> IconType"
+            },
+            {
+                "name": "sortArrow",
+                "comment": " ",
+                "type": "{ r | sortArrow : String } -> IconType"
+            },
+            {
+                "name": "speedometer",
+                "comment": " ",
+                "type": "{ r | speedometer : String } -> IconType"
+            },
+            {
+                "name": "starred",
+                "comment": " ",
+                "type": "{ r | commentStarred_png : Asset } -> IconType"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "submitting",
+                "comment": " ",
+                "type": "{ r | submitting : String } -> IconType"
+            },
+            {
+                "name": "thumbsUp",
+                "comment": " ",
+                "type": "{ r | level1Badge_png : Asset } -> IconType"
+            },
+            {
+                "name": "twitter",
+                "comment": " ",
+                "type": "{ r | twitterBlue_svg : Asset } -> IconType"
+            },
+            {
+                "name": "unarchive",
+                "comment": " ",
+                "type": "{ r | unarchiveBlue2x_png : Asset } -> IconType"
+            },
+            {
+                "name": "writingAssignment",
+                "comment": " ",
+                "type": "{ r | writingAssignment : String } -> IconType"
+            },
+            {
+                "name": "x",
+                "comment": " ",
+                "type": "{ r | xWhite_svg : Asset } -> IconType"
+            },
+            {
+                "name": "xSvg",
+                "comment": " ",
+                "type": "{ r | x : String } -> IconType"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Colors.V1",
+        "comment": " Comprehensive list of named colors.\n\nFor helpers & conversions, see Nri.Ui.Colors.Extra, or\nconsider [elm-color-extra](http://package.elm-lang.org/packages/eskimoblood/elm-color-extra/5.0.0/).\n\n@docs aqua, aquaDark, aquaLight, azure, azureDark\n@docs white\n@docs blue, blueDeep\n@docs cornflower, cornflowerDark, cornflowerLight, cyan\n@docs frost\n@docs gray20, gray45, gray75, gray92, gray96\n@docs glacier, grassland, green, greenDark, greenDarkest, greenLight, greenLightest\n@docs highlightLightBlue, highlightLightMagenta, highlightLightYellow\n@docs lichen\n@docs magenta\n@docs navy\n@docs orange, ochre\n@docs purple, purpleDark, purpleLight\n@docs red, redDark, redLight\n@docs sunshine\n@docs turquoise, turquoiseDark, turquoiseLight\n@docs yellow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "aqua",
+                "comment": "\n\n<p style=\"font-size:2em; color: #00cbeb\">#00cbeb</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "aquaDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #008da3\">#008da3</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "aquaLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #e6fcff\">#e6fcff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "azure",
+                "comment": "\n\n<p style=\"font-size:2em; color: #146aff\">#146aff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "azureDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #004cc9\">#004cc9</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "blue",
+                "comment": " TODO\n\n<p style=\"font-size:2em; color: #40a8e4\">#40a8e4</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "blueDeep",
+                "comment": " TODO\n\n<p style=\"font-size:2em; color: #4a79a7\">#4a79a7</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "cornflower",
+                "comment": "\n\n<p style=\"font-size:2em; color: #00aaff\">#00aaff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "cornflowerDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #0074ad\">#0074ad</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "cornflowerLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #e6f7ff\">#e6f7ff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "cyan",
+                "comment": "\n\n<p style=\"font-size:2em; color: #43dcff\">#43dcff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "frost",
+                "comment": "\n\n<p style=\"font-size:2em; color: #eef9ff\">#eef9ff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "glacier",
+                "comment": "\n\n<p style=\"font-size:2em; color: #d4f0ff\">#d4f0ff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "grassland",
+                "comment": "\n\n<p style=\"font-size:2em; color: #56bf74\">#56bf74</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray20",
+                "comment": "\n\n<p style=\"font-size:2em; color: #333333\">#333333</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray45",
+                "comment": "\n\n<p style=\"font-size:2em; color: #727272\">#727272</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray75",
+                "comment": "\n\n<p style=\"font-size:2em; color: #bfbfbf\">#bfbfbf</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray92",
+                "comment": "\n\n<p style=\"font-size:2em; color: #ebebeb\">#ebebeb</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray96",
+                "comment": "\n\n<p style=\"font-size:2em; color: #f5f5f5\">#f5f5f5</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "green",
+                "comment": "\n\n<p style=\"font-size:2em; color: #00d93e\">#00d93e</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "greenDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #26a300\">#26a300</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "greenDarkest",
+                "comment": "\n\n<p style=\"font-size:2em; color: #228000\">#228000</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "greenLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #b3ffc9\">#b3ffc9</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "greenLightest",
+                "comment": "\n\n<p style=\"font-size:2em; color: #e6ffed; background-color: black;\">#e6ffed</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "highlightLightBlue",
+                "comment": " cyan with alpha of 0.75\n\n<p style=\"font-size:2em; color: rgba(66, 219, 255, 0.75)\">rgba(66, 219, 255, 0.75)</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "highlightLightMagenta",
+                "comment": " magenta with alpha of 0.5\n\n<p style=\"font-size:2em; color: rgba(255, 0 ,189, 0.5)\">rgba(255, 0 ,189, 0.5)</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "highlightLightYellow",
+                "comment": " yellow with alpha of 0.75\n\n<p style=\"font-size:2em; color: rgba(254, 199 ,9, 0.75)\">rgba(254, 199 ,9, 0.75)</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "lichen",
+                "comment": "\n\n<p style=\"font-size:2em; color: #99bfa4\">#99bfa4</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "magenta",
+                "comment": "\n\n<p style=\"font-size:2em; color: #ff00bd\">#ff00bd</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "navy",
+                "comment": "\n\n<p style=\"font-size:2em; color: #004e95\">#004e95</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "ochre",
+                "comment": "\n\n<p style=\"font-size:2em; color: #e68800\">#e68800</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "orange",
+                "comment": " -- TODO\n\n<p style=\"font-size:2em; color: #f5a623\">#f5a623</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "purple",
+                "comment": "\n\n<p style=\"font-size:2em; color: #a839e7\">#a839e7</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "purpleDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #7721a7\">#7721a7</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "purpleLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #f7ebff\">#f7ebff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "red",
+                "comment": "\n\n<p style=\"font-size:2em; color: #f3336c\">#f3336c</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "redDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #c2003a\">#c2003a</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "redLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #ffe0e6\">#ffe0e6</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "sunshine",
+                "comment": "\n\n<p style=\"font-size:2em; color: #fffadc\">#fffadc</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "turquoise",
+                "comment": "\n\n<p style=\"font-size:2em; color: #00cfbe\">#00cfbe</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "turquoiseDark",
+                "comment": "\n\n<p style=\"font-size:2em; color: #00a39b\">#00a39b</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "turquoiseLight",
+                "comment": "\n\n<p style=\"font-size:2em; color: #e0fffe\">#e0fffe</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "white",
+                "comment": "\n\n<p style=\"font-size:2em; color: #ffffff; background-color: black;\">#ffffff</p>\n\n",
+                "type": "Color"
+            },
+            {
+                "name": "yellow",
+                "comment": "\n\n<p style=\"font-size:2em; color: #fec709\">#fec709</p>\n\n",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Styles.V1",
+        "comment": " Simplifies using elm-css in modules that expose views\n\n\n## Creating namespaces stylesheets\n\n@docs Styles, StylesWithAssets, styles, stylesWithExtraStylesheets, stylesWithAssets\n\n\n## Helpers for CSS\n\n\n### Keyframe animations\n\n@docs Keyframe, keyframes, toString\n\n",
+        "unions": [
+            {
+                "name": "Keyframe",
+                "comment": " A CSS keyframe animation that will have vendor prefixes automatically added.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Styles",
+                "comment": "\n\n  - `css`: The resulting stylesheets to add to `Nri.Ui.Css.Site`\n  - `id`, `class`, `classList`: The Html.Attribute helper functions\n\n",
+                "args": [
+                    "id",
+                    "class",
+                    "msg"
+                ],
+                "type": "StylesWithAssets id class msg ()"
+            },
+            {
+                "name": "StylesWithAssets",
+                "comment": " Styles that depend on assets, for instance because they use a background\nimage somewhere.\n",
+                "args": [
+                    "id",
+                    "class",
+                    "msg",
+                    "assets"
+                ],
+                "type": "{ css : assets -> List Stylesheet, id : id -> Attribute msg, class : List class -> Attribute msg, classList : List ( class, Bool ) -> Attribute msg, div : class -> List (Html msg) -> Html msg, span : class -> List (Html msg) -> Html msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "keyframes",
+                "comment": " Create a CSS keyframe animation with appropriate vendor prefixes\n",
+                "type": "String -> List ( String, String ) -> Keyframe"
+            },
+            {
+                "name": "styles",
+                "comment": " Use this instead of Html.CssHelpers.\nThis will help you make sure you don't mismatch the namespace you're using.\n\n    { css, class } =\n        Nri.Ui.Styles.styles \"Nri-Ui-MyWidget-\"\n            [ Css.Foreign.class Container\n                [ backgroundColor Nri.Ui.Colors.V1.ochre ]\n            ]\n\n",
+                "type": "String -> List Snippet -> Styles id class msg"
+            },
+            {
+                "name": "stylesWithAssets",
+                "comment": " Use this if your styles depend on asset files\n",
+                "type": "String -> (assets -> List Snippet) -> StylesWithAssets id class msg assets"
+            },
+            {
+                "name": "stylesWithExtraStylesheets",
+                "comment": " Use this instead of [`styles`](#styles) if you need to\ninclude Stylesheets from external packages,\nor if you need to add styles without a namespace.\nRemember, all stylesheets given here will be included\non all pages of the site.\n",
+                "type": "String -> List Stylesheet -> List Snippet -> Styles id class msg"
+            },
+            {
+                "name": "toString",
+                "comment": " Turn a [`Keyframe`](#Keyframe) into a string that can be included in a CSS stylesheet.\n",
+                "type": "Keyframe -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Fonts.V1",
+        "comment": " Fonts for NoRedInk projects\n\n@docs baseFont, quizFont, ugFont\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "baseFont",
+                "comment": " Font for instructions, headers, and pretty much everything else\n",
+                "type": "Style"
+            },
+            {
+                "name": "quizFont",
+                "comment": " Font for question sentences, or most interactable or graded fields\n",
+                "type": "Style"
+            },
+            {
+                "name": "ugFont",
+                "comment": " Font for displaying user-generated content.\n",
+                "type": "Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.AssetPath",
+        "comment": " Helpers for dealing with assets.\n\n@docs Asset, url\n\n",
+        "unions": [
+            {
+                "name": "Asset",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Asset",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "url",
+                "comment": " ",
+                "type": "Asset -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui.Colors.Extra",
+        "comment": " Helpers for working with colors.\n\n\n# Conversions\n\n@docs toCoreColor, withAlpha\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "toCoreColor",
+                "comment": " Convert a Css.Color into a Color.Color\ntoCoreColor (Css.hex \"#FFFFFF\") -- \"RGBA 255 255 255 1 : Color.Color\"\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "withAlpha",
+                "comment": " Add an alpha property to a Css.Color\ngrassland -- \"{ value = \"#56bf74\", color = Compatible, red = 86, green = 191, blue = 116, alpha = 1, warnings = [] } : Css.Color\"\nwithAlpha 0.5 grassland -- \"{ value = \"rgba(86, 191, 116, 0.5)\", color = Compatible, warnings = [], red = 86, green = 191, blue = 116, alpha = 0.5 } : Css.Color\"\n",
+                "type": "Float -> Color -> Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.Ui",
+        "comment": " A collection of helpers for working with NoRedInk projects\n\n@docs styled\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "styled",
+                "comment": " Wrapper around [`Html.Styled.style`](http://package.elm-lang.org/packages/rtfeldman/elm-css/13.1.1/Html-Styled#styled) which adds a data-nri-description attribute to make it easier to tell from Inspect Element where in our code that element was defined.\n\nTakes a function that creates an element, and pre-applies styles and a `data-nri-description` attribution to it.\n\n    bigButton : List (Attribute msg) -> List (Html msg) -> Html msg\n    bigButton =\n        styled button\n            \"big button\"\n            [ padding (px 30)\n            , fontWeight bold\n            ]\n\n    view : Model -> Html msg\n    view model =\n        [ text \"These two buttons are identical:\"\n        , bigButton [] [ text \"Hi!\" ]\n        , button [ css [ padding (px 30), fontWeight bold ] ] [] [ text \"Hi!\" ]\n        ]\n\nHere, the bigButton function we've defined using styled button is identical to the normal button function, except that it has pre-applied the attribute of css [ padding (px 30), fontWeight bold ], as well as `(attribute \"data-nri-description\" \"big button\")`.\n\nYou can pass more attributes to bigButton as usual (including other css attributes). They will be applied after the pre-applied styles.\n\nNote: normally `attributeMsg` will be the same as `msg`, but we need them to be different types for special cases when `fn` needs to do tricky things. For example, some elements from the Accessibility.Styled package use the following type signature:\n\n    div : List (Attribute Never) -> List (Html msg) -> Html msg\n\n",
+                "type": "(List (Attribute attributeMsg) -> List (Html msg) -> Html msg) -> String -> List Style -> List (Attribute attributeMsg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

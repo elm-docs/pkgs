@@ -1,0 +1,45 @@
+[
+    {
+        "name": "Pair",
+        "comment": " These functions where created for Tuples where both values have the same type, for example 2D-coordinates.\n\n\n## Definition\n\n@docs Pair\n\n\n## Functions\n\n@docs foldl, foldr, map, map2, toList\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Pair",
+                "comment": " a Pair of two values of the same type\n",
+                "args": [
+                    "a"
+                ],
+                "type": "( a, a )"
+            }
+        ],
+        "values": [
+            {
+                "name": "foldl",
+                "comment": " folds from the left over both values\n\n    foldl (//) 1 (1,2) == 2\n\n    foldl (::) [] (1,2) == [2,1]\n\n",
+                "type": "(a -> b -> b) -> b -> Pair a -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " folds from the right over both values\n\n    foldr (//) 1 (1,2) == 0\n\n    foldr (::) [] (1,2) == [1,2]\n\n",
+                "type": "(a -> b -> b) -> b -> Pair a -> b"
+            },
+            {
+                "name": "map",
+                "comment": " applies a function to both values\n\n    map ((+) 2) (1,2) == (3,4)\n\n",
+                "type": "(a -> b) -> Pair a -> Pair b"
+            },
+            {
+                "name": "map2",
+                "comment": " applies a function for two pairs\n\n    map2 (+) (1,2) (3,4) == (4,6)\n\n",
+                "type": "(a -> b -> c) -> Pair a -> Pair b -> Pair c"
+            },
+            {
+                "name": "toList",
+                "comment": " returns a list with both elements\n\n    toList(1,2) == foldr (::) [] (1,2)\n\n",
+                "type": "Pair a -> List a"
+            }
+        ],
+        "binops": []
+    }
+]

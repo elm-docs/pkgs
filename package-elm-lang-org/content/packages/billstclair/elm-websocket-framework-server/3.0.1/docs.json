@@ -1,0 +1,147 @@
+[
+    {
+        "name": "WebSocketFramework.Server",
+        "comment": " Support for a Node.js server for WebSocketFramework messages.\n\n\n# Types\n\n@docs Model, Msg, ServerMessageSender, UserFunctions, WrappedModel, Socket\n\n\n# Top-level program\n\n@docs program, init\n\n\n# Message sending\n\n@docs sendToOne, sendToMany\n\n\n# Support for creating random game and player identifiers.\n\n@docs newGameid, newPlayerid\n\n\n# Model accessors\n\n@docs verbose\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The messages processed by our `update` function.\n\n`Connection`, `Disconnection`, and `SocketMessage` from through the `inputPort` from the Node.JS code. `FirstTick` and `Tick` are used to track time. `Noop` does nothing.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Connection",
+                        [
+                            "Socket"
+                        ]
+                    ],
+                    [
+                        "Disconnection",
+                        [
+                            "Socket"
+                        ]
+                    ],
+                    [
+                        "SocketMessage",
+                        [
+                            "Socket",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "FirstTick",
+                        [
+                            "Time"
+                        ]
+                    ],
+                    [
+                        "Tick",
+                        [
+                            "Time"
+                        ]
+                    ],
+                    [
+                        "Noop",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "WrappedModel",
+                "comment": " A type wrapper to prevent recursive types in `Model`.\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "cases": [
+                    [
+                        "WrappedModel",
+                        [
+                            "Model servermodel message gamestate player"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The server application model.\n\n`program` creates one of these, via a call to `init`.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "{ servermodel : servermodel, userFunctions : UserFunctions servermodel message gamestate player, state : ServerState gamestate player, verbose : Bool, gameidDict : Dict Socket GameId, playeridDict : Dict GameId (List PlayerId), socketsDict : Dict GameId (List Socket), deathWatch : List DeathWatch, deathWatchGameids : DeathWatchGameids, time : Time, seed : Seed }"
+            },
+            {
+                "name": "ServerMessageSender",
+                "comment": " User function that is called to send the response(s) to a request.\n\nThis will usually call `sendToOne` and/or `sendToMany` with the `message` emitted by the `ServiceMessageProcessor` in the `UserFunctions` passed to `program`.\n\nThe first `message` is the request that came from client to server. The second `message` is the response. If no response is returned by the `ServiceMessageProcessor`, this function is not called.\n\nThe `ServerState` arg is the value of the `state` property of the `WrappedModel` arg, pulled out for your convenience. If you change it, you must put it back in the model you return.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "WrappedModel servermodel message gamestate player -> Socket -> ServerState gamestate player -> message -> message -> ( WrappedModel servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "Socket",
+                "comment": " An alias of WebSocketServer.Socket.\n",
+                "args": [],
+                "type": "Socket"
+            },
+            {
+                "name": "UserFunctions",
+                "comment": " User functions that get called by the generic server code.\n\n`encodeDecode` is used to translate messages to and from strings.\n\n`messageProcessor` processes a client request into state changes and a response message.\n\n`messageSender` decides what to do with the response message.\n\n`messageToGameid` extracts a GameId from a message, if there is one.\n\n`inputPort` and `outputPort` are the ports used to communicate with the Node.js code.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "{ encodeDecode : EncodeDecode message, messageProcessor : ServerMessageProcessor gamestate player message, messageSender : ServerMessageSender servermodel message gamestate player, messageToGameid : Maybe (MessageToGameid message), inputPort : InputPort Msg, outputPort : OutputPort Msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Return the initial `Model` and a `Cmd` to get the current time.\n\nUsually called for you by `program`.\n\n",
+                "type": "servermodel -> UserFunctions servermodel message gamestate player -> Maybe gamestate -> Maybe String -> ( Model servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "newGameid",
+                "comment": " Generate a random GameId string, ensuring that it is not already assigned to a game.\n\nWill not be used by servers that have no concept of a game.\n\n",
+                "type": "WrappedModel servermodel message gamestate player -> ( GameId, WrappedModel servermodel message gamestate player )"
+            },
+            {
+                "name": "newPlayerid",
+                "comment": " Generate a random PlayerId string, ensuring that it is not already assigned to a player.\n\nWill not be used by servers that have no concept of a player.\n\n",
+                "type": "WrappedModel servermodel message gamestate player -> ( PlayerId, WrappedModel servermodel message gamestate player )"
+            },
+            {
+                "name": "program",
+                "comment": " Create the top-level application program.\n\nYou will usually use the result of this function as the value of `main` in your top-level module.\n\nMost servers will not need to use the `servermodel`, but it's a place to stash extra server-wide state that doesn't make sense in the game-specific `gamestate`.\n\n",
+                "type": "servermodel -> UserFunctions servermodel message gamestate player -> Maybe gamestate -> Program (Maybe String) (Model servermodel message gamestate player) Msg"
+            },
+            {
+                "name": "sendToMany",
+                "comment": " Encode a message to multiple sockets via an output port.\n\nIf the first arg is True, log the operation on the console.\n\n",
+                "type": "Bool -> MessageEncoder message -> message -> OutputPort Msg -> List Socket -> Cmd Msg"
+            },
+            {
+                "name": "sendToOne",
+                "comment": " Encode a message to a single socket via an output port.\n\nIf the first arg is True, log the operation on the console.\n\n",
+                "type": "Bool -> MessageEncoder message -> message -> OutputPort Msg -> Socket -> Cmd Msg"
+            },
+            {
+                "name": "verbose",
+                "comment": " Return whether VERBOSE is set in the server's environment\n",
+                "type": "WrappedModel servermodel message gamestate player -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

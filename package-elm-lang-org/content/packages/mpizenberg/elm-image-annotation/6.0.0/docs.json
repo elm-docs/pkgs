@@ -1,0 +1,350 @@
+[
+    {
+        "name": "DrawingArea.Viewer",
+        "comment": " This module provides functions to manage the viewing of the drawing area.\n\n# Model\n@docs Viewer, default\n\n# Update\n@docs setSize, center, centerAt\n@docs setZoom, setZoomCentered, zoomIn, zoomOut\n@docs fitImage\n@docs move, positionIn, sizeIn\n\n# View\n@docs viewSet\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Viewer",
+                "comment": " Parameters of the viewer.\n",
+                "args": [],
+                "type": "{ frame : Frame2d, size : Vector2d, zoom : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "center",
+                "comment": " Compute the center point of the viewing area.\n",
+                "type": "Viewer -> Point2d"
+            },
+            {
+                "name": "centerAt",
+                "comment": " Recenter the viewing area at a given point.\n",
+                "type": "Point2d -> Viewer -> Viewer"
+            },
+            {
+                "name": "default",
+                "comment": " Default viewer.\n",
+                "type": "Viewer"
+            },
+            {
+                "name": "fitImage",
+                "comment": " Fit the view so that the image takes a certain percentage of its max viewable size.\n",
+                "type": "Float -> Image -> Viewer -> Viewer"
+            },
+            {
+                "name": "move",
+                "comment": " Move the viewer.\n",
+                "type": "Vector2d -> Viewer -> Viewer"
+            },
+            {
+                "name": "positionIn",
+                "comment": " Transform coordinates of a point in the frame to their actual coordinates.\n",
+                "type": "Viewer -> ( Float, Float ) -> ( Float, Float )"
+            },
+            {
+                "name": "setSize",
+                "comment": " Resize the viewer.\n",
+                "type": "( Float, Float ) -> Viewer -> Viewer"
+            },
+            {
+                "name": "setZoom",
+                "comment": " Set the zoom value.\n",
+                "type": "Float -> Viewer -> Viewer"
+            },
+            {
+                "name": "setZoomCentered",
+                "comment": " Set zoom value while keeping the current center.\n",
+                "type": "Float -> Viewer -> Viewer"
+            },
+            {
+                "name": "sizeIn",
+                "comment": " Scale a size in the frame to its actual size.\n",
+                "type": "Viewer -> ( Float, Float ) -> ( Float, Float )"
+            },
+            {
+                "name": "viewSet",
+                "comment": " View the svg tag representing the DrawingArea model.\n",
+                "type": "List (Attribute msg) -> Viewer -> Maybe Image -> Set -> Html msg"
+            },
+            {
+                "name": "zoomIn",
+                "comment": " Zoom in (x2).\n",
+                "type": "Viewer -> Viewer"
+            },
+            {
+                "name": "zoomOut",
+                "comment": " Zoom out (x0.5).\n",
+                "type": "Viewer -> Viewer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Annotation.Set",
+        "comment": " Annotation.Set aims at managing a set of annotations.\nBasically, it is an array of Annotation.\nSo anything that can be done on arrays can be done on an Annotation.Set.\n\n# Model\n@docs Set\n\n# Update\n@docs remove\n\n# View\n@docs view, selectTag\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Set",
+                "comment": " An annotation set is basically an array of annotations.\n",
+                "args": [],
+                "type": "Array Annotation"
+            }
+        ],
+        "values": [
+            {
+                "name": "remove",
+                "comment": " Remove the annotation at the given index from the set.\n",
+                "type": "Int -> Set -> Set"
+            },
+            {
+                "name": "selectTag",
+                "comment": " Create a <select> tag with an <option> tag for each annotation.\n",
+                "type": "(Option -> msg) -> Option -> Set -> Html msg"
+            },
+            {
+                "name": "view",
+                "comment": " View of the SVG representation of all the annotations in the set.\n",
+                "type": "Set -> List (Svg msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Annotation",
+        "comment": " An annotation can be a selection or a scribble.\n\n# Model\n@docs Annotation, Input, empty\n\n# Update\n@docs setLabel, setRectangle, initOutline, initScribble, addPoint, update\n\n# View\n@docs view, Option, optionDescriber\n\n# Exports\n@docs encodePath\n\n# Other\n@docs isValid\n",
+        "unions": [
+            {
+                "name": "Input",
+                "comment": " A visual input related to an image.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Annotation",
+                "comment": " An annotation is a labelled visual input.\n",
+                "args": [],
+                "type": "{ label : String, input : Input }"
+            },
+            {
+                "name": "Option",
+                "comment": " Option type used for <select> tags\n",
+                "args": [],
+                "type": "Maybe ( Int, Annotation )"
+            }
+        ],
+        "values": [
+            {
+                "name": "addPoint",
+                "comment": " Add a point to the input\n",
+                "type": "Point2d -> Annotation -> Annotation"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty annotation, only useful as startup.\n",
+                "type": "String -> Annotation"
+            },
+            {
+                "name": "encodePath",
+                "comment": " Encode the path of an annotation\n",
+                "type": "Annotation -> Value"
+            },
+            {
+                "name": "initOutline",
+                "comment": " Initialize the input with origin point of the outline.\n",
+                "type": "Point2d -> Annotation -> Annotation"
+            },
+            {
+                "name": "initScribble",
+                "comment": " Initialize the input with origin point of the scribble.\n",
+                "type": "Point2d -> Annotation -> Annotation"
+            },
+            {
+                "name": "isValid",
+                "comment": " Indicates if the input of an annotation is valid.\n",
+                "type": "Annotation -> Bool"
+            },
+            {
+                "name": "optionDescriber",
+                "comment": " Text of an <option> tag describing an annotation.\n",
+                "type": "Option -> String"
+            },
+            {
+                "name": "setLabel",
+                "comment": " Set the label of an annotation.\n",
+                "type": "String -> Annotation -> Annotation"
+            },
+            {
+                "name": "setRectangle",
+                "comment": " Set the input to be a rectangle selection.\n",
+                "type": "Point2d -> Point2d -> Annotation -> Annotation"
+            },
+            {
+                "name": "update",
+                "comment": " Update an annotation depending on pointer events\n",
+                "type": "Pointer -> Track -> Tool -> Int -> Option -> Option"
+            },
+            {
+                "name": "view",
+                "comment": " View an annotation input.\n",
+                "type": "Annotation -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Pointer",
+        "comment": " This module aims at giving helper functions to deal with pointer events.\n\n@docs Event, Pointer, Track, updateTrack, offset, movement\n@docs offsetOn, touchOffsetOn, movementOn, attributes, noToolAttributes, toolAttributes\n@docs askTime\n",
+        "unions": [
+            {
+                "name": "Event",
+                "comment": " Events generated by a pointer device.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Down",
+                        []
+                    ],
+                    [
+                        "Move",
+                        []
+                    ],
+                    [
+                        "Up",
+                        []
+                    ],
+                    [
+                        "Cancel",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Track",
+                "comment": " Track the first and last pointer events.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Started",
+                        [
+                            "Pointer"
+                        ]
+                    ],
+                    [
+                        "Moved",
+                        [
+                            "Pointer",
+                            "Pointer"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Pointer",
+                "comment": " A Pointer.\n",
+                "args": [],
+                "type": "{ event : Event, offsetX : Float, offsetY : Float, movementX : Float, movementY : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "askTime",
+                "comment": " Use a message maker (tagger) to create a command message giving Time.now.\n",
+                "type": "(Time -> msg) -> Cmd msg"
+            },
+            {
+                "name": "attributes",
+                "comment": " Returns a list of attribute messages with useful mouse events listeners.\n",
+                "type": "(Pointer -> msg) -> Tool -> Maybe Pointer -> List (Attribute msg)"
+            },
+            {
+                "name": "movement",
+                "comment": " Returns (movementX, movementY).\n",
+                "type": "Pointer -> ( Float, Float )"
+            },
+            {
+                "name": "movementOn",
+                "comment": " Returns movementOn attribute.\n",
+                "type": "String -> Event -> (Pointer -> msg) -> (( Float, Float ) -> ( Float, Float )) -> Attribute msg"
+            },
+            {
+                "name": "noToolAttributes",
+                "comment": " Returns a list of attribute messages to detect movement when no tool is used.\n",
+                "type": "(Pointer -> msg) -> Maybe Pointer -> List (Attribute msg)"
+            },
+            {
+                "name": "offset",
+                "comment": " Returns (offsetX, offsetY).\n",
+                "type": "Pointer -> ( Float, Float )"
+            },
+            {
+                "name": "offsetOn",
+                "comment": " Returns offsetOn attribute.\n",
+                "type": "String -> Event -> (Pointer -> msg) -> (( Float, Float ) -> ( Float, Float )) -> Attribute msg"
+            },
+            {
+                "name": "toolAttributes",
+                "comment": " Returns a list of attribute messages to detect movement when a tool is used.\n",
+                "type": "(Pointer -> msg) -> Maybe Pointer -> List (Attribute msg)"
+            },
+            {
+                "name": "touchOffsetOn",
+                "comment": " Returns touchOffsetOn attribute.\n",
+                "type": "String -> Event -> (Pointer -> msg) -> (( Float, Float ) -> ( Float, Float )) -> Attribute msg"
+            },
+            {
+                "name": "updateTrack",
+                "comment": " Update a record track with a new pointer event.\n",
+                "type": "Pointer -> Track -> Track"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Tool",
+        "comment": " Tools aims at providing helper functions related to the drawing area tools.\n\n@docs Tool, selectTag\n",
+        "unions": [
+            {
+                "name": "Tool",
+                "comment": " The type of tool that can be used to draw inputs.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Rectangle",
+                        []
+                    ],
+                    [
+                        "Outline",
+                        []
+                    ],
+                    [
+                        "Scribble",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "selectTag",
+                "comment": " An html <select> tag enabling the choice of a tool.\n",
+                "type": "(Tool -> msg) -> Tool -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,1 @@
+[{"name":"Toasters","comment":" Module to add Toasters to your app\n\n\n# Initialise and update\n\n@docs Msg\n\n","unions":[{"name":"Msg","comment":" Add a Toasters.Msg to your Msg.\n\n    type MyMsg\n        = ToastersMsg Toasters.Msg\n\n","args":[],"cases":[]}],"aliases":[],"values":[],"binops":[]}]

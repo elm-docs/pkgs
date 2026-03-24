@@ -1,0 +1,63 @@
+[
+    {
+        "name": "Duration",
+        "comment": "\n\n## Duration State\n\n@docs Model\n\n@docs init\n\n## Duration Initialization\n\n@docs Msg\n\n## Duration Evaluation\n\n@docs update\n\n@docs subscriptions\n\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Either trigger the transition to explicitly go `Forward`, `Reverse`,\n    or `Toggle` its playback, where `b` is the effect to be played when\n    the transition finishes.\n",
+                "args": [
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Forward",
+                        [
+                            "Cmd b -> Cmd b"
+                        ]
+                    ],
+                    [
+                        "Reverse",
+                        [
+                            "Cmd b -> Cmd b"
+                        ]
+                    ],
+                    [
+                        "Toggle",
+                        [
+                            "Cmd b -> Cmd b"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The state of the duration ",
+                "args": [
+                    "b"
+                ],
+                "type": "{ elapsed : Maybe ( Time, Direction ), onCompletion : Cmd b }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " The initial state of the duration ",
+                "type": "Model b"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " The subscriptions for the duration - every time the browser screen refreshes. ",
+                "type": "Model b -> Sub (Msg b)"
+            },
+            {
+                "name": "update",
+                "comment": " Given a time-indexed command and the length of time the animation\n    should play over, create an update function.\n",
+                "type": "(Time -> Cmd a) -> Time -> Msg b -> Model b -> ( Model b, Cmd (Result a b) )"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,165 @@
+[
+    {
+        "name": "PostgRest",
+        "comment": " PostgREST Query Builder!\n@docs field, Field, Resource, Query, Select, OrderBy, Filter, resource, query, include, includeMany, select, order, filter, like, eq, gte, gt, lte, lt, ilike, in', is, not', asc, desc, list, retrieve\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Filter",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "OrderBy",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Query",
+                "comment": " ",
+                "args": [
+                    "s",
+                    "r"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Resource",
+                "comment": " ",
+                "args": [
+                    "shape"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Select",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "asc",
+                "comment": " ",
+                "type": "(s -> Field a) -> s -> OrderBy"
+            },
+            {
+                "name": "desc",
+                "comment": " ",
+                "type": "(s -> Field a) -> s -> OrderBy"
+            },
+            {
+                "name": "eq",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "field",
+                "comment": " ",
+                "type": "String -> Decoder a -> Field a"
+            },
+            {
+                "name": "filter",
+                "comment": " ",
+                "type": "List (s -> Filter) -> Query s r -> Query s r"
+            },
+            {
+                "name": "gt",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "gte",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "ilike",
+                "comment": " ",
+                "type": "String -> (s -> Field String) -> s -> Filter"
+            },
+            {
+                "name": "in'",
+                "comment": " ",
+                "type": "List a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "include",
+                "comment": " ",
+                "type": "Query s2 a -> Query s1 (a -> b) -> Query s1 b"
+            },
+            {
+                "name": "includeMany",
+                "comment": " ",
+                "type": "Maybe Int -> Query s2 a -> Query s1 (List a -> b) -> Query s1 b"
+            },
+            {
+                "name": "is",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "like",
+                "comment": " ",
+                "type": "String -> (s -> Field String) -> s -> Filter"
+            },
+            {
+                "name": "list",
+                "comment": " ",
+                "type": "Maybe Int -> String -> Query s r -> Task Error (List r)"
+            },
+            {
+                "name": "lt",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "lte",
+                "comment": " ",
+                "type": "a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "not'",
+                "comment": " ",
+                "type": "(a -> (s -> Field a) -> s -> Filter) -> a -> (s -> Field a) -> s -> Filter"
+            },
+            {
+                "name": "order",
+                "comment": " ",
+                "type": "List (s -> OrderBy) -> Query s r -> Query s r"
+            },
+            {
+                "name": "query",
+                "comment": " ",
+                "type": "Resource s -> (a -> r) -> Query s (a -> r)"
+            },
+            {
+                "name": "resource",
+                "comment": " ",
+                "type": "String -> s -> Resource s"
+            },
+            {
+                "name": "retrieve",
+                "comment": " ",
+                "type": "String -> Query s r -> Task Error r"
+            },
+            {
+                "name": "select",
+                "comment": " ",
+                "type": "(s -> Field a) -> Query s (a -> b) -> Query s b"
+            }
+        ],
+        "binops": []
+    }
+]

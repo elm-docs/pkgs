@@ -1,0 +1,317 @@
+[
+    {
+        "name": "Table",
+        "comment": " A customizable ELM Bootstrap Table component.\n\nFor usage example, see [here](https://github.com/gribouille/elm-table). \n\n## Model\n@docs State, Row, getSelectedRows, initState, initRows, RowId, hideColumn\n@docs selectAllRows, sortRows, sortRowsFromStatus\n\n## Configuration\n@docs Config, Column, ColumnInternal, SortStatus, ToolbarConfig, ActionConfig \n@docs nextSortStatus, defaultFooter, checkboxColumn, invisibleColumn\n@docs stringColumn, stringWidthColumn, customColumn, actionDefault\n@docs ColumnName, checkRowState, showColumn\n\n## View\n@docs view, toolbarView, toolbarViewSearch, viewCellCheckbox, viewCellInvisible \n@docs viewCellText, viewColumnCheckbox, viewColumnHide, viewColumnString \n@docs viewDefaultAction, viewSelectColumns, viewSelectColumnsItem, viewTable \n@docs viewTableBody, viewTableBodyRow, viewTableHead, viewTableHeadItemSort\n\n## Other\n@docs maybe, onClickEvent, optional, sort, sortLink\n",
+        "unions": [
+            {
+                "name": "ActionConfig",
+                "comment": " Action configuration in the toolbar. ",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "ActionConfig",
+                        [
+                            "State -> Html msg"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Column",
+                "comment": " Column configuration. ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "Column",
+                        [
+                            "ColumnInternal a msg"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Row",
+                "comment": " Embed the data with row states. ",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Row",
+                        [
+                            "a"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "SortStatus",
+                "comment": " Sorting column state. ",
+                "args": [],
+                "cases": [
+                    [
+                        "StandBy",
+                        []
+                    ],
+                    [
+                        "Descending",
+                        []
+                    ],
+                    [
+                        "Ascending",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ColumnInternal",
+                "comment": "\n  sortable  : could be sortable\n  indexable : indexable for search filtering\n  hidable   : selectColumns options must be true\n",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ name : String, getValue : a -> String, headerView : (State -> msg) -> State -> List (Html msg), cellView : a -> (State -> msg) -> State -> List (Html msg), width : String, sortable : Bool, indexable : Bool, hidable : Bool }"
+            },
+            {
+                "name": "ColumnName",
+                "comment": " ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Config",
+                "comment": " Configuration of table.\n\nTable --- msg ---> Parent\n        ( pipe )\n\n",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "{ pipe : State -> msg, getRowId : a -> String, columns : List (Column a msg), toolbar : ToolbarConfig msg, footerView : Html msg }"
+            },
+            {
+                "name": "RowId",
+                "comment": " ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "State",
+                "comment": " State for internal messages. ",
+                "args": [],
+                "type": "{ sortedColumn : ( ColumnName, SortStatus ), selected : Dict String Bool, search : String, hidedColumns : List ColumnName }"
+            },
+            {
+                "name": "ToolbarConfig",
+                "comment": " Toolbar configuration. ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ search : Bool, selectColumns : Bool, actions : List (ActionConfig msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "actionDefault",
+                "comment": " Helper to create an action configuration with the color of Bootstrap\n(primary, success, danger, ...) and the icon of font-awesome (plus, minus, ...).\n\nExample:\n\n  actionDefault \"success\" \"lock\"\n",
+                "type": "msg -> String -> String -> String -> ActionConfig msg"
+            },
+            {
+                "name": "checkRowState",
+                "comment": " ",
+                "type": "String -> State -> Bool -> State"
+            },
+            {
+                "name": "checkboxColumn",
+                "comment": " Column with checkbox to select multiple rows. ",
+                "type": "(a -> String) -> Column a msg"
+            },
+            {
+                "name": "customColumn",
+                "comment": " Column width custom header and cell rendering. ",
+                "type": "String -> String -> (a -> b) -> Html msg -> (b -> Html msg) -> Column a msg"
+            },
+            {
+                "name": "defaultFooter",
+                "comment": " Default footer of table. ",
+                "type": "Html msg"
+            },
+            {
+                "name": "getSelectedRows",
+                "comment": " Return the selected rows of table. ",
+                "type": "(a -> String) -> State -> List (Row a) -> List a"
+            },
+            {
+                "name": "hideColumn",
+                "comment": " ",
+                "type": "String -> State -> State"
+            },
+            {
+                "name": "initRows",
+                "comment": " Helper to create multiple rows. ",
+                "type": "(a -> String) -> List a -> ( State, List (Row a) )"
+            },
+            {
+                "name": "initState",
+                "comment": " Initialize the table state. ",
+                "type": "State"
+            },
+            {
+                "name": "invisibleColumn",
+                "comment": " Invisible column. ",
+                "type": "String -> (a -> String) -> Column a msg"
+            },
+            {
+                "name": "maybe",
+                "comment": " ",
+                "type": "Bool -> a -> Maybe a"
+            },
+            {
+                "name": "nextSortStatus",
+                "comment": " Get the next sort status\n\n      ↕ --> ↓ --> ↑\n            ^-----|\n",
+                "type": "SortStatus -> SortStatus"
+            },
+            {
+                "name": "onClickEvent",
+                "comment": " ",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "optional",
+                "comment": " ",
+                "type": "Bool -> Html msg -> Html msg"
+            },
+            {
+                "name": "selectAllRows",
+                "comment": " ",
+                "type": "State -> Bool -> State"
+            },
+            {
+                "name": "showColumn",
+                "comment": " ",
+                "type": "String -> State -> State"
+            },
+            {
+                "name": "sort",
+                "comment": " Sort the rows. ",
+                "type": "List (Column a msg) -> State -> List (Row a) -> List (Row a)"
+            },
+            {
+                "name": "sortLink",
+                "comment": " ",
+                "type": "String -> String -> ColumnName -> (State -> msg) -> State -> Html msg"
+            },
+            {
+                "name": "sortRows",
+                "comment": " ",
+                "type": "(a -> String) -> List (Row a) -> List (Row a)"
+            },
+            {
+                "name": "sortRowsFromStatus",
+                "comment": " ",
+                "type": "SortStatus -> (a -> String) -> List (Row a) -> List (Row a)"
+            },
+            {
+                "name": "stringColumn",
+                "comment": " Standard column configuration to render the string data. ",
+                "type": "String -> (a -> String) -> Column a msg"
+            },
+            {
+                "name": "stringWidthColumn",
+                "comment": " Similar to `stringColumn` but with a custom width. ",
+                "type": "String -> String -> (a -> String) -> Column a msg"
+            },
+            {
+                "name": "toolbarView",
+                "comment": " ",
+                "type": "Config a msg -> State -> Html msg"
+            },
+            {
+                "name": "toolbarViewSearch",
+                "comment": " ",
+                "type": "(State -> msg) -> State -> Html msg"
+            },
+            {
+                "name": "view",
+                "comment": " Main table view. ",
+                "type": "Config a msg -> State -> List (Row a) -> Html msg"
+            },
+            {
+                "name": "viewCellCheckbox",
+                "comment": " ",
+                "type": "(a -> String) -> a -> (State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewCellInvisible",
+                "comment": " ",
+                "type": "a -> (State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewCellText",
+                "comment": " ",
+                "type": "(a -> String) -> a -> (State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewColumnCheckbox",
+                "comment": " ",
+                "type": "(State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewColumnHide",
+                "comment": " ",
+                "type": "(State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewColumnString",
+                "comment": " ",
+                "type": "String -> (State -> msg) -> State -> List (Html msg)"
+            },
+            {
+                "name": "viewDefaultAction",
+                "comment": " ",
+                "type": "String -> String -> String -> msg -> State -> Html msg"
+            },
+            {
+                "name": "viewSelectColumns",
+                "comment": " ",
+                "type": "List (Column a msg) -> (State -> msg) -> State -> Html msg"
+            },
+            {
+                "name": "viewSelectColumnsItem",
+                "comment": " ",
+                "type": "ColumnInternal a msg -> (State -> msg) -> State -> Html msg"
+            },
+            {
+                "name": "viewTable",
+                "comment": " ",
+                "type": "Config a msg -> State -> List (Row a) -> Html msg"
+            },
+            {
+                "name": "viewTableBody",
+                "comment": " ",
+                "type": "List (ColumnInternal a msg) -> (a -> String) -> (State -> msg) -> State -> List (Row a) -> Html msg"
+            },
+            {
+                "name": "viewTableBodyRow",
+                "comment": " ",
+                "type": "List (ColumnInternal a msg) -> (a -> String) -> (State -> msg) -> State -> Row a -> Html msg"
+            },
+            {
+                "name": "viewTableHead",
+                "comment": " ",
+                "type": "List (ColumnInternal a msg) -> (State -> msg) -> State -> Html msg"
+            },
+            {
+                "name": "viewTableHeadItemSort",
+                "comment": " ",
+                "type": "SortStatus -> ColumnName -> (State -> msg) -> State -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

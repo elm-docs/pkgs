@@ -1,0 +1,1 @@
+[{"name":"Bitcoin","comment":" Bitcoin price web component made using Elm. Thanks to this extension, you can reflect in your application the current price of bitcoin in dollars.\n\nUse component\n\n@docs main\n\n","unions":[],"aliases":[],"values":[{"name":"main","comment":" Main\n","type":"Platform.Program () Bitcoin.Model Bitcoin.Msg"}],"binops":[]}]

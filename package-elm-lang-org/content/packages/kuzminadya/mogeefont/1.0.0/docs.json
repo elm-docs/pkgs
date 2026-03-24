@@ -1,0 +1,28 @@
+[
+    {
+        "name": "MogeeFont",
+        "comment": " This module exports a font that may be rendered with [WebGL](package.elm-lang.org/packages/elm-community/webgl/latest).\nFor example, check [the specimen implementation](https://github.com/kuzminadya/mogeefont/specimen).\n\n@docs Letter, text, fontSrc\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Letter",
+                "comment": " Specifies information about the letter:\n\n  - width, height - dimensions on the texture\n  - textureX, textureY - offset on the texture\n  - x, y - coordinates in the printed text\n\n",
+                "args": [],
+                "type": "{ width : Float, height : Float, textureX : Float, textureY : Float, x : Float, y : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "fontSrc",
+                "comment": " A base64 encoded black and white texture of the font in the data uri format\n",
+                "type": "String"
+            },
+            {
+                "name": "text",
+                "comment": " A function to print the text, that takes:\n\n  - addLetter - function to append each letter\n  - string - text to be printed\n\n`addLetter` can for example append two triangles for each letter,\nto construct a [WebGL](package.elm-lang.org/packages/elm-community/webgl/latest) mesh\n\n",
+                "type": "(Letter -> List a -> List a) -> String -> List a"
+            }
+        ],
+        "binops": []
+    }
+]

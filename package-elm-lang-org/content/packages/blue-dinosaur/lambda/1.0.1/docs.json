@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Lambda",
+        "comment": "\n\n    Lambda is package of functional combinators in Elm\n\n@docs (...), mapReduce\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "mapReduce",
+                "comment": " Simple map reduce\n\n    mapReduce sum (\\x -> x * x) = sum (map (\\x -> x * x) ys)\n\n",
+                "type": "(List b -> c) -> (a -> b) -> List a -> c"
+            }
+        ],
+        "binops": [
+            {
+                "name": "...",
+                "comment": " The blackbird combinator\n\n    The use of this combinator is to build higher functions.\n\n    Example:\n\n    (sum ... map) length xs == sum (map length xs)\n\n    We can abstract is as:\n\n    aggregate f xs = sum ... map f xs\n    aggregate f = \\xs -> sum map f xs\n    aggregate = \\f -> \\xs -> sum map f xs\n    aggregate = sum map f xs\n\n    And we can count the number of elements in a list of lists with:\n\n    aggregate length\n\n",
+                "type": "(a -> b) -> (c -> d -> a) -> c -> d -> b",
+                "associativity": "non",
+                "precedence": 9
+            }
+        ]
+    }
+]

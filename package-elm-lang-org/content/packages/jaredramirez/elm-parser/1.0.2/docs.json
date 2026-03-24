@@ -1,0 +1,293 @@
+[
+    {
+        "name": "Parser.Html",
+        "comment": " Pre-made parsers to parse & model HTML elements\n\n@docs Node, textNode, elementNode\n\n",
+        "unions": [
+            {
+                "name": "Node",
+                "comment": " An HTML element\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "elementNode",
+                "comment": " A parser for an element node\n",
+                "type": "Parser Node"
+            },
+            {
+                "name": "textNode",
+                "comment": " A parser for a text node\n",
+                "type": "Parser Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Parser.Number",
+        "comment": " Pre-made parsers and helpers to create parsers for numbers\n\n@docs naturalNumber, int, float\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "float",
+                "comment": " Parse a float\n",
+                "type": "Parser Float"
+            },
+            {
+                "name": "int",
+                "comment": " Parse an integer\n",
+                "type": "Parser Int"
+            },
+            {
+                "name": "naturalNumber",
+                "comment": " Parse a natural number\n",
+                "type": "Parser Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Parser.String",
+        "comment": " Pre-made parsers and helpers to create parsers for strings\n\n@docs string, word\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "string",
+                "comment": " Parse a list of characters, and joins them into a string.\nIt can be used in a conjuection with `oneOf`\nstring <| P.oneOf [ space, alphanumeric ]\n",
+                "type": "Parser Char -> Parser String"
+            },
+            {
+                "name": "word",
+                "comment": " Parse an exact word\nword \"hello\"\n",
+                "type": "String -> Parser String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Parser.Char",
+        "comment": " Pre-made parsers and helpers to create parsers for characters\n\n@docs char, digit, lower, upper, letter, alphanumeric, space, blankspace, newLine, tab, charCustomError\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "alphanumeric",
+                "comment": " Parse an alphanumeric character\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "blankspace",
+                "comment": " Parse an space, tab, or newline character\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "char",
+                "comment": " Parsers a single character, if it fails with a default ExpectedSymbol problem\n",
+                "type": "Char -> Parser Char"
+            },
+            {
+                "name": "charCustomError",
+                "comment": " Parsers a single character, if it fails it uses the provided problem.\nYou'll usually want to use `char` (see below)\n\nThis is Useful when you want to descript more detail about a what you were\nexpecting, or when you want to express something in more natural language like:\n\n    \"expected a space\"\n\ninstead of `char`s default message of\n\n    \"expected \\\" \\\"\"\n\n",
+                "type": "Char -> Problem -> Parser Char"
+            },
+            {
+                "name": "digit",
+                "comment": " Digit character parser\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "letter",
+                "comment": " Parse a lowercase character parser\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "lower",
+                "comment": " Lowercase character parser\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "newLine",
+                "comment": " Parse an newline character\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "space",
+                "comment": " Parse an space character\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "tab",
+                "comment": " Parse an tab character\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "upper",
+                "comment": " Lowercase character parser\n",
+                "type": "Parser Char"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Parser.Combinator",
+        "comment": " Helpers to combine parsers\n\n@docs zeroOrMore, oneOrMore, exactly, separateByOne, brackets\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "brackets",
+                "comment": " Parse a value, with prefix and postfix parsers\n",
+                "type": "Parser open -> Parser value -> Parser close -> Parser value"
+            },
+            {
+                "name": "exactly",
+                "comment": " Parse exactly `n` times with a given parser\n",
+                "type": "Int -> Parser a -> Parser (List a)"
+            },
+            {
+                "name": "oneOrMore",
+                "comment": " Parse 1 or more of a given parser, otherwise fail\n",
+                "type": "Parser a -> Parser (List a)"
+            },
+            {
+                "name": "separateByOne",
+                "comment": " Parse a sequence of values with the values parser, each separated by\nthe separator parser\n",
+                "type": "Parser value -> Parser separator -> Parser (List value)"
+            },
+            {
+                "name": "zeroOrMore",
+                "comment": " Parse 0 or more of a given parser. This parser will always succeed\n",
+                "type": "Parser a -> Parser (List a)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Parser",
+        "comment": " General parser combinator library for Elm. It also incldues an HTML parser!\n\n\n# Parsing\n\n@docs Parser, run\n\n\n# Chaining\n\n@docs map, map2, (|=), (|*), andThen, oneOf, oneOfBacktrack\n\n\n# Error Handling\n\n@docs Problem, State\n\n\n# Advanced\n\n@docs lazy, succeed, fail\n\n\n# Low Level\n\n@docs item, satisfy\n\n",
+        "unions": [
+            {
+                "name": "Problem",
+                "comment": " Possible errors that can be encountered while parsing\n",
+                "args": [],
+                "cases": [
+                    [
+                        "BadOneOf",
+                        [
+                            "List Problem"
+                        ]
+                    ],
+                    [
+                        "BadInt",
+                        []
+                    ],
+                    [
+                        "Bad",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "ExpectedSymbol",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Parser",
+                "comment": " A parser. Is a function that will parse a string into the type of `value`\n",
+                "args": [
+                    "value"
+                ],
+                "type": "Parser Problem value"
+            },
+            {
+                "name": "State",
+                "comment": " The curren state of a parser\n",
+                "args": [],
+                "type": "State"
+            }
+        ],
+        "values": [
+            {
+                "name": "andThen",
+                "comment": " Transfrom a parser, based on the result of the previous one\n",
+                "type": "(resultA -> Parser resultB) -> Parser resultA -> Parser resultB"
+            },
+            {
+                "name": "fail",
+                "comment": " Fails a parse operation with a problem\n",
+                "type": "Problem -> Parser value"
+            },
+            {
+                "name": "item",
+                "comment": " Parses a single character, always successful as long at the offset is valid\n",
+                "type": "Parser Char"
+            },
+            {
+                "name": "lazy",
+                "comment": " Used to declare a parser in an anonymous function, allowing you to defined\nresusive grammers\n",
+                "type": "(() -> Parser value) -> Parser value"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the result of a parser\n",
+                "type": "(valueA -> valueB) -> Parser valueA -> Parser valueB"
+            },
+            {
+                "name": "map2",
+                "comment": " Transform the reuslt of two parser\n",
+                "type": "(valueA -> valueB -> valueC) -> Parser valueA -> Parser valueB -> Parser valueC"
+            },
+            {
+                "name": "oneOf",
+                "comment": " Test a list of parser on a state, without backtracking if a parser fails.\nIn the case of\n\n    let\n        state =\n            { source = \"bonasdf\"\n            , offset = 0\n            , row = 0\n            , col = 0\n            }\n    in\n        oneOf [word \"bonjour\", lower] state\n\nThe parser will fail because it starts to correctly parse \"bonjour\", but fails\npart way. Becuase there is no backtracking, and does not revert to `lower` after\n`word \"bonjour\" fails.\n\n",
+                "type": "List (Parser result) -> Parser result"
+            },
+            {
+                "name": "oneOfBacktrack",
+                "comment": " Test a list of parser on a state, WITH backtracking if a parser fails. This\nmeans if the first parser fails, it WILL to back to the beginning and try the\nnext parser\n|\n",
+                "type": "List (Parser result) -> Parser result"
+            },
+            {
+                "name": "run",
+                "comment": " Wrap a source string into a default state\n",
+                "type": "Parser a -> String -> Result ( State, Problem ) a"
+            },
+            {
+                "name": "satisfy",
+                "comment": " Tests a the parsed character with the function provided, if it return false,\nthen fail with the provided problem\n",
+                "type": "(Char -> Bool) -> Problem -> Parser Char"
+            },
+            {
+                "name": "succeed",
+                "comment": " Lift a value into a successful parse operation\n",
+                "type": "value -> Parser value"
+            }
+        ],
+        "binops": [
+            {
+                "name": "|*",
+                "comment": " Given a parserA and parserB, run both but only keep the result from parserB\n",
+                "type": "Parser keep -> Parser ignore -> Parser keep",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "|=",
+                "comment": " Given a parserA that contians a function and parserB that is regular run\nboth. Apply the result from parserB to the function from parserA\n",
+                "type": "Parser (a -> b) -> Parser a -> Parser b",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

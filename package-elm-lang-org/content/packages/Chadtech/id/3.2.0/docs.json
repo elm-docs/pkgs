@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Id",
+        "comment": " A simple `Id` type for your types that have ids.\n\n\n# Id\n\n@docs Id, fromString, toString, encode, decoder, generator\n\n\n# Origin\n\n@docs Origin\n\n\n# Db\n\n@docs Db, get, remove, insert, toDb, items, emptyDb\n\n",
+        "unions": [
+            {
+                "name": "Db",
+                "comment": " A dictionary that uses `Id` as keys\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Id",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Origin",
+                "comment": " Data that comes from a remote source usually has an id, while data that is made locally doesnt. If thats your situation, using this `Origin` type might be a better way of representing your datas id.\n\n    type alias Car =\n        { origin : Origin\n        , make : String\n        }\n\n    saveCar : Car -> Http.Request (Result Err ())\n    saveCar car =\n        case car.origin of\n            Id id ->\n                Car.update id car\n\n            New ->\n                Car.create car\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Local",
+                        []
+                    ],
+                    [
+                        "Remote",
+                        [
+                            "Id"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decode an `Id`\n\n    Decode.decodeString (Decode.field \"id\" Id.decoder) \"{\\\"id\\\":\\\"19\\\"}\"\n    -- Ok (Id 19) : Result String Id\n\n",
+                "type": "Decoder Id"
+            },
+            {
+                "name": "emptyDb",
+                "comment": " An empty `Db`\n",
+                "type": "(item -> Id) -> Db item"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode an `Id`\n\n    Encode.encode 0 (Id.encode id)\n    -- \"\"hDFL0Cs2EqWJ4jc3kMtOrKdEUTWh\"\" : String\n\n    [ (\"id\", Id.encode id) ]\n        |> Encode.object\n        |> Encode.encode 0\n\n    -- {\\\"id\\\":\\\"hDFL0Cs2EqWJ4jc3kMtOrKdEUTWh\\\"} : String\n\n",
+                "type": "Id -> Value"
+            },
+            {
+                "name": "fromString",
+                "comment": " The only way to make an Id\n\n    Id.fromString \"vq93rUv0A4\"\n\n",
+                "type": "String -> Id"
+            },
+            {
+                "name": "generator",
+                "comment": " A way to generate random `Id`s\n\n    import Id exposing (Id)\n    import Random.Pcg as Random exposing (Seed)\n\n    user : Seed -> ( User, Seed )\n    user seed =\n        let\n            ( id, nextSeed ) =\n                Random.step Id.generator seed\n        in\n        ( { id = id, email = \"Bob@sci.org\" }\n        , nextSeed\n        )\n\n",
+                "type": "Generator Id"
+            },
+            {
+                "name": "get",
+                "comment": " Get the item with a given id, if its in the `Db`\n",
+                "type": "Id -> Db a -> Maybe a"
+            },
+            {
+                "name": "insert",
+                "comment": " Insert a new item into a `Db`\n",
+                "type": "item -> Db item -> Db item"
+            },
+            {
+                "name": "items",
+                "comment": " Get just the items in a `Db`\n",
+                "type": "Db item -> List item"
+            },
+            {
+                "name": "remove",
+                "comment": " Remove an item from a `Db`\n",
+                "type": "Id -> Db item -> Db item"
+            },
+            {
+                "name": "toDb",
+                "comment": " Make a `Db` that uses `Id` as keys\n\n    type alias User =\n        { id : Id\n        , name : String\n        }\n\n\n    toDb .id users : Db User\n\n",
+                "type": "(item -> Id) -> List item -> Db item"
+            },
+            {
+                "name": "toString",
+                "comment": " Extract the string from an id.\n",
+                "type": "Id -> String"
+            }
+        ],
+        "binops": []
+    }
+]

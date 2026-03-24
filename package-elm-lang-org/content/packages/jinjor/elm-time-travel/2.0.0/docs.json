@@ -1,0 +1,45 @@
+[
+    {
+        "name": "TimeTravel.Html",
+        "comment": " Each functions in this module has the same interface as [Html.App](http://package.elm-lang.org/packages/elm-lang/html/latest/Html)\n\n# Start your Program\n@docs beginnerProgram, program, programWithFlags\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "beginnerProgram",
+                "comment": " See [Html.beginnerProgram](http://package.elm-lang.org/packages/elm-lang/html/latest/Html#beginnerProgram)\n",
+                "type": "{ model : model, view : model -> Html msg, update : msg -> model -> model } -> Program Never (Model model msg) (Msg msg)"
+            },
+            {
+                "name": "program",
+                "comment": " See [Html.program](http://package.elm-lang.org/packages/elm-lang/html/latest/Html#program)\n",
+                "type": "{ init : ( model, Cmd msg ), view : model -> Html msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program Never (Model model msg) (Msg msg)"
+            },
+            {
+                "name": "programWithFlags",
+                "comment": " See [Html.programWithFlags](http://package.elm-lang.org/packages/elm-lang/html/latest/Html#programWithFlags)\n",
+                "type": "{ init : flags -> ( model, Cmd msg ), view : model -> Html msg, update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program flags (Model model msg) (Msg msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "TimeTravel.Navigation",
+        "comment": " Each functions in this module has the same interface as [Navigation](http://package.elm-lang.org/packages/elm-lang/navigation/latest/Navigation)\n\n# Create a Program\n@docs program, programWithFlags\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "program",
+                "comment": " See [Navigation.program](http://package.elm-lang.org/packages/elm-lang/navigation/latest/Navigation#program)\n",
+                "type": "(Location -> msg) -> { init : Location -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), view : model -> Html msg, subscriptions : model -> Sub msg } -> Program Never (Model model msg) (Msg msg)"
+            },
+            {
+                "name": "programWithFlags",
+                "comment": " See [Navigation.programWithFlags](http://package.elm-lang.org/packages/elm-lang/navigation/latest/Navigation#programWithFlags)\n",
+                "type": "(Location -> msg) -> { init : flags -> Location -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), view : model -> Html msg, subscriptions : model -> Sub msg } -> Program flags (Model model msg) (Msg msg)"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,166 @@
+[
+    {
+        "name": "Vec2",
+        "comment": "\n\n\n# Type Constructors\n\n@docs vec2\n\n\n# Functor\n\n@docs map\n\n\n# Applicative\n\n@docs pure, apply, andMap, map2, map3\n\n\n# Monad\n\n@docs bind, andThen, return\n\n\n# Foldable\n\n@docs foldl, foldl1, foldr, foldr1\n\n\n# Get / Set / Update\n\n@docs getNth0, getNth1, setNth0, setNth1, mapNth0, mapNth1\n\n\n# Conversions\n\n@docs toTuple, fromTuple, toList, fromList\n\n\n# Other Operations\n\n@docs reverse, asArgs\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " Like apply but better suited for piping.\n\n    pure (\\x y z -> x :: y :: z :: [])\n        |> andMap (Vec2 1 3)\n        |> andMap (Vec2 2 2)\n        |> andMap (Vec2 3 1)\n        == Vec2 [ 1, 2, 3] [ 3, 2, 1]\n\n",
+                "type": "Vec2 a -> Vec2 (a -> b) -> Vec2 b"
+            },
+            {
+                "name": "andThen",
+                "comment": " Same as `bind`\n",
+                "type": "(a -> Vec2 b) -> Vec2 a -> Vec2 b"
+            },
+            {
+                "name": "apply",
+                "comment": " Apply functions from a vector one by one to values of another vector.\n\n    apply (Vec2 not not) (Vec2 True False)\n        == Vec2 False True\n\n",
+                "type": "Vec2 (a -> b) -> Vec2 a -> Vec2 b"
+            },
+            {
+                "name": "asArgs",
+                "comment": " use vector elements as function arguments\n\n    asArgs (+) (Vec2 1 2) == 3\n\n",
+                "type": "(a -> a -> b) -> Vec2 a -> b"
+            },
+            {
+                "name": "bind",
+                "comment": " Say you have a library providing you the following 'complex' vector constructor.\n\n    createVec : Int -> Vec2 (List String)\n    createVec n =\n        vec2 (List.repeat n \"x\") (List.repeat n \"y\")\n\nAnd this vector:\n\n    myVec =\n        vec2 1 2\n\nWith `bind` you can archive the following:\n\n    bind createVec myVec\n        == Vec2 \"x\" \"yy\"\n\n",
+                "type": "(a -> Vec2 b) -> Vec2 a -> Vec2 b"
+            },
+            {
+                "name": "foldl",
+                "comment": " Fold left over the vector\n\n    foldl (::) [] (Vec2 2 1)\n        == [1, 2]\n\n",
+                "type": "(a -> b -> b) -> b -> Vec2 a -> b"
+            },
+            {
+                "name": "foldl1",
+                "comment": " Like `foldl` but without initial value\n\n    foldl1 (-) (Vec2 1 3)\n        == (1 - 3)\n\n",
+                "type": "(a -> a -> a) -> Vec2 a -> a"
+            },
+            {
+                "name": "foldr",
+                "comment": " Fold right over the vector\n\n    foldr (::) [] (Vec2 2 1)\n        == [2, 1]\n\n",
+                "type": "(a -> b -> b) -> b -> Vec2 a -> b"
+            },
+            {
+                "name": "foldr1",
+                "comment": " Like `foldr` but without initial value\n\n    foldr1 (-) (Vec2 1 3)\n        == (3 - 1)\n\n",
+                "type": "(a -> a -> a) -> Vec2 a -> a"
+            },
+            {
+                "name": "fromList",
+                "comment": " creates a vector just from length 2 lists\n\n    fromList [] == Nothing\n    fromList [0, 1] == Just (Vec2 0 1)\n\n",
+                "type": "List a -> Maybe (Vec2 a)"
+            },
+            {
+                "name": "fromTuple",
+                "comment": " creates a vector from a 2-tuple\n\n    fromTuple (0, 1) == (Vec2 0 1)\n\n",
+                "type": "( a, a ) -> Vec2 a"
+            },
+            {
+                "name": "getNth0",
+                "comment": " Takes element at position 0\n\n    getNth0 (Vec2 0 1) == 0\n\n",
+                "type": "Vec2 a -> a"
+            },
+            {
+                "name": "getNth1",
+                "comment": " Takes element at position 1\n\n    getNth1 (Vec2 0 1) == 1\n\n",
+                "type": "Vec2 a -> a"
+            },
+            {
+                "name": "map",
+                "comment": " Map over all fields\n\n    map not (Vec2 True False) == Vec2 False True\n\n",
+                "type": "(a -> b) -> Vec2 a -> Vec2 b"
+            },
+            {
+                "name": "map2",
+                "comment": " Map over all fields of 2 vectors\n\n    map2 (+) (Vec2 1 2) (Vec2 1 1)\n        == Vec2 2 3\n\n",
+                "type": "(a -> b -> c) -> Vec2 a -> Vec2 b -> Vec2 c"
+            },
+            {
+                "name": "map3",
+                "comment": " Map over all fields of 3 vectors\n\n    map2 (+) (Vec2 1 2) (Vec2 1 1)\n        == Vec2 2 3\n\n",
+                "type": "(a -> b -> c -> d) -> Vec2 a -> Vec2 b -> Vec2 c -> Vec2 d"
+            },
+            {
+                "name": "mapNth0",
+                "comment": " maps over element at position 0\n\n    mapNth0 not (Vec2 True True) == Vec2 False True\n\n",
+                "type": "(a -> a) -> Vec2 a -> Vec2 a"
+            },
+            {
+                "name": "mapNth1",
+                "comment": " maps over element at position 1\n\n    mapNth1 not (Vec2 True True) == Vec2 True False\n\n",
+                "type": "(a -> a) -> Vec2 a -> Vec2 a"
+            },
+            {
+                "name": "pure",
+                "comment": " Initialize all fields with the same value\n\n    Vec2.pure True == (Vec2 True True)\n\n",
+                "type": "a -> Vec2 a"
+            },
+            {
+                "name": "return",
+                "comment": " Same as `pure`\n",
+                "type": "a -> Vec2 a"
+            },
+            {
+                "name": "reverse",
+                "comment": " Reverse the elements of a vector\n\n    reverse (Vec2 1 2) == Vec2 2 1\n\n",
+                "type": "Vec2 a -> Vec2 a"
+            },
+            {
+                "name": "setNth0",
+                "comment": " Sets element at position 0\n\n    setNth0 1 (Vec2 0 0) ==  (Vec2 1 0)\n\n",
+                "type": "a -> Vec2 a -> Vec2 a"
+            },
+            {
+                "name": "setNth1",
+                "comment": " Sets element at position 0\n\n    setNth1 1 (Vec2 0 0) ==  (Vec2 0 1)\n\n",
+                "type": "a -> Vec2 a -> Vec2 a"
+            },
+            {
+                "name": "toList",
+                "comment": " creates a list from vector elements\n\n    toList (Vec2 0 1) == [0, 1]\n\n",
+                "type": "Vec2 a -> List a"
+            },
+            {
+                "name": "toTuple",
+                "comment": " creates a 2-tuple from vector\n\n    toTuple (Vec2 0 1) == (0, 1)\n\n",
+                "type": "Vec2 a -> ( a, a )"
+            },
+            {
+                "name": "vec2",
+                "comment": " Construct `(Vec2 a)` types\n\n    myVec : Vec2 Bool\n    myVec =\n        vec2 True False\n\n",
+                "type": "a -> a -> Vec2 a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Types",
+        "comment": " Polymorphic vector types\n@docs Vec2\n",
+        "unions": [
+            {
+                "name": "Vec2",
+                "comment": " Vector of length 2\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Vec2",
+                        [
+                            "a",
+                            "a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,70 @@
+[
+    {
+        "name": "List.FlatMap",
+        "comment": " This module implements the `flatMap` combinator for `List`.  This allows you to call functions\nthat return a `List` with arguments that are also `List`s without having to worry about ending up\nwith a `List (List a)` return type.\n\n# FlatMaps\n@docs flatMap, flatMap2, flatMap3, flatMap4, flatMap5\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "flatMap",
+                "comment": "",
+                "type": "(a -> List b) -> List a -> List b"
+            },
+            {
+                "name": "flatMap2",
+                "comment": "",
+                "type": "(a -> b -> List c) -> List a -> List b -> List c"
+            },
+            {
+                "name": "flatMap3",
+                "comment": "",
+                "type": "(a -> b -> c -> List d) -> List a -> List b -> List c -> List d"
+            },
+            {
+                "name": "flatMap4",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> List e) -> List a -> List b -> List c -> List d -> List e"
+            },
+            {
+                "name": "flatMap5",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> e -> List f) -> List a -> List b -> List c -> List d -> List e -> List f"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Maybe.FlatMap",
+        "comment": " This module implements the `flatMap` combinator for `Maybe`.  This allows you to call functions\nthat return a `Maybe` with arguments that are also `Maybe`s without having to worry about ending up\nwith a `Maybe (Maybe a)` return type.\n\nFor example:\n\n    getHeadFromMaybeList : Maybe List -> Maybe a\n    getHeadFromMaybeList =\n      flatMap List.head\n\n# FlatMaps\n@docs flatMap, flatMap2, flatMap3, flatMap4, flatMap5\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "flatMap",
+                "comment": "",
+                "type": "(a -> Maybe b) -> Maybe a -> Maybe b"
+            },
+            {
+                "name": "flatMap2",
+                "comment": "",
+                "type": "(a -> b -> Maybe c) -> Maybe a -> Maybe b -> Maybe c"
+            },
+            {
+                "name": "flatMap3",
+                "comment": "",
+                "type": "(a -> b -> c -> Maybe d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d"
+            },
+            {
+                "name": "flatMap4",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> Maybe e) -> Maybe a -> Maybe b -> Maybe c -> Maybe d -> Maybe e"
+            },
+            {
+                "name": "flatMap5",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> e -> Maybe f) -> Maybe a -> Maybe b -> Maybe c -> Maybe d -> Maybe e -> Maybe f"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Random.Pipeline",
+        "comment": "\n\n@docs from, with, always, finish\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "always",
+                "comment": " `always` give the same value.\n",
+                "type": "a -> ( a -> b, Seed ) -> ( b, Seed )"
+            },
+            {
+                "name": "finish",
+                "comment": " ",
+                "type": "( Seed -> a, Seed ) -> a"
+            },
+            {
+                "name": "from",
+                "comment": " Make a random value `from` a `Seed`\n",
+                "type": "Seed -> a -> ( a, Seed )"
+            },
+            {
+                "name": "with",
+                "comment": " Continue down the pipeline, adding a random value `with` a generator\n",
+                "type": "Generator a -> ( a -> b, Seed ) -> ( b, Seed )"
+            }
+        ],
+        "binops": []
+    }
+]

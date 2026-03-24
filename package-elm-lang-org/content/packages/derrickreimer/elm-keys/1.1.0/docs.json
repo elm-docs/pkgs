@@ -1,0 +1,96 @@
+[
+    {
+        "name": "Keys",
+        "comment": " Advanced keyboard event listener functions.\n\n\n# Definitions\n\n@docs Modifier, KeyCode, KeyboardEvent, Listener\n\n\n# Key Code Helpers\n\n@docs enter, esc, tab\n\n\n# Option Helpers\n\n@docs defaultOptions, preventDefault\n\n\n# Events\n\n@docs onKeydown, onKeypress, onKeyup\n\n",
+        "unions": [
+            {
+                "name": "Modifier",
+                "comment": " The possible modifier keys on keyboard events.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Alt",
+                        []
+                    ],
+                    [
+                        "Ctrl",
+                        []
+                    ],
+                    [
+                        "Shift",
+                        []
+                    ],
+                    [
+                        "Meta",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "KeyCode",
+                "comment": " An ASCII character code.\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "KeyboardEvent",
+                "comment": " A JavaScript keyboard event.\n",
+                "args": [],
+                "type": "{ keyCode : KeyCode, modifiers : List Modifier, repeat : Bool }"
+            },
+            {
+                "name": "Listener",
+                "comment": " An event listener definition.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "( List Modifier, KeyCode, KeyboardEvent -> msg )"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " The default event options.\n\nSee [`Html.Events`](events).\n\n[events]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events#Options\n\n",
+                "type": "Options"
+            },
+            {
+                "name": "enter",
+                "comment": " The code for the `enter` key.\n",
+                "type": "KeyCode"
+            },
+            {
+                "name": "esc",
+                "comment": " The code for the `esc` key.\n",
+                "type": "KeyCode"
+            },
+            {
+                "name": "onKeydown",
+                "comment": " Capture <keydown> events on inputs and text areas and match against\none or more different sets of listener criteria.\n\nSuppose you want to listen for both the `esc` key and the `meta + enter` key combinations\nand prevent the default behavior. You would define your event listener like this:\n\n    import Keys exposing (Modifier(..), KeyboardEvent, preventDefault, onKeydown, esc, enter)\n\n    type Msg\n        = Escaped KeyboardEvent\n        | Submitted KeyboardEvent\n\n    view : Html Msg\n    view =\n        textarea\n            [ onKeydown preventDefault\n                [ ( [ Meta ], enter, Submitted )\n                , ( [], esc, Escaped )\n                ]\n            ]\n\nThe first argument is [`Html.Events` options](options) and the second argument is\nan array of three-part tuples containing:\n\n  - the required modifier keys (shift, alt, control, or meta),\n  - the key code, and\n  - the message constructor\n\n[keydown]: https://developer.mozilla.org/en-US/docs/Web/Events/keydown\n[options]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events#Options\n\n",
+                "type": "Options -> List (Listener msg) -> Attribute msg"
+            },
+            {
+                "name": "onKeypress",
+                "comment": " Capture <keypress> events on inputs and text areas and match against\none or more different sets of listener criteria.\n\nSee [`onKeydown`](#onKeydown) for more information.\n\n[keypress]: https://developer.mozilla.org/en-US/docs/Web/Events/keypress\n\n",
+                "type": "Options -> List (Listener msg) -> Attribute msg"
+            },
+            {
+                "name": "onKeyup",
+                "comment": " Capture <keyup> events on inputs and text areas and match against\none or more different sets of listener criteria.\n\nSee [`onKeydown`](#onKeydown) for more information.\n\n[keyup]: https://developer.mozilla.org/en-US/docs/Web/Events/keyup\n\n",
+                "type": "Options -> List (Listener msg) -> Attribute msg"
+            },
+            {
+                "name": "preventDefault",
+                "comment": " Prevent the default behavior when the event fires.\n",
+                "type": "Options"
+            },
+            {
+                "name": "tab",
+                "comment": " The code for the `tab` key.\n",
+                "type": "KeyCode"
+            }
+        ],
+        "binops": []
+    }
+]

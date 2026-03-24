@@ -1,0 +1,181 @@
+[
+    {
+        "name": "Polymer.Events",
+        "comment": "\n@docs onIronSelect\n@docs onSelectedChanged\n@docs onTap\n@docs onValueChanged\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "onIronSelect",
+                "comment": " ",
+                "type": "(String -> Result String a) -> (a -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onSelectedChanged",
+                "comment": " ",
+                "type": "(String -> Result String a) -> (a -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onTap",
+                "comment": " ",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onValueChanged",
+                "comment": " ",
+                "type": "(String -> msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Polymer.Paper",
+        "comment": "\n@docs iconButton\n@docs item\n@docs input\n@docs itemBody\n@docs fab\n@docs menu\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fab",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "iconButton",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "input",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "item",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "itemBody",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "menu",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Polymer.App",
+        "comment": "\n@docs drawer\n@docs drawerLayout\n@docs header\n@docs headerLayout\n@docs route\n@docs toolbar\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "drawer",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "drawerLayout",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "header",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "headerLayout",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "route",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "toolbar",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Polymer.Firebase",
+        "comment": "\n@docs app\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "app",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Polymer.Attributes",
+        "comment": "\n@docs attrForSelected\n@docs boolProperty\n@docs icon\n@docs label\n@docs path\n@docs selected\n@docs stringProperty\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attrForSelected",
+                "comment": " ",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "boolProperty",
+                "comment": " ",
+                "type": "String -> Bool -> Attribute msg"
+            },
+            {
+                "name": "icon",
+                "comment": " ",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "label",
+                "comment": " ",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "path",
+                "comment": " ",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "selected",
+                "comment": " ",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "stringProperty",
+                "comment": " ",
+                "type": "String -> String -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Polymer.Iron",
+        "comment": "\n@docs selector\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "selector",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

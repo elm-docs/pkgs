@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Pointer",
+        "comment": " Handling pointer events.\n\n@docs Event\n\n@docs onDown, onMove, onUp, onWithOptions\n\n@docs eventDecoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Event",
+                "comment": " Type that get returned by a pointer event.\n",
+                "args": [],
+                "type": "{ isPrimary : Bool, pointerId : Int, pointer : Event }"
+            }
+        ],
+        "values": [
+            {
+                "name": "eventDecoder",
+                "comment": " An Event decoder for pointer events.\n",
+                "type": "Decoder Event"
+            },
+            {
+                "name": "onDown",
+                "comment": " Listen to `pointerdown` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onMove",
+                "comment": " Listen to `pointermove` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onUp",
+                "comment": " Listen to `pointerup` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onWithOptions",
+                "comment": " Choose the mouse event to listen to, and specify the event options.\n",
+                "type": "String -> Options -> (Event -> msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    }
+]

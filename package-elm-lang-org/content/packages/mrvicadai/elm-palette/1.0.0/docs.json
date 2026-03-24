@@ -1,0 +1,111 @@
+[
+    {
+        "name": "Palette.FlatUI",
+        "comment": " FlatUI Palette\n\n@docs turquoise, emerald, peterRiver, amethyst, wetAsphalt, greenSea, nephritis, belizeHole, wisteria, midnightBlue, sunFlower, carrot, alizarin, clouds, concrete, orange, pumpkin, pomegranate, silver, asbestos\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "alizarin",
+                "comment": " alizarin\n",
+                "type": "Color"
+            },
+            {
+                "name": "amethyst",
+                "comment": " amethyst\n",
+                "type": "Color"
+            },
+            {
+                "name": "asbestos",
+                "comment": " asbestos\n",
+                "type": "Color"
+            },
+            {
+                "name": "belizeHole",
+                "comment": " belizeHole\n",
+                "type": "Color"
+            },
+            {
+                "name": "carrot",
+                "comment": " carrot\n",
+                "type": "Color"
+            },
+            {
+                "name": "clouds",
+                "comment": " clouds\n",
+                "type": "Color"
+            },
+            {
+                "name": "concrete",
+                "comment": " concrete\n",
+                "type": "Color"
+            },
+            {
+                "name": "emerald",
+                "comment": " emerald\n",
+                "type": "Color"
+            },
+            {
+                "name": "greenSea",
+                "comment": " greenSea\n",
+                "type": "Color"
+            },
+            {
+                "name": "midnightBlue",
+                "comment": " midnightBlue\n",
+                "type": "Color"
+            },
+            {
+                "name": "nephritis",
+                "comment": " nephritis\n",
+                "type": "Color"
+            },
+            {
+                "name": "orange",
+                "comment": " orange\n",
+                "type": "Color"
+            },
+            {
+                "name": "peterRiver",
+                "comment": " peterRiver\n",
+                "type": "Color"
+            },
+            {
+                "name": "pomegranate",
+                "comment": " pomegranate\n",
+                "type": "Color"
+            },
+            {
+                "name": "pumpkin",
+                "comment": " pumpkin\n",
+                "type": "Color"
+            },
+            {
+                "name": "silver",
+                "comment": " silver\n",
+                "type": "Color"
+            },
+            {
+                "name": "sunFlower",
+                "comment": " sunFlower\n",
+                "type": "Color"
+            },
+            {
+                "name": "turquoise",
+                "comment": " turquoise\n",
+                "type": "Color"
+            },
+            {
+                "name": "wetAsphalt",
+                "comment": " wetAsphalt\n",
+                "type": "Color"
+            },
+            {
+                "name": "wisteria",
+                "comment": " wisteria\n",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    }
+]

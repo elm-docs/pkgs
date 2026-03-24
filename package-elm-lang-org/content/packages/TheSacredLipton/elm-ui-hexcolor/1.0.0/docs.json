@@ -1,0 +1,1 @@
+[{"name":"Element.HexColor","comment":"\n\n@docs hex\n@docs hexa\n\n","unions":[],"aliases":[],"values":[{"name":"hex","comment":" ","type":"String.String -> Maybe.Maybe Element.Color"},{"name":"hexa","comment":" ","type":"( String.String, Basics.Float ) -> Maybe.Maybe Element.Color"}],"binops":[]}]

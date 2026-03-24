@@ -1,0 +1,88 @@
+[
+    {
+        "name": "FormBuilder.FieldBuilder.Autocomplete",
+        "comment": " Creates an autocomplete field, able to search accross the web from multiple sources.\n\n@docs AutocompleteAttributes\n@docs get\n@docs input\n@docs update\n@docs subscriptions\n@docs Msg\n@docs searchQuery\n@docs withLabels\n@docs withHover\n@docs State\n@docs autocompleteState\n@docs minChars\n@docs maxResults\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [
+                    "elements"
+                ],
+                "cases": []
+            },
+            {
+                "name": "State",
+                "comment": " ",
+                "args": [
+                    "element",
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "AutocompleteAttributes",
+                "comment": " ",
+                "args": [
+                    "element"
+                ],
+                "type": "{ labels : Maybe (element -> String), hoverStyle : List (Style -> Style) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "autocompleteState",
+                "comment": " ",
+                "type": "(Msg (List element) -> msg) -> (element -> msg) -> List ( String, Decoder (List element) ) -> State element msg"
+            },
+            {
+                "name": "get",
+                "comment": " ",
+                "type": "String -> Decoder element -> ( String, Decoder element )"
+            },
+            {
+                "name": "input",
+                "comment": " ",
+                "type": "State element msg -> (element -> Html msg) -> List (AttributesModifier (AutocompleteAttributes element) msg) -> Html msg"
+            },
+            {
+                "name": "maxResults",
+                "comment": " ",
+                "type": "Int -> State element msg -> State element msg"
+            },
+            {
+                "name": "minChars",
+                "comment": " Set the minimum number of character before launch of requests.\nIt can't be less than 1.\n",
+                "type": "Int -> State element msg -> State element msg"
+            },
+            {
+                "name": "searchQuery",
+                "comment": " ",
+                "type": "State element msg -> String"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "State element msg -> Float -> Sub msg"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg (List element) -> State element msg -> ( State element msg, Cmd msg )"
+            },
+            {
+                "name": "withHover",
+                "comment": " ",
+                "type": "List (Style -> Style) -> FieldAttributes (AutocompleteAttributes element) msg -> FieldAttributes (AutocompleteAttributes element) msg"
+            },
+            {
+                "name": "withLabels",
+                "comment": " ",
+                "type": "(element -> String) -> FieldAttributes (AutocompleteAttributes element) msg -> FieldAttributes (AutocompleteAttributes element) msg"
+            }
+        ],
+        "binops": []
+    }
+]

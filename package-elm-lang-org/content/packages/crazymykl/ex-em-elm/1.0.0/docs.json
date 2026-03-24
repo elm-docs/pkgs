@@ -1,0 +1,59 @@
+[
+    {
+        "name": "ExEmElm.Parser",
+        "comment": " This library allows the parsing of XML\n\n@docs parse\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parse",
+                "comment": " Parses an XML document from a string\n",
+                "type": "String -> Result String Document"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ExEmElm.Traverse",
+        "comment": " This library allows the traversal/querying of parsed XML\n\n@docs innerText, at, textAt\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "at",
+                "comment": " Traverse down a path of tags\n",
+                "type": "List String -> Node -> List Node"
+            },
+            {
+                "name": "innerText",
+                "comment": " Retrives the text inside the node and all subnodes\n",
+                "type": "Node -> String"
+            },
+            {
+                "name": "textAt",
+                "comment": " Get the text inside all tags at the end of the given path\n",
+                "type": "List String -> Node -> List String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ExEmElm.Encoder",
+        "comment": " This library stringifies XML data structures\n\n@docs document, node\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "document",
+                "comment": " Stringify an entire XML document\n",
+                "type": "Document -> String"
+            },
+            {
+                "name": "node",
+                "comment": " Stringify an individual XML node\n",
+                "type": "Node -> String"
+            }
+        ],
+        "binops": []
+    }
+]

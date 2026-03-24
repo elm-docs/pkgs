@@ -1,0 +1,60 @@
+[
+    {
+        "name": "Segment",
+        "comment": " Library for sending events to segment.io\n\n\n# Model\n\n@docs Model\n@docs defaultModel\n\n\n# Events msgs\n\nCreate identified or anonymous events msgs. And send them to the update function.\n@docs createIdentifiedPageEventMsg, createAnonymousPageEventMsg, createIdentifiedTrackEventMsg, createAnonymousTrackEventMsg, createIdentifyEventMsg\n\n\n# Update\n\n@docs update\n\n\n# Msgs\n\n@docs Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ key : String, userId : String, started : Bool, app : String, name : String, version : String, identifiedEvents : List (UserId -> Value), anonymousEvents : List Value, eventsToBeSend : List Value, tick : Float, lastBatchRequestState : WebData Value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "createAnonymousPageEventMsg",
+                "comment": "\n\n    let\n        segmentMsg =\n            let\n                properties =\n                    [ ( \"title\", Json.Encode.string \"Welcome | Initech\" )\n                    , ( \"url\", Json.Encode.string \"http://www.initech.com\" )\n                    ]\n            in\n            Segment.createAnonymousPageEventMsg \"Home\" properties \"anonymous\"\n    in\n    update (HandleSegmentMsg segmentMsg) model\n\n",
+                "type": "String -> List ( String, Value ) -> String -> Msg"
+            },
+            {
+                "name": "createAnonymousTrackEventMsg",
+                "comment": "\n\n    let\n        segmentMsg =\n            let\n                properties =\n                    [ ( \"registration_uuid\", Json.Encode.string registrationUuid )\n                    , ( \"user_email\", Json.Encode.string email )\n                    ]\n            in\n            Segment.createAnonymousTrackEventMsg \"Registration Restarted\" properties \"anonymous\"\n    in\n    update (HandleSegmentMsg segmentMsg) model\n\n",
+                "type": "String -> List ( String, Value ) -> String -> Msg"
+            },
+            {
+                "name": "createIdentifiedPageEventMsg",
+                "comment": "\n\n    let\n        segmentMsg =\n            let\n                properties =\n                    [ ( \"title\", Json.Encode.string \"Welcome | Initech\" )\n                    , ( \"url\", Json.Encode.string \"http://www.initech.com\" )\n                    ]\n            in\n            Segment.createIdentifiedPageEventMsg \"Home\" properties\n    in\n    update (HandleSegmentMsg segmentMsg) model\n\n",
+                "type": "String -> List ( String, Value ) -> Msg"
+            },
+            {
+                "name": "createIdentifiedTrackEventMsg",
+                "comment": "\n\n    let\n        segmentMsg =\n            let\n                properties =\n                    [ ( \"registration_uuid\", Json.Encode.string registrationUuid )\n                    , ( \"user_email\", Json.Encode.string email )\n                    ]\n            in\n            Segment.createIdentifiedTrackEventMsg \"Registration Restarted\" properties\n    in\n    update (HandleSegmentMsg segmentMsg) model\n\n",
+                "type": "String -> List ( String, Value ) -> Msg"
+            },
+            {
+                "name": "createIdentifyEventMsg",
+                "comment": "\n\n    let\n        segmentMsg =\n            let\n                traits =\n                    [ ( \"name\", Json.Encode.string \"Peter Gibbons\" )\n                    , ( \"email\", Json.Encode.string \"\"peter@initech.com\"\" )\n                    ]\n            in\n            Segment.createIdentifyEventMsg traits userId\n    in\n    update (HandleSegmentMsg segmentMsg) model\n\n",
+                "type": "List ( String, Value ) -> String -> Msg"
+            },
+            {
+                "name": "defaultModel",
+                "comment": " Add Segment model to your model. Provide key, app name and optionally tick (=time between api calls in millis).\nDefault is 500.\n\n    let\n        segmentModel =\n            Segment.defaultModel \"segmentKey\" \"applicationName\"\n    in\n    {segmentModel | tick = 100}\n\n",
+                "type": "String -> String -> Model"
+            },
+            {
+                "name": "update",
+                "comment": " After first event is added, timers starts to tick.\nEvery tick - events are send. Identified events get send only if Identify event was provided. Anonymous events will be send every time.\nYou can force sending cached events with SendApiBatch msg.\n\n    HandleSegmentMsg segmentMsg ->\n        let\n            ( updatedSegmentModel, segmentCmd ) =\n                Segment.update segmentMsg model.segmentModel\n        in\n        ( { model | segmentModel = updatedSegmentModel }, Cmd.map HandleSegmentMsg segmentCmd )\n\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    }
+]

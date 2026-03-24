@@ -1,0 +1,133 @@
+[
+    {
+        "name": "Euclid.Rectangle",
+        "comment": " Defines a Rectangle type\n\n# Types\n@docs Rectangle\n\n# Properties\n@docs width, height, left, right, top, bottom, opposite\n\n# Misc\n@docs hasPoint\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Rectangle",
+                "comment": " A polymorphic rectangle defined by its top left corner and its size ",
+                "args": [
+                    "n"
+                ],
+                "type": "{ corner : Vector n, size : Vector n }"
+            }
+        ],
+        "values": [
+            {
+                "name": "bottom",
+                "comment": " Bottom side of a rectangle ",
+                "type": "Rectangle number -> number"
+            },
+            {
+                "name": "hasPoint",
+                "comment": " Does the rectangle contain the point ",
+                "type": "Rectangle comparable -> Vector comparable -> Bool"
+            },
+            {
+                "name": "height",
+                "comment": " Height of a rectangle ",
+                "type": "Rectangle n -> n"
+            },
+            {
+                "name": "left",
+                "comment": " Left side of a rectangle ",
+                "type": "Rectangle n -> n"
+            },
+            {
+                "name": "opposite",
+                "comment": " Opposite corner of a rectangle (bottom right) ",
+                "type": "Rectangle number -> Vector number"
+            },
+            {
+                "name": "right",
+                "comment": " Right side of a rectangle ",
+                "type": "Rectangle number -> number"
+            },
+            {
+                "name": "top",
+                "comment": " Top side of a rectangle ",
+                "type": "Rectangle number -> number"
+            },
+            {
+                "name": "width",
+                "comment": " Width of a rectangle ",
+                "type": "Rectangle n -> n"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Euclid.Vector",
+        "comment": " Defines a polymorphic Vector type\n\n# Types\n@docs Vector\n\n# Construction\n@docs vec\n\n# Arithmetic\n@docs add, subtract, negate, conjugate\n\n# Transform\n@docs map, map2, dotwise, fold, x, y\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Vector",
+                "comment": " A 2D vector ",
+                "args": [
+                    "n"
+                ],
+                "type": "{ x : n, y : n }"
+            }
+        ],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add two vectors component-wise ",
+                "type": "Vector number -> Vector number -> Vector number"
+            },
+            {
+                "name": "conjugate",
+                "comment": " The complex conjugate (Y component is negated) ",
+                "type": "Vector number -> Vector number"
+            },
+            {
+                "name": "dotwise",
+                "comment": " Apply some function to two vectors component-wise (like map for two vectors)  ",
+                "type": "(a -> a -> b) -> Vector a -> Vector a -> Vector b"
+            },
+            {
+                "name": "fold",
+                "comment": " Reduce a Vector to a single value by applying some function to its components ",
+                "type": "(a -> a -> b) -> Vector a -> b"
+            },
+            {
+                "name": "map",
+                "comment": " Apply some function to each component ",
+                "type": "(a -> b) -> Vector a -> Vector b"
+            },
+            {
+                "name": "map2",
+                "comment": " See 'dotwise' ",
+                "type": "(a -> a -> b) -> Vector a -> Vector a -> Vector b"
+            },
+            {
+                "name": "negate",
+                "comment": " Negate both components ",
+                "type": "Vector number -> Vector number"
+            },
+            {
+                "name": "subtract",
+                "comment": " Subtract two vectors component-wise ",
+                "type": "Vector number -> Vector number -> Vector number"
+            },
+            {
+                "name": "vec",
+                "comment": " Construct a vector from an X and a Y value  ",
+                "type": "n -> n -> Vector n"
+            },
+            {
+                "name": "x",
+                "comment": " Apply some function to the X component ",
+                "type": "(a -> a) -> Vector a -> Vector a"
+            },
+            {
+                "name": "y",
+                "comment": " Apply some function to the y component ",
+                "type": "(a -> a) -> Vector a -> Vector a"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Last",
+        "comment": " Get the last element from a List.\n\n# Usage\n@docs fromList\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromList",
+                "comment": " Get the last element from a List.\n\n    last [] -- Nothing\n    last [ 1 ] -- Just 1\n    last [ \"yo\", \"hello\" ] -- Just \"hello\"\n\n",
+                "type": "List a -> Maybe a"
+            }
+        ],
+        "binops": []
+    }
+]

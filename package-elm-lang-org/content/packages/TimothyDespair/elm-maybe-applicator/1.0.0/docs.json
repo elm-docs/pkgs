@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Maybe.Applicator",
+        "comment": " A tool for mapping \"maybes\" over function arguments. Basically partially applies\nvalues to a function if they exist or returns nothing if they don't. Can be chained.\n\nUseful for creating records where values may not exist.\n@docs apply\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " Partially apply values if they exist. Can be chained. Useful for creating records:\n\n    type alias Record =\n      { x: String\n      , y: String\n      , z: String\n      }\n    \n    type alias NewRecord =\n      { x: Maybe String\n      , y: Maybe String\n      , z: Maybe String\n      }\n\n    newRecord : MaybeRecord -> Maybe Record\n    newRecord maybeRecord =\n      ( Just maybeRecord )\n        |> apply maybeRecord.x\n        |> apply maybeRecord.y\n        |> apply maybeRecord.z\n        \n",
+                "type": "Maybe a -> Maybe (a -> b) -> Maybe b"
+            }
+        ],
+        "binops": []
+    }
+]

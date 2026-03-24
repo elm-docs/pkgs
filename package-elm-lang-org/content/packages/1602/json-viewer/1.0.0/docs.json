@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Json.Viewer",
+        "comment": "\n@docs Model, Msg, init, update, view\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": "\nLocal state of Json.Viewer component. Usage example:\n\n    type alias Model =\n        { jsonViewer : Json.Viewer.Model\n        , {- ...the rest of your app model decraration -}\n        }\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": "\nLocal messages of Json.Viewer component. Usage example:\n\n    type Msg\n        = JsonViewerMsg Json.Viewer.Msg\n        | {- ...the rest of your app messages -}\n\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "init",
+                "comment": "\nInitialization of Json.Viewer component. Usage example:\n\n    init : ( Model, Cmd Msg)\n    init =\n        { jsonViewer: Json.Viewer.init Json.Value.NullValue\n        , {- ...the rest of your app state initialization -}\n        } ! []\n\n",
+                "type": "JsonValue -> Model"
+            },
+            {
+                "name": "update",
+                "comment": "\nToggle expandable node. Usage example:\n\n    update msg model =\n        case msg of\n            JsonViewerMsg m ->\n                { model\n                    | jsonViewer =\n                        model.jsonViewer |> update m\n                } ! []\n\n            {- ...the rest of your app message handling -}\n\n",
+                "type": "Msg -> Model -> Model"
+            },
+            {
+                "name": "view",
+                "comment": "\nRender JsonViewer\n\n    jsonValue\n        |> view\n            { expandedNodes = expandedNodes\n            , onToggle = ToggleNode\n            } []\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

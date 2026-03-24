@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Stripe",
+        "comment": " Wrapper for the Stripe Checkout embedded form. See [this link](https://stripe.com/docs/checkout/tutorial) for the official documentation\n\n\n# Data\n\n@docs Model\nModel is A simple structural type that contains all of the information passed as data-attributes to Stripe checkout script.\n\n@docs checkoutView\ncheckout is the function that, taking a model, returns the HTML configured with that model. It will be the \"Pay with Card\" button from the above linked tutorial.\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " @docs Model is A simple structural type that contains all of the information passed as data-attributes to Stripe checkout script.\n",
+                "args": [],
+                "type": "{ key : String, amount : String, name : String, description : String, imageUrl : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "checkoutView",
+                "comment": " @docs checkout\ncheckout is the function that, taking a model, returns the HTML configured with that model. It will be the \"Pay with Card\" button from the above linked tutorial.\n",
+                "type": "Model -> Html a"
+            }
+        ],
+        "binops": []
+    }
+]

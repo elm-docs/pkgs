@@ -1,0 +1,196 @@
+[
+    {
+        "name": "Serverless",
+        "comment": " Define an HTTP API in elm.\n\n@docs httpApi, Flags, HttpApi, Program, RequestPort, ResponsePort\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " Type of flags for program\n",
+                "args": [],
+                "type": "Value"
+            },
+            {
+                "name": "HttpApi",
+                "comment": " Program for an HTTP API.\n\nDiffers from Platform.program as follows\n\n* endpointPort - port through which the HTTP request begins\n* responsePort - port through which the HTTP request ends\n* init - guaranteed to get a decoded Request\n",
+                "args": [
+                    "config",
+                    "model",
+                    "msg"
+                ],
+                "type": "{ configDecoder : Decoder config, requestPort : RequestPort (Msg msg), responsePort : ResponsePort (Msg msg), endpoint : msg, initialModel : model, update : msg -> Conn config model -> ( Conn config model, Cmd msg ), subscriptions : Conn config model -> Sub msg }"
+            },
+            {
+                "name": "Program",
+                "comment": " Serverless program type\n",
+                "args": [
+                    "config",
+                    "model",
+                    "msg"
+                ],
+                "type": "Program Flags (Pool config model) (Msg msg)"
+            },
+            {
+                "name": "RequestPort",
+                "comment": " A port through which the request is received\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "(Value -> msg) -> Sub msg"
+            },
+            {
+                "name": "ResponsePort",
+                "comment": " A port through which the request is sent\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Value -> Cmd msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "httpApi",
+                "comment": " Create an HttpApi.\n\nThis program guarantees a decoded Request for your init function. If an error\nhappens during decoding, it will send 500 through the responsePort that\nyou provide and never call init.\n",
+                "type": "HttpApi config model msg -> Program config model msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Serverless.Conn",
+        "comment": " An HTTP connection with a request and response\n\n@docs Conn, statusCode, body, send\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Conn",
+                "comment": " A connection with a request and response\n",
+                "args": [
+                    "config",
+                    "model"
+                ],
+                "type": "{ config : config, req : Request, resp : Response, model : model }"
+            }
+        ],
+        "values": [
+            {
+                "name": "body",
+                "comment": " Set the response body\n",
+                "type": "Body -> Conn config model -> Conn config model"
+            },
+            {
+                "name": "send",
+                "comment": " Sends a connection response through the given port\n",
+                "type": "(Value -> Cmd msg) -> Conn config model -> ( Conn config model, Cmd msg )"
+            },
+            {
+                "name": "statusCode",
+                "comment": " Set the response HTTP status code\n",
+                "type": "StatusCode -> Conn config model -> Conn config model"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Serverless.Conn.Response",
+        "comment": " Types to help send an HTTP response.\n\n@docs Body, Response, StatusCode\n",
+        "unions": [
+            {
+                "name": "Body",
+                "comment": " Response body\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TextBody",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "StatusCode",
+                "comment": " HTTP status code\n",
+                "args": [],
+                "cases": [
+                    [
+                        "InvalidStatusCode",
+                        []
+                    ],
+                    [
+                        "NumericStatusCode",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Ok_200",
+                        []
+                    ],
+                    [
+                        "NotFound_404",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Response",
+                "comment": " HTTP Response\n",
+                "args": [],
+                "type": "{ statusCode : StatusCode, body : Body }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Serverless.Conn.Request",
+        "comment": " Defines an HTTP request.\n\n@docs Id, Method, Request\n",
+        "unions": [
+            {
+                "name": "Method",
+                "comment": " HTTP request message type\n",
+                "args": [],
+                "cases": [
+                    [
+                        "GET",
+                        []
+                    ],
+                    [
+                        "POST",
+                        []
+                    ],
+                    [
+                        "PUT",
+                        []
+                    ],
+                    [
+                        "DELETE",
+                        []
+                    ],
+                    [
+                        "OPTIONS",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Id",
+                "comment": " Uniquely identifies a request\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Request",
+                "comment": " HTTP Request\n",
+                "args": [],
+                "type": "{ id : Id, method : Method, path : String, stage : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

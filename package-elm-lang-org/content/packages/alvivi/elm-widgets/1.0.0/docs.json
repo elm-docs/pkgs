@@ -1,0 +1,165 @@
+[
+    {
+        "name": "Widgets.Themes.Mint",
+        "comment": " A basic theme for the whole Widgets library. The purpose of this theme\nis to be an example on how to build themes, but it can also be use for\nprototyping.\n\nYou can also use this theme as a base style, and then apply your own styles.\n\nThis theme requires a css normalization base. See global for more information.\n\n\n# Initialization\n\n@docs global\n\n\n# Theming Widgets\n\n@docs input\n\n\n# Theming Html Nodes\n\n@docs text\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "global",
+                "comment": " Common styles needed by other parts of this theme. Use this to initialize\nthe theme together with Widgets.Normalize.snippets.\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Widgets.Themes.Mint.global\n            , Html.text \"My Content\"\n            ]\n\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "input",
+                "comment": " Apply this theme to Widgets.Form widgets. You only need to include this\nattribute in any of widgets of Widgets.Form.\n\n    Form.input { id = \"id\" , description = \"desc\" , type_ = \"text\" }\n      [ Widgets.Themes.Mint.input ] []\n\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "text",
+                "comment": " Apply a simple text styling to an Html node.\n\n    Html.h1 [ Html.css [ Widgets.Themes.text ] ] [ H.text \"My Header\" ]\n\n",
+                "type": "Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form",
+        "comment": " Form controls following ARIA recommendations.\n\n\n# Controls\n\n@docs input\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "input",
+                "comment": " A generic input control. An `id` and a `description` is always required.\n`type` is the type of input, it could be `text`, `email`, `submit` or any\n[other](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).\nUsually, is better to use the other semantic controls provided by this module.\n",
+                "type": "{ id : String, description : String, type_ : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form.Attributes",
+        "comment": " Attributes for Form controls.\n\n@docs Attribute\n\n\n# Properties\n\n@docs autocomplete, descriptionLabel, disabled, placeholder, required, value\n\n\n# Events\n\n@docs onBlur, onFocus, onInput\n\n\n# State\n\n@docs focused, whenFocused\n\n\n# Helpers\n\n@docs batch, css\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " A Form control attribute\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Attribute msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "autocomplete",
+                "comment": " Set the type of autocomplete for the control. Valid options can be found\n[here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autocomplete).\nAll controls exposed in Widgets.Form but input set this value for you.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "batch",
+                "comment": " Batch several attributes together. Useful for making you own custom\ncontrols.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "css",
+                "comment": " Sets custom css for an Element of the controls.\n",
+                "type": "Element -> List Style -> Attribute msg"
+            },
+            {
+                "name": "descriptionLabel",
+                "comment": " Show the description as text. Note that this overridden if you provide your\nown custom Label element.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "disabled",
+                "comment": " Sets the control as disabled.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "focused",
+                "comment": " Sets the control as focused\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "onBlur",
+                "comment": " Notifies when the control loose the focus\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onFocus",
+                "comment": " Notifies when the control is focused\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onInput",
+                "comment": " Notifies when the control has a new value\n",
+                "type": "(String -> msg) -> Attribute msg"
+            },
+            {
+                "name": "placeholder",
+                "comment": " Sets the placeholder of the control\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "required",
+                "comment": " Sets the control as required\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "value",
+                "comment": " Sets the value of the control\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "whenFocused",
+                "comment": " Applies attributes only when the control is focused. You can combine this\nwith css to add style to some elements only when the control is focused.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Normalize",
+        "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "snippets",
+                "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
+                "type": "List Snippet"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form.Elements",
+        "comment": " This module provides a type for referencing each of the element which are\npart of the form controls.\n\n@docs Element\n\n",
+        "unions": [
+            {
+                "name": "Element",
+                "comment": " Identifies each sub element of a Form control.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Description",
+                        []
+                    ],
+                    [
+                        "Input",
+                        []
+                    ],
+                    [
+                        "Label",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

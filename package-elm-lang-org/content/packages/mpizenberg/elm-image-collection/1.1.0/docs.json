@@ -1,0 +1,256 @@
+[
+    {
+        "name": "ImageGallery",
+        "comment": " The ImageGallery module helps displaying a gallery of images.\n\n# Model\n@docs Model, init\n\n# Update\n@docs Msg, update\n\n# View\n@docs defaultView, imageViewer, defaultViewThumbs, defaultViewSelected\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " The model of an image gallery ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " The type of messages to interact with an image gallery ",
+                "args": [],
+                "cases": [
+                    [
+                        "Clear",
+                        []
+                    ],
+                    [
+                        "Add",
+                        [
+                            "Key",
+                            "Maybe Model",
+                            "Model"
+                        ]
+                    ],
+                    [
+                        "Update",
+                        [
+                            "Key",
+                            "Maybe Model",
+                            "Model"
+                        ]
+                    ],
+                    [
+                        "Remove",
+                        [
+                            "Key"
+                        ]
+                    ],
+                    [
+                        "Select",
+                        [
+                            "Maybe Key"
+                        ]
+                    ],
+                    [
+                        "Coll",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "Thumb",
+                        [
+                            "Msg"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "defaultView",
+                "comment": " Default view for an image gallery ",
+                "type": "Maybe ( Int, Int ) -> Maybe ( Int, Int ) -> Model -> Html Msg"
+            },
+            {
+                "name": "defaultViewSelected",
+                "comment": " Default view of the currently selected image of an image gallery ",
+                "type": "Maybe ( Int, Int ) -> Model -> Html Msg"
+            },
+            {
+                "name": "defaultViewThumbs",
+                "comment": " Default view of the thumbnails of an image gallery ",
+                "type": "Maybe ( Int, Int ) -> Model -> Html Msg"
+            },
+            {
+                "name": "imageViewer",
+                "comment": " Just a viewer for 1 image ",
+                "type": "ImageViewer Msg"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize an empty model of an image gallery ",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Update the gallery depending on the message ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ImageCollection",
+        "comment": " The ImageCollection module helps dealing with collections of images.\n\n@docs Key, ImageViewer\n\n# Model\n@docs Model, init\n\n# Update\n@docs Msg, update\n\n# View\n@docs view, defaultView, viewOne\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " The model for a collection of images.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " The type of messages to interact with image collections.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Clear",
+                        []
+                    ],
+                    [
+                        "Remove",
+                        [
+                            "Key"
+                        ]
+                    ],
+                    [
+                        "Add",
+                        [
+                            "Key",
+                            "Model"
+                        ]
+                    ],
+                    [
+                        "Update",
+                        [
+                            "Key",
+                            "Model"
+                        ]
+                    ],
+                    [
+                        "SetDefaultSize",
+                        [
+                            "Maybe ( Int, Int )"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ImageViewer",
+                "comment": " Alias for readability in type definitions ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Maybe Class -> Maybe ( Int, Int ) -> Key -> Model -> Node msg"
+            },
+            {
+                "name": "Key",
+                "comment": " The key type to access images in the collection ",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultView",
+                "comment": " A simple default viewer putting `<img>` tags one after the other.\n",
+                "type": "Model -> Node msg"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize the model of a collection of images\nwith the default size of image views.\n\n    (model, msg) = init (Just (320, 240))\n",
+                "type": "Maybe ( Int, Int ) -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Update the image collection.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " The view of an image collection.\nOne can define a class for the `<div>` containing the collection,\na special function detailing the view of each image of the collection,\na class for each image tag,\nand a default size for the images.\n\n    viewer : Maybe Class -> Maybe (Int, Int) -> Key -> Image.Model -> Node msg\n    viewer class size key imageModel =\n        Image.view Image.ImgTag class size imageModel\n\n    collectionNode =\n        view (Just \"my-collection\") viewer Nothing (Just (320, 240)) model\n",
+                "type": "Maybe Class -> ImageViewer msg -> Maybe Class -> Maybe ( Int, Int ) -> Model -> Node msg"
+            },
+            {
+                "name": "viewOne",
+                "comment": " View only one image of the collection ",
+                "type": "TagType -> Maybe Class -> Maybe ( Int, Int ) -> Key -> Model -> Node msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Image",
+        "comment": " This module helps you deal with images, whether for `<img>` tags\nor for `<image>` tag inside a `<svg>`.\n\n@docs Class, TagType\n\n# Model\n@docs Model, init\n\n# Update\n@docs Msg, update\n\n# View\n@docs view, defaultView\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Model for an image.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " The type of messages the Image module may use.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "TagType",
+                "comment": " A type specifying if the image is going to be displayed\nin a classic `<img>` tag or inside a `<svg>` tag.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ImgTag",
+                        []
+                    ],
+                    [
+                        "SvgTag",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Class",
+                "comment": " For readability purpose in type definitions.\nRefers to the class attribute of html tags.\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultView",
+                "comment": " Default view for an image.\nIt is an `<img>` tag using default class \"image\" and the size of the image.\n",
+                "type": "Model -> Node msg"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize an image with its url, width and height.\n\n    (model, msg) = init \"img/cute_cat.png\" 320 240\n",
+                "type": "String -> Int -> Int -> ( Model, Cmd msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Update an image.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " View an image, depending on its location.\n\n    -- Get the image in an `<img>` tag with a size of 320x240 and the class \"my-image\".\n    viewNode = view ImgTag (Just \"my-image\") (Just (320, 240)) model\n",
+                "type": "TagType -> Maybe Class -> Maybe ( Int, Int ) -> Model -> Node msg"
+            }
+        ],
+        "binops": []
+    }
+]

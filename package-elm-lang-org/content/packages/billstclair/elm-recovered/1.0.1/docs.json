@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Recovered.Version",
+        "comment": " This module tracks the package version. See README.md for details.\n\n@docs version\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "version",
+                "comment": " Updated to match the package version.\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

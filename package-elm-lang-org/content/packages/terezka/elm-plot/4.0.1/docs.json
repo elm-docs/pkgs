@@ -1,0 +1,732 @@
+[
+    {
+        "name": "Plot",
+        "comment": "\n This library aims to allow you to visualize a variety of graphs in\n an intuitve manner without comprimising flexibility regarding configuration.\n It is insprired by the elm-html api, using the `element attrs children` pattern.\n\n This is still in beta! The api might and probably will change!\n\n# Definitions\n@docs Attribute, Element, Point, Style\n\n# Elements\n@docs plot, plotInteractive, xAxis, yAxis, hint, verticalGrid, horizontalGrid, custom\n\n## Series\n@docs scatter, line, area, bars\n\n# Styling and sizes\n@docs classes, id, margin, padding, size, style, domainLowest, domainHighest, rangeLowest, rangeHighest\n\n# State\nFor an example of the update flow see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm).\n\n@docs State, initialState, update, Interaction, getHoveredValue\n\n\n",
+        "unions": [
+            {
+                "name": "Element",
+                "comment": " Represents a child element of the plot.\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Interaction",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "Internal",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "msg"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "State",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [],
+                "type": "Config -> Config"
+            },
+            {
+                "name": "Point",
+                "comment": " Convinience type to represent coordinates.\n",
+                "args": [],
+                "type": "( Float, Float )"
+            },
+            {
+                "name": "Style",
+                "comment": " Convinience type to represent style.\n",
+                "args": [],
+                "type": "List ( String, String )"
+            }
+        ],
+        "values": [
+            {
+                "name": "area",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List Point -> Element msg"
+            },
+            {
+                "name": "bars",
+                "comment": " This wraps all your bar series.\n",
+                "type": "List (Attribute msg) -> List (List (StyleAttribute msg)) -> List Data -> Element msg"
+            },
+            {
+                "name": "classes",
+                "comment": " Adds classes to the svg element.\n",
+                "type": "List String -> Attribute"
+            },
+            {
+                "name": "custom",
+                "comment": " This element is passed a function which can translate your values into\n svg coordinates. This way you can build your own serie types. Although\n if you feel like you're missing something let me know!\n",
+                "type": "((Point -> Point) -> Svg msg) -> Element msg"
+            },
+            {
+                "name": "domainHighest",
+                "comment": " Alter the domain's upper boundery. The function provided will\n be passed the lowest y-value present in any of your series and the result will\n be the upper boundery of your series. So if you would like\n the lowest boundery to  always be 10, then set this attribute to the function `always 10`.\n\n The default is `identity`.\n\n **Note:** If you are using `padding` as well, the extra padding will still be\n added outside the domain.\n",
+                "type": "(Float -> Float) -> Attribute"
+            },
+            {
+                "name": "domainLowest",
+                "comment": " Alter the domain's lower boundery. The function provided will\n be passed the lowest y-value present in any of your series and the result will\n be the lower boundery of your series. So if you would like\n the lowest boundery to simply be the edge of your series, then set\n this attribute to the function `identity`.\n If you want it to always be -5, then set this attribute to the function `always -5`.\n\n The default is `identity`.\n\n **Note:** If you are using `padding` as well, the extra padding will still be\n added outside the domain.\n",
+                "type": "(Float -> Float) -> Attribute"
+            },
+            {
+                "name": "getHoveredValue",
+                "comment": " Get the hovered position from state.\n",
+                "type": "State -> Maybe Point"
+            },
+            {
+                "name": "hint",
+                "comment": " Adds a hint to your plot. See [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n\n Remember to use `plotInteractive` for the events to be processed!.\n",
+                "type": "List (Attribute msg) -> Maybe Point -> Element msg"
+            },
+            {
+                "name": "horizontalGrid",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg"
+            },
+            {
+                "name": "id",
+                "comment": " Adds an id to the svg element.\n",
+                "type": "String -> Attribute"
+            },
+            {
+                "name": "initialState",
+                "comment": " ",
+                "type": "State"
+            },
+            {
+                "name": "line",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List Point -> Element msg"
+            },
+            {
+                "name": "margin",
+                "comment": " Specify margin around the plot. Useful when your ticks are outside the\n plot and you would like to add space to see them! Values are in pixels and\nthe format is `( top, right, bottom, left )`.\n\n Default: `( 0, 0, 0, 0 )`\n",
+                "type": "( Int, Int, Int, Int ) -> Attribute"
+            },
+            {
+                "name": "padding",
+                "comment": " Adds padding to your plot, meaning extra space below\n and above the lowest and highest point in your plot.\n The unit is pixels and the format is `( bottom, top )`.\n\n Default: `( 0, 0 )`\n",
+                "type": "( Int, Int ) -> Attribute"
+            },
+            {
+                "name": "plot",
+                "comment": " This is the function processing your entire plot configuration.\n Pass your attributes and elements to this function and\n a svg plot will be returned!\n",
+                "type": "List Attribute -> List (Element msg) -> Svg msg"
+            },
+            {
+                "name": "plotInteractive",
+                "comment": " So this is like `plot`, except the message to is `Interaction msg`. It's a message wrapping\n your message, so you can use the build in inteactions (like the hint!) in the plot as well as adding your own.\n See [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm).\n",
+                "type": "List Attribute -> List (Element (Interaction msg)) -> Svg (Interaction msg)"
+            },
+            {
+                "name": "rangeHighest",
+                "comment": " Provide a function to determine the upper boundery of range.\n See `domainHighest` and imagine we're talking about the x-axis.\n",
+                "type": "(Float -> Float) -> Attribute"
+            },
+            {
+                "name": "rangeLowest",
+                "comment": " Provide a function to determine the lower boundery of range.\n See `domainLowest` and imagine we're talking about the x-axis.\n",
+                "type": "(Float -> Float) -> Attribute"
+            },
+            {
+                "name": "scatter",
+                "comment": " ",
+                "type": "List (Attribute msg) -> List Point -> Element msg"
+            },
+            {
+                "name": "size",
+                "comment": " Specify the size of your plot in pixels and in the format\n of `( width, height )`.\n\n Default: `( 800, 500 )`\n",
+                "type": "( Int, Int ) -> Attribute"
+            },
+            {
+                "name": "style",
+                "comment": " Adds styles to the svg element.\n",
+                "type": "Style -> Attribute"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> State -> State"
+            },
+            {
+                "name": "verticalGrid",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg"
+            },
+            {
+                "name": "xAxis",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg"
+            },
+            {
+                "name": "yAxis",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Bars",
+        "comment": "\n  Attributes to alter the view of the bars.\n\n    myBarsSerie : Plot.Element (Interaction YourMsg)\n    myBarsSerie =\n        bars\n            [ Bars.maxBarWidthPer 85\n            , Bars.stackByY\n            , Bars.label\n                [ Label.formatFromList [ \"A\", \"B\", \"C\" ] ]\n            ]\n            [ [ Bars.fill \"blue\", Bars.opacity 0.5 ]\n            , [ Bars.fill \"red\" ]\n            ]\n            (Bars.toBarData\n                { yValues = .revenueByYear\n                , xValue = Just .quarter\n                }\n                [ { quarter = 1, revenueByYear = [ 10000, 30000, 20000 ] }\n                , { quarter = 2, revenueByYear = [ 20000, 10000, 40000 ] }\n                , { quarter = 3, revenueByYear = [ 40000, 20000, 10000 ] }\n                , { quarter = 4, revenueByYear = [ 40000, 50000, 20000 ] }\n                ]\n            )\n\n# Definition\n@docs Attribute\n\n# Attributes\n@docs maxBarWidth, maxBarWidthPer, stackByY\n\n## Labels\n@docs LabelInfo, label\n\n# Individual bar attributes\n  These are the attributes which can be passed in the list of bar styles in the\n  second argument of your series.\n\n    myBarsSerie : Plot.Element msg\n    myBarsSerie =\n        bars\n            []\n            [ [ Bars.fill \"blue\", Bars.opacity 0.5 ]\n            , [ Bars.fill \"red\" ]\n            ]\n            data\n\n@docs StyleAttribute, fill, opacity, customAttrs\n\n# Custom data\n@docs Data, DataTransformers, toBarData\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Config msg -> Config msg"
+            },
+            {
+                "name": "Data",
+                "comment": " The data format the bars element requires.\n",
+                "args": [],
+                "type": "Group"
+            },
+            {
+                "name": "DataTransformers",
+                "comment": " The functions necessary to transform your data into the format the plot requires.\n If you provide the `xValue` with `Nothing`, the bars xValues will just be the index\n of the bar in the list.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "{ yValues : data -> List Value, xValue : Maybe (data -> Value) }"
+            },
+            {
+                "name": "LabelInfo",
+                "comment": " The info your label format option will be passed.\n",
+                "args": [],
+                "type": "{ index : Int, xValue : Value, yValue : Value }"
+            },
+            {
+                "name": "StyleAttribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "StyleConfig msg -> StyleConfig msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute msg) -> StyleAttribute msg"
+            },
+            {
+                "name": "fill",
+                "comment": " Set the fill color.\n",
+                "type": "String -> StyleAttribute msg"
+            },
+            {
+                "name": "label",
+                "comment": " Alter the view of your label.\n\n    myBarSeries : Plot.Element msg\n    myBarSeries =\n      bars\n          [ Bars.label\n              [ Label.classes [ \"label-class\" ]\n              , Label.displace ( 12, 0 )\n              ]\n          ]\n          barStyles\n          data\n",
+                "type": "List (Attribute LabelInfo msg) -> Attribute msg"
+            },
+            {
+                "name": "maxBarWidth",
+                "comment": " Set a fixed max width (in pixels) on your bars.\n",
+                "type": "Int -> Attribute msg"
+            },
+            {
+                "name": "maxBarWidthPer",
+                "comment": " Set a relative max width (in percentage) your bars.\n",
+                "type": "Int -> Attribute msg"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> StyleAttribute msg"
+            },
+            {
+                "name": "stackByY",
+                "comment": " By default your bars are stacked by x. If you want to stack them y, add this attribute.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "toBarData",
+                "comment": " This function can be used to transform your own data format\n into something the plot can understand.\n\n    Bars.toBarData\n        { yValues = .revenueByYear\n        , xValue = Just .quarter\n        }\n        [ { quarter = 1, revenueByYear = [ 10000, 30000, 20000 ] }\n        , { quarter = 2, revenueByYear = [ 20000, 10000, 40000 ] }\n        , { quarter = 3, revenueByYear = [ 40000, 20000, 10000 ] }\n        , { quarter = 4, revenueByYear = [ 40000, 50000, 20000 ] }\n        ]\n",
+                "type": "DataTransformers data -> List data -> List Data"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Axis",
+        "comment": "\n Attributes for altering the view of your axis.\n\n# Definition\n@docs Attribute\n\n# Attributes\n@docs classes, line, positionLowest, positionHighest, cleanCrossings, anchorInside\n\n## Ticks and labels\n@docs LabelInfo, tick, tickValues, tickDelta, label, labelValues\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Config msg -> Config msg"
+            },
+            {
+                "name": "LabelInfo",
+                "comment": " ",
+                "args": [],
+                "type": "{ value : Float, index : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "anchorInside",
+                "comment": " Anchor the ticks/labels on the inside of the plot. By default they are anchored on the outside.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view\n                [ Axis.anchorInside ]\n            ]\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "classes",
+                "comment": " Adds classes to the container holding your axis.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view\n                [ Axis.classes [ \"axis--x\" ] ]\n            ]\n",
+                "type": "List String -> Attribute msg"
+            },
+            {
+                "name": "cleanCrossings",
+                "comment": " Remove tick and value where the axis crosses the opposite axis.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view [ Axis.cleanCrossings ] ]\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "label",
+                "comment": " By providing this attribute with a list of [label attributes](http://package.elm-lang.org/packages/terezka/elm-plot/latest/Plot-Label),\n you may alter the values and ticks displayed as your axis' labels.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.view\n                    [ Label.displace (10, 0)\n                    , Label.stroke \"blue\"\n                    ]\n                , Label.format (.value >> toString)\n                ]\n            ]\n",
+                "type": "List (Attribute LabelInfo msg) -> Attribute msg"
+            },
+            {
+                "name": "labelValues",
+                "comment": " Specify the values which you want a label for. If not specified, it will mirror\n  the tick values.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.labelValues [ 0, 5, 10, 11 ] ]\n",
+                "type": "List Value -> Attribute msg"
+            },
+            {
+                "name": "line",
+                "comment": " Adds styles to the axis line.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view\n                [ Axis.line [ Line.stroke \"blue\" ] ]\n            ]\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "positionHighest",
+                "comment": " Position this axis to the highest value on the opposite axis. E.g. if\n this attribute is added on an y-axis, it will be positioned to the right.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view\n                [ Axis.positionHighest ]\n            ]\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "positionLowest",
+                "comment": " Position this axis to the lowest value on the opposite axis. E.g. if\n this attribute is added on an y-axis, it will be positioned to the left.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.view\n                [ Axis.positionLowest ]\n            ]\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "tick",
+                "comment": " By providing this attribute with a list of [tick attributes](http://package.elm-lang.org/packages/terezka/elm-plot/latest/Plot-Tick),\n you may alter the values and ticks displayed as your axis' ticks.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.view [ Tick.length 3 ] ]\n            , Axis.tickValues [ 2, 4, 6 ]\n            ]\n",
+                "type": "List (Attribute LabelInfo msg) -> Attribute msg"
+            },
+            {
+                "name": "tickDelta",
+                "comment": " Specify what values will be added a tick by specifying the space between each tick.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.tickDelta 4 ]\n\n **Note:** If you add another attribute msgltering the values like `tickValues` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "Float -> Attribute msg"
+            },
+            {
+                "name": "tickValues",
+                "comment": " Specify at what values will be added a tick.\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.tickValues [ 0, 1, 2, 4, 8 ] ]\n\n **Note:** If you add another attribute msgltering the values like `tickDelta` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "List Float -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Grid",
+        "comment": "\n Attributes for altering the view of your grid.\n\n    myGrid : Plot.Element (Interaction YourMsg)\n    myGrid =\n        line\n            [ stroke \"deeppink\"\n            , strokeWidth 2\n            , opacity 0.5\n            , customAttrs\n                [ Svg.Events.onClick <| Custom MyClickMsg\n                , Svg.Events.onMouseOver <| Custom Glow\n                ]\n            ]\n            areaDataPoints\n\n# Definition\n@docs Attribute\n\n# Styling\n@docs lines, classes\n\n# Values\n@docs values\n\n# Others\n@docs customAttrs\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "Config a -> Config a"
+            }
+        ],
+        "values": [
+            {
+                "name": "classes",
+                "comment": " Adds classes to the grid container.\n\n    myGrid : Plot.Element msg\n    myGrid =\n        verticalGrid [ Grid.classes [ \"my-grid\" ] ]\n",
+                "type": "List String -> Attribute a"
+            },
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes to your gridlines. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute a) -> Attribute a"
+            },
+            {
+                "name": "lines",
+                "comment": " Configure the view of the grid lines.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "values",
+                "comment": " Specify a list of ticks where you want grid lines drawn.\n\n    myGrid : Plot.Element msg\n    myGrid =\n        verticalGrid [ Grid.values [ 2, 4, 6 ] ]\n\n If values are not specified with this attribute, the grid will mirror the ticks.\n",
+                "type": "List Float -> Attribute a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Label",
+        "comment": "\n Attributes for altering the view of your labels.\n\n Before you read any further, please note that when I speak of the label _index_,\n then I'm talking about how many labels that particular label is from the origin.\n\n Ok, now you can go on!\n\n# Definition\n@docs Attribute\n\n# View options\n@docs view, viewDynamic, viewCustom\n\n## Style attributes\nIf these attributes do not forfill your needs, try out the viewCustom! If you have\na suspicion that I have missed a very common configuration, then please let me know and I'll add it.\n@docs StyleAttribute, classes, displace, stroke, strokeWidth, opacity, fill, fontSize, customAttrs\n\n# Value formatting\n@docs format, formatFromList\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "Config a msg -> Config a msg"
+            },
+            {
+                "name": "StyleAttribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "StyleConfig msg -> StyleConfig msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "classes",
+                "comment": " Adds classes to the label.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.view\n                    [ Label.classes [ \"my-class\" ] ]\n                ]\n            ]\n",
+                "type": "List String -> StyleAttribute msg"
+            },
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute msg) -> StyleAttribute msg"
+            },
+            {
+                "name": "displace",
+                "comment": " Displaces the label.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.view\n                    [ Label.displace ( 12, 0 ) ]\n                ]\n            ]\n",
+                "type": "( Int, Int ) -> StyleAttribute msg"
+            },
+            {
+                "name": "fill",
+                "comment": " Set the fill color.\n",
+                "type": "String -> StyleAttribute msg"
+            },
+            {
+                "name": "fontSize",
+                "comment": " Set the font size (in pixels).\n",
+                "type": "Int -> StyleAttribute msg"
+            },
+            {
+                "name": "format",
+                "comment": " Format the label based on its value and index.\n\n    formatter : Int -> Float -> String\n    formatter index value =\n        if isDivisibleBy5 index then\n            formatEveryFifth value\n        else\n            normalFormat value\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.format formatter ]\n            ]\n",
+                "type": "(a -> String) -> Attribute a msg"
+            },
+            {
+                "name": "formatFromList",
+                "comment": " ",
+                "type": "List String -> Attribute a msg"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> StyleAttribute msg"
+            },
+            {
+                "name": "stroke",
+                "comment": " Set the stroke color.\n",
+                "type": "String -> StyleAttribute msg"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " Set the stroke width (in pixels).\n",
+                "type": "Int -> StyleAttribute msg"
+            },
+            {
+                "name": "view",
+                "comment": " Provide a list of style attributes to alter the view of the label.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.view\n                    [ Label.classes [ \"label-class\" ]\n                    , Label.displace ( 12, 0 )\n                    ]\n                ]\n            ]\n\n **Note:** If you add another attribute altering the view like `viewDynamic` or `viewCustom` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "List (StyleAttribute msg) -> Attribute a msg"
+            },
+            {
+                "name": "viewCustom",
+                "comment": " Define your own view for the labels. Your view will be passed label's value and index (amount of ticks from origin).\n\n    viewLabel : Int -> Float -> Svg.Svg a\n    viewLabel index value =\n        let\n            attrs =\n                if isOdd index then oddAttrs else evenAttrs\n        in\n            text_ attrs (toString value)\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.viewCustom viewLabel ]\n            ]\n\n **Note:** If you add another attribute altering the view like `view` or `viewDynamic` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "(a -> Svg msg) -> Attribute a msg"
+            },
+            {
+                "name": "viewDynamic",
+                "comment": " Alter the view of the label based on the label's value and index (amount of ticks from origin) by\n providing a function returning a list of style attributes.\n\n    toViewStyles : Int -> Float -> List Label.StyleAttribute a\n    toViewStyles index value =\n        if isOdd index then\n            [ Label.classes [ \"label--odd\" ]\n            , Label.displace ( 12, 0 )\n            ]\n        else\n            [ Label.classes [ \"label--even\" ]\n            , Label.displace ( 16, 0 )\n            ]\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.label\n                [ Label.viewDynamic toViewStyles ]\n            ]\n\n **Note:** If you add another attribute altering the view like `view` or `viewCustom` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "(a -> List (StyleAttribute msg)) -> Attribute a msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Hint",
+        "comment": "\n Attributes for altering the view of your hint.\n\n Notice that this element will only be rendered when using `plotInteractive`!\n\n P.S. You also have to add [elm-plot.css](https://github.com/terezka/elm-plot/tree/master/src/elm-plot.css)\n for it to look nice.\n\n# Definition\n@docs Attribute, HintInfo, IsLeftSide\n\n# Styling\n@docs viewCustom, lineStyle\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "Config msg -> Config msg"
+            },
+            {
+                "name": "HintInfo",
+                "comment": " The available info provided to your hint view.\n",
+                "args": [],
+                "type": "{ xValue : Float, yValues : List (Maybe (List Value)) }"
+            },
+            {
+                "name": "IsLeftSide",
+                "comment": " ",
+                "args": [],
+                "type": "Bool"
+            }
+        ],
+        "values": [
+            {
+                "name": "lineStyle",
+                "comment": " Add styles to the line indicating the hovered value.\n",
+                "type": "Style -> Attribute msg"
+            },
+            {
+                "name": "viewCustom",
+                "comment": " Uses your own view to display the hint box.\n",
+                "type": "(HintInfo -> IsLeftSide -> Html msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Tick",
+        "comment": "\n Attributes for altering the view of your axis' ticks.\n\n Before you read any further, please note that when I speak of the tick _index_,\n then I'm talking about how many ticks that particular tick is from the origin.\n\n Ok, now you can go on!\n\n# Definition\n@docs Attribute\n\n# View options\n@docs view, viewDynamic, viewCustom\n\n## Style attributes\nIf these attributes do not forfill your needs, try out the `viewCustom`! If you have\na suspicion that I have missed a very common configuration, then please let me know and I'll add it.\n\n@docs StyleAttribute, classes, width, length, stroke, strokeWidth, opacity, customAttrs\n\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "msg"
+                ],
+                "type": "Config a msg -> Config a msg"
+            },
+            {
+                "name": "StyleAttribute",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "StyleConfig msg -> StyleConfig msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "classes",
+                "comment": " Add classes to the tick.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.view\n                    [ Tick.classes [ \"my-tick\" ] ]\n                ]\n            ]\n",
+                "type": "List String -> StyleAttribute msg"
+            },
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute msg) -> StyleAttribute msg"
+            },
+            {
+                "name": "length",
+                "comment": " Set the length of the tick (in pixels).\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.view\n                    [ Tick.length 8 ]\n                ]\n            ]\n",
+                "type": "Int -> StyleAttribute msg"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> StyleAttribute msg"
+            },
+            {
+                "name": "stroke",
+                "comment": " Set the stroke color.\n",
+                "type": "String -> StyleAttribute msg"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " Set the stroke width (in pixels).\n",
+                "type": "Int -> StyleAttribute msg"
+            },
+            {
+                "name": "view",
+                "comment": " Provide a list of style attributes to alter the view of the tick.\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.view\n                    [ Tick.stroke \"deeppink\"\n                    , Tick.length 5\n                    , Tick.width 2\n                    ]\n                ]\n            ]\n\n **Note:** If you add another attribute msgltering the view like `viewDynamic` or `viewCustom` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "List (StyleAttribute msg) -> Attribute a msg"
+            },
+            {
+                "name": "viewCustom",
+                "comment": " Define your own view for the labels. Your view will be passed label's value and index (amount of ticks from origin).\n\n    viewTick : ( Int, Float ) -> Svg.Svg a\n    viewTick ( index, tick ) =\n        text_\n            [ transform \"translate(-5, 10)\"\n            , Svg.Events.onClick (Custom MyTickClickMsg)\n            ]\n            [ tspan\n                []\n                [ text (if isOdd index then \"🌟\" else \"⭐\") ]\n            ]\n\n    myXAxis : Plot.Element msg\n    myXAxis =\n        Plot.xAxis\n            [ Axis.tick\n                [ Tick.viewCustom viewTick ]\n            ]\n\n **Note:** If you add another attribute msgltering the view like `view` or `viewDynamic` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "(a -> Svg msg) -> Attribute a msg"
+            },
+            {
+                "name": "viewDynamic",
+                "comment": " Alter the view of the tick based on the tick's value and index (amount of ticks from origin) by\n providing a function returning a list of style attributes.\n\n    toTickStyles : ( Int, Float ) -> List Tick.StyleAttribute\n    toTickStyles ( index, value ) =\n        if isOdd index then\n            [ Tick.length 7\n            , Tick.stroke , \"#e4e3e3\"\n            ]\n        else\n            [ Tick.length 10\n            , Tick.stroke \"#b9b9b9\"\n            ]\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.viewDynamic toTickStyles ]\n            ]\n\n **Note:** If you add another attribute msgltering the view like `view` or `viewCustom` _after_ this attribute,\n then this attribute will have no effect.\n",
+                "type": "(a -> List (StyleAttribute msg)) -> Attribute a msg"
+            },
+            {
+                "name": "width",
+                "comment": " Set the width of the tick (in pixels).\n\n    myYAxis : Plot.Element msg\n    myYAxis =\n        Plot.yAxis\n            [ Axis.tick\n                [ Tick.view\n                    [ Tick.width 2 ]\n                ]\n            ]\n",
+                "type": "Int -> StyleAttribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Line",
+        "comment": "\n Attributes for altering the view of your line serie.\n\n    myLineSerie : Plot.Element (Interaction YourMsg)\n    myLineSerie =\n        line\n            [ stroke \"deeppink\"\n            , strokeWidth 2\n            , opacity 0.5\n            , customAttrs\n                [ Svg.Events.onClick <| Custom MyClickMsg ]\n            ]\n            lineDataPoints\n\n\n# Definition\n@docs Attribute\n\n# Styling\n@docs stroke, strokeWidth, opacity\n\n# Other\n@docs customAttrs\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "Config a -> Config a"
+            }
+        ],
+        "values": [
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute a) -> Attribute a"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> Attribute a"
+            },
+            {
+                "name": "stroke",
+                "comment": " Set the stroke color.\n",
+                "type": "String -> Attribute a"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " Set the stroke width (in pixels).\n",
+                "type": "Int -> Attribute a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Area",
+        "comment": "\n Attributes for altering the view of your area serie.\n\n    myAreaSerie : Plot.Element (Interaction YourMsg)\n    myAreaSerie =\n        line\n            [ stroke \"deeppink\"\n            , strokeWidth 2\n            , fill \"red\"\n            , opacity 0.5\n            , customAttrs\n                [ Svg.Events.onClick <| Custom MyClickMsg\n                , Svg.Events.onMouseOver <| Custom Glow\n                ]\n            ]\n            areaDataPoints\n\n# Definition\n@docs Attribute\n\n# Styling\n@docs stroke, strokeWidth, opacity, fill\n\n# Other\n@docs customAttrs\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "Config a -> Config a"
+            }
+        ],
+        "values": [
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute a) -> Attribute a"
+            },
+            {
+                "name": "fill",
+                "comment": " Set the fill color.\n",
+                "type": "String -> Attribute a"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> Attribute a"
+            },
+            {
+                "name": "stroke",
+                "comment": " Set the stroke color.\n",
+                "type": "String -> Attribute a"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " Set the stroke width (in pixels).\n",
+                "type": "Int -> Attribute a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Plot.Scatter",
+        "comment": "\n Attributes for altering the view of your scatter serie.\n\n    myScatterSerie : Plot.Element (Interaction YourMsg)\n    myScatterSerie =\n        line\n            [ stroke \"deeppink\"\n            , strokeWidth 2\n            , fill \"purple\"\n            , opacity 0.5\n            , radius 10\n            , customAttrs\n                [ Svg.Events.onClick <| Custom MyClickMsg\n                , Svg.Events.onMouseOver <| Custom Glow\n                ]\n            ]\n            scatterDataPoints\n\n# Definition\n@docs Attribute\n\n# Styling\n@docs stroke, strokeWidth, fill, opacity, radius\n\n# Other\n@docs customAttrs\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "Config a -> Config a"
+            }
+        ],
+        "values": [
+            {
+                "name": "customAttrs",
+                "comment": " Add your own attributes. For events, see [this example](https://github.com/terezka/elm-plot/blob/master/examples/Interactive.elm)\n",
+                "type": "List (Attribute a) -> Attribute a"
+            },
+            {
+                "name": "fill",
+                "comment": " Set the fill color.\n",
+                "type": "String -> Attribute a"
+            },
+            {
+                "name": "opacity",
+                "comment": " Set the opacity.\n",
+                "type": "Float -> Attribute a"
+            },
+            {
+                "name": "radius",
+                "comment": " Set the radius of your points.\n",
+                "type": "Int -> Attribute a"
+            },
+            {
+                "name": "stroke",
+                "comment": " Set the stroke color.\n",
+                "type": "String -> Attribute a"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " Set the stroke width (in pixels).\n",
+                "type": "Int -> Attribute a"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,386 @@
+[
+    {
+        "name": "Rest.Adapters",
+        "comment": " Rest.Adapters\n# Adapters\n@docs postgRest\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "postgRest",
+                "comment": " ",
+                "type": "RestRequest a -> Request"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rest",
+        "comment": " Rest\n# Types\n@docs Resource, Property, RestRequest, Filter, OrderBy\n# Functions\n@docs resource, property, nested, read, send, select, filter, like, eq, gte, gt, lte, lt, neq, ilike, in', notin, is, isnot, contains, not', order, asc, desc, paginate, offset, limit, singular, suppressCount\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Filter",
+                "comment": " ",
+                "args": [],
+                "type": "Filter"
+            },
+            {
+                "name": "OrderBy",
+                "comment": " ",
+                "args": [],
+                "type": "OrderBy"
+            },
+            {
+                "name": "Property",
+                "comment": " ",
+                "args": [],
+                "type": "Property"
+            },
+            {
+                "name": "Resource",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "Resource a"
+            },
+            {
+                "name": "RestRequest",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "RestRequest a"
+            }
+        ],
+        "values": [
+            {
+                "name": "asc",
+                "comment": " ",
+                "type": "(a -> Property) -> a -> OrderBy"
+            },
+            {
+                "name": "contains",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "desc",
+                "comment": " ",
+                "type": "(a -> Property) -> a -> OrderBy"
+            },
+            {
+                "name": "eq",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "filter",
+                "comment": " ",
+                "type": "List (a -> Filter) -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "gt",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "gte",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "ilike",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "in'",
+                "comment": " ",
+                "type": "List String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "is",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "isnot",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "like",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "limit",
+                "comment": " ",
+                "type": "List ( Resource a, Int ) -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "lt",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "lte",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "neq",
+                "comment": " ",
+                "type": "String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "nested",
+                "comment": " ",
+                "type": "Resource a -> List (a -> Property) -> b -> Property"
+            },
+            {
+                "name": "not'",
+                "comment": " ",
+                "type": "(a -> (b -> Property) -> b -> Filter) -> a -> (b -> Property) -> b -> Filter"
+            },
+            {
+                "name": "notin",
+                "comment": " ",
+                "type": "List String -> (a -> Property) -> a -> Filter"
+            },
+            {
+                "name": "offset",
+                "comment": " ",
+                "type": "Int -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "order",
+                "comment": " ",
+                "type": "List (a -> OrderBy) -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "paginate",
+                "comment": " ",
+                "type": "Int -> Int -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "property",
+                "comment": " ",
+                "type": "String -> Property"
+            },
+            {
+                "name": "read",
+                "comment": " ",
+                "type": "String -> Resource a -> RestRequest a"
+            },
+            {
+                "name": "resource",
+                "comment": " ",
+                "type": "String -> a -> Resource a"
+            },
+            {
+                "name": "select",
+                "comment": " ",
+                "type": "List (a -> Property) -> RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "send",
+                "comment": " ",
+                "type": "(RestRequest a -> Request) -> Settings -> RestRequest a -> Task RawError Response"
+            },
+            {
+                "name": "singular",
+                "comment": " ",
+                "type": "RestRequest a -> RestRequest a"
+            },
+            {
+                "name": "suppressCount",
+                "comment": " ",
+                "type": "RestRequest a -> RestRequest a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rest.Types",
+        "comment": " Rest.Types\n# Types\n@docs Resource, Property, RestRequest, Condition, Filter, OrderBy\n# Functions\n@docs unwrapResource, unwrapRestRequest\n",
+        "unions": [
+            {
+                "name": "Condition",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "LikeFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "ILikeFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "EqFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "GteFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "GtFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "LteFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "LtFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "InFilter",
+                        [
+                            "Property",
+                            "List String"
+                        ]
+                    ],
+                    [
+                        "IsFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "ContainsFilter",
+                        [
+                            "Property",
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Filter",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Filter",
+                        [
+                            "Bool",
+                            "Condition"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "OrderBy",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Ascending",
+                        [
+                            "Property"
+                        ]
+                    ],
+                    [
+                        "Descending",
+                        [
+                            "Property"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Property",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "SimpleProperty",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "NestedResource",
+                        [
+                            "String",
+                            "List Property"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Resource",
+                "comment": " ",
+                "args": [
+                    "schema"
+                ],
+                "cases": [
+                    [
+                        "Resource",
+                        [
+                            "String",
+                            "schema"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "RestRequest",
+                "comment": " ",
+                "args": [
+                    "schema"
+                ],
+                "cases": [
+                    [
+                        "RestRequest",
+                        [
+                            "{ properties : List Property, filters : List Filter, orders : List OrderBy, limits : List ( Resource schema, Int ), offset : Int, singular : Bool, suppressCount : Bool, verb : String, resource : Resource schema, url : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "unwrapResource",
+                "comment": " helper to assist with opaque Resource type\n",
+                "type": "Resource a -> ( String, a )"
+            },
+            {
+                "name": "unwrapRestRequest",
+                "comment": " helper to assist with opaque RestRequest type\n",
+                "type": "RestRequest a -> { properties : List Property, filters : List Filter, orders : List OrderBy, limits : List ( Resource a, Int ), offset : Int, singular : Bool, suppressCount : Bool, verb : String, resource : Resource a, url : String }"
+            }
+        ],
+        "binops": []
+    }
+]

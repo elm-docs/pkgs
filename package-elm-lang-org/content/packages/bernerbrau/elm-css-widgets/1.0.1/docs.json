@@ -1,0 +1,868 @@
+[
+    {
+        "name": "Widgets.BarTabs",
+        "comment": " In-app bar tab navigation\n\n@docs barTabs\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "barTabs",
+                "comment": " ",
+                "type": "List ( ButtonDef, Bool, msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.IconButton",
+        "comment": " circular icon button\n\n@docs iconButton\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "iconButton",
+                "comment": " ",
+                "type": "Float -> Color -> Icon -> msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Button",
+        "comment": " Button with customizable color, size, and icon (optional)\n\n@docs button\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " ",
+                "type": "Float -> Color -> ButtonDef -> msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.BarCorner",
+        "comment": " Action buttons or logo to go in the corner of the app bar; usually small buttons without text\n\n@docs barCorner, BarCornerSide\n\n",
+        "unions": [
+            {
+                "name": "BarCornerSide",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "LeftSide",
+                        []
+                    ],
+                    [
+                        "RightSide",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "barCorner",
+                "comment": " ",
+                "type": "BarCornerSide -> List ( Icon, msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Paper",
+        "comment": " Simple paper widget with no layout constraints internally. Padding is provided.\n\n@docs paper\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "paper",
+                "comment": " ",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Page",
+        "comment": " Main vertical layout, providing scroll functionality and appropriate padding.\n\n@docs page\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "page",
+                "comment": " ",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.VerticalFlow",
+        "comment": " flexbox that fills the container horizontally, and flows naturally in the vertical direction.\n\n@docs verticalFlow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "verticalFlow",
+                "comment": " ",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Types.ButtonDef",
+        "comment": " Button definition\n\n@docs ButtonDef\n\n",
+        "unions": [
+            {
+                "name": "ButtonDef",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "IconOnly",
+                        [
+                            "Icon"
+                        ]
+                    ],
+                    [
+                        "TextOnly",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "IconLeft",
+                        [
+                            "Icon",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "IconRight",
+                        [
+                            "String",
+                            "Icon"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Widgets.HorizontalFlow",
+        "comment": " flexbox that fills the container vertically and horizontally, stretching its children where possible to do this.\n\n@docs horizontalFlow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "horizontalFlow",
+                "comment": " ",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.BarTitle",
+        "comment": " App bar title\n\n@docs barTitle\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "barTitle",
+                "comment": " ",
+                "type": "String -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Sidebar",
+        "comment": " Sidebar widget. Contains menu items or a list of data objects, etc. Must be used inside a HorizontalFlow.\n\n@docs sidebar, sidebarItem, sidebarDivider\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "sidebar",
+                "comment": " ",
+                "type": "List ( String, Html msg ) -> Html msg"
+            },
+            {
+                "name": "sidebarDivider",
+                "comment": " ",
+                "type": "String -> ( String, Html msg )"
+            },
+            {
+                "name": "sidebarItem",
+                "comment": " ",
+                "type": "String -> Bool -> List (Html msg) -> ( String, Html msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Crayola",
+        "comment": " A collection of elm-css compatible colors named after Crayola crayon colors.\n\nHex values obtained here: <http://www.jennyscrayoncollection.com/2017/10/complete-list-of-current-crayola-crayon.html>\n\n@docs almond, antiqueBrass, apricot, aquamarine, asparagus, atomicTangerine, bananaMania, beaver, bittersweet, black, blueBell, blueGreen1, blueGreen2, blueViolet, blush, brickRed, brown, burntOrange, burntSienna, cadetBlue, canary, caribbeanGreen, carnationPink, cerise, cerulean, chesnut, copper, cornflower, cottonCandy, dandelion, denim, desertSand, eggplant, electricLime, fern, forestGreen, fuchisia, fuzzyWuzzyBrown, gold, goldenrod, grannySmithApple, gray, green, greenYellow, hotMagenta, inchWorm, indigo, jazzberryJam, jungleGreen, laserLemon, lavender, macaroniAndCheese, magenta, mahogany, manatee, mangoTango, maroon, mauvelous, melon, midnightBlue, mountainMeadow, navyBlue, neonCarrot, oliveGreen, orange, orichid, outerSpace, outrageousOrange, pacificBlue, peach, periwinkle, piggyPink, pineGreen, pinkFlamingo, pinkSherbet, plum, purple, purpleHeart, purpleMountainsMagesty, purplePizza, radicalRed, rawSienna, razzleDazzleRose, razzmatazz, red, redOrange, redViolet, robinEggBlue, royalPurple, salmon, scarlet, screaminGreen, seaGreen, sepia, shadow, shamrock, shockingPink, silver, skyBlue, springGreen, sunglow, sunsetOrange, tan, tickleMePink, timberwolf, tropicalRainForest, tumbleweed, turquoiseBlue, unmellowYellow, violet, violetRed, vividTangerine, vividViolet, white, wildBlueWonder, wildStrawberry, wildWatermelon, wisteria, yellow, yellowGreen, yellowOrange\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "almond",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "antiqueBrass",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "apricot",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "aquamarine",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "asparagus",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "atomicTangerine",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "bananaMania",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "beaver",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "bittersweet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "black",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blueBell",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blueGreen1",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blueGreen2",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blueViolet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blush",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "brickRed",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "brown",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "burntOrange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "burntSienna",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cadetBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "canary",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "caribbeanGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "carnationPink",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cerise",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cerulean",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "chesnut",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "copper",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cornflower",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cottonCandy",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "dandelion",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "denim",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "desertSand",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "eggplant",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "electricLime",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "fern",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "forestGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "fuchisia",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "fuzzyWuzzyBrown",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "gold",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "goldenrod",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grannySmithApple",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "gray",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "green",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "greenYellow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "hotMagenta",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "inchWorm",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "indigo",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "jazzberryJam",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "jungleGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "laserLemon",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "lavender",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "macaroniAndCheese",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "magenta",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "mahogany",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "manatee",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "mangoTango",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "maroon",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "mauvelous",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "melon",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "midnightBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "mountainMeadow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "navyBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "neonCarrot",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "oliveGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "orange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "orichid",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "outerSpace",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "outrageousOrange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pacificBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "peach",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "periwinkle",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "piggyPink",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pineGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pinkFlamingo",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pinkSherbet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "plum",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "purple",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "purpleHeart",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "purpleMountainsMagesty",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "purplePizza",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "radicalRed",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "rawSienna",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "razzleDazzleRose",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "razzmatazz",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "red",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "redOrange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "redViolet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "robinEggBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "royalPurple",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "salmon",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "scarlet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "screaminGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "seaGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "sepia",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "shadow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "shamrock",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "shockingPink",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "silver",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "skyBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "springGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "sunglow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "sunsetOrange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "tan",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "tickleMePink",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "timberwolf",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "tropicalRainForest",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "tumbleweed",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "turquoiseBlue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "unmellowYellow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "violet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "violetRed",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "vividTangerine",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "vividViolet",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "white",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "wildBlueWonder",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "wildStrawberry",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "wildWatermelon",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "wisteria",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "yellow",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "yellowGreen",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "yellowOrange",
+                "comment": " ",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Screen",
+        "comment": " Main application screen. Contains all other widgets; sets font stack and default background color (customizable; usually gray)\n\n@docs screen\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "screen",
+                "comment": " ",
+                "type": "Color -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Bar",
+        "comment": " Top or bottom app bar widget\n\n@docs bar, BarType\n\n",
+        "unions": [
+            {
+                "name": "BarType",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Top",
+                        []
+                    ],
+                    [
+                        "Bottom",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bar",
+                "comment": " ",
+                "type": "Color -> BarType -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

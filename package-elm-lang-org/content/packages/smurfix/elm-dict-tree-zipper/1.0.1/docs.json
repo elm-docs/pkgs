@@ -1,0 +1,230 @@
+[
+    {
+        "name": "DictTree.Zipper",
+        "comment": " A library for navigating and updating immutable trees. The elements in\nthe tree must have the same type. The trees are implemented in a Huet\nZipper fashion.\n\n\n# Types\n\n@docs Context, Breadcrumbs, Zipper, asZipper\n\n\n# Navigation API\n\n@docs goToChild, goToSibling, goToPath, goUp, goToRoot, goTo\n\n\n# Update API\n\n@docs updateDatum, replaceDatum, addChild, updateChildren\n\n\n# Access API\n\n@docs datum, maybeDatum, asTree\n\n\n# References\n\n[The Zipper, Gerard Huet](https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf)\n[Learn You A Haskell, Zippers, Miran Lipovaca](http://learnyouahaskell.com/zippers)\n\n",
+        "unions": [
+            {
+                "name": "Context",
+                "comment": " The necessary information needed to reconstruct a DictTree as it is\nnavigated with a Zipper. This context consists of the key at which the\ncurrent node is to be stored and the parent dict it's to be stored in.\n",
+                "args": [
+                    "comparable",
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Context",
+                        [
+                            "comparable",
+                            "Tree comparable b"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Breadcrumbs",
+                "comment": " A list of Contexts that is contructed as a DictTree is navigated.\nBreadcrumbs are used to retain information about parts of the tree that move out\nof focus. As the tree is navigated, the needed Context is pushed onto the list\nBreadcrumbs, and they are maintained in the reverse order in which they are\nvisited\n",
+                "args": [
+                    "comparable",
+                    "b"
+                ],
+                "type": "List (Context comparable b)"
+            },
+            {
+                "name": "Zipper",
+                "comment": " A structure to keep track of the current Tree, as well as the Breadcrumbs to\nallow us to continue navigation through the rest of the tree.\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "( Tree a b, Breadcrumbs a b )"
+            }
+        ],
+        "values": [
+            {
+                "name": "addChild",
+                "comment": " Inserts a Tree as a new child of the Tree at the current focus. Does not move the focus.\n",
+                "type": "comparable -> Tree comparable b -> Zipper comparable b -> Zipper comparable b"
+            },
+            {
+                "name": "asTree",
+                "comment": " Extract a tree from its zipper\n",
+                "type": "Zipper comparable b -> Tree comparable b"
+            },
+            {
+                "name": "asZipper",
+                "comment": " Create a zipper for a tree\n",
+                "type": "Tree comparable b -> Zipper comparable b"
+            },
+            {
+                "name": "datum",
+                "comment": " Access the datum at the current Zipper focus.\n",
+                "type": "Zipper comparable b -> b"
+            },
+            {
+                "name": "goTo",
+                "comment": " Move the focus to the first element for which the predicate is True. If no\nsuch element exists returns Nothing. Search proceeds depth-first.\nroot of the tree.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        asTree \"a\"\n            [ Tree \"b\"\n                [ Tree \"e\" [] ]\n            , Tree \"c\" []\n            , Tree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goTo (\\elem -> elem == \"e\")\n\n",
+                "type": "(b -> Bool) -> Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "goToChild",
+                "comment": " Move down relative to the current Zipper focus. This allows navigation from\na parent to one specific child.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        Tree \"a\"\n            [ Tree \"b\" []\n            , Tree \"c\" []\n            , Tree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goToChild \"c\"\n\n",
+                "type": "comparable -> Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "goToPath",
+                "comment": " Move down relative to the current Zipper focus. This allows navigation from\na parent to one specific child.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        Tree \"a\" <| Dict.fromList [\n            (\"b\", Tree \"bb\" <| Dict.fromList [\n                (\"c\", Tree \"cc\" <| Dict.fromList [\n                    (\"d\", singular \"dd\")\n                ])\n            ])\n        ]\n\n    Just (simpleTree, [])\n        &> goToPath [\"b\",\"c\",\"d\"]\n\n",
+                "type": "List comparable -> Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "goToRoot",
+                "comment": " Move to the root of the current Zipper focus. This allows navigation from\nany part of the tree back to the root.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        asTree \"a\"\n            [ asTree \"b\"\n                [ asTree \"e\" [] ]\n            , asTree \"c\" []\n            , asTree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goToChild \"Vb\"\n        &> goToChild \"Ve\"\n        &> goToRoot\n\n",
+                "type": "Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "goToSibling",
+                "comment": " Move to an adjacent Zipper focus. This allows navigation from\na child to one of its siblings.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        asTree \"a\"\n            [ asTree \"b\" []\n            , asTree \"c\" []\n            , asTree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goToChild \"Vc\"\n        &> goToSibling \"Vb\"\n\n",
+                "type": "comparable -> Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "goUp",
+                "comment": " Move up relative to the current Zipper focus. This allows navigation from a\nchild to its parent.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        Tree \"a\" <| Dict.fromList\n            [ (\"b\", singular \"b\")\n            , (\"c\", singular \"c\")\n            , (\"d\", singular \"d\")\n            ]\n\n    Just (asZipper simpleTree)\n        &> goToChild \"_b\"\n        &> goUp\n\n",
+                "type": "Zipper comparable b -> Maybe (Zipper comparable b)"
+            },
+            {
+                "name": "maybeDatum",
+                "comment": " Access the datum at the current Zipper focus as a Maybe.\n",
+                "type": "Zipper comparable b -> Maybe b"
+            },
+            {
+                "name": "replaceDatum",
+                "comment": " Replace the datum at the current Zipper focus. This allows complete\nreplacement of a node's datum information, ignoring the previous state of the\nnode.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        Tree \"a\"\n            [ Tree \"b\"\n                [ Tree \"e\" [] ]\n            , Tree \"c\" []\n            , Tree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goToChild 0\n        &> replaceDatum \"X\" -- Replaces \"b\" with \"X\"\n        &> goToRoot\n\n",
+                "type": "b -> Zipper comparable b -> Zipper comparable b"
+            },
+            {
+                "name": "updateChildren",
+                "comment": " Fully replace the children at the current Zipper focus.\n",
+                "type": "Dict comparable (Tree comparable b) -> Zipper comparable b -> Zipper comparable b"
+            },
+            {
+                "name": "updateDatum",
+                "comment": " Update the datum at the current Zipper focus. This allows changes to be made\nto a part of a node's datum information, given the previous state of the node.\n\n    (&>) = flip Maybe.andThen\n\n    simpleTree =\n        Tree \"a\"\n            [ Tree \"b\"\n                [ Tree \"e\" [] ]\n            , Tree \"c\" []\n            , Tree \"d\" []\n            ]\n\n    Just (simpleTree, [])\n        &> goToChild 0\n        &> updateDatum (\\old -> old ++ \"X\") -- Appends an X to \"b\"\n        &> goToRoot\n\n",
+                "type": "(b -> b) -> Zipper comparable b -> Zipper comparable b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "DictTree",
+        "comment": " A library for constructing multi-way trees. Each Tree carries two pieces of\ninformation, it's datum and children.\n\n\n# Types\n\n@docs Tree, Forest\n\n\n# Operations\n\n@docs singular, datum, children, get, getPath, foldl, foldr, flatten, filter, filterWithChildPrecedence, length, addChild\n\n\n# Mapping\n\n@docs map\n\n\n# Sorting\n\n@docs sortBy, sortWith\n\n",
+        "unions": [
+            {
+                "name": "Tree",
+                "comment": " A type to keep track of datum and children.\n",
+                "args": [
+                    "comparable",
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Tree",
+                        [
+                            "b",
+                            "Forest comparable b"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Forest",
+                "comment": " A dict of Trees. Convenient for describing children.\n",
+                "args": [
+                    "comparable",
+                    "b"
+                ],
+                "type": "Dict comparable (Tree comparable b)"
+            }
+        ],
+        "values": [
+            {
+                "name": "addChild",
+                "comment": " Inserts a Tree as one child of another Tree\n",
+                "type": "comparable -> Tree comparable b -> Tree comparable b -> Tree comparable b"
+            },
+            {
+                "name": "children",
+                "comment": " Access the children of the current tree\n",
+                "type": "Tree comparable b -> Forest comparable b"
+            },
+            {
+                "name": "datum",
+                "comment": " Access the datum of the current tree\n",
+                "type": "Tree comparable b -> b"
+            },
+            {
+                "name": "filter",
+                "comment": " Filter the DictTree. Keep only elements whose datum satisfy the predicate.\n",
+                "type": "(b -> Bool) -> Tree comparable b -> Maybe (Tree comparable b)"
+            },
+            {
+                "name": "filterWithChildPrecedence",
+                "comment": " Filter the DictTree. If the predicate is True for a Child the entire path to the root will be part of the result Tree.\n",
+                "type": "(b -> Bool) -> Tree comparable b -> Maybe (Tree comparable b)"
+            },
+            {
+                "name": "flatten",
+                "comment": " Flattens a Tree into a List where the root is the first element of that list.\n",
+                "type": "Tree comparable b -> List b"
+            },
+            {
+                "name": "foldl",
+                "comment": " Reduce a Tree from the left.\n",
+                "type": "(v -> b -> b) -> b -> Tree comparable v -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " Reduce a Tree from the right.\n",
+                "type": "(v -> b -> b) -> b -> Tree comparable v -> b"
+            },
+            {
+                "name": "get",
+                "comment": " Access a child node\n",
+                "type": "comparable -> Tree comparable b -> Maybe (Tree comparable b)"
+            },
+            {
+                "name": "getPath",
+                "comment": " Access a grandchild-or-whatever node by key list\n",
+                "type": "List comparable -> Tree comparable b -> Maybe (Tree comparable b)"
+            },
+            {
+                "name": "length",
+                "comment": " Return the length of the Tree. Calculated recusively as datum (1) + length of children (n)\nSince a DictTree is never empty this function will never return Int < 1.\n",
+                "type": "Tree comparable a -> Int"
+            },
+            {
+                "name": "map",
+                "comment": " Map over the DictTree\n",
+                "type": "(a -> b) -> Tree comparable a -> Tree comparable b"
+            },
+            {
+                "name": "singular",
+                "comment": " A tree consisting of just one datum\n",
+                "type": "b -> Tree comparable b"
+            },
+            {
+                "name": "sortBy",
+                "comment": " Sort values by a derived property. Does not alter the nesting structure of\nthe Tree, that is it does not move Nodes up or down levels.\n\n    All sorting functions get a (key,value) tuple so that they can use any\n    or all of the key, the datum, and any subtree attributes they can think of.\n\n    (sortBy first -- key\n        Tree \"aa\"\n            Dict.fromList([(\"b\", Tree \"bb\" Dict.empty\n            ),( Tree \"dd\" Dict.empty\n            ),( Tree \"cc\" Dict.empty\n            )]))\n    == (Tree \"aa\"\n            Dict.fromList([( Tree \"bb\" Dict.empty\n            ),(\"c\", Tree \"cc\" Dict.empty\n            ),(\"d\", Tree \"dd\" Dict.empty\n            )]))\n\n",
+                "type": "(( comparable, Tree comparable a ) -> comparable1) -> Tree comparable a -> Tree a"
+            },
+            {
+                "name": "sortWith",
+                "comment": " Sort values with a custom comparison function like:\n\n    flippedComparison a b =\n        case compare a b of\n          LT -> GT\n          EQ -> EQ\n          GT -> LT\n\n    This is also the most general sort function, allowing you\n    to define any other.\n\n",
+                "type": "(( comparable, Tree comparable a ) -> ( comparable, Tree comparable a ) -> Order) -> Tree comparable a -> Tree a"
+            }
+        ],
+        "binops": []
+    }
+]

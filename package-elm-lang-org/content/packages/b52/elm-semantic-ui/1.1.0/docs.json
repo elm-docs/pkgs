@@ -1,0 +1,107 @@
+[
+    {
+        "name": "SemanticUi",
+        "comment": "Elm bindings for Semantic UI using a declarative API and useful\nabstractions.\n\n# Rendering\n\n@docs Element, render\n\n# Styling\n\n## Sizes\n\n@docs Size, Sized, size\n\n# Properties\n\n## text\n\n@docs Readable, text\n\n# Elements\n\n## Button\n\n@docs Button, button, button'",
+        "unions": [
+            {
+                "name": "Size",
+                "comment": "Some elements might have different sizes.",
+                "args": [],
+                "cases": [
+                    [
+                        "Mini",
+                        []
+                    ],
+                    [
+                        "Tiny",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ],
+                    [
+                        "Big",
+                        []
+                    ],
+                    [
+                        "Huge",
+                        []
+                    ],
+                    [
+                        "Massive",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Button",
+                "comment": "The button state driving the visual appearance.",
+                "args": [],
+                "type": "{ text : String, size : Size }"
+            },
+            {
+                "name": "Element",
+                "comment": "An element defines a control. A control has a `state` and a function to\nturn this state into an `Html` object.",
+                "args": [
+                    "a"
+                ],
+                "type": "{ state : a, render : a -> Html }"
+            },
+            {
+                "name": "Readable",
+                "comment": "An element that is readable.",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | text : String }"
+            },
+            {
+                "name": "Sized",
+                "comment": "An element supporting different sizes.",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | size : Size }"
+            }
+        ],
+        "values": [
+            {
+                "name": "button",
+                "comment": "A button with a text.",
+                "type": "String -> Element Button"
+            },
+            {
+                "name": "button'",
+                "comment": "A button with an empty text.",
+                "type": "Element Button"
+            },
+            {
+                "name": "render",
+                "comment": "Create the `Html` for a Semantic UI `Element`.\n\n    button \"click\" |> render",
+                "type": "Element a -> Html"
+            },
+            {
+                "name": "size",
+                "comment": "Adjust the size of an element.\n\n    button \"click\" |> size Huge",
+                "type": "Size -> Element (Sized a) -> Element (Sized a)"
+            },
+            {
+                "name": "text",
+                "comment": "Adjust the text of an element.\n\n    button \"click\" |> text \"DON'T click\"",
+                "type": "String -> Element (Readable a) -> Element (Readable a)"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,128 @@
+[
+    {
+        "name": "Queue",
+        "comment": "\n\n# Creating Queues\n@docs Queue, empty\n# Getting first\n@docs first\n# Enqueuing/Dequeuing\n@docs enq, deq, requeue, enqMany, enqManyFromFunction\n# To List\n@docs toList\n\n",
+        "unions": [
+            {
+                "name": "Queue",
+                "comment": " A Queue containing items of type `a`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "deq",
+                "comment": " Dequeues an item from the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.deq\n      -- == (Just 1, Queue.empty)\n",
+                "type": "Queue a -> ( Maybe a, Queue a )"
+            },
+            {
+                "name": "empty",
+                "comment": " Creates an empty Queue.\n\n    Queue.empty\n",
+                "type": "Queue a"
+            },
+            {
+                "name": "enq",
+                "comment": " Enqueues an item to the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.toList\n      -- == [1]\n",
+                "type": "a -> Queue a -> Queue a"
+            },
+            {
+                "name": "enqMany",
+                "comment": " Enqueue count copies of the same item\n\n    Queue.empty\n    |> Queue.pushMany item 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
+                "type": "a -> Int -> Queue a -> Queue a"
+            },
+            {
+                "name": "enqManyFromFunction",
+                "comment": " Call passed function count times and enqueue each result\n\n    Queue.empty\n    |> Queue.pushMany (\\() -> item) 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
+                "type": "(() -> a) -> Int -> Queue a -> Queue a"
+            },
+            {
+                "name": "first",
+                "comment": " Gets first item of Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.first\n      -- == Just 1\n",
+                "type": "Queue a -> Maybe a"
+            },
+            {
+                "name": "requeue",
+                "comment": " Dequeue, call a function with to process, and then enqueue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 3\n    |> Queue.requeue increment\n    |> Queue.toList\n    -- == [ 3, 2 ]\n",
+                "type": "(a -> a) -> Queue a -> Queue a"
+            },
+            {
+                "name": "toList",
+                "comment": " Converts a Queue into a List.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 2\n    |> Queue.toList\n      -- == [1, 2]\n",
+                "type": "Queue a -> List a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stack",
+        "comment": "\n\n# Creating Stacks\n@docs Stack, empty\n# Getting top\n@docs top\n# Pushing/Popping\n@docs push, pop, pushMany, pushManyFromFunction, restack\n# Append\n@docs append\n# To List\n@docs toList\n# From List\n@docs fromList\n\n",
+        "unions": [
+            {
+                "name": "Stack",
+                "comment": " A Stack containing items of type `a`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "append",
+                "comment": " Appends a List into the Stack.\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.append [2, 3]\n    |> Stack.toList\n      -- == [3, 2, 1]\n",
+                "type": "List a -> Stack a -> Stack a"
+            },
+            {
+                "name": "empty",
+                "comment": " Creates an empty Stack.\n\n    Stack.empty\n",
+                "type": "Stack a"
+            },
+            {
+                "name": "fromList",
+                "comment": " Converts a List into a Stack\n\n    Stack.fromLista [1, 2]\n    |> Stack.push 3\n    |> Stack.toList\n      -- == [3, 2, 1]\n",
+                "type": "List a -> Stack a"
+            },
+            {
+                "name": "pop",
+                "comment": " Pops an item from the Stack.\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.pop\n      -- == (Just 1, Stack.empty)\n",
+                "type": "Stack a -> ( Maybe a, Stack a )"
+            },
+            {
+                "name": "push",
+                "comment": " Pushes an item into the Stack.\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.toList\n      -- == [1]\n",
+                "type": "a -> Stack a -> Stack a"
+            },
+            {
+                "name": "pushMany",
+                "comment": " Push count copies of the same item\n\n    Stack.empty\n    |> Stack.pushMany item 3\n    |> Stack.toList\n    -- == [ item, item, item ]\n",
+                "type": "a -> Int -> Stack a -> Stack a"
+            },
+            {
+                "name": "pushManyFromFunction",
+                "comment": " Call passed function count times and push each result\n\n    Stack.empty\n    |> Stack.pushMany (\\() -> item) 3\n    |> Stack.toList\n    -- == [ item, item, item ]\n",
+                "type": "(() -> a) -> Int -> Stack a -> Stack a"
+            },
+            {
+                "name": "restack",
+                "comment": " Pop, call a function with to process, and then Push.\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.push 3\n    |> Stack.restack increment\n    |> Stack.toList\n    -- == [ 4, 1 ]\n",
+                "type": "(a -> a) -> Stack a -> Stack a"
+            },
+            {
+                "name": "toList",
+                "comment": " Converts a Stack into a List\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.push 2\n    |> Stack.toList\n      -- == [2, 1]\n",
+                "type": "Stack a -> List a"
+            },
+            {
+                "name": "top",
+                "comment": " Gets the top of the Stack.\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.top\n      -- == Just 1\n",
+                "type": "Stack a -> Maybe a"
+            }
+        ],
+        "binops": []
+    }
+]

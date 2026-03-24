@@ -1,0 +1,1 @@
+[{"name":"Chords","comment":"\n\n\n# Chords\n\nThis module lets you parse guitar chords and chord sheets.\n\n@docs parseSheet\n\n","unions":[],"aliases":[],"values":[{"name":"parseSheet","comment":" It parses a multiline chord sheet.\n","type":"String.String -> List.List (List.List Chords.LineParser.Token)"}],"binops":[]}]

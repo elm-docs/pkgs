@@ -1,0 +1,73 @@
+[
+    {
+        "name": "Convert.Date",
+        "comment": "Convert wrappers for date \n\n@docs attemptFromString",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attemptFromString",
+                "comment": "\n  Try to convert a string to a date, given a default value\n  Default to the value if it failed to convert",
+                "type": "Date -> String -> Date"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Convert.List",
+        "comment": "Convert wrappers for list \n\n@docs attemptTail, attemptHead",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attemptHead",
+                "comment": "\n  Try to return the head of a list, returning default value if failed",
+                "type": "a -> List a -> a"
+            },
+            {
+                "name": "attemptTail",
+                "comment": "\n  Try to return the tail of a list, returning default value if failed",
+                "type": "List a -> List a -> List a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Convert.String",
+        "comment": "Convert wrappers for strings \n\n@docs attemptToInt, attemptToFloat",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attemptToFloat",
+                "comment": "\n  Try to convert a string to a float, given a default value\n  Default to the value if it failed to convert",
+                "type": "Float -> String -> Float"
+            },
+            {
+                "name": "attemptToInt",
+                "comment": "\n  Try to convert a string to an int, given a default value\n  Default to the value if it failed to convert",
+                "type": "Int -> String -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Convert",
+        "comment": "Convert aims to simplify parsing data into different data types. \n\nIdeal for simplifying the understanding required to make applications\nwhich deals with user input and data.\n\n@docs defaultResult, defaultMaybe",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "defaultMaybe",
+                "comment": "\n    Try to use converter to convert a value and\n    return the converted value. If nothing happens,\n    instead return a given default value",
+                "type": "(b -> Maybe a) -> a -> b -> a"
+            },
+            {
+                "name": "defaultResult",
+                "comment": "\n    Try to use converter to convert a value and\n    return the converted value. If an err happens,\n    instead return a given default value",
+                "type": "(b -> Result String a) -> a -> b -> a"
+            }
+        ],
+        "binops": []
+    }
+]

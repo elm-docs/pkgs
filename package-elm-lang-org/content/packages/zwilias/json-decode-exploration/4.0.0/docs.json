@@ -1,0 +1,287 @@
+[
+    {
+        "name": "Json.Decode.Exploration",
+        "comment": " Like the regular decoders, except\n\nExamples assume imports:\n\n    import Json.Encode as Encode\n    import List.Nonempty as Nonempty exposing (Nonempty(Nonempty))\n\n\n# Primitives\n\n@docs Decoder, string, bool, int, float\n\n\n# Data Structures\n\n@docs nullable, list, array, dict, keyValuePairs\n\n\n# Object Primitives\n\n@docs field, at, index\n\n\n# Inconsistent Structure\n\n@docs maybe, oneOf\n\n\n# Run Decoders\n\n@docs decodeString, decodeValue, DecodeResult, Value, Errors, Error, Warnings, Warning\n\n\n# Mapping\n\n**Note:** If you run out of map functions, take a look at [the pipeline module][pipe]\nwhich makes it easier to handle large objects.\n\n[pipe]: http://package.elm-lang.org/packages/zwilias/json-decode-exploration/latest/Json-Decode-Exploration-Pipeline\n\n@docs map, map2, map3, map4, map5, map6, map7, map8, andMap\n\n\n# Fancy Decoding\n\n@docs lazy, value, null, succeed, fail, andThen\n\n",
+        "unions": [
+            {
+                "name": "DecodeResult",
+                "comment": " Decoding can have 4 different outcomes:\n\n  - `BadJson` occurs when the JSON string isn't valid JSON, or the `Value`\n    contains non-JSON primitives like functions.\n  - `Errors` means errors occurred while running your decoder and contains the\n    [`Errors`](#errors) that occurred.\n  - `WithWarnings` means decoding succeeded but produced one or more\n    [`Warnings`](#warnings).\n  - `Success` is the best possible outcome: All went well!\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "BadJson",
+                        []
+                    ],
+                    [
+                        "Errors",
+                        [
+                            "Errors"
+                        ]
+                    ],
+                    [
+                        "WithWarnings",
+                        [
+                            "Warnings",
+                            "a"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "a"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Decoder",
+                "comment": " Kind of the core idea of this library. Think of it as a piece of data that\ndescribed _how_ to read and transform JSON. You can use `decodeString` and\n`decodeValue` to actually execute a decoder on JSON.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Error",
+                "comment": " The most basic kind of an `Error` is `Failure`, which comes annotated with\na string describing the failure, and the JSON `Value` that was encountered\ninstead.\n\nThe other cases describe the \"path\" to where the error occurred.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "BadField",
+                        [
+                            "String",
+                            "Errors"
+                        ]
+                    ],
+                    [
+                        "BadIndex",
+                        [
+                            "Int",
+                            "Errors"
+                        ]
+                    ],
+                    [
+                        "BadOneOf",
+                        [
+                            "List Errors"
+                        ]
+                    ],
+                    [
+                        "Failure",
+                        [
+                            "String",
+                            "Value"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Warning",
+                "comment": " Like with errors, the most basic warning is an unused value. The other cases\ndescribe the path to the warnings.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "InField",
+                        [
+                            "String",
+                            "Warnings"
+                        ]
+                    ],
+                    [
+                        "AtIndex",
+                        [
+                            "Int",
+                            "Warnings"
+                        ]
+                    ],
+                    [
+                        "UnusedValue",
+                        [
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Errors",
+                "comment": " Decoding may fail with 1 or more errors, so `Errors` is a\n[`Nonempty`][nonempty] of errors.\n\n[nonempty]: TODO\n\n",
+                "args": [],
+                "type": "Nonempty Error"
+            },
+            {
+                "name": "Value",
+                "comment": " A simple type alias for `Json.Decode.Value`.\n",
+                "args": [],
+                "type": "Value"
+            },
+            {
+                "name": "Warnings",
+                "comment": " Decoding may generate warnings. In case the result is a `WithWarnings`, you\nwill have 1 or more warnings, as a `Nonempty` list.\n",
+                "args": [],
+                "type": "Nonempty Warning"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " Decode an argument and provide it to a function in a decoder.\n\n    decoder : Decoder String\n    decoder =\n        succeed (String.repeat)\n            |> andMap (field \"count\" int)\n            |> andMap (field \"val\" string)\n\n\n    \"\"\" { \"val\": \"hi\", \"count\": 3 } \"\"\"\n        |> decodeString decoder\n    --> Success \"hihihi\"\n\n",
+                "type": "Decoder a -> Decoder (a -> b) -> Decoder b"
+            },
+            {
+                "name": "andThen",
+                "comment": " Chain decoders where one decoder depends on the value of another decoder.\n",
+                "type": "(a -> Decoder b) -> Decoder a -> Decoder b"
+            },
+            {
+                "name": "array",
+                "comment": " _Convenience function._ Decode a JSON array into an Elm `Array`.\n",
+                "type": "Decoder a -> Decoder (Array a)"
+            },
+            {
+                "name": "at",
+                "comment": " Decodes a value at a certain path, using a provided decoder. Essentially,\nwriting `at [ \"a\", \"b\", \"c\" ]  string` is sugar over writing\n`field \"a\" (field \"b\" (field \"c\" string))`}.\n\n    \"\"\" { \"a\": { \"b\": { \"c\": \"hi there\" } } } \"\"\"\n        |> decodeString (at [ \"a\", \"b\", \"c\" ] string)\n    --> Success \"hi there\"\n\n",
+                "type": "List String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "bool",
+                "comment": " Decode a boolean value.\n\n    \"\"\" [ true, false ] \"\"\"\n        |> decodeString (list bool)\n    --> Success [ True, False ]\n\n",
+                "type": "Decoder Bool"
+            },
+            {
+                "name": "decodeString",
+                "comment": " Decode a JSON string. If the string isn't valid JSON, this will fail with a\n`BadJson` result.\n",
+                "type": "Decoder a -> String -> DecodeResult a"
+            },
+            {
+                "name": "decodeValue",
+                "comment": " Run a `Decoder` on a `Value`.\n\nNote that this may still fail with a `BadJson` if there are non-JSON compatible\nvalues in the provided `Value`. In particular, don't attempt to use this library\nwhen decoding `Event`s - it will blow up. Badly.\n\n",
+                "type": "Decoder a -> Value -> DecodeResult a"
+            },
+            {
+                "name": "dict",
+                "comment": " _Convenience function._ Decode a JSON object into an Elm `Dict String`.\n",
+                "type": "Decoder v -> Decoder (Dict String v)"
+            },
+            {
+                "name": "fail",
+                "comment": " Ignore the json and fail with a provided message.\n\n    \"\"\" \"hello\" \"\"\"\n        |> decodeString (fail \"failure\")\n    --> Errors (Nonempty (Failure \"failure\" (Encode.string \"hello\")) [])\n\n",
+                "type": "String -> Decoder a"
+            },
+            {
+                "name": "field",
+                "comment": " Decode the content of a field using a provided decoder.\n\n    \"\"\" { \"foo\": \"bar\" } \"\"\"\n        |> decodeString (field \"foo\" string)\n    --> Success \"bar\"\n\n\n    \"\"\" [ { \"foo\": \"bar\" }, { \"foo\": \"baz\", \"hello\": \"world\" } ] \"\"\"\n        |> decodeString (list (field \"foo\" string))\n    --> WithWarnings expectedWarnings [ \"bar\", \"baz\" ]\n\n\n    expectedWarnings : Warnings\n    expectedWarnings =\n        UnusedValue (Encode.string \"world\")\n            |> Nonempty.fromElement\n            |> InField \"hello\"\n            |> Nonempty.fromElement\n            |> AtIndex 1\n            |> Nonempty.fromElement\n\n",
+                "type": "String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "float",
+                "comment": " Decode a number into a `Float`.\n\n    \"\"\" 12.34 \"\"\"\n        |> decodeString float\n    --> Success 12.34\n\n\n    \"\"\" 12 \"\"\"\n        |> decodeString float\n    --> Success 12\n\n\n    \"\"\" null \"\"\"\n        |> decodeString float\n    --> Errors (Nonempty (Failure \"Expected a number\" Encode.null) [])\n\n",
+                "type": "Decoder Float"
+            },
+            {
+                "name": "index",
+                "comment": " Decode a specific index using a specified `Decoder`.\n\n    \"\"\" [ \"hello\", 123 ] \"\"\"\n        |> decodeString (map2 (,) (index 0 string) (index 1 int))\n    --> Success ( \"hello\", 123 )\n\n\n    \"\"\" [ \"hello\", \"there\" ] \"\"\"\n        |> decodeString (index 1 string)\n    --> WithWarnings\n    -->   (Nonempty (AtIndex 0 <| Nonempty (UnusedValue (Encode.string \"hello\")) []) [])\n    -->   \"there\"\n\n",
+                "type": "Int -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "int",
+                "comment": " Decode a number into an `Int`.\n\n    \"\"\" 123 \"\"\"\n        |> decodeString int\n    --> Success 123\n\n\n    \"\"\" 0.1 \"\"\"\n        |> decodeString int\n    --> Errors <|\n    -->   Nonempty\n    -->     (Failure \"Expected an integer number\" (Encode.float 0.1))\n    -->     []\n\n",
+                "type": "Decoder Int"
+            },
+            {
+                "name": "keyValuePairs",
+                "comment": " Decode a JSON object into a list of key-value pairs. The decoder you provide\nwill be used to decode the values.\n\n    \"\"\" { \"foo\": \"bar\", \"hello\": \"world\" } \"\"\"\n        |> decodeString (keyValuePairs string)\n    --> Success [ ( \"foo\", \"bar\" ), ( \"hello\", \"world\" ) ]\n\n",
+                "type": "Decoder a -> Decoder (List ( String, a ))"
+            },
+            {
+                "name": "lazy",
+                "comment": " Required when using (mutually) recursive decoders.\n",
+                "type": "(() -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "list",
+                "comment": " Decode a list of values, decoding each entry with the provided decoder.\n\n    \"\"\" [ \"foo\", \"bar\" ] \"\"\"\n        |> decodeString (list string)\n    --> Success [ \"foo\", \"bar\" ]\n\n\n    \"\"\" [ \"foo\", null ] \"\"\"\n        |> decodeString (list string)\n    --> Errors <|\n    -->   Nonempty\n    -->     (BadIndex 1 <|\n    -->       Nonempty (Failure \"Expected a string\" Encode.null) []\n    -->     )\n    -->     []\n\n",
+                "type": "Decoder a -> Decoder (List a)"
+            },
+            {
+                "name": "map",
+                "comment": " Useful for transforming decoders.\n\n    \"\"\" \"foo\" \"\"\"\n        |> decodeString (map String.toUpper string)\n    --> Success \"FOO\"\n\n",
+                "type": "(a -> b) -> Decoder a -> Decoder b"
+            },
+            {
+                "name": "map2",
+                "comment": " Combine 2 decoders.\n",
+                "type": "(a -> b -> c) -> Decoder a -> Decoder b -> Decoder c"
+            },
+            {
+                "name": "map3",
+                "comment": " Combine 3 decoders.\n",
+                "type": "(a -> b -> c -> d) -> Decoder a -> Decoder b -> Decoder c -> Decoder d"
+            },
+            {
+                "name": "map4",
+                "comment": " Combine 4 decoders.\n",
+                "type": "(a -> b -> c -> d -> e) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e"
+            },
+            {
+                "name": "map5",
+                "comment": " Combine 5 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f"
+            },
+            {
+                "name": "map6",
+                "comment": " Combine 6 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g"
+            },
+            {
+                "name": "map7",
+                "comment": " Combine 7 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder h"
+            },
+            {
+                "name": "map8",
+                "comment": " Combine 8 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h -> i) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder h -> Decoder i"
+            },
+            {
+                "name": "maybe",
+                "comment": " Decodes successfully and wraps with a `Just`, handling failure by succeeding\nwith `Nothing`.\n\n    \"\"\" [ \"foo\", 12 ] \"\"\"\n        |> decodeString (list <| maybe string)\n    --> WithWarnings expectedWarnings [ Just \"foo\", Nothing ]\n\n\n    expectedWarnings : Warnings\n    expectedWarnings =\n        UnusedValue (Encode.int 12)\n            |> Nonempty.fromElement\n            |> AtIndex 1\n            |> Nonempty.fromElement\n\n",
+                "type": "Decoder a -> Decoder (Maybe a)"
+            },
+            {
+                "name": "null",
+                "comment": " Decode a `null` and succeed with some value.\n\n    \"\"\" null \"\"\"\n        |> decodeString (null \"it was null\")\n    --> Success \"it was null\"\n\nNote that `undefined` and `null` are not the same thing. This cannot be used to\nverify that a field is _missing_, only that it is explicitly set to `null`.\n\n    \"\"\" { \"foo\": null } \"\"\"\n        |> decodeString (field \"foo\" (null ()))\n    --> Success ()\n\n\n    \"\"\" { } \"\"\"\n        |> decodeString (field \"foo\" (null ()))\n    --> Errors <|\n    -->   Nonempty\n    -->     (Failure \"Expected an object with a field 'foo'\" (Encode.object []))\n    -->     []\n\n",
+                "type": "a -> Decoder a"
+            },
+            {
+                "name": "nullable",
+                "comment": " Decodes successfully and wraps with a `Just`. If the values is `null`\nsucceeds with `Nothing`.\n\n    \"\"\" [ { \"foo\": \"bar\" }, { \"foo\": null } ] \"\"\"\n        |> decodeString (list <| field \"foo\" <| nullable string)\n    --> Success [ Just \"bar\", Nothing ]\n\n",
+                "type": "Decoder a -> Decoder (Maybe a)"
+            },
+            {
+                "name": "oneOf",
+                "comment": " Tries a bunch of decoders. The first one to not fail will be the one used.\n\nIf all fail, the errors are collected into a `BadOneOf`.\n\n    \"\"\" [ 12, \"whatever\" ] \"\"\"\n        |> decodeString (list <| oneOf [ map toString int, string ])\n    --> Success [ \"12\", \"whatever\" ]\n\n\n    \"\"\" null \"\"\"\n        |> decodeString (oneOf [ string, map toString int ])\n    --> Errors <| Nonempty.fromElement <| BadOneOf\n    -->   [ Nonempty.fromElement <| Failure \"Expected a string\" Encode.null\n    -->   , Nonempty.fromElement <| Failure \"Expected an integer number\" Encode.null\n    -->   ]\n\n",
+                "type": "List (Decoder a) -> Decoder a"
+            },
+            {
+                "name": "string",
+                "comment": " Decode a string.\n\n    \"\"\" \"hello world\" \"\"\"\n        |> decodeString string\n    --> Success \"hello world\"\n\n\n    \"\"\" 123 \"\"\"\n        |> decodeString string\n    --> Errors (Nonempty (Failure \"Expected a string\" (Encode.int 123)) [])\n\n",
+                "type": "Decoder String"
+            },
+            {
+                "name": "succeed",
+                "comment": " A decoder that will ignore the actual JSON and succeed with the provided\nvalue. Note that this may still fail when dealing with an invalid JSON string.\n\nIf a value in the JSON ends up being ignored because of this, this will cause a\nwarning.\n\n    \"\"\" null \"\"\"\n        |> decodeString (value |> andThen (\\_ -> succeed \"hello world\"))\n    --> Success \"hello world\"\n\n\n    \"\"\" null \"\"\"\n        |> decodeString (succeed \"hello world\")\n    --> WithWarnings\n    -->     (Nonempty (UnusedValue Encode.null) [])\n    -->     \"hello world\"\n\n\n    \"\"\" foo \"\"\"\n        |> decodeString (succeed \"hello world\")\n    --> BadJson\n\n",
+                "type": "a -> Decoder a"
+            },
+            {
+                "name": "value",
+                "comment": " Extract a piece without actually decoding it.\n\nIf a structure is decoded as a `value`, everything _in_ the structure will be\nconsidered as having been used and will not appear in `UnusedValue` warnings.\n\n    \"\"\" [ 123, \"world\" ] \"\"\"\n        |> decodeString value\n    --> Success (Encode.list [ Encode.int 123, Encode.string \"world\" ])\n\n",
+                "type": "Decoder Value"
+            }
+        ],
+        "binops": []
+    }
+]

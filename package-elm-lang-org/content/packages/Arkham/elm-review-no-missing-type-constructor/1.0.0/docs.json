@@ -1,0 +1,1 @@
+[{"name":"NoMissingTypeConstructor","comment":"\n\n@docs rule\n\n","unions":[],"aliases":[],"values":[{"name":"rule","comment":" ","type":"Review.Rule.Rule"}],"binops":[]}]

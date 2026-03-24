@@ -1,0 +1,135 @@
+[
+    {
+        "name": "Return",
+        "comment": "\n## Type\nModeling the `update` tuple as a Monad\n@docs Return\n\n## Basics\n@docs map, map2, map3, map4, map5, andMap, singleton, andThen, (|<), (>|), (>>|), (|<<)\n\n## Write `Cmd`s\n@docs writer, tell, listen, pass, censor\n\n## Read `Cmd`s\n@docs reader, ask\n\n## State\n@docs get, put\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Return",
+                "comment": " ",
+                "args": [
+                    "msg",
+                    "model"
+                ],
+                "type": "( model, Cmd msg )"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " ",
+                "type": "Return msg (a -> b) -> Return msg a -> Return msg b"
+            },
+            {
+                "name": "andThen",
+                "comment": " ",
+                "type": "Return msg a -> (a -> Return msg b) -> Return msg b"
+            },
+            {
+                "name": "ask",
+                "comment": " ",
+                "type": "Return msg model -> Return msg (Cmd msg)"
+            },
+            {
+                "name": "censor",
+                "comment": " ",
+                "type": "(Cmd msg -> Cmd msg_) -> Return msg model -> Return msg_ model"
+            },
+            {
+                "name": "get",
+                "comment": " ",
+                "type": "Cmd msg -> Return msg (Cmd msg)"
+            },
+            {
+                "name": "listen",
+                "comment": " ",
+                "type": "Return msg a -> Return msg (Return msg a)"
+            },
+            {
+                "name": "map",
+                "comment": " ",
+                "type": "(a -> b) -> Return msg a -> Return msg b"
+            },
+            {
+                "name": "map2",
+                "comment": " ",
+                "type": "(a -> b -> c) -> Return msg a -> Return msg b -> Return msg c"
+            },
+            {
+                "name": "map3",
+                "comment": " ",
+                "type": "(a -> b -> c -> d) -> Return msg a -> Return msg b -> Return msg c -> Return msg d"
+            },
+            {
+                "name": "map4",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e) -> Return msg a -> Return msg b -> Return msg c -> Return msg d -> Return msg e"
+            },
+            {
+                "name": "map5",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e -> f) -> Return msg a -> Return msg b -> Return msg c -> Return msg d -> Return msg e -> Return msg f"
+            },
+            {
+                "name": "pass",
+                "comment": " ",
+                "type": "Return msg ( model, Cmd msg -> Cmd msg_ ) -> Return msg_ model"
+            },
+            {
+                "name": "put",
+                "comment": " ",
+                "type": "Cmd msg -> model -> Return msg ()"
+            },
+            {
+                "name": "reader",
+                "comment": " ",
+                "type": "(Cmd msg -> Cmd msg_) -> Return msg model -> Return msg_ model"
+            },
+            {
+                "name": "singleton",
+                "comment": " ",
+                "type": "model -> Return msg model"
+            },
+            {
+                "name": "tell",
+                "comment": " ",
+                "type": "Cmd msg -> Return msg ()"
+            },
+            {
+                "name": "writer",
+                "comment": " ",
+                "type": "( model, Cmd msg ) -> Return msg model"
+            }
+        ],
+        "binops": [
+            {
+                "name": ">>|",
+                "comment": " ",
+                "type": "Return msg a -> (a -> Return msg b) -> Return msg b",
+                "associativity": "left",
+                "precedence": 6
+            },
+            {
+                "name": ">|",
+                "comment": " ",
+                "type": "Return msg model -> Return msg model_ -> Return msg model_",
+                "associativity": "left",
+                "precedence": 7
+            },
+            {
+                "name": "|<",
+                "comment": " ",
+                "type": "Return msg model_ -> Return msg model -> Return msg model_",
+                "associativity": "right",
+                "precedence": 7
+            },
+            {
+                "name": "|<<",
+                "comment": " ",
+                "type": "(a -> Return msg b) -> Return msg a -> Return msg b",
+                "associativity": "right",
+                "precedence": 6
+            }
+        ]
+    }
+]

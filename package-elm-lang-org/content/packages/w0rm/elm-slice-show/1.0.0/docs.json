@@ -1,0 +1,96 @@
+[
+    {
+        "name": "SliceShow",
+        "comment": " This module helps you start your SliceShow application.\n# Start your Application\n@docs SliceShow, Model, init, show, setDimensions, setHash\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Slideshow Model type ",
+                "args": [],
+                "type": "Protected Model"
+            },
+            {
+                "name": "SliceShow",
+                "comment": " SliceShow app, exposes html signal and tasks signal ",
+                "args": [],
+                "type": "{ html : Signal Html, tasks : Signal (Task Never ()) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Init Model from list of slides ",
+                "type": "List Slide -> Model"
+            },
+            {
+                "name": "setDimensions",
+                "comment": " Set initial dimensions taken from port ",
+                "type": "( Int, Int ) -> Model -> Model"
+            },
+            {
+                "name": "setHash",
+                "comment": " Set initial hash taken from port ",
+                "type": "String -> Model -> Model"
+            },
+            {
+                "name": "show",
+                "comment": " Start the SliceShow with your `slides`:\n    app = show (init slides)\n    main = app.html\n    port tasks : Signal (Task.Task Never ())\n    port tasks = app.tasks\n",
+                "type": "Model -> SliceShow"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Slide",
+        "comment": " This module helps you define a slide\n@docs Slide, slide\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Slide",
+                "comment": " Slide type ",
+                "args": [],
+                "type": "Protected SlideData"
+            }
+        ],
+        "values": [
+            {
+                "name": "slide",
+                "comment": " Create new slide from a list of content items ",
+                "type": "List Content -> Slide"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Content",
+        "comment": " This module helps you define Slide content\n@docs Content, item, container, hide\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Content",
+                "comment": " Content type ",
+                "args": [],
+                "type": "ContentData"
+            }
+        ],
+        "values": [
+            {
+                "name": "container",
+                "comment": " A group of content items ",
+                "type": "(List Html -> Html) -> List Content -> Content"
+            },
+            {
+                "name": "hide",
+                "comment": " Hide content ",
+                "type": "Content -> Content"
+            },
+            {
+                "name": "item",
+                "comment": " Single content item ",
+                "type": "Html -> Content"
+            }
+        ],
+        "binops": []
+    }
+]

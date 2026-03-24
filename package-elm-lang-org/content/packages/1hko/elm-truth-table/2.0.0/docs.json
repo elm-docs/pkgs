@@ -1,0 +1,95 @@
+[
+    {
+        "name": "TruthTable",
+        "comment": " This library generates [truth tables](https://en.wikipedia.org/wiki/Truth_table) for use with\npropositional logic.\n\n@docs fromExprs\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromExprs",
+                "comment": " Generate a truth table from a list of expressions.\n\n    import TruthTable\n    import TruthTable.Expr exposing (Expr(..))\n\n    -- De Morgan's Law\n    TruthTable.fromExprs\n        [ Not (Or (Var \"P\") (Var \"Q\"))\n        , And (Not (Var \"P\")) (Not (Var \"Q\"))\n        ]\n\nA text preview of the generated table.\n\n```plain\nP     Q     (¬P) ∧ (¬Q)     ¬(P ∨ Q)\n-------------------------------------\nT     T     F               F\nT     F     F               F\nF     T     F               F\nF     F     T               T\n```\n\n",
+                "type": "List Expr -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "TruthTable.Expr",
+        "comment": " Represent propositional expressions. Can be used to automatically generate a truth table.\n\n\n# Definition\n\n@docs Expr, toString\n\n\n# Advanced\n\n@docs eval, vars\n\n",
+        "unions": [
+            {
+                "name": "Expr",
+                "comment": " A propositional expression.\n\n    -- ¬P\n    Not (Var \"P\")\n\n    -- ¬P ∨ Q\n    Or (Not (Var \"P\")) (Var \"Q\")\n\n    -- P ⇒ Q\n    Implies (Var \"P\")  (Var \"Q\")\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Or",
+                        [
+                            "Expr",
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "And",
+                        [
+                            "Expr",
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "Xor",
+                        [
+                            "Expr",
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "Implies",
+                        [
+                            "Expr",
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "Equiv",
+                        [
+                            "Expr",
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "Not",
+                        [
+                            "Expr"
+                        ]
+                    ],
+                    [
+                        "Var",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "eval",
+                "comment": " Evaluate an expression with the specified environment.\n\n    And (Var \"P\") (Var \"Q\")\n        |> eval (Env.make [ \"P\", \"Q\" ], [ True, False ])\n        == Ok False\n\n",
+                "type": "Env -> Expr -> Result String Bool"
+            },
+            {
+                "name": "toString",
+                "comment": " Transform an `Expr` to a `String`\n\n    Var \"P\" |> Expr.toString\n        == \"P\"\n\n    And (Var \"P\") (Var \"Q\") |> Expr.toString\n        == \"P ∧ Q\"\n\n    Or (Not (Var \"P\")) (Var \"Q\") |> Expr.toString\n        == \"¬P ∨ Q\"\n\n",
+                "type": "Expr -> String"
+            },
+            {
+                "name": "vars",
+                "comment": " Determine the variables used in an expression.\n\n    Xor (And (Var \"P\") (Var \"Q\")) (Or (Var \"P\") (Var \"Q\"))\n        == Set.fromList [ \"P\", \"Q\" ]\n\n",
+                "type": "Expr -> Set String"
+            }
+        ],
+        "binops": []
+    }
+]

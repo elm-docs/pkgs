@@ -1,0 +1,130 @@
+[
+    {
+        "name": "SortableTable",
+        "comment": " This package exposes functions for displaying an HTML table that can be configured for sorting on different columns.\n\n\n# Config\n\nA table requires a config that should NOT be stored in your app's state. Define the config once and pass it into the view function.\n\n@docs Config, Column, createConfig, createKeyedConfig, defineColumn, makeSortable\n\n\n# State\n\nThe only state you will need to store in your app model is the `SortState` which stores which column is being sorted on in which direction. There are functions exposed for creating and extracting data about the sort state that can be utilitzed to react to a change in the sort state.\n\n@docs SortState, SortDir, initSortState, sortInfo\n\n\n# Customizations\n\nYou may specify certain customizations that will take effect in the table view. Most of the functions that are used to specify the customizations take a `List (Attribute ms)` so it can be very verbose.\n\n@docs Customizations, customizeBody, customizeHead, customizeRows, customizeRows, customizeSort, customizeTable, defaultCustomizations\n\n\n# View\n\nThere are two functions for displaying the table, `view` and `nonSortingView`. Most users will use the standard `view` function, but `nonSortingView` can be used to short-circuit some functionality if you don't need any of the sorting features.\n\n@docs view, nonSortingView\n\n",
+        "unions": [
+            {
+                "name": "Column",
+                "comment": " A column can either be sortable or non-sortable.\nIf it's sortable, then a sortMsg is needed to send new sort messages.\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Config",
+                "comment": " Stores the table configuration. Do NOT store this in your application model. Define the config (using the supplied helper methods) once and pass it to the Table's `view` function.\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Customizations",
+                "comment": " Stores a structure of customizations to be used in the table display. Can be constructed using the provided helper methods.\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "SortDir",
+                "comment": " Sort direction can either be Asc or Desc\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Asc",
+                        []
+                    ],
+                    [
+                        "Desc",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "SortState",
+                "comment": " This is the state that needs to be stored in your application's model.\nHelper methods are provided for creating and extracting data from the state.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "createConfig",
+                "comment": " Creates a table configuration without uniquely identifiable rows\nAccepts:\na list of Column definitions\na set of Customizations for the table\n",
+                "type": "List (Column data msg) -> Customizations data msg -> Config data msg"
+            },
+            {
+                "name": "createKeyedConfig",
+                "comment": " Creates a table configuration with uniquely identifiable rows.\nThe toId function is used to uniquely identify a row based on it's data.\nThis is to enable use of Html.Keyed\n",
+                "type": "(data -> String) -> List (Column data msg) -> Customizations data msg -> Config data msg"
+            },
+            {
+                "name": "customizeBody",
+                "comment": " Add html attributes to the <tbody> tag\n",
+                "type": "List (Attribute msg) -> Customizations data msg -> Customizations data msg"
+            },
+            {
+                "name": "customizeHead",
+                "comment": " Add html attributes to customize the <thead> tag\n",
+                "type": "List (Attribute msg) -> Customizations data msg -> Customizations data msg"
+            },
+            {
+                "name": "customizeRows",
+                "comment": " Adds html attributes to the <tr> tag. This customization is somewhat different than the other customizations because you must define a function that will be given the data for the specific row. This will let you customize rows based on the data it contains.\n",
+                "type": "(data -> List (Attribute msg)) -> Customizations data msg -> Customizations data msg"
+            },
+            {
+                "name": "customizeSort",
+                "comment": " Add html attributes to the <span> that contains the sort arrow in the header\n",
+                "type": "List (Attribute msg) -> Customizations data msg -> Customizations data msg"
+            },
+            {
+                "name": "customizeTable",
+                "comment": " Add html attributes to customize the <table> tag\n",
+                "type": "List (Attribute msg) -> Customizations data msg -> Customizations data msg"
+            },
+            {
+                "name": "defaultCustomizations",
+                "comment": " Creates a set of default Customizations (which are no customizations at all)\nThis is a useful starting point for chaining specific customizations.\n\n    defaultCustomizations\n        |> customizeBody [ style [(\"backgroundColor\", \"pink\")] ]\n        |> customizeTable []\n        -- and so on\n\n",
+                "type": "Customizations data msg"
+            },
+            {
+                "name": "defineColumn",
+                "comment": " Creates an unsortable column.\nAccepts :\na String that wil be the label displayed in the colulmn header.\na function that will produce the table cell's Html given the data for that row\na list of (Attribute msg) that can be used to customize the cells for the column\n",
+                "type": "String -> (data -> Html msg) -> List (Attribute msg) -> Column data msg"
+            },
+            {
+                "name": "initSortState",
+                "comment": " Create an initial SortState given the a String columnId\n",
+                "type": "ColumnId -> SortDir -> SortState"
+            },
+            {
+                "name": "makeSortable",
+                "comment": " Takes sortMsg and a pre-defined column and makes it sortable with the supplied sortMsg\n",
+                "type": "(SortState -> msg) -> Column data msg -> Column data msg"
+            },
+            {
+                "name": "nonSortingView",
+                "comment": " Use this if you don't care about any of the columns sorting.\n",
+                "type": "Config data msg -> List data -> Html msg"
+            },
+            {
+                "name": "sortInfo",
+                "comment": " Used to extract sort info from a SortState if needed for new queries etc.\nGiven a SortState - returns a tuple of the columnId, and the SortDir\n",
+                "type": "SortState -> ( String, SortDir )"
+            },
+            {
+                "name": "view",
+                "comment": " The standard view function for creating the html that will produce the table with columns defined and data given.\n\nAccepts:\nthe config which defines the columns & customizations for the table\nthe SortState which should be stored in your app model - and holds the current sort state of the table\na lit of data that will be displayed in the table\n\n",
+                "type": "Config data msg -> SortState -> List data -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

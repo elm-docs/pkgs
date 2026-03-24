@@ -1,0 +1,1 @@
+[{"name":"Helpers","comment":" Use at will.\n\n@docs when, whenJust\n\n","unions":[],"aliases":[],"values":[{"name":"when","comment":" Conditional display.\n","type":"Basics.Bool -> Element.Element msg -> Element.Element msg"},{"name":"whenJust","comment":" Maybe display.\n","type":"(a -> Element.Element msg) -> Maybe.Maybe a -> Element.Element msg"}],"binops":[]}]

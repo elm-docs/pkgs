@@ -1,0 +1,63 @@
+[
+    {
+        "name": "Porter",
+        "comment": " Port message manager to emulate a request-response style communication through ports, a'la `Http.send ResponseHandler request`.\n\n\n# Configuration\n\n@docs Config\n\n\n# The setup\n\n@docs Model, Msg, init, update, subscriptions\n\n\n# Send messages\n\n@docs send\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Porter model, used to keep track of response handlers.\n",
+                "args": [
+                    "req",
+                    "res",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " Module messages.\n",
+                "args": [
+                    "req",
+                    "res",
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Porter configuration, containing ports and message encoders/decoders.\n",
+                "args": [
+                    "req",
+                    "res",
+                    "msg"
+                ],
+                "type": "{ outgoingPort : Value -> Cmd msg, incomingPort : (Value -> Msg req res msg) -> Sub (Msg req res msg), encodeRequest : req -> Value, decodeResponse : Decoder res }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initialize model.\n",
+                "type": "Model req res msg"
+            },
+            {
+                "name": "send",
+                "comment": " Initiate a message send.\n",
+                "type": "(res -> msg) -> req -> Cmd (Msg req res msg)"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Subscribe to messages from ports.\n",
+                "type": "Config req res msg -> Sub (Msg req res msg)"
+            },
+            {
+                "name": "update",
+                "comment": " Update port model based on local messages. Returns a new port model and a local command that must be mapped to the parent message.\n",
+                "type": "Config req res msg -> Msg req res msg -> Model req res msg -> ( Model req res msg, Cmd msg )"
+            }
+        ],
+        "binops": []
+    }
+]

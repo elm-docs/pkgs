@@ -1,0 +1,29 @@
+[
+    {
+        "name": "DisplayGraph",
+        "comment": " DisplayGraph provides tools for constructing graphs and\nrendering them into SVG.\n\n@docs Graph, Vertex, graphDisplay\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Graph",
+                "comment": " A graph is s record with two fields - list of vertices\nand a list of edges.\n",
+                "args": [],
+                "type": "{ vertices : List Vertex, edges : List Edge }"
+            },
+            {
+                "name": "Vertex",
+                "comment": " A vertex is s record with two fields, an integer id and a string label.\n",
+                "args": [],
+                "type": "{ id : Int, label : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "graphDisplay",
+                "comment": " graphDisplay takes a number and a graph as arguments\nand returns an SVG representation of the graph. The number is\na scale factor. If the scale is 1, the graph is centered in a 2x2 square.\n",
+                "type": "Float -> Graph -> List (Svg msg)"
+            }
+        ],
+        "binops": []
+    }
+]

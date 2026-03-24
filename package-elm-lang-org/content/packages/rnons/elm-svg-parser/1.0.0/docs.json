@@ -1,0 +1,60 @@
+[
+    {
+        "name": "SvgParser",
+        "comment": " String to SVG parser\n\n\n# Primitives\n\n@docs SvgNode, Element, SvgAttribute\n\n\n# Parsing\n\n@docs parse, parseToNode\n\n",
+        "unions": [
+            {
+                "name": "SvgNode",
+                "comment": " A SVG node can be one of the three: SvgElement, SvgText or SvgComment.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SvgElement",
+                        [
+                            "Element"
+                        ]
+                    ],
+                    [
+                        "SvgText",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "SvgComment",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " An Element consists of a tag name, a list of attributes, a list of children nodes.\n\n    <svg xmlns=\"http://www.w3.org/2000/svg\"></svg>\n\nwill be parsed as\n\n    Element \"svg\" [(\"xmlns\", \"http://www.w3.org/2000/svg\")] []\n\n",
+                "args": [],
+                "type": "{ name : String, attributes : List SvgAttribute, children : List SvgNode }"
+            },
+            {
+                "name": "SvgAttribute",
+                "comment": " A name/value pair to denote attribute.\n",
+                "args": [],
+                "type": "( String, String )"
+            }
+        ],
+        "values": [
+            {
+                "name": "parse",
+                "comment": " Parses `String` to `Html msg`. Usually this is the only function you need.\n",
+                "type": "String -> Result String (Html msg)"
+            },
+            {
+                "name": "parseToNode",
+                "comment": " Parses `String` to `SvgNode`. Normally you will use `parse` instead of this.\n\n    parse \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\"></svg>\"\n        == Ok (SvgElement (Element \"svg\" [(\"xmlns\", \"http://www.w3.org/2000/svg\")] []))\n\n",
+                "type": "String -> Result String SvgNode"
+            }
+        ],
+        "binops": []
+    }
+]

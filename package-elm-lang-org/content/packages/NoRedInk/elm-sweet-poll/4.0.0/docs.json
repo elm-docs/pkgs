@@ -1,0 +1,60 @@
+[
+    {
+        "name": "SweetPoll",
+        "comment": "\n\n# Configuration\n@docs Config, defaultConfig\n\n# Elm Artchitecture\n@docs Model, Msg, init, UpdateResult, update\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Private state of the SweetPoll component\n",
+                "args": [
+                    "data"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [
+                    "data"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "data"
+                ],
+                "type": "{ url : String, decoder : Decoder data, delay : Time, samesBeforeDelay : Int, delayMultiplier : Float, maxDelay : Time }"
+            },
+            {
+                "name": "UpdateResult",
+                "comment": "\n\n - sweetPollModel: the new state of the SweetPoll\n - newData: any new data received by the SweetPoll\n - error: any new error occurring in the current update cycle\n - cmd: a Cmd to keep the SweetPoll running\n",
+                "args": [
+                    "data"
+                ],
+                "type": "{ sweetPollModel : Model data, newData : Maybe data, error : Maybe Error, cmd : Cmd (Msg data) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultConfig",
+                "comment": " Default configuration for SweetPoll\n",
+                "type": "Decoder data -> String -> Config data"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "Config data -> ( Model data, Cmd (Msg data) )"
+            },
+            {
+                "name": "update",
+                "comment": " The SweetPoll StartApp-style update function\n",
+                "type": "Msg data -> Model data -> UpdateResult data"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,1 @@
+[{"name":"String.Multiline","comment":" Tiny module to solve multiline string indentation problems.\n\n@docs here\n\n","unions":[],"aliases":[],"values":[{"name":"here","comment":" ","type":"String.String -> String.String"}],"binops":[]}]

@@ -1,0 +1,58 @@
+[
+    {
+        "name": "TransitStyle",
+        "comment": " Animations for elm-transit, to be used on elm-html `style` attribute.\n\n    div\n      [ style (fadeSlide 100 model.transition) ]\n      [ text \"Some content\" ]\n\n# Combinations\n@docs fadeSlide\n\n# Slide left\n@docs slide, slideOut, slideIn\n\n# Fade\n@docs fade, fadeOut, fadeIn\n\n# Tooling to create animations\n@docs compose, Style\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Style",
+                "comment": " Just an alias for elm-html style value\n",
+                "args": [],
+                "type": "List ( String, String )"
+            }
+        ],
+        "values": [
+            {
+                "name": "compose",
+                "comment": " Compose an animation with `exit` and `enter` phases.\n",
+                "type": "(Float -> Style) -> (Float -> Style) -> Transition -> Style"
+            },
+            {
+                "name": "fade",
+                "comment": " Fade animation\n",
+                "type": "Transition -> Style"
+            },
+            {
+                "name": "fadeIn",
+                "comment": " Fade in (enter).\n",
+                "type": "Float -> Style"
+            },
+            {
+                "name": "fadeOut",
+                "comment": " Fade out (exit).\n",
+                "type": "Float -> Style"
+            },
+            {
+                "name": "fadeSlide",
+                "comment": " Combine fade and slideLeft with the specified offset\n",
+                "type": "Float -> Transition -> Style"
+            },
+            {
+                "name": "slide",
+                "comment": " Slide animation, with the specified offset.\nGreater than 0 to right, lesser to left.\n",
+                "type": "Float -> Transition -> Style"
+            },
+            {
+                "name": "slideIn",
+                "comment": " Slide in (enter) by translating on X for desired offset\n",
+                "type": "Float -> Float -> Style"
+            },
+            {
+                "name": "slideOut",
+                "comment": " Slide out (exit) by translating on X for desired offset\n",
+                "type": "Float -> Float -> Style"
+            }
+        ],
+        "binops": []
+    }
+]

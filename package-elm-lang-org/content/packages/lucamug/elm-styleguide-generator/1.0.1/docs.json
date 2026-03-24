@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Styleguide",
+        "comment": " This simple package generates a page with Style Guides.\nIt uses certain data structure that each section of the framework expose ([Example](https://lucamug.github.io/elm-styleguide-generator/), [Example source](https://github.com/lucamug/elm-styleguide-generator/blob/master/examples/Main.elm)).\n\nThe idea is to have a Living version of the Style Guide that always stays\nupdated with no maintenance.\n\nFor more info about the idea, see [this post](https://medium.com/@l.mugnaini/zero-maintenance-always-up-to-date-living-style-guide-in-elm-dbf236d07522).\n\n\n# Functions\n\n@docs Data, section, page, htmlPage\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " This is the type that is required for Data\n\nExample, inside Framework.Button:\n\n    introspection : Styleguide.Data msg\n    introspection =\n        { name = \"Button\"\n        , signature = \"button : List Modifier -> Maybe msg -> String -> Element msg\"\n        , description = \"Buttons accept a list of modifiers, a Maybe msg (for example: \\\"Just DoSomething\\\") and the text to display inside the button.\"\n        , usage = \"button [ Medium, Success, Outlined ] Nothing \\\"Button\\\"\"\n        , usageResult = button [ Medium, Success, Outlined ] Nothing \"Button\"\n        , boxed = False\n        , types =\n            [ ( \"Sizes\"\n              , [ ( button [ Small ] Nothing \"Button\", \"button [ Small ] Nothing \\\"Button\\\"\" )\n                , ( button [ Medium ] Nothing \"Button\", \"button [ Medium ] Nothing \\\"Button\\\"\" )\n                , ( button [ Large ] Nothing \"Button\", \"button [ Large ] Nothing \\\"Button\\\"\" )\n                ]\n              )\n            ]\n        }\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ name : String, signature : String, description : String, usage : String, usageResult : Element msg, types : List ( String, List ( Element msg, String ) ), boxed : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "htmlPage",
+                "comment": " This create the entire page of Html type.\n\nExample, in your Style Guide page:\n\n    main : Html.Html msg\n    main =\n        Styleguide.htmlPage\n            [ Framework.Button.introspection\n            , Framework.Color.introspection\n            ]\n\n",
+                "type": "List (Data msg) -> Html msg"
+            },
+            {
+                "name": "page",
+                "comment": " This create the entire page of Element type. If you are working\nwith style-elements this is the way to go, so you can customize your page.\n\nExample, in your Style Guide page:\n\n    main : Html.Html msg\n    main =\n        layout layoutAttributes <|\n            column []\n                [ ...\n                , Styleguide.page\n                    [ Framework.Button.introspection\n                    , Framework.Color.introspection\n                    ]\n                ...\n                ]\n\n",
+                "type": "List (Data msg) -> Element msg"
+            },
+            {
+                "name": "section",
+                "comment": " This function create a section of the page based on the input data.\n\nExample:\n\n    section Framework.Button.introspection\n\n",
+                "type": "Data msg -> Element msg"
+            }
+        ],
+        "binops": []
+    }
+]

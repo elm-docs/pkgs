@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Bubblegum.Tag.Widget",
+        "comment": " A flexible listbox widget to select multiple tags with the following features:\n\n  - Supports multiple languages as well as right to left writing.\n  - You can define targets in term of number of tags and display the progress against them.\n  - You can add various tags to each choice (ex: warning tag)\n\nPlease have a look at the main [documentation](https://github.com/flarebyte/bubblegum-ui-tag) for more details about the possible settings.\n\n@docs view\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "view",
+                "comment": " View for the widget\n\n    attr key value = { id = Nothing , key = key, facets = [], values = [value]}\n\n    adapter =  =\n        { onSearchInput = OnSearchInput\n        , onToggleDropbox = OnToggleDropbox\n        , onAddTag = OnAddTag\n        , onDeleteTag = OnDeleteTag\n        }\n\n    userSettings = { attributes = [attr ui_userLanguage \"en-US\"] }\n    settings = { attributes = [attr ui_label \"My Story\"] ++ getExampleAttributes }\n    state = { attributes = [ attr ui_suggesting \"true\" , attrs ui_selected [ \"id:suggestion:1\", \"id:suggestion:3\" ]] }\n\n    view adapter userSettings settings state\n\n",
+                "type": "Model msg -> Model -> Model -> Model -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

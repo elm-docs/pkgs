@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Publish",
+        "comment": " Publishing test package\n\n@docs testString\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "testString",
+                "comment": " Test string\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

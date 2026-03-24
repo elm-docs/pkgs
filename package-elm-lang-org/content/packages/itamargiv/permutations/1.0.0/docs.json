@@ -1,0 +1,1 @@
+[{"name":"Permutations","comment":"\n@docs ofList\n","unions":[],"aliases":[],"values":[{"name":"ofList","comment":" Return a list of all possible permutations of a list.\n\n    fromList [0, 1] == [[0, 1], [1, 0]]\n","type":"List.List a -> List.List (List.List a)"}],"binops":[]}]

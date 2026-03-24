@@ -1,0 +1,2051 @@
+[
+    {
+        "name": "OpenIconic",
+        "comment": " <link rel=\"stylesheet\" href= \"https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css\"/>\nLearn more at [Open Iconic](https://useiconic.com/open).\n\n    import OpenIconic as OI \n      exposing ( stylesheet\n               , Icon(Fork)\n               , fork\n               )\n\n    forkIcon1 : Html msg\n    forkIcon1 = Html.i [] Fork\n\n    forkIcon2 : Html msg\n    forkIcon2 = fork\n\n    view : Model -> Html msg\n    view model\n      = div []\n        [ stylesheet\n        , forkIcon1\n        , forkIcon2\n        ]\n\n# Stylesheet\n@docs stylesheet\n\n# Html\n@docs i\n\n# Attributes\n@docs toClass, toClassName\n\n# Icons\n@docs toString\n\n## HTML Helpers\n@docs accountLogin, accountLogout, actionRedo, actionUndo, alignCenter, alignLeft, alignRight, aperture, arrowBottom, arrowCircleBottom, arrowCircleLeft, arrowCircleRight, arrowCircleTop, arrowLeft, arrowRight, arrowThickBottom, arrowThickLeft, arrowThickRight, arrowThickTop, arrowTop, audio, audioSpectrum, badge, ban, barChart, basket, batteryEmpty, batteryFull, beaker, bell, bluetooth, bold, bolt, book, bookmark, box, briefcase, britishPound, browser, brush, bug, bullhorn, calculator, calendar, cameraSlr, caretBottom, caretLeft, caretRight, caretTop, cart, chat, check, chevronBottom, chevronLeft, chevronRight, chevronTop, circleCheck, circleX, clipboard, clock, cloud, cloudDownload, cloudUpload, cloudy, code, cog, collapseDown, collapseLeft, collapseRight, collapseUp, command, commentSquare, compass, contrast, copywriting, creditCard, crop, dashboard, dataTransferDownload, dataTransferUpload, delete, dial, document, dollar, doubleQuoteSansLeft, doubleQuoteSansRight, doubleQuoteSerifLeft, doubleQuoteSerifRight, droplet, eject, elevator, ellipses, envelopeClosed, envelopeOpen, euro, excerpt, expandDown, expandLeft, expandRight, expandUp, externalLink, eye, eyedropper, file, fire, flag, flash, folder, fork, fullscreenEnter, fullscreenExit, globe, graph, gridFourUp, gridThreeUp, gridTwoUp, hardDrive, header, headphones, heart, home, image, inbox, infinity, info, italic, justifyCenter, justifyLeft, justifyRight, key, laptop, layers, lightbulb, linkBroken, linkIntact, list, listRich, location, lockLocked, lockUnlocked, loop, loopCircular, loopSquare, magnifyingGlass, map, mapMarker, mediaPause, mediaPlay, mediaRecord, mediaSkipBackward, mediaSkipForward, mediaStepBackward, mediaStepForward, mediaStop, medicalCross, menu, microphone, minus, monitor, moon, move, musicalNote, paperclip, pencil, people, person, phone, pieChart, pin, playCircle, plus, powerStandby, print, project, pulse, puzzlePiece, questionMark, rain, random, reload, resizeBoth, resizeHeight, resizeWidth, rss, rssAlt, script, share, shareBoxed, shield, signal, signpost, sortAscending, sortDescending, spreadsheet, star, sun, tablet, tag, tags, target, task, terminal, text, thumbDown, thumbUp, timer, transfer, trash, underline, verticalAlignBottom, verticalAlignCenter, verticalAlignTop, video, volumeHigh, volumeLow, volumeOff, warning, wifi, wrench, x, yen, zoomIn, zoomOut\n\n## Union Type\n@docs Icon\n\n",
+        "unions": [
+            {
+                "name": "Icon",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "AccountLogin",
+                        []
+                    ],
+                    [
+                        "AccountLogout",
+                        []
+                    ],
+                    [
+                        "ActionRedo",
+                        []
+                    ],
+                    [
+                        "ActionUndo",
+                        []
+                    ],
+                    [
+                        "AlignCenter",
+                        []
+                    ],
+                    [
+                        "AlignLeft",
+                        []
+                    ],
+                    [
+                        "AlignRight",
+                        []
+                    ],
+                    [
+                        "Aperture",
+                        []
+                    ],
+                    [
+                        "ArrowBottom",
+                        []
+                    ],
+                    [
+                        "ArrowCircleBottom",
+                        []
+                    ],
+                    [
+                        "ArrowCircleLeft",
+                        []
+                    ],
+                    [
+                        "ArrowCircleRight",
+                        []
+                    ],
+                    [
+                        "ArrowCircleTop",
+                        []
+                    ],
+                    [
+                        "ArrowLeft",
+                        []
+                    ],
+                    [
+                        "ArrowRight",
+                        []
+                    ],
+                    [
+                        "ArrowThickBottom",
+                        []
+                    ],
+                    [
+                        "ArrowThickLeft",
+                        []
+                    ],
+                    [
+                        "ArrowThickRight",
+                        []
+                    ],
+                    [
+                        "ArrowThickTop",
+                        []
+                    ],
+                    [
+                        "ArrowTop",
+                        []
+                    ],
+                    [
+                        "Audio",
+                        []
+                    ],
+                    [
+                        "AudioSpectrum",
+                        []
+                    ],
+                    [
+                        "Badge",
+                        []
+                    ],
+                    [
+                        "Ban",
+                        []
+                    ],
+                    [
+                        "BarChart",
+                        []
+                    ],
+                    [
+                        "Basket",
+                        []
+                    ],
+                    [
+                        "BatteryEmpty",
+                        []
+                    ],
+                    [
+                        "BatteryFull",
+                        []
+                    ],
+                    [
+                        "Beaker",
+                        []
+                    ],
+                    [
+                        "Bell",
+                        []
+                    ],
+                    [
+                        "Bluetooth",
+                        []
+                    ],
+                    [
+                        "Bold",
+                        []
+                    ],
+                    [
+                        "Bolt",
+                        []
+                    ],
+                    [
+                        "Book",
+                        []
+                    ],
+                    [
+                        "Bookmark",
+                        []
+                    ],
+                    [
+                        "Box",
+                        []
+                    ],
+                    [
+                        "Briefcase",
+                        []
+                    ],
+                    [
+                        "BritishPound",
+                        []
+                    ],
+                    [
+                        "Browser",
+                        []
+                    ],
+                    [
+                        "Brush",
+                        []
+                    ],
+                    [
+                        "Bug",
+                        []
+                    ],
+                    [
+                        "Bullhorn",
+                        []
+                    ],
+                    [
+                        "Calculator",
+                        []
+                    ],
+                    [
+                        "Calendar",
+                        []
+                    ],
+                    [
+                        "CameraSlr",
+                        []
+                    ],
+                    [
+                        "CaretBottom",
+                        []
+                    ],
+                    [
+                        "CaretLeft",
+                        []
+                    ],
+                    [
+                        "CaretRight",
+                        []
+                    ],
+                    [
+                        "CaretTop",
+                        []
+                    ],
+                    [
+                        "Cart",
+                        []
+                    ],
+                    [
+                        "Chat",
+                        []
+                    ],
+                    [
+                        "Check",
+                        []
+                    ],
+                    [
+                        "ChevronBottom",
+                        []
+                    ],
+                    [
+                        "ChevronLeft",
+                        []
+                    ],
+                    [
+                        "ChevronRight",
+                        []
+                    ],
+                    [
+                        "ChevronTop",
+                        []
+                    ],
+                    [
+                        "CircleCheck",
+                        []
+                    ],
+                    [
+                        "CircleX",
+                        []
+                    ],
+                    [
+                        "Clipboard",
+                        []
+                    ],
+                    [
+                        "Clock",
+                        []
+                    ],
+                    [
+                        "Cloud",
+                        []
+                    ],
+                    [
+                        "CloudDownload",
+                        []
+                    ],
+                    [
+                        "CloudUpload",
+                        []
+                    ],
+                    [
+                        "Cloudy",
+                        []
+                    ],
+                    [
+                        "Code",
+                        []
+                    ],
+                    [
+                        "Cog",
+                        []
+                    ],
+                    [
+                        "CollapseDown",
+                        []
+                    ],
+                    [
+                        "CollapseLeft",
+                        []
+                    ],
+                    [
+                        "CollapseRight",
+                        []
+                    ],
+                    [
+                        "CollapseUp",
+                        []
+                    ],
+                    [
+                        "Command",
+                        []
+                    ],
+                    [
+                        "CommentSquare",
+                        []
+                    ],
+                    [
+                        "Compass",
+                        []
+                    ],
+                    [
+                        "Contrast",
+                        []
+                    ],
+                    [
+                        "Copywriting",
+                        []
+                    ],
+                    [
+                        "CreditCard",
+                        []
+                    ],
+                    [
+                        "Crop",
+                        []
+                    ],
+                    [
+                        "Dashboard",
+                        []
+                    ],
+                    [
+                        "DataTransferDownload",
+                        []
+                    ],
+                    [
+                        "DataTransferUpload",
+                        []
+                    ],
+                    [
+                        "Delete",
+                        []
+                    ],
+                    [
+                        "Dial",
+                        []
+                    ],
+                    [
+                        "Document",
+                        []
+                    ],
+                    [
+                        "Dollar",
+                        []
+                    ],
+                    [
+                        "DoubleQuoteSansLeft",
+                        []
+                    ],
+                    [
+                        "DoubleQuoteSansRight",
+                        []
+                    ],
+                    [
+                        "DoubleQuoteSerifLeft",
+                        []
+                    ],
+                    [
+                        "DoubleQuoteSerifRight",
+                        []
+                    ],
+                    [
+                        "Droplet",
+                        []
+                    ],
+                    [
+                        "Eject",
+                        []
+                    ],
+                    [
+                        "Elevator",
+                        []
+                    ],
+                    [
+                        "Ellipses",
+                        []
+                    ],
+                    [
+                        "EnvelopeClosed",
+                        []
+                    ],
+                    [
+                        "EnvelopeOpen",
+                        []
+                    ],
+                    [
+                        "Euro",
+                        []
+                    ],
+                    [
+                        "Excerpt",
+                        []
+                    ],
+                    [
+                        "ExpandDown",
+                        []
+                    ],
+                    [
+                        "ExpandLeft",
+                        []
+                    ],
+                    [
+                        "ExpandRight",
+                        []
+                    ],
+                    [
+                        "ExpandUp",
+                        []
+                    ],
+                    [
+                        "ExternalLink",
+                        []
+                    ],
+                    [
+                        "Eye",
+                        []
+                    ],
+                    [
+                        "Eyedropper",
+                        []
+                    ],
+                    [
+                        "File",
+                        []
+                    ],
+                    [
+                        "Fire",
+                        []
+                    ],
+                    [
+                        "Flag",
+                        []
+                    ],
+                    [
+                        "Flash",
+                        []
+                    ],
+                    [
+                        "Folder",
+                        []
+                    ],
+                    [
+                        "Fork",
+                        []
+                    ],
+                    [
+                        "FullscreenEnter",
+                        []
+                    ],
+                    [
+                        "FullscreenExit",
+                        []
+                    ],
+                    [
+                        "Globe",
+                        []
+                    ],
+                    [
+                        "Graph",
+                        []
+                    ],
+                    [
+                        "GridFourUp",
+                        []
+                    ],
+                    [
+                        "GridThreeUp",
+                        []
+                    ],
+                    [
+                        "GridTwoUp",
+                        []
+                    ],
+                    [
+                        "HardDrive",
+                        []
+                    ],
+                    [
+                        "Header",
+                        []
+                    ],
+                    [
+                        "Headphones",
+                        []
+                    ],
+                    [
+                        "Heart",
+                        []
+                    ],
+                    [
+                        "Home",
+                        []
+                    ],
+                    [
+                        "Image",
+                        []
+                    ],
+                    [
+                        "Inbox",
+                        []
+                    ],
+                    [
+                        "Infinity",
+                        []
+                    ],
+                    [
+                        "Info",
+                        []
+                    ],
+                    [
+                        "Italic",
+                        []
+                    ],
+                    [
+                        "JustifyCenter",
+                        []
+                    ],
+                    [
+                        "JustifyLeft",
+                        []
+                    ],
+                    [
+                        "JustifyRight",
+                        []
+                    ],
+                    [
+                        "Key",
+                        []
+                    ],
+                    [
+                        "Laptop",
+                        []
+                    ],
+                    [
+                        "Layers",
+                        []
+                    ],
+                    [
+                        "Lightbulb",
+                        []
+                    ],
+                    [
+                        "LinkBroken",
+                        []
+                    ],
+                    [
+                        "LinkIntact",
+                        []
+                    ],
+                    [
+                        "List",
+                        []
+                    ],
+                    [
+                        "ListRich",
+                        []
+                    ],
+                    [
+                        "Location",
+                        []
+                    ],
+                    [
+                        "LockLocked",
+                        []
+                    ],
+                    [
+                        "LockUnlocked",
+                        []
+                    ],
+                    [
+                        "Loop",
+                        []
+                    ],
+                    [
+                        "LoopCircular",
+                        []
+                    ],
+                    [
+                        "LoopSquare",
+                        []
+                    ],
+                    [
+                        "MagnifyingGlass",
+                        []
+                    ],
+                    [
+                        "Map",
+                        []
+                    ],
+                    [
+                        "MapMarker",
+                        []
+                    ],
+                    [
+                        "MediaPause",
+                        []
+                    ],
+                    [
+                        "MediaPlay",
+                        []
+                    ],
+                    [
+                        "MediaRecord",
+                        []
+                    ],
+                    [
+                        "MediaSkipBackward",
+                        []
+                    ],
+                    [
+                        "MediaSkipForward",
+                        []
+                    ],
+                    [
+                        "MediaStepBackward",
+                        []
+                    ],
+                    [
+                        "MediaStepForward",
+                        []
+                    ],
+                    [
+                        "MediaStop",
+                        []
+                    ],
+                    [
+                        "MedicalCross",
+                        []
+                    ],
+                    [
+                        "Menu",
+                        []
+                    ],
+                    [
+                        "Microphone",
+                        []
+                    ],
+                    [
+                        "Minus",
+                        []
+                    ],
+                    [
+                        "Monitor",
+                        []
+                    ],
+                    [
+                        "Moon",
+                        []
+                    ],
+                    [
+                        "Move",
+                        []
+                    ],
+                    [
+                        "MusicalNote",
+                        []
+                    ],
+                    [
+                        "Paperclip",
+                        []
+                    ],
+                    [
+                        "Pencil",
+                        []
+                    ],
+                    [
+                        "People",
+                        []
+                    ],
+                    [
+                        "Person",
+                        []
+                    ],
+                    [
+                        "Phone",
+                        []
+                    ],
+                    [
+                        "PieChart",
+                        []
+                    ],
+                    [
+                        "Pin",
+                        []
+                    ],
+                    [
+                        "PlayCircle",
+                        []
+                    ],
+                    [
+                        "Plus",
+                        []
+                    ],
+                    [
+                        "PowerStandby",
+                        []
+                    ],
+                    [
+                        "Print",
+                        []
+                    ],
+                    [
+                        "Project",
+                        []
+                    ],
+                    [
+                        "Pulse",
+                        []
+                    ],
+                    [
+                        "PuzzlePiece",
+                        []
+                    ],
+                    [
+                        "QuestionMark",
+                        []
+                    ],
+                    [
+                        "Rain",
+                        []
+                    ],
+                    [
+                        "Random",
+                        []
+                    ],
+                    [
+                        "Reload",
+                        []
+                    ],
+                    [
+                        "ResizeBoth",
+                        []
+                    ],
+                    [
+                        "ResizeHeight",
+                        []
+                    ],
+                    [
+                        "ResizeWidth",
+                        []
+                    ],
+                    [
+                        "Rss",
+                        []
+                    ],
+                    [
+                        "RssAlt",
+                        []
+                    ],
+                    [
+                        "Script",
+                        []
+                    ],
+                    [
+                        "Share",
+                        []
+                    ],
+                    [
+                        "ShareBoxed",
+                        []
+                    ],
+                    [
+                        "Shield",
+                        []
+                    ],
+                    [
+                        "Signal",
+                        []
+                    ],
+                    [
+                        "Signpost",
+                        []
+                    ],
+                    [
+                        "SortAscending",
+                        []
+                    ],
+                    [
+                        "SortDescending",
+                        []
+                    ],
+                    [
+                        "Spreadsheet",
+                        []
+                    ],
+                    [
+                        "Star",
+                        []
+                    ],
+                    [
+                        "Sun",
+                        []
+                    ],
+                    [
+                        "Tablet",
+                        []
+                    ],
+                    [
+                        "Tag",
+                        []
+                    ],
+                    [
+                        "Tags",
+                        []
+                    ],
+                    [
+                        "Target",
+                        []
+                    ],
+                    [
+                        "Task",
+                        []
+                    ],
+                    [
+                        "Terminal",
+                        []
+                    ],
+                    [
+                        "Text",
+                        []
+                    ],
+                    [
+                        "ThumbDown",
+                        []
+                    ],
+                    [
+                        "ThumbUp",
+                        []
+                    ],
+                    [
+                        "Timer",
+                        []
+                    ],
+                    [
+                        "Transfer",
+                        []
+                    ],
+                    [
+                        "Trash",
+                        []
+                    ],
+                    [
+                        "Underline",
+                        []
+                    ],
+                    [
+                        "VerticalAlignBottom",
+                        []
+                    ],
+                    [
+                        "VerticalAlignCenter",
+                        []
+                    ],
+                    [
+                        "VerticalAlignTop",
+                        []
+                    ],
+                    [
+                        "Video",
+                        []
+                    ],
+                    [
+                        "VolumeHigh",
+                        []
+                    ],
+                    [
+                        "VolumeLow",
+                        []
+                    ],
+                    [
+                        "VolumeOff",
+                        []
+                    ],
+                    [
+                        "Warning",
+                        []
+                    ],
+                    [
+                        "Wifi",
+                        []
+                    ],
+                    [
+                        "Wrench",
+                        []
+                    ],
+                    [
+                        "X",
+                        []
+                    ],
+                    [
+                        "Yen",
+                        []
+                    ],
+                    [
+                        "ZoomIn",
+                        []
+                    ],
+                    [
+                        "ZoomOut",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "accountLogin",
+                "comment": " <i class=\"oi oi-account-login\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "accountLogout",
+                "comment": " <i class=\"oi oi-account-logout\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "actionRedo",
+                "comment": " <i class=\"oi oi-action-redo\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "actionUndo",
+                "comment": " <i class=\"oi oi-action-undo\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "alignCenter",
+                "comment": " <i class=\"oi oi-align-center\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "alignLeft",
+                "comment": " <i class=\"oi oi-align-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "alignRight",
+                "comment": " <i class=\"oi oi-align-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "aperture",
+                "comment": " <i class=\"oi oi-aperture\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowBottom",
+                "comment": " <i class=\"oi oi-arrow-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowCircleBottom",
+                "comment": " <i class=\"oi oi-arrow-circle-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowCircleLeft",
+                "comment": " <i class=\"oi oi-arrow-circle-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowCircleRight",
+                "comment": " <i class=\"oi oi-arrow-circle-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowCircleTop",
+                "comment": " <i class=\"oi oi-arrow-circle-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowLeft",
+                "comment": " <i class=\"oi oi-arrow-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowRight",
+                "comment": " <i class=\"oi oi-arrow-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowThickBottom",
+                "comment": " <i class=\"oi oi-arrow-thick-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowThickLeft",
+                "comment": " <i class=\"oi oi-arrow-thick-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowThickRight",
+                "comment": " <i class=\"oi oi-arrow-thick-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowThickTop",
+                "comment": " <i class=\"oi oi-arrow-thick-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrowTop",
+                "comment": " <i class=\"oi oi-arrow-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "audio",
+                "comment": " <i class=\"oi oi-audio\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "audioSpectrum",
+                "comment": " <i class=\"oi oi-audio-spectrum\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "badge",
+                "comment": " <i class=\"oi oi-badge\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "ban",
+                "comment": " <i class=\"oi oi-ban\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "barChart",
+                "comment": " <i class=\"oi oi-bar-chart\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "basket",
+                "comment": " <i class=\"oi oi-basket\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "batteryEmpty",
+                "comment": " <i class=\"oi oi-battery-empty\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "batteryFull",
+                "comment": " <i class=\"oi oi-battery-full\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "beaker",
+                "comment": " <i class=\"oi oi-beaker\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bell",
+                "comment": " <i class=\"oi oi-bell\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bluetooth",
+                "comment": " <i class=\"oi oi-bluetooth\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bold",
+                "comment": " <i class=\"oi oi-bold\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bolt",
+                "comment": " <i class=\"oi oi-bolt\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "book",
+                "comment": " <i class=\"oi oi-book\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bookmark",
+                "comment": " <i class=\"oi oi-bookmark\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "box",
+                "comment": " <i class=\"oi oi-box\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "briefcase",
+                "comment": " <i class=\"oi oi-briefcase\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "britishPound",
+                "comment": " <i class=\"oi oi-british-pound\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "browser",
+                "comment": " <i class=\"oi oi-browser\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "brush",
+                "comment": " <i class=\"oi oi-brush\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bug",
+                "comment": " <i class=\"oi oi-bug\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "bullhorn",
+                "comment": " <i class=\"oi oi-bullhorn\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "calculator",
+                "comment": " <i class=\"oi oi-calculator\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar",
+                "comment": " <i class=\"oi oi-calendar\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cameraSlr",
+                "comment": " <i class=\"oi oi-camera-slr\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "caretBottom",
+                "comment": " <i class=\"oi oi-caret-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "caretLeft",
+                "comment": " <i class=\"oi oi-caret-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "caretRight",
+                "comment": " <i class=\"oi oi-caret-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "caretTop",
+                "comment": " <i class=\"oi oi-caret-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cart",
+                "comment": " <i class=\"oi oi-cart\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "chat",
+                "comment": " <i class=\"oi oi-chat\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "check",
+                "comment": " <i class=\"oi oi-check\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronBottom",
+                "comment": " <i class=\"oi oi-chevron-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronLeft",
+                "comment": " <i class=\"oi oi-chevron-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronRight",
+                "comment": " <i class=\"oi oi-chevron-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronTop",
+                "comment": " <i class=\"oi oi-chevron-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "circleCheck",
+                "comment": " <i class=\"oi oi-circle-check\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "circleX",
+                "comment": " <i class=\"oi oi-circle-x\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "clipboard",
+                "comment": " <i class=\"oi oi-clipboard\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "clock",
+                "comment": " <i class=\"oi oi-clock\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloud",
+                "comment": " <i class=\"oi oi-cloud\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudDownload",
+                "comment": " <i class=\"oi oi-cloud-download\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudUpload",
+                "comment": " <i class=\"oi oi-cloud-upload\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudy",
+                "comment": " <i class=\"oi oi-cloudy\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "code",
+                "comment": " <i class=\"oi oi-code\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "cog",
+                "comment": " <i class=\"oi oi-cog\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "collapseDown",
+                "comment": " <i class=\"oi oi-collapse-down\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "collapseLeft",
+                "comment": " <i class=\"oi oi-collapse-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "collapseRight",
+                "comment": " <i class=\"oi oi-collapse-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "collapseUp",
+                "comment": " <i class=\"oi oi-collapse-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "command",
+                "comment": " <i class=\"oi oi-command\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "commentSquare",
+                "comment": " <i class=\"oi oi-comment-square\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "compass",
+                "comment": " <i class=\"oi oi-compass\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "contrast",
+                "comment": " <i class=\"oi oi-contrast\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "copywriting",
+                "comment": " <i class=\"oi oi-copywriting\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "creditCard",
+                "comment": " <i class=\"oi oi-credit-card\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "crop",
+                "comment": " <i class=\"oi oi-crop\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "dashboard",
+                "comment": " <i class=\"oi oi-dashboard\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "dataTransferDownload",
+                "comment": " <i class=\"oi oi-data-transfer-download\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "dataTransferUpload",
+                "comment": " <i class=\"oi oi-data-transfer-upload\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "delete",
+                "comment": " <i class=\"oi oi-delete\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "dial",
+                "comment": " <i class=\"oi oi-dial\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "document",
+                "comment": " <i class=\"oi oi-document\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "dollar",
+                "comment": " <i class=\"oi oi-dollar\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "doubleQuoteSansLeft",
+                "comment": " <i class=\"oi oi-double-quote-sans-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "doubleQuoteSansRight",
+                "comment": " <i class=\"oi oi-double-quote-sans-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "doubleQuoteSerifLeft",
+                "comment": " <i class=\"oi oi-double-quote-serif-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "doubleQuoteSerifRight",
+                "comment": " <i class=\"oi oi-double-quote-serif-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "droplet",
+                "comment": " <i class=\"oi oi-droplet\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "eject",
+                "comment": " <i class=\"oi oi-eject\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "elevator",
+                "comment": " <i class=\"oi oi-elevator\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "ellipses",
+                "comment": " <i class=\"oi oi-ellipses\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelopeClosed",
+                "comment": " <i class=\"oi oi-envelope-closed\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelopeOpen",
+                "comment": " <i class=\"oi oi-envelope-open\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "euro",
+                "comment": " <i class=\"oi oi-euro\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "excerpt",
+                "comment": " <i class=\"oi oi-excerpt\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "expandDown",
+                "comment": " <i class=\"oi oi-expand-down\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "expandLeft",
+                "comment": " <i class=\"oi oi-expand-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "expandRight",
+                "comment": " <i class=\"oi oi-expand-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "expandUp",
+                "comment": " <i class=\"oi oi-expand-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "externalLink",
+                "comment": " <i class=\"oi oi-external-link\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "eye",
+                "comment": " <i class=\"oi oi-eye\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "eyedropper",
+                "comment": " <i class=\"oi oi-eyedropper\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "file",
+                "comment": " <i class=\"oi oi-file\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "fire",
+                "comment": " <i class=\"oi oi-fire\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "flag",
+                "comment": " <i class=\"oi oi-flag\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "flash",
+                "comment": " <i class=\"oi oi-flash\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "folder",
+                "comment": " <i class=\"oi oi-folder\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "fork",
+                "comment": " <i class=\"oi oi-fork\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "fullscreenEnter",
+                "comment": " <i class=\"oi oi-fullscreen-enter\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "fullscreenExit",
+                "comment": " <i class=\"oi oi-fullscreen-exit\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "globe",
+                "comment": " <i class=\"oi oi-globe\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "graph",
+                "comment": " <i class=\"oi oi-graph\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "gridFourUp",
+                "comment": " <i class=\"oi oi-grid-four-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "gridThreeUp",
+                "comment": " <i class=\"oi oi-grid-three-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "gridTwoUp",
+                "comment": " <i class=\"oi oi-grid-two-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "hardDrive",
+                "comment": " <i class=\"oi oi-hard-drive\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "header",
+                "comment": " <i class=\"oi oi-header\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "headphones",
+                "comment": " <i class=\"oi oi-headphones\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "heart",
+                "comment": " <i class=\"oi oi-heart\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "home",
+                "comment": " <i class=\"oi oi-home\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "i",
+                "comment": " \n    import OpenIconic as OI exposing (..)\n\n    myPaperclipIcon : Html msg\n    myPaperclipIcon\n      = OI.i [] Paperclip\n",
+                "type": "List (Attribute msg) -> Icon -> Html msg"
+            },
+            {
+                "name": "image",
+                "comment": " <i class=\"oi oi-image\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "inbox",
+                "comment": " <i class=\"oi oi-inbox\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "infinity",
+                "comment": " <i class=\"oi oi-infinity\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "info",
+                "comment": " <i class=\"oi oi-info\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "italic",
+                "comment": " <i class=\"oi oi-italic\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "justifyCenter",
+                "comment": " <i class=\"oi oi-justify-center\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "justifyLeft",
+                "comment": " <i class=\"oi oi-justify-left\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "justifyRight",
+                "comment": " <i class=\"oi oi-justify-right\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "key",
+                "comment": " <i class=\"oi oi-key\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "laptop",
+                "comment": " <i class=\"oi oi-laptop\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "layers",
+                "comment": " <i class=\"oi oi-layers\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "lightbulb",
+                "comment": " <i class=\"oi oi-lightbulb\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "linkBroken",
+                "comment": " <i class=\"oi oi-link-broken\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "linkIntact",
+                "comment": " <i class=\"oi oi-link-intact\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "list",
+                "comment": " <i class=\"oi oi-list\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "listRich",
+                "comment": " <i class=\"oi oi-list-rich\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "location",
+                "comment": " <i class=\"oi oi-location\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "lockLocked",
+                "comment": " <i class=\"oi oi-lock-locked\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "lockUnlocked",
+                "comment": " <i class=\"oi oi-lock-unlocked\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "loop",
+                "comment": " <i class=\"oi oi-loop\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "loopCircular",
+                "comment": " <i class=\"oi oi-loop-circular\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "loopSquare",
+                "comment": " <i class=\"oi oi-loop-square\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "magnifyingGlass",
+                "comment": " <i class=\"oi oi-magnifying-glass\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "map",
+                "comment": " <i class=\"oi oi-map\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mapMarker",
+                "comment": " <i class=\"oi oi-map-marker\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaPause",
+                "comment": " <i class=\"oi oi-media-pause\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaPlay",
+                "comment": " <i class=\"oi oi-media-play\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaRecord",
+                "comment": " <i class=\"oi oi-media-record\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaSkipBackward",
+                "comment": " <i class=\"oi oi-media-skip-backward\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaSkipForward",
+                "comment": " <i class=\"oi oi-media-skip-forward\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaStepBackward",
+                "comment": " <i class=\"oi oi-media-step-backward\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaStepForward",
+                "comment": " <i class=\"oi oi-media-step-forward\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "mediaStop",
+                "comment": " <i class=\"oi oi-media-stop\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "medicalCross",
+                "comment": " <i class=\"oi oi-medical-cross\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "menu",
+                "comment": " <i class=\"oi oi-menu\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "microphone",
+                "comment": " <i class=\"oi oi-microphone\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "minus",
+                "comment": " <i class=\"oi oi-minus\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "monitor",
+                "comment": " <i class=\"oi oi-monitor\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "moon",
+                "comment": " <i class=\"oi oi-moon\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "move",
+                "comment": " <i class=\"oi oi-move\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "musicalNote",
+                "comment": " <i class=\"oi oi-musical-note\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "paperclip",
+                "comment": " <i class=\"oi oi-paperclip\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "pencil",
+                "comment": " <i class=\"oi oi-pencil\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "people",
+                "comment": " <i class=\"oi oi-people\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "person",
+                "comment": " <i class=\"oi oi-person\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "phone",
+                "comment": " <i class=\"oi oi-phone\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "pieChart",
+                "comment": " <i class=\"oi oi-pie-chart\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "pin",
+                "comment": " <i class=\"oi oi-pin\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "playCircle",
+                "comment": " <i class=\"oi oi-play-circle\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "plus",
+                "comment": " <i class=\"oi oi-plus\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "powerStandby",
+                "comment": " <i class=\"oi oi-power-standby\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "print",
+                "comment": " <i class=\"oi oi-print\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "project",
+                "comment": " <i class=\"oi oi-project\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "pulse",
+                "comment": " <i class=\"oi oi-pulse\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "puzzlePiece",
+                "comment": " <i class=\"oi oi-puzzle-piece\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "questionMark",
+                "comment": " <i class=\"oi oi-question-mark\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "rain",
+                "comment": " <i class=\"oi oi-rain\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "random",
+                "comment": " <i class=\"oi oi-random\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "reload",
+                "comment": " <i class=\"oi oi-reload\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "resizeBoth",
+                "comment": " <i class=\"oi oi-resize-both\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "resizeHeight",
+                "comment": " <i class=\"oi oi-resize-height\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "resizeWidth",
+                "comment": " <i class=\"oi oi-resize-width\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "rss",
+                "comment": " <i class=\"oi oi-rss\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "rssAlt",
+                "comment": " <i class=\"oi oi-rss-alt\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "script",
+                "comment": " <i class=\"oi oi-script\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "share",
+                "comment": " <i class=\"oi oi-share\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "shareBoxed",
+                "comment": " <i class=\"oi oi-share-boxed\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "shield",
+                "comment": " <i class=\"oi oi-shield\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "signal",
+                "comment": " <i class=\"oi oi-signal\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "signpost",
+                "comment": " <i class=\"oi oi-signpost\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "sortAscending",
+                "comment": " <i class=\"oi oi-sort-ascending\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "sortDescending",
+                "comment": " <i class=\"oi oi-sort-descending\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "spreadsheet",
+                "comment": " <i class=\"oi oi-spreadsheet\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "star",
+                "comment": " <i class=\"oi oi-star\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "stylesheet",
+                "comment": " Include Open Iconic 1.1.1 in your Elm project.\n\n    import OpenIconic as OI exposing (stylesheet,Icon(..))\n\n    view : Model -> Html msg\n    view model\n      = div []\n        [ stylesheet\n        , OI.i [] Trash\n        ]\n\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "sun",
+                "comment": " <i class=\"oi oi-sun\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "tablet",
+                "comment": " <i class=\"oi oi-tablet\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "tag",
+                "comment": " <i class=\"oi oi-tag\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "tags",
+                "comment": " <i class=\"oi oi-tags\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "target",
+                "comment": " <i class=\"oi oi-target\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "task",
+                "comment": " <i class=\"oi oi-task\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "terminal",
+                "comment": " <i class=\"oi oi-terminal\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "text",
+                "comment": " <i class=\"oi oi-text\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbDown",
+                "comment": " <i class=\"oi oi-thumb-down\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbUp",
+                "comment": " <i class=\"oi oi-thumb-up\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "timer",
+                "comment": " <i class=\"oi oi-timer\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "toClass",
+                "comment": " \n    OI.toAttribute EnvelopeOpen\n    -- Attribute.class \"oi oi-envelope-open\"\n",
+                "type": "Icon -> Attribute msg"
+            },
+            {
+                "name": "toClassName",
+                "comment": " \n    OI.toClassName ZoomOut\n    -- \"oi oi-zoom-out\"\n",
+                "type": "Icon -> String"
+            },
+            {
+                "name": "toString",
+                "comment": " \n    OI.toString PieChart\n    -- \"pie-chart\"\n",
+                "type": "Icon -> String"
+            },
+            {
+                "name": "transfer",
+                "comment": " <i class=\"oi oi-transfer\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "trash",
+                "comment": " <i class=\"oi oi-trash\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "underline",
+                "comment": " <i class=\"oi oi-underline\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "verticalAlignBottom",
+                "comment": " <i class=\"oi oi-vertical-align-bottom\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "verticalAlignCenter",
+                "comment": " <i class=\"oi oi-vertical-align-center\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "verticalAlignTop",
+                "comment": " <i class=\"oi oi-vertical-align-top\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "video",
+                "comment": " <i class=\"oi oi-video\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "volumeHigh",
+                "comment": " <i class=\"oi oi-volume-high\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "volumeLow",
+                "comment": " <i class=\"oi oi-volume-low\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "volumeOff",
+                "comment": " <i class=\"oi oi-volume-off\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "warning",
+                "comment": " <i class=\"oi oi-warning\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "wifi",
+                "comment": " <i class=\"oi oi-wifi\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "wrench",
+                "comment": " <i class=\"oi oi-wrench\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "x",
+                "comment": " <i class=\"oi oi-x\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "yen",
+                "comment": " <i class=\"oi oi-yen\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "zoomIn",
+                "comment": " <i class=\"oi oi-zoom-in\"></i> ",
+                "type": "Html msg"
+            },
+            {
+                "name": "zoomOut",
+                "comment": " <i class=\"oi oi-zoom-out\"></i> ",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

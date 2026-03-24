@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Couchdb",
+        "comment": "\n@docs Config, Row, defineDb, fetch, specialView, view, store\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": "",
+                "args": [],
+                "type": "Config"
+            },
+            {
+                "name": "Row",
+                "comment": "",
+                "args": [
+                    "key",
+                    "value"
+                ],
+                "type": "Row key value"
+            }
+        ],
+        "values": [
+            {
+                "name": "defineDb",
+                "comment": "",
+                "type": "String -> String -> Config"
+            },
+            {
+                "name": "fetch",
+                "comment": "",
+                "type": "Decoder a -> Config -> String -> Request a"
+            },
+            {
+                "name": "specialView",
+                "comment": "",
+                "type": "Decoder key -> Decoder value -> Config -> String -> Request (List (Row key value))"
+            },
+            {
+                "name": "store",
+                "comment": "",
+                "type": "(a -> Value) -> Config -> String -> a -> Request String"
+            },
+            {
+                "name": "view",
+                "comment": "",
+                "type": "Decoder key -> Decoder value -> Config -> String -> String -> Request (List (Row key value))"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Couchdb.View",
+        "comment": "\n@docs Settings, settings, key, start_key, end_key, viewWith, specialViewWith\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Settings",
+                "comment": "",
+                "args": [],
+                "type": "{ key : Maybe String, start_key : Maybe String, end_key : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "end_key",
+                "comment": "",
+                "type": "Value -> Settings -> Settings"
+            },
+            {
+                "name": "key",
+                "comment": "",
+                "type": "Value -> Settings -> Settings"
+            },
+            {
+                "name": "settings",
+                "comment": "",
+                "type": "Settings"
+            },
+            {
+                "name": "specialViewWith",
+                "comment": "",
+                "type": "Settings -> Decoder key -> Decoder value -> Config -> String -> Request (List (Row key value))"
+            },
+            {
+                "name": "start_key",
+                "comment": "",
+                "type": "Value -> Settings -> Settings"
+            },
+            {
+                "name": "viewWith",
+                "comment": "",
+                "type": "Settings -> Decoder key -> Decoder value -> Config -> String -> String -> Request (List (Row key value))"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,120 @@
+[
+    {
+        "name": "OBJ",
+        "comment": "\n# .obj file loader\n\nThe returned models can be rendered using `indexedTriangles` from `WebGL`.\n\n    WebGL.indexedTriangles mesh.vertices mesh.indices\n\n## From URL\nAll these methods take an URL as the first parameter.\n\n### Single model\nUse the methods from here if you know whats in your file\nand if they only contain a single object with a single material.\nThese are just provided for convenience.\n\n@docs loadMeshWithoutTexture, loadMesh, loadMeshWithTangent\n\n### General\nUse these methods if you don't know what kind of files you'll get or\nif your files contain multiple groups or materials.\n\n@docs loadObjFile, loadObjFileWith, Settings, defaultSettings\n\n## From String\n@docs parseObjStringWith\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Settings",
+                "comment": "\nwithTangents : If true, vertex tangents will be calculated for meshes with texture coordinates.\nThis is needed if you want to do tangent space normal mapping.\n",
+                "args": [],
+                "type": "{ withTangents : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultSettings",
+                "comment": " ",
+                "type": "Settings"
+            },
+            {
+                "name": "loadMesh",
+                "comment": "\nLoad a model with texture coordinates.\n",
+                "type": "String -> (Result String (MeshWith VertexWithTexture) -> msg) -> Cmd msg"
+            },
+            {
+                "name": "loadMeshWithTangent",
+                "comment": "\nLoad a model with texture coordinate and calculate vertex tangents.\nThis is needed if you want to do tangent space normal mapping.\n",
+                "type": "String -> (Result String (MeshWith VertexWithTextureAndTangent) -> msg) -> Cmd msg"
+            },
+            {
+                "name": "loadMeshWithoutTexture",
+                "comment": "\nLoad a model that doesn't have texture coordinates.\n",
+                "type": "String -> (Result String (MeshWith Vertex) -> msg) -> Cmd msg"
+            },
+            {
+                "name": "loadObjFile",
+                "comment": "\nLoad a .obj file from an URL\n\n    loadObjFile url ObjFileLoaded\n",
+                "type": "String -> (Result String ObjFile -> msg) -> Cmd msg"
+            },
+            {
+                "name": "loadObjFileWith",
+                "comment": " ",
+                "type": "Settings -> String -> (Result String ObjFile -> msg) -> Cmd msg"
+            },
+            {
+                "name": "parseObjStringWith",
+                "comment": "\nSame as `loadObjFile`, but works on a string.\n",
+                "type": "Settings -> String -> Result String ObjFile"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "OBJ.Types",
+        "comment": "\nThese are the types used by the obj loader.\n\n@docs ObjFile, Mesh, MeshWith\n\n--\n@docs Vertex, VertexWithTexture, VertexWithTextureAndTangent\n\n\n",
+        "unions": [
+            {
+                "name": "Mesh",
+                "comment": "\nA `Mesh` loaded by the obj loader is a record with a list of vertices and a list of indices.\nDepending on the mesh type and the loading options you get a different kind of mesh.\nThey differ on what information a vertex contains.\n\nThese meshes are meant to be used with `WebGL.indexedTriangles mesh.vertices mesh.indices`.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "WithoutTexture",
+                        [
+                            "MeshWith Vertex"
+                        ]
+                    ],
+                    [
+                        "WithTexture",
+                        [
+                            "MeshWith VertexWithTexture"
+                        ]
+                    ],
+                    [
+                        "WithTextureAndTangent",
+                        [
+                            "MeshWith VertexWithTextureAndTangent"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "MeshWith",
+                "comment": "\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ vertices : List a, indices : List ( Int, Int, Int ) }"
+            },
+            {
+                "name": "ObjFile",
+                "comment": " A .obj file is optionally divided into different groups/objects.\nEach group/object is optionally made up of different meshes, each with it's own material.\n\nSo the keys of this dictionary are:\n\n    Dict GroupNameOrObjectName (Dict MaterialName Mesh)\n\nIf no name is specified in the input file, \"__default__\" will be used instead.\n",
+                "args": [],
+                "type": "Dict String (Dict String Mesh)"
+            },
+            {
+                "name": "Vertex",
+                "comment": " ",
+                "args": [],
+                "type": "{ position : Vec3, normal : Vec3 }"
+            },
+            {
+                "name": "VertexWithTexture",
+                "comment": " ",
+                "args": [],
+                "type": "{ position : Vec3, texCoord : Vec2, normal : Vec3 }"
+            },
+            {
+                "name": "VertexWithTextureAndTangent",
+                "comment": "\nThe `tangent` is a vector pointing tangential to the object surface, in the direction of the `u` texture coordinate.\nThis is needed for doing tangent space normal mapping.\nThe 4th component is either 1 or -1 and has to be used to get the bitangent in the glsl shader,\ne.g: `vec3 bitangent = cross(normal, tangent.xyz) * tangent.w`\n\nmore info here:\nhttps://web.archive.org/web/20160409104130/http://www.terathon.com/code/tangent.html\n",
+                "args": [],
+                "type": "{ position : Vec3, texCoord : Vec2, normal : Vec3, tangent : Vec4 }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

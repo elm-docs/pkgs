@@ -1,0 +1,156 @@
+[
+    {
+        "name": "Irc.App",
+        "comment": " elm-irc client library, the Elm Architecture wrapper\n@docs program\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "program",
+                "comment": " A specilized version of `Html.App.program` that features the extra `onIrc` callback ",
+                "type": "{ cfg : Config, init : model, onIrc : Message -> model -> CommandSet a -> ( model, Cmd (Msg x) ), update : x -> model -> CommandSet a -> ( model, Cmd (Msg x) ), view : model -> Html x } -> Program Never"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Irc",
+        "comment": " elm-irc library, the core component\n@docs process, listen\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "listen",
+                "comment": " subscribe to IRC events ",
+                "type": "Config -> Sub Message"
+            },
+            {
+                "name": "process",
+                "comment": " let the IRC client itself react to a particular message ",
+                "type": "Config -> Message -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Irc.Commands",
+        "comment": " elm-irc library, commands to be sent to the IRC server\n@docs commands, stringify, CommandSet\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CommandSet",
+                "comment": " a set of commands for a particular server ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ join : String -> Cmd msg, nick : String -> Cmd msg, raw : String -> List String -> Cmd msg, kick : String -> String -> Maybe String -> Cmd msg, register : User -> Cmd msg, query : String -> String -> Cmd msg, message : String -> String -> Cmd msg, part : String -> Maybe String -> Cmd msg, pong : String -> Cmd msg, topic : String -> Maybe String -> Cmd msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "commands",
+                "comment": " generate command variants for a particular server configuration ",
+                "type": "Config -> CommandSet x"
+            },
+            {
+                "name": "stringify",
+                "comment": " serialize individual IRC data to a raw string ",
+                "type": "String -> List String -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Irc.Types",
+        "comment": " elm-irc library, types and definitions\n@docs Config, User, Message\n",
+        "unions": [
+            {
+                "name": "Message",
+                "comment": " IRC message type ",
+                "args": [],
+                "cases": [
+                    [
+                        "Unknown",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Ping",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Notice",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Query",
+                        [
+                            "{ from : User, to : String, text : String }"
+                        ]
+                    ],
+                    [
+                        "Message",
+                        [
+                            "{ from : User, channel : String, text : String }"
+                        ]
+                    ],
+                    [
+                        "Registered",
+                        []
+                    ],
+                    [
+                        "Joined",
+                        [
+                            "{ who : User, channel : String }"
+                        ]
+                    ],
+                    [
+                        "Parted",
+                        [
+                            "{ who : User, channel : String, reason : Maybe String }"
+                        ]
+                    ],
+                    [
+                        "Topic",
+                        [
+                            "{ who : User, channel : String, text : Maybe String }"
+                        ]
+                    ],
+                    [
+                        "Nick",
+                        [
+                            "{ who : User, nick : String }"
+                        ]
+                    ],
+                    [
+                        "Kicked",
+                        [
+                            "{ who : User, whom : String, channel : String, reason : Maybe String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Server configuration: nickname, username, fullname ",
+                "args": [],
+                "type": "{ proxy : String, server : String, user : User }"
+            },
+            {
+                "name": "User",
+                "comment": " User record: nickname, username, fullname ",
+                "args": [],
+                "type": "{ nick : String, username : String, fullname : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,275 @@
+[
+    {
+        "name": "Phoenix.Socket",
+        "comment": "\n\n# Socket\n@docs Socket, Msg, init, withDebug, withoutHeartbeat, withHeartbeatInterval, update, listen\n\n# Channels\n@docs join, leave\n\n# Events\n@docs on, off\n\n# Sending messages\n@docs push\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Socket",
+                "comment": " Stores channels, event handlers, and configuration options\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ path : String, debug : Bool, channels : Dict String (Channel msg), events : Dict ( String, String ) (Value -> msg), pushes : Dict Int (Push msg), ref : Int, heartbeatIntervalSeconds : Float, withoutHeartbeat : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a `Socket` with the given path\n",
+                "type": "String -> Socket msg"
+            },
+            {
+                "name": "join",
+                "comment": " Joins a channel\n\n    payload = Json.Encode.object [ (\"user_id\", Json.Encode.string \"123\") ]\n    channel = Channel.init \"rooms:lobby\" |> Channel.withPayload payload\n    (socket_, cmd) = join channel socket\n\n",
+                "type": "Channel msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "leave",
+                "comment": " Leaves a channel\n\n    (socket_, cmd) = leave \"rooms:lobby\" socket\n\n",
+                "type": "String -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "listen",
+                "comment": " Listens for phoenix messages and converts them into type `msg`\n",
+                "type": "Socket msg -> (Msg msg -> msg) -> Sub msg"
+            },
+            {
+                "name": "off",
+                "comment": " Removes an event handler\n\n    socket\n      |> off \"new:msg\" \"rooms:lobby\"\n      |> off \"alert:msg\" \"rooms:lobby\"\n\n",
+                "type": "String -> String -> Socket msg -> Socket msg"
+            },
+            {
+                "name": "on",
+                "comment": " Registers an event handler\n\n    socket\n      |> on \"new:msg\" \"rooms:lobby\" ReceiveChatMessage\n      |> on \"alert:msg\" \"rooms:lobby\" ReceiveAlertMessage\n\n",
+                "type": "String -> String -> (Value -> msg) -> Socket msg -> Socket msg"
+            },
+            {
+                "name": "push",
+                "comment": " Pushes a message\n\n    push_ = Phoenix.Push.init \"new:msg\" \"rooms:lobby\"\n    (socket_, cmd) = push push_ socket\n\n",
+                "type": "Push msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "withDebug",
+                "comment": " When enabled, prints all incoming Phoenix messages to the console\n",
+                "type": "Socket msg -> Socket msg"
+            },
+            {
+                "name": "withHeartbeatInterval",
+                "comment": " Sends the heartbeat every interval in seconds\n\n    Default is 30 seconds\n",
+                "type": "Float -> Socket msg -> Socket msg"
+            },
+            {
+                "name": "withoutHeartbeat",
+                "comment": " Turns off the heartbeat\n",
+                "type": "Socket msg -> Socket msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Channel",
+        "comment": "\n\n@docs Channel, State, init, withPayload, onError, onClose, onJoin, onJoinError, setState\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " All possible states a channel can be in\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Closed",
+                        []
+                    ],
+                    [
+                        "Errored",
+                        []
+                    ],
+                    [
+                        "Joined",
+                        []
+                    ],
+                    [
+                        "Joining",
+                        []
+                    ],
+                    [
+                        "Leaving",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Channel",
+                "comment": " Represents a phoenix channel\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ name : String, payload : Value, state : State, onClose : Maybe (Value -> msg), onError : Maybe (Value -> msg), onJoin : Maybe (Value -> msg), onJoinError : Maybe (Value -> msg), joinRef : Int, leaveRef : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a channel\n\n    init \"rooms:lobby\"\n\n",
+                "type": "String -> Channel msg"
+            },
+            {
+                "name": "onClose",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onError",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoin",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoinError",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "setState",
+                "comment": " Sets the state of a channel. Internal use only.\n",
+                "type": "State -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Attaches a payload that's used for authentication\n\n    payload = JE.object [ (\"user_id\", JE.string \"123\") ]\n    init \"rooms:lobby\"\n      |> withPayload payload\n\n",
+                "type": "Value -> Channel msg -> Channel msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Push",
+        "comment": "\n\n@docs Push, init, withPayload, onError, onOk\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Push",
+                "comment": " Represents a message being pushed to the server\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ event : String, channel : String, payload : Value, onOk : Maybe (Value -> msg), onError : Maybe (Value -> msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a push with the given event and channel\n\n    init \"new:msg\" \"rooms:lobby\"\n\n",
+                "type": "String -> String -> Push msg"
+            },
+            {
+                "name": "onError",
+                "comment": " Attaches an error handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onError handlePushError\n\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "onOk",
+                "comment": " Attaches a success handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onOk handlePushOk\n\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Attaches a payload\n\n    payload = JE.object [ (\"body\", JE.string \"Hello World!\") ]\n    init \"new:msg\" \"rooms:lobby\"\n      |> withPayload payload\n\n",
+                "type": "Value -> Push msg -> Push msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Presence",
+        "comment": "\n\n@docs PresenceState, PresenceStateMetaWrapper, PresenceStateMetaValue, PresenceDiff, syncState, syncDiff, presenceStateDecoder, presenceDiffDecoder, listDefault, list\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PresenceDiff",
+                "comment": " Represents a diff of presence states\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ leaves : PresenceState a, joins : PresenceState a }"
+            },
+            {
+                "name": "PresenceState",
+                "comment": " Represents the Phoenix Presence State\n",
+                "args": [
+                    "a"
+                ],
+                "type": "Dict String (PresenceStateMetaWrapper a)"
+            },
+            {
+                "name": "PresenceStateMetaValue",
+                "comment": " Represents the payload for a given meta value\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ phx_ref : String, payload : a }"
+            },
+            {
+                "name": "PresenceStateMetaWrapper",
+                "comment": " Represents the metas for a given Presence key\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ metas : List (PresenceStateMetaValue a) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "list",
+                "comment": " Return the metas for a given PresenceState, mapped through a provided mapping function\n",
+                "type": "(String -> PresenceStateMetaWrapper a -> Maybe b) -> PresenceState a -> List (Maybe b)"
+            },
+            {
+                "name": "listDefault",
+                "comment": " Return the metas for a given PresenceState\n",
+                "type": "PresenceState a -> List (PresenceStateMetaWrapper a)"
+            },
+            {
+                "name": "presenceDiffDecoder",
+                "comment": " Decodes a PresenceDiff, parameterized on the type of your application-defined payload\n",
+                "type": "Decoder a -> Decoder (PresenceDiff a)"
+            },
+            {
+                "name": "presenceStateDecoder",
+                "comment": " Decodes a PresenceState, parameterized on the type of your application-defined payload\n",
+                "type": "Decoder a -> Decoder (PresenceState a)"
+            },
+            {
+                "name": "syncDiff",
+                "comment": " Synchronize a diff using the existing state\n",
+                "type": "PresenceDiff a -> PresenceState a -> PresenceState a"
+            },
+            {
+                "name": "syncState",
+                "comment": " Synchronize state - this is a really silly function presently, because this client does not provide callbacks as they make little-to-no sense in Elm.\n",
+                "type": "PresenceState a -> PresenceState a -> PresenceState a"
+            }
+        ],
+        "binops": []
+    }
+]

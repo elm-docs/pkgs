@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Meshes",
+        "comment": " This is a collection use basic meshes.\n\n# Basic meshes\n@docs icosphere, icosahedron\n\n# Transforming meshes\n@docs subdivide\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "icosahedron",
+                "comment": " An icosahedron mesh.\n",
+                "type": "List ( Vec3, Vec3, Vec3 )"
+            },
+            {
+                "name": "icosphere",
+                "comment": " A sphere mesh made by subdiving an icosahedron.\n",
+                "type": "Int -> List ( Vec3, Vec3, Vec3 )"
+            },
+            {
+                "name": "subdivide",
+                "comment": " Divide each triangle into four triangles.\n\nThe subdivision is performed `n` times.\n",
+                "type": "Int -> List ( Vec3, Vec3, Vec3 ) -> List ( Vec3, Vec3, Vec3 )"
+            }
+        ],
+        "binops": []
+    }
+]

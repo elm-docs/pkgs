@@ -1,0 +1,527 @@
+[
+    {
+        "name": "Widgets.MenuButton",
+        "comment": " A [MenuButton][wai-mb] is a button that open a menu. This widgets is based on\nListBox widget and uses ListBox attributes and elements.\n\n@docs menuButton\n\n[wai-mb]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#menubutton\n[wai-ex]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/menu-button/menu-button-links.html\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "menuButton",
+                "comment": " A MenuButton element.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.ListBox",
+        "comment": " A [listbox][wai-lb] widget presents a list of options and allows a user to\nselect one or more of them. The widget is similar to Form.select, but this\nwidget allows custom styles. Also known as Dropdown or Select.\n\n@docs listBox\n\n[wai-lb]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#Listbox\n[wai-ex]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/listbox/listbox-collapsible.html\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "listBox",
+                "comment": " A ListBox element. A id is always required to set ARIA relationships. A\ncustom set of attributes are available in its own module. Also, a custom set\nof children nodes are allowed in order to fill the widget with options or\nfurther personalization.\n\n    Widgets.listBox { id = \"listbox\" } []\n        [ ListBox.textOption \"one\"\n        , ListBox.textOption \"two\"\n        , ListBox.textOption \"three\"\n        , ListBox.textOption \"over 9000\"\n        ]\n\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.ListBox.State",
+        "comment": " A module to manage the state of a ListBox. It implements the recommended ARIA\nbehaviour of a ListBox widget.\n\n\n# State Management (TEA)\n\n@docs Model, Msg, update\n\n\n# Creating, updating and quering the model\n\n@docs empty, insertOption, isExpanded, selected, setPlaceholder\n\n\n# Wiring the view\n\n@docs attributes\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " The model of a ListBox. Create one using empty and insertOption.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " A ListBox State message, wire it up into your update using `Cmd.map`.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attributes",
+                "comment": " Return the ListBox Attributes that represent the current state of the\nmodel. Call this function in the view of your application.\n",
+                "type": "(Msg -> msg) -> Model -> Attribute msg"
+            },
+            {
+                "name": "empty",
+                "comment": " Creates a empty model give an element id.\n",
+                "type": "String -> Model"
+            },
+            {
+                "name": "insertOption",
+                "comment": " Adds an option to the ListBox. You also need to render the options in your\nview. Use selected to known which option is selected.\n",
+                "type": "{ id : String, text : String } -> Model -> Model"
+            },
+            {
+                "name": "isExpanded",
+                "comment": " Returns True if the ListBox is currently expanded.\n",
+                "type": "Model -> Bool"
+            },
+            {
+                "name": "selected",
+                "comment": " Returns the current selected option, if any\n",
+                "type": "Model -> Maybe String"
+            },
+            {
+                "name": "setPlaceholder",
+                "comment": " Sets a placeholder for the ListBox.\n",
+                "type": "String -> Model -> Model"
+            },
+            {
+                "name": "update",
+                "comment": " Update a ListBox state given a model and a message. Wire it up into your\nupdate using `Cmd.map`.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Themes.Mint",
+        "comment": " A basic theme for the whole Widgets library. The purpose of this theme\nis to be an example on how to build themes, but it can also be use for\nprototyping.\n\nYou can also use this theme as a base style, and then apply your own styles.\n\nThis theme requires a css normalization base. See global for more information.\n\n\n# Initialization\n\n@docs global\n\n\n# Theming Widgets\n\n@docs button, input, select, listBox\n\n\n# Theming Html Nodes\n\n@docs text\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " Apply Mint theme to Widgets.Form button.\n\n    Form.button [ Widgets.Themes.Mint.button ] [ Html.text \"Title\" ]\n\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "global",
+                "comment": " Common styles needed by other parts of this theme. Use this to initialize\nthe theme together with Widgets.Normalize.snippets.\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Widgets.Themes.Mint.global\n            , Html.text \"My Content\"\n            ]\n\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "input",
+                "comment": " Apply Mint theme to Widgets.Form input controls.\n\n    Form.input { id = \"id\" , description = \"desc\" , type_ = \"text\" }\n      [ Widgets.Themes.Mint.input ] []\n\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "listBox",
+                "comment": " Apply Mint theme to ListBox Widgets. Note that a listBox icon is also used.\n\n    Widgets.listBox { id = \"my-id\", description = \"a listbox example\" }\n        [ Widgets.Theme.Mint.listbox ]\n        [ Widgets.Theme.Mint.listboxIcon ]\n\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "select",
+                "comment": " Apply Mint theme to Widgets.Form select control.\n\n    Form.select { id = \"id\" , description = \"desc\" }\n        [ Widgets.Themes.Mint.input ] []\n\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "text",
+                "comment": " Apply a simple text styling to an Html node.\n\n    Html.h1 [ Html.css [ Widgets.Themes.text ] ] [ H.text \"My Header\" ]\n\n",
+                "type": "Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.ListBox.Attributes",
+        "comment": " Attributes for ListBox widgets.\n\n@docs Attribute\n\n\n# Properties\n\n@docs batch, buttonAttributes, css, descriptionLabel, expanded, html, onOptionClick, placeholder\n\n\n# Attribute Modifiers\n\n@docs whenExpanded, whenHasIcon\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " A Form control attribute\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Attribute msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "batch",
+                "comment": " Group a bunch of attributes in a single one attribute.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "buttonAttributes",
+                "comment": " Sets custom Form attributes to the button element.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "css",
+                "comment": " Sets custom css for an Element of the ListBox widget.\n",
+                "type": "Element -> List Style -> Attribute msg"
+            },
+            {
+                "name": "descriptionLabel",
+                "comment": " Show the description as text. Note that this overridden if you provide your\nown custom description element.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "expanded",
+                "comment": " Set the ListBox as expanded, showing its options and allowing the user to\nchoose one or several of them.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "html",
+                "comment": " Sets a custom set of HTML attributes to an Element of the ListBox widget.\n",
+                "type": "Element -> List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "onOptionClick",
+                "comment": " Sets a event listener for click event on list options. The id of the\noptions is passed to the handler.\n",
+                "type": "(String -> msg) -> Attribute msg"
+            },
+            {
+                "name": "placeholder",
+                "comment": " Sets a placeholder text that will be shown as the button text when no\noptions is selected. Note that a custom button node overrides this attribute.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "whenExpanded",
+                "comment": " Applies attributes when the ListBox is expanded an icon. Useful for building\nthemes.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "whenHasIcon",
+                "comment": " Applies attributes only when the ListBox has an icon. Useful for building\nthemes.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form",
+        "comment": " Form controls following ARIA recommendations.\n\n\n# Controls\n\n@docs button, email, input, link, text, select, textarea\n\n\n## Semantic Wrappers\n\n@docs currentPassword, firstName, lastName, newPassword, nickname, organization, submit\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " A straightforward button. Only `css`, `disabled`, `html` and events\nattributes are supported by buttons.\n",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "currentPassword",
+                "comment": " A semantic password input with a current password value. Useful for log in\nforms. Equal to a password input control with autocomplete attribute set to\n`\"current-password\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "email",
+                "comment": " A semantic email input. Equal to an email input control with autocomplete\nattribute set to `\"email\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "firstName",
+                "comment": " A semantic text input with a first name value. Equal to a text input control\nwith autocomplete attribute set to `\"given-name\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "input",
+                "comment": " A generic input control. An `id` and a `description` is always required.\n`type` is the type of input, it could be `text`, `email`, `submit` or any\n[other](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).\nUsually, is better to use the other semantic controls provided by this module.\n",
+                "type": "{ id : String, description : String, type_ : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "lastName",
+                "comment": " A semantic text input with a last name value. Equal to a text input control\nwith autocomplete attribute set to `\"family-name\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "link",
+                "comment": " A link is a button, but a `<a>` node is used instead of a `<button>`.\n",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "newPassword",
+                "comment": " A semantic password input with a new password value. Useful for sign up\nforms. Equal to a password input control with autocomplete attribute set to\n`\"new-password\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "nickname",
+                "comment": " A semantic text input with a nickname value. Equal to a text input control\nwith autocomplete attribute set to `\"nickname\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "organization",
+                "comment": " A semantic text input with an organization name value. Equal to a text input\ncontrol with autocomplete attribute set to `\"organization\"`.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "select",
+                "comment": " A select control. An `id` and a `description` is always required. You can\nadd options using the `control` element.\n\n    Form.select { id = \"select\", description = \"A description\" } []\n        [ ( Elements.control, H.option [] [ H.text \"one\" ] )\n        , ( Elements.control, H.option [] [ H.text \"two\" ] )\n        , ( Elements.control, H.option [] [ H.text \"three\" ] )\n        ]\n\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "submit",
+                "comment": " A semantic button for submitting forms. Same as button but with `type`\nattribute set to `\"submit\"`.\n",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "text",
+                "comment": " A text input. Equal to a input control with a type attribute set to text.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            },
+            {
+                "name": "textarea",
+                "comment": " A textarea control. An `id` and a `description` is always required.\n",
+                "type": "{ id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form.Attributes",
+        "comment": " Attributes for Form controls.\n\n@docs Attribute\n\n\n# Properties\n\n@docs autocomplete, batch, css, descriptionLabel, disabled, error, focused, html, placeholder, required, value\n\n\n# Events\n\n@docs onBlur, onClick, onFocus, onInput, onKeyUp\n\n\n# Attribute Modifiers\n\n@docs whenErred, whenFocused, whenHasDescriptionLabel, whenHasIcon, whenHasType\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " A Form control attribute\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Attribute msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "autocomplete",
+                "comment": " Set the type of autocomplete for the control. Valid options can be found\n[here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autocomplete).\nAll controls exposed in Widgets.Form but input set this value for you.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "batch",
+                "comment": " Batch several attributes together. Useful for making you own custom\ncontrols.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "css",
+                "comment": " Sets custom css for an Element of the controls.\n",
+                "type": "Element -> List Style -> Attribute msg"
+            },
+            {
+                "name": "descriptionLabel",
+                "comment": " Show the description as text. Note that this overridden if you provide your\nown custom Label element.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "disabled",
+                "comment": " Sets the control as disabled.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "error",
+                "comment": " Sets an error message for the control. Usually used when validating fields.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "focused",
+                "comment": " Sets the control as focused.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "html",
+                "comment": " Sets a custom set of HTML attributes to an Element of the controls.\n",
+                "type": "Element -> List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "onBlur",
+                "comment": " Notifies when the control loose the focus.\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onClick",
+                "comment": " Notifies when the control is clicked.\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onFocus",
+                "comment": " Notifies when the control is focused.\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "onInput",
+                "comment": " Notifies when the control has a new value.\n",
+                "type": "(String -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onKeyUp",
+                "comment": " Notifies when the user releases a key on the keyboard while the control has\nthe focus.\n",
+                "type": "(KeyCode -> msg) -> Attribute msg"
+            },
+            {
+                "name": "placeholder",
+                "comment": " Sets the placeholder of the control.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "required",
+                "comment": " Sets the control as required.\n",
+                "type": "Attribute msg"
+            },
+            {
+                "name": "value",
+                "comment": " Sets the value of the control.\n",
+                "type": "String -> Attribute msg"
+            },
+            {
+                "name": "whenErred",
+                "comment": " Applies attributes only when the control has an error. You can combine\nthis attribute with css to add style to some elements when the control has some\nerror.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "whenFocused",
+                "comment": " Applies attributes only when the control is focused. You can combine this\nattribute with css to add style to some elements when the control is focused.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "whenHasDescriptionLabel",
+                "comment": " Applies attributes when the control has a description label. This can be\napplied when you provide the `descriptionLabel` to a control, or adding a\ncustom label element.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "whenHasIcon",
+                "comment": " Applies attributes only when the control has an icon. Useful for building\nthemes.\n",
+                "type": "List (Attribute msg) -> Attribute msg"
+            },
+            {
+                "name": "whenHasType",
+                "comment": " Applies attributes only when the control type is equal to the provided\ntype. For example, the following code applies the style only when control is\nan email input:\n\n    whenHasType \"email\" [ Html.css [ Css.backgroundColor Color.green  ] ]\n\nAll controls have a type, even when the internal tag has not tag. That means\nthat we can use `\"select\"` for select controls, `\"textarea\"` for textareas, etc.\n\n",
+                "type": "String -> List (Attribute msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.ListBox.Elements",
+        "comment": " This module contains functions to create references to the elements of the\nListBox widget. This allows us to insert custom html options, the text inside\nthe button, etc.\n\n    Form.listBox { id = \"my-listbox\" } []\n        [ (Elements.button, H.text \"Button Title\")\n        , (Elements.option, H.text \"Option One\")\n        , (Elements.option, H.text \"Option Two\")\n        , (Elements.option, H.text \"Option Three\")\n        ]\n\n@docs Element, button, textButton, description, icon, id, list, option\n@docs anyOption, selectedOption\n@docs textOption, wrapper\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " Identifies each sub element of a ListBox widget.\n",
+                "args": [],
+                "type": "Element"
+            }
+        ],
+        "values": [
+            {
+                "name": "anyOption",
+                "comment": " An option of the ListBox. This element is an alias of `option` element and\nit is meant to be used by `css` and `html` attributes. For adding options to\nthe ListBox use the `option` element instead of this one.\n",
+                "type": "Element"
+            },
+            {
+                "name": "button",
+                "comment": " The button of the ListBox.\n\nWhen inserting a node tagged as button it will be added as children in the\nbutton element.\n\nWhen adding style to a button element it will be added to the button itself.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "description",
+                "comment": " The description of the ListBox. By default the description is set as an ARIA\nattribute unless the `descriptionLabel` is set. When the description is shown,\nwe can use `css` and `html` attributes with this elements to customize this\nelement. Also, we can add custom description node.\n",
+                "type": "Element"
+            },
+            {
+                "name": "icon",
+                "comment": " The icon of a ListBox.\n\nWhen inserting a node tagged as icon it will be added over the ListBox button,\nusing an `div` container with an `absolute` position.\n\nWhen adding style to a control with `icon` it will add the style the container\nof the icon. Note that this style does not have any effect if we do not provide\nany icon node.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "id",
+                "comment": " Given a base id of a ListBox and an element, returns the id that identifies\nthat element.\n",
+                "type": "String -> Element -> String"
+            },
+            {
+                "name": "list",
+                "comment": " The list that contains all options of the ListBox. Use `css` to add your own\ncustom style or `html` to set custom html attributes.\n",
+                "type": "Element"
+            },
+            {
+                "name": "option",
+                "comment": " An option of the ListBox.\n\nWhen inserting a node tagged as option it will be added as children in option\nlist. For adding custom html attributes or css to options use `anyOption`.\n\n",
+                "type": "{ selected : Bool, text : String, id : String } -> Element"
+            },
+            {
+                "name": "selectedOption",
+                "comment": " The selected option of the ListBox. This element is an alias of `option`\nelement and it is meant to be used by `css` and `html` attributes. For adding\noptions to the ListBox use the `option` element instead of this one.\n",
+                "type": "Element"
+            },
+            {
+                "name": "textButton",
+                "comment": " A helper for creating simple button titles.\n\n    Form.listBox { id = \"my-listbox\" } []\n        [ Elements.textButton \"Button Title\",\n        , (Elements.option, H.text \"Option One\")\n        , (Elements.option, H.text \"Option Two\")\n        , (Elements.option, H.text \"Option Three\")\n        ]\n\n",
+                "type": "String -> ( Element, Html msg )"
+            },
+            {
+                "name": "textOption",
+                "comment": " A helper for creating options with a text title.\n\n    Form.listBox { id = \"my-listbox\" } []\n        [ (Elements.button, H.text \"Button Title\")\n        , Elements.textOption { selected = True, text = \"Option one\", id = \"one\" }\n        , Elements.textOption { selected = False, text = \"Option two\", id = \"two\" }\n        , Elements.textOption { selected = False, text = \"Option three\", id = \"three\" }\n        ]\n\n",
+                "type": "{ selected : Bool, text : String, id : String } -> ( Element, Html msg )"
+            },
+            {
+                "name": "wrapper",
+                "comment": " The wrapper or the parent node that contains all elements of ListBox\nwidget. Use `css` to add your own custom style or `html` to set custom html\nattributes.\n",
+                "type": "Element"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Form.Elements",
+        "comment": " This module expose functions to create references to the elements of the\ncontrols. This allows us to insert custom html elements into the controls or\nadd custom css to them.\n\nFor adding custom style to some parts (elements) of a control we use the\nattribute `css`:\n\n    Form.email { id = \"my-email-input\", description = \"your email\" }\n        [ Attributes.css Elements.label\n            [ Css.backgroundColor Color.green\n            ]\n        ]\n        []\n\nTo insert custom html elements into a control we add them to the last parameter\nof a control:\n\n    Form.email { id = \"my-email-input\", description = \"A description\" }\n        []\n        [ ( Elements.description\n          , Html.text \"My custom description\"\n          )\n        , ( Elements.icon\n          , Html.img [] []\n          )\n        ]\n\n@docs Element, control, description, error, icon, label, option\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " Identifies each sub element of a Form control.\n",
+                "args": [],
+                "type": "Element"
+            }
+        ],
+        "values": [
+            {
+                "name": "control",
+                "comment": " The control itself. The `input` element for an email control or the\n`button` element for a button control.\n\nWhen inserting a node tagged as control it will be added as child of the input\nnode of the control (usually `input`, `textarea`, `select`, etc).\n\nWhen adding style to a control it will be added to the main control element.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "description",
+                "comment": " The description of a control.\n\nWhen inserting a node tagged as description it will replace the description\ntext provided by `descriptionLabel` attribute.\n\nWhen adding style to a control with `description` it will add the style the\ndefault text provided by `descriptionLabel`. This style is ignored if a custom\ndescription node is provided.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "error",
+                "comment": " An error linked to a control.\n\nWhen using an error node it will appear below the control, in a div wrapper.\nAdding an error node will mark the control as invalid. `error` attributes will\nbe ignored when an error node is provided.\n\nWhen adding style to a control with `error` it will add the style the wrapper\nof the error element.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "icon",
+                "comment": " The icon of a control.\n\nWhen inserting a node tagged as icon it will be added over the control, using\nan `div` container with an `absolute` position.\n\nWhen adding style to a control with `icon` it will add the style to the\ncontainer of the icon. Note that this style does not have any effect if we do\nnot provide any icon node. `position` is set to `absolute` by default but we\ncan override this setting.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "label",
+                "comment": " The label (or wrapper) of a control.\n\n`label` is ignored when used as custom node.\n\nWhen adding style to a control with `label` it will add the style the\nlabel node of the control. This is usually the wrapper or the parent of the\nwhole control.\n\n",
+                "type": "Element"
+            },
+            {
+                "name": "option",
+                "comment": " A helper useful for creating simple options for select controls.\n\n    Form.select { id = \"my-select\", description = \"A description\" }\n        []\n        [ Elements.option { selected = True, text = \"One\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Two\", value = \"2\" }\n        , Elements.option { selected = True, text = \"Three\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Over 9000\", value = \"9001\" }\n        ]\n\n",
+                "type": "{ selected : Bool, text : String, value : String } -> ( Element, Html msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Widgets.Normalize",
+        "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "snippets",
+                "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
+                "type": "List Snippet"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Basics.Extra",
+        "comment": " Additional basic functions.\n\n\n# Tuples\n\n@docs (=>), swap\n\n\n# Numbers\n\n@docs maxSafeInteger, minSafeInteger, isSafeInteger\n\n\n# Arithmetics\n\n@docs fmod\n\n\n# Angle Conversions\n\n@docs inDegrees, inRadians, inTurns\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fmod",
+                "comment": " Perform [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic)\ninvolving floating point numbers.\n\nThe sign of the result is the same as the sign of the modulus\n(the `m` in `fmod x m`).\n\n    fmod 5 2 == 1\n    fmod 5 2.5 == 0\n    fmod 4.5 2 == 0.5\n\n    fmod -5 2 == 1\n    fmod -4.5 2 == 1.5\n\n    fmod 5 -2 == -1\n    fmod 4.5 -2 == -1.5\n\n",
+                "type": "Float -> Float -> Float"
+            },
+            {
+                "name": "inDegrees",
+                "comment": " Convert standard Elm angles (radians) to degrees.\n\n    inDegrees (turns 2) == 720\n    inDegrees pi == 180\n\n",
+                "type": "Float -> Float"
+            },
+            {
+                "name": "inRadians",
+                "comment": " Convert standard Elm angles (radians) to radians.\n\n    inRadians (degrees 90) == pi / 2\n    inRadians (turns 1) == 2 * pi\n\n",
+                "type": "Float -> Float"
+            },
+            {
+                "name": "inTurns",
+                "comment": " Convert standard Elm angles (radians) to turns. One turn is equal to 360°.\n\n    inTurns (degrees 180) == 0.5\n    inTurns (3 * pi) = 1.5\n\n",
+                "type": "Float -> Float"
+            },
+            {
+                "name": "isSafeInteger",
+                "comment": " Checks if a given integer is within the safe range, meaning it is between\n`-(2^53 - 1)` and `2^53 - 1`.\n\n    isSafeInteger 5 == True\n    isSafeInteger maxSafeInteger == True\n    isSafeInteger (maxSafeInteger + 1) == False\n\n",
+                "type": "Int -> Bool"
+            },
+            {
+                "name": "maxSafeInteger",
+                "comment": " The maximum _safe_ value for an integer, defined as `2^53 - 1`. Anything\nlarger than that and behaviour becomes mathematically unsound.\n\n    (maxSafeInteger + 1) == (maxSafeInteger + 2)\n        == True\n\n",
+                "type": "number"
+            },
+            {
+                "name": "minSafeInteger",
+                "comment": " The minimum _safe_ value for an integer, defined as `-(2^53 - 1)`. Anything\nsmaller than that, and behaviour becomes mathematically unsound.\n\n    (minSafeInteger - 1) == (minSafeInteger - 2)\n        == True\n\n",
+                "type": "number"
+            },
+            {
+                "name": "swap",
+                "comment": " Swaps the elements in a pair.\n\n    swap ( 1, 2 ) == ( 2, 1 )\n\n",
+                "type": "( a, b ) -> ( b, a )"
+            }
+        ],
+        "binops": [
+            {
+                "name": "=>",
+                "comment": " A shorthand for writing 2-tuples. Very commonly used when expressing key/value pairs\nin CSS or Json encoders.\n",
+                "type": "a -> b -> ( a, b )",
+                "associativity": "right",
+                "precedence": 8
+            }
+        ]
+    }
+]

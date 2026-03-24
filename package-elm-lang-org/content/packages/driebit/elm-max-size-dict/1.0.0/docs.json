@@ -1,0 +1,66 @@
+[
+    {
+        "name": "MaxSizeDict",
+        "comment": " A dictionary with a maximum size. Items are removed from the dictionary on a\nFIFO basis when the dictionary reaches its maximum size.\n\n\n# Dictionaries\n\n@docs MaxSizeDict\n\n\n# Build\n\n@docs empty, singleton, insert, remove\n\n\n# Query\n\n@docs isEmpty, member, get, size, maxSize\n\n",
+        "unions": [
+            {
+                "name": "MaxSizeDict",
+                "comment": " A dictionary with a maximum size.\n",
+                "args": [
+                    "k",
+                    "v"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " Create an empty dictionary.\n",
+                "type": "Int -> MaxSizeDict k v"
+            },
+            {
+                "name": "get",
+                "comment": " Get the value associated with a key. If the key is not found, return\n`Nothing`.\n",
+                "type": "comparable -> MaxSizeDict comparable v -> Maybe v"
+            },
+            {
+                "name": "insert",
+                "comment": " Insert a key-value pair into a dictionary. Replaces value when there is\na collision.\n",
+                "type": "comparable -> v -> MaxSizeDict comparable v -> MaxSizeDict comparable v"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Determine if a dictionary is empty.\n",
+                "type": "MaxSizeDict k v -> Bool"
+            },
+            {
+                "name": "maxSize",
+                "comment": " Determine the maximum number of key-value pairs in a dictionary.\n",
+                "type": "MaxSizeDict k v -> Int"
+            },
+            {
+                "name": "member",
+                "comment": " Determine if a key is in a dictionary.\n",
+                "type": "comparable -> MaxSizeDict comparable v -> Bool"
+            },
+            {
+                "name": "remove",
+                "comment": " Remove a key-value pair from a dictionary. If the key is not found,\nno changes are made.\n",
+                "type": "comparable -> MaxSizeDict comparable v -> MaxSizeDict comparable v"
+            },
+            {
+                "name": "singleton",
+                "comment": " Create a singleton dictionary.\n",
+                "type": "Int -> comparable -> v -> MaxSizeDict comparable v"
+            },
+            {
+                "name": "size",
+                "comment": " Determine the number of key-value pairs in a dictionary.\n",
+                "type": "MaxSizeDict k v -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

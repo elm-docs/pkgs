@@ -1,0 +1,70 @@
+[
+    {
+        "name": "FocusStyleManager",
+        "comment": "\n\n@docs Model, keyboardUser, mouseUser\n\n@docs Msg, update, subscriptions\n\n@docs Style, style\n\n@docs CustomStyle, customStyle\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Use `keyboardUser` or `mouseUser` to initialize a Model.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CustomStyle",
+                "comment": " Configuration for `customStyle`. Unless you're using an elm-based css\npreprocesor of some kind, you probably want `Style` instead.\n",
+                "args": [
+                    "a",
+                    "html"
+                ],
+                "type": "{ styleToTag : a -> html, keyboardUser : a, mouseUser : a }"
+            },
+            {
+                "name": "Style",
+                "comment": " Specify the styles that you want to use for each user type.\n\n    styleSet : FocusStyleManager.style\n    styleSet =\n        { keyboardUser = [ ( \"outline\", \"3px solid pink\" ) ]\n        , mouseUser = [ ( \"outline\", \"none\" ) ]\n        }\n\n",
+                "args": [],
+                "type": "{ keyboardUser : List ( String, String ), mouseUser : List ( String, String ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "customStyle",
+                "comment": " Create a custom output for your styles. Unless you're using an elm-based css\npreprocesor of some kind, you probably want `style` instead.\n",
+                "type": "CustomStyle a html -> Model -> html"
+            },
+            {
+                "name": "keyboardUser",
+                "comment": " Initialize the user as primarily interested in Keyboard use.\n\n    import FocusStyleManager\n\n    type alias Model =\n        { id : Int\n        , name : String\n        , focusStyleManager : FocusStyleManager.Model\n        }\n\n    init : { id : Int, name : String } -> Model\n    init flagsData =\n        { id = flagsData.id\n        , name = flagsData.name\n        , focusStyleManager = FocusStyleManager.keyboardUser\n        }\n\n",
+                "type": "Model"
+            },
+            {
+                "name": "mouseUser",
+                "comment": " Initialize the user as primarily interested in Mouse use.\n\n    import FocusStyleManager\n\n    type alias Model =\n        { id : Int\n        , name : String\n        , focusStyleManager : FocusStyleManager.Model\n        }\n\n    init : { id : Int, name : String } -> Model\n    init flagsData =\n        { id = flagsData.id\n        , name = flagsData.name\n        , focusStyleManager = FocusStyleManager.mouseUser\n        }\n\n",
+                "type": "Model"
+            },
+            {
+                "name": "style",
+                "comment": " Creates a scoped [style html node](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style).\nThe appropriate styles for the user will be applied to elements with the\n`:focus` pseudoselector.\n\n    view model =\n        div []\n            [ FocusStyleManager.style\n                { keyboardUser = [ ( \"outline\", \"3px solid pink\" ) ]\n                , mouseUser = [ ( \"outline\", \"none\" ) ]\n                }\n                model.focusStyleManager\n            ]\n\n",
+                "type": "Style -> Model -> Html msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " We subscribe to key downs and to mouse moves (not presses, ups, clicks, etc.).\nWe don't subscribe to events that wouldn't change our user type (e.g., we\ncare about key downs when we think that the current user only uses the mouse\nbecause it means we need to switch user types).\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Use this function in your update branch to update the styling when the user\nchanges interaction styles.\n\n    import FocusStyleManager\n\n    type Msg\n        = -- You probably have some other branches here too :)\n          FocusStyleManagerMsg FocusStyleManager.Msg\n\n    update msg model =\n        case msg of\n            FocusStyleManagerMsg focusStyleManagerMsg ->\n                let\n                    focusStyleManager =\n                        FocusStyleManager.update focusStyleManagerMsg model.focusStyleManager\n                in\n                { model | focusStyleManager = focusStyleManager }\n\n",
+                "type": "Msg -> Model -> Model"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Update2",
+        "comment": " Convenience function for lifting an update function for an inner model\nand messages into a parent one.\n\n@docs eval, lift\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "eval",
+                "comment": " Allows the output of an update function that returns type:\n\n    (model, Cmd msg)\n\nTo have its model evaluated in order to produce a new model, and to create more\ncommands. The commands returned will be appended to those passed in using\nCmd.batch.\n\nNote that this allows multiple invokations of the same update function to be\ninvoked recursively. Beware of causing infinite loops while doing this.\n\n",
+                "type": "(model -> ( model, Cmd msg )) -> ( model, Cmd msg ) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "lift",
+                "comment": " Lifts an update function of type:\n\n    update : submsg -> submodel -> ( submodel, Cmd submsg )\n\nInto one that returns:\n\n    (model, Cmd  msg)\n\n",
+                "type": "(model -> submodel) -> (submodel -> model -> model) -> (submsg -> msg) -> (submsg -> submodel -> ( submodel, Cmd submsg )) -> submsg -> model -> ( model, Cmd msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Task.Extra",
+        "comment": " Extra helper functions for working with Tasks.\n\n@docs message\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "message",
+                "comment": " A command to pass a message to the Elm router and evaluate it in the next\nupdate cycle.\n",
+                "type": "msg -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Update3",
+        "comment": " Convenience function for lifting an update function for an inner model and\nmessages, that also returns an additional out parameters into a parent one.\n\n@docs lift\n@docs eval\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "eval",
+                "comment": " Allows the output of an update function that returns type:\n\n    (model, Cmd msg, outmsg)\n\nTo have its model and out message evaluated in order to produce a new model,\nand to create more commands. The commands returned will be appended to those\npassed in using Cmd.batch.\n\n",
+                "type": "(outmsg -> model -> ( model, Cmd msg )) -> ( model, Cmd msg, outmsg ) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "lift",
+                "comment": " Lifts an update function of type:\n\n    update : submsg -> submodel -> ( submodel, Cmd submsg, outmsg )\n\nInto one that returns:\n\n    (model, Cmd  msg, outmsg)\n\n",
+                "type": "(model -> submodel) -> (submodel -> model -> model) -> (submsg -> msg) -> (submsg -> submodel -> ( submodel, Cmd submsg, outmsg )) -> submsg -> model -> ( model, Cmd msg, outmsg )"
+            }
+        ],
+        "binops": []
+    }
+]

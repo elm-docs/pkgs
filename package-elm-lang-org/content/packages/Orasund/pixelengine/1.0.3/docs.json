@@ -1,0 +1,88 @@
+[
+    {
+        "name": "PixelEngine.Graphics",
+        "comment": " A graphic engine for turn-based pixel games.\n\nTo get started, copy the following project\n\n    import Css exposing (px)\n    import Html.Styled exposing (toUnstyled)\n    import PixelEngine.Graphics as Graphics exposing (Background(..), Tileset)\n\n    main =\n        let\n            tileSize : Int\n            tileSize =\n                16\n\n            windowSize : Int\n            windowSize =\n                16\n\n            scale : Int\n            scale =\n                2\n\n            width : Css.Px\n            width =\n                px <| toFloat <| (windowSize * tileSize * scale)\n\n            tileset : Tileset\n            tileset =\n                { source = \"tileset.png\", width = 16, height = 16 }\n\n            goblin =\n                Graphics.animatedTile ( 2, 8 ) 1\n\n            letter_h =\n                Graphics.tile ( 1, 15 )\n\n            letter_i =\n                Graphics.tile ( 2, 12 )\n\n            heart =\n                Graphics.tile ( 4, 8 )\n        in\n        Graphics.render\n            { scale = scale, width = width }\n            [ Graphics.tiledArea\n                { height = windowSize, tileset = tileset, background = Color (Css.rgb 20 12 28) }\n                [ ( ( 6, 7 ), goblin )\n                , ( ( 7, 7 ), letter_h )\n                , ( ( 8, 7 ), letter_i )\n                , ( ( 9, 7 ), heart )\n                ]\n            ]\n            |> toUnstyled\n\n\n## Definition\n\n@docs Tileset,Background,Config\n\n\n## Basic Functions\n\n@docs render\n\n\n## Tile\n\n@docs Tile,animatedMovableTile,animatedTile,movableTile,tile\n\n\n## Area\n\n@docs Area,tiledArea\n\n",
+        "unions": [
+            {
+                "name": "Area",
+                "comment": " An area of the window.\nElements in the area must be of the same type.\nSo for a tiled area contains only tiles of the same tileset.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Background",
+                "comment": " Possible backgrounds for an area.\n\n  - Color - a single color, use the elm-css colors\n\n```\nColor (Css.rgb 20 12 28)\n```\n\n  - Image - a image that gets tiled.\n\n```\nImage \"groundTile.png\"\n```\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Color",
+                        [
+                            "Color"
+                        ]
+                    ],
+                    [
+                        "Image",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Tile",
+                "comment": " A single tile of a tileset\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configurations of the engine.\n\n  - scale - Upscales all images (use scale = 1 for no scaleing).\n  - width - Width of the window. Use [elm-css lengths](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Css#Length).\n\n```\n{scale = 1,width = px 800}\n```\n\n",
+                "args": [
+                    "compatible"
+                ],
+                "type": "{ scale : Int, width : LengthOrAuto compatible }"
+            },
+            {
+                "name": "Tileset",
+                "comment": " A tileset. It contains the link to the image as well as the size of a tile.\n\n```\n{source: \"tileset.png\",width: 16, height 16}\n```\n\n",
+                "args": [],
+                "type": "{ source : String, width : Int, height : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "animatedMovableTile",
+                "comment": " A animated movable tile.\nThis means it will transition if the location gets chanced.\n\n**Note:** the id should be a unique string, if not the transition might fail every now and then.\n\n",
+                "type": "( Int, Int ) -> Int -> String -> Tile"
+            },
+            {
+                "name": "animatedTile",
+                "comment": " An animated tile.\nThe sprites of the animation must be arranged horizontally in the tileset.\n\n  - steps - Steps of the animation (one less then the number of sprites.)\n\n```\nanimatedTile (0,0) 0 == tile (0,0)\n```\n\n",
+                "type": "( Int, Int ) -> Int -> Tile"
+            },
+            {
+                "name": "movableTile",
+                "comment": " A movable tile.\nThis means it will transition if the location gets chanced.\n\n**Note:** the id should be a unique string, if not the transition might fail every now and then.\n\n",
+                "type": "( Int, Int ) -> String -> Tile"
+            },
+            {
+                "name": "render",
+                "comment": " Renders the content.\nUse the [elm-css Html](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled#Html) in combination with this function.\n",
+                "type": "Config compatible -> List Area -> Html msg"
+            },
+            {
+                "name": "tile",
+                "comment": " A basic tile.\nThe first tile in a tileset is obtailed by\n\n```\ntile (0,0)\n```\n\n",
+                "type": "( Int, Int ) -> Tile"
+            },
+            {
+                "name": "tiledArea",
+                "comment": " Creates a tiled area. Elements in this area are positioned on a grid.\nThe content consists of\n\n  - (Int,Int) - position (x,y) in the area\n  - Tile - a tile in the tileset\n\n",
+                "type": "{ height : Int, tileset : Tileset, background : Background } -> List ( ( Int, Int ), Tile ) -> Area"
+            }
+        ],
+        "binops": []
+    }
+]

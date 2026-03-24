@@ -1,0 +1,202 @@
+[
+    {
+        "name": "Rpc",
+        "comment": "This is a runtime to support rpcplus generated clients. Usage:\n\n    import MyProtocol (..)\n    import Rpc\n    import Signal\n    import WebSocket\n\n    -- Request Signal\n    rpcRequest : Signal.Channel Request\n    rpcRequest = Signal.channel NoRequest\n\n    -- Response Signal\n    rpcResponse : Signal.Signal Response\n    rpcResponse =\n        Rpc.connect protocol\n            (WebSocket.connect \"wss://myserver.com:443/rpcplus\")\n            (Signal.subscribe rpcRequest)\n\n    -- Send a request\n    Signal.send rpcRequest NoRequest\n\n# Usage\n@docs connect, Transport",
+        "unions": [
+            {
+                "name": "Action",
+                "comment": "",
+                "args": [
+                    "request"
+                ],
+                "cases": [
+                    [
+                        "ClientInput",
+                        [
+                            "request"
+                        ]
+                    ],
+                    [
+                        "ServerOutput",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Connection",
+                "comment": "",
+                "args": [
+                    "request",
+                    "response"
+                ],
+                "type": "ConnectionMixin (Protocol request response) request response"
+            },
+            {
+                "name": "ConnectionMixin",
+                "comment": "",
+                "args": [
+                    "protocol",
+                    "request",
+                    "response"
+                ],
+                "type": "{ protocol | serverChannel : Channel String, responseChannel : Channel response, action : Signal (Action request), state : State request }"
+            },
+            {
+                "name": "Error",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "Result String a"
+            },
+            {
+                "name": "Id",
+                "comment": "",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "JsonValue",
+                "comment": "",
+                "args": [],
+                "type": "Value"
+            },
+            {
+                "name": "Protocol",
+                "comment": "",
+                "args": [
+                    "request",
+                    "response"
+                ],
+                "type": "{ method : request -> String, params : request -> JsonValue, noRequest : request, noResponse : response, closeStream : request -> Maybe Id, codec : ResponseEnvelope -> request -> response, done : response -> Bool }"
+            },
+            {
+                "name": "RequestEnvelope",
+                "comment": "",
+                "args": [],
+                "type": "{ id : Id, method : String, params : JsonValue }"
+            },
+            {
+                "name": "Response",
+                "comment": "",
+                "args": [
+                    "input",
+                    "output"
+                ],
+                "type": "{ id : Id, input : input, output : Error output }"
+            },
+            {
+                "name": "ResponseEnvelope",
+                "comment": "",
+                "args": [],
+                "type": "{ id : Id, result : Maybe JsonValue, error : Maybe String }"
+            },
+            {
+                "name": "State",
+                "comment": "",
+                "args": [
+                    "request"
+                ],
+                "type": "{ pendingRequest : Dict Id request, nextId : Id }"
+            },
+            {
+                "name": "Transport",
+                "comment": "Transport is generally provided by WebSocket.connect.  In the future this\nsame interface may support retry logic or other transports (for example,\nHttp-based transports).",
+                "args": [],
+                "type": "Signal String -> Signal String"
+            }
+        ],
+        "values": [
+            {
+                "name": "arrayDecoder",
+                "comment": "",
+                "type": "Decoder a -> Decoder (Array a)"
+            },
+            {
+                "name": "arrayEncode",
+                "comment": "",
+                "type": "(a -> JsonValue) -> Array a -> JsonValue"
+            },
+            {
+                "name": "closeStreamMethod",
+                "comment": "",
+                "type": "String"
+            },
+            {
+                "name": "closeStreamParams",
+                "comment": "",
+                "type": "JsonValue"
+            },
+            {
+                "name": "connect",
+                "comment": "connect overlays a Protocol, which is type-safe, over a Transport, which\ncarries strings and is usually provided by WebSocket.connect.  The\nresulting connection will read from the request signal and write to the\nresponse signal.",
+                "type": "Protocol request response -> Transport -> Signal request -> Signal response"
+            },
+            {
+                "name": "decodeResponseEnvelope",
+                "comment": "",
+                "type": "ResponseEnvelope -> Decoder a -> Error a"
+            },
+            {
+                "name": "dictDecoder",
+                "comment": "",
+                "type": "Decoder a -> Decoder (Dict String a)"
+            },
+            {
+                "name": "dictEncode",
+                "comment": "",
+                "type": "(a -> JsonValue) -> Dict String a -> JsonValue"
+            },
+            {
+                "name": "encodeRequestEnvelope",
+                "comment": "",
+                "type": "RequestEnvelope -> JsonValue"
+            },
+            {
+                "name": "isLastStreamResponseError",
+                "comment": "",
+                "type": "Error a -> Bool"
+            },
+            {
+                "name": "nullDecoder",
+                "comment": "",
+                "type": "Decoder a -> Decoder (Maybe a)"
+            },
+            {
+                "name": "nullEncode",
+                "comment": "",
+                "type": "(a -> JsonValue) -> Maybe a -> JsonValue"
+            },
+            {
+                "name": "requestEnvelope",
+                "comment": "",
+                "type": "Connection request response -> request -> Id -> RequestEnvelope"
+            },
+            {
+                "name": "responseEnvelopeDecoder",
+                "comment": "",
+                "type": "Decoder ResponseEnvelope"
+            },
+            {
+                "name": "step",
+                "comment": "",
+                "type": "Connection request response -> Action request -> State request -> State request"
+            },
+            {
+                "name": "stepClientInput",
+                "comment": "",
+                "type": "Connection request response -> request -> State request -> State request"
+            },
+            {
+                "name": "stepServerOutput",
+                "comment": "",
+                "type": "Connection request response -> String -> State request -> State request"
+            }
+        ],
+        "binops": []
+    }
+]

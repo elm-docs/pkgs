@@ -1,0 +1,23 @@
+[
+    {
+        "name": "GetWithHeaders",
+        "comment": "This library takes from elm-http the minimum needed to\n    add HTTP headers to the request and return them from the response.\n\n# useful methods\n@docs get\n\n# handy type alias\n@docs Headers",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Headers",
+                "comment": "Headers are represented as a list of key-value tuples.",
+                "args": [],
+                "type": "List ( String, String )"
+            }
+        ],
+        "values": [
+            {
+                "name": "get",
+                "comment": "Given headers and a body, return an HTTP GET task\n    that produces headers and a decoded body.",
+                "type": "Decoder value -> Headers -> String -> Task Error ( Headers, value )"
+            }
+        ],
+        "binops": []
+    }
+]

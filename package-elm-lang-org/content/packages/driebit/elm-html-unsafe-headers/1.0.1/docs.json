@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Html.UnsafeHeaders",
+        "comment": " This library defines HTML headers with unescaped text.\n\n\n# Definition\n\n@docs h1, h2, h3, h4, h5, h6\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "h1",
+                "comment": " h1\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            },
+            {
+                "name": "h2",
+                "comment": " h2\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            },
+            {
+                "name": "h3",
+                "comment": " h3\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            },
+            {
+                "name": "h4",
+                "comment": " h4\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            },
+            {
+                "name": "h5",
+                "comment": " h5\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            },
+            {
+                "name": "h6",
+                "comment": " h6\n",
+                "type": "List (Attribute msg) -> String -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

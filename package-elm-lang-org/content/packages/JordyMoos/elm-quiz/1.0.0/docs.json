@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Quiz",
+        "comment": " A customizable quiz powered by Elm and Polymer\n\nSee the example on github.\n\n\n# Quiz\n\n@docs main\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "main",
+                "comment": " Start of the Quiz\n\nIt just calls Html.programWithFlags\n\n",
+                "type": "Program Value Model Msg"
+            }
+        ],
+        "binops": []
+    }
+]

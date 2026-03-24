@@ -1,0 +1,117 @@
+[
+    {
+        "name": "JsonApi.Decode",
+        "comment": " Provides functions to decode json api resources and their relationships\n\n*Example json:*\n\n```json\n{\n    \"data\": [\n        {\n            \"type\": \"posts\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"links\": {\n                \"self\": \"http://link-to-post/2\"\n            },\n            \"attributes\": {\n                \"title\": \"First post\",\n                \"content\": \"First post content\"\n            },\n            \"relationships\": {\n                \"creator\": {\n                    \"data\": {\n                        \"type\": \"creators\",\n                        \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\"\n                    },\n                    \"links\": {\n                        \"related\": \"http://link-to-creator/1\"\n                    }\n                },\n                \"comments\": {\n                    \"links\": {},\n                    \"data\": [\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ab\"\n                        },\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"cb0759b0-03ab-4291-b067-84a9017fea6f\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"type\": \"posts\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ae\",\n            \"links\": {\n                \"self\": \"http://link-to-post/2\"\n            },\n            \"attributes\": {\n                \"title\": \"Second post\",\n                \"content\": \"Second post content\"\n            },\n            \"relationships\": {\n                \"creator\": {\n                    \"data\": {\n                        \"type\": \"creators\",\n                        \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\"\n                    },\n                    \"links\": {\n                        \"related\": \"http://lnk-to-creator/1\"\n                    }\n                },\n                \"comments\": {\n                    \"links\": {},\n                    \"data\": [\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ac\"\n                        }\n                    ]\n                }\n            }\n        }\n    ],\n    \"included\": [\n        {\n            \"type\": \"creators\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"attributes\": {\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-creator/1\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ac\",\n            \"attributes\": {\n                \"content\": \"Comment 1 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/1\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ab\",\n            \"attributes\": {\n                \"content\": \"Comment 2 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/2\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"cb0759b0-03ab-4291-b067-84a9017fea6f\",\n            \"attributes\": {\n                \"content\": \"Comment 3 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/3\"\n            },\n            \"relationships\": {}\n        }\n    ]\n}\n```\n\n\n# Decoders\n\n@docs resources, resource, relationship, relationships\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "relationship",
+                "comment": " Decode a relationship from your json api resources.\n\nYou pass it the type of the relationship resource (`\"creator\"` in our example above), the `ResourceInfo`\npassed to your resources `Decoder` and the relationship decoder. It will return a\nnew `Decoder` representing the relationship.\n\nHere is an example of resource `Decoder` with a relationship:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        , creator : Creator\n        }\n\n    type alias Creator =\n        { id : String\n        , firstname : String\n        , lastname : String\n        }\n\n    creatorDecoder : ResourceInfo -> Decoder Creator\n    creatorDecoder resourceInfo =\n        map3 Creator\n            (succeed (JsonApi.id resourceInfo))\n            (field \"firstname\" string)\n            (field \"lastname\" string)\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map4 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n            (relationship \"creator\" resourceInfo creatorDecoder)\n\n    -- Decoder for our posts and its creator from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> ResourceInfo -> (ResourceInfo -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "relationships",
+                "comment": " Decode a list of relationships from your json api resources.\n\nYou pass it the type of the relationship resource (`\"comments\"` in our example above), the `ResourceInfo`\npassed to your resources `Decoder` and the relationship decoder. It will return a\nnew `Decoder` representing the `List` of relationships.\n\nHere is an example of resource `Decoder` with a list of relationships:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        , comments : List Comment\n        }\n\n    type alias Comment =\n        { id : String\n        , content : String\n        , email : String\n        }\n\n    commentDecoder : ResourceInfo -> Decoder Comment\n    commentDecoder resourceInfo =\n        map3 Comment\n            (succeed (JsonApi.id resourceInfo))\n            (field \"content\" string)\n            (field \"email\" string)\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map4 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n            (relationships \"comments\" resourceInfo commentDecoder)\n\n    -- Decoder for our posts and its creator from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> ResourceInfo -> (ResourceInfo -> Decoder a) -> Decoder (List a)"
+            },
+            {
+                "name": "resource",
+                "comment": " Decode only one resource from the json api content.\n\nYou pass it the type of the resource (`\"posts\"` in our example above) and the resource decoder and it will return a\nnew `Decoder` representing your resource.\n\n**(The json `data` attribute is an object and not a list)**\n\nHere is an example of resource `Decoder`:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        }\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map3 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n\n    -- Decoder for our post from json api\n    resource \"posts\" postDecoder\n\n",
+                "type": "String -> (ResourceInfo -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "resources",
+                "comment": " Decode resources from the json api content.\n\nYou pass it the type of the resources (`\"posts\"` in our example above) and the resource decoder and it will return a\nnew `Decoder` representing a `List` of your resources.\n\nHere is an example of resource `Decoder`:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        }\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map3 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n\n    -- Decoder for our posts from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> (ResourceInfo -> Decoder a) -> Decoder (List a)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi.Encode",
+        "comment": " Provides functions to encode resources to a `Json.Encode.Value`. You can then finally\nencode it to a json api string with `Json.Encode.encode`.\n\n\n# Encoders\n\n@docs resource, resources\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "resource",
+                "comment": " Encodes a resource.\n\n    type alias Post =\n        { id : String\n        , links : Dict String String\n        , title : String\n        , content : String\n        , creator : Creator\n        , comments : List Comment\n        }\n\n\n    type alias Creator =\n        { id : String\n        , links : Dict String String\n        , firstname : String\n        , lastname : String\n        }\n\n\n    type alias Comment =\n        { id : String\n        , links : Dict String String\n        , content : String\n        , email : String\n        }\n\n    post : Post\n    post =\n        { id = \"post-1\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-post/1\" ) ]\n        , title = \"Post 1\"\n        , content = \"Post content 1\"\n        , creator = creator\n        , comments = [ comment1 ]\n        }\n\n\n    creator : Creator\n    creator =\n        { id = \"creator-1\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-creator/1\" ) ]\n        , firstname = \"John\"\n        , lastname = \"Doe\"\n        }\n\n\n    comment1 : Comment\n    comment1 =\n        { id = \"comment-1\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-comment/1\" ) ]\n        , content = \"Comment 1\"\n        , email = \"email@email.com\"\n        }\n\n\n    postToResource : Post -> ResourceInfo\n    postToResource post =\n        JsonApi.build \"posts\"\n            |> JsonApi.withId post.id\n            |> JsonApi.withLinks post.links\n            |> JsonApi.withAttributes\n                [ ( \"title\", string post.title )\n                , ( \"content\", string post.content )\n                ]\n            |> JsonApi.withRelationship \"creator\" (JsonApi.relationship post.creator.id (creatorToResource post.creator))\n            |> JsonApi.withRelationship \"comments\" (JsonApi.relationships (List.map commentRelationship post.comments))\n\n\n    creatorToResource : Creator -> ResourceInfo\n    creatorToResource creator =\n        JsonApi.build \"creators\"\n            |> JsonApi.withId creator.id\n            |> JsonApi.withLinks creator.links\n            |> JsonApi.withAttributes\n                [ ( \"firstname\", string creator.firstname )\n                , ( \"lastname\", string creator.lastname )\n                ]\n\n\n    commentRelationship : Comment -> ( String, ResourceInfo )\n    commentRelationship comment =\n        ( comment.id, commentToResource comment )\n\n\n    commentToResource : Comment -> ResourceInfo\n    commentToResource comment =\n        JsonApi.build \"comment\"\n            |> JsonApi.withId comment.id\n            |> JsonApi.withLinks comment.links\n            |> JsonApi.withAttributes\n                [ ( \"content\", string comment.content )\n                , ( \"email\", string comment.email )\n                ]\n\n    resource post\n\n",
+                "type": "ResourceInfo -> Value"
+            },
+            {
+                "name": "resources",
+                "comment": " Encodes a list of resources.\n\n    type alias Post =\n        { id : String\n        , links : Dict String String\n        , title : String\n        , content : String\n        , creator : Creator\n        , comments : List Comment\n        }\n\n\n    type alias Creator =\n        { id : String\n        , links : Dict String String\n        , firstname : String\n        , lastname : String\n        }\n\n\n    type alias Comment =\n        { id : String\n        , links : Dict String String\n        , content : String\n        , email : String\n        }\n\n\n    posts : List Post\n    posts =\n        [ postNoLink, post2 ]\n\n\n    postNoLink : Post\n    postNoLink =\n        { id = \"post-1\"\n        , links = Dict.empty\n        , title = \"Post no link\"\n        , content = \"Post content no link\"\n        , creator = creator\n        , comments = [ comment1, comment2 ]\n        }\n\n\n    post2 : Post\n    post2 =\n        { id = \"post-2\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-post/2\" ) ]\n        , title = \"Post 2\"\n        , content = \"Post content 2\"\n        , creator = creator\n        , comments = [ comment3 ]\n        }\n\n\n    creator : Creator\n    creator =\n        { id = \"creator-1\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-creator/1\" ) ]\n        , firstname = \"John\"\n        , lastname = \"Doe\"\n        }\n\n\n    comment1 : Comment\n    comment1 =\n        { id = \"comment-1\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-comment/1\" ) ]\n        , content = \"Comment 1\"\n        , email = \"email@email.com\"\n        }\n\n\n    comment2 : Comment\n    comment2 =\n        { id = \"comment-2\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-comment/2\" ) ]\n        , content = \"Comment 2\"\n        , email = \"email@email.com\"\n        }\n\n\n    comment3 : Comment\n    comment3 =\n        { id = \"comment-3\"\n        , links = Dict.fromList [ ( \"self\", \"http://url-to-comment/3\" ) ]\n        , content = \"Comment 3\"\n        , email = \"email@email.com\"\n        }\n\n\n    postToResource : Post -> ResourceInfo\n    postToResource post =\n        JsonApi.build \"posts\"\n            |> JsonApi.withId post.id\n            |> JsonApi.withLinks post.links\n            |> JsonApi.withAttributes\n                [ ( \"title\", string post.title )\n                , ( \"content\", string post.content )\n                ]\n            |> JsonApi.withRelationship \"creator\" (JsonApi.relationship post.creator.id (creatorToResource post.creator))\n            |> JsonApi.withRelationship \"comments\" (JsonApi.relationships (List.map commentRelationship post.comments))\n\n\n    creatorToResource : Creator -> ResourceInfo\n    creatorToResource creator =\n        JsonApi.build \"creators\"\n            |> JsonApi.withId creator.id\n            |> JsonApi.withLinks creator.links\n            |> JsonApi.withAttributes\n                [ ( \"firstname\", string creator.firstname )\n                , ( \"lastname\", string creator.lastname )\n                ]\n\n\n    commentRelationship : Comment -> ( String, ResourceInfo )\n    commentRelationship comment =\n        ( comment.id, commentToResource comment )\n\n\n    commentToResource : Comment -> ResourceInfo\n    commentToResource comment =\n        JsonApi.build \"comment\"\n            |> JsonApi.withId comment.id\n            |> JsonApi.withLinks comment.links\n            |> JsonApi.withAttributes\n                [ ( \"content\", string comment.content )\n                , ( \"email\", string comment.email )\n                ]\n\n    resources posts\n\n",
+                "type": "List ResourceInfo -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi",
+        "comment": " JsonApi exposes the `ResourceInfo` type and functions to get and set information\nfor your resources.\n\n\n# Type\n\n@docs ResourceInfo, OneOrManyRelationships\n\n\n# New resource\n\n@docs build\n\n\n# Getter functions\n\n@docs id, links\n\n\n# Setter functions\n\n@docs withId, withLinks, withAttributes, withRelationship\n\n\n# Relationships\n\n@docs relationship, relationships\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "OneOrManyRelationships",
+                "comment": " This type is used to represent either or or many relationships in your `ResourceInfo` object.\n\nSee `withRelationship` function for more information\n\n",
+                "args": [],
+                "type": "OneOrManyRelationships"
+            },
+            {
+                "name": "ResourceInfo",
+                "comment": " The `ResourceInfo` represents a resource. It is passed to your resource decoders, but you can also use it to encode resources to json api.\nIt contains useful information for decoding and encoding your resource: resource `id`, `links`, `attributes`, `relationships`, ...\n\n_Example of json api <resource:_>\n\n```json\n{\n    \"data\": [\n        {\n            \"type\": \"users\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"links\": {\n                \"self\": \"http://link-to-user\",\n                \"profile\": \"http://link-to-user-profile\"\n            },\n            \"attributes\": {\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\",\n                \"gender\": \"male\"\n            },\n            \"relationships\": {}\n        }\n    ]\n}\n```\n\nAnd how to build it with the `JsonApi` module:\n\n    build \"users\"\n        |> withId \"13608770-76dd-47e5-a1c4-4d0d9c2483ad\"\n        |> withLinks\n            (Dict.fromList\n                [ ( \"self\", \"http://link-to-user\" )\n                , ( \"profile\", \"http://link-to-user-profile\" )\n                ]\n            )\n        |> withAttributes\n            [ ( \"firstname\", string \"John\" )\n            , ( \"lastname\", string \"Doe\" )\n            , ( \"gender\", string \"male\" )\n            ]\n\n",
+                "args": [],
+                "type": "ResourceInfo"
+            }
+        ],
+        "values": [
+            {
+                "name": "build",
+                "comment": " Builds a new `ResourceInfo` with the specified type name\n\nYou can build your resources like this:\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withId \"post-1\"\n            |> withLinks (Dict.fromList [ ( \"self\", \"http://url-to-post/1\" ) ])\n\n",
+                "type": "String -> ResourceInfo"
+            },
+            {
+                "name": "id",
+                "comment": " Returns the `id` of your resource.\n\nFrom the json example above, `id` will return `13608770-76dd-47e5-a1c4-4d0d9c2483ad`\n\n",
+                "type": "ResourceInfo -> String"
+            },
+            {
+                "name": "links",
+                "comment": " Returns the `links` of your resource.\n\nFrom the json example above, `links` will return a `Dict` with this value:\n\n    [ (\"self\", \"http://link-to-user\")\n    , (\"profile\", \"http://link-to-user-profile\")\n    ]\n\n",
+                "type": "ResourceInfo -> Dict String String"
+            },
+            {
+                "name": "relationship",
+                "comment": " Defines a relationship that can then be added to its parent `ResourceInfo`.\nIt takes the `id` of the resource and the resource.\n\n    creatorResource : Creator -> ResourceInfo\n    creatorResource creator =\n        build \"creator\"\n            |> withAttributes [ ( \"firstname\", string creator.firstname ) ]\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withRelationship \"creators\" (relationship creator.id (creatorResource creator))\n\n",
+                "type": "String -> ResourceInfo -> OneOrManyRelationships"
+            },
+            {
+                "name": "relationships",
+                "comment": " Defines a list of relationships that can then be added to a parent `ResourceInfo`.\nIt takes a `List` of `Tuple`s with the `id` of the resource and the resource.\n\n    commentResource : Comment -> ResourceInfo\n    commentResource comment =\n        build \"comment\"\n            |> withAttributes [ ( \"content\", string comment.content ) ]\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withRelationship \"comments\" (relationships (List.map (\\comment -> ( \"comment\", commentResource comment )) comments))\n\n",
+                "type": "List ( String, ResourceInfo ) -> OneOrManyRelationships"
+            },
+            {
+                "name": "withAttributes",
+                "comment": " Sets the attributes of the `ResourceInfo` object.\nThis is the payload of your resource.\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withAttributes\n                [ ( \"firstname\", string \"John\" )\n                , ( \"lastname\", string \"Doe\" )\n                , ( \"gender\", string \"male\" )\n                ]\n\n",
+                "type": "List ( String, Value ) -> ResourceInfo -> ResourceInfo"
+            },
+            {
+                "name": "withId",
+                "comment": " Sets the id of the `ResourceInfo` object\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withId \"post-1\"\n\n",
+                "type": "String -> ResourceInfo -> ResourceInfo"
+            },
+            {
+                "name": "withLinks",
+                "comment": " Sets the links of the `ResourceInfo` object\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withLinks (Dict.fromList [ ( \"self\", \"http://url-to-post/1\" ) ])\n\n",
+                "type": "Dict String String -> ResourceInfo -> ResourceInfo"
+            },
+            {
+                "name": "withRelationship",
+                "comment": " Adds a relationship in the `ResourceInfo` object.\nYou have to pass it the name of the relationship and a description of the relationship resource (See `relationship` and `relationships`)\n\n    myResource : Post -> ResourceInfo\n    myResource post =\n        build \"posts\"\n            |> withRelationship \"creators\" (relationship creator.id (creatorResource creator))\n\n",
+                "type": "String -> OneOrManyRelationships -> ResourceInfo -> ResourceInfo"
+            }
+        ],
+        "binops": []
+    }
+]

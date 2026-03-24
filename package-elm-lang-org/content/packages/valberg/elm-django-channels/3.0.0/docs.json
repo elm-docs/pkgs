@@ -1,0 +1,94 @@
+[
+    {
+        "name": "DjangoChannels.Initial",
+        "comment": "\n\n# Definition\n@docs InitialStreamHandler\n\n# Utilities\n@docs handleInitialStream\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "InitialStreamHandler",
+                "comment": " ",
+                "args": [
+                    "pkType",
+                    "instanceType"
+                ],
+                "type": "{ instanceDecoder : Decoder instanceType, pkDecoder : Decoder pkType }"
+            }
+        ],
+        "values": [
+            {
+                "name": "handleInitialStream",
+                "comment": " ",
+                "type": "InitialStreamHandler pkType instanceType -> String -> List ( pkType, instanceType )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "DjangoChannels.Binding",
+        "comment": "\n\n# Definition\n@docs BindingStreamHandler\n\n# Utilities\n@docs handleBindingStream\n\n# Default operations\n@docs defaultCreate, defaultUpdate, defaultDelete\n\n# Functions for sending data back to server\n@docs createInstance, updateInstance, deleteInstance\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BindingStreamHandler",
+                "comment": " BindingStreamHandler defines how we should deal with a specific WebsocketBinding stream.\n",
+                "args": [
+                    "pkType",
+                    "instanceType"
+                ],
+                "type": "{ websocketServer : String, streamName : String, instanceDecoder : Decoder instanceType, instanceEncoder : instanceType -> Value, pkDecoder : Decoder pkType, pkEncoder : pkType -> Value, createFunc : instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ), updateFunc : instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ), deleteFunc : pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "createInstance",
+                "comment": " ",
+                "type": "BindingStreamHandler pkType instanceType -> instanceType -> Cmd msg"
+            },
+            {
+                "name": "defaultCreate",
+                "comment": " Default function for creating an instance.\n",
+                "type": "instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "defaultDelete",
+                "comment": " Default function for deleting an instance given a pk.\n",
+                "type": "pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "defaultUpdate",
+                "comment": " Default function for updating an instance.\n",
+                "type": "instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "deleteInstance",
+                "comment": " ",
+                "type": "BindingStreamHandler pkType instanceType -> pkType -> Cmd msg"
+            },
+            {
+                "name": "handleBindingStream",
+                "comment": " Handle data on a given BindingStreamHandler.\n",
+                "type": "BindingStreamHandler pkType instanceType -> String -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "updateInstance",
+                "comment": " ",
+                "type": "BindingStreamHandler pkType instanceType -> pkType -> instanceType -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "DjangoChannels",
+        "comment": "\n\n# Utilities\n@docs streamDemultiplexer\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "streamDemultiplexer",
+                "comment": " Deal with streams from a WebsocketDemultiplexer.\n",
+                "type": "String -> (String -> streamType) -> streamType -> streamType"
+            }
+        ],
+        "binops": []
+    }
+]

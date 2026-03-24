@@ -1,0 +1,149 @@
+[
+    {
+        "name": "Interval",
+        "comment": " A representation of numeric intervals (also known as *ranges*.)\n\n\n# Types\n\n@docs Interval\n@docs Bound\n\n\n# Constructors\n\n`interval` is the primary constructor; the others are just for convenience.\n\n@docs interval\n@docs degenerate\n@docs empty\n@docs leftBounded\n@docs rightBounded\n@docs unbounded\n\n\n# Endpoint (Bound) constructors\n\n@docs excludes\n@docs includes\n\n\n# Operations on Intervals\n\n@docs hull\n@docs intersection\n@docs intervalToString\n@docs interior\n@docs closure\n@docs upperBoundValue\n@docs lowerBoundValue\n\n\n# Tests on Intervals\n\n@docs adjoins\n@docs intersects\n@docs intersectsPoint\n@docs isBounded\n@docs isDegenerate\n@docs isEmpty\n@docs isLeftBounded\n@docs isRightBounded\n@docs isLeftOpen\n@docs isRightOpen\n\n\n# Related reading\n\n  - [Interval](https://en.wikipedia.org/wiki/Interval_(mathematics))\n  - [Interval tree])<https://en.wikipedia.org/wiki/Interval_tree>)\n  - [Allen's interval algebra](https://en.wikipedia.org/wiki/Allen%27s_interval_algebra)\n\n",
+        "unions": [
+            {
+                "name": "Bound",
+                "comment": " Opaque type; do not export tags.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Interval",
+                "comment": " An interval over the reals. May be over either the Ordinary Reals `(-∞, +∞)` or\nthe Extended Reals `[-∞, +∞]`.\n`Bounded x y` will always satisfy `x < y`. (`x == y` is either degenerate or empty)\n\n(Opaque type; do not export tags)\n\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "adjoins",
+                "comment": " Are these two intervals adjoins? I.e., do they share an upper-lower or\nlower-upper bound, exactly one of which is closed, and do not intersect each other?\n\n    let\n        a = interval (includes 1) (excludes 3)  -- [1, 3)\n        b = interval (includes 2) (includes 4)  -- [3, 4]\n        c = interval (includes 3) (includes 4)  -- (3, 4]\n        d = interval (includes 3) (includes 4)  -- [2, 3]\n    in\n        [ adjoins a b = True\n        , adjoins a c = False\n        , adjoins a d = False\n        ]\n\n",
+                "type": "Interval -> Interval -> Bool"
+            },
+            {
+                "name": "closure",
+                "comment": " Returns the smallest closed interval containing a.\n\n    -- `closure((x, y)) == [x, y]`\n    interior (interval (excludes 0) (excludes 2)) == interval (includes 0) (includes 2)\n\n",
+                "type": "Interval -> Interval"
+            },
+            {
+                "name": "degenerate",
+                "comment": " A degenerate Interval.\n",
+                "type": "Float -> Interval"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty Interval.\n",
+                "type": "Interval"
+            },
+            {
+                "name": "excludes",
+                "comment": " An exclusive endpoint of an interval.\n",
+                "type": "Float -> Bound"
+            },
+            {
+                "name": "hull",
+                "comment": " The convex hull of two intervals. This is similar to union in that\nit includes all the points of the component intervals, and for\nnon-overlapping intervals, the points between them.\n",
+                "type": "Interval -> Interval -> Interval"
+            },
+            {
+                "name": "includes",
+                "comment": " An inclusive endpoint of an interval.\n",
+                "type": "Float -> Bound"
+            },
+            {
+                "name": "interior",
+                "comment": " Returns the largest open interval contained within a.\n\n    -- `interior([x, y]) == (x, y)`\n    interior (interval (includes 0) (includes 2)) == interval (excludes 0) (excludes 2)\n\n",
+                "type": "Interval -> Interval"
+            },
+            {
+                "name": "intersection",
+                "comment": " The intersection of two intervals. If the intervals overlap, this is the common part. If not, this is the empty interval.\n",
+                "type": "Interval -> Interval -> Interval"
+            },
+            {
+                "name": "intersects",
+                "comment": " Do these two intervals intersect?\n\n    let\n        a = interval (includes 1) (excludes 3)\n        b = interval (includes 2) (includes 4)\n        c = interval (includes 3) (includes 4)\n    in\n        [ intersects a b = True\n        , intersects a c = False\n        ]\n\n",
+                "type": "Interval -> Interval -> Bool"
+            },
+            {
+                "name": "intersectsPoint",
+                "comment": " Does this interval contain the given point?\n\n    let\n        a = interval (includes 1) (excludes 3)\n    in\n        [ intersectsPoint a 0 = False\n        , intersectsPoint a 1 = True\n        , intersectsPoint a 3 = False\n        ]\n\n",
+                "type": "Interval -> Float -> Bool"
+            },
+            {
+                "name": "interval",
+                "comment": " Constructs an `Interval` from two Bounds.\n",
+                "type": "Bound -> Bound -> Interval"
+            },
+            {
+                "name": "intervalToString",
+                "comment": " Return a String representation of an Interval.\n",
+                "type": "Interval -> String"
+            },
+            {
+                "name": "isBounded",
+                "comment": " Does this interval have finite bounds?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isDegenerate",
+                "comment": " Is this a degenerate (point-valued) interval?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Is this an empty interval?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isLeftBounded",
+                "comment": " Does this interval have a finite lower bound, and an infinite upper bound?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isLeftOpen",
+                "comment": " Is the lower bound of this interval open?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isRightBounded",
+                "comment": " Does this interval have a finite upper bound, and an infinite lower bound?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "isRightOpen",
+                "comment": " Is the upper bound of this interval open?\n",
+                "type": "Interval -> Bool"
+            },
+            {
+                "name": "leftBounded",
+                "comment": " Convenience function for a left-bounded Interval (from some n to +∞)\n",
+                "type": "Bound -> Interval"
+            },
+            {
+                "name": "lowerBoundValue",
+                "comment": " Extract the value of the lower bound of an Interval.\n",
+                "type": "Interval -> Maybe Float"
+            },
+            {
+                "name": "rightBounded",
+                "comment": " Convenience function for a right-bounded Interval (from -∞ to some n)\n",
+                "type": "Bound -> Interval"
+            },
+            {
+                "name": "unbounded",
+                "comment": " An unbounded Interval over the [Extended Reals.] `[-∞, +∞]`\n\n[Extended Reals.]: https://en.wikipedia.org/wiki/Interval_(mathematics)#Infinite_endpoints\n\n",
+                "type": "Interval"
+            },
+            {
+                "name": "upperBoundValue",
+                "comment": " Extract the value of the upper bound of an Interval.\n",
+                "type": "Interval -> Maybe Float"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,153 @@
+[
+    {
+        "name": "InfiniteStream",
+        "comment": " A library for creating lazy, infinite streams. Good for random generators,\r\nnumber sequences, and anything else that needs to be generated indefinitely.\r\n\r\n**Warning:** While using this library, keep in mind that streams are _infinite_,\r\nso if a function never matches a terminating condition, that function will run forever and\r\ncause your program to hang. All functions where this is possible have been marked\r\nwith a warning.\r\n\r\n@docs Stream\r\n\r\n\r\n## Creating Streams\r\n\r\n@docs stream, cycle, repeat, iterate\r\n\r\n\r\n## Consuming Streams\r\n\r\n@docs consume, consumeMany, consumeWhile\r\n\r\n\r\n## Sub-streams\r\n\r\n@docs head, tail, filter, take, takeWhile, drop, dropWhile\r\n\r\n\r\n## Combining and Splitting Streams\r\n\r\n@docs (<:>), intersperse, partition\r\n\r\n\r\n## Mapping\r\n\r\n@docs map, map2, map3, map4, map5, andMap\r\n\r\n\r\n## Special Maps and Folds\r\n\r\n@docs filterMap, indexedMap, scanl\r\n\r\n",
+        "unions": [
+            {
+                "name": "Stream",
+                "comment": " A lazy, infinite stream type.\r\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " Map a stream of functions over a stream of values. Can be used when `mapN` functions aren't enough.\r\n\r\n    cycle [ 1, 2, 3 ]\r\n        |> map (\\a b c -> a + b + c)\r\n        |> andMap (repeat 4)\r\n        |> andMap (iterate ((*) 2) 5)\r\n\r\nis the same as\r\n\r\n    map3 (\\a b c -> a + b + c)\r\n        (cycle [ 1, 2, 3 ])\r\n        (repeat 4)\r\n        (iterate ((*) 2) 5)\r\n\r\n",
+                "type": "Stream a -> Stream (a -> b) -> Stream b"
+            },
+            {
+                "name": "consume",
+                "comment": " Consume an element of a stream, producing a tuple with the next value and a new stream.\r\n",
+                "type": "Stream a -> ( a, Stream a )"
+            },
+            {
+                "name": "consumeMany",
+                "comment": " Consume multiple elements of a stream, producing a tuple with a list of values and a new stream.\r\n",
+                "type": "Int -> Stream a -> ( List a, Stream a )"
+            },
+            {
+                "name": "consumeWhile",
+                "comment": " Consume elements of a stream while a predicate remains true.\r\n\r\n**Warning:** If your predicate never becomes false, this function will never terminate\r\nand your program will hang! (e.g. `consumeWhile ((==) 1) (repeat 1)` will loop forever)\r\n\r\n",
+                "type": "(a -> Bool) -> Stream a -> ( List a, Stream a )"
+            },
+            {
+                "name": "cycle",
+                "comment": " Construct a stream by cycling a list endlessly. Returns Nothing if the list is empty.\r\n\r\n    Maybe.map (consumeMany 10) (cycle [ 1, 2, 3 ]) == Just ([ 1, 2, 3, 1, 2, 3, 1, 2, 3, 1 ], restOfStream)\r\n\r\n",
+                "type": "List a -> Maybe (Stream a)"
+            },
+            {
+                "name": "drop",
+                "comment": " Drop some number of elements from the stream.\r\n",
+                "type": "Int -> Stream a -> Stream a"
+            },
+            {
+                "name": "dropWhile",
+                "comment": " Drop elements from the stream while a predicate remains true.\r\n\r\n**Warning:** If your predicate never becomes false, this function will never terminate\r\nand your program will hang! (e.g. `dropWhile ((==) 1) (repeat 1)` will loop forever)\r\n\r\n",
+                "type": "(a -> Bool) -> Stream a -> Stream a"
+            },
+            {
+                "name": "filter",
+                "comment": " Filter an infinite stream based on a predicate.\r\n\r\n**Warning:** If your predicate never becomes true, this function will never terminate\r\nand your program will hang! (e.g. `filter ((==) 1) (repeat 0)` will loop forever)\r\n\r\n",
+                "type": "(a -> Bool) -> Stream a -> Stream a"
+            },
+            {
+                "name": "filterMap",
+                "comment": " Map a function that may or may not succeed over the stream, only keeping successes.\r\n\r\n    take 3 (filterMap List.head (cycle [[ 1, 2 ], [], [ 10, 9 ]])) == [ 1, 10, 1 ]\r\n\r\n**Warning:** If your mapping function never returns a `Just` value, this function will never terminate\r\nand your program will hang! (e.g. `filterMap List.head (repeat [])` will loop forever)\r\n\r\n",
+                "type": "(a -> Maybe b) -> Stream a -> Stream b"
+            },
+            {
+                "name": "head",
+                "comment": " Get the value of the current head of the stream.\r\n",
+                "type": "Stream a -> a"
+            },
+            {
+                "name": "indexedMap",
+                "comment": " Same as `map` but the function takes the index of the element as its first parameter.\r\n\r\n    take 3 (indexedMap (,) (repeat \"index\")) == [ (0, \"index\"), (1, \"index\"), (2, \"index\") ]\r\n\r\n",
+                "type": "(Int -> a -> b) -> Stream a -> Stream b"
+            },
+            {
+                "name": "intersperse",
+                "comment": " Places the given value between all elements of the stream.\r\n\r\n    take 6 (intersperse \"! \" (repeat \"Wow\")) == [\"Wow\", \"! \", \"Wow\", \"! \", \"Wow\", \"! \"]\r\n\r\n",
+                "type": "a -> Stream a -> Stream a"
+            },
+            {
+                "name": "iterate",
+                "comment": " Construct a stream by repeatedly applying a function to an initial value.\r\n\r\n    consumeMany 3 (iterate ((*) 2) 3) == ([ 3, 6, 12 ], restOfStream)\r\n\r\n",
+                "type": "(a -> a) -> a -> Stream a"
+            },
+            {
+                "name": "map",
+                "comment": " Map a function over an infinite stream.\r\n",
+                "type": "(a -> b) -> Stream a -> Stream b"
+            },
+            {
+                "name": "map2",
+                "comment": " Map a function over two infinite streams.\r\n",
+                "type": "(a -> b -> c) -> Stream a -> Stream b -> Stream c"
+            },
+            {
+                "name": "map3",
+                "comment": " ",
+                "type": "(a -> b -> c -> d) -> Stream a -> Stream b -> Stream c -> Stream d"
+            },
+            {
+                "name": "map4",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e) -> Stream a -> Stream b -> Stream c -> Stream d -> Stream e"
+            },
+            {
+                "name": "map5",
+                "comment": " You sure have a lot of streams, huh?\r\n",
+                "type": "(a -> b -> c -> d -> e -> f) -> Stream a -> Stream b -> Stream c -> Stream d -> Stream e -> Stream f"
+            },
+            {
+                "name": "partition",
+                "comment": " Partition a stream based on a predicate. The first stream contains all values that satisfy the predicate,\r\nand the second stream contains all the values that do not.\r\n\r\n    even n = n % 2 == 0\r\n    (evenStream, oddStream) = partition even (iterate ((+) 1) 0)\r\n\r\n    take 5 evenStream == [ 0, 2, 4, 6, 8 ]\r\n    take 5 oddStream == [ 1, 3, 5, 7, 9 ]\r\n\r\n**Warning:** If your predicate does not become both true and false at some point, this function will never terminate\r\nand your program will hang! (e.g. `partition ((==) 1) (repeat 0)` and\r\n`partition ((==) 0) (repeat 0)` will both loop forever)\r\n\r\n",
+                "type": "(a -> Bool) -> Stream a -> ( Stream a, Stream a )"
+            },
+            {
+                "name": "repeat",
+                "comment": " Construct a stream by repeating a value endlessly.\r\n\r\n    consumeMany 5 (repeat \"wow\") == ([ \"wow\", \"wow\", \"wow\", \"wow\", \"wow\" ], restOfStream)\r\n\r\n",
+                "type": "a -> Stream a"
+            },
+            {
+                "name": "scanl",
+                "comment": " Reduce a stream from the left, building up the intermediate results as a new stream.\r\n\r\n    take 5 (scanl (*) 1 (repeat 2)) == [ 1, 2, 4, 8, 16 ]\r\n\r\n",
+                "type": "(a -> b -> b) -> b -> Stream a -> Stream b"
+            },
+            {
+                "name": "stream",
+                "comment": " Construct a stream by providing an initial value and a lazy, recursive function\r\nto produce additional values.\r\n\r\nTo generate an infinite stream of incrementing Ints:\r\n\r\n    intStream : Int -> Stream Int\r\n    intStream n =\r\n        stream n (\\() -> intStream (n+1))\r\n\r\n",
+                "type": "a -> (() -> Stream a) -> Stream a"
+            },
+            {
+                "name": "tail",
+                "comment": " Get the tail of the stream.\r\n",
+                "type": "Stream a -> Stream a"
+            },
+            {
+                "name": "take",
+                "comment": " Take some number of elements from the stream without consuming them.\r\n",
+                "type": "Int -> Stream a -> List a"
+            },
+            {
+                "name": "takeWhile",
+                "comment": " Take elements from the stream without consuming them while a predicate remains true.\r\n\r\n**Warning:** If your predicate never becomes false, this function will never terminate\r\nand your program will hang! (e.g. `takeWhile ((==) 1) (repeat 1)` will loop forever)\r\n\r\n",
+                "type": "(a -> Bool) -> Stream a -> List a"
+            }
+        ],
+        "binops": [
+            {
+                "name": "<:>",
+                "comment": " Add an element to the front of the stream.\r\n\r\n    take 3 (1 <:> repeat 5) == [ 1, 5, 5 ]\r\n\r\n",
+                "type": "a -> Stream a -> Stream a",
+                "associativity": "right",
+                "precedence": 5
+            }
+        ]
+    }
+]

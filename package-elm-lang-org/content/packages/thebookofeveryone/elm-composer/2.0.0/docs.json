@@ -1,0 +1,784 @@
+[
+    {
+        "name": "Composer.Scene",
+        "comment": " A `Scene` is set of graphical entities arranged in a spatial representation.\nEntities are themselves trees, so a Scene only need to keep the root entity in\norder to build complex screens.\n\nA `Scene` also contains the size of the viewport. The viewport is the part\nof the scene that is visible. The position is always set to the origin (0, 0).\nWe can translate the position of the root node to create a camera of a scroll\neffect.\n\nThe `compose` function translate this scene representation into a flatten set\nof primitives that can be consumed by other backend renderers (pdf, svg, canvas,\nwebgl, etc).\n\n@docs Scene, compose\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Scene",
+                "comment": " ",
+                "args": [],
+                "type": "{ root : Entity, size : Size }"
+            }
+        ],
+        "values": [
+            {
+                "name": "compose",
+                "comment": " Reduce a scene to list of primitives.\n",
+                "type": "Scene -> List Primitive"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Scene.Entity",
+        "comment": " A graphical entity. By default an entity is just a named node of a tree.\nWe can create new entities using `empty` with a unique identifier and then, we\ncan add other entities as children using `setChildren` or `addChildren`.\n\nBut as said, entities by themselves do not say anything about their graphical\nrepresentation. Entities can also have a set of components that are responsible\nto provide graphical meaning to an entity. For example, we can set the component\n`texture` to draw an image and then set `transform` component to translate the\nimage to the center of the screen.\n\n\n# Basics\n\n@docs Entity, Id, empty, identifier, children, addChild, setChildren\n\n\n# Components\n\n\n## Transform\n\n@docs transform, setTransform\n\n\n## Color\n\n@docs color, setColor\n\n\n## Opacity\n\n@docs opacity, setOpacity\n\n\n## Shape\n\n@docs shape, setShape\n\n\n## Texture\n\n@docs Uri, texture, setTexture\n\n\n## Texture\n\n@docs Text, text, textLayoutOptions, setText, setTextLayoutOptions\n\n",
+        "unions": [
+            {
+                "name": "Entity",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Id",
+                "comment": " A node identifier.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Text",
+                "comment": " A piece of text with its font and its font size.\n",
+                "args": [],
+                "type": "{ font : Font, fontSize : Float, text : String }"
+            },
+            {
+                "name": "Uri",
+                "comment": " A uniform resource identifier.\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "addChild",
+                "comment": " Add a child to an entity.\n",
+                "type": "Entity -> Entity -> Entity"
+            },
+            {
+                "name": "children",
+                "comment": " Returns the children of an entity.\n",
+                "type": "Entity -> List Entity"
+            },
+            {
+                "name": "color",
+                "comment": " Returns the color of an entity.\n",
+                "type": "Entity -> Color"
+            },
+            {
+                "name": "empty",
+                "comment": " Creates an empty entity, with no components and no children. You must\nguarantee id uniqueness in the whole entity set.\n",
+                "type": "Id -> Entity"
+            },
+            {
+                "name": "identifier",
+                "comment": " Returns the identifier of an entity.\n",
+                "type": "Entity -> Id"
+            },
+            {
+                "name": "opacity",
+                "comment": " Returns the opacity of an entity.\n",
+                "type": "Entity -> Float"
+            },
+            {
+                "name": "setChildren",
+                "comment": " Sets the children of an entity. Previous children are removed.\n",
+                "type": "List Entity -> Entity -> Entity"
+            },
+            {
+                "name": "setColor",
+                "comment": " Sets the color of an entity. By itself this components does nothing, but\nother components require a color.\n",
+                "type": "Color -> Entity -> Entity"
+            },
+            {
+                "name": "setOpacity",
+                "comment": " Sets the opacity of an entity.\n",
+                "type": "Float -> Entity -> Entity"
+            },
+            {
+                "name": "setShape",
+                "comment": " Sets or removes the shape of an entity.\n",
+                "type": "Maybe Shape -> Entity -> Entity"
+            },
+            {
+                "name": "setText",
+                "comment": " Sets or removes the text and the font of an entity.\n",
+                "type": "Maybe Text -> Entity -> Entity"
+            },
+            {
+                "name": "setTextLayoutOptions",
+                "comment": " Sets the text layout options of an entity.\n",
+                "type": "LayoutOptions -> Entity -> Entity"
+            },
+            {
+                "name": "setTexture",
+                "comment": " Sets or removes the shape of an entity.\n",
+                "type": "Maybe ( Size, Uri ) -> Entity -> Entity"
+            },
+            {
+                "name": "setTransform",
+                "comment": " Sets the transform of an entity. You can use functions provided by the\n`Transform` module to translate, scale and rotate the entity.\n",
+                "type": "Transform -> Entity -> Entity"
+            },
+            {
+                "name": "shape",
+                "comment": " Return the shape of an entity, if any.\n",
+                "type": "Entity -> Maybe Shape"
+            },
+            {
+                "name": "text",
+                "comment": " Sets the text of an entity.\n",
+                "type": "Entity -> Maybe Text"
+            },
+            {
+                "name": "textLayoutOptions",
+                "comment": " Returns the text layout options of an entity.\n",
+                "type": "Entity -> LayoutOptions"
+            },
+            {
+                "name": "texture",
+                "comment": " Return the texture of an entity, if any.\n",
+                "type": "Entity -> Maybe ( Size, Uri )"
+            },
+            {
+                "name": "transform",
+                "comment": " Return the transform of an entity.\n",
+                "type": "Entity -> Transform"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text",
+        "comment": " A set of utilities to layout text\n\n\n# Layout Options\n\n@docs LayoutOptions, defaultOptions, LineHeight, LineHeightMode, HorizontalAlign, VerticalAlign\n\n\n# Text Layout\n\n@docs layout, shrink, trim, wrap\n\n",
+        "unions": [
+            {
+                "name": "HorizontalAlign",
+                "comment": " Specifies the horizontal alignment of a paragraph.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Center",
+                        []
+                    ],
+                    [
+                        "Justify",
+                        []
+                    ],
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "LineHeight",
+                "comment": " The value used to set the line height of a text. It can be relative to the\ndefault font line height or an absolute value.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Absolute",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Relative",
+                        [
+                            "Float"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "LineHeightMode",
+                "comment": " The line height mode is used when computing the line height of a paragraph.\nWhen odd, each line can have different line height from the other lines. When\neven, all lines of a paragraph share the same line height.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Even",
+                        []
+                    ],
+                    [
+                        "Odd",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "VerticalAlign",
+                "comment": " Specifies the vertical alignment of a paragraph or the vertical alignment of\na line. Note that when used to align the whole paragraph, Baseline is ignored.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Baseline",
+                        []
+                    ],
+                    [
+                        "Bottom",
+                        []
+                    ],
+                    [
+                        "Middle",
+                        []
+                    ],
+                    [
+                        "Top",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "LayoutOptions",
+                "comment": " Options used by text layout algorithm:\n\n  - `horizontalAlign` the horizontal alignment of all paragraphs inside the\n    bounding box made by the origin and the size.\n  - `lineAlign` the vertical alignment of each line.\n  - `lineHeight` the height used by each line.\n  - `lineHeightMode` the behaviour to follow when choosing a line height for a\n    paragraph.\n  - `maxSteps` the number of steps that the shrink algorithm can do at most. See\n    shrink function for more info.\n  - `scaleFactor` the scale applied on each step when shrinking text. See shrink\n    function for more info.\n  - `size` the size of the bounding box where the text is layout.\n  - `verticalAlign` the vertical alignment of all paragraphs inside the\n    bounding box made by the origin and the size.\n\n",
+                "args": [],
+                "type": "{ horizontalAlign : HorizontalAlign, lineAlign : VerticalAlign, lineHeight : LineHeight, lineHeightMode : LineHeightMode, maxSteps : Int, scaleFactor : Float, size : Size, verticalAlign : VerticalAlign }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Creates a layout options set given a bounding size with sensible defaults.\n",
+                "type": "Size -> LayoutOptions"
+            },
+            {
+                "name": "layout",
+                "comment": " Layout a paragraph (a list of units) filling the available space and\nfollowing the provided layout options. Usually this involves wrapping the text\ninto the available width and shrink the units scale until it fits the available\nheight.\n",
+                "type": "LayoutOptions -> List (Unit inline) -> List ( Point, Unit inline )"
+            },
+            {
+                "name": "shrink",
+                "comment": " Wrap text withing a given width and reduce the scale until it fits in the\nprovided height. Uses the provided scale factor to reduce unit sizes between\nsteps, for example a 0.05 value means that the content will be reduce by steps\nof 5% until the content fits the required size.\n\nIn order to guarantee completeness a maxSteps value is required. Higher values\nincrease the accuracy of the shrinking. For a 0.05 scaleFactor, 16-32 steps are\nenough to layout text with common sizes (from 8 to 120 points).\n\n",
+                "type": "LayoutOptions -> List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "trim",
+                "comment": " Removes spaces at the beginning and the end of each line.\n",
+                "type": "List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "wrap",
+                "comment": " Wrap text withing a given width.\n",
+                "type": "Float -> List (Unit inline) -> List (Unit inline)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Backend.Svg",
+        "comment": " Converts a list of primitive in a svg node ready to use as part of an HTML\ndocument.\n\n@docs render\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "render",
+                "comment": " ",
+                "type": "Size -> List Primitive -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Unit",
+        "comment": " A text unit, the basic element for the layout algorithm.\n\n@docs Unit\n\n\n# Creating Units\n\n@docs fromString, embed\n\n\n# Transforming Units\n\n@docs join, joinWords, lines, scale\n\n\n# Querying Units\n\n@docs Metrics\n@docs isSingleSpace, isWhitespace, metrics, offset, font, fontSize, size, text\n@docs toParagraph, toString\n\n",
+        "unions": [
+            {
+                "name": "Unit",
+                "comment": " A basic unit for the text layout algorithm. Usually this a non divisible\nword, but it can also be in-line objects like, for example, images or a line\nbreak.\n",
+                "args": [
+                    "inline"
+                ],
+                "cases": [
+                    [
+                        "Inline",
+                        [
+                            "{ content : inline, scale : Float, size : Size, offset : Offset }"
+                        ]
+                    ],
+                    [
+                        "LineBreak",
+                        []
+                    ],
+                    [
+                        "Word",
+                        [
+                            "{ font : Font, fontSize : Float, text : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Metrics",
+                "comment": " Layout information of a unit or a bunch of units. See metrics function for\nmore information.\n",
+                "args": [],
+                "type": "{ size : Size, offset : Offset }"
+            }
+        ],
+        "values": [
+            {
+                "name": "embed",
+                "comment": " Embed any content into a unit, creating an Inline unit. The size, scale and\nan offset is also needed.\n",
+                "type": "Float -> Size -> Offset -> content -> Unit content"
+            },
+            {
+                "name": "font",
+                "comment": " Returns the font of an Unit, if any.\n",
+                "type": "Unit inline -> Maybe Font"
+            },
+            {
+                "name": "fontSize",
+                "comment": " Returns the font size of an Unit, if any.\n",
+                "type": "Unit inline -> Maybe Float"
+            },
+            {
+                "name": "fromString",
+                "comment": " Converts a string into a bunch of units. A Font, CodePage and FontSize are\nalso needed.\n",
+                "type": "Font -> Float -> String -> List (Unit any)"
+            },
+            {
+                "name": "isSingleSpace",
+                "comment": " Returns True if and only if an unit is a Word Unit which text is a single\nspace character. See `isWhitespace` for a more useful function.\n",
+                "type": "Unit inline -> Bool"
+            },
+            {
+                "name": "isWhitespace",
+                "comment": " Returns true if the unit is a whitespace. One of the following conditions\nmust be true if a Unit is a whitespace:\n\n  - A word unit with no characters (There is no way to create these kind of\n    units).\n  - All characters the text of a Word Unit are white spaces.\n  - The fontSize of a Word Unit is less than zero.\n  - A Inline Unit with scale equal to zero.\n  - A Inline Unit with height or width equal to zero.\n  - Is a line break.\n\n",
+                "type": "Unit inline -> Bool"
+            },
+            {
+                "name": "join",
+                "comment": " Join a list of unit list into a single unit list, interspersing line breaks\nbetween lists.\n",
+                "type": "List (List (Unit inline)) -> List (Unit inline)"
+            },
+            {
+                "name": "joinWords",
+                "comment": " Given a list of units, join all compatible adjacent words together. By\ncompatible words we mean word units that have the same properties (codePage,\nfont and fontSize).\n\nFor example, given the following pseudo code,\n`[ Word \"The\", Word \" \", Word \"Moon\", LineBreak, Word \"Wow\" ]` this function\nreturns `[ Word \"The Moon\", LineBreak, Word \"Wow\" ]`.\n\nWhitespace units that are not single spaces are never joined with other words.\nFor example, `[Word \"The\", Word \"  \", Word \"Moon\"]` is not joined as\n`[Word \"The  Moon\"]`.\n\n",
+                "type": "List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "lines",
+                "comment": " Remove LineBreak units and return a list unit lines.\n",
+                "type": "List (Unit inline) -> List (List (Unit inline))"
+            },
+            {
+                "name": "metrics",
+                "comment": " Returns the metrics of list of units. Metrics are composed by the size of\nthe bounding box that contains all units, and the offset of the dominant unit.\n\nThe dominant unit is the most highest and its offset are useful for aligning\nunits around the baseline.\n\n",
+                "type": "List (Unit inline) -> Metrics"
+            },
+            {
+                "name": "offset",
+                "comment": " Returns the unit spacing offsets. For word units, all dimensions of the\noffset are set to zero but the top, which is equal to the font descent. For\ninline units, offset is the same that the unit provides.\n",
+                "type": "Unit inline -> Offset"
+            },
+            {
+                "name": "scale",
+                "comment": " Applies a factor to its size.\n",
+                "type": "Float -> Unit inline -> Unit inline"
+            },
+            {
+                "name": "size",
+                "comment": " Returns the size of a unit.\n",
+                "type": "Unit inline -> Size"
+            },
+            {
+                "name": "text",
+                "comment": " Returns the text of an Unit, if any.\n",
+                "type": "Unit inline -> Maybe String"
+            },
+            {
+                "name": "toParagraph",
+                "comment": " Returns a textual representation of a list of units. Useful for testing.\n",
+                "type": "List (Unit any) -> List (List String)"
+            },
+            {
+                "name": "toString",
+                "comment": " Returns a textual representation of a unit. Useful for testing.\n",
+                "type": "Unit any -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Primitive",
+        "comment": " A primitive set of geometry atoms. Scenes are reduce to a flat list of\nprimitives by composer. Then, some backends are feed with these primitives to\ncreate pdf, svg, webgl scenes, etc.\n\n@docs Primitive\n\n\n## Type Aliases\n\n@docs Opacity, Id, ImageUri, FontName, FontSize\n\n",
+        "unions": [
+            {
+                "name": "Primitive",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Rectangle",
+                        [
+                            "Id",
+                            "Transform",
+                            "Size",
+                            "Color"
+                        ]
+                    ],
+                    [
+                        "Text",
+                        [
+                            "Id",
+                            "Transform",
+                            "FontSize",
+                            "Color",
+                            "FontName",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Texture",
+                        [
+                            "Id",
+                            "Transform",
+                            "Opacity",
+                            "Size",
+                            "ImageUri"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "FontName",
+                "comment": " The font name of a text.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "FontSize",
+                "comment": " The font size of a text.\n",
+                "args": [],
+                "type": "Float"
+            },
+            {
+                "name": "Id",
+                "comment": " A string identifier.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "ImageUri",
+                "comment": " A URI pointing to an image.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Opacity",
+                "comment": " A float value, 0 means transparent, 1 opaque.\n",
+                "args": [],
+                "type": "Float"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Font",
+        "comment": " A module for reading [font](https://en.wikipedia.org/wiki/Computer_font)\ndescriptions.\n\nComposer only need to known about some font properties in order to layout text.\n\nThis module cannot open standard font files, like TrueType (ttf), OpenType\n(otf), etc. Instead a JSON definition should be provided. The format of this\ndefinition is the same used by the\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nproject. Use the `makefont` utility provided by *gofpdf* to create this\ndefinitions.\n\n@docs Description, Font, Type\n\n\n# Loading Fonts\n\n@docs decoder, empty\n\n\n# Querying Fonts\n\n@docs glyphWidth, kerning, stringWidth\n\n",
+        "unions": [
+            {
+                "name": "Type",
+                "comment": " The format type of type.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TrueType",
+                        []
+                    ],
+                    [
+                        "OpenType",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Description",
+                "comment": " A description containing information common to all font glyphs.\n\n  - `ascent`: the distance above the baseline for singled spaced text.\n  - `boundingBox`: a bounding box that can contains any glyph.\n  - `capHeight`: the height of a capital letter above the baseline\n  - `descent`: the distance below the baseline for singled spaced text.\n  - `italicAngle`: the angle of the italic version of the font.\n  - `missingWidth`: the width we should assume for a glyph not found in the\n    font.\n\n",
+                "args": [],
+                "type": "{ ascent : Float, boundingBox : BoundingBox, capHeight : Float, descent : Float, italicAngle : Float, missingWidth : Float }"
+            },
+            {
+                "name": "Font",
+                "comment": " A font record.\n\n  - `codePage`: the codePage of this font.\n  - `description`: common information for all glyphs.\n  - `kernings`: distance between character pairs.\n  - `name`: the font name, in English.\n  - `type_`: the underlying font type.\n  - `widths`: the width of each glyph, use a [CodePage] to resolve a character\n    index.\n\n",
+                "args": [],
+                "type": "{ codePage : CodePage, description : Description, kernings : Dict ( Int, Int ) Float, name : String, type_ : Type, widths : Array Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " The JSON decoder for a Font. The\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nformat is used.\n",
+                "type": "CodePage -> Decoder Font"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty Font. Useful for testing.\n",
+                "type": "Font"
+            },
+            {
+                "name": "glyphWidth",
+                "comment": " Returns the glyph with give an character.\n",
+                "type": "Font -> Char -> Float"
+            },
+            {
+                "name": "kerning",
+                "comment": " Returns the [kerning](https://en.wikipedia.org/wiki/Kerning) given a pair of\nchars.\n",
+                "type": "Font -> Char -> Char -> Float"
+            },
+            {
+                "name": "stringWidth",
+                "comment": " Returns the with of a given string. This function is similar to glyphWidth\nbut also takes into account the glyphs kerning.\n",
+                "type": "Font -> String -> Float"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Scene.Shape",
+        "comment": " A set a geometrical shapes that entities can draw.\n\n@docs Shape\n\n",
+        "unions": [
+            {
+                "name": "Shape",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Rectangle",
+                        [
+                            "Size"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Rect",
+        "comment": " A 2D rectangle defined by a point and a size.\n\n@docs Rect , atOrigin\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Rect",
+                "comment": " ",
+                "args": [],
+                "type": "{ origin : Point, size : Size }"
+            }
+        ],
+        "values": [
+            {
+                "name": "atOrigin",
+                "comment": " A rectangle laying on the origin of coordinates (0, 0).\n",
+                "type": "Size -> Rect"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Transform",
+        "comment": " A 2D linear transform represented by 3x2 matix.\n\n@docs Transform, identity, multiply, combine, apply\n\n\n# Planar Transformations\n\n@docs translate, scale, rotation\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Transform",
+                "comment": " A 2D transform, only meaningfully cells are kept:\n\n    | m11 m21 m31 |\n    | m12 m22 m32 | -> (m11, m12, m21, m22, m31, m32) = Transform\n    |  0   0   1  |\n\n",
+                "args": [],
+                "type": "( Float, Float, Float, Float, Float, Float )"
+            }
+        ],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " Apply a transform to a point.\n",
+                "type": "Transform -> Point -> Point"
+            },
+            {
+                "name": "combine",
+                "comment": " Combine multiple transform by multiplying them.\n",
+                "type": "List Transform -> Transform"
+            },
+            {
+                "name": "identity",
+                "comment": " The identity transform over the ring of transform matrices.\n",
+                "type": "Transform"
+            },
+            {
+                "name": "multiply",
+                "comment": " Computes the matrix product give two transforms.\n",
+                "type": "Transform -> Transform -> Transform"
+            },
+            {
+                "name": "rotation",
+                "comment": " A Transform that represents a ration of the given radians.\n",
+                "type": "Radian -> Transform"
+            },
+            {
+                "name": "scale",
+                "comment": " A Transform that represents a scaling operation.\n",
+                "type": "Point -> Transform"
+            },
+            {
+                "name": "translate",
+                "comment": " A Transform that represents a translation to a point.\n",
+                "type": "Point -> Transform"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Font.CodePage",
+        "comment": " A [CodePage](https://en.wikipedia.org/wiki/Character_encoding) is an\nassociation between a set of characters to encoding system.\n\nUsually Fonts have glyph information in tables, for example, the table of\nglyph widths. To obtain to the width of a glyph we have to use a CodePage to\nget the index that contains the width in a font table.\n\n@docs CodePage\n\n\n# Quering\n\n@docs char, index\n\n\n# Creating encodings\n\n@docs empty, fromString\n\n",
+        "unions": [
+            {
+                "name": "CodePage",
+                "comment": " An opaque type (or a private type) that contains the mapping between a\ncharacter set and code points (values of an encoding).\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "char",
+                "comment": " Given an index value returns the character associated to that value, if\nexists.\n",
+                "type": "Int -> CodePage -> Maybe Char"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty CodePage. Useful for testing.\n",
+                "type": "CodePage"
+            },
+            {
+                "name": "fromString",
+                "comment": " Parses a string containing a code page. The format used to represent\nCodePages is a textual representation used by\n[gofpdf](https://github.com/jung-kurt/gofpdf). Here is a\n[CodePage Example](https://github.com/jung-kurt/gofpdf/blob/master/font/cp1250.map)\nfile.\n",
+                "type": "String -> Result String CodePage"
+            },
+            {
+                "name": "index",
+                "comment": " Given a character, return the encoding value of that character, if exists.\n",
+                "type": "Char -> CodePage -> Maybe Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Size",
+        "comment": " A type to describe 2d sizes, containing width and height.\n\n@docs Size, zero\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Size",
+                "comment": " ",
+                "args": [],
+                "type": "{ width : Float, height : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "zero",
+                "comment": " A size with all the dimensions set to zero.\n",
+                "type": "Size"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Radian",
+        "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Radian",
+                "comment": " ",
+                "args": [],
+                "type": "Float"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Point",
+        "comment": " A type to describe positions in the Cartesian coordinate system.\n\n@docs Point, origin\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Point",
+                "comment": " ",
+                "args": [],
+                "type": "{ x : Float, y : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "origin",
+                "comment": " The origin (0, 0).\n",
+                "type": "Point"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.BoundingBox",
+        "comment": " A BoundingBox is a rectangular box in 2D defined by a minimum and maximum X\nand Y values.\n\n@docs BoundingBox, zero\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BoundingBox",
+                "comment": " ",
+                "args": [],
+                "type": "{ xMax : Float, xMin : Float, yMax : Float, yMin : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "zero",
+                "comment": " An BoundingBox with all the dimensions set to zero.\n",
+                "type": "BoundingBox"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry.Offset",
+        "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Offset",
+                "comment": " ",
+                "args": [],
+                "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "zero",
+                "comment": " An offset with all the dimensions set to zero.\n",
+                "type": "Offset"
+            }
+        ],
+        "binops": []
+    }
+]

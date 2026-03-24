@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Evil.SendMsg",
+        "comment": " An evil library for Elm using bad hack to issue Msg on rendering a DOM.\n\n⚠⚠⚠⚠⚠⚠⚠⚠🐐WARNING🐐⚠⚠⚠⚠⚠⚠⚠⚠\n\nMake sure this library uses evil bad hack that could break TEA.\n\n⚠⚠⚠⚠⚠⚠⚠⚠🐐WARNING🐐⚠⚠⚠⚠⚠⚠⚠⚠\n\n@docs onRenderThis\n@docs onChange\n@docs when\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "onChange",
+                "comment": " An evil view that sends `Msg` on changing first argument.\n",
+                "type": "String -> msg -> Html msg"
+            },
+            {
+                "name": "onRenderThis",
+                "comment": " An evil view that sends `Msg` on rendering.\n",
+                "type": "msg -> Html msg"
+            },
+            {
+                "name": "when",
+                "comment": " An evil view that sends `Msg` only when provided condition is `True`.\n",
+                "type": "Bool -> msg -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

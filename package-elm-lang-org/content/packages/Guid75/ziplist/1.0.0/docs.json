@@ -1,0 +1,55 @@
+[
+    {
+        "name": "ZipList",
+        "comment": " A ZipList is a collection which can be moved forward/backward and that exposes a single current element\n\n@docs ZipList, fromList, singleton, current, forward, backward, toList, length\n\n",
+        "unions": [
+            {
+                "name": "ZipList",
+                "comment": " A collection data type that can be moved forward/backward and that exposes a current element\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "backward",
+                "comment": " Move backward a ZipList\n",
+                "type": "ZipList a -> ZipList a"
+            },
+            {
+                "name": "current",
+                "comment": " Return the current element of a ZipList\n",
+                "type": "ZipList a -> Maybe a"
+            },
+            {
+                "name": "forward",
+                "comment": " Move forward a ZipList\n",
+                "type": "ZipList a -> ZipList a"
+            },
+            {
+                "name": "fromList",
+                "comment": " Craft a new ZipList out of a List\n",
+                "type": "List a -> ZipList a"
+            },
+            {
+                "name": "length",
+                "comment": " Return a ziplist length\n",
+                "type": "ZipList a -> Int"
+            },
+            {
+                "name": "singleton",
+                "comment": " Create a new ZipList with a single element in it\n",
+                "type": "a -> ZipList a"
+            },
+            {
+                "name": "toList",
+                "comment": " Convert a ZipList into a List\n",
+                "type": "ZipList a -> List a"
+            }
+        ],
+        "binops": []
+    }
+]

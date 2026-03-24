@@ -1,0 +1,63 @@
+[
+    {
+        "name": "ComponentHelper",
+        "comment": " The ComponentHelper module is the Elm code that backs the component-side JS helper\nlibrary in the iframe-coordinator toolkit. It message validation and routing within an\nembedded iframe component.\n\nThis module is not currently designed for stand-alone use. You should instead use the\ncomponent library defined in LINK_TO_JS_LIB to create seamless iframe applications\n\n@docs create\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Create a program to handle component messages. Takes an record of ports to send and\nreceive messages on. Communication with the parent application and the local component\ncode are handled through four ports, an input and output pair for each of the component\napplication and the parent coordinator. Port bindings are handled and exposed via the\njs library in LINK_TO_JS_LIB_HERE.\n",
+                "type": "{ coordinatorIn : (Value -> Msg) -> Sub Msg, coordinatorOut : Value -> Cmd Msg, componentIn : (Value -> Msg) -> Sub Msg } -> Program Never Model Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FrameRouter",
+        "comment": " The FrameRouter module is the Elm code that backs the frame-router custom element\nin the iframe-coordinator toolkit. It handles mapping URL routes to components displayed\nin a child frame as well as message validation and routing within the parent application.\n\nThis module is not currently designed for stand-alone use. You should instead use the\ncustom elements defined in LINK_TO_JS_LIB to create seamless iframe applications\n\n@docs createRouter\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "createRouter",
+                "comment": " Create a program to handle routing. Takes an input port to listen to messages on.\nport binding is handled in the custom frame-router element in LINK_TO_JS_LIB_HERE\n",
+                "type": "((Value -> Msg) -> Sub Msg) -> Program Value Model Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Message.ComponentMsg",
+        "comment": " The ComponentMsg module describes message formats used by components to communicate with the parent application.\n\n@docs ComponentMsg, decoder, encode\n\n",
+        "unions": [
+            {
+                "name": "ComponentMsg",
+                "comment": " Message types that can be sent to the parent app\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NavRequest",
+                        [
+                            "Location"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder for component messages. Messages are expected to be part of a labeled structure as defined in the LabeledMsg module.\n",
+                "type": "Decoder ComponentMsg"
+            },
+            {
+                "name": "encode",
+                "comment": " Encodes a ComponentMsg into a LabeledMsg format suitable for sending to a parent app.\n",
+                "type": "ComponentMsg -> Value"
+            }
+        ],
+        "binops": []
+    }
+]

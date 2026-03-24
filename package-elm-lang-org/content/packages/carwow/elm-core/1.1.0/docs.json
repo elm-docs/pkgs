@@ -1,0 +1,103 @@
+[
+    {
+        "name": "Core.NotificationMenu",
+        "comment": " Displays notification alerts\n\n\n# Exported\n\n@docs view, Model, update, Msg, init\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UpdateBadge",
+                        [
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ unseenCount : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.Notifier",
+        "comment": " Displays latest notifications\n\n\n# Exported\n\n@docs subscriptions, view, Model, update, Msg, init, Flags\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NewNotification",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ notifierApiEndpoint : String }"
+            },
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ flags : Flags, notifications : WebData String, drawer : Model }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "Flags -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Placeholder\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

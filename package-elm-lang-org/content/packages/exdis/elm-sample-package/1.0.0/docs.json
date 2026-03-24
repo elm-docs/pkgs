@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Sample",
+        "comment": " This is dumb module, playground for elm-package\n\n@docs foo\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "foo",
+                "comment": " Sample function. Adds two numbers.\n\n    foo 1 2 == 3\n\n",
+                "type": "Int -> Int -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

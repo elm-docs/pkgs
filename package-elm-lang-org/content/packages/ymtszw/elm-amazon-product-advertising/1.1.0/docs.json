@@ -1,0 +1,122 @@
+[
+    {
+        "name": "PAAPI",
+        "comment": " Amazon Product Advertising API (PAAPI) Client module.\n\nPerforms AWS V2 signing for request authentication.\n\n<http://docs.aws.amazon.com/AWSECommerceService/latest/DG/Query_QueryAuth.html>\n\n\n## Types\n\n@docs Locale, Credentials, AssociateTag, Error\n\n\n## APIs\n\n@docs get, post, doGet, doPost\n\n\n## Helpers\n\n@docs endpoint\n\n",
+        "unions": [
+            {
+                "name": "Error",
+                "comment": " Error representation of PAAPI.\n\nIn case of rate-limit, PAAPI returns HTTP 503,\nthat will be translated to `RateLimit`.\nOther `Http.Error` will be wrapped in `HttpError`.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "RateLimit",
+                        []
+                    ],
+                    [
+                        "HttpError",
+                        [
+                            "Error"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Locale",
+                "comment": " Locales available in PAAPI.\n\n<https://docs.aws.amazon.com/AWSECommerceService/latest/DG/Locales.html>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "BR",
+                        []
+                    ],
+                    [
+                        "CA",
+                        []
+                    ],
+                    [
+                        "CN",
+                        []
+                    ],
+                    [
+                        "FR",
+                        []
+                    ],
+                    [
+                        "DE",
+                        []
+                    ],
+                    [
+                        "IN",
+                        []
+                    ],
+                    [
+                        "IT",
+                        []
+                    ],
+                    [
+                        "JP",
+                        []
+                    ],
+                    [
+                        "MX",
+                        []
+                    ],
+                    [
+                        "ES",
+                        []
+                    ],
+                    [
+                        "UK",
+                        []
+                    ],
+                    [
+                        "US",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "AssociateTag",
+                "comment": " Associate tag required for PAAPI.\n\n<https://docs.aws.amazon.com/AWSECommerceService/latest/DG/AssociateTag.html>\n\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Credentials",
+                "comment": " Credentials required for PAAPI.\n",
+                "args": [],
+                "type": "{ accessKeyId : String, secretAccessKey : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "doGet",
+                "comment": " Task to attempt GET request to PAAPI.\n",
+                "type": "Locale -> Credentials -> AssociateTag -> Decoder a -> List ( String, String ) -> Task Error a"
+            },
+            {
+                "name": "doPost",
+                "comment": " Task to attempt POST request to PAAPI.\n",
+                "type": "Locale -> Credentials -> AssociateTag -> Decoder a -> List ( String, String ) -> Task Error a"
+            },
+            {
+                "name": "endpoint",
+                "comment": " Dict of `Locale` to endpoint domain.\n",
+                "type": "Locale -> String"
+            },
+            {
+                "name": "get",
+                "comment": " Generates `Http.Request` to PAAPI with GET.\n\nAll parameters appear in query parameters of request URL.\nFor that it will fail with Bad Request when requests got longer.\n\n",
+                "type": "Time -> Locale -> Credentials -> AssociateTag -> Decoder a -> List ( String, String ) -> Request a"
+            },
+            {
+                "name": "post",
+                "comment": " Generates `Http.Request` to PAAPI with POST.\n\nAll parameters appear in request body.\n\n",
+                "type": "Time -> Locale -> Credentials -> AssociateTag -> Decoder a -> List ( String, String ) -> Request a"
+            }
+        ],
+        "binops": []
+    }
+]

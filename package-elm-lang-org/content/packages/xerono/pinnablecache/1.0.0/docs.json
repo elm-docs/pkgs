@@ -1,0 +1,67 @@
+[
+    {
+        "name": "PinnableCache",
+        "comment": " A cache that supports pinning of data, so that it'll stay in the cache until the user decides they don't need it anymore\nIt's created to be used with HTTP-Requests\n\n@docs Pcache, ReturnData, empty, pin, save, unpin, get\n\n",
+        "unions": [
+            {
+                "name": "ReturnData",
+                "comment": " Shows if the data was found in the cache (which returns the cache itself and the requested data), or, if it wasn't found, the HTTP-Request to get the data\n\n        GetDataDBElement target ->\n            case Pcache.get target model.dbelementcache of\n                Pcache.InCache ( cache, data ) ->\n                    ( { model | dbelementcache = cache }, Cmd.none )\n\n                Pcache.CacheMiss request ->\n                    ( model, Http.send (LoadData target) request )\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "InCache",
+                        [
+                            "( Pcache a, a )"
+                        ]
+                    ],
+                    [
+                        "CacheMiss",
+                        [
+                            "Request a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Pcache",
+                "comment": " The cache itself. The decoder is a decoder for the data type that will be saved in the cache\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ cache : Dict String a, lrucache : LruCache String a, decoder : Decoder a, log : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " Create an empty cache with a variable least recently used-cache size\nNeeds a decoder for the data type that's to be saved in the cachesize\n\n          dbelementcache = Pcache.empty 3 decodeDB\n\n",
+                "type": "Int -> Decoder a -> Pcache a"
+            },
+            {
+                "name": "get",
+                "comment": " Search for data in cache, returns a pair of (Cache, data) if found, the HTTP-Request to find the data if not found.\n\"target\" is supposed to be the path to the requested data\n\n        Pcache.get target model.dbelementcache\n\n",
+                "type": "String -> Pcache a -> ReturnData a"
+            },
+            {
+                "name": "pin",
+                "comment": " Pin data to keep it in cache permanently\n\"target\" is supposed to be the path to the requested data\n\n        Pcache.pin target data model.dbelementcache\n\n",
+                "type": "String -> a -> Pcache a -> Pcache a"
+            },
+            {
+                "name": "save",
+                "comment": " Save data to store it directly in the least recently used-cache\n\"target\" is supposed to be the path to the requested data\n\n        Pcache.save target data model.dbelementcache\n\n",
+                "type": "String -> a -> Pcache a -> Pcache a"
+            },
+            {
+                "name": "unpin",
+                "comment": " Unpin data to store it in least recently used-cache\n\"target\" is supposed to be the path to the requested data\n\n    Pcache.unpin target model.dbelementcache\n\n",
+                "type": "String -> Pcache a -> Pcache a"
+            }
+        ],
+        "binops": []
+    }
+]

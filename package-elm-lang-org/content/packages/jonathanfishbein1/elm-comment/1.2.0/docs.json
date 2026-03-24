@@ -1,0 +1,193 @@
+[
+    {
+        "name": "CommentView",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs commentMainView\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "commentMainView",
+                "comment": " Main comment view function\n",
+                "type": "Bool -> UserCommentModel -> Maybe (Zipper CommentModel) -> Element Class variation CommentMsg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentUpdate",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs commentUpdate, getParentComment\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "commentUpdate",
+                "comment": " Update function\n",
+                "type": "Bool -> Seed -> CommentMsg -> Maybe (Zipper CommentModel) -> ( ( Maybe (Zipper CommentModel), Seed ), Cmd CommentMsg )"
+            },
+            {
+                "name": "getParentComment",
+                "comment": " Function to get the parent comment\n",
+                "type": "Maybe (Zipper CommentModel) -> CommentId -> Maybe CommentModel"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentStyles",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs Class, stylesheet\n\n",
+        "unions": [
+            {
+                "name": "Class",
+                "comment": " Comments style classes\n",
+                "args": [],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Paragraph",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "stylesheet",
+                "comment": " Comments stylesheet\n",
+                "type": "String -> StyleSheet Class variation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentModel",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n\n# Types\n\n@docs CommentId, CommentIdModel, CommentModel, CommentMsg, UserCommentModel, UserIdModel, config\n\n\n# Inital values\n\n@docs commentInitState, commentModelInit, commentTreeInit, commentZipperInit\n\n\n# Helper functions\n\n@docs destructureCommentIdModel\n\n",
+        "unions": [
+            {
+                "name": "CommentIdModel",
+                "comment": " Union Wrapped CommentId\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CommentIdModel",
+                        [
+                            "CommentId"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "CommentMsg",
+                "comment": " Comment Messages\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ClickReplyButton",
+                        [
+                            "CommentId"
+                        ]
+                    ],
+                    [
+                        "TextInput",
+                        [
+                            "CommentId",
+                            "{ textValue : String, state : State }"
+                        ]
+                    ],
+                    [
+                        "GenerateCommentId",
+                        [
+                            "UserCommentModel",
+                            "CommentId"
+                        ]
+                    ],
+                    [
+                        "ClearValue",
+                        [
+                            "CommentId"
+                        ]
+                    ],
+                    [
+                        "CommentRouting",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "CommentLogin",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "UserIdModel",
+                "comment": " Union Wrapped UserId\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UserIdModel",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CommentId",
+                "comment": " CommentId\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "CommentModel",
+                "comment": " CommentModel\n",
+                "args": [],
+                "type": "{ commentId : CommentIdModel, user : UserCommentModel, message : String, showReplyInput : Bool, protoMessage : String, autoexpand : State }"
+            },
+            {
+                "name": "UserCommentModel",
+                "comment": " UserModel for comments\n",
+                "args": [],
+                "type": "{ userId : UserIdModel, userFullName : String, picture : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "commentInitState",
+                "comment": " Initial comment state\n",
+                "type": "State"
+            },
+            {
+                "name": "commentModelInit",
+                "comment": " CommentModel initial value\n",
+                "type": "CommentModel"
+            },
+            {
+                "name": "commentTreeInit",
+                "comment": " CommentTree initial value\n",
+                "type": "Tree CommentModel"
+            },
+            {
+                "name": "commentZipperInit",
+                "comment": " Zipper initial value\n",
+                "type": "Maybe (Zipper CommentModel)"
+            },
+            {
+                "name": "config",
+                "comment": " Comment config: accepts a isSignedIn boolean flag and a parentCommentId\n",
+                "type": "Bool -> CommentId -> Config CommentMsg"
+            },
+            {
+                "name": "destructureCommentIdModel",
+                "comment": " destructure a CommentIdModel to CommentId\n",
+                "type": "CommentIdModel -> CommentId"
+            }
+        ],
+        "binops": []
+    }
+]

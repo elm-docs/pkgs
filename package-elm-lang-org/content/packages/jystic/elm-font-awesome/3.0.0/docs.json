@@ -1,0 +1,4549 @@
+[
+    {
+        "name": "FontAwesome.Brands",
+        "comment": "\nThis module exposes 324 scalable vector of category 'brands' as Elm HTML\ncomponents.\n\n#Icons\n@docs fa_500px\n@docs accessible_icon\n@docs accusoft\n@docs adn\n@docs adversal\n@docs affiliatetheme\n@docs algolia\n@docs amazon_pay\n@docs amazon\n@docs amilia\n@docs android\n@docs angellist\n@docs angrycreative\n@docs angular\n@docs apper\n@docs apple_pay\n@docs apple\n@docs app_store_ios\n@docs app_store\n@docs asymmetrik\n@docs audible\n@docs autoprefixer\n@docs avianex\n@docs aviato\n@docs aws\n@docs bandcamp\n@docs behance_square\n@docs behance\n@docs bimobject\n@docs bitbucket\n@docs bitcoin\n@docs bity\n@docs blackberry\n@docs black_tie\n@docs blogger_b\n@docs blogger\n@docs bluetooth_b\n@docs bluetooth\n@docs btc\n@docs buromobelexperte\n@docs buysellads\n@docs cc_amazon_pay\n@docs cc_amex\n@docs cc_apple_pay\n@docs cc_diners_club\n@docs cc_discover\n@docs cc_jcb\n@docs cc_mastercard\n@docs cc_paypal\n@docs cc_stripe\n@docs cc_visa\n@docs centercode\n@docs chrome\n@docs cloudscale\n@docs cloudsmith\n@docs cloudversify\n@docs codepen\n@docs codiepie\n@docs connectdevelop\n@docs contao\n@docs cpanel\n@docs creative_commons\n@docs css3_alt\n@docs css3\n@docs cuttlefish\n@docs d_and_d\n@docs dashcube\n@docs delicious\n@docs deploydog\n@docs deskpro\n@docs deviantart\n@docs digg\n@docs digital_ocean\n@docs discord\n@docs discourse\n@docs dochub\n@docs docker\n@docs draft2digital\n@docs dribbble_square\n@docs dribbble\n@docs dropbox\n@docs drupal\n@docs dyalog\n@docs earlybirds\n@docs edge\n@docs ember\n@docs empire\n@docs envira\n@docs erlang\n@docs ethereum\n@docs etsy\n@docs expeditedssl\n@docs facebook_f\n@docs facebook_messenger\n@docs facebook_square\n@docs facebook\n@docs firefox\n@docs firstdraft\n@docs first_order\n@docs flickr\n@docs fly\n@docs font_awesome_alt\n@docs font_awesome_flag\n@docs font_awesome\n@docs fonticons_fi\n@docs fonticons\n@docs fort_awesome_alt\n@docs fort_awesome\n@docs forumbee\n@docs foursquare\n@docs freebsd\n@docs free_code_camp\n@docs get_pocket\n@docs gg_circle\n@docs gg\n@docs github_alt\n@docs github_square\n@docs github\n@docs gitkraken\n@docs gitlab\n@docs git_square\n@docs git\n@docs gitter\n@docs glide_g\n@docs glide\n@docs gofore\n@docs goodreads_g\n@docs goodreads\n@docs google_drive\n@docs google_play\n@docs google_plus_g\n@docs google_plus_square\n@docs google_plus\n@docs google\n@docs google_wallet\n@docs gratipay\n@docs grav\n@docs gripfire\n@docs grunt\n@docs gulp\n@docs hacker_news_square\n@docs hacker_news\n@docs hire_a_helper\n@docs hooli\n@docs hotjar\n@docs houzz\n@docs html5\n@docs hubspot\n@docs imdb\n@docs instagram\n@docs internet_explorer\n@docs ioxhost\n@docs itunes_note\n@docs itunes\n@docs jenkins\n@docs joget\n@docs joomla\n@docs jsfiddle\n@docs js_square\n@docs js\n@docs keycdn\n@docs kickstarter_k\n@docs kickstarter\n@docs korvue\n@docs laravel\n@docs lastfm_square\n@docs lastfm\n@docs leanpub\n@docs less\n@docs line\n@docs linkedin_in\n@docs linkedin\n@docs linode\n@docs linux\n@docs lyft\n@docs magento\n@docs maxcdn\n@docs medapps\n@docs medium_m\n@docs medium\n@docs medrt\n@docs meetup\n@docs microsoft\n@docs mixcloud\n@docs mix\n@docs mizuni\n@docs modx\n@docs monero\n@docs napster\n@docs nintendo_switch\n@docs node_js\n@docs node\n@docs npm\n@docs ns8\n@docs nutritionix\n@docs odnoklassniki_square\n@docs odnoklassniki\n@docs opencart\n@docs openid\n@docs opera\n@docs optin_monster\n@docs osi\n@docs page4\n@docs pagelines\n@docs palfed\n@docs patreon\n@docs paypal\n@docs periscope\n@docs phabricator\n@docs phoenix_framework\n@docs pied_piper_alt\n@docs pied_piper_pp\n@docs pied_piper\n@docs pinterest_p\n@docs pinterest_square\n@docs pinterest\n@docs playstation\n@docs product_hunt\n@docs pushed\n@docs python\n@docs qq\n@docs quora\n@docs ravelry\n@docs react\n@docs rebel\n@docs reddit_alien\n@docs reddit_square\n@docs reddit\n@docs red_river\n@docs rendact\n@docs renren\n@docs replyd\n@docs resolving\n@docs rocketchat\n@docs rockrms\n@docs safari\n@docs sass\n@docs schlix\n@docs scribd\n@docs searchengin\n@docs sellcast\n@docs sellsy\n@docs servicestack\n@docs shirtsinbulk\n@docs simplybuilt\n@docs sistrix\n@docs skyatlas\n@docs skype\n@docs slack_hash\n@docs slack\n@docs slideshare\n@docs snapchat_ghost\n@docs snapchat_square\n@docs snapchat\n@docs soundcloud\n@docs speakap\n@docs spotify\n@docs stack_exchange\n@docs stack_overflow\n@docs staylinked\n@docs steam_square\n@docs steam\n@docs steam_symbol\n@docs sticker_mule\n@docs strava\n@docs stripe_s\n@docs stripe\n@docs studiovinari\n@docs stumbleupon_circle\n@docs stumbleupon\n@docs superpowers\n@docs supple\n@docs telegram_plane\n@docs telegram\n@docs tencent_weibo\n@docs themeisle\n@docs trello\n@docs tripadvisor\n@docs tumblr_square\n@docs tumblr\n@docs twitch\n@docs twitter_square\n@docs twitter\n@docs typo3\n@docs uber\n@docs uikit\n@docs uniregistry\n@docs untappd\n@docs usb\n@docs ussunnah\n@docs vaadin\n@docs viacoin\n@docs viadeo_square\n@docs viadeo\n@docs viber\n@docs vimeo_square\n@docs vimeo\n@docs vimeo_v\n@docs vine\n@docs vk\n@docs vnv\n@docs vuejs\n@docs weibo\n@docs weixin\n@docs whatsapp_square\n@docs whatsapp\n@docs whmcs\n@docs wikipedia_w\n@docs windows\n@docs wordpress_simple\n@docs wordpress\n@docs wpbeginner\n@docs wpexplorer\n@docs wpforms\n@docs xbox\n@docs xing_square\n@docs xing\n@docs yahoo\n@docs yandex_international\n@docs yandex\n@docs y_combinator\n@docs yelp\n@docs yoast\n@docs youtube\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "accessible_icon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "accusoft",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "adn",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "adversal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "affiliatetheme",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "algolia",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "amazon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "amazon_pay",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "amilia",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "android",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angellist",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angrycreative",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angular",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "app_store",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "app_store_ios",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "apper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "apple",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "apple_pay",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "asymmetrik",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "audible",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "autoprefixer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "avianex",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "aviato",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "aws",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bandcamp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "behance",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "behance_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bimobject",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bitbucket",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bitcoin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bity",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "black_tie",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "blackberry",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "blogger",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "blogger_b",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bluetooth",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bluetooth_b",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "btc",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "buromobelexperte",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "buysellads",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_amazon_pay",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_amex",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_apple_pay",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_diners_club",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_discover",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_jcb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_mastercard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_paypal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_stripe",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cc_visa",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "centercode",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chrome",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudscale",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudsmith",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloudversify",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "codepen",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "codiepie",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "connectdevelop",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "contao",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cpanel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "creative_commons",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "css3",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "css3_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cuttlefish",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "d_and_d",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dashcube",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "delicious",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "deploydog",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "deskpro",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "deviantart",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "digg",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "digital_ocean",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "discord",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "discourse",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dochub",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "docker",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "draft2digital",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dribbble",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dribbble_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dropbox",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "drupal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dyalog",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "earlybirds",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "edge",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ember",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "empire",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envira",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "erlang",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ethereum",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "etsy",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "expeditedssl",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fa_500px",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "facebook",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "facebook_f",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "facebook_messenger",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "facebook_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "firefox",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "first_order",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "firstdraft",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "flickr",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fly",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "font_awesome",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "font_awesome_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "font_awesome_flag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fonticons",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fonticons_fi",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fort_awesome",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fort_awesome_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "forumbee",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "foursquare",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "free_code_camp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "freebsd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "get_pocket",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gg",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gg_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "git",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "git_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "github",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "github_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "github_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gitkraken",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gitlab",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gitter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "glide",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "glide_g",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gofore",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "goodreads",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "goodreads_g",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_drive",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_play",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_plus_g",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_plus_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "google_wallet",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gratipay",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "grav",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gripfire",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "grunt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gulp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hacker_news",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hacker_news_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hire_a_helper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hooli",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hotjar",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "houzz",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "html5",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hubspot",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "imdb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "instagram",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "internet_explorer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ioxhost",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "itunes",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "itunes_note",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "jenkins",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "joget",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "joomla",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "js",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "js_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "jsfiddle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "keycdn",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "kickstarter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "kickstarter_k",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "korvue",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "laravel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lastfm",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lastfm_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "leanpub",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "less",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "line",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "linkedin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "linkedin_in",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "linode",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "linux",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lyft",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "magento",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "maxcdn",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "medapps",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "medium",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "medium_m",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "medrt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "meetup",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "microsoft",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mix",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mixcloud",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mizuni",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "modx",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "monero",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "napster",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "nintendo_switch",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "node",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "node_js",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "npm",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ns8",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "nutritionix",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "odnoklassniki",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "odnoklassniki_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "opencart",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "openid",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "opera",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "optin_monster",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "osi",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "page4",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pagelines",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "palfed",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "patreon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paypal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "periscope",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "phabricator",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "phoenix_framework",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pied_piper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pied_piper_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pied_piper_pp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pinterest",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pinterest_p",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pinterest_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "playstation",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "product_hunt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pushed",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "python",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "qq",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "quora",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ravelry",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "react",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rebel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "red_river",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "reddit",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "reddit_alien",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "reddit_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rendact",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "renren",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "replyd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "resolving",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rocketchat",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rockrms",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "safari",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sass",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "schlix",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "scribd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "searchengin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sellcast",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sellsy",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "servicestack",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shirtsinbulk",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "simplybuilt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sistrix",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "skyatlas",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "skype",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "slack",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "slack_hash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "slideshare",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "snapchat",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "snapchat_ghost",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "snapchat_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "soundcloud",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "speakap",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "spotify",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stack_exchange",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stack_overflow",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "staylinked",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "steam",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "steam_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "steam_symbol",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sticker_mule",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "strava",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stripe",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stripe_s",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "studiovinari",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stumbleupon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stumbleupon_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "superpowers",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "supple",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "telegram",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "telegram_plane",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tencent_weibo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "themeisle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trello",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tripadvisor",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tumblr",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tumblr_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "twitch",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "twitter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "twitter_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "typo3",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "uber",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "uikit",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "uniregistry",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "untappd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "usb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ussunnah",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vaadin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "viacoin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "viadeo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "viadeo_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "viber",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vimeo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vimeo_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vimeo_v",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vine",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vk",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vnv",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "vuejs",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "weibo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "weixin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "whatsapp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "whatsapp_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "whmcs",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wikipedia_w",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "windows",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wordpress",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wordpress_simple",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wpbeginner",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wpexplorer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wpforms",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "xbox",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "xing",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "xing_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "y_combinator",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yahoo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yandex",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yandex_international",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yelp",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yoast",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "youtube",
+                "comment": "",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FontAwesome.Regular",
+        "comment": "\nThis module exposes 115 scalable vector of category 'regular' as Elm HTML\ncomponents.\n\n#Icons\n@docs address_book\n@docs address_card\n@docs arrow_alt_circle_down\n@docs arrow_alt_circle_left\n@docs arrow_alt_circle_right\n@docs arrow_alt_circle_up\n@docs bell_slash\n@docs bell\n@docs bookmark\n@docs building\n@docs calendar_alt\n@docs calendar_check\n@docs calendar_minus\n@docs calendar_plus\n@docs calendar\n@docs calendar_times\n@docs caret_square_down\n@docs caret_square_left\n@docs caret_square_right\n@docs caret_square_up\n@docs chart_bar\n@docs check_circle\n@docs check_square\n@docs circle\n@docs clipboard\n@docs clock\n@docs clone\n@docs closed_captioning\n@docs comment_alt\n@docs comments\n@docs comment\n@docs compass\n@docs copyright\n@docs copy\n@docs credit_card\n@docs dot_circle\n@docs edit\n@docs envelope_open\n@docs envelope\n@docs eye_slash\n@docs file_alt\n@docs file_archive\n@docs file_audio\n@docs file_code\n@docs file_excel\n@docs file_image\n@docs file_pdf\n@docs file_powerpoint\n@docs file\n@docs file_video\n@docs file_word\n@docs flag\n@docs folder_open\n@docs folder\n@docs frown\n@docs futbol\n@docs gem\n@docs hand_lizard\n@docs hand_paper\n@docs hand_peace\n@docs hand_point_down\n@docs hand_pointer\n@docs hand_point_left\n@docs hand_point_right\n@docs hand_point_up\n@docs hand_rock\n@docs hand_scissors\n@docs handshake\n@docs hand_spock\n@docs hdd\n@docs heart\n@docs hospital\n@docs hourglass\n@docs id_badge\n@docs id_card\n@docs images\n@docs image\n@docs keyboard\n@docs lemon\n@docs life_ring\n@docs lightbulb\n@docs list_alt\n@docs map\n@docs meh\n@docs minus_square\n@docs money_bill_alt\n@docs moon\n@docs newspaper\n@docs object_group\n@docs object_ungroup\n@docs paper_plane\n@docs pause_circle\n@docs play_circle\n@docs plus_square\n@docs question_circle\n@docs registered\n@docs save\n@docs share_square\n@docs smile\n@docs snowflake\n@docs square\n@docs star_half\n@docs star\n@docs sticky_note\n@docs stop_circle\n@docs sun\n@docs thumbs_down\n@docs thumbs_up\n@docs times_circle\n@docs trash_alt\n@docs user_circle\n@docs user\n@docs window_close\n@docs window_maximize\n@docs window_restore\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "address_book",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "address_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bell",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bell_slash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bookmark",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "building",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_check",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_minus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_times",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart_bar",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "check_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "check_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clipboard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clone",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "closed_captioning",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comment",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comment_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comments",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "compass",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "copy",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "copyright",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "credit_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dot_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "edit",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelope",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelope_open",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eye_slash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_archive",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_audio",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_code",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_excel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_image",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_pdf",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_powerpoint",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_video",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_word",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "flag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "folder",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "folder_open",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "frown",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "futbol",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gem",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_lizard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_paper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_peace",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_pointer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_rock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_scissors",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_spock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "handshake",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hdd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "heart",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hospital",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hourglass",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "id_badge",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "id_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "image",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "images",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "keyboard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lemon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "life_ring",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lightbulb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "list_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "meh",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "minus_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "money_bill_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "moon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "newspaper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "object_group",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "object_ungroup",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paper_plane",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pause_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "play_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plus_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "question_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "registered",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "save",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "share_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "smile",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "snowflake",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "star",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "star_half",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sticky_note",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stop_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sun",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbs_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbs_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "times_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trash_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_close",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_maximize",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_restore",
+                "comment": "",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FontAwesome.Solid",
+        "comment": "\nThis module exposes 465 scalable vector of category 'solid' as Elm HTML\ncomponents.\n\n#Icons\n@docs address_book\n@docs address_card\n@docs adjust\n@docs align_center\n@docs align_justify\n@docs align_left\n@docs align_right\n@docs ambulance\n@docs american_sign_language_interpreting\n@docs anchor\n@docs angle_double_down\n@docs angle_double_left\n@docs angle_double_right\n@docs angle_double_up\n@docs angle_down\n@docs angle_left\n@docs angle_right\n@docs angle_up\n@docs archive\n@docs arrow_alt_circle_down\n@docs arrow_alt_circle_left\n@docs arrow_alt_circle_right\n@docs arrow_alt_circle_up\n@docs arrow_circle_down\n@docs arrow_circle_left\n@docs arrow_circle_right\n@docs arrow_circle_up\n@docs arrow_down\n@docs arrow_left\n@docs arrow_right\n@docs arrows_alt_h\n@docs arrows_alt\n@docs arrows_alt_v\n@docs arrow_up\n@docs assistive_listening_systems\n@docs asterisk\n@docs at\n@docs audio_description\n@docs backward\n@docs balance_scale\n@docs ban\n@docs barcode\n@docs bars\n@docs bath\n@docs battery_empty\n@docs battery_full\n@docs battery_half\n@docs battery_quarter\n@docs battery_three_quarters\n@docs bed\n@docs beer\n@docs bell_slash\n@docs bell\n@docs bicycle\n@docs binoculars\n@docs birthday_cake\n@docs blind\n@docs bold\n@docs bolt\n@docs bomb\n@docs bookmark\n@docs book\n@docs braille\n@docs briefcase\n@docs bug\n@docs building\n@docs bullhorn\n@docs bullseye\n@docs bus\n@docs calculator\n@docs calendar_alt\n@docs calendar_check\n@docs calendar_minus\n@docs calendar_plus\n@docs calendar\n@docs calendar_times\n@docs camera_retro\n@docs camera\n@docs caret_down\n@docs caret_left\n@docs caret_right\n@docs caret_square_down\n@docs caret_square_left\n@docs caret_square_right\n@docs caret_square_up\n@docs caret_up\n@docs car\n@docs cart_arrow_down\n@docs cart_plus\n@docs certificate\n@docs chart_area\n@docs chart_bar\n@docs chart_line\n@docs chart_pie\n@docs check_circle\n@docs check_square\n@docs check\n@docs chevron_circle_down\n@docs chevron_circle_left\n@docs chevron_circle_right\n@docs chevron_circle_up\n@docs chevron_down\n@docs chevron_left\n@docs chevron_right\n@docs chevron_up\n@docs child\n@docs circle_notch\n@docs circle\n@docs clipboard\n@docs clock\n@docs clone\n@docs closed_captioning\n@docs cloud_download_alt\n@docs cloud\n@docs cloud_upload_alt\n@docs code_branch\n@docs code\n@docs coffee\n@docs cogs\n@docs cog\n@docs columns\n@docs comment_alt\n@docs comments\n@docs comment\n@docs compass\n@docs compress\n@docs copyright\n@docs copy\n@docs credit_card\n@docs crop\n@docs crosshairs\n@docs cubes\n@docs cube\n@docs cut\n@docs database\n@docs deaf\n@docs desktop\n@docs dollar_sign\n@docs dot_circle\n@docs download\n@docs edit\n@docs eject\n@docs ellipsis_h\n@docs ellipsis_v\n@docs envelope_open\n@docs envelope_square\n@docs envelope\n@docs eraser\n@docs euro_sign\n@docs exchange_alt\n@docs exclamation_circle\n@docs exclamation\n@docs exclamation_triangle\n@docs expand_arrows_alt\n@docs expand\n@docs external_link_alt\n@docs external_link_square_alt\n@docs eye_dropper\n@docs eye_slash\n@docs eye\n@docs fast_backward\n@docs fast_forward\n@docs fax\n@docs female\n@docs fighter_jet\n@docs file_alt\n@docs file_archive\n@docs file_audio\n@docs file_code\n@docs file_excel\n@docs file_image\n@docs file_pdf\n@docs file_powerpoint\n@docs file\n@docs file_video\n@docs file_word\n@docs film\n@docs filter\n@docs fire_extinguisher\n@docs fire\n@docs flag_checkered\n@docs flag\n@docs flask\n@docs folder_open\n@docs folder\n@docs font\n@docs forward\n@docs frown\n@docs futbol\n@docs gamepad\n@docs gavel\n@docs gem\n@docs genderless\n@docs gift\n@docs glass_martini\n@docs globe\n@docs graduation_cap\n@docs hand_lizard\n@docs hand_paper\n@docs hand_peace\n@docs hand_point_down\n@docs hand_pointer\n@docs hand_point_left\n@docs hand_point_right\n@docs hand_point_up\n@docs hand_rock\n@docs hand_scissors\n@docs handshake\n@docs hand_spock\n@docs hashtag\n@docs hdd\n@docs heading\n@docs headphones\n@docs heartbeat\n@docs heart\n@docs history\n@docs home\n@docs hospital\n@docs hourglass_end\n@docs hourglass_half\n@docs hourglass_start\n@docs hourglass\n@docs h_square\n@docs i_cursor\n@docs id_badge\n@docs id_card\n@docs images\n@docs image\n@docs inbox\n@docs indent\n@docs industry\n@docs info_circle\n@docs info\n@docs italic\n@docs keyboard\n@docs key\n@docs language\n@docs laptop\n@docs leaf\n@docs lemon\n@docs level_down_alt\n@docs level_up_alt\n@docs life_ring\n@docs lightbulb\n@docs link\n@docs lira_sign\n@docs list_alt\n@docs list_ol\n@docs list\n@docs list_ul\n@docs location_arrow\n@docs lock_open\n@docs lock\n@docs long_arrow_alt_down\n@docs long_arrow_alt_left\n@docs long_arrow_alt_right\n@docs long_arrow_alt_up\n@docs low_vision\n@docs magic\n@docs magnet\n@docs male\n@docs map_marker_alt\n@docs map_marker\n@docs map_pin\n@docs map_signs\n@docs map\n@docs mars_double\n@docs mars_stroke_h\n@docs mars_stroke\n@docs mars_stroke_v\n@docs mars\n@docs medkit\n@docs meh\n@docs mercury\n@docs microchip\n@docs microphone_slash\n@docs microphone\n@docs minus_circle\n@docs minus_square\n@docs minus\n@docs mobile_alt\n@docs mobile\n@docs money_bill_alt\n@docs moon\n@docs motorcycle\n@docs mouse_pointer\n@docs music\n@docs neuter\n@docs newspaper\n@docs object_group\n@docs object_ungroup\n@docs outdent\n@docs paint_brush\n@docs paperclip\n@docs paper_plane\n@docs paragraph\n@docs paste\n@docs pause_circle\n@docs pause\n@docs paw\n@docs pencil_alt\n@docs pen_square\n@docs percent\n@docs phone_square\n@docs phone\n@docs phone_volume\n@docs plane\n@docs play_circle\n@docs play\n@docs plug\n@docs plus_circle\n@docs plus_square\n@docs plus\n@docs podcast\n@docs pound_sign\n@docs power_off\n@docs print\n@docs puzzle_piece\n@docs qrcode\n@docs question_circle\n@docs question\n@docs quote_left\n@docs quote_right\n@docs random\n@docs recycle\n@docs redo_alt\n@docs redo\n@docs registered\n@docs reply_all\n@docs reply\n@docs retweet\n@docs road\n@docs rocket\n@docs rss_square\n@docs rss\n@docs ruble_sign\n@docs rupee_sign\n@docs save\n@docs search_minus\n@docs search_plus\n@docs search\n@docs server\n@docs share_alt_square\n@docs share_alt\n@docs share_square\n@docs share\n@docs shekel_sign\n@docs shield_alt\n@docs ship\n@docs shopping_bag\n@docs shopping_basket\n@docs shopping_cart\n@docs shower\n@docs signal\n@docs sign_in_alt\n@docs sign_language\n@docs sign_out_alt\n@docs sitemap\n@docs sliders_h\n@docs smile\n@docs snowflake\n@docs sort_alpha_down\n@docs sort_alpha_up\n@docs sort_amount_down\n@docs sort_amount_up\n@docs sort_down\n@docs sort_numeric_down\n@docs sort_numeric_up\n@docs sort\n@docs sort_up\n@docs space_shuttle\n@docs spinner\n@docs square\n@docs star_half\n@docs star\n@docs step_backward\n@docs step_forward\n@docs stethoscope\n@docs sticky_note\n@docs stop_circle\n@docs stop\n@docs stopwatch\n@docs street_view\n@docs strikethrough\n@docs subscript\n@docs subway\n@docs suitcase\n@docs sun\n@docs superscript\n@docs sync_alt\n@docs sync\n@docs table\n@docs tablet_alt\n@docs tablet\n@docs tachometer_alt\n@docs tags\n@docs tag\n@docs tasks\n@docs taxi\n@docs terminal\n@docs text_height\n@docs text_width\n@docs thermometer_empty\n@docs thermometer_full\n@docs thermometer_half\n@docs thermometer_quarter\n@docs thermometer_three_quarters\n@docs th_large\n@docs th_list\n@docs th\n@docs thumbs_down\n@docs thumbs_up\n@docs thumbtack\n@docs ticket_alt\n@docs times_circle\n@docs times\n@docs tint\n@docs toggle_off\n@docs toggle_on\n@docs trademark\n@docs train\n@docs transgender_alt\n@docs transgender\n@docs trash_alt\n@docs trash\n@docs tree\n@docs trophy\n@docs truck\n@docs tty\n@docs tv\n@docs umbrella\n@docs underline\n@docs undo_alt\n@docs undo\n@docs universal_access\n@docs university\n@docs unlink\n@docs unlock_alt\n@docs unlock\n@docs upload\n@docs user_circle\n@docs user_md\n@docs user_plus\n@docs user_secret\n@docs users\n@docs user\n@docs user_times\n@docs utensil_spoon\n@docs utensils\n@docs venus_double\n@docs venus_mars\n@docs venus\n@docs video\n@docs volume_down\n@docs volume_off\n@docs volume_up\n@docs wheelchair\n@docs wifi\n@docs window_close\n@docs window_maximize\n@docs window_minimize\n@docs window_restore\n@docs won_sign\n@docs wrench\n@docs yen_sign\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "address_book",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "address_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "adjust",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "align_center",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "align_justify",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "align_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "align_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ambulance",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "american_sign_language_interpreting",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "anchor",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_double_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_double_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_double_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_double_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "angle_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "archive",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_alt_circle_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_circle_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_circle_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_circle_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_circle_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrow_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrows_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrows_alt_h",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "arrows_alt_v",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "assistive_listening_systems",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "asterisk",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "at",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "audio_description",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "backward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "balance_scale",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ban",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "barcode",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bars",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bath",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "battery_empty",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "battery_full",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "battery_half",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "battery_quarter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "battery_three_quarters",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bed",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "beer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bell",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bell_slash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bicycle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "binoculars",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "birthday_cake",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "blind",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bold",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bolt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bomb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "book",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bookmark",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "braille",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "briefcase",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bug",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "building",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bullhorn",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bullseye",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "bus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calculator",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_check",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_minus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "calendar_times",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "camera",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "camera_retro",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "car",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_square_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "caret_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cart_arrow_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cart_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "certificate",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart_area",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart_bar",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart_line",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart_pie",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "check",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "check_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "check_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_circle_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_circle_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_circle_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_circle_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevron_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "child",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "circle_notch",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clipboard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "clone",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "closed_captioning",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloud",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloud_download_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cloud_upload_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "code",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "code_branch",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "coffee",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cog",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cogs",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "columns",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comment",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comment_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "comments",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "compass",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "compress",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "copy",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "copyright",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "credit_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "crop",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "crosshairs",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cube",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cubes",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "cut",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "database",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "deaf",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "desktop",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dollar_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "dot_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "download",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "edit",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eject",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ellipsis_h",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ellipsis_v",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelope",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelope_open",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "envelope_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eraser",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "euro_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "exchange_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "exclamation",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "exclamation_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "exclamation_triangle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "expand",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "expand_arrows_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "external_link_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "external_link_square_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eye",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eye_dropper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "eye_slash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fast_backward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fast_forward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fax",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "female",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fighter_jet",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_archive",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_audio",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_code",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_excel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_image",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_pdf",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_powerpoint",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_video",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "file_word",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "film",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "filter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fire",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "fire_extinguisher",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "flag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "flag_checkered",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "flask",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "folder",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "folder_open",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "font",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "forward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "frown",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "futbol",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gamepad",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gavel",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gem",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "genderless",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "gift",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "glass_martini",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "globe",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "graduation_cap",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "h_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_lizard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_paper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_peace",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_point_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_pointer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_rock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_scissors",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hand_spock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "handshake",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hashtag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hdd",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "heading",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "headphones",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "heart",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "heartbeat",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "history",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "home",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hospital",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hourglass",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hourglass_end",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hourglass_half",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "hourglass_start",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "i_cursor",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "id_badge",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "id_card",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "image",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "images",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "inbox",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "indent",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "industry",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "info",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "info_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "italic",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "key",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "keyboard",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "language",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "laptop",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "leaf",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lemon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "level_down_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "level_up_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "life_ring",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lightbulb",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "link",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lira_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "list",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "list_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "list_ol",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "list_ul",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "location_arrow",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "lock_open",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "long_arrow_alt_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "long_arrow_alt_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "long_arrow_alt_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "long_arrow_alt_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "low_vision",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "magic",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "magnet",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "male",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map_marker",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map_marker_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map_pin",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "map_signs",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mars",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mars_double",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mars_stroke",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mars_stroke_h",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mars_stroke_v",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "medkit",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "meh",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mercury",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "microchip",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "microphone",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "microphone_slash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "minus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "minus_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "minus_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mobile",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mobile_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "money_bill_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "moon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "motorcycle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "mouse_pointer",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "music",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "neuter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "newspaper",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "object_group",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "object_ungroup",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "outdent",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paint_brush",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paper_plane",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paperclip",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paragraph",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paste",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pause",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pause_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "paw",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pen_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pencil_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "percent",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "phone",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "phone_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "phone_volume",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plane",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "play",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "play_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plug",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plus_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "plus_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "podcast",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "pound_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "power_off",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "print",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "puzzle_piece",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "qrcode",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "question",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "question_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "quote_left",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "quote_right",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "random",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "recycle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "redo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "redo_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "registered",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "reply",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "reply_all",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "retweet",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "road",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rocket",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rss",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rss_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ruble_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "rupee_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "save",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "search",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "search_minus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "search_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "server",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "share",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "share_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "share_alt_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "share_square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shekel_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shield_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ship",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shopping_bag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shopping_basket",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shopping_cart",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "shower",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sign_in_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sign_language",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sign_out_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "signal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sitemap",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sliders_h",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "smile",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "snowflake",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_alpha_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_alpha_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_amount_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_amount_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_numeric_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_numeric_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sort_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "space_shuttle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "spinner",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "square",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "star",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "star_half",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "step_backward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "step_forward",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stethoscope",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sticky_note",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stop",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stop_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "stopwatch",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "street_view",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "strikethrough",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "subscript",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "subway",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "suitcase",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sun",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "superscript",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sync",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "sync_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "table",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tablet",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tablet_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tachometer_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tag",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tags",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tasks",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "taxi",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "terminal",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "text_height",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "text_width",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "th",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "th_large",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "th_list",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thermometer_empty",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thermometer_full",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thermometer_half",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thermometer_quarter",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thermometer_three_quarters",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbs_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbs_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "thumbtack",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "ticket_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "times",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "times_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tint",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "toggle_off",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "toggle_on",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trademark",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "train",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "transgender",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "transgender_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trash",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trash_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tree",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "trophy",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "truck",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tty",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "tv",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "umbrella",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "underline",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "undo",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "undo_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "universal_access",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "university",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "unlink",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "unlock",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "unlock_alt",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "upload",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_circle",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_md",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_plus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_secret",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "user_times",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "users",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "utensil_spoon",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "utensils",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "venus",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "venus_double",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "venus_mars",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "video",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "volume_down",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "volume_off",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "volume_up",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wheelchair",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wifi",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_close",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_maximize",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_minimize",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "window_restore",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "won_sign",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "wrench",
+                "comment": "",
+                "type": "Html msg"
+            },
+            {
+                "name": "yen_sign",
+                "comment": "",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

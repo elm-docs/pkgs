@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Hotkeys",
+        "comment": " Event handlers for sending content and triggering actions with keypresses.\n\n@docs onEnterSend\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "onEnterSend",
+                "comment": " Send content only when enter is pressed. Do not send anything beforehand.\n\nThis is an alternative to using `Html.Events.onInput` to update the model with\nincomplete content on every keystroke and then using another event handler to\nindicate that the content collected in the model is now complete.\n\nInstead, we only send content to `update` when the content is ready to be\nconsumed.\n\n    input [ placeholder \"Enter content\", onEnterSend NewContent ] []\n\nSee `../examples/onEnterSend.elm` for a working example.\n\n",
+                "type": "(String -> msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    }
+]

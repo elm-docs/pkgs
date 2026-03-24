@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Resettable",
+        "comment": " This module is useful if you want to track changes to a value.\n\n# Definition\n@docs Resettable\n\n# Initialise and update\n@docs init, update, reset\n\n# Getters\n@docs isChanged, getValue, getOriginalValue\n\n",
+        "unions": [
+            {
+                "name": "Resettable",
+                "comment": " Represent values that may be original or updated. It can be useful if you have a\na save button that should be disabled if nothing on a form changed.\n\n    type alias MyProfileForm =\n        { firstName : Resettable String\n        , email : Resettable String\n        }\n\n    form =\n        { firstName = Resettable.init \"John Doe\"\n        , email = Resettable.init \"\"\n        }\n\n    shouldEnableSaveButton : Form -> Bool\n    shouldEnableSaveButton form =\n        Resettable.isChanged form.email || Resettable.isChanged form.password\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getOriginalValue",
+                "comment": " Get the original value.\n\n    getOriginalValue (Original \"Josh\")         -- \"Josh\"\n    getOriginalValue (Updated \"Josh\" \"Joshua\") -- \"Josh\"\n",
+                "type": "Resettable a -> a"
+            },
+            {
+                "name": "getValue",
+                "comment": " Get the current value.\n\n    getValue (Original \"Josh\")         -- \"Josh\"\n    getValue (Updated \"Josh\" \"Joshua\") -- \"Joshua\"\n",
+                "type": "Resettable a -> a"
+            },
+            {
+                "name": "init",
+                "comment": " Initialise a value.\n\n    init \"Bob\"     -- Original \"Bob\"\n",
+                "type": "a -> Resettable a"
+            },
+            {
+                "name": "isChanged",
+                "comment": " Whether a value changed.\n\n    isChanged (Original \"Josh\")         -- False\n    isChanged (Updated \"Josh\" \"Joshua\") -- True\n\n    when checking a lot of values, it may be helpful to put them in a list:\n\n    -- if they all have the same type:\n    List.any isChanged [ Original \"Josh\", Updated \"Josh\" \"Joshua\" ]   -- True\n\n    -- if they have different types\n    List.any ((==) True) [ isChanged (Original \"Josh\"), isChanged (Original 12) ]   -- False\n",
+                "type": "Resettable a -> Bool"
+            },
+            {
+                "name": "reset",
+                "comment": " Reset to the original value.\n\n    reset (Original \"Josh\")         -- Original \"Josh\"\n    reset (Updated \"Josh\" \"Joshua\") -- Original \"Josh\"\n",
+                "type": "Resettable a -> Resettable a"
+            },
+            {
+                "name": "update",
+                "comment": " Updates a Resettable value.\n\n    -- update to new value\n    update \"Joshua\" (Original \"Josh\")       -- Updated \"Josh\" \"Joshua\"\n    update \"Bob\" (Updated \"Josh\" \"Joshua\")  -- Updated \"Josh\" \"Bob\"\n\n    -- if the new value is the original value or a changed value is set to it's original value, keep the original value\n    update \"Josh\" (Original \"Josh\")         -- Original \"Bob\"\n    update \"Josh\" (Updated \"Josh\" \"Joshua\") -- Original \"Josh\"\n",
+                "type": "a -> Resettable a -> Resettable a"
+            }
+        ],
+        "binops": []
+    }
+]

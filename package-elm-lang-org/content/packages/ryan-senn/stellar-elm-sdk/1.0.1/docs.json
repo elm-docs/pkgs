@@ -1,0 +1,2996 @@
+[
+    {
+        "name": "Stellar.Endpoints.OperationsForLedger",
+        "comment": " Operations for Ledger Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.OperationsForTransaction",
+        "comment": " Operations for Transaction Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> String -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.OperationsForAccount",
+        "comment": " Operations for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.OperationDetails",
+        "comment": " Operations Details Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.FindPaymentPaths",
+        "comment": " Find Payment Paths Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure optional fields\n@docs setDestinationAssetCode, setDestinationAssetIssuer\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> PublicKey -> AssetType -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setDestinationAssetCode",
+                "comment": " Set the Destination Asset Code.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setDestinationAssetIssuer",
+                "comment": " Set the Destination Asset Issuer.\n",
+                "type": "PublicKey -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllOperations",
+        "comment": " All Operations Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Operation"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.PaymentsForLedger",
+        "comment": " Payments for Ledger Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Payment"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.PaymentsForTransaction",
+        "comment": " Payments for Transaction Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Payment"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> String -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.PaymentsForAccount",
+        "comment": " Payments for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Payment"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllPayments",
+        "comment": " All Payments Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Payment"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.EffectsForTransaction",
+        "comment": " Effects for Transaction Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Effect"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> String -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.EffectsForOperation",
+        "comment": " Effects for Operation Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Effect"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.EffectsForAccount",
+        "comment": " Effects for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Effect"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.EffectsForLedger",
+        "comment": " Effects for Ledger Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Effect"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllEffects",
+        "comment": " All Effects Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Effect"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AccountDetails",
+        "comment": " Account Details Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Account"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operation",
+        "comment": " Operation Resource\n\n# Union Type and decoder\n@docs Operation, decoder\n\n",
+        "unions": [
+            {
+                "name": "Operation",
+                "comment": " Union Type of all possible Operations\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CreateAccount",
+                        [
+                            "CreateAccount"
+                        ]
+                    ],
+                    [
+                        "Payment",
+                        [
+                            "Payment"
+                        ]
+                    ],
+                    [
+                        "PathPayment",
+                        [
+                            "PathPayment"
+                        ]
+                    ],
+                    [
+                        "ManageOffer",
+                        [
+                            "ManageOffer"
+                        ]
+                    ],
+                    [
+                        "CreatePassiveOffer",
+                        [
+                            "CreatePassiveOffer"
+                        ]
+                    ],
+                    [
+                        "SetOptions",
+                        [
+                            "SetOptions"
+                        ]
+                    ],
+                    [
+                        "ChangeTrust",
+                        [
+                            "ChangeTrust"
+                        ]
+                    ],
+                    [
+                        "AllowTrust",
+                        [
+                            "AllowTrust"
+                        ]
+                    ],
+                    [
+                        "AccountMerge",
+                        [
+                            "AccountMerge"
+                        ]
+                    ],
+                    [
+                        "Inflation",
+                        [
+                            "Inflation"
+                        ]
+                    ],
+                    [
+                        "ManageData",
+                        [
+                            "ManageData"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Operation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Payment",
+        "comment": " Payment Resource\n\n# Type alias and decoder\n@docs Payment, decoder\n\n",
+        "unions": [
+            {
+                "name": "Payment",
+                "comment": " Union Type of possible Payments\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CreateAccount",
+                        [
+                            "CreateAccount"
+                        ]
+                    ],
+                    [
+                        "Payment_",
+                        [
+                            "Payment"
+                        ]
+                    ],
+                    [
+                        "PathPayment",
+                        [
+                            "PathPayment"
+                        ]
+                    ],
+                    [
+                        "AccountMerge",
+                        [
+                            "AccountMerge"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Payment"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effect",
+        "comment": " Effect Resource\n\n# Union Type and decoder\n@docs Effect, decoder\n\n",
+        "unions": [
+            {
+                "name": "Effect",
+                "comment": " Union Type of all possible Effects\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AccountCreated",
+                        [
+                            "AccountCreated"
+                        ]
+                    ],
+                    [
+                        "AccountCredited",
+                        [
+                            "AccountCredited"
+                        ]
+                    ],
+                    [
+                        "AccountDebited",
+                        [
+                            "AccountDebited"
+                        ]
+                    ],
+                    [
+                        "AccountFlagsUpdated",
+                        [
+                            "AccountFlagsUpdated"
+                        ]
+                    ],
+                    [
+                        "AccountHomeDomainUpdated",
+                        [
+                            "AccountHomeDomainUpdated"
+                        ]
+                    ],
+                    [
+                        "AccountInflationDestinationUpdated",
+                        [
+                            "AccountInflationDestinationUpdated"
+                        ]
+                    ],
+                    [
+                        "AccountRemoved",
+                        [
+                            "AccountRemoved"
+                        ]
+                    ],
+                    [
+                        "AccountThresholdsUpdated",
+                        [
+                            "AccountThresholdsUpdated"
+                        ]
+                    ],
+                    [
+                        "DataCreated",
+                        [
+                            "DataCreated"
+                        ]
+                    ],
+                    [
+                        "DataRemoved",
+                        [
+                            "DataRemoved"
+                        ]
+                    ],
+                    [
+                        "DataUpdated",
+                        [
+                            "DataUpdated"
+                        ]
+                    ],
+                    [
+                        "OfferCreated",
+                        [
+                            "OfferCreated"
+                        ]
+                    ],
+                    [
+                        "OfferRemoved",
+                        [
+                            "OfferRemoved"
+                        ]
+                    ],
+                    [
+                        "OfferUpdated",
+                        [
+                            "OfferUpdated"
+                        ]
+                    ],
+                    [
+                        "SignerCreated",
+                        [
+                            "SignerCreated"
+                        ]
+                    ],
+                    [
+                        "SignerRemoved",
+                        [
+                            "SignerRemoved"
+                        ]
+                    ],
+                    [
+                        "Trade",
+                        [
+                            "Trade"
+                        ]
+                    ],
+                    [
+                        "TrustlineAuthorised",
+                        [
+                            "TrustlineAuthorised"
+                        ]
+                    ],
+                    [
+                        "TrustlineCreated",
+                        [
+                            "TrustlineCreated"
+                        ]
+                    ],
+                    [
+                        "TrustlineDeauthorised",
+                        [
+                            "TrustlineDeauthorised"
+                        ]
+                    ],
+                    [
+                        "TrustlineRemoved",
+                        [
+                            "TrustlineRemoved"
+                        ]
+                    ],
+                    [
+                        "TrustlineUpdated",
+                        [
+                            "TrustlineUpdated"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Effect"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.OffersForAccount",
+        "comment": " Offers for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Offer"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.OrderbookDetails",
+        "comment": " Orderbook Details Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure optional fields\n@docs setSellingAssetCode, setSellingAssetIssuer, setBuyingAssetCode, setBuyingAssetIssuer\n\n# Configure pagination\n@docs setLimit\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Orderbook"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> AssetType -> AssetType -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setBuyingAssetCode",
+                "comment": " Set the buying Asset Code.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setBuyingAssetIssuer",
+                "comment": " Set the buying Asset Issuer.\n",
+                "type": "PublicKey -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSellingAssetCode",
+                "comment": " Set the selling Asset Code.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSellingAssetIssuer",
+                "comment": " Set the selling Asset Issuer.\n",
+                "type": "PublicKey -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Account",
+        "comment": " Record to represent a Balance\n\n# Type alias and Decoder\n@docs Account, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Account",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : PublicKey, accountId : PublicKey, sequence : String, subentryCount : Int, balances : List Balance, thresholds : Thresholds, signers : List Signer, data : Data, flags : Flags, pagingToken : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Account"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.TransactionsForLedger",
+        "comment": " Transaction for Ledger Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Transaction"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllLedgers",
+        "comment": " All Ledgers Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Ledger"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllAssets",
+        "comment": " All Assets Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure optional fields\n@docs setAssetCode, setAssetIssuer\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Asset"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setAssetCode",
+                "comment": " Set the Asset Code.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setAssetIssuer",
+                "comment": " Set the Asset Issuer.\n",
+                "type": "PublicKey -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.TransactionsForAccount",
+        "comment": " Transaction for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Transaction"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.AllTransactions",
+        "comment": " All Transactions Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Configure pagination\n@docs setCursor, setLimit, setSorting\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Page Transaction"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            },
+            {
+                "name": "setCursor",
+                "comment": " Set the pagination cursor for the Request.\n",
+                "type": "String -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setLimit",
+                "comment": " Set the pagination limit for the Request.\n",
+                "type": "Int -> RequestBuilder Response -> RequestBuilder Response"
+            },
+            {
+                "name": "setSorting",
+                "comment": " Set the pagination sorting for the Request.\n",
+                "type": "Sorting -> RequestBuilder Response -> RequestBuilder Response"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.TransactionDetails",
+        "comment": " Transaction Details Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Transaction"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> String -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.PostTransaction",
+        "comment": " Post Transaction Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Transaction"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> String -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.LedgerDetails",
+        "comment": " Ledger Details Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n",
+        "unions": [
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Ledger"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> Int -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.PathPayment",
+        "comment": " Path Payment Operation\n\n# Type alias and decoder\n@docs PathPayment, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PathPayment",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, from : String, to : String, amount : String, assetCode : String, assetIssuer : String, assetType : AssetType, sourceMax : String, sourceAssetType : AssetType, sourceAssetCode : String, sourceAssetIssuer : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder PathPayment"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.SetOptions",
+        "comment": " Set Options Operation\n\n# Type alias and decoder\n@docs SetOptions, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "SetOptions",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, homeDomain : Maybe String, inflationDestination : Maybe String, masterKeyWeight : Maybe Int, signerKey : Maybe PublicKey, signerWeight : Maybe Int, setFlags : List Int, setFlagsS : List String, clearFlags : List Int, clearFlagsS : List String, lowThreshold : Maybe Int, medThreshold : Maybe Int, highThreshold : Maybe Int, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder SetOptions"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.ManageOffer",
+        "comment": " Manage Offer Operation\n\n# Type alias and decoder\n@docs ManageOffer, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ManageOffer",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, offerId : Int, amount : String, price : String, priceR : String, buyingAssetType : AssetType, buyingAssetCode : String, buyingAssetIssuer : String, sellingAssetType : AssetType, sellingAssetCode : String, sellingAssetIssuer : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder ManageOffer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.Inflation",
+        "comment": " Inflation Operation\n\n# Type alias and decoder\n@docs Inflation, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Inflation",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Inflation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.ManageData",
+        "comment": " Manage Data Operation\n\n# Type alias and decoder\n@docs ManageData, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ManageData",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, name : String, value : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder ManageData"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.CreatePassiveOffer",
+        "comment": " Create Passive Offer Operation\n\n# Type alias and decoder\n@docs CreatePassiveOffer, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CreatePassiveOffer",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, offerId : Int, amount : String, price : String, priceR : String, buyingAssetType : AssetType, buyingAssetCode : String, buyingAssetIssuer : String, sellingAssetType : AssetType, sellingAssetCode : String, sellingAssetIssuer : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder CreatePassiveOffer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.Payment",
+        "comment": " Payment Operation\n\n# Type alias and decoder\n@docs Payment, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Payment",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, from : String, to : String, amount : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Payment"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.CreateAccount",
+        "comment": " Create Account Operation\n\n# Type alias and decoder\n@docs CreateAccount, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CreateAccount",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, startingBalance : String, funder : String, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder CreateAccount"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.AccountMerge",
+        "comment": " Account merge Operation\n\n# Type alias and decoder\n@docs AccountMerge, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountMerge",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, account : String, into : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountMerge"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.AllowTrust",
+        "comment": " Allow Trust Operation\n\n# Type alias and decoder\n@docs AllowTrust, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AllowTrust",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, assetType : AssetType, assetCode : String, assetIssuer : String, trustee : String, trustor : String, authorize : Bool, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AllowTrust"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.ChangeTrust",
+        "comment": " Change Trust Operation\n\n# Type alias and decoder\n@docs ChangeTrust, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ChangeTrust",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, sourceAccount : String, type_ : String, typeI : Int, createdAt : Date, transactionHash : String, assetType : AssetType, assetCode : String, assetIssuer : String, limit : String, trustee : String, trustor : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder ChangeTrust"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountThresholdsUpdated",
+        "comment": " Account Thresholds updated Effect\n\n# Type alias and decoder\n@docs AccountThresholdsUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountThresholdsUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, lowThreshold : Int, medThreshold : Int, highThreshold : Int, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountThresholdsUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.TrustlineDeauthorised",
+        "comment": " Trustline deauthorised Effect\n\n# Type alias and decoder\n@docs TrustlineDeauthorised, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TrustlineDeauthorised",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, trustor : String, assetType : AssetType, assetCode : Maybe String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TrustlineDeauthorised"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountRemoved",
+        "comment": " Account removed Effect\n\n# Type alias and decoder\n@docs AccountRemoved, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountRemoved",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountRemoved"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.SignerUpdated",
+        "comment": " Signer updated Effect\n\n# Type alias and decoder\n@docs SignerUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "SignerUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, weight : Int, publicKey : PublicKey, key : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder SignerUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountInflationDestinationUpdated",
+        "comment": " Account Inflation Destination updated Effect\n\n# Type alias and decoder\n@docs AccountInflationDestinationUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountInflationDestinationUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountInflationDestinationUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.TrustlineUpdated",
+        "comment": " Trustline updated Effect\n\n# Type alias and decoder\n@docs TrustlineUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TrustlineUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, assetType : AssetType, limit : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TrustlineUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.OfferRemoved",
+        "comment": " Offer removed Effect\n\n# Type alias and decoder\n@docs OfferRemoved, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "OfferRemoved",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder OfferRemoved"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.TrustlineRemoved",
+        "comment": " Trustline removed Effect\n\n# Type alias and decoder\n@docs TrustlineRemoved, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TrustlineRemoved",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, assetType : AssetType, limit : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TrustlineRemoved"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.TrustlineCreated",
+        "comment": " Trustline created Effect\n\n# Type alias and decoder\n@docs TrustlineCreated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TrustlineCreated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, assetType : AssetType, limit : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TrustlineCreated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.TrustlineAuthorised",
+        "comment": " Trustline authorised Effect\n\n# Type alias and decoder\n@docs TrustlineAuthorised, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TrustlineAuthorised",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, trustor : String, assetType : AssetType, assetCode : Maybe String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TrustlineAuthorised"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.DataCreated",
+        "comment": " Data created Effect\n\n# Type alias and decoder\n@docs DataCreated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "DataCreated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder DataCreated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.Trade",
+        "comment": " Trade Effect\n\n# Type alias and decoder\n@docs Trade, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Trade",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, seller : String, offerId : Int, soldAmount : String, soldAssetType : AssetType, soldAssetCode : Maybe String, soldAssetIssuer : Maybe String, boughtAmount : String, boughtAssetType : AssetType, boughtAssetCode : Maybe String, boughtAssetIssuer : Maybe String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Trade"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.SignerRemoved",
+        "comment": " Signer removed Effect\n\n# Type alias and decoder\n@docs SignerRemoved, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "SignerRemoved",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, weight : Int, publicKey : PublicKey, key : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder SignerRemoved"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.SignerCreated",
+        "comment": " Signer created Effect\n\n# Type alias and decoder\n@docs SignerCreated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "SignerCreated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, weight : Int, publicKey : PublicKey, key : String, createdAt : Date, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder SignerCreated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountHomeDomainUpdated",
+        "comment": " Account Home Domain updated Effect\n\n# Type alias and decoder\n@docs AccountHomeDomainUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountHomeDomainUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, homeDomain : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountHomeDomainUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.OfferUpdated",
+        "comment": " Offer updated Effect\n\n# Type alias and decoder\n@docs OfferUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "OfferUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder OfferUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.OfferCreated",
+        "comment": " Offer created Effect\n\n# Type alias and decoder\n@docs OfferCreated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "OfferCreated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder OfferCreated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.DataRemoved",
+        "comment": " Data removed Effect\n\n# Type alias and decoder\n@docs DataRemoved, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "DataRemoved",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder DataRemoved"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.DataUpdated",
+        "comment": " Data updates Effect\n\n# Type alias and decoder\n@docs DataUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "DataUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder DataUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountFlagsUpdated",
+        "comment": " Account Flags updated Effect\n\n# Type alias and decoder\n@docs AccountFlagsUpdated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountFlagsUpdated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, authRequired : Bool, authRevokable : Bool, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountFlagsUpdated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountDebited",
+        "comment": " Account Debited Effect\n\n# Type alias and decoder\n@docs AccountDebited, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountDebited",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, assetType : AssetType, amount : String, createdAt : Date, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountDebited"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountCredited",
+        "comment": " Account Credited Effect\n\n# Type alias and decoder\n@docs AccountCredited, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountCredited",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, assetType : AssetType, amount : String, createdAt : Date, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountCredited"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.AccountCreated",
+        "comment": " Account Created Effect\n\n# Type alias and decoder\n@docs AccountCreated, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AccountCreated",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, type_ : String, typeI : Int, account : String, startingBalance : String, createdAt : Date, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AccountCreated"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Trade",
+        "comment": " Trade Resource\n\n# Type alias and decoder\n@docs Trade, decoder, Links\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Links",
+                "comment": " Links\n",
+                "args": [],
+                "type": "{ base : Link, counter : Link, operation : Link }"
+            },
+            {
+                "name": "Trade",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, ledgerCloseTime : String, baseAccount : String, baseAmount : String, baseAssetType : String, baseAssetCode : String, baseAssetIssuer : String, counterAccount : String, counterAmount : String, counterAssetType : String, counterAssetCode : String, counterAssetIssuer : String, price : RationalNumber, baseIsSeller : Bool, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Trade"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.PaymentPath",
+        "comment": " Payment Resource\n\n# Type alias and decoder\n@docs PaymentPath, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PaymentPath",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ path : List Asset, sourceAmount : String, destinationAmount : String, destinationAssetType : String, destinationAssetCode : Maybe String, destinationAssetIssuer : Maybe String, sourceAssetType : String, sourceAssetCode : Maybe String, sourceAssetIssuer : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder PaymentPath"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Offer",
+        "comment": " Offer Resource\n\n# Type alias and decoder\n@docs Offer, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Offer",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : Int, pagingToken : String, seller : String, selling : Asset, buying : Asset, amount : String, priceR : String, price : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Offer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoints.DataForAccount",
+        "comment": " Data for Account Endpoint\n\n# Build the Request with required fields\n@docs requestBuilder\n\n# Send the Request & catch Response\n@docs send, Response\n\n# Available Data\n@docs DataKey, dataKeyList\n\n",
+        "unions": [
+            {
+                "name": "DataKey",
+                "comment": " Union type of available Data to request\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UserId",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Response",
+                "comment": " The Response coming back from the server.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Error",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "Data"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dataKeyList",
+                "comment": " List of available Data to request\n",
+                "type": "List DataKey"
+            },
+            {
+                "name": "requestBuilder",
+                "comment": " Request Builder. Takes the mandatory fields as arguments, the optional fields can be piped using setters.\n",
+                "type": "Endpoint -> PublicKey -> DataKey -> RequestBuilder Response"
+            },
+            {
+                "name": "send",
+                "comment": " Send the request once configured.\n",
+                "type": "(Result Error Response -> msg) -> RequestBuilder Response -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.TradeAggregation",
+        "comment": " Trade Aggregation Resource\n\n# Type alias and decoder\n@docs TradeAggregation, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TradeAggregation",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ timestamp : String, tradeCount : Int, baseVolume : String, counterVolume : String, avg : String, high : String, highR : RationalNumber, low : String, lowR : RationalNumber, open : String, openR : RationalNumber, close : String, closeR : RationalNumber }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder TradeAggregation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Orderbook",
+        "comment": " Orderbook Resource\n\n# Type alias and decoder\n@docs Orderbook, decoder\n\n# Sub Type aliases\n@docs Listing, Offer\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Listing",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ price : String, priceR : RationalNumber, amount : String }"
+            },
+            {
+                "name": "Offer",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ assetType : AssetType }"
+            },
+            {
+                "name": "Orderbook",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ bids : List Listing, asks : List Listing, base : Offer, counter : Offer }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Orderbook"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Signer",
+        "comment": " Record to represent a Signer\n\n# Type alias and Decoder\n@docs Signer, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Signer",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ publicKey : PublicKey, weight : Int, key : PublicKey, type_ : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Signer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Page",
+        "comment": " Page Resource\n\n# Type alias and decoder\n@docs Page, decoder, Embed, Links\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Embed",
+                "comment": " Type alias\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ records : List a }"
+            },
+            {
+                "name": "Links",
+                "comment": " Links\n",
+                "args": [],
+                "type": "{ self : Link, prev : Link, next : Link }"
+            },
+            {
+                "name": "Page",
+                "comment": " Type alias\n\nA Page can contain any embedded Resources and links for navigation.\n\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ embedded_ : { records : List a }, links_ : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder record -> Decoder (Page record)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Transaction",
+        "comment": " Transaction Resource\n\n# Type alias and decoder\n@docs Transaction, decoder, Links\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Links",
+                "comment": " Links\n",
+                "args": [],
+                "type": "{ self : Link, account : Link, ledger : Link, operations : Link, effects : Link, precedes : Link, succeeds : Link }"
+            },
+            {
+                "name": "Transaction",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, hash : String, ledger : Int, createdAt : Date, sourceAccount : String, sourceAccountSequence : String, feePaid : Int, operationCount : Int, envelopeXdr : String, resultXdr : String, resultMetaXdr : String, feeMetaXdr : String, memoType : String, signatures : List String, links : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Transaction"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Ledger",
+        "comment": " Ledger Resource\n\n# Type alias and decoder\n@docs Ledger, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Ledger",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ id : String, pagingToken : String, hash : String, prevHash : Maybe String, sequence : Int, transactionCount : Int, operationCount : Int, closedAt : Date, totalCoins : String, feePool : String, baseFee : Maybe Int, baseReverse : Maybe String, maxTxSetSize : Int, protocolVersion : Int, headerXdr : String, baseFeeInStroops : Int, baseReserveInStroops : Int, links_ : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Ledger"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Operations.Links",
+        "comment": " Links common to all Operations\n\n# Type alias and decoder\n@docs Links, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Links",
+                "comment": " Links\n",
+                "args": [],
+                "type": "{ self : Link, succeeds : Link, precedes : Link, effects : Link, transaction : Link }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Links"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Effects.Links",
+        "comment": " Links common to all Effects\n\n# Type alias and decoder\n@docs Links, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Links",
+                "comment": " Links\n",
+                "args": [],
+                "type": "{ operation : Link, succeeds : Link, precedes : Link }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Links"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Asset",
+        "comment": " Record to represent an Asset Resource\n\n# Type alias and Decoder\n@docs Asset, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Asset",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ assetType : AssetType, assetCode : String, assetIssuer : String, amount : String, numAccounts : Int, flags : Flags, pagingToken : String, links_ : Links }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Asset"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Balance",
+        "comment": " Record to represent a Balance\n\n# Type alias and Decoder\n@docs Balance, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Balance",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ balance : String, assetType : AssetType }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Balance"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Thresholds",
+        "comment": " Record to represent Thresholds\n\n# Type alias and Decoder\n@docs Thresholds, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Thresholds",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ low : Int, med : Int, high : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Thresholds"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Error",
+        "comment": " Record representing possible Errors in Stellar\n\n# Type alias and Decoder\n@docs Error, decoder\n\n# Standard Errors\n@docs StandardError, standardErrorDecoder\n\n# Utility\n@docs flattenError\n\n",
+        "unions": [
+            {
+                "name": "StandardError",
+                "comment": " Union Type representing the Standard Errors in Stellar\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Error",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ type_ : String, title : String, status : Int, detail : String, instance : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Error"
+            },
+            {
+                "name": "flattenError",
+                "comment": " Utility to flatten Errors. In Elm, Http requests return a `Result Http.Error response`.\nWhen Stellar throws an Error, Elm interprets it as `Err (Http.BadStatus response)`.\nWe then need to at the response body and check for status code to return the correct Err.\n",
+                "type": "Error -> (Error -> response) -> Result Error response"
+            },
+            {
+                "name": "standardErrorDecoder",
+                "comment": " Decoder\n",
+                "type": "Decoder StandardError"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Sorting",
+        "comment": " Union Type that represents the available sorting methods in Stellar\n\n# Union Type and Decoder\n@docs Sorting, toString\n\n",
+        "unions": [
+            {
+                "name": "Sorting",
+                "comment": " Union Type\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Asc",
+                        []
+                    ],
+                    [
+                        "Desc",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "toString",
+                "comment": " Helper function to print the sorting\n",
+                "type": "Sorting -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.RationalNumber",
+        "comment": " Record to represent Rational Numbers\n\n# Type alias and Decoder\n@docs RationalNumber, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "RationalNumber",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ n : Int, d : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder RationalNumber"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Resources.Data",
+        "comment": " Data Resource\n\n# Type alias and decoder\n@docs Data, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ value : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Data"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.PublicKey",
+        "comment": " String type alias for PublicKey, helping with the readability of type signatures\n\n# String Formatting Helpers\n@docs PublicKey, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PublicKey",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder PublicKey"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Link",
+        "comment": " Record to represent a Link\n\n# Type alias and Decoder\n@docs Link, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Link",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ href : String, templated : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Link"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Flags",
+        "comment": " Record to represent Flags\n\n# Type alias and Decoder\n@docs Flags, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "{ authRequired : Bool, authRevocable : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Flags"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.Endpoint",
+        "comment": " String type alias for Endpoint, helping with the readability of type signatures\n\n# String Formatting Helpers\n@docs Endpoint, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Endpoint",
+                "comment": " Type alias\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder Endpoint"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Stellar.AssetType",
+        "comment": " Union Type of Asset Types\n\n# Union Type and Decoder\n@docs AssetType, decoder\n\n# Helpers\n@docs asList, toString\n\n",
+        "unions": [
+            {
+                "name": "AssetType",
+                "comment": " Union Type of Asset Types\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Native",
+                        []
+                    ],
+                    [
+                        "CreditAlphanum4",
+                        []
+                    ],
+                    [
+                        "CreditAlphanum12",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "asList",
+                "comment": " List representation of the Union Type\n",
+                "type": "List AssetType"
+            },
+            {
+                "name": "decoder",
+                "comment": " Decoder\n",
+                "type": "Decoder AssetType"
+            },
+            {
+                "name": "toString",
+                "comment": " String representation of the Union Type\n",
+                "type": "AssetType -> String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,497 @@
+[
+    {
+        "name": "Ui.Indicator",
+        "comment": "\n\n# Interactive Element: Indicator\nIndicators are stylized, interactive elements indended to highlight information\nor notify the user of something. Bulma CSS provides default styling and\ncolor and size modifiers for three types of indicators: tags, notifications, and\nprogress bars. A delete button may be added to a tag or notification in order to\nallow the user to remove or dismiss it.\n\n@docs tag, notification, progress\n\n## Adding Interaction\n@docs withDelete\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "notification",
+                "comment": " Construct a notification block\n\n    \"You are awesome.\"\n      |> Ui.Indicator.notification\n      |> Ui.render\n\n    --> <div class=\"notification\" role=\"alert\">You are awesome.</div>\n\n+ __HTML tag__: `<div>`\n+ __ARIA role__: *alert*\n+ __Element class__: *.notification*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/notification/#colors)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/notification/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "progress",
+                "comment": " Construct a progress bar\n\n    15\n      |> Ui.Indicator.progress\n      |> Ui.render\n\n    --> <progress class=\"progress\" value=\"15\" max=\"100\">15%</progress>\n\n+ __HTML tag__: `<progress>`\n+ __ARIA role__: *progressbar* (default)\n+ __Element class__: *.progress*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/progress/#colors),\n[size](http://bulma.io/documentation/elements/progress/#sizes)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/progress/\n\n",
+                "type": "Int -> Element msg"
+            },
+            {
+                "name": "tag",
+                "comment": " Construct an tag label\n\n    \"My Tag\"\n      |> Ui.Indicator.tag\n      |> Ui.render\n\n    --> <span class=\"tag\" role=\"note\">My Tag</span>\n\n+ __HTML tag__: `<span>`\n+ __ARIA role__: *note*\n+ __Element class__: *.tag*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/tag/#colors),\n[size](http://bulma.io/documentation/elements/tag/#sizes),\n[style](http://bulma.io/documentation/elements/tag/#modifiers),\n[grouping](http://bulma.io/documentation/elements/tag/#list-of-tags)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/tag/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "withDelete",
+                "comment": " Add a delete button to a tag or notification\n\n    \"You are awesome.\"\n      |> Ui.Indicator.notification\n      |> Ui.Indicatior.withDelete HideNotification\n      |> Ui.render\n\n    --> <div class=\"notification\" role=\"alert\">\n    --    <button class=\"delete\" aria-label=\"Hide notification\"></button>\n    --    You are awesome.\n    --  </div>\n\n+ __HTML tag__: `<button>`\n+ __ARIA role__: *button* (default)\n+ __ARIA attribute__: *aria-label*: Assigned a label corresponding to the\nelement class of the parent (\"Remove tag\", \"Dismiss notification\", or \"Delete\" as a default)\n+ __Element class__: *.delete*\n+ __Available modifiers__: none available when using this constructor\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/delete/#combinations\n\n",
+                "type": "msg -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Text",
+        "comment": "\n\n# Content Element: Text\nThis module contains helpers for assembling text content that may include links\nand font style variations. It provides an alternative to Markdown syntax that\nis still fairly concise, while offering more control over text appearance via\nCSS modifier classes.\n\n## Basic\n@docs plain, link\n\n## Typography Helpers\n@docs italic, bold, semibold, light\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bold",
+                "comment": " Construct text that will display with a bold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.bold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-bold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-bold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "italic",
+                "comment": " Construct text that will display as italic\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.italic\n      |> Ui.render\n\n    --> <span class=\"is-italic\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.is-italic*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "light",
+                "comment": " Construct text that will display with a light font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.light\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-light\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-light*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "link",
+                "comment": " Construct text that will link to some URI. The boolean argument indicates\nwhether the link should open in a new window.\n\n    \"Click here to download\"\n      |> Ui.Text.link (\"http://example.com/files/myfile.pdf\", True)\n      |> Ui.render\n\n    --> <a href=\"http://example.com/files/myfile.pdf\" target=\"_blank\">Click here to download</a>\n\n+ __HTML tag__: `<a>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "( String, Bool ) -> String -> Element msg"
+            },
+            {
+                "name": "plain",
+                "comment": " Construct plain inline text\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.plain\n      |> Ui.render\n\n    --> <span>Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "semibold",
+                "comment": " Construct text that will display with a semibold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.semibold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-semibold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-semibold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+                "type": "String -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Style",
+        "comment": "\n\n# Customizing UI Elements: Style Modifications\nIn the Modular UI package, element constructors apply Bulma CSS classes\nautomatically in order to generate default styling when `bulma.css` is loaded as\nan external resource. If you are using Bulma, look and feel of standard UI\nelements and components can be modified by\n[customizing variables in Sass](https://bulma.io/documentation/overview/customize/)\nand recompiling the Bulma source files to CSS. The functions in this module\nmay be used to where necessary to override default styling or further\ncustomize the appearance and behavior of individual elements and components. In\ngeneral, it is preferable to change defaults rather than overriding them so as\nto avoid redundancies and performance lags. (See\n[below](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/1.0.0/Ui-Style#discussion-are-there-performance-costs-to-setting-style-properties-on-individual-elements-)\nfor further discussion of performance issues related to setting styles on\nindividual elements).\n\n## Generic functions for adding style modifications\n@docs add, addList\n\n## Helpers for common style modifications\n@docs color, backgroundColor, border, borderRadius, boxShadow\n\n\n## Discussion: Are there performance costs to setting style properties on individual elements?\n\n__Short answer:__\n\nOnly when many elements in your document have style properties in common that\ncould be\n[rendered more efficiently](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model#css_object_model_cssom)\nby defining CSS classes.\n\n__Long answer:__\n\nFor historical and organizational reasons, standard practice in web development\nhas been to separate style rules from content markup by loading external CSS\nresources rather than inlining style declarations in HTML. While there may be\nbenefits to performance and maintainability when style rules are defined for\nclasses rather than individual elements, loading external CSS resources\n[blocks page rendering](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css),\nso in some cases there is a\n[performance justification](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery)\nfor inserting style declarations into markup.\n\nThe\n[preferred way](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery#example)\nto include CSS within standard HTML markup is to insert a `<style>` tag in the\ndocument's `<head>`, but this may result in slower page loads if there is a\nlarge chunk of CSS to parse, so the `<style>` tag should be reserved for\ncritical styling of above-the-fold content.\n\nUsing the HTML *style* attribute to set CSS properties on individual elements is\n[presently discouraged](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery#CSSattributes)\nfor the sake of maintainability, but also because inline styles in HTML markup\nare blocked where\n[Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)\nis invoked.\n\nHowever, when working in a compile-to-JavaScript framework like Elm, these\nconcerns seem not to apply. When you set an element's style attribute in an Elm\nprogram, the styling is part of an external script, not part of the HTML source.\nThis means that styles applied to individual elements in an Elm program's view\ncode will not be blocked when Content Security Policy is invoked (unless your\nentire Elm script is blocked, but there is a\n[simple workaround](https://mixandgo.com/blog/writing-a-chrome-extension-with-elm#security-policy)\nfor that).\n\nAs for maintainability, a functional langauge like Elm arguably has\nadvantages over a CSS preprocessor like Sass or Less because of the absence of\nglobal variables in funcitonal languages. Global variables can make debugging,\nrefactoring, or changing behavior more time consuming because of the effort\ninvolved in determining where in the codebase a particular value has been\ndefined. Elm allows the programmer to generate functional style rules that can\nbe passed to view functions as named variables, combined with one another like\nmixins, or generated dynamically given input parameters. The only downside of\nusing Elm to maintain styles is that any preprocessing of style variables has to\nbe done on-the-fly when the script is loaded in the browser, but that extra\nprocessing time should be weighted against the time it would take to parse and\nrender external CSS.\n\nAll of that said, working with an existing CSS framework can greatly simplify\nthe user-interface design process, which is why I have incorporated Bulma\nclasses into Modular UI. My recommendation is to use classes defined in external\nCSS for basic styling of standard UI elements and components, and then to\ncustomize the look and behavior of individual elements/components by setting\ntheir *style* attributes in Elm. For maintainability, it is helpful to define\nstyle variables in a separate module and then to import those named functions\ninto your view module(s). This approach maintains a \"separation of concerns\"\nbecause style variables and rules are just inputs to view functions, and they\ncan be modified without changing any of your other view code.\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add a single style declaration to a UI element. The first argument in the\ntuple gives the CSS property name, and the second argument gives its value as a\nstring.\n\n    myNotification\n      |> Ui.Style.add (\"display\", \"none\")\n\n",
+                "type": "( String, String ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "addList",
+                "comment": " Add a list of style declarations to a UI element\n\n    myDiv\n      |> Ui.Style.addList\n        [ (\"padding-top\", \"10px\")\n        , (\"margin-bottom\", \"20px\")\n        ]\n\n",
+                "type": "List ( String, String ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "backgroundColor",
+                "comment": " Set the *background-color* CSS property on an element\n\n    pinkish =\n      Color.hsl (degrees 331) 0.4 0.8\n\n    myDiv\n      |> Ui.Style.color pinkish\n\n",
+                "type": "Color -> Element msg -> Element msg"
+            },
+            {
+                "name": "border",
+                "comment": " Set the *border* CSS property on an element by giving the width (in px),\nthe style, and the color\n\n    blue =\n      Color.hsl (degrees 233) 0.5 0.5\n\n    myDiv\n      |> Ui.Style.border (2, \"solid\", blue)\n\n",
+                "type": "( Int, String, Color ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "borderRadius",
+                "comment": " Set the *border-radius* CSS property on an element by giving the radius\nin px\n\n    myDiv\n      |> Ui.Style.borderRadius 8\n\n",
+                "type": "Int -> Element msg -> Element msg"
+            },
+            {
+                "name": "boxShadow",
+                "comment": " Set the *box-shadow* CSS property on an element by giving the h- and\nv-offsets, the blur, and the spread in px, the color as a `Color`, and a\nboolean value to indicate whether the shadow should be inset\n\n\n\n    myDiv\n      |> Ui.Style.boxShadow\n        { offset = (2, 3)\n        , blur = 2\n        , spread = 1\n        , color = Color.black\n        , inset = False\n        }\n\n",
+                "type": "{ offset : ( Int, Int ), blur : Int, spread : Int, color : Color, inset : Bool } -> Element msg -> Element msg"
+            },
+            {
+                "name": "color",
+                "comment": " Set the *color* CSS property on an element\n\n    blue =\n      Color.hsl (degrees 233) 0.5 0.5\n\n    myDiv\n      |> Ui.Style.color blue\n\n",
+                "type": "Color -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Source",
+        "comment": "\n\n# Content Element: Source\nThis module contains helpers to embed external content into your page layout,\nwith built-in features for web accessibility. The embedding elements are\nassigned the *.source* class to allow for custom styling.\n\n@docs object, iframe, embed\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "embed",
+                "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path and the second argument\nspecifies the media type (see\nhttps://www.iana.org/assignments/media-types/media-types.xhtml\nfor a list of media type codes).\n\n    ( \"flash/animation.swf\"\n    , \"application/x-shockwave-flash\"\n    , \"Play an interactive Flash animation\"\n    )\n      |> Ui.Source.embed\n      |> Ui.render\n\n    --> <embed class=\"source\" src=\"flash/animation.swf\" type=\"application/x-shockwave-flash\" role=\"application\" aria-label=\"Play an interactive Flash animation\">\n\n+ __HTML tag__: `<embed>`\n+ __ARIA role__: *application*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+                "type": "( String, String, String ) -> Element msg"
+            },
+            {
+                "name": "iframe",
+                "comment": " Construct an iframe element to display content from an HTML source. The\nstring argument gives the URL or relative file path to the source.\n\n    { path = \"http://elm-lang.org\"\n    , altText = \"The Elm language home page\"\n    )\n      |> Ui.Source.iframe\n      |> Ui.Render\n\n    --> <iframe class=\"source\" src=\"http://elm-lang.org\" role=\"document\" aria-label=\"The Elm language home page\"></iframe>\n\n+ __HTML tag__: `<iframe>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+                "type": "{ path : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "object",
+                "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path, the second argument\nspecifies the\n[media type](https://www.iana.org/assignments/media-types/media-types.xhtml),\nand the third argument provides a content label for screen readers. A link to\nopen the source in a new window is generated as a fallback if the content fails\nto load.\n\n    { path = \"files/myfile.pdf\"\n    , mediaType = \"application/pdf\"\n    , altText = \"Load report from PDF file\"\n    )\n      |> Ui.Source.object\n      |> Ui.render\n\n    --> <object class=\"source\" data=\"files/myfile.pdf\" type=\"application/pdf\" role=\"document\" aria-label=\"Load report from PDF file\">\n    --    <p>Click to load in a new window:\n    --      <a href=\"files/myfile.pdf\" target=\"_blank\">files/myfile.pdf</a>\n    --    </p>\n    --  </object>\n\n+ __HTML tag__: `<object>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+                "type": "{ path : String, mediaType : String, altText : String } -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Selector",
+        "comment": "\n\n# Interactive Element: Selector\nIn an Elm program, option selection is handled by the program's update function.\nThe constructors in this module automate part of the set-up for capturing input\nfrom selectors. They also provide built-in web accessibility features and\ndefault styling via Bulma element classes.\n\n@docs checkbox, radioButtons, dropdown\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "checkbox",
+                "comment": " Construct a checkbox that sends update messages like a button\n\nTo make the checkbox work as intended, the update function should handle the\nmessage by toggling a boolean value in the program's model (see example).\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { userAgrees : Bool\n      , ...\n      }\n\n    initial : Model\n    initial =\n      { userAgrees = False\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = ToggleUserAgrees\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        ToggleUserAgrees ->\n          { model\n          | userAgrees =\n              model.userAgrees\n                |> Basics.not\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 9\n    , label = \"I agree to the terms and conditions\"\n    , checked = model.userAgrees\n    }\n      |> Ui.Selector.checkbox ToggleUserAgrees\n\n\n+ __HTML tag__: `<label>` > `<input type=\"checkbox\">`\n+ __ARIA role__: *checkbox* (default)\n+ __Element class__: *.checkbox*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/checkbox/\n\n",
+                "type": "msg -> { id : Int, label : String, checked : Bool } -> Element msg"
+            },
+            {
+                "name": "dropdown",
+                "comment": " Construct a dropdown selector where selecting an option sends an update\nmessage like a button, but also includes a value that identifies the user's\nselection\n\nTo make the dropdown selector work as intended, the update function should\nhandle the message by updating a record field in the program's model to the\nuser's selection (see example).\n\n*Example:*\n\n    --- MODEL ---\n\n    type ShippingDestination\n      = UnitedStates\n      | Canada\n      | Global\n\n    type alias Model =\n      { shippingDestination : Maybe ShippingDestination\n      , ...\n      }\n\n    initial : Model\n    initial =\n      { shippingDestination = Nothing\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UpdateShippingDestination (Maybe ShippingDestination)\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UpdateShippingDestination value ->\n          { model\n          | shippingDestination = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 11\n    , placeholder = \"Select shipping destination\"\n    , options =\n      [ (\"United States\", UnitedStates)\n      , (\"Canada\", Canada)\n      , (\"Global\", Global)\n      ]\n\n    , selected = model.shippingDestination\n    }\n      |> Ui.Selector.dropdown UpdateShippingDestination\n\n\n+ __HTML tag__: `<select>`\n+ __ARIA role__: *combobox* (default)\n+ __Element class__: *.select*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/select/#colors),\n[style](https://bulma.io/documentation/form/select/#styles),\n[size](https://bulma.io/documentation/form/select/#sizes),\n[state](https://bulma.io/documentation/form/select/#select-state),\n[icons](https://bulma.io/documentation/form/select/#input-with-icons)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/select/\n\n",
+                "type": "(Maybe a -> msg) -> { id : Int, placeholder : String, options : List ( String, a ), selected : Maybe a } -> Element msg"
+            },
+            {
+                "name": "radioButtons",
+                "comment": " Construct a set of radio buttons that send update messages like regular\nbuttons, but include a value that identifies the user's selection\n\nTo make the radio buttons work as intended, the update function should handle\nthe message by updating a record field in the program's model to the user's\nselection (see example).\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type EmailFrequency\n      = Daily\n      | Weekly\n      | Monthly\n\n    type alias Model =\n      { emailFrequency : EmailFrequency\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UpdateEmailFrequency EmailFrequency\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UpdateEmailFrequency option ->\n          { model\n          | emailFrequency = option\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 10\n    , options =\n      [ (\"Every day\", Daily)\n      , (\"Every week\", Weekly)\n      , (\"Every month\", Monthly)\n      ]\n\n    , selected = model.emailFrequency\n    }\n      |> Ui.Selector.radioButtons UpdateEmailFrequency\n\n\n+ __HTML tag__: List of `label` > `<input type=\"radio\">`\n+ __ARIA role__: *radio* (default)\n+ __Element class__: *.radio*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/radio/\n\n",
+                "type": "(a -> msg) -> { id : Int, options : List ( String, a ), selected : a } -> List (Element msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Modifier",
+        "comment": "\n\n# Customizing UI Elements: Modifier Classes\nModifier classes change the style properties of UI elements, like color, size,\nand spacing, and may add responsive styling via CSS media queries.\n[Bulma CSS](http://bulma.io/documentation/modifiers/syntax/)\nincludes modifier classes for many elements, or you can define your own using a\ncustom stylesheet.\n\n## Generic functions for adding modifiers\n@docs add, addList, conditional\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add a single modifier class to a UI element\n\n    myElement\n      |> Ui.Modifier.add \"has-text-centered\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "addList",
+                "comment": " Add a list of modifier classes to a UI element\n\n    myElement\n      |> Ui.Modifier.addList\n        [ \"box\"\n        , \"has-text-centered\"\n        ]\n\n",
+                "type": "List String -> Element msg -> Element msg"
+            },
+            {
+                "name": "conditional",
+                "comment": " Conditionally add a modifier class if the boolean argument is `True`\n\n    myElement\n      |> Ui.Modifier.conditional\n        ( \"has-text-centered\"\n        , myElement\n          |> Dom.Element.hasClass \"box\"\n\n        )\n        \n",
+                "type": "( String, Bool ) -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Media",
+        "comment": "\n\n# Content Element: Media\nThis module contains helpers to insert images and other media content into your\npage layout, with built-in features for web accessibility. The image constructor\napplies the *.image* Bulma element class, which is helpful for positioning\nand images and provides a set of fixed and responsive size modifiers. Other\nmedia content types that are not supported by Bulma are assigned class names\nfor custom styling.\n\n## Media Elements\n@docs image, svg, video, audio\n\n## Adding a Caption\n@docs withCaption\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "audio",
+                "comment": " Construct audio content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the audio is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The boolean argument indicates whether controls should be\ndisplayed.\n\n    { sourceList =\n      [ (\"horse.ogg\", \"audio/ogg\")\n      , (\"horse.mp3\", \"audio/mpeg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.audio\n      |> Ui.render\n\n\n    --> <figure>\n    --    <audio controls role=\"application\">\n    --      <source src=\"horse.ogg\" type=\"audio/ogg\">\n    --      <source src=\"horse.mp3\" type=\"audio/mpeg\">\n    --      <p>Audio file 'horse.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/ogg' files.</p>\n    --      <p>Audio file 'horse.mp3' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/mpeg' files.</p>\n    --    </audio>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<audio>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.audio*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.audio* is not a Bulma element class)\n\n",
+                "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Element msg"
+            },
+            {
+                "name": "image",
+                "comment": " Construct image content (typically from a JPEG or PNG source), with alt\ntext for screen readers\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.image*\n+ __Available modifiers__: size ([fixed](https://bulma.io/documentation/elements/image/#fixed-square-images),\n [responsive](https://bulma.io/documentation/elements/image/#responsive-images-with-ratios))\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/image/\n\n",
+                "type": "{ path : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "svg",
+                "comment": " Construct SVG content, with a raster image fallback for older browsers and\nalt text for screen readers\n\n    { path = \"logo.svg\"\n    , fallback = \"logo.png\"\n    , altText = \"Company Logo\"\n    }\n      |> Ui.Media.svg\n      |> Ui.render\n\n    --> <figure class=\"svg-object\">\n    --    <object data=\"logo.svg\" type=\"image/svg+xml\">\n    --      <img src=\"logo.png\" alt=\"Company Name\">\n    --    </object>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<object>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.svg-object*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.svg-object* is not a Bulma element class)\n\n",
+                "type": "{ path : String, fallback : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "video",
+                "comment": " Construct video content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the video is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The `hasControls` argument indicates whether controls should be\ndisplayed in the video frame.\n\n    { sourceList =\n      [ (\"movie.mp4\", \"video/mp4\")\n      , (\"movie.ogg\", \"video/ogg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.video\n      |> Ui.render\n\n\n    --> <figure class=\"video\">\n    --    <video controls role=\"application\">\n    --      <source src=\"movie.mp4\" type=\"video/mp4\">\n    --      <source src=\"movie.ogg\" type=\"video/ogg\">\n    --      <p>Video file 'movie.mp4' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/mp4' files.</p>\n    --      <p>Video file 'movie.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/ogg' files.</p>\n    --    </video>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<video>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.video*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.video* is not a Bulma element class)\n\n",
+                "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Element msg"
+            },
+            {
+                "name": "withCaption",
+                "comment": " Add a figure caption to a media element. The `id` argument is a unique\ninteger that is used to generate an *id* attribute for the caption so that\nit can be identified for screen readers as labelling the media element.\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.Media.withCaption\n        { id = 1\n        , text = \"This image is 128 px by 128 px.\"\n        }\n\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\" aria-labelledby=\"caption-1\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --    <figcaption id=\"caption-1\">This image is 128 px x 128 px.</figcaption>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<figcaption>`\n+ __ARIA attribute__: *aria-labelledby* (caption is identified as the visible label for the figure element)\n\n",
+                "type": "{ id : Int, text : String } -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Input",
+        "comment": "\n\n# Interactive Element: Input\nIn an Elm program, captured user input is handled by the program's update\nfunction. The constructors in this module automate part of the set-up for\ncapturing input and, optionally, decoding string values into numeric or custom\ntypes. These functions also provide built-in web accessibility features and, for\ntext and numeric fields, default styling via the *.input* Bulma element class.\n\n\n# Basic Text Input\n@docs string, textArea\n\n## Labeling Input Fields\n@docs labelFor\n\n# Input Fields with Built-in Encoding/Decoding\n@docs int, float, custom\n\n# Native HTML5 Widgets\n@docs intSlider, floatSlider, colorPicker\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colorPicker",
+                "comment": " Construct an HTML5 color picker widget to capture a hexadecimal color code\n\n+ The input/output value of the color picker widget is a hexadecimal string\nrepresenting an RGB color encoding. This constructor does not implement any\nerror handling for hex codes.\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias model =\n      { backgroundColor : String\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UpdateBackgroundColor String\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UpdateBackgroundColor value ->\n          { model\n          | backgroundColor = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 8\n    , value = model.backgroundColor\n    }\n      |> Ui.Input.colorPicker UpdateBackgroundColor\n\n\n+ __HTML tag__: `<input type=\"color\">`\n+ __ARIA role__: none\n+ __Element class__: *.color-picker*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.color-picker* is not a Bulma element class)\n\n",
+                "type": "(String -> msg) -> { id : Int, value : String } -> Element msg"
+            },
+            {
+                "name": "custom",
+                "comment": " Construct an input field to capture a custom value\n\n+ This constructor automates some aspects of error handling with custom Elm\ntypes. It allows you to treat the input/output value as a `Maybe` *whatever*\nin your Elm program's model, update, and view; conversion to and from a string\nis built into the constructor using the encoder and decoder functions given as\narguments.\n+ Valid input (where the encoder returns an `Ok` value) triggers a model update\non an *input* event; invalid integer input fails to update on *input*, but will\ntrigger an update of the value to `Nothing` on a *change* event (i.e., when the\ninput element loses focus).\n\n*Example*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { backgroundColor : Maybe Color\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = BackgroundColorInput (Maybe Color)\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        BackgroundColorInput value ->\n          { model\n          | backgroundColor = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 5\n    , placeholder = \"#FFFFFF\"\n    , value = model.backgroundColor\n    , encoder = ColorMath.Hex.toColor\n    , decoder = ColorMath.Hex.fromColor >> Ok\n    }\n      |> Ui.Input.custom BackgroundColorInput\n\n\n+ __HTML tag__: `<input type=\"text\">`\n+ __ARIA role__: *textbox* (default)\n+ __Element class__: *.input*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/input/#colors),\n[size](https://bulma.io/documentation/form/input/#sizes),\n[style](https://bulma.io/documentation/form/input/#styles)\n[state](https://bulma.io/documentation/form/input/#states),\n[icons](https://bulma.io/documentation/form/input/#with-font-awesome-icons)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/input/\n\n",
+                "type": "(Maybe a -> msg) -> { id : Int, placeholder : String, value : Maybe a, encoder : String -> Result x a, decoder : a -> Result x String } -> Element msg"
+            },
+            {
+                "name": "float",
+                "comment": " Construct an input field to capture a `Float`\n\n+ This constructor automates some aspects of error handling with numeric\ninput. It allows you to treat the numeric input/output as a `Maybe Float` value\nin your Elm program's model, update, and view; conversion to and from a string\nis built into the constructor.\n+ Valid decimal input triggers a model update on an *input* event; invalid\ndecimal input fails to update on *input*, but will trigger an update of the\nvalue to `Nothing` on a *change* event (i.e., when the input element loses\nfocus).\n+ The `minMaxStep` argument sets the HTML5 *min*, *max*, and *step* attributes,\nwhich are used for native browser implementations of increment/decrement buttons\nor a spinbox for selecting a value in the given range.\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { brightness : Maybe Float\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = AdjustBrightness (Maybe Float)\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        AdjustBrightness value ->\n          { model\n          | brightness = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 4\n    , placeholder = \"\"\n    , value = model.brightness\n    , minMaxStep = (0, 1, 0.01)\n    }\n      |> Ui.Input.float AdjustBrightness\n\n\n+ __HTML tag__: `<input type=\"number\">`\n+ __ARIA role__: *spinbutton* (default)\n+ __Element class__: *.input*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/input/#colors),\n[size](https://bulma.io/documentation/form/input/#sizes),\n[style](https://bulma.io/documentation/form/input/#styles)\n[state](https://bulma.io/documentation/form/input/#states),\n[icons](https://bulma.io/documentation/form/input/#with-font-awesome-icons)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/input/\n\n",
+                "type": "(Maybe Float -> msg) -> { id : Int, placeholder : String, value : Maybe Float, minMaxStep : ( Float, Float, Float ) } -> Element msg"
+            },
+            {
+                "name": "floatSlider",
+                "comment": " Construct an HTML5 slider widget to capture a `Float`\n\n+ Unlike numeric input fields, sliders must always have a value, so the\ninput/output type is a `Float`, not a `Maybe Float`.\n+ The `minMaxStep` argument sets the HTML5 *min*, *max*, and *step* attributes,\nwhich are used for native browser implementations of the slider widget.\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { brightness : Float\n      , ..\n      }\n\n    initial : Model\n    initial =\n      { brightness = 0.5\n      , ..\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UpdateBrightness Int\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UpdateBrightness value ->\n          { model\n          | brightness = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 7\n    , value = model.brightness\n    , minMaxStep = (0, 1, 0.01)\n    }\n      |> Ui.Input.floatSlider UpdateBrightness\n\n\n+ __HTML tag__: `<input type=\"range\">`\n+ __ARIA role__: *slider* (default)\n+ __Element class__: *.slider*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.slider* is not a Bulma element class)\n\n",
+                "type": "(Float -> msg) -> { id : Int, value : Float, minMaxStep : ( Float, Float, Float ) } -> Element msg"
+            },
+            {
+                "name": "int",
+                "comment": " Construct an input field to capture an `Int`\n\n+ This constructor automates some aspects of error handling with numeric\ninput. It allows you to treat the numeric input/output as a `Maybe Int` value in\nyour Elm program's model, update, and view; conversion to and from a string is\nbuilt into the constructor.\n+ Valid integer input triggers a model update on an *input* event; invalid\ninteger input fails to update on *input*, but will trigger an update of the\nvalue to `Nothing` on a *change* event (i.e., when the input element loses\nfocus).\n+ The `minMaxStep` argument sets the HTML5 *min*, *max*, and *step* attributes,\nwhich are used for native browser implementations of increment/decrement buttons\nor a spinbox for selecting a value in the given range.\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { userName : String\n      , userAge : Maybe Int\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UserAgeInput (Maybe Int)\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UserAgeInput value ->\n          { model\n          | userAge = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 3\n    , placeholder = \"35\"\n    , value = model.userAge\n    , minMaxStep = (0, 117, 1)\n    }\n      |> Ui.Input.int UserAgeInput\n\n\n+ __HTML tag__: `<input type=\"number\">`\n+ __ARIA role__: *spinbutton* (default)\n+ __Element class__: *.input*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/input/#colors),\n[size](https://bulma.io/documentation/form/input/#sizes),\n[style](https://bulma.io/documentation/form/input/#styles)\n[state](https://bulma.io/documentation/form/input/#states),\n[icons](https://bulma.io/documentation/form/input/#with-font-awesome-icons)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/input/\n\n",
+                "type": "(Maybe Int -> msg) -> { id : Int, placeholder : String, value : Maybe Int, minMaxStep : ( Int, Int, Int ) } -> Element msg"
+            },
+            {
+                "name": "intSlider",
+                "comment": " Construct an HTML5 slider widget to capture an `Int`\n\n+ Unlike numeric input fields, sliders must always have a value, so the\ninput/output type is an `Int`, not a `Maybe Int`.\n+ The `minMaxStep` argument sets the HTML5 *min*, *max*, and *step* attributes,\nwhich are used for native browser implementations of the slider widget.\n\n*Example:*\n\n\n    --- MODEL ---\n\n    type alias Model =\n      { starRating : Int\n      , ..\n      }\n\n    initial : Model\n    initial =\n      { starRating = 3\n      , ..\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UpdateStarRating Int\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UpdateStarRating value ->\n          { model\n          | starRating = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 6\n    , value = model.starRating\n    , minMaxStep = (1, 5, 1)\n    }\n      |> Ui.Input.intSlider UpdateStarRating\n\n\n+ __HTML tag__: `<input type=\"range\">`\n+ __ARIA role__: *slider* (default)\n+ __Element class__: *.slider*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.slider* is not a Bulma element class)\n\n",
+                "type": "(Int -> msg) -> { id : Int, value : Int, minMaxStep : ( Int, Int, Int ) } -> Element msg"
+            },
+            {
+                "name": "labelFor",
+                "comment": " Construct a label for an input field by giving the label text and the id\nnumber of the input element to which it applies\n\n    \"Enter your name\"\n      |> Ui.Input.labelFor 1\n\n",
+                "type": "Int -> String -> Element msg"
+            },
+            {
+                "name": "string",
+                "comment": " Construct an input field to capture a `String`\n\n+ The `id` argument is a unique integer used to generate an *id* attribute,\nwhich is required to implement some web accessibility features. If the integer\nis 3, the *id* attribute will be \"input-3\". Use the `labelFor` constructor\nbelow to match a label to an input id.\n+ The `placeholder` will be displayed in the input field when its *value*\nattribute is empty. This may be used to suggest to the user the type of input\nrequested, but for accessibilty reasons, it should not substitute for\na label.\n+ The `value` sets the input element's *value* attribute. It should be a\nrecord field in your Elm program's model that gets updated whenever the\nuser enters input. See the example below.\n\n\n*Example:*\n\n    --- MODEL ---\n\n    type alias Model =\n      { userName : String\n      , ...\n      }\n\n    --- UPDATE ---\n\n    type Msg\n      = UserNameInput String\n      | ...\n\n    update : Msg -> Model -> Model\n    update msg model =\n      case msg of\n        UserNameInput value ->\n          { model\n          | userName = value\n          }\n\n        ...\n\n    --- VIEW ---\n\n    { id = 1\n    , placeholder = \"first last\"\n    , value = model.userName\n    }\n      |> Ui.Input.string UserNameInput\n\n\n+ __HTML tag__: `<input type=\"text\">`\n+ __ARIA role__: *textbox* (default)\n+ __Element class__: *.input*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/input/#colors),\n[size](https://bulma.io/documentation/form/input/#sizes),\n[style](https://bulma.io/documentation/form/input/#styles)\n[state](https://bulma.io/documentation/form/input/#states),\n[icons](https://bulma.io/documentation/form/input/#with-font-awesome-icons)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/input/\n\n",
+                "type": "(String -> msg) -> { id : Int, placeholder : String, value : String } -> Element msg"
+            },
+            {
+                "name": "textArea",
+                "comment": " Construct a multi-line input field to capture a longer string of text\n\n    { id = 2\n    , placeholder = \"Tell us about yourself.\"\n    , value = model.userBio\n    , rows = Just 10\n    }\n      |> Ui.Input.textArea UserBioInput\n\n\n+ __HTML tag__: `<textarea>`\n+ __ARIA role__: *textbox* (default)\n+ __Element class__: *.textarea*\n+ __Available modifiers__: [color](https://bulma.io/documentation/form/textarea/#colors),\n[size](https://bulma.io/documentation/form/textarea/#sizes),\n[state](https://bulma.io/documentation/form/textarea/#states)\n+ __Bulma CSS reference__: https://bulma.io/documentation/form/textarea/\n\n",
+                "type": "(String -> msg) -> { id : Int, placeholder : String, value : String, rows : Maybe Int } -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Icon",
+        "comment": "\n\n# Content Element: Icon\nIcons are a common feature of modern UI design. This module provides helpers\nfor inserting SVG icons or making use of popular icon font character\ncollections. The Bulma *.icon* element class, which is applied to a wrapping\n`<span>` element, provides default sizing and size modifiers to make it easy to\nfit icons into the visual layout of your page.\n\n## SVG\n@docs svg\n\n## Icon font characters\n@docs fontAwesome4, material, ionicons, openIconic\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fontAwesome4",
+                "comment": " Construct an icon from the\n[Font Awesome 4](http://fontawesome.io/icons/)\ncollection, with alt text for screen readers\n\n    { name = \"bicycle\"\n    , altText = \"Bicycle route to destination\"\n    }\n      |> Ui.Icon.fontAwesome4\n      |> Ui.render\n\n    --> <span class=\"icon\" role=\"img\" aria-label=\"Bicycle route to destination\">\n    --    <i class=\"fa fa-bicycle\" aria-hidden=\"true\"></i>\n    --  </span>\n\n+ __HTML tags__: `<span>` > `<i>`\n+ __ARIA role__: *img*\n+ __Element class__: *.icon*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/icon/#colors),\n[size](http://bulma.io/documentation/elements/icon/#sizes),\n[variations](http://bulma.io/documentation/elements/icon/#font-awesome-variations)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/icon/\n+ __Font Awesome 4 reference__: http://fontawesome.io/icons/\n\n",
+                "type": "{ name : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "ionicons",
+                "comment": " Construct an icon from the\n[Ionicons](http://ionicons.com/)\ncollection, with alt text for screen readers\n\n    { name = \"android-bicycle\"\n    , altText = \"Bicycle route to destination\"\n    }\n      |> Ui.Icon.ionicons\n      |> Ui.render\n\n    --> <span class=\"icon\" role=\"img\" aria-label=\"Bicycle route to destination\">\n    --    <i class=\"ion-android-bicycle\" aria-hidden=\"true\"></i>\n    --  </span>\n\n+ __HTML tags__: `<span>` > `<i>`\n+ __ARIA role__: *img*\n+ __Element class__: *.icon*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/icon/#colors),\n[size](http://bulma.io/documentation/elements/icon/#ionicons)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/icon/\n+ __Ionicons reference__: http://ionicons.com/\n\n",
+                "type": "{ name : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "material",
+                "comment": " Construct an icon from Google's\n[Material Design](https://material.io/icons/)\ncollection, with alt text for screen readers\n\n    { name = \"directions_bike\"\n    , altText = \"Bicycle route to destination\"\n    }\n      |> Ui.Icon.material\n      |> Ui.render\n\n    --> <span class=\"icon\" role=\"img\" aria-label=\"Bicycle route to destination\">\n    --    <i class=\"material-icons\" aria-hidden=\"true\">directions_bike</i>\n    --  </span>\n\n+ __Browser compatability__: Requires support for [ligatures](http://google.github.io/material-design-icons/#using-the-icons-in-html) (not compatible with IE 9 and below)\n+ __HTML tags__: `<span>` > `<i>`\n+ __ARIA role__: *img*\n+ __Element class__: *.icon*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/icon/#colors),\n[size](http://bulma.io/documentation/elements/icon/#material-design-icons),\n[variations](https://bulma.io/documentation/elements/icon/#material-design-icons)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/icon/\n+ __Material Icons reference__: https://material.io/icons/\n\n",
+                "type": "{ name : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "openIconic",
+                "comment": " Construct an icon from the\n[Open Iconic](http://useiconic.com/open)\ncollection, with alt text for screen readers\n\n    { name = \"map-marker\"\n    , altText = \"Your current location\"\n    }\n      |> Ui.Icon.openIconic\n      |> Ui.render\n\n    --> <span class=\"icon\" role=\"img\" aria-label=\"Your current location\">\n    --    <i class=\"oi\" data-glyph=\"map-marker\" aria-hidden=\"true\"></i>\n    --  </span>\n\n+ __HTML tags__: `<span>` > `<i>`\n+ __ARIA role__: *img*\n+ __Element class__: *.icon*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/icon/#colors),\n[size](http://bulma.io/documentation/elements/icon/#open-iconic)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/icon/\n+ __Open Iconic reference__: https://useiconic.com/open\n\n",
+                "type": "{ name : String, altText : String } -> Element msg"
+            },
+            {
+                "name": "svg",
+                "comment": " Construct an icon from an SVG source, with alt text for screen readers\n\n    { path = \"icons/bicycle.svg\"\n    , altText = \"Bicycle route to destination\"\n    }\n      |> Ui.Icon.svg\n      |> Ui.render\n\n    --> <span class=\"icon\" role=\"img\" aria-label=\"Bicycle route to destination\">\n    --    <object data=\"icons/bicycle.svg\" type=\"image/svg+xml\" aria-hidden=\"true\"></object>\n    --  </span>\n\n+ __Browser compatability__: Requires support for SVG (to include a raster fallback, use [Ui.Media.svg](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Media#svg))\n+ __HTML tags__: `<span>` > `<object>`\n+ __ARIA role__: *img*\n+ __Element class__: *.icon*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/icon/#sizes)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/icon/\n\n",
+                "type": "{ path : String, altText : String } -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Heading",
+        "comment": "\n\n# Content Element: Heading\nUsing the *.title* and *.subtitle* element classes gives greater control over\nthe ranking and appearance of headings by making HTML markup independent of\nfont-size rendering. With Bulma CSS, size modifier classes can be used to set\ndifferent title and subtitle sizes for different parts of a page.\n\n@docs title, subtitle\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "subtitle",
+                "comment": " Construct a subtitle heading\n\n    \"My Subtitle\"\n      |> Ui.Element.subtitle \"h2\"\n      |> Ui.Modifier.add \"is-6\"\n      |> Ui.render\n\n    --> <h2 class=\"subtitle is-6\">My Subtitle</h2>\n\n+ __HTML tag__: variable (use `<h2>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.subtitle*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
+                "type": "String -> String -> Element msg"
+            },
+            {
+                "name": "title",
+                "comment": " Construct a title heading\n\n    \"My Title\"\n      |> Ui.Heading.title \"h1\"\n      |> Ui.Modifier.add \"is-4\"\n      |> Ui.render\n\n    --> <h1 class=\"title is-4\">My Title</h1>\n\n+ __HTML tag__: variable (use `<h1>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.title*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
+                "type": "String -> String -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Button",
+        "comment": "\n\n# Interactive Element: Button\nIn an Elm program, button clicks are handled by the program's update function.\nThere are three button options in this module:\n- `Ui.Button.action` is just a generic button. Use it in your view whenever\nyou want the update function to make something happen in the current view or\nissue a command in response to a click.\n- Use `Ui.Button.navigation` in specific cases where you want the update\nfunction to replace the current view with a new page view. (*This is important\nmainly for accessibility, so that the semantic role of the button is correctly\nidentified by its HTML tag, and it makes the most sense when your Elm program\nis set up to handle page navigation internally*).\n- With `Ui.Button.delete`, the button appears as a cicle with a cross, which\nprovides a compact control when you want the update function to hide an element,\nremove data from a record field, or otherwise \"delete\" something.\n\n@docs action, navigation, delete\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "action",
+                "comment": " Construct an action button\n\n    \"Click Here\"\n      |> Ui.Button.action DoSomething\n      |> Ui.render\n\n    --> <button class=\"button\">Click Here</button>\n\n+ __HTML tag__: `<button>`\n+ __ARIA role__: *button* (default)\n+ __Element class__: *.button*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/button/#colors),\n[size](http://bulma.io/documentation/elements/button/#sizes),\n[style](http://bulma.io/documentation/elements/button/#styles),\n[state](http://bulma.io/documentation/elements/button/#states)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/button/\n\n",
+                "type": "msg -> String -> Element msg"
+            },
+            {
+                "name": "delete",
+                "comment": " Construct a delete button\n\n    Ui.Button.delete HideMessage\n      |> Ui.render\n\n    --> <button class=\"delete\"></button>\n\n+ __HTML tag__: `<button>`\n+ __ARIA role__: *button* (default)\n+ __Element class__: *.delete*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/delete/#sizes)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/delete/\n\n",
+                "type": "msg -> Element msg"
+            },
+            {
+                "name": "navigation",
+                "comment": " Construct a navigation button\n\n    \"Click Here\"\n      |> Ui.Button.navigation (NavTo Somewhere)\n      |> Ui.render\n\n    --> <a class=\"button\">Click Here</a>\n\n+ __HTML tag__: `<a>`\n+ __ARIA role__: *link* (default)\n+ __Element class__: *.button*\n+ __Available modifiers__: [color](http://bulma.io/documentation/elements/button/#colors),\n[size](http://bulma.io/documentation/elements/button/#sizes),\n[style](http://bulma.io/documentation/elements/button/#styles),\n[state](http://bulma.io/documentation/elements/button/#states)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/button/\n\n",
+                "type": "msg -> String -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Attribute",
+        "comment": "\n\n# Customizing UI Elements: HTML Attributes\nWeb browsers and adaptive devices use attributes to apply default styling and\nbuild interactive functionality into HTML markup. For example, adding a *title*\nattribute to an element will cause browsers to display a tooltip with the title\nvalue when the user hovers over that element. This module provides a compact but\nflexible syntax for adding HTML attributes to UI elements.\n\n## Generic functions for setting HTML attributes\n@docs add, addList\n\n## Helpers for common global attributes\n@docs title, hidden\n\n## Helpers for common ARIA attributes\n@docs role, ariaLabel, ariaLabelledBy, ariaDescribedBy, ariaHidden\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add a single attribute to a UI element. The first argument in the tuple\ngives the attribute name. For the second argument in the tuple, use one of the\nfunctions in\n[Dom.Property](http://package.elm-lang.org/packages/danielnarey/elm-semantic-dom/latest/Dom-Property)\nor\n[Dom.Attribute](http://package.elm-lang.org/packages/danielnarey/elm-semantic-dom/latest/Dom-Attribute)\nfrom *danielnarey/elm-semantic-dom* to specify how the attribute value should be\nassigned (see the documentation in these modules).\n\n    myPhoto\n      |> Ui.Attribute.add\n        ( \"title\", Dom.Property.string \"My summer vaction\" )\n\nAlternatively, if it makes more sense to you, you could use the function this\nway with the same result:\n\n    myNavbar\n      |> Ui.Attribute.add\n        ( \"My summer vaction\"\n        , Json.Encode.string\n          >> VirtualDom.property \"title\"\n        )\n\n",
+                "type": "( String, String -> Property msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "addList",
+                "comment": " Add a list of attributes to a UI element\n\n    myPhoto\n      |> Ui.Attribute.addList\n        [ (\"title\", Dom.Property.string \"My summer vaction\")\n        , (\"hidden\", Dom.Property.bool True)\n        ]\n\n",
+                "type": "List ( String, String -> Property msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "ariaDescribedBy",
+                "comment": " Convenience function to set the *aria-describedby* attribute\n\n    myPhoto\n      |> Ui.Attribute.ariaDescribedBy \"article-section-5\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "ariaHidden",
+                "comment": " Convenience function to set `aria-hidden=\"true\"`\n\n    decorativeIcon\n      |> Ui.Attribute.ariaHidden\n\n",
+                "type": "Element msg -> Element msg"
+            },
+            {
+                "name": "ariaLabel",
+                "comment": " Convenience function to set the *aria-label* attribute\n\n    myNavbar\n      |> Ui.Attribute.ariaLabel \"Main navigation\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "ariaLabelledBy",
+                "comment": " Convenience function to set the *aria-labelledby* attribute\n\n    myFigure\n      |> Ui.Attribute.ariaLabelledBy \"figure-caption-3\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "hidden",
+                "comment": " Convenience function to set the *hidden* property\n\n    myPhoto\n      |> Ui.Attribute.hidden True\n\n",
+                "type": "Bool -> Element msg -> Element msg"
+            },
+            {
+                "name": "role",
+                "comment": " Convenience function to set the ARIA *role* attribute\n\n    myElement\n      |> Ui.Attribute.role \"presentation\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "title",
+                "comment": " Convenience function to set the *title* property\n\n    myPhoto\n      |> Ui.Attribute.title \"My summer vacation\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui.Action",
+        "comment": "\n\n# Customizing UI Elements: User Actions\nUser actions are DOM events like clicks, key presses, and other mouse gestures\nthat do not capture text or numeric input. Handlers for user actions can be\nadded to any UI element using the functions in this module (for capturing input,\nsee\n[Ui.Input](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Input)).\n\nTo add a user-action handler to an element, you must specify the\n[event name](https://developer.mozilla.org/en-US/docs/Web/Events)\nand the message that you want to be sent to your Elm program's update function\nwhen the event is triggered. To handle keyboard actions, you will also have to\nspecify the\n[key value](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)\nof interest, which you can do using one of the helper functions below.\n\n\n## Generic functions for constructing user-action handlers\n@docs add, addList\n\n## Helpers for common mouse actions\n@docs onClick, onMouseOver, onMouseOut\n\n## Helpers for keyboard actions\n@docs onKeyPress, onKeyDown, onKeyUp\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add a single action to a UI element\n\n    myElement\n      |> Ui.Action.add (\"click\", DoSomething)\n\n",
+                "type": "( String, msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "addList",
+                "comment": " Add a list of actions to a UI element\n\n    myElement\n      |> Ui.Action.addList\n        [ (\"mouseover\", DoSomething)\n        , (\"click\", DoSomethingElse)\n        ]\n\n",
+                "type": "List ( String, msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "onClick",
+                "comment": " Convience function to construct a handler for a \"click\" event\n\n    myElement\n      |> Ui.Action.onClick DoSomething\n\n",
+                "type": "msg -> Element msg -> Element msg"
+            },
+            {
+                "name": "onKeyDown",
+                "comment": " Helper to construct a handler for a\n[keydown](http://developer.mozilla.org/en-US/docs/Web/Events/keydown)\nevent, where you only want the message to be triggered by a particular key\nbeing pressed down. The string argument gives the keyboard value of interest,\nwhich must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyDown (\"ArrowUp\", DoSomething)\n\n",
+                "type": "( String, msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "onKeyPress",
+                "comment": " Helper to construct a handler for a\n[keypress](http://developer.mozilla.org/en-US/docs/Web/Events/keypress)\nevent, where you only want the message to be triggered by a particular key\nbeing in pressed position. The string argument gives the keyboard value of\ninterest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyPress (\"Enter\", DoSomething)\n\n",
+                "type": "( String, msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "onKeyUp",
+                "comment": " Helper to construct a handler for a\n[keyup](http://developer.mozilla.org/en-US/docs/Web/Events/keyup)\nevent, where you only want the message to be triggered by a particular key\nbeing released from pressed position. The string argument gives the keyboard\nvalue of interest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyUp (\"ArrowUp\", DoSomething)\n\n",
+                "type": "( String, msg ) -> Element msg -> Element msg"
+            },
+            {
+                "name": "onMouseOut",
+                "comment": " Convience function to construct a handler for a \"mouseout\" event\n\n    myElement\n      |> Ui.Action.onMouseOut DoSomething\n\n",
+                "type": "msg -> Element msg -> Element msg"
+            },
+            {
+                "name": "onMouseOver",
+                "comment": " Convience function to construct a handler for a \"mouseover\" event\n\n    myElement\n      |> Ui.Action.onMouseOver DoSomething\n\n",
+                "type": "msg -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ui",
+        "comment": "\n\n# Ui.Element Records\n@docs Element\n\n# Generic Constructors\n@docs leaf, textWrapper, container\n\n## Setting an element's id\n@docs setId\n\n# Rendering to VirtualDom\n@docs render\n\n# Package Modules\n\n## Interactive Elements\n- [Ui.Button](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Button)\n- [Ui.Input](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Input)\n- [Ui.Selector](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Selector)\n- [Ui.Indicator](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Indicator)\n\n## Content Elements\n- [Ui.Text](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Text)\n- [Ui.Heading](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Heading)\n- [Ui.Icon](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Icon)\n- [Ui.Media](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Media)\n- [Ui.Source](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Source)\n\n## Customizing Appearance and Interaction\n- [Ui.Modifier](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Modifier)\n- [Ui.Attribute](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Attribute)\n- [Ui.Action](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Action)\n- [Ui.Style](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Style)\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " A record containing all of the data needed to construct an HTML node (via\n`VirtualDom.Node`). This is an alias for `Dom.Element` in\n[danielnarey/elm-semantic-dom](http://package.elm-lang.org/packages/danielnarey/elm-semantic-dom/latest/Dom#Element).\n\nBy using a record to temporarily store data about a node, we can partially\nconstruct that node with some data, but delay building it until all of the data\nhas been assembled. In this way, all of a node's data is available to be\nmodified until it is either placed in a container element or passed as an\nargument to the `Ui.render` function.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Element msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "container",
+                "comment": " Construct an element with some children\n\n    [ \"Time to make the donuts!\"\n      |> Ui.textWrapper \"p\"\n    ]\n      |> Ui.container \"div\"\n      |> Ui.render\n\n    --> <div>\n    --    <p>Time to make the donuts!</p>\n    --  </div>\n\n",
+                "type": "String -> List (Element msg) -> Element msg"
+            },
+            {
+                "name": "leaf",
+                "comment": " Construct an element with no children\n\n    Ui.leaf \"hr\"\n      |> Ui.render\n\n    --> <hr>\n\n",
+                "type": "String -> Element msg"
+            },
+            {
+                "name": "render",
+                "comment": " Render an element record to HTML (via the native JavaScript implementation\nbacking\n[elm-lang/virtual-dom](http://package.elm-lang.org/packages/elm-lang/virtual-dom/latest/VirtualDom#node)).\n\n__Note that you only need to call this function once — rendering the root node\nof a tree renders all of its children.__\n\n",
+                "type": "Element msg -> Node msg"
+            },
+            {
+                "name": "setId",
+                "comment": " Set the `id` field on a `Ui.Element` record, the value of which will be\nassigned to the element's *id* attribute upon rendering\n\n    myMenu\n      |> Ui.setId \"sidebar-menu\"\n\n",
+                "type": "String -> Element msg -> Element msg"
+            },
+            {
+                "name": "textWrapper",
+                "comment": " Construct an element with a text node as its only child\n\n    \"Time to make the donuts!\"\n      |> Ui.textWrapper \"p\"\n      |> Ui.render\n\n    --> <p>Time to make the donuts!</p>\n\n",
+                "type": "String -> String -> Element msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Ui.DragDrop",
+        "comment": " This library makes it easy to implement HTML5 drag-and-drop operations with Elm and\n[@danielnarey's Modular Ui framework](https://github.com/danielnarey/elm-modular-ui/).\n\nUi.Element nodes can be made draggable and droppable, with the state represented by an opaque object you can store in your model.\n\nEach draggable/droppable element should correspond to some kind of id. This could be an (id for an) item in a list, a tag value from a type representing the various draggable/droppable elements, or whatever you want.\n\nYour application must provide messages for each of the events triggered by this framework. The library provides helper methods to query and update the current state.\n\n\n# State\n\n@docs State\n\n\n# Querying State\n\n@docs isCurrentDropTarget, currentlyDraggedObject, dropTargetExists, initialState\n\n\n# Updating State\n\n@docs startDragging, stopDragging, updateDropTarget\n\n\n# Specifying Messages\n\n@docs Messages\n\n\n# Updating the UI\n\n@docs makeDraggable, makeDroppable\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " An opaque container for state data.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Messages",
+                "comment": " Messages the Ui.DragDrop framework will send to your application as events occur. It is up to your application to call the appropriate Ui.DragDrop update function and store the result in your model.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ dragStarted : msg, dropTargetChanged : msg, dragEnded : msg, dropped : msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "currentlyDraggedObject",
+                "comment": " This method will return the currently dragged item (if any). Note that this will return the id (data) that corresponds to the Ui.Element node being dragged, rather than the actual DOM node itself.\n",
+                "type": "State a -> Maybe a"
+            },
+            {
+                "name": "dropTargetExists",
+                "comment": " This method will tell you whether the dragged element (if any) is currently over a drop zone.\n",
+                "type": "State a -> Bool"
+            },
+            {
+                "name": "initialState",
+                "comment": " The initial state on page load, with nothing being dragged or dropped.\n",
+                "type": "State a"
+            },
+            {
+                "name": "isCurrentDropTarget",
+                "comment": " This method will tell you whether a given item is currently being hovered over to allow you to provide a visual hint.\n",
+                "type": "State a -> a -> Bool"
+            },
+            {
+                "name": "makeDraggable",
+                "comment": " makeDraggable makes an element draggable. When an element is being dragged, it will gain the \"being-dragged\" CSS class, with which you can control the display of the moving element.\n",
+                "type": "State a -> a -> Messages msg -> Element msg -> Element msg"
+            },
+            {
+                "name": "makeDroppable",
+                "comment": " makeDroppable marks an element as a place that a dragged object can be dropped onto. If the dragged object is currently hovering over the droppable element, it gains the CSS class \"drop-target\" to allow for appropriate visual indication.\n",
+                "type": "State a -> a -> Messages msg -> Element msg -> Element msg"
+            },
+            {
+                "name": "startDragging",
+                "comment": " When the dragStarted message is received by your app, call this method to update the state with the newly-dragged object.\n",
+                "type": "State a -> a -> State a"
+            },
+            {
+                "name": "stopDragging",
+                "comment": " When dragging stops because either the dragEnded or dropped message were received or the user has done something else in your application, call this method to update the state appropriately.\n",
+                "type": "State a -> State a"
+            },
+            {
+                "name": "updateDropTarget",
+                "comment": " When the user drags an element over a potential drop zone and the dropTargetChanged message is received by your app, call this method to update the state with the currently targeted drop zone.\n",
+                "type": "State a -> a -> State a"
+            }
+        ],
+        "binops": []
+    }
+]

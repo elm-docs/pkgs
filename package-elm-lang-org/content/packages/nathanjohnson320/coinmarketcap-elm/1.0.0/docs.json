@@ -1,0 +1,74 @@
+[
+    {
+        "name": "CoinMarketCap.Request",
+        "comment": " Handles HTTP requests to coinmarketcap\n\n@docs getCryptos\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getCryptos",
+                "comment": " Gets a list of all crypto currencies\n",
+                "type": "Cmd Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CoinMarketCap.Msg",
+        "comment": " Msgs related to HTTP calls\n\n@docs Msg\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Msgs for each HTTP response from coinmarketcap\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ReceiveCryptos",
+                        [
+                            "Result Error (List Crypto)"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "CoinMarketCap.Models",
+        "comment": " Contains model definitions for the response from the coinmarket cap api\n\n# Models\n@docs Crypto, emptyCrypto\n\n# JSON\n@docs decodeCrypto, decodeCryptos, encodeCrypto\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Crypto",
+                "comment": " A single record for a cryptocurrency\n",
+                "args": [],
+                "type": "{ id : String, name : String, symbol : String, rank : String, price_usd : Maybe String, price_btc : Maybe String, volume_24h_usd : Maybe String, market_cap_usd : Maybe String, available_supply : Maybe String, total_supply : Maybe String, max_supply : Maybe String, percent_change_1h : Maybe String, percent_change_24h : Maybe String, percent_change_7d : Maybe String, last_updated : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeCrypto",
+                "comment": " Decodes JSON string into Crypto record\n",
+                "type": "Decoder Crypto"
+            },
+            {
+                "name": "decodeCryptos",
+                "comment": " Decodes a list of Crypto from JSON\n",
+                "type": "Decoder (List Crypto)"
+            },
+            {
+                "name": "emptyCrypto",
+                "comment": " Returns an empty crypto record\n",
+                "type": "Crypto"
+            },
+            {
+                "name": "encodeCrypto",
+                "comment": " Encode a single Crypto record into JSON\n",
+                "type": "Crypto -> Value"
+            }
+        ],
+        "binops": []
+    }
+]

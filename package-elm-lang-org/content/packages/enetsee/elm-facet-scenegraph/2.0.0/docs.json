@@ -1,0 +1,1100 @@
+[
+    {
+        "name": "Facet.Scenegraph",
+        "comment": "\n@docs Scenegraph, ViewBox\n",
+        "unions": [
+            {
+                "name": "Scenegraph",
+                "comment": " A data structure representing a set of visual marks\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Arc",
+                        [
+                            "List Arc"
+                        ]
+                    ],
+                    [
+                        "Area",
+                        [
+                            "List Area"
+                        ]
+                    ],
+                    [
+                        "Group",
+                        [
+                            "List ( Group, List Scenegraph )"
+                        ]
+                    ],
+                    [
+                        "Line",
+                        [
+                            "List Line"
+                        ]
+                    ],
+                    [
+                        "Path",
+                        [
+                            "List Path"
+                        ]
+                    ],
+                    [
+                        "Rect",
+                        [
+                            "List Rect"
+                        ]
+                    ],
+                    [
+                        "Rule",
+                        [
+                            "List Rule"
+                        ]
+                    ],
+                    [
+                        "Symbol",
+                        [
+                            "List Symbol"
+                        ]
+                    ],
+                    [
+                        "Text",
+                        [
+                            "List Text"
+                        ]
+                    ],
+                    [
+                        "Trail",
+                        [
+                            "List Trail"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ViewBox",
+                "comment": " Control how a scenegraph is displayed once rendered\n",
+                "args": [],
+                "type": "{ x : Float, y : Float, width : Float, height : Float }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Mark",
+        "comment": "\n# Static encodings of visual marks\n\n## Arc\n@docs  Arc, arc, startAngle , endAngle , padAngle , innerRadius , outerRadius\n\n## Area\n@docs Area, area\n\n## Group\n@docs Group, group, clip\n\n##Line\n@docs Line, line\n\n##Line-like\n@docs LineLike, interpolate\n\n##Path\n@docs Path, path\n\n##Rect\n@docs Rect , rect\n\n##Rule\n@docs Rule, rule\n\n##Symbol\n@docs Symbol, symbol, shape\n\n##Text\n@docs Text, Direction, Align, Baseline, text, relativePosition, align, baseline, direction\n\n##Trail\n@docs Trail , trail\n\n##Fill\n@docs FilledMark, fill, fillColor, fillOpacity\n\n##Stroke\n@docs StrokedMark, stroke, strokeColor, strokeWidth, strokeOpacity, strokeDashArray, strokeDashOffset, strokeCap, strokeCapButt, strokeCapRound, strokeCapSquare, strokeJoin, strokeJoinBevel, strokeJoinMiter, strokeJoinRound, strokeMiterLimit\n\n##Miscellaneous\n@docs angle, cornerRadius\n\n##General\n@docs Mark, href, tooltip, zIndex\n",
+        "unions": [
+            {
+                "name": "Align",
+                "comment": " Horizontal alignment\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Center",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Baseline",
+                "comment": " Vertical alignment\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Top",
+                        []
+                    ],
+                    [
+                        "Middle",
+                        []
+                    ],
+                    [
+                        "Bottom",
+                        []
+                    ],
+                    [
+                        "Alphabetic",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Direction",
+                "comment": " Flow direction\n",
+                "args": [],
+                "cases": [
+                    [
+                        "LeftToRight",
+                        []
+                    ],
+                    [
+                        "RightToLeft",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Arc",
+                "comment": " Circular arc\n",
+                "args": [],
+                "type": "{ startAngle : Float, endAngle : Float, padAngle : Float, innerRadius : Float, outerRadius : Float, cornerRadius : Float, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Area",
+                "comment": " Filled area with horizontal alignment\n",
+                "args": [],
+                "type": "{ x : List Float, y : List Position, interpolate : Interpolate, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "FilledMark",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | fill : Fill }"
+            },
+            {
+                "name": "Group",
+                "comment": " Container for other marks\n",
+                "args": [],
+                "type": "{ clip : Bool, cornerRadius : Float, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Line",
+                "comment": " Stroked lines\n",
+                "args": [],
+                "type": "{ x : List Float, y : List Float, interpolate : Interpolate, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "LineLike",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | interpolate : Interpolate }"
+            },
+            {
+                "name": "Mark",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Path",
+                "comment": " Arbitrary paths or polygons, defined using SVG path syntax\n",
+                "args": [],
+                "type": "{ path : Path, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Rect",
+                "comment": " Rectangles\n",
+                "args": [],
+                "type": "{ cornerRadius : Float, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Rule",
+                "comment": " Line segments\n",
+                "args": [],
+                "type": "{ x : Position, y : Position, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "StrokedMark",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | stroke : Stroke }"
+            },
+            {
+                "name": "Symbol",
+                "comment": " Plotting symbols, including circles, squares and other shapes\n",
+                "args": [],
+                "type": "{ shape : Shape, size : Float, angle : Float, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Text",
+                "comment": " Text labels with configurable fonts, alignment and angle\n",
+                "args": [],
+                "type": "{ text : String, align : Align, baseline : Baseline, direction : Direction, dx : Float, dy : Float, elipsis : Maybe String, font : Font, angle : Float, radius : Float, theta : Float, x : Position, y : Position, fill : Fill, stroke : Stroke, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            },
+            {
+                "name": "Trail",
+                "comment": " Filled lines with varying width\n",
+                "args": [],
+                "type": "{ x : List Float, y : List Float, width : List Float, fill : Fill, cursor : Cursor, href : Maybe String, tooltip : Maybe String, zIndex : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "align",
+                "comment": " ",
+                "type": "Align -> Text -> Text"
+            },
+            {
+                "name": "angle",
+                "comment": " ",
+                "type": "Float -> { c | angle : Float } -> { c | angle : Float }"
+            },
+            {
+                "name": "arc",
+                "comment": " ",
+                "type": "Float -> Float -> Float -> Float -> Arc"
+            },
+            {
+                "name": "area",
+                "comment": " ",
+                "type": "List Float -> List Float -> List Float -> Interpolate -> Area"
+            },
+            {
+                "name": "baseline",
+                "comment": " ",
+                "type": "Baseline -> Text -> Text"
+            },
+            {
+                "name": "clip",
+                "comment": " ",
+                "type": "Bool -> Group -> Group"
+            },
+            {
+                "name": "cornerRadius",
+                "comment": " ",
+                "type": "Float -> { c | cornerRadius : Float } -> { c | cornerRadius : Float }"
+            },
+            {
+                "name": "direction",
+                "comment": " ",
+                "type": "Direction -> Text -> Text"
+            },
+            {
+                "name": "endAngle",
+                "comment": " ",
+                "type": "Float -> Arc -> Arc"
+            },
+            {
+                "name": "fill",
+                "comment": " ",
+                "type": "Fill -> FilledMark a -> FilledMark a"
+            },
+            {
+                "name": "fillColor",
+                "comment": " ",
+                "type": "Color -> FilledMark a -> FilledMark a"
+            },
+            {
+                "name": "fillOpacity",
+                "comment": " ",
+                "type": "Float -> FilledMark a -> FilledMark a"
+            },
+            {
+                "name": "group",
+                "comment": " ",
+                "type": "Float -> Float -> Bool -> Group"
+            },
+            {
+                "name": "href",
+                "comment": " ",
+                "type": "String -> Mark a -> Mark a"
+            },
+            {
+                "name": "innerRadius",
+                "comment": " ",
+                "type": "Float -> Arc -> Arc"
+            },
+            {
+                "name": "interpolate",
+                "comment": " ",
+                "type": "Interpolate -> LineLike a -> LineLike a"
+            },
+            {
+                "name": "line",
+                "comment": " ",
+                "type": "List Float -> List Float -> Interpolate -> Line"
+            },
+            {
+                "name": "outerRadius",
+                "comment": " ",
+                "type": "Float -> Arc -> Arc"
+            },
+            {
+                "name": "padAngle",
+                "comment": " ",
+                "type": "Float -> Arc -> Arc"
+            },
+            {
+                "name": "path",
+                "comment": " ",
+                "type": "Float -> Float -> Path -> Path"
+            },
+            {
+                "name": "rect",
+                "comment": " ",
+                "type": "Float -> Float -> Float -> Float -> Rect"
+            },
+            {
+                "name": "relativePosition",
+                "comment": " ",
+                "type": "Float -> Float -> Text -> Text"
+            },
+            {
+                "name": "rule",
+                "comment": " ",
+                "type": "Float -> Float -> Float -> Float -> Rule"
+            },
+            {
+                "name": "shape",
+                "comment": " ",
+                "type": "Shape -> Symbol -> Symbol"
+            },
+            {
+                "name": "startAngle",
+                "comment": " ",
+                "type": "Float -> Arc -> Arc"
+            },
+            {
+                "name": "stroke",
+                "comment": " ",
+                "type": "Stroke -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeCap",
+                "comment": " ",
+                "type": "StrokeCap -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeCapButt",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeCapRound",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeCapSquare",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeColor",
+                "comment": " ",
+                "type": "Color -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeDashArray",
+                "comment": " ",
+                "type": "List Float -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeDashOffset",
+                "comment": " ",
+                "type": "Float -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeJoin",
+                "comment": " ",
+                "type": "StrokeJoin -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeJoinBevel",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeJoinMiter",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeJoinRound",
+                "comment": " ",
+                "type": "StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeMiterLimit",
+                "comment": " ",
+                "type": "Float -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeOpacity",
+                "comment": " ",
+                "type": "Float -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "strokeWidth",
+                "comment": " ",
+                "type": "Float -> StrokedMark a -> StrokedMark a"
+            },
+            {
+                "name": "symbol",
+                "comment": " ",
+                "type": "Float -> Float -> Float -> Shape -> Symbol"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "Float -> Float -> String -> Text"
+            },
+            {
+                "name": "tooltip",
+                "comment": " ",
+                "type": "String -> Mark a -> Mark a"
+            },
+            {
+                "name": "trail",
+                "comment": " ",
+                "type": "List Float -> List Float -> List Float -> Trail"
+            },
+            {
+                "name": "zIndex",
+                "comment": " ",
+                "type": "Int -> Mark a -> Mark a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Shape",
+        "comment": "\n@docs Shape\n",
+        "unions": [
+            {
+                "name": "Shape",
+                "comment": " A set of predefined shapes and custom SVG paths\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Circle",
+                        []
+                    ],
+                    [
+                        "Square",
+                        []
+                    ],
+                    [
+                        "Cross",
+                        []
+                    ],
+                    [
+                        "Diamond",
+                        []
+                    ],
+                    [
+                        "TriangleUp",
+                        []
+                    ],
+                    [
+                        "TriangleDown",
+                        []
+                    ],
+                    [
+                        "TriangleRight",
+                        []
+                    ],
+                    [
+                        "TriangleLeft",
+                        []
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "Path"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.SVG.Path",
+        "comment": "\n@docs Path, toString\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Path",
+                "comment": " SVG Paths\n",
+                "args": [],
+                "type": "List Command"
+            }
+        ],
+        "values": [
+            {
+                "name": "toString",
+                "comment": " String encoding of an SVG path\n",
+                "type": "Path -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.SVG.Command",
+        "comment": "\n@docs Command, toString\n",
+        "unions": [
+            {
+                "name": "Command",
+                "comment": " SVG path commands\n",
+                "args": [],
+                "cases": [
+                    [
+                        "MoveTo",
+                        [
+                            "{ endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "LineTo",
+                        [
+                            "{ endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "HorizontalLineTo",
+                        [
+                            "{ endx : Float }"
+                        ]
+                    ],
+                    [
+                        "VerticalLineTo",
+                        [
+                            "{ endy : Float }"
+                        ]
+                    ],
+                    [
+                        "CubicBezierTo",
+                        [
+                            "{ controlStart : Point, controlEnd : Point, endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "CubicBezierToShort",
+                        [
+                            "{ controlEnd : Point, endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "QuadraticBezierTo",
+                        [
+                            "{ control : Point, endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "QuadraticBezierToShort",
+                        [
+                            "{ endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "ArcTo",
+                        [
+                            "{ xRadius : Float, yRadius : Float, xAxisRotation : Float, largeArc : Bool, sweep : Bool, endpoint : Point }"
+                        ]
+                    ],
+                    [
+                        "ClosePath",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "toString",
+                "comment": " String encoding of an SVG path command\n",
+                "type": "Command -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Stroke",
+        "comment": "\n@docs Stroke, StrokeCap, StrokeJoin,empty\n@docs strokeCapToString, strokeJoinToString, strokeDashToString\n",
+        "unions": [
+            {
+                "name": "StrokeCap",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "CapButt",
+                        []
+                    ],
+                    [
+                        "CapRound",
+                        []
+                    ],
+                    [
+                        "CapSquare",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "StrokeJoin",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "JoinMiter",
+                        []
+                    ],
+                    [
+                        "JoinRound",
+                        []
+                    ],
+                    [
+                        "JoinBevel",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Stroke",
+                "comment": " Stroke styling\n",
+                "args": [],
+                "type": "{ stroke : Maybe Color, strokeOpacity : Maybe Float, strokeWidth : Maybe Float, strokeCap : Maybe StrokeCap, strokeDash : Maybe (List Float), strokeDashOffset : Maybe Float, strokeJoin : Maybe StrokeJoin, strokeMiterLimit : Maybe Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " The empty stroke\n",
+                "type": "Stroke"
+            },
+            {
+                "name": "strokeCapToString",
+                "comment": " ",
+                "type": "StrokeCap -> String"
+            },
+            {
+                "name": "strokeDashToString",
+                "comment": " ",
+                "type": "List a -> String"
+            },
+            {
+                "name": "strokeJoinToString",
+                "comment": " ",
+                "type": "StrokeJoin -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.SVG.Point",
+        "comment": "\n@docs  Point\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Point",
+                "comment": " 2-dimensional points\n",
+                "args": [],
+                "type": "{ x : Float, y : Float }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Position",
+        "comment": "\n@docs Position, PositionOrExtent\n@docs map\n",
+        "unions": [
+            {
+                "name": "Position",
+                "comment": " Varying encodings of position\n    TODO: `Primary` is probably not required and `PrimarySecondary` should\n    be expanded into `PrimarySecondary` and `PrimaryExtent`\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Primary",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "PrimarySecondary",
+                        [
+                            "Float",
+                            "PositionOrExtent"
+                        ]
+                    ],
+                    [
+                        "SecondaryExtent",
+                        [
+                            "Float",
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "CenterExtent",
+                        [
+                            "Float",
+                            "Float"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "PositionOrExtent",
+                "comment": " A position or an extent\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Position",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Extent",
+                        [
+                            "Float"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "map",
+                "comment": " ",
+                "type": "(Float -> Float) -> Position -> Position"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Font",
+        "comment": "\n@docs Font,  FontWeight, FontStyle\n@docs default\n@docs fontStyleToString, fontWeightToString\n",
+        "unions": [
+            {
+                "name": "FontStyle",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "StyleNormal",
+                        []
+                    ],
+                    [
+                        "StyleItalic",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "FontWeight",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "WeightNormal",
+                        []
+                    ],
+                    [
+                        "WeightBold",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Font",
+                "comment": " Font styling\n",
+                "args": [],
+                "type": "{ font : String, fontSize : Float, fontWeight : FontWeight, fontStyle : FontStyle }"
+            }
+        ],
+        "values": [
+            {
+                "name": "default",
+                "comment": " ",
+                "type": "Font"
+            },
+            {
+                "name": "fontStyleToString",
+                "comment": " ",
+                "type": "FontStyle -> String"
+            },
+            {
+                "name": "fontWeightToString",
+                "comment": " ",
+                "type": "FontWeight -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Interpolate",
+        "comment": "\n@docs Interpolate\n",
+        "unions": [
+            {
+                "name": "Interpolate",
+                "comment": " Interpolation methods\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Linear",
+                        []
+                    ],
+                    [
+                        "Basis",
+                        []
+                    ],
+                    [
+                        "Bundle",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Cardinal",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "CatmullRom",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "InterpolateLinear",
+                        []
+                    ],
+                    [
+                        "Monotone",
+                        []
+                    ],
+                    [
+                        "Natural",
+                        []
+                    ],
+                    [
+                        "Step",
+                        []
+                    ],
+                    [
+                        "StepAfter",
+                        []
+                    ],
+                    [
+                        "StepBefore",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Fill",
+        "comment": "\n@docs Fill,empty\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Fill",
+                "comment": " ",
+                "args": [],
+                "type": "{ fill : Maybe Color, fillOpacity : Maybe Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " The empty fill\n",
+                "type": "Fill"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Facet.Scenegraph.Cursor",
+        "comment": "\n@docs Cursor\n",
+        "unions": [
+            {
+                "name": "Cursor",
+                "comment": " HTML cursor variants\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CursorAuto",
+                        []
+                    ],
+                    [
+                        "CursorDefault",
+                        []
+                    ],
+                    [
+                        "CursorNone",
+                        []
+                    ],
+                    [
+                        "CursorContextMenu",
+                        []
+                    ],
+                    [
+                        "CursorHelp",
+                        []
+                    ],
+                    [
+                        "CursorPointer",
+                        []
+                    ],
+                    [
+                        "CursorProgress",
+                        []
+                    ],
+                    [
+                        "CursorWait",
+                        []
+                    ],
+                    [
+                        "CursorCell",
+                        []
+                    ],
+                    [
+                        "CursorCrosshair",
+                        []
+                    ],
+                    [
+                        "CursorText",
+                        []
+                    ],
+                    [
+                        "CursorVerticalText",
+                        []
+                    ],
+                    [
+                        "CursorAlias",
+                        []
+                    ],
+                    [
+                        "CursorCopy",
+                        []
+                    ],
+                    [
+                        "CursorMove",
+                        []
+                    ],
+                    [
+                        "CursorNoDrop",
+                        []
+                    ],
+                    [
+                        "CursorNotAllowed",
+                        []
+                    ],
+                    [
+                        "CursorEResize",
+                        []
+                    ],
+                    [
+                        "CursorNResize",
+                        []
+                    ],
+                    [
+                        "CursorNEResize",
+                        []
+                    ],
+                    [
+                        "CursorNWResize",
+                        []
+                    ],
+                    [
+                        "CursorSResize",
+                        []
+                    ],
+                    [
+                        "CursorSEResize",
+                        []
+                    ],
+                    [
+                        "CursorSWResize",
+                        []
+                    ],
+                    [
+                        "CursorWResize",
+                        []
+                    ],
+                    [
+                        "CursorEWResize",
+                        []
+                    ],
+                    [
+                        "CursorNSResize",
+                        []
+                    ],
+                    [
+                        "CursorNESWResize",
+                        []
+                    ],
+                    [
+                        "CursorNWSEResize",
+                        []
+                    ],
+                    [
+                        "CursorColResize",
+                        []
+                    ],
+                    [
+                        "CursorRowResize",
+                        []
+                    ],
+                    [
+                        "CursorAllScroll",
+                        []
+                    ],
+                    [
+                        "CursorZoomIn",
+                        []
+                    ],
+                    [
+                        "CursorZoomOut",
+                        []
+                    ],
+                    [
+                        "CursorGrab",
+                        []
+                    ],
+                    [
+                        "CursorGrabbing",
+                        []
+                    ],
+                    [
+                        "CursorUrl",
+                        [
+                            "String",
+                            "Maybe Int",
+                            "Maybe Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "DistinctColors",
+        "comment": " Generator of distinct colors.\n\n@docs colors, color, nextColor\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "color",
+                "comment": " Generate a color with given chroma, luminance, alpha and a random hue.\n",
+                "type": "{ chroma : Float, luminance : Float, alpha : Float } -> Generator Color"
+            },
+            {
+                "name": "colors",
+                "comment": " Generates a list of colors distinct from each other (consecutively).\nNice for programmatically assigning colors to elements in a list (users, ...).\n\nAlgorithm: basically this:\n<https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/>\nBut we're doing HCL instead of HSV.\n\n",
+                "type": "{ chroma : Float, luminance : Float, alpha : Float, numberOfColors : Int } -> Generator (List Color)"
+            },
+            {
+                "name": "nextColor",
+                "comment": " Moves the hue of the current color by 1/phi (0.618...) when hue is 0..1.\n\nThis means that we have to move the hue 222.49224 degrees when hue is 0..360.\n\n",
+                "type": "Color -> Color"
+            }
+        ],
+        "binops": []
+    }
+]

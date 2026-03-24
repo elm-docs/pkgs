@@ -1,0 +1,223 @@
+[
+    {
+        "name": "Formula",
+        "comment": " This library parses and exports formulas.\n\n\n# Definitions\n\n@docs Formula, Signed, Substitution, Term\n\n\n# Parsers\n\n@docs parse, parseSigned, parseTerm\n\n\n# Strings\n\n@docs strFormula, strSigned, strTerm, strSubstitution, errorString\n\n\n# Helpers\n\n@docs substitute, isAlpha, isBeta, isGamma, isDelta, freeFormula, removeQuantifierAndSubstitute, isSignedComplementary, isSignedSubformulaOf, signedGetFormula, signedSubformulas, isSubformulaOf\n\n",
+        "unions": [
+            {
+                "name": "Formula",
+                "comment": " Formula\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Atom",
+                        [
+                            "String",
+                            "List Term"
+                        ]
+                    ],
+                    [
+                        "Neg",
+                        [
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "Disj",
+                        [
+                            "Formula",
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "Conj",
+                        [
+                            "Formula",
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "Impl",
+                        [
+                            "Formula",
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "ForAll",
+                        [
+                            "String",
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "Exists",
+                        [
+                            "String",
+                            "Formula"
+                        ]
+                    ],
+                    [
+                        "FF",
+                        []
+                    ],
+                    [
+                        "FT",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Signed",
+                "comment": " Signed with T[rue] or F[alse]\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "T",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "F",
+                        [
+                            "a"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Term",
+                "comment": " Term\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Var",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Fun",
+                        [
+                            "String",
+                            "List Term"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Substitution",
+                "comment": " Type alias for substitution\n",
+                "args": [],
+                "type": "Dict String Term"
+            }
+        ],
+        "values": [
+            {
+                "name": "errorString",
+                "comment": " Format parsing error\n",
+                "type": "Error -> String"
+            },
+            {
+                "name": "freeFormula",
+                "comment": " Returns set of all free variables in given formula\n",
+                "type": "Formula -> Set String"
+            },
+            {
+                "name": "isAlpha",
+                "comment": " Is the signed formula of type Alpha\n",
+                "type": "Signed Formula -> Bool"
+            },
+            {
+                "name": "isBeta",
+                "comment": " Is the signed formula of type Beta\n",
+                "type": "Signed Formula -> Bool"
+            },
+            {
+                "name": "isDelta",
+                "comment": " Is the signed formula of type Delta\n",
+                "type": "Signed Formula -> Bool"
+            },
+            {
+                "name": "isGamma",
+                "comment": " Is the signed formula of type Gamma\n",
+                "type": "Signed Formula -> Bool"
+            },
+            {
+                "name": "isSignedComplementary",
+                "comment": " Is the first Signed Formula complementary of the second Signed Formula\n",
+                "type": "Signed Formula -> Signed Formula -> Bool"
+            },
+            {
+                "name": "isSignedSubformulaOf",
+                "comment": " Is the first a Signed subformula of the second\n",
+                "type": "Signed Formula -> Signed Formula -> Bool"
+            },
+            {
+                "name": "isSubformulaOf",
+                "comment": " Is the first a subformula of the second\n",
+                "type": "Formula -> Formula -> Bool"
+            },
+            {
+                "name": "parse",
+                "comment": " Parse string to Formula\n",
+                "type": "String -> Result Error Formula"
+            },
+            {
+                "name": "parseSigned",
+                "comment": " Parse string to Signed Formula\n",
+                "type": "String -> Result Error (Signed Formula)"
+            },
+            {
+                "name": "parseTerm",
+                "comment": " Parses string to Term\n",
+                "type": "String -> Result Error Term"
+            },
+            {
+                "name": "removeQuantifierAndSubstitute",
+                "comment": " Removes quantifier from given signed formula and returns formula after substitution or error\n",
+                "type": "Substitution -> Formula -> Result String Formula"
+            },
+            {
+                "name": "signedGetFormula",
+                "comment": " Get Formula out of Signed Formula\n",
+                "type": "Signed Formula -> Formula"
+            },
+            {
+                "name": "signedSubformulas",
+                "comment": " Get signed subformulas as a list of signed formulas\n",
+                "type": "Signed Formula -> List (Signed Formula)"
+            },
+            {
+                "name": "strFormula",
+                "comment": " String representation of a Formula\n",
+                "type": "Formula -> String"
+            },
+            {
+                "name": "strSigned",
+                "comment": " String representation of a Signed Formula\n",
+                "type": "Signed Formula -> String"
+            },
+            {
+                "name": "strSubstitution",
+                "comment": " String representation of a Substitution\n",
+                "type": "Substitution -> String"
+            },
+            {
+                "name": "strTerm",
+                "comment": " String representation of a Term\n",
+                "type": "Term -> String"
+            },
+            {
+                "name": "substitute",
+                "comment": " Checks if substitution is applicable and substitutes if yes. Returns Result.\nErrMessage or Formula after substitution\n",
+                "type": "Substitution -> Formula -> Result String Formula"
+            }
+        ],
+        "binops": []
+    }
+]

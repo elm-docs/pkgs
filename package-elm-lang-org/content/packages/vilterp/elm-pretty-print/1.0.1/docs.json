@@ -1,0 +1,72 @@
+[
+    {
+        "name": "PrettyPrint.Util",
+        "comment": "\n@docs bracket\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bracket",
+                "comment": " For when you want an open marker, an indented portion (by the given indent),\nand a close marker ",
+                "type": "Int -> ( List Attribute, String ) -> Doc -> ( List Attribute, String ) -> Doc"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "PrettyPrint",
+        "comment": " Based on [Wadler's paper][wadler]\n\nPerhaps some of the primitives and combinators from\n[Daan Leijen's Haskell library][leijen] which builds on it could be added.\n\n[wadler]: http://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf\n[leijen]: https://hackage.haskell.org/package/wl-pprint-1.2/docs/Text-PrettyPrint-Leijen.html\n\n# Constructors\n@docs Doc, empty, concat, nest, text, line\n\n# Combinators\n@docs group\n\n# Render\n@docs prettyHtml, prettyString\n\n",
+        "unions": [
+            {
+                "name": "Doc",
+                "comment": "",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "concat",
+                "comment": "",
+                "type": "Doc -> Doc -> Doc"
+            },
+            {
+                "name": "empty",
+                "comment": "",
+                "type": "Doc"
+            },
+            {
+                "name": "group",
+                "comment": " Specify that the Doc should be printed without newlines if it fits in the\navailable space, or without them if it doesn't ",
+                "type": "Doc -> Doc"
+            },
+            {
+                "name": "line",
+                "comment": " Line break ",
+                "type": "Doc"
+            },
+            {
+                "name": "nest",
+                "comment": " Indent the given doc by the given number of spaces. ",
+                "type": "Int -> Doc -> Doc"
+            },
+            {
+                "name": "prettyHtml",
+                "comment": " Pretty print the document to HTML which fits within the\nmax width (in characters; font size up to you) ",
+                "type": "Int -> Doc -> Html"
+            },
+            {
+                "name": "prettyString",
+                "comment": " Pretty print the document to string which fits within the\nmax width (in characters) ",
+                "type": "Int -> Doc -> String"
+            },
+            {
+                "name": "text",
+                "comment": "",
+                "type": "List Attribute -> String -> Doc"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,55 @@
+[
+    {
+        "name": "Number.Expanded",
+        "comment": "\nExpanded Numbers\nA number that can either be finite or infinite\n\n@docs Expanded, toExpanded, withDefault, withDefaults, map\n",
+        "unions": [
+            {
+                "name": "Expanded",
+                "comment": " Expanded number can be Positive or Negative Infinity\n",
+                "args": [
+                    "number"
+                ],
+                "cases": [
+                    [
+                        "Finite",
+                        [
+                            "number"
+                        ]
+                    ],
+                    [
+                        "PosInfinity",
+                        []
+                    ],
+                    [
+                        "NegInfinity",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "map",
+                "comment": "\nNot a Functor, but still mappable\n",
+                "type": "(number -> number) -> Expanded number -> Expanded number"
+            },
+            {
+                "name": "toExpanded",
+                "comment": " ",
+                "type": "number -> Expanded number"
+            },
+            {
+                "name": "withDefault",
+                "comment": "\nGet the value out of `Expanded` providing a default for the infinite case\n",
+                "type": "a -> (number -> a) -> Expanded number -> a"
+            },
+            {
+                "name": "withDefaults",
+                "comment": "\nGet the value out of `Expanded` providing a default for the infinite cases.\nFirst argument is the default for the `PosInfinity` case, the second is for `NegInfinity`\n",
+                "type": "a -> a -> (number -> a) -> Expanded number -> a"
+            }
+        ],
+        "binops": []
+    }
+]

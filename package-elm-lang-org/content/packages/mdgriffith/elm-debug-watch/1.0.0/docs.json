@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Debug.Watch",
+        "comment": " Log the input and output of a function to the console.\n\n@docs watch, watch2, watch3\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "watch",
+                "comment": " You can use it by putting it in front of a function you’re trying to debug.\n\n    import Debug.Watch as Debug\n\n    addOne x =\n        x + 1\n\n    x =\n        Debug.watch \"add one\" addOne 5\n\nresults in a console log of\n\n    add one\n        input: 5\n       output: 6\n\n",
+                "type": "String -> (a -> b) -> a -> b"
+            },
+            {
+                "name": "watch2",
+                "comment": " Same as `watch, but for a function with 2 arguments.\n",
+                "type": "String -> (a -> b -> c) -> a -> b -> c"
+            },
+            {
+                "name": "watch3",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> d) -> a -> b -> c -> d"
+            }
+        ],
+        "binops": []
+    }
+]

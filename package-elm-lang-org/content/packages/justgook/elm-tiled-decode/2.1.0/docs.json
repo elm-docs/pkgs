@@ -1,0 +1,320 @@
+[
+    {
+        "name": "Tiled.Decode",
+        "comment": " Use the [`decode`](#decode) to get [`Level`](#Level)\n\n\n# Default Decoding\n\n@docs decode, empty\n\n##Level\n\n@docs Level, Orientation\n\n##Layers\n\n@docs Layer, ImageLayerData, TileLayerData, ObjectLayerData\n\n##TileSets\n@docs Tileset, SourceTileData, EmbeddedTileData, ImageCollectionTileData, ImageCollectionTileDataTile, TilesData\n\n##Objects\nObjects that is used inside [`ObjectLayerData`](#ObjectLayerData)\n@docs Object, ObjectPointData, ObjectRectangleData, ObjectPolygonData, ObjectPolygonData, ObjectTileData, ObjectPolyPoint\n\n\n# Properties\n\n@docs CustomProperties, Property, RenderOrder, DrawOrder\n\n##Sub-decoders\n\n@docs decodeTileset, decodeTiles\n\n",
+        "unions": [
+            {
+                "name": "DrawOrder",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "TopDown",
+                        []
+                    ],
+                    [
+                        "Index",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Layer",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "ImageLayer",
+                        [
+                            "ImageLayerData"
+                        ]
+                    ],
+                    [
+                        "TileLayer",
+                        [
+                            "TileLayerData"
+                        ]
+                    ],
+                    [
+                        "ObjectLayer",
+                        [
+                            "ObjectLayerData"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Object",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "ObjectPoint",
+                        [
+                            "ObjectPointData"
+                        ]
+                    ],
+                    [
+                        "ObjectRectangle",
+                        [
+                            "ObjectRectangleData"
+                        ]
+                    ],
+                    [
+                        "ObjectEllipse",
+                        [
+                            "ObjectRectangleData"
+                        ]
+                    ],
+                    [
+                        "ObjectPolygon",
+                        [
+                            "ObjectPolygonData"
+                        ]
+                    ],
+                    [
+                        "ObjectPolyLine",
+                        [
+                            "ObjectPolygonData"
+                        ]
+                    ],
+                    [
+                        "ObjectTile",
+                        [
+                            "ObjectTileData"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Orientation",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Orthogonal",
+                        []
+                    ],
+                    [
+                        "Isometric",
+                        []
+                    ],
+                    [
+                        "Staggered",
+                        []
+                    ],
+                    [
+                        "Hexagonal",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Property",
+                "comment": " Custom properties values\n",
+                "args": [],
+                "cases": [
+                    [
+                        "PropBool",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "PropInt",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "PropFloat",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "PropString",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "PropColor",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "PropFile",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "RenderOrder",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "RightDown",
+                        []
+                    ],
+                    [
+                        "RightUp",
+                        []
+                    ],
+                    [
+                        "LeftDown",
+                        []
+                    ],
+                    [
+                        "LeftUp",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Tileset",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "TilesetSource",
+                        [
+                            "SourceTileData"
+                        ]
+                    ],
+                    [
+                        "TilesetEmbedded",
+                        [
+                            "EmbeddedTileData"
+                        ]
+                    ],
+                    [
+                        "TilesetImageCollection",
+                        [
+                            "ImageCollectionTileData"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CustomProperties",
+                "comment": " ",
+                "args": [],
+                "type": "Dict String Property"
+            },
+            {
+                "name": "EmbeddedTileData",
+                "comment": "\n\n  - `columns` The number of tile columns in the tileset\n  - `firstgid` GID corresponding to the first tile in the set\n  - `image` Image used for tiles in this set\n  - `imagewidth` Width of source image in pixels\n  - `imageheight` Height of source image in pixels\n  - `margin` Buffer between image edge and first tile (pixels)\n  - `name` Name given to this tileset\n  - `spacing` Spacing between adjacent tiles in image (pixels)\n  - `tilecount` The number of tiles in this tileset\n  - `tileheight` Maximum height of tiles in this set\n  - `tiles` Dict of TilesData [`TilesData`](#TilesData)\n  - `tilewidth` Maximum width of tiles in this set\n  - `properties` A list of properties (name, value, type).\n",
+                "args": [],
+                "type": "{ columns : Int, firstgid : Int, image : String, imageheight : Int, imagewidth : Int, margin : Int, name : String, spacing : Int, tilecount : Int, tileheight : Int, tilewidth : Int, transparentcolor : String, tiles : Dict Int TilesData, properties : CustomProperties }"
+            },
+            {
+                "name": "ImageCollectionTileData",
+                "comment": "\n\n  - `columns` The number of tile columns in the tileset\n  - `firstgid` GID corresponding to the first tile in the set\n  - `margin` Buffer between image edge and first tile (pixels)\n  - `name` Name given to this tileset\n  - `spacing` Spacing between adjacent tiles in image (pixels)\n  - `tilecount` The number of tiles in this tileset\n  - `tileheight` Maximum height of tiles in this set\n  - `tiles` Dict of [`ImageCollectionTileDataTile`](#ImageCollectionTileDataTile)\n  - `tilewidth` Maximum width of tiles in this set\n  - `properties` A list of properties (name, value, type).\n",
+                "args": [],
+                "type": "{ columns : Int, firstgid : Int, margin : Int, name : String, spacing : Int, tilecount : Int, tileheight : Int, tiles : Dict Int ImageCollectionTileDataTile, tilewidth : Int, properties : CustomProperties }"
+            },
+            {
+                "name": "ImageCollectionTileDataTile",
+                "comment": " ",
+                "args": [],
+                "type": "{ image : String, imageheight : Int, imagewidth : Int }"
+            },
+            {
+                "name": "ImageLayerData",
+                "comment": "\n\n  - `image` - Image used as background\n  - `name` Name assigned to this layer\n  - `x` Horizontal layer offset in tiles. Always 0.\n  - `y` Vertical layer offset in tiles. Always 0.\n  - `opacity` Value between 0 and 1\n  - `properties` A list of properties (name, value, type).\n  - `visible` Whether layer is shown or hidden in editor\n",
+                "args": [],
+                "type": "{ image : String, name : String, opacity : Float, visible : Bool, x : Float, y : Float, transparentcolor : String, properties : CustomProperties }"
+            },
+            {
+                "name": "Level",
+                "comment": "\n\n  - `backgroundcolor` string Hex-formatted color (`#RRGGBB` or `#AARRGGBB`) (default `none`)\n  - `width` Number of tile columns\n  - `height` Number of tile rows\n  - `tilewidth` Map grid width\n  - `tileheight` Map grid height\n  - `infinite` Whether the map has infinite dimensions\n  - `orientation` orthogonal, isometric, staggered or hexagonal\n  - `renderorder` Rendering direction (orthogonal maps only)\n  - `layers` List of layers\n  - `tilesets` List of tilesets\n  - `properties` A list of properties (name, value, type).\n  - `version` The JSON format version\n  - `tiledversion` The Tiled version used to save the file\n",
+                "args": [],
+                "type": "{ backgroundcolor : String, width : Int, height : Int, tilewidth : Int, tileheight : Int, infinite : Bool, orientation : Orientation, renderorder : RenderOrder, layers : List Layer, tilesets : List Tileset, properties : CustomProperties, version : Float, tiledversion : String }"
+            },
+            {
+                "name": "ObjectLayerData",
+                "comment": "\n\n  - `name` Name assigned to this layer\n  - `x` Horizontal layer offset in tiles. Always 0.\n  - `y` Vertical layer offset in tiles. Always 0.\n  - `draworder` [`TopDown`](#DrawOrder) (default)\n  - `objects` List of objects. objectgroup only.\n  - `opacity` Value between 0 and 1\n  - `properties` A list of properties (name, value, type).\n  - `visible` Whether layer is shown or hidden in editor\n",
+                "args": [],
+                "type": "{ draworder : DrawOrder, name : String, objects : List Object, opacity : Float, visible : Bool, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "ObjectPointData",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, rotation : Float, kind : String, visible : Bool, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "ObjectPolyPoint",
+                "comment": " ",
+                "args": [],
+                "type": "{ x : Float, y : Float }"
+            },
+            {
+                "name": "ObjectPolygonData",
+                "comment": " ",
+                "args": [],
+                "type": "{ height : Float, id : Int, name : String, polygon : List ObjectPolyPoint, rotation : Float, kind : String, visible : Bool, width : Float, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "ObjectRectangleData",
+                "comment": " ",
+                "args": [],
+                "type": "{ height : Float, id : Int, name : String, rotation : Float, kind : String, visible : Bool, width : Float, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "ObjectTileData",
+                "comment": " ",
+                "args": [],
+                "type": "{ gid : Int, height : Float, id : Int, name : String, rotation : Float, kind : String, visible : Bool, width : Float, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "SourceTileData",
+                "comment": " ",
+                "args": [],
+                "type": "{ firstgid : Int, source : String }"
+            },
+            {
+                "name": "TileLayerData",
+                "comment": "\n\n  - `data` List of GIDs. [tilelayer](#TileLayerData) only.\n  - `name` Name assigned to this layer\n  - `x` Horizontal layer offset in tiles. Always 0.\n  - `y` Vertical layer offset in tiles. Always 0.\n  - `width` Column count. Same as map width for fixed-size maps.\n  - `height` Row count. Same as map height for fixed-size maps.\n  - `opacity` Value between 0 and 1\n  - `properties` A list of properties (name, value, type).\n  - `visible` Whether layer is shown or hidden in editor\n",
+                "args": [],
+                "type": "{ data : List Int, height : Int, name : String, opacity : Float, visible : Bool, width : Int, x : Float, y : Float, properties : CustomProperties }"
+            },
+            {
+                "name": "TilesData",
+                "comment": "\n\n    - `animation` : Maybe (List SpriteAnimation)\n    - `objectgroup` : Maybe TilesDataObjectgroup\n    - `properties` : CustomProperties\n",
+                "args": [],
+                "type": "TilesDataPlain {}"
+            }
+        ],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decodes [Tiled](http://www.mapeditor.org/) map (json encoded) to [`Level`](#Level) data structures\n\n    Http.get \"path/to/map.json\" Tiled.decode\n        |> Http.send LevelLoaded\n\n    update msg model =\n        case msg of\n            LevelLoaded (Ok level) ->\n                ( level, Cmd.none )\n            LevelLoaded (Err err) ->\n                Debug.crash \"Tiled Map fail to decode\" err\n\nor\n\n    level =\n        case decodeString Tiled.decode \"JSON STRING OF MAP\" of\n            Ok data ->\n                Debug.log \"Tiled Map decoded\" data\n\n            Err err ->\n                Debug.crash \"Tiled Map fail to decode\" err\n\n",
+                "type": "Decoder Level"
+            },
+            {
+                "name": "decodeTiles",
+                "comment": " Tiles in teleset\n",
+                "type": "Decoder (Dict Int TilesData)"
+            },
+            {
+                "name": "decodeTileset",
+                "comment": " ",
+                "type": "Decoder Tileset"
+            },
+            {
+                "name": "empty",
+                "comment": " Creates empty [`Level`](#Level)\n",
+                "type": "Level"
+            }
+        ],
+        "binops": []
+    }
+]

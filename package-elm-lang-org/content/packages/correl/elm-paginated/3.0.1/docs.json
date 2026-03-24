@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Paginated",
+        "comment": " A library for Facilitates fetching data from a paginated JSON API.\n\n\n# Requests and Responses\n\n@docs Request, get, post\n\n\n## Custom requests\n\n@docs RequestOptions, request\n\n\n# Sending requests\n\n@docs send\n\n\n# Low-Level operations\n\n@docs toTask\n\n",
+        "unions": [
+            {
+                "name": "Request",
+                "comment": " Encapsulates an API request for a list of items of type `a`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "RequestOptions",
+                "comment": " Describes an API request.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ method : String, headers : List Header, url : String, body : Body, decoder : Decoder a, timeout : Maybe Time, withCredentials : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "get",
+                "comment": " Build a GET request.\n",
+                "type": "String -> Decoder a -> Request a"
+            },
+            {
+                "name": "post",
+                "comment": " Build a POST request.\n",
+                "type": "String -> Body -> Decoder a -> Request a"
+            },
+            {
+                "name": "request",
+                "comment": " Create a custom request, allowing the specification of HTTP\nheaders and other options. For example:\n\n    Paginated.request\n        { method = \"GET\"\n        , headers = [Http.header \"Private-Token\" \"XXXXXXXXXXXXXXXX\"]\n        , url = url\n        , body = Http.emptyBody\n        , decoder = decoder\n        , timeout = Nothing\n        , withCredentials = False\n        }\n\n",
+                "type": "RequestOptions a -> Request a"
+            },
+            {
+                "name": "send",
+                "comment": " Send a `Request`.\n",
+                "type": "(Result Error (List a) -> msg) -> Request a -> Cmd msg"
+            },
+            {
+                "name": "toTask",
+                "comment": " Convert a `Request` into a `Task`.\n\nThis is only really useful if you want to chain together a bunch of\nrequests (or any other tasks) in a single command.\n\n",
+                "type": "Request a -> Task Error (List a)"
+            }
+        ],
+        "binops": []
+    }
+]

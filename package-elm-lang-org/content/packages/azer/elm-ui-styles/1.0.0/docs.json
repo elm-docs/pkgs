@@ -1,0 +1,208 @@
+[
+    {
+        "name": "Styles",
+        "comment": " Styles is a UI library for [elm-css](https://github.com/rtfeldman/elm-css), inspired by [tachyons](http://tachyons.io).\n\n\n# Usage Example\n\nMaking an element full-size, centering its content and making the text uppercase;\n\n        import Styles exposing (toCSS, center, stretch)\n        import Html.Styled exposing (div, text)\n        import List\n\n        main =\n            div\n                [ []\n                    |> center\n                    |> stretch\n                    |> toCSS\n                ]\n                [ text \"hello world\" ]\n                |> Html.Styled.toUnstyled\n\n# Styling Reference\n\n@docs autoGrid\n@docs center\n@docs circle\n@docs cover\n@docs equalGrid\n@docs grid\n@docs GridConfig\n@docs defaultGrid\n@docs fullscreen\n@docs maxWidth\n@docs minWidth\n@docs stretch\n\n# Helpers\n\n@docs toCSS\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "GridConfig",
+                "comment": " Options for constructing new grid ",
+                "args": [],
+                "type": "{ columns : Length, rows : Length, columnGap : Length, rowGap : Length }"
+            }
+        ],
+        "values": [
+            {
+                "name": "autoGrid",
+                "comment": " Create a grid with given number auto-sized columns. It's equivalent of;\n\n        grid { defaultGrid | columns = Length.repeat n Length.auto }\n\n",
+                "type": "Int -> List Style -> List Style"
+            },
+            {
+                "name": "center",
+                "comment": " Centers inside the content.\n",
+                "type": "List Style -> List Style"
+            },
+            {
+                "name": "circle",
+                "comment": " Make the element look circle.\n\n        import Styles exposing (circle)\n        import Html.Styled exposing (img)\n        import Html.Styled.Attributes exposing (css, src)\n        import Css exposing (backgroundColor, hex)\n\n\n        main =\n            img\n                [ src \"https://placekitten.com/g/200/200\"\n                , css (circle [])\n                ]\n                []\n                |> Html.Styled.toUnstyled\n\n",
+                "type": "List Style -> List Style"
+            },
+            {
+                "name": "cover",
+                "comment": " Shortcut to set background image as cover\n",
+                "type": "String -> List Style -> List Style"
+            },
+            {
+                "name": "defaultGrid",
+                "comment": " Default GridConfig ",
+                "type": "GridConfig"
+            },
+            {
+                "name": "equalGrid",
+                "comment": " Shortcut for creating a grid with given number equal-sized columns. It's equivalent of;\n\n        grid { defaultGrid | columns = Length.repeat n (Length.fr 1) }\n\n",
+                "type": "Int -> List Style -> List Style"
+            },
+            {
+                "name": "fullscreen",
+                "comment": " Make the element stretch to the visible part of the screen.\n",
+                "type": "List Style -> List Style"
+            },
+            {
+                "name": "grid",
+                "comment": " Helper for creating CSS3 grid layouts. It takes a `GridConfig` type of record\nand returns list of styles that you can pass to elm-css.\n\n        import Styles exposing (grid, defaultGrid)\n        import Styles.Length exposing (Pct)\n        import Css exposing (css)\n\n        main =\n           let\n             config = { defaultGrid | columns = List [Pct 30, Auto, Pct 30] }\n           in\n             div [ css (grid config []) ]\n                 [ div [] [text \"left (30%)\"]\n                 , div [] [text \"center (auto)\"]\n                 , div [] [text \"right (30%)\"]\n                 ]\n\n",
+                "type": "GridConfig -> List Style -> List Style"
+            },
+            {
+                "name": "maxWidth",
+                "comment": " Media query shortcut for defining styles that depend on maximum screen width (pixels).\n\n        import Styles exposing (maxWidth, maxWidth)\n        import Html.Styled exposing (div, text)\n        import Html.Styled.Attributes exposing (css)\n        import Css exposing (backgroundColor, hex)\n\n\n        main =\n            div\n                [ [ backgroundColor (hex \"#cc0000\") ]\n                    |> maxWidth 500 [ backgroundColor (hex \"#38C172\") ]\n                    |> css\n                ]\n                [ text \"hello world\" ]\n                |> Html.Styled.toUnstyled\n",
+                "type": "Float -> List Style -> List Style -> List Style"
+            },
+            {
+                "name": "minWidth",
+                "comment": " Media query shortcut for defining styles that depend on minimum screen width (pixels).\n\n\n        import Styles exposing (minWidth, maxWidth)\n        import Html.Styled exposing (div, text)\n        import Html.Styled.Attributes exposing (css)\n        import Css exposing (backgroundColor, hex)\n\n        main =\n            div\n                [ [ backgroundColor (hex \"#cc0000\") ]\n                    |> minWidth 500 [ backgroundColor (hex \"#38C172\") ]\n                    |> css\n                ]\n                [ text \"hello world\" ]\n                |> Html.Styled.toUnstyled\n",
+                "type": "Float -> List Style -> List Style -> List Style"
+            },
+            {
+                "name": "stretch",
+                "comment": " Stretch the element to fill available horizontal and vertical space. In the other words, set the width / height to 100%.\n",
+                "type": "List Style -> List Style"
+            },
+            {
+                "name": "toCSS",
+                "comment": " Proxy function to `Html.Styled.Attributes.css`\n",
+                "type": "List Style -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Styles.Length",
+        "comment": " Flexible length module. Not as strict as elm-css.\n\n      import Styles.Length exposing (..)\n\n      columns [em 1, px 3, auto]\n\n      repeat 3, (fr 1)\n\n# Definition\n\n@docs Length\n\n# Functions\n\n@docs around\n@docs auto\n@docs columns\n@docs em\n@docs fr\n@docs pct\n@docs px\n@docs rem\n@docs repeat\n@docs rows\n@docs vh\n\n# Internal\n\n@docs stringify\n\n\n",
+        "unions": [
+            {
+                "name": "Length",
+                "comment": " Union type for all kinds of lengths ",
+                "args": [],
+                "cases": [
+                    [
+                        "Auto",
+                        []
+                    ],
+                    [
+                        "Em",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Fr",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Multiple",
+                        [
+                            "List Length"
+                        ]
+                    ],
+                    [
+                        "Pct",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Px",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Rem",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Repeat",
+                        [
+                            "Int",
+                            "Length"
+                        ]
+                    ],
+                    [
+                        "Vh",
+                        [
+                            "Float"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "around",
+                "comment": " Alias function for constructing list of lengths ",
+                "type": "List Length -> Length"
+            },
+            {
+                "name": "auto",
+                "comment": " Returns Auto ",
+                "type": "Length"
+            },
+            {
+                "name": "columns",
+                "comment": " Alias function for constructing list of lengths ",
+                "type": "List Length -> Length"
+            },
+            {
+                "name": "em",
+                "comment": " Returns an em length for given number ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "fr",
+                "comment": " Returns an fr length for given number ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "pct",
+                "comment": " Returns an percent length for given number ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "px",
+                "comment": " Returns an pixels length for given number ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "rem",
+                "comment": " Returns an rem length for given number ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "repeat",
+                "comment": " Returns repeat of given length. ",
+                "type": "Int -> Length -> Length"
+            },
+            {
+                "name": "rows",
+                "comment": " Alias function for constructing list of lengths ",
+                "type": "List Length -> Length"
+            },
+            {
+                "name": "stringify",
+                "comment": " Stringifies given length.\n\n      > stringify (em 1)\n      \"1em\"\n\n      > stringify (columns [1em, auto, 1em])\n      \"1em auto 1em\"\n",
+                "type": "Length -> String"
+            },
+            {
+                "name": "vh",
+                "comment": " Returns vh length for given number. ",
+                "type": "Float -> Length"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,256 @@
+[
+    {
+        "name": "Arborist",
+        "comment": " Drag-and-drop interface to edit, dissect and-rearrange tree structures with arbitrary data sitting in their nodes. Structured as a TEA component defining its own init, update and view, `elm-arborist` allows you to easily initialize a tree editor, keep its state in an opaque model, and access the [edited result at any time](#tree).\n\n\n# Module setup\n\n@docs Model, Msg, init, initWith, update, NodeView, StyledNodeView, view, styledView, subscriptions\n\n\n# Configuration\n\n@docs applySettings, resize\n\n\n# Creating and modifying raw trees\n\n@docs Tree, node, empty, expand, flatten, decoder, encoder\n\n\n# Arborist tree getters and modifiers\n\n@docs tree, activeNode, setActiveNode, deleteActiveNode\n\n\n# Display modifiers\n\n@docs reposition, deactivate\n\n\n# Context\n\n@docs NodeState, Context\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Opaque type for the editor's model, dependent on a node type variable. You can only use this for type annotation - to initialize a new model, see [init](#init).\n",
+                "args": [
+                    "node"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " Module messages\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "NodeState",
+                "comment": " The state of a node at a given time. May be normal one of the following:\n\n  - `Normal`: node in rest state\n  - `Hovered`: a hovered over node\n  - `Active`: an activated node. Overrides hover\n  - `DropTarget`: indicates that a swap or insert of the dragged subtree will take place at this node upon release\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Normal",
+                        []
+                    ],
+                    [
+                        "Active",
+                        []
+                    ],
+                    [
+                        "Hovered",
+                        []
+                    ],
+                    [
+                        "DropTarget",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Context",
+                "comment": " View context. Contains the following fields:\n\n  - `parent`: the item at the parent, not available for the root node\n  - `siblings`: a list of all direct siblings\n  - `children`: a list of all direct children\n  - `state`: node [state](#NodeState)\n\n",
+                "args": [
+                    "item"
+                ],
+                "type": "{ parent : Maybe item, siblings : List item, children : List item, state : NodeState }"
+            },
+            {
+                "name": "NodeView",
+                "comment": " View function for an individual node, depending on its [context](Context), and its value. This value is expressed as a maybe because the node may contain an `insert new node`-type placeholder.\n",
+                "args": [
+                    "node"
+                ],
+                "type": "Context node -> Maybe node -> Html Msg"
+            },
+            {
+                "name": "StyledNodeView",
+                "comment": " Styled version of [NodeView](#NodeView), using `elm-css`.\n",
+                "args": [
+                    "node"
+                ],
+                "type": "Context node -> Maybe node -> Html Msg"
+            },
+            {
+                "name": "Tree",
+                "comment": " Opaque type for a tree.\n",
+                "args": [
+                    "node"
+                ],
+                "type": "Tree node"
+            }
+        ],
+        "values": [
+            {
+                "name": "activeNode",
+                "comment": " Returns the current active node as a tuple of `Maybe node` (as the node maybe a placeholder for a new node), as well as some contextual information as a two-field record:\n\n  - `position : ( Float, Float )`: the node's position on the canvas (useful for rendering an edit pop-up).\n  - `context`: view context, identical to the one provided in [NodeView](#NodeView).\n\n",
+                "type": "Model node -> Maybe ( Maybe node, { position : ( Float, Float ), context : Context node } )"
+            },
+            {
+                "name": "applySettings",
+                "comment": " Apply a new list of settings to the model.\n",
+                "type": "List Setting -> Model node -> Model node"
+            },
+            {
+                "name": "deactivate",
+                "comment": " Remove active node\n",
+                "type": "Model node -> Model node"
+            },
+            {
+                "name": "decoder",
+                "comment": " Tree decoder as a function of the node's decoder. Assumes a `value` and `children` fields, holding the current node contents and an array of children, respectively.\n",
+                "type": "Decoder node -> Decoder (Tree node)"
+            },
+            {
+                "name": "deleteActiveNode",
+                "comment": " Delete the active node from a tree, including all of its children. If a placeholder is active, this method does nothing.\n",
+                "type": "Model node -> Model node"
+            },
+            {
+                "name": "empty",
+                "comment": " Empty tree.\n",
+                "type": "Tree node"
+            },
+            {
+                "name": "encoder",
+                "comment": " Encodes a tree into JSON, given its node encoder.\n",
+                "type": "(node -> Value) -> Tree node -> Value"
+            },
+            {
+                "name": "expand",
+                "comment": " Expand a tree into a raw data structure that can be recursed by the user:\n\n  - if the tree is empty, it returns `Nothing`.\n  - if the tree isn't empty, it returns `Just ( currentNode, childtrees )`\n\nCompared to the [tree example](http://elm-lang.org/examples/binary-tree) on Elm's website, the `Empty` and `Node` constructors are deliberately not exposed by this library, in order to accommodate a few not-so-common node use-cases that make said union type complicated for a newcomer to the library.\n\n",
+                "type": "Tree node -> Maybe ( node, List (Tree node) )"
+            },
+            {
+                "name": "flatten",
+                "comment": " Flatten tree into a list of ( path, node ) tuples.\n",
+                "type": "Tree node -> List ( List Int, node )"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize model from a [tree](Tree).\n",
+                "type": "Tree node -> Model node"
+            },
+            {
+                "name": "initWith",
+                "comment": " Initialize model from a [tree](Tree), using a list of [settings](Settings).\n",
+                "type": "List Setting -> Tree node -> Model node"
+            },
+            {
+                "name": "node",
+                "comment": " Non-empty node, constructed from a single root node and an array of children represented as trees.\n\n    node \"Parent\" [ node \"Child1\" [], node \"Child2\" [] ]\n\n",
+                "type": "nodeType -> List (Tree nodeType) -> Tree nodeType"
+            },
+            {
+                "name": "reposition",
+                "comment": " Restores the original pan position of the tree.\n",
+                "type": "Model node -> Model node"
+            },
+            {
+                "name": "resize",
+                "comment": " Resize the canvas by passing a new width and a new height. Note that you can reproduce this using [applySettings](#applySettings) as follows:\n\n    resize 600 400 arborist == applySettings [ Settings.canvasWidth 600, Settings.canvasHeight 400 ] arborist\n\n",
+                "type": "Int -> Int -> Model node -> Model node"
+            },
+            {
+                "name": "setActiveNode",
+                "comment": " Sets a new node at the active position. This may be adding a completely new node from scratch (in case the current node is a placeholder), or modifying an existing one. Typically, the modification is based off an original value provided by the [activeNodeWithContext](#activeNodeWithContext) method.\n",
+                "type": "node -> Model node -> Model node"
+            },
+            {
+                "name": "styledView",
+                "comment": " The editor's view function, taking the following arguments:\n\n  - [NodeView](#NodeView): view function for an individual node.\n  - a list of html attributes for the container element.\n  - the editor's [model](#Model).\n\n",
+                "type": "StyledNodeView node -> List (Attribute Msg) -> Model node -> Html Msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Subscriptions responsible for obtaining animation frames used to smoothly center an activated tree node. Using these subscriptions is completely optional - if they aren't wired up in your app, the editor will simply jump to the activated node without an animation. We recommend adding these subscriptions as you familiarize yourself with the package, as it is a significant user experience improvement.\n",
+                "type": "Model node -> Sub Msg"
+            },
+            {
+                "name": "tree",
+                "comment": " Access the current state of the tree through this getter (returns structure defined in the `Arborist.Tree` module). The result reflects all changes since it was [initialized](#init).\n",
+                "type": "Model node -> Tree node"
+            },
+            {
+                "name": "update",
+                "comment": " Update function handling changes in the model.\n",
+                "type": "Msg -> Model node -> Model node"
+            },
+            {
+                "name": "view",
+                "comment": " Styled version of [view](#NodeView), using `elm-css`.\n",
+                "type": "NodeView node -> List (Attribute Msg) -> Model node -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Arborist.Settings",
+        "comment": " Various settings for the editor, defined at the time of [initialization](Arborist#initWith), or [added](Arborist#applySettings) at any time later in the program. Includes various geometric settings such as canvas dimensions and the gutter between nodes, and, in a later version of this package, more functional settings such as hiding placeholder nodes.\n\n@docs nodeWidth, nodeHeight, canvasWidth, canvasHeight, level, gutter, centerOffset, connectorStroke, connectorStrokeWidth, dragAndDrop, placeholderLeaves, throttleMouseMoves, sturdyMode\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "canvasHeight",
+                "comment": " Sets the height of the canvas.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "canvasWidth",
+                "comment": " Sets the width of the canvas.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "centerOffset",
+                "comment": " When a node is activated, the interface centers it automatically. Sometimes, though, it is useful to move it somewhere other than the center, e.g. to accommodate a large pop-up underneath. With this configuration option, you can specify this offset, horizontal first, vertical second.\n",
+                "type": "Int -> Int -> Setting"
+            },
+            {
+                "name": "connectorStroke",
+                "comment": " Stroke color of the lines connecting siblings.\n",
+                "type": "String -> Setting"
+            },
+            {
+                "name": "connectorStrokeWidth",
+                "comment": " Stroke width of the lines connecting siblings.\n",
+                "type": "String -> Setting"
+            },
+            {
+                "name": "dragAndDrop",
+                "comment": " Enable or disable drag and drop with this boolean flag (`True` is enabled, which is the default value). Note that the tree can still be panned if drag and drop is disabled.\n",
+                "type": "Bool -> Setting"
+            },
+            {
+                "name": "gutter",
+                "comment": " Horizontal gutter between nodes.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "level",
+                "comment": " Vertical distance between the bottom of a parent node and the top of its child.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "nodeHeight",
+                "comment": " Sets the width of node.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "nodeWidth",
+                "comment": " Sets the width of node.\n",
+                "type": "Int -> Setting"
+            },
+            {
+                "name": "placeholderLeaves",
+                "comment": " Set whether placeholder leaves should be displayed.\n",
+                "type": "Bool -> Setting"
+            },
+            {
+                "name": "sturdyMode",
+                "comment": " Enables sturdy mode: as long as the tree is not empty, there is always one active node. Use this mode when it is critical that active node-related feedback doesn't leave the screen.\n",
+                "type": "Bool -> Setting"
+            },
+            {
+                "name": "throttleMouseMoves",
+                "comment": " Turn on mouse move throttling over a specified interval. You must connect `subscriptions` for this to work.\n",
+                "type": "Time -> Setting"
+            }
+        ],
+        "binops": []
+    }
+]

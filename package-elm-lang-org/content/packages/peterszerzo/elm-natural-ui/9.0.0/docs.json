@@ -1,0 +1,890 @@
+[
+    {
+        "name": "NaturalUi",
+        "comment": " Opinionated design system with a friendly API. [Demo.](https://peterszerzo.github.io/elm-natural-ui)\n\n\n# Nodes\n\n@docs authScreen, button, card, counter, datePicker, input, checkbox, searchBar, modal, loader, listEditor, select, link, formPack, tabs, switch, toggle, table, notification, chipElement, slider, customLink, tile\n\n\n# Attributes\n\n@docs title, body, popup, help, state, data, toMsg, toStatefulMsg, toAsyncStatefulMsg, warning, onDarkBackground, error, enabled, placeholder, icon, id, label, navigate, onClick, onClose, onSuggestion, suggestions, url, discrete, options, loading, css, type_, required\n\n\n# Icons\n\n@docs plus, plusInCircle, barbell, webhook, checkmarkInCircle, variable, slot, duplicate, trash, target, channels, pen, gear, tree, chip, bot, caretLeft, chevronLeft, chevronRight, chevronUp, chevronDown, search, close, pen, questionInCircle, chart, logout, person, hammer, slack, skype, facebookMessenger, amazonEcho\n\n\n# Styles\n\n@docs globalStyles\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "amazonEcho",
+                "comment": " Facebook messenger icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "authScreen",
+                "comment": " AuthScreen element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "barbell",
+                "comment": " Barbell icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "body",
+                "comment": " Content body attribute\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "bot",
+                "comment": " Tree icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "button",
+                "comment": " Button element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "card",
+                "comment": " Card element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "caretLeft",
+                "comment": " Caret left icon - DEPRECATED, use [chevronLeft](#chevronLeft)\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "channels",
+                "comment": " Channels icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chart",
+                "comment": " Chart icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "checkbox",
+                "comment": " Checkbox element\n",
+                "type": "CustomNode Never (List String) msg"
+            },
+            {
+                "name": "checkmarkInCircle",
+                "comment": " Checkmark icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronDown",
+                "comment": " ChevronDown icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronLeft",
+                "comment": " ChevronLeft icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronRight",
+                "comment": " ChevronRight icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chevronUp",
+                "comment": " ChevronUp icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chip",
+                "comment": " Chip icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "chipElement",
+                "comment": " Chip element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "close",
+                "comment": " Close icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "counter",
+                "comment": " Counter element\n",
+                "type": "CustomNode State Int msg"
+            },
+            {
+                "name": "css",
+                "comment": " `elm-css` styles\n",
+                "type": "List Style -> Setting state data msg"
+            },
+            {
+                "name": "customLink",
+                "comment": " Counter element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "data",
+                "comment": " View data 'owned' by the outside application. Of course, all state is owned by the outside app, but contrary to [state](#state), this holds core application data that may reach servers later.\n",
+                "type": "data -> Setting state data msg"
+            },
+            {
+                "name": "datePicker",
+                "comment": " DatePicker element\n",
+                "type": "CustomNode State Data msg"
+            },
+            {
+                "name": "discrete",
+                "comment": " Discrete theme\n",
+                "type": "Setting state data msg"
+            },
+            {
+                "name": "duplicate",
+                "comment": " Duplicate icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "enabled",
+                "comment": " Enabled state\n",
+                "type": "Bool -> Setting state data msg"
+            },
+            {
+                "name": "error",
+                "comment": " Error theme\n",
+                "type": "Setting state data msg"
+            },
+            {
+                "name": "facebookMessenger",
+                "comment": " Facebook messenger icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "formPack",
+                "comment": " FormPack element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "gear",
+                "comment": " Gear icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "globalStyles",
+                "comment": " Global setup styles\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "hammer",
+                "comment": " Hammer icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "help",
+                "comment": " Help text\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "icon",
+                "comment": " SVG icon\n",
+                "type": "Html msg -> Setting state data msg"
+            },
+            {
+                "name": "id",
+                "comment": " Id\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "input",
+                "comment": " Input element\n",
+                "type": "CustomNode Int String msg"
+            },
+            {
+                "name": "label",
+                "comment": " Labels, used for forms and sections\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "link",
+                "comment": " Link element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "listEditor",
+                "comment": " List editor element\n",
+                "type": "CustomNode State Data msg"
+            },
+            {
+                "name": "loader",
+                "comment": " Loader element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "loading",
+                "comment": " Specifies whether the UI element is in a loading state\n",
+                "type": "Bool -> Setting state data msg"
+            },
+            {
+                "name": "logout",
+                "comment": " Logout icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "modal",
+                "comment": " Modal element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "navigate",
+                "comment": " Client-side navigation message, taking a path string as a parameter\n",
+                "type": "(String -> msg) -> Setting state data msg"
+            },
+            {
+                "name": "notification",
+                "comment": " Notification element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "onClick",
+                "comment": " Click handler\n",
+                "type": "msg -> Setting state data msg"
+            },
+            {
+                "name": "onClose",
+                "comment": " Close handler\n",
+                "type": "msg -> Setting state data msg"
+            },
+            {
+                "name": "onDarkBackground",
+                "comment": " Set theme to work on dark background\n",
+                "type": "Setting state data msg"
+            },
+            {
+                "name": "onSuggestion",
+                "comment": " Handler for when the user accepts a suggestion\n",
+                "type": "(String -> msg) -> Setting state data msg"
+            },
+            {
+                "name": "options",
+                "comment": " List of options, e.g. for select\n",
+                "type": "List String -> Setting state data msg"
+            },
+            {
+                "name": "pen",
+                "comment": " Pen icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "person",
+                "comment": " Person icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "placeholder",
+                "comment": " Placeholder\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "plus",
+                "comment": " Plus icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "plusInCircle",
+                "comment": " PlusInCircle icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "popup",
+                "comment": " Popup attribute - specify children that go into a popup belonging to the element.\n",
+                "type": "List (Html msg) -> Setting state data msg"
+            },
+            {
+                "name": "questionInCircle",
+                "comment": " QuestionInCircle icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "required",
+                "comment": " Required\n",
+                "type": "Setting state data msg"
+            },
+            {
+                "name": "search",
+                "comment": " Search icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "searchBar",
+                "comment": " SearchBar element\n",
+                "type": "CustomNode Never String msg"
+            },
+            {
+                "name": "select",
+                "comment": " Select element\n",
+                "type": "CustomNode Never (Maybe String) msg"
+            },
+            {
+                "name": "skype",
+                "comment": " Skype icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "slack",
+                "comment": " Slack icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "slider",
+                "comment": " Slider element\n",
+                "type": "CustomNode State Data msg"
+            },
+            {
+                "name": "slot",
+                "comment": " Slot icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "state",
+                "comment": " Internal UI widget state, see <http://package.elm-lang.org/packages/evancz/elm-sortable-table/1.0.1/Table#view>\n",
+                "type": "state -> Setting state data msg"
+            },
+            {
+                "name": "suggestions",
+                "comment": " Suggestions for words that autocomplete should recognize\n",
+                "type": "List String -> Setting state data msg"
+            },
+            {
+                "name": "switch",
+                "comment": " SearchBar element\n",
+                "type": "CustomNode Never Bool msg"
+            },
+            {
+                "name": "table",
+                "comment": " Smart table\n",
+                "type": "CustomNode State (Data msg) msg"
+            },
+            {
+                "name": "tabs",
+                "comment": " Tabs element\n",
+                "type": "CustomNode State (Data msg) msg"
+            },
+            {
+                "name": "target",
+                "comment": " Target icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "tile",
+                "comment": " Tile element\n",
+                "type": "CustomNode Never Never msg"
+            },
+            {
+                "name": "title",
+                "comment": " Title attribute\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "toAsyncStatefulMsg",
+                "comment": " A'la [elm-sortable-table](http://package.elm-lang.org/packages/evancz/elm-sortable-table/1.0.1/Table#view), this is how components communicate to the outside application. The slight modification is that components always pass back both their new internal state and the new data through this method.\n",
+                "type": "((state -> data -> ( state, data )) -> msg) -> Setting state data msg"
+            },
+            {
+                "name": "toMsg",
+                "comment": " A'la [elm-sortable-table](http://package.elm-lang.org/packages/evancz/elm-sortable-table/1.0.1/Table#view), this is how components communicate to the outside application. The slight modification is that components always pass back both their new internal state and the new data through this method.\n",
+                "type": "(data -> msg) -> Setting state data msg"
+            },
+            {
+                "name": "toStatefulMsg",
+                "comment": " A'la [elm-sortable-table](http://package.elm-lang.org/packages/evancz/elm-sortable-table/1.0.1/Table#view), this is how components communicate to the outside application. The slight modification is that components always pass back both their new internal state and the new data through this method.\n",
+                "type": "(state -> data -> msg) -> Setting state data msg"
+            },
+            {
+                "name": "toggle",
+                "comment": " Toggle element\n",
+                "type": "CustomNode State Data msg"
+            },
+            {
+                "name": "trash",
+                "comment": " Trash icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "tree",
+                "comment": " Tree icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "type_",
+                "comment": " HTML type attribute for buttons and input fields.\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "url",
+                "comment": " Url for links and help sections\n",
+                "type": "String -> Setting state data msg"
+            },
+            {
+                "name": "variable",
+                "comment": " Variable icon\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "warning",
+                "comment": " Warning theme\n",
+                "type": "Setting state data msg"
+            },
+            {
+                "name": "webhook",
+                "comment": " Webhooks icon\n",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.ListEditor",
+        "comment": " List editor component\n@docs State, Data, getConfig, init, view\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [],
+                "type": "List String"
+            },
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "type": "{ editing : Maybe { index : Int, cursor : Int }, inputFieldsExpanded : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration from a list of settings\n",
+                "type": "List (Setting State Data msg) -> Config msg"
+            },
+            {
+                "name": "init",
+                "comment": " Init\n",
+                "type": "State"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Table",
+        "comment": " Smart table\n\n\n# Types\n\n@docs State, SortState, Data, Row\n\n\n# Methods\n\n@docs getConfig, init, view\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ headers : List String, rows : List (Row msg) }"
+            },
+            {
+                "name": "Row",
+                "comment": " Row\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ cells : List ( String, Html msg ), isEnabled : Bool, actions : List { icon : Html msg, action : msg, withDeletePrompt : Bool }, defaultAction : Maybe msg }"
+            },
+            {
+                "name": "SortState",
+                "comment": " Sort state\n",
+                "args": [],
+                "type": "{ columnIndex : Int, isAscending : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration from a list of settings\n",
+                "type": "List (Setting State (Data msg) msg) -> Config msg"
+            },
+            {
+                "name": "init",
+                "comment": " Init\n",
+                "type": "State"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Toggle",
+        "comment": " Toggle component\n\n@docs State, Data, getConfig, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [],
+                "type": "{ left : String, right : String, isLeft : Bool }"
+            },
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "type": "Never"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration from a list of settings\n",
+                "type": "List (Setting State Data msg) -> Config msg"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Slider",
+        "comment": " Slider component\n\n@docs State, Data, getConfig, view, init\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [],
+                "type": "{ low : Float, minLow : Float, high : Float, maxHigh : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration\n",
+                "type": "List (Setting State Data msg) -> Config msg"
+            },
+            {
+                "name": "init",
+                "comment": " init\n",
+                "type": "State"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.DatePicker",
+        "comment": " Date picker\n@docs State, Data, getConfig, init, view\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [],
+                "type": "{ start : Maybe ( Int, Int, Int ), end : Maybe ( Int, Int, Int ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration from a list of settings\n",
+                "type": "List (Setting State Data msg) -> Config msg"
+            },
+            {
+                "name": "init",
+                "comment": " init\n",
+                "type": "State"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Counter",
+        "comment": " Counter module\n\n@docs getConfig, State, init, Data, view\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get config.\n",
+                "type": "List (Setting State Data msg) -> Config msg"
+            },
+            {
+                "name": "init",
+                "comment": " init\n",
+                "type": "State"
+            },
+            {
+                "name": "view",
+                "comment": " view\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Tabs",
+        "comment": " Tabs component\n\n@docs State, Data, getConfig, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Data",
+                "comment": " Data\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "List ( String, Html msg )"
+            },
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "getConfig",
+                "comment": " Get configuration from a list of settings\n",
+                "type": "List (Setting State (Data msg) msg) -> Config msg"
+            },
+            {
+                "name": "view",
+                "comment": " View\n",
+                "type": "Config msg -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Mixins",
+        "comment": " Style mixins\n\n\n# Typography\n\n@docs title, heading, body, strongBody, label, small\n\n\n# Z-indices\n\n@docs lowZIndex, regularZIndex, higherZIndex, popupZIndex, almightyZIndex\n\n\n# Miscellaneous skin styles\n\n@docs standardBorderRadius, standardBoxShadow, inputFocus\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "almightyZIndex",
+                "comment": " Almighty z-index\n",
+                "type": "Style"
+            },
+            {
+                "name": "body",
+                "comment": " Regular body type\n",
+                "type": "Style"
+            },
+            {
+                "name": "heading",
+                "comment": " Heading type\n",
+                "type": "Style"
+            },
+            {
+                "name": "higherZIndex",
+                "comment": " Higher z-index\n",
+                "type": "Style"
+            },
+            {
+                "name": "inputFocus",
+                "comment": " Focused input style\n",
+                "type": "Style"
+            },
+            {
+                "name": "label",
+                "comment": " Label\n",
+                "type": "Style"
+            },
+            {
+                "name": "lowZIndex",
+                "comment": " Low z-index\n",
+                "type": "Style"
+            },
+            {
+                "name": "popupZIndex",
+                "comment": " Popup z-index\n",
+                "type": "Style"
+            },
+            {
+                "name": "regularZIndex",
+                "comment": " Regular z-index\n",
+                "type": "Style"
+            },
+            {
+                "name": "small",
+                "comment": " Small type\n",
+                "type": "Style"
+            },
+            {
+                "name": "standardBorderRadius",
+                "comment": " Standard border radius\n",
+                "type": "Style"
+            },
+            {
+                "name": "standardBoxShadow",
+                "comment": " Standard box shadow\n",
+                "type": "Style"
+            },
+            {
+                "name": "strongBody",
+                "comment": " Regular bolder body type\n",
+                "type": "Style"
+            },
+            {
+                "name": "title",
+                "comment": " Title type\n",
+                "type": "Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NaturalUi.Constants",
+        "comment": " Styling constants\n\n\n# Sizes\n\n@docs headerHeight, footerHeight, sidebarWidth\n\n\n# Colors\n\n@docs black, lighterGray, lightGray, gray, orange, lighterOrange, lightOrange, red, lighterRed, lightRed, dark, white, faintBlue, blue, lightBlue, lighterBlue\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "black",
+                "comment": " Black color\n",
+                "type": "String"
+            },
+            {
+                "name": "blue",
+                "comment": " Blue color\n",
+                "type": "String"
+            },
+            {
+                "name": "dark",
+                "comment": " Dark color\n",
+                "type": "String"
+            },
+            {
+                "name": "faintBlue",
+                "comment": " Faint blue color\n",
+                "type": "String"
+            },
+            {
+                "name": "footerHeight",
+                "comment": " Footer height\n",
+                "type": "Float"
+            },
+            {
+                "name": "gray",
+                "comment": " Gray color\n",
+                "type": "String"
+            },
+            {
+                "name": "headerHeight",
+                "comment": " Header height\n",
+                "type": "Float"
+            },
+            {
+                "name": "lightBlue",
+                "comment": " Light blue color\n",
+                "type": "String"
+            },
+            {
+                "name": "lightGray",
+                "comment": " Light gray color\n",
+                "type": "String"
+            },
+            {
+                "name": "lightOrange",
+                "comment": " Light orange color\n",
+                "type": "String"
+            },
+            {
+                "name": "lightRed",
+                "comment": " Light red color\n",
+                "type": "String"
+            },
+            {
+                "name": "lighterBlue",
+                "comment": " Slightly lighter blue color\n",
+                "type": "String"
+            },
+            {
+                "name": "lighterGray",
+                "comment": " Light gray color\n",
+                "type": "String"
+            },
+            {
+                "name": "lighterOrange",
+                "comment": " Lighter orange color\n",
+                "type": "String"
+            },
+            {
+                "name": "lighterRed",
+                "comment": " Lighter red color\n",
+                "type": "String"
+            },
+            {
+                "name": "orange",
+                "comment": " Orange color\n",
+                "type": "String"
+            },
+            {
+                "name": "red",
+                "comment": " Red color\n",
+                "type": "String"
+            },
+            {
+                "name": "sidebarWidth",
+                "comment": " Sidebar width\n",
+                "type": "Float"
+            },
+            {
+                "name": "white",
+                "comment": " White color\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

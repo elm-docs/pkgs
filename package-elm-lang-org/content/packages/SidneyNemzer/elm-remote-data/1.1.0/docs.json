@@ -1,0 +1,307 @@
+[
+    {
+        "name": "CreateableRemoteData",
+        "comment": " Represents data that is downloaded from a server, edited on the client, then\nuploaded back to the server. It's really an extension of `EditableRemoteData`,\nusing a `Maybe data` to represent data that might or might not exist locally or\nremotely.\n\n\n# Types\n\n@docs CreateableRemoteData\n\n\n# Functions\n\n@docs create, edit, set, delete, unwrapLocalRemote, unwrapLocal, maybeLocal, fromResult, upload, forceUpload, uploaded, isSaved, isLoading, isFailed, isSuccess, isUploading\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CreateableRemoteData",
+                "comment": " Represents data that can be created, edited, and deleted on the client, then\nuploaded to the server.\n",
+                "args": [
+                    "data",
+                    "downloadError",
+                    "uploadError"
+                ],
+                "type": "EditableRemoteData (Maybe data) downloadError uploadError"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Construct a new CreateableRemoteData that only exists locally\n",
+                "type": "data -> CreateableRemoteData data de ue"
+            },
+            {
+                "name": "delete",
+                "comment": " Modify a CreateableRemoteData to show that the data no longer exists locally\n",
+                "type": "CreateableRemoteData data de ue -> CreateableRemoteData data de ue"
+            },
+            {
+                "name": "edit",
+                "comment": " Modifies the local data if possible, otherwise does nothing\n",
+                "type": "(data -> data) -> CreateableRemoteData data de ue -> CreateableRemoteData data de ue"
+            },
+            {
+                "name": "forceUpload",
+                "comment": " Very similar to `upload`, but will upload even if the remote has the same data\nas the server.\n\n*Note*: This will likely be removed in the future in favor of a way to modify\nthe remote's value. In other words, you'd mark the remote as deleted (`Nothing`)\nthe use a regular save.\n\nIf this is successful, the data is returned as a `Just LocalRemote`. Otherwise\n`Nothing` is returned. It's up to your code to turn the `Just LocalRemote` into\na Cmd that sends the request to the server.\n\n",
+                "type": "CreateableRemoteData data de ue -> ( Maybe (LocalRemote (Maybe data)), CreateableRemoteData data de ue )"
+            },
+            {
+                "name": "fromResult",
+                "comment": " Creates a CreateableRemoteData from a Result. Designed to be used to turn an\nHTTP request result into CreateableRemoteData. The data in the Result is considered\nsyncronized, so the local and remote data is the same at this point.\n",
+                "type": "Result error data -> CreateableRemoteData data error ue"
+            },
+            {
+                "name": "isFailed",
+                "comment": " Check if a CreateableRemoteData has failed to download\n",
+                "type": "CreateableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isLoading",
+                "comment": " Check if a CreateableRemoteData is downloading. This will return `false` when\nthe data is being *uploaded*.\n",
+                "type": "CreateableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isSaved",
+                "comment": " Check if a CreateableRemoteData has its local and remote data syncronized\n",
+                "type": "CreateableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isSuccess",
+                "comment": " Check if a CreateableRemoteData has been successfully downloaded\n",
+                "type": "CreateableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isUploading",
+                "comment": " Check if a CreateableRemoteData is currently uploading to sync its data\n",
+                "type": "CreateableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "maybeLocal",
+                "comment": " Converts to a Just if the local data is availible, Nothing otherwise. This\nmakes it impossible to distingish between, say, deleted data and loading data.\nSo this should only be used in places where that won't matter.\n",
+                "type": "CreateableRemoteData data de ue -> Maybe data"
+            },
+            {
+                "name": "set",
+                "comment": " Similar to `edit`, but it sets the data without caring about the previous value\n",
+                "type": "data -> CreateableRemoteData data de ue -> CreateableRemoteData data de ue"
+            },
+            {
+                "name": "unwrapLocal",
+                "comment": " Runs a function on the local data inside a CreateableRemoteData if possible,\notherwise returns the default\n",
+                "type": "a -> (Maybe data -> a) -> CreateableRemoteData data de ue -> a"
+            },
+            {
+                "name": "unwrapLocalRemote",
+                "comment": " Runs a function on the LocalRemote inside a CreateableRemoteData if possible,\notherwise returns the default\n",
+                "type": "a -> (LocalRemote (Maybe data) -> a) -> CreateableRemoteData data de ue -> a"
+            },
+            {
+                "name": "upload",
+                "comment": " Try to put the CreateableRemoteData into the \"Uploading\" state. This only works\nif\n\n  - The data has been successfully downloaded\n  - The CreateableRemoteData isn't already uploading\n  - The local and remote data is desyncronized\n\nIf this is successful, the data is returned as a `Just LocalRemote`. Otherwise\n`Nothing` is returned. It's up to your code to turn the `Just LocalRemote` into\na Cmd that sends the request to the server.\n\n",
+                "type": "CreateableRemoteData data de ue -> ( Maybe (LocalRemote (Maybe data)), CreateableRemoteData data de ue )"
+            },
+            {
+                "name": "uploaded",
+                "comment": " Use this after an upload has completed. This will update the CreateableRemoteData\nto refelect the result: either an error occured and the upload failed OR the data\nwas successfully saved and the remote value of the LocalRemote can be updated.\n\nNote that edits can still be made while uploading, after the upload completes the\nremote will be updated to refelect the data that was uploaded rather than the\ncurrent local data.\n\n",
+                "type": "Result uploadError () -> CreateableRemoteData data de uploadError -> CreateableRemoteData data de uploadError"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "EditableRemoteData",
+        "comment": " Represents data that is downloaded from a server, edited on the client, then\nuploaded back to the server. It's really an extension of `RemoteData`.\n\n\n# Types\n\n@docs LocalRemote, EditableRemoteData\n\n\n# Functions\n\n@docs edit, unwrapLocalRemote, unwrapLocal, maybeLocal, fromResult, upload, forceUpload, uploaded, isSaved, isLoading, isFailed, isSuccess, isUploading\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "EditableRemoteData",
+                "comment": " Represents data that is downloaded from a server, edited on the client, then\nuploaded back to the server.\n",
+                "args": [
+                    "data",
+                    "downloadError",
+                    "uploadError"
+                ],
+                "type": "RemoteData ( UploadStatus data uploadError, LocalRemote data ) downloadError"
+            },
+            {
+                "name": "LocalRemote",
+                "comment": " Represents data that is on the client and server. This allows us to check if\nthe data needs to be synced.\n",
+                "args": [
+                    "data"
+                ],
+                "type": "{ local : data, remote : data }"
+            }
+        ],
+        "values": [
+            {
+                "name": "edit",
+                "comment": " Modifies the local data if possible, otherwise does nothing\n",
+                "type": "(data -> data) -> EditableRemoteData data de ue -> EditableRemoteData data de ue"
+            },
+            {
+                "name": "forceUpload",
+                "comment": " Very similar to `upload`, but will upload even if the remote has the same data\nas the server.\n\n*Note*: This will likely be removed in the future in favor of a way to modify\nthe remote's value. In other words, you'd mark the remote as deleted (`Nothing`)\nthe use a regular save.\n\nIf this is successful, the data is returned as a `Just LocalRemote`. Otherwise\n`Nothing` is returned. It's up to your code to turn the `Just LocalRemote` into\na Cmd that sends the request to the server.\n\n",
+                "type": "EditableRemoteData data de ue -> ( Maybe (LocalRemote data), EditableRemoteData data de ue )"
+            },
+            {
+                "name": "fromResult",
+                "comment": " Creates an EditableRemoteData from a Result. Designed to be used to turn an\nHTTP request result into EditableRemoteData. The data in the Result is considered\nsyncronized, so the local and remote data is the same at this point.\n",
+                "type": "Result error data -> EditableRemoteData data error ue"
+            },
+            {
+                "name": "isFailed",
+                "comment": " Check if an EditableRemoteData has failed to download\n",
+                "type": "EditableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isLoading",
+                "comment": " Check if an EditableRemoteData is downloading. This will return `false` when\nthe data is being *uploaded*.\n",
+                "type": "EditableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isSaved",
+                "comment": " Check if an EditableRemoteData has its local and remote data syncronized\n",
+                "type": "EditableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isSuccess",
+                "comment": " Check if an EditableRemoteData has been successfully downloaded\n",
+                "type": "EditableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "isUploading",
+                "comment": " Check if an EditableRemoteData is currently uploading to sync its data\n",
+                "type": "EditableRemoteData date de uploadError -> Bool"
+            },
+            {
+                "name": "maybeLocal",
+                "comment": " Converts to a Just if the local data is availible, Nothing otherwise.\n",
+                "type": "EditableRemoteData data de ue -> Maybe data"
+            },
+            {
+                "name": "unwrapLocal",
+                "comment": " Runs a function on the local data inside an EditableRemoteData if possible,\notherwise returns the default\n",
+                "type": "a -> (data -> a) -> EditableRemoteData data de ue -> a"
+            },
+            {
+                "name": "unwrapLocalRemote",
+                "comment": " Runs a function on the LocalRemote inside an EditableRemoteData if possible,\notherwise returns the default\n",
+                "type": "a -> (LocalRemote data -> a) -> EditableRemoteData data de ue -> a"
+            },
+            {
+                "name": "upload",
+                "comment": " Try to put the EditableRemoteData into the \"Uploading\" state. This only works\nif\n\n  - The data has been successfully downloaded\n  - The EditableRemoteData isn't already uploading\n  - The local and remote data is desyncronized\n\nIf this is successful, the data is returned as a `Just LocalRemote`. Otherwise\n`Nothing` is returned. It's up to your code to turn the `Just LocalRemote` into\na Cmd that sends the request to the server.\n\n",
+                "type": "EditableRemoteData data de ue -> ( Maybe (LocalRemote data), EditableRemoteData data de ue )"
+            },
+            {
+                "name": "uploaded",
+                "comment": " Use this after an upload has completed. This will update the EditableRemoteData\nto refelect the result: either an error occured and the upload failed OR the data\nwas successfully saved and the remote value of the LocalRemote can be updated.\n\nNote that edits can still be made while uploading, after the upload completes the\nremote will be updated to refelect the data that was uploaded rather than the\ncurrent local data.\n\n",
+                "type": "Result uploadError () -> EditableRemoteData data de uploadError -> EditableRemoteData data de uploadError"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "RemoteData",
+        "comment": " The basic RemoteData type.\n\n\n# Types\n\n@docs RemoteData\n\n\n# Functions\n\n@docs map, unwrap, toMaybe, fromResult, isLoading, isFailed, isSuccess\n\n",
+        "unions": [
+            {
+                "name": "RemoteData",
+                "comment": " The basic RemoteData type. Represents data that can be downloaded from a\nserver. Note that unlike many representations, this version does not have a\n`NotAsked` state.\n",
+                "args": [
+                    "data",
+                    "error"
+                ],
+                "cases": [
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Failed",
+                        [
+                            "error"
+                        ]
+                    ],
+                    [
+                        "Success",
+                        [
+                            "data"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromResult",
+                "comment": " Create a RemoteData from a Result. Use this to turn an HTTP request result\ninto RemoteData.\n",
+                "type": "Result error data -> RemoteData data error"
+            },
+            {
+                "name": "isFailed",
+                "comment": " Check if a RemoteData has failed to download\n",
+                "type": "RemoteData data error -> Bool"
+            },
+            {
+                "name": "isLoading",
+                "comment": " Check if a RemoteData is downloading. This will return `false` when\nthe data is being *uploaded*.\n",
+                "type": "RemoteData data error -> Bool"
+            },
+            {
+                "name": "isSuccess",
+                "comment": " Check if a RemoteData has been successfully downloaded\n",
+                "type": "RemoteData data error -> Bool"
+            },
+            {
+                "name": "map",
+                "comment": " Modify the data inside if possible, otherwise do nothing\n",
+                "type": "(data -> a) -> RemoteData data error -> RemoteData a error"
+            },
+            {
+                "name": "toMaybe",
+                "comment": " Convert the data to a Just, or a Nothing if the data isn't availible.\n",
+                "type": "RemoteData data error -> Maybe data"
+            },
+            {
+                "name": "unwrap",
+                "comment": " Run a function on the data if possible, otherwise returns the default\n",
+                "type": "a -> (error -> a) -> (data -> a) -> RemoteData data error -> a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "UploadStatus",
+        "comment": " This module helps represent data that can be sent to a server\n\n\n# Type\n\n@docs UploadStatus\n\n\n# Function\n\n@docs isUploading\n\n",
+        "unions": [
+            {
+                "name": "UploadStatus",
+                "comment": " Represents the three states of uploadable data\n",
+                "args": [
+                    "data",
+                    "error"
+                ],
+                "cases": [
+                    [
+                        "NotUploading",
+                        []
+                    ],
+                    [
+                        "Uploading",
+                        [
+                            "data"
+                        ]
+                    ],
+                    [
+                        "LastUploadFailed",
+                        [
+                            "error"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isUploading",
+                "comment": " Check if the given UploadStatus is Uploading\n",
+                "type": "UploadStatus data error -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

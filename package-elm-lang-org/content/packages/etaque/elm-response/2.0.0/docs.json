@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Response",
+        "comment": "\nResponse utilities for Elm Architecture. Build responses from tasks, pipe them, map over.\n\n# Construct\n@docs Response, res, taskRes, withCmd, withTask, withNone\n\n# Transform\n@docs mapModel, mapCmd, mapBoth\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Response",
+                "comment": " A response is an updated model and some cmd. ",
+                "args": [
+                    "model",
+                    "msg"
+                ],
+                "type": "( model, Cmd msg )"
+            }
+        ],
+        "values": [
+            {
+                "name": "mapBoth",
+                "comment": " Map over model and cmd. ",
+                "type": "(m -> m_) -> (a -> a_) -> Response m a -> Response m_ a_"
+            },
+            {
+                "name": "mapCmd",
+                "comment": " Map over cmd. ",
+                "type": "(a -> a_) -> Response m a -> Response m a_"
+            },
+            {
+                "name": "mapModel",
+                "comment": " Map over model. ",
+                "type": "(m -> m_) -> Response m a -> Response m_ a"
+            },
+            {
+                "name": "res",
+                "comment": " Canonical usage: construct a result from model and cmd. ",
+                "type": "model -> Cmd msg -> Response model msg"
+            },
+            {
+                "name": "taskRes",
+                "comment": " Construct a result from model and task. ",
+                "type": "model -> (x -> msg) -> (a -> msg) -> Task x a -> Response model msg"
+            },
+            {
+                "name": "withCmd",
+                "comment": " Construct a result from model and cmd, flipped for piping:\n\n    { model | foo = bar }\n      |> withCmd someCmd\n ",
+                "type": "Cmd a -> m -> Response m a"
+            },
+            {
+                "name": "withNone",
+                "comment": " Construct a result from model without cmd, flipped for piping:\n\n    { model | foo = bar }\n      |> withNone\n ",
+                "type": "m -> Response m a"
+            },
+            {
+                "name": "withTask",
+                "comment": " Construct a result from model and task, flipped for piping:\n\n    { model | foo = bar }\n      |> withTask someTask\n ",
+                "type": "(x -> msg) -> (a -> msg) -> Task x a -> model -> Response model msg"
+            }
+        ],
+        "binops": []
+    }
+]

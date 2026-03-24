@@ -1,0 +1,118 @@
+[
+    {
+        "name": "Life",
+        "comment": " Conways Game of Life on alun perin ruutupaperilla pelattu simulaatio,\njossa pienet aloituskuviot voivat tuottaa yllättävän monimutkaista \"elämää\".\n\nVäritettyjä ruutuja kutsutaan eläviksi ja tyhjiä kuolleiksi. Ruudun naapurien\nlukumäärä kertoo kuinka moni kahdeksasta ympäröivästä ruudusta on elossa.\n\nSeuraava kuva piirretään näin:\n\n  - Jos ruudulla oli tasan kolme naapuria, se herää henkiin.\n  - Jos ruudulla oli kaksi naapuria tai kolme naapuria ja se oli elossa\n    , se selviää.\n  - Muulloin ruutu kuolee tai pysyy kuolleena.\n\nTeemme *Lifeä* simuloivan ohjelman, jossa käyttäjä voi herättää henkiin tai tappaa\nsoluja mielensä mukaan ja viedä simulaatiota eteenpäin painamalla nappia.\n\n![kuva lopullisesta](https://i.imgur.com/dhIOxhQ.png)\n\n\n# 0. Maailman esittäminen\n\n@docs Piste\n\n@docs Ruudukko\n\nSettiin voi tallentaa järjestämättömän joukon uniikkeja arvoja.\nSe on tähän oikea valinta, sillä ruutujen järjestyksellä ei ole väliä,\nemmekä halua tallentaa samaa ruutua moneen kertaan.\n\nVaihtoehtoisesti voisi rakentaa taulukon,\njossa on jokaiselle ruudulle tieto siitä onko se elossa.\n\n\n# 1. Ruudukko näkyviin\n\nOn hyvä saada ruudukko näkyviin, jotta ei joudu työskentelemään sokkona.\nLaitetaan siihen myös eläviä soluja ettei se olisi vain tyhjää mustuutta.\n\n    main =\n        tyhja\n            |> laitaRuutuun ( 0, 0 )\n            |> laitaRuutuun ( 3, 2 )\n            |> piirraRuudukko\n            |> Collage.Render.svg\n\nKun olet määritellyt kaikki puuttuvat funktiot (lisätietoja alempana),\nlopputuloksen pitäisi näyttää suunnilleen tältä:\n\n![kuva piirtotestistä](https://i.imgur.com/LyFj0bt.png)\n\n@docs tyhja, laitaRuutuun\n@docs piirraRuudukko\n\nTätä funktiota koodatessa kannattaa hyödyntää funktioita `piirraRuutu` ja `nakyvatRuudut`.\n\n`piirraRuutu` ja `piirraRuudukko` referensoivat paluuarvossaan tyyppiä `Viesti`,\njota emme vielä tässä vaiheessa määrittele. Tämän voi korjata esim. muuttamalla\npaluuarvoksi `Collage a`.\n\n@docs piirraRuutu, mittakaava\n@docs nakyvatRuudut\n\nEsimerkissä näkymä säädetään niin, että kaikki elävät solut näkyvät,\nmutta alkuun vakiokokoinen näkymä on aivan riittävä.\nVoit kopioida koodiisi seuraavanlaisen toteutuksen.\n\n    nakyvatRuudut _ =\n        karteesinenTulo (List.range 0 20) (List.range 0 20)\n\n@docs karteesinenTulo\n\n\n# 2. Solujen lisääminen hiirellä\n\n@docs Viesti\n\n\n## Kuvasta interaktiiviseen ohjelmaan\n\n@docs main\n\n    main =\n        Html.beginnerProgram\n            { model = tyhja\n            , view = view\n            , update = update\n            }\n\nAloitetaan tekemällä ohjelmastamme versio, joka toimii tuttun tapaan,\nmutta käyttää beginnerProgramia.\n\nJoudumme määrittelemään funktiot `view` ja `update`.\nTehdään niille mahdollisimman yksinkertaiset toteutukset.\n\n@docs view\n\n    view =\n        piirraRuudukko\n\n@docs update\n\n    update viesti ruudukko =\n        ruudukko\n\nNyt ohjelmasi pitäisi piirtää tyhjä ruudukko. Klikkausten käsittelyn toteutamme seuraavaksi.\n\n\n## Viestien lähettäminen\n\nRuutujen pitäisi laukaista viesti kun niitä klikataan.\nTämä onnistuu Collage.Events:n onClick-funktiolla.\n\nMuuta funktiota `piirraRuutu` niin, että elävä ruutu\nlähettää viestin `Poista` klikatessa ja kuollut viestin `Lisää`.\n\n\n## Viestien käsitteleminen\n\nTällä hetkellä update kuittaa kaikki viestit palauttamalla ruudukon muuttamattomana.\nLaita se lisäämään ja tappamaan soluja viestien saapuessa!\n\nNyt tarvitset funktion `lisääRuutuun` vastakappaleen.\n\n@docs poistaRuudusta\n\n\n# 3. Simulointi\n\nMuuta `view` niin, että se piirtää myös napin funktiolla `askelNappi`.\nRuudukon ja napin saa aseteltua vierekkäin Collage.Layout-kirjaston funktioilla.\n\n@docs askelNappi\n\n@docs simuloi\n\n\n## Naapurien laskeminen\n\nNaapurisolut ovat ne, joiden x-, y- tai molemmat koordinaatit eroavat yhdellä\ntarkasteltavasta ruudusta, eli esim. `(x+1, y)` tai `(x+1, y+1)`.\n\nJos esimerkin lailla avaruutesi on ääretön kaikkiin suuntiin, kaikkia ruutuja\nei voi käydä läpi. Sen sijaan voit käydä läpi kaikki elossa olevat solut\nja lisätä ympäröivien ruutujen naapurien määrää yhdellä.\nDict on tähän näppärä.\n\n\n## Elävien määrittäminen\n\nKun naapurien laskennan tulokset suodattaa funktiolla `rule`,\njäljelle jäävät elävät solut.\n\n@docs rule\n\n\n# Testaa tekelettäsi!\n\ngiffejä oikeasta toiminnasta\n\n\n# Jatkokehitystä\n\n  - Kokeile muita soluautomaattisääntöjä.\n    Voit vaikka tehdä käyttäliittymän jolla voi suunnille oman säännön\n    ruutuja rastittamalla.\n\n  - Laita simulaatio pyörimään ajastetusti että käyttäjän ei tarvitse klikkailla\n    toistuvasti askelnappia.\n\n",
+        "unions": [
+            {
+                "name": "Viesti",
+                "comment": " Kuvaa asioita mitä käyttäjä voi tehdä.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Lisää",
+                        [
+                            "Piste"
+                        ]
+                    ],
+                    [
+                        "Poista",
+                        [
+                            "Piste"
+                        ]
+                    ],
+                    [
+                        "Simuloi",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Piste",
+                "comment": " Ruudun yksiselitteisesti määrittävä kokonaislukukoordinaatti.\n",
+                "args": [],
+                "type": "( Int, Int )"
+            },
+            {
+                "name": "Ruudukko",
+                "comment": " Sisältää elävien ruutujen koordinaatit.\n",
+                "args": [],
+                "type": "Set Piste"
+            }
+        ],
+        "values": [
+            {
+                "name": "askelNappi",
+                "comment": " Piirtää napin, jossa lukee \"Askel\". Klikattaessa nappi laukaisee viestin `Simuloi`.\n",
+                "type": "Collage Viesti"
+            },
+            {
+                "name": "karteesinenTulo",
+                "comment": " Kahden listan karteesinen tulo on lista kaikista mahdollisista listojen alkioiden yhdistelmistä.\n\n    karteesinenTulo [1, 2] ['a', 'b', 'c']\n    --> [(1, 'a'), (1, 'b'), (1, 'c'), (2, 'a'), (2, 'b'), (2, 'c')]\n\n",
+                "type": "List a -> List b -> List ( a, b )"
+            },
+            {
+                "name": "laitaRuutuun",
+                "comment": " Herättää henkiin solun koordinaattien osoittamassa paikkassa.\n",
+                "type": "Piste -> Ruudukko -> Ruudukko"
+            },
+            {
+                "name": "main",
+                "comment": " Valmiin ohjelman entry point.\n",
+                "type": "Program Never Ruudukko Viesti"
+            },
+            {
+                "name": "mittakaava",
+                "comment": " solun leveys pikseleinä\n",
+                "type": "Float"
+            },
+            {
+                "name": "nakyvatRuudut",
+                "comment": " Palauttaa listan koordinaateista, jotka tulisi näyttää.\n",
+                "type": "Ruudukko -> List Piste"
+            },
+            {
+                "name": "piirraRuudukko",
+                "comment": " Palauttaa kuvan ruudukosta.\n",
+                "type": "Ruudukko -> Collage Viesti"
+            },
+            {
+                "name": "piirraRuutu",
+                "comment": " Piirtää yhden solun. Ensimmäinen argumentti kertoo solun paikan.\nToinen kertoo onko se elossa.\n",
+                "type": "Piste -> Bool -> Collage Viesti"
+            },
+            {
+                "name": "poistaRuudusta",
+                "comment": " Tappaa solun koordinaattien osoittamassa paikassa.\n",
+                "type": "Piste -> Ruudukko -> Ruudukko"
+            },
+            {
+                "name": "rule",
+                "comment": " Soluautomaattisääntö.\nSaa naapureiden määrän ja kertoo onko solu yhä elossa seuraavassa sukupolvessa.\n",
+                "type": "Int -> Bool -> Bool"
+            },
+            {
+                "name": "simuloi",
+                "comment": " Simuloi ruudukkoa yhden sukupolven Life-pelin sääntöjen mukaan.\n",
+                "type": "Ruudukko -> Ruudukko"
+            },
+            {
+                "name": "tyhja",
+                "comment": " Palauttaa ruudukon, jossa ei ole yhtään elävää solua.\n",
+                "type": "Ruudukko"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Viesti -> Ruudukko -> Ruudukko"
+            },
+            {
+                "name": "view",
+                "comment": " Määritää koko ohjelman ulkonäön.\n",
+                "type": "Ruudukko -> Html Viesti"
+            }
+        ],
+        "binops": []
+    }
+]

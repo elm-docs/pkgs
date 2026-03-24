@@ -1,0 +1,162 @@
+[
+    {
+        "name": "Koivu",
+        "comment": " An interactive tree representation of [AlloMedia](https://www.allo-media.fr/)'s Customer Path.\n\n\n# Minimal application setup\n\n    import Koivu\n    import Koivu.Tree as Tree\n    import Html\n\n    settings : Koivu.Settings\n    settings =\n        { autoNormalize = False\n        , globalQty = 100000\n        , minNodeQty = 3000\n        , maxChildren = 4\n        , maxGlobalQty = 200000\n        , maxLevels = 3\n        , nodeWidth = 140\n        , nodeHeight = 80\n        , nodePadding = 10\n        }\n\n    main : Program Never Koivu.Model Koivu.Msg\n    main =\n        Tree.demoTree\n            |> Koivu.setup settings\n            |> Html.program\n\n\n# Documentation\n\n@docs Settings, setup, Program, Model, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Koivu messages\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Koivu main model\n",
+                "args": [],
+                "type": "{ root : Node, editedNode : Maybe Int, settings : Settings }"
+            },
+            {
+                "name": "Program",
+                "comment": " A Koivu program\n",
+                "args": [],
+                "type": "{ init : ( Model, Cmd Msg ), subscriptions : Model -> Sub Msg, update : Msg -> Model -> ( Model, Cmd Msg ), view : Model -> Html Msg }"
+            },
+            {
+                "name": "Settings",
+                "comment": " Koivu settings.\n\n  - `autoNormalize`: enable auto-normalization of the tree\n  - `globalQty`: initial global available quantity\n  - `minNodeQty`: minimal quantity for a viable tree\n  - `maxChildren`: maximum number of children per node\n  - `maxGlobalQty`: maximum global available quantity\n  - `maxLevels`: maximum depth for the tree\n  - `nodeWidth`: node width, in pixels\n  - `nodeHeight`: node height, in pixels\n  - `nodePadding`: node padding, in pixels\n\n",
+                "args": [],
+                "type": "Settings"
+            }
+        ],
+        "values": [
+            {
+                "name": "setup",
+                "comment": " Setup a Koivu program.\n",
+                "type": "Settings -> Node -> Program"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Koivu.Tree",
+        "comment": " A representation of a Classification Tree.\n\n\n# Basics\n\n@docs Node, NodeInfo\n\n\n# Building a tree\n\n@docs empty, demoTree, appendChild, createNode, deleteNode, updateLabel, updateShare\n\n\n# Querying a tree\n\n@docs allowExpand, findNode, findNodes, getParent, getProp, getSiblings, isUnderfed\n\n\n# Normalizing a tree\n\n@docs distributeShare, distributeQty, normalize\n\n\n# Encoding\n\n@docs encode\n\n",
+        "unions": [
+            {
+                "name": "Node",
+                "comment": " A tree node\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Node",
+                        [
+                            "NodeInfo"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "NodeInfo",
+                "comment": " A tree node information\n",
+                "args": [],
+                "type": "{ id : Int, label : String, qty : Int, share : Int, children : List Node }"
+            }
+        ],
+        "values": [
+            {
+                "name": "allowExpand",
+                "comment": " Check whether a node is allowed to append new children\n",
+                "type": "Settings -> Int -> List Node -> Bool"
+            },
+            {
+                "name": "appendChild",
+                "comment": " Append a new child to a node identified by its id in a tree\n",
+                "type": "Int -> Node -> Node -> Node"
+            },
+            {
+                "name": "createNode",
+                "comment": " Create a new node to be addable to a given tree.\n\nA unique identifier is generated for this node.\n\n",
+                "type": "Node -> Node"
+            },
+            {
+                "name": "deleteNode",
+                "comment": " Deletes a node from a tree, by its id\n",
+                "type": "Int -> Node -> Node"
+            },
+            {
+                "name": "demoTree",
+                "comment": " A sample tree, for demo purpose\n",
+                "type": "Node"
+            },
+            {
+                "name": "distributeQty",
+                "comment": " Distributes a quantity across all nodes in a tree\n",
+                "type": "Int -> Node -> Node"
+            },
+            {
+                "name": "distributeShare",
+                "comment": " Distributes shares to a given node siblings in a tree\n",
+                "type": "Int -> Int -> Node -> Node"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty node\n",
+                "type": "Node"
+            },
+            {
+                "name": "encode",
+                "comment": " A tree JSON encoder\n\n    demoTree\n    |> encode\n    |> Json.Encode.encode 2\n\n",
+                "type": "Node -> Value"
+            },
+            {
+                "name": "findNode",
+                "comment": " Find a node in a tree, by its id\n",
+                "type": "Int -> Node -> Maybe Node"
+            },
+            {
+                "name": "findNodes",
+                "comment": " Find nodes in a tree, by its id\n",
+                "type": "List Int -> Node -> List (Maybe Node)"
+            },
+            {
+                "name": "getParent",
+                "comment": " Retrieve the parent of a given node in a tree, by its id\n",
+                "type": "Int -> Node -> Maybe Node"
+            },
+            {
+                "name": "getProp",
+                "comment": " Helper to retrieve a `NodeInfo` property from a node\n",
+                "type": "(NodeInfo -> a) -> Node -> a"
+            },
+            {
+                "name": "getSiblings",
+                "comment": " Retrieve a node siblings identified by its id in a tree\n",
+                "type": "Int -> Node -> List Node"
+            },
+            {
+                "name": "isUnderfed",
+                "comment": " Checks whether a node has the minimum quantity configured in the `Settings`\n",
+                "type": "Int -> Node -> Bool"
+            },
+            {
+                "name": "normalize",
+                "comment": " Normalize a tree, ensuring all leaves have a minimum quantity assigned\n",
+                "type": "Int -> Node -> Node"
+            },
+            {
+                "name": "updateLabel",
+                "comment": " Update a node label in a tree\n",
+                "type": "Int -> String -> Node -> Node"
+            },
+            {
+                "name": "updateShare",
+                "comment": " Update a node share in a tree\n",
+                "type": "Int -> Int -> Node -> Node"
+            }
+        ],
+        "binops": []
+    }
+]

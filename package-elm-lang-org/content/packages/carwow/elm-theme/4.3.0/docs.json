@@ -1,0 +1,322 @@
+[
+    {
+        "name": "CarwowTheme.Filters",
+        "comment": " Filters\n\n\n# Exports\n\n@docs select, filterView, standardFilterView, FilterGroupItem, filterGroup\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "FilterGroupItem",
+                "comment": " Placeholder\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ filterId : String, filterLabel : String, filterValue : Bool, message : Bool -> msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "filterGroup",
+                "comment": " Placeholder\n",
+                "type": "List (FilterGroupItem msg) -> List (Html msg)"
+            },
+            {
+                "name": "filterView",
+                "comment": " Placeholder\n",
+                "type": "String -> String -> String -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "select",
+                "comment": " Placeholder\n",
+                "type": "String -> String -> String -> List (Html value) -> String -> (String -> value) -> List (Html value)"
+            },
+            {
+                "name": "standardFilterView",
+                "comment": " Placeholder\n",
+                "type": "String -> String -> List (FilterGroupItem msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Pagination",
+        "comment": " Filters\n\n\n# Exports\n\n@docs PaginationProperties, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PaginationProperties",
+                "comment": " Properties for the pagination component\n",
+                "args": [],
+                "type": "{ totalCount : Int, totalPages : Int, perPage : Int, currentPage : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "view",
+                "comment": " Helper to render the component\n",
+                "type": "PaginationProperties -> (Int -> msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Drawer",
+        "comment": " Drawer\n\n\n# Exports\n\n@docs Model, Properties, Msg, init, view, subscriptions, update, Action, State\n\n",
+        "unions": [
+            {
+                "name": "Action",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Open",
+                        []
+                    ],
+                    [
+                        "Close",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Toggle",
+                        [
+                            "Action"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "State",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Opened",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ id : String, state : State }"
+            },
+            {
+                "name": "Properties",
+                "comment": " Placeholder\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ body : Html msg, title : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "String -> Model"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Placeholder\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> Properties msg -> msg -> msg -> Html msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Modal",
+        "comment": " Displays modal window\n\n\n# Exported\n\n@docs ModalProperties, Model, Msg, PaddingStyle, init, linkView, subscriptions, update, view\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SwitchModal",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "PaddingStyle",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoPadding",
+                        []
+                    ],
+                    [
+                        "DefaultPadding",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ModalProperties",
+                "comment": " Placeholder\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ body : Html msg, title : String, paddingStyle : PaddingStyle, footer : Maybe (Html msg), secondaryAction : Maybe (Html msg) }"
+            },
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ id : String, isOpen : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "String -> Model"
+            },
+            {
+                "name": "linkView",
+                "comment": " Placeholder\n",
+                "type": "Model -> List (Html msg) -> String -> Html msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Placeholder\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> msg -> msg -> ModalProperties msg -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Inputs",
+        "comment": " Helpers for user input elements.\n\n\n# Checkbox\n\n@docs checkbox\n\n\n# Select\n\n@docs select\n\n\n# Option\n\n@docs option\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "checkbox",
+                "comment": " Checbox atom\n",
+                "type": "String -> List (Html msg) -> Bool -> (Bool -> msg) -> List (Html msg)"
+            },
+            {
+                "name": "option",
+                "comment": " Option atom\n",
+                "type": "String -> String -> Html msg"
+            },
+            {
+                "name": "select",
+                "comment": " Select atom\n",
+                "type": "String -> List (Html msgType) -> String -> (String -> msgType) -> Bool -> Html msgType"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Icons",
+        "comment": " Icons are displayed using the SVG spirte technique.\n\n\n# Embed icon\n\n@docs icon, makeIcon\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "icon",
+                "comment": " Embeds an icon from the SVG sprite, with the given properties.\n",
+                "type": "String -> Properties -> Html msg"
+            },
+            {
+                "name": "makeIcon",
+                "comment": " Embeds a Make icon, with the given make slug and optional properties\n",
+                "type": "String -> Maybe Properties -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CarwowTheme.Tabs",
+        "comment": " Tabs\n\n\n# Exports\n\n@docs view, config, tabs, TabItem, getCurrentState, initialState, State\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "TabItem",
+                "comment": " Placeholder\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "TabItem",
+                        [
+                            "{ id : String, tabLabel : String, tabContent : Html msg }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "config",
+                "comment": " Placeholder\n",
+                "type": "(State -> msg) -> Config msg"
+            },
+            {
+                "name": "getCurrentState",
+                "comment": " Placeholder\n",
+                "type": "State -> String"
+            },
+            {
+                "name": "initialState",
+                "comment": " Placeholder\n",
+                "type": "String -> State"
+            },
+            {
+                "name": "tabs",
+                "comment": " Placeholder\n",
+                "type": "List (TabItem msg) -> Config msg -> Config msg"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "State -> Config msg -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,101 @@
+[
+    {
+        "name": "JsonRestApi.Request",
+        "comment": " This module provides time-saving helpers for configuring and sending HTTP requests.\n\n# Config\n@docs Config, config\n\n# Config Options\n@docs header, usePatchForUpdate, expectNoContentOnCreate, expectNoContentOnUpdate, expectNoContentOnDelete\n\n# Request Helpers\n@docs getAll, create, update, delete\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Basic settings for how URLs are constructed with dynamic data and requests are made. Constructed using `config`.\n\n",
+                "args": [
+                    "resource",
+                    "urlBaseData",
+                    "urlSuffixData"
+                ],
+                "type": "{ decoder : Decoder resource, encoder : resource -> Value, toUrlBase : urlBaseData -> String, toSuffix : urlSuffixData -> String, updateVerb : HttpVerb, headers : List ( String, String ), expectContent : { create : ResponseContent, update : ResponseContent, delete : ResponseContent } }"
+            }
+        ],
+        "values": [
+            {
+                "name": "config",
+                "comment": " Constructor for a Config.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options = []\n            }\n\n",
+                "type": "{ decoder : Decoder resource, encoder : resource -> Value, toUrlBase : urlBaseData -> String, toSuffix : urlSuffixData -> String, options : List ConfigOption } -> Config resource urlBaseData urlSuffixData"
+            },
+            {
+                "name": "create",
+                "comment": " Trigger a HTTP `POST` request, which, if successful, returns a `msg` parameterized with the created `resource`.\n\n    case msg of\n        CreateRequest newArticle ->\n            ( model, Request.create articleApi newArticle () CreateResponse )\n\n",
+                "type": "Config resource urlBaseData urlSuffixData -> resource -> urlBaseData -> (Result Error resource -> msg) -> Cmd msg"
+            },
+            {
+                "name": "delete",
+                "comment": " Trigger a HTTP `DELETE` request, which, if successful, returns a `msg` parameterized with the deleted `resource`.\n\n    case msg of\n        DeleteRequest article ->\n            ( model, Request.delete articleApi article () article.id DeleteResponse )\n\n",
+                "type": "Config resource urlBaseData urlSuffixData -> resource -> urlBaseData -> urlSuffixData -> (Result Error resource -> msg) -> Cmd msg"
+            },
+            {
+                "name": "expectNoContentOnCreate",
+                "comment": " Create an option, to be passed into `config`, to expect no content in the response to a resource create operation.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options =\n              [ Request.expectNoContentOnCreate\n              ]\n            }\n\n",
+                "type": "ConfigOption"
+            },
+            {
+                "name": "expectNoContentOnDelete",
+                "comment": " Create an option, to be passed into `config`, to expect no content in the response to a resource delete operation.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options =\n              [ Request.expectNoContentOnDelete\n              ]\n            }\n\n",
+                "type": "ConfigOption"
+            },
+            {
+                "name": "expectNoContentOnUpdate",
+                "comment": " Create an option, to be passed into `config`, to expect no content in the response to a resource update operation.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options =\n              [ Request.expectNoContentOnUpdate\n              ]\n            }\n\n",
+                "type": "ConfigOption"
+            },
+            {
+                "name": "getAll",
+                "comment": " Trigger a HTTP `GET` request, which, if successful, returns a `msg` parameterized with a `List` of all `resource`s.\n\n    case msg of\n        GetAllRequest ->\n            ( model, Request.getAll articleApi () GetAllResponse )\n\n",
+                "type": "Config resource urlBaseData urlSuffixData -> urlBaseData -> (Result Error (List resource) -> msg) -> Cmd msg"
+            },
+            {
+                "name": "header",
+                "comment": " Create an option, to be passed into `config`, specifying which HTTP headers should be added in requests.\n`\"Accept: application/json\"` is included by default.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options =\n              [ Request.header \"Max-Forwards\" \"10\"\n              ]\n            }\n\n",
+                "type": "String -> String -> ConfigOption"
+            },
+            {
+                "name": "update",
+                "comment": " Trigger a HTTP `PUT` or `PATCH` request, which, if successful, returns a `msg` parameterized with the updated `resource`\n`PUT` is used by default. `PATCH` can be used by passing the result of `usePatchForUpdate` into `config`.\n\n    case msg of\n        UpdateRequest article ->\n            ( model, Request.update articleApi article () article.id UpdateResponse )\n\n",
+                "type": "Config resource urlBaseData urlSuffixData -> resource -> urlBaseData -> urlSuffixData -> (Result Error resource -> msg) -> Cmd msg"
+            },
+            {
+                "name": "usePatchForUpdate",
+                "comment": " Create an option, to be passed into `config`, to make updates to a resource using the `PATCH` verb.\n`PUT` is used for updates by default.\n\n    articleApi : Request.Config Article () String\n    articleApi =\n        Request.config\n            { decoder = articleDecoder\n            , encoder = encodeArticle\n            , toUrlBase = (\\_ -> \"http://www.example-api.com/articles\")\n            , toSuffix = (\\id -> \"/\" ++ id)\n            , options =\n              [ Request.usePatchForUpdate\n              ]\n            }\n\n",
+                "type": "ConfigOption"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonRestApi.Response",
+        "comment": " This module provides time-saving helpers for updating `resource`s from HTTP responses. To be used with `JsonRestApi.Request`.\n\nCollections should be modeled as `RemoteData Http.Error (List resource)`.\n\n# Response Helpers\n@docs handleGetIndexResponse, handleCreateResponse, handleUpdateResponse, handleDeleteResponse\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "handleCreateResponse",
+                "comment": " Add a new `resource` to a `WebData (List resource)` if the `Result` is `Ok`.\n\n    case msg of\n        CreateResponse result ->\n            ( { model | articles = Response.handleCreateResponse result model.articles }, Cmd.none )\n\n",
+                "type": "Result Error resource -> WebData (List resource) -> WebData (List resource)"
+            },
+            {
+                "name": "handleDeleteResponse",
+                "comment": " Remove the `resource` with the matching `id` from a `WebData (List resource)` if the `Result` is `Ok`.\n\n    case msg of\n        DeleteResponse result ->\n            ( { model | articles = Response.handleDeleteResponse result articlesEqual model.articles }, Cmd.none )\n\n",
+                "type": "Result Error resource -> (resource -> resource -> Bool) -> WebData (List resource) -> WebData (List resource)"
+            },
+            {
+                "name": "handleGetIndexResponse",
+                "comment": " Replace a `WebData (List resource)` with a new list if the `Result` is `Ok`.\n\n    case msg of\n        GetAllResponse result ->\n            ( { model | articles = Response.handleGetIndexResponse result model.articles }, Cmd.none )\n\n",
+                "type": "Result Error (List resource) -> WebData (List resource) -> WebData (List resource)"
+            },
+            {
+                "name": "handleUpdateResponse",
+                "comment": " Replace a `resource` with the matching `id` in a `WebData (List resource)` if the `Result` is `Ok`.\n\n    case msg of\n        UpdateResponse result ->\n            ( { model | articles = Response.handleUpdateResponse result articlesEqual model.articles }, Cmd.none )\n\n",
+                "type": "Result Error resource -> (resource -> resource -> Bool) -> WebData (List resource) -> WebData (List resource)"
+            }
+        ],
+        "binops": []
+    }
+]

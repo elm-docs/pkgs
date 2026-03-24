@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Html.Entity",
+        "comment": " A library defining and exposing HTML entities.\n\n\n# Basic Usage\n\n@docs asCode, asHtml, asString\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "asCode",
+                "comment": " Lookup an entity string by its name, possibly get back its matching unicode code value.\n",
+                "type": "String -> Maybe Int"
+            },
+            {
+                "name": "asHtml",
+                "comment": " ",
+                "type": "String -> Maybe (Html msg)"
+            },
+            {
+                "name": "asString",
+                "comment": " ",
+                "type": "String -> Maybe String"
+            }
+        ],
+        "binops": []
+    }
+]

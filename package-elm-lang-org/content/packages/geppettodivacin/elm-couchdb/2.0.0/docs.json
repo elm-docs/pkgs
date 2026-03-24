@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Couchdb",
+        "comment": " The primary functions used to access CouchDB.\n\n# Database\n@docs Database, defineDb\n\n# Simple requests\n@docs fetch, specialView, view, store\n\n# Views\n@docs Row, view, specialView\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Database",
+                "comment": " Represents a single database with an address and a database name.\n",
+                "args": [],
+                "type": "Database"
+            },
+            {
+                "name": "Row",
+                "comment": " Row in a view. Contains `.id`, `.key`, and `.value`.\n",
+                "args": [
+                    "key",
+                    "value"
+                ],
+                "type": "Row key value"
+            }
+        ],
+        "values": [
+            {
+                "name": "defineDb",
+                "comment": " Create a database reference. Note that no communication needs to\ntake place as the CouchDB protocol is RESTful. Users are not supported\nat this time.\n\n    defineDb \"localhost:5984\" \"exampledb\" : Database\n",
+                "type": "String -> String -> Database"
+            },
+            {
+                "name": "fetch",
+                "comment": " Create a fetch request for a particular document. You must provide \nthe decoder for the document and the document id.\n\n    fetch (Json.Decode.field \"value\" Json.Decode.string) database docId : Request String\n",
+                "type": "Decoder a -> Database -> String -> Request a"
+            },
+            {
+                "name": "specialView",
+                "comment": " Create a request for a view at a particular path as opposed to\nwithin a specific design document. For more view options, see\n`Couchdb.View`.\n\n    specialView (Json.Decode.string) docDecoder database \"_all_docs\" : Request a\n",
+                "type": "Decoder key -> Decoder value -> Database -> String -> Request (List (Row key value))"
+            },
+            {
+                "name": "store",
+                "comment": " Create a request to store a document. Note that you are responsible\nfor including the revision with your document if this is updating an\nalready-existing document.\n",
+                "type": "(a -> Value) -> Database -> String -> a -> Request String"
+            },
+            {
+                "name": "view",
+                "comment": " Create a request for a view in a design document. In order to\nextract the rows from the response, you must provide a JSON decoder for\nthe key and for the value. For more view options, see `Couchdb.View`.\n\n    view keyDecoder valueDecoder database designName viewName : Request a\n",
+                "type": "Decoder key -> Decoder value -> Database -> String -> String -> Request (List (Row key value))"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Couchdb.View",
+        "comment": "\n# Views with options\n@docs Row, viewWith, specialViewWith\n\n# Options\n@docs Options, initOptions, key, start_key, end_key\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " Type for view options.\n",
+                "args": [],
+                "type": "{ key : Maybe String, start_key : Maybe String, end_key : Maybe String }"
+            },
+            {
+                "name": "Row",
+                "comment": " Row in a view. Contains `.id`, `.key`, and `.value`.\n",
+                "args": [
+                    "key",
+                    "value"
+                ],
+                "type": "{ id : String, key : key, value : value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "end_key",
+                "comment": " Add \"end_key\" option for query.\n",
+                "type": "Value -> Options -> Options"
+            },
+            {
+                "name": "initOptions",
+                "comment": " Blank set of options.\n",
+                "type": "Options"
+            },
+            {
+                "name": "key",
+                "comment": " Add \"key\" option for query.\n",
+                "type": "Value -> Options -> Options"
+            },
+            {
+                "name": "specialViewWith",
+                "comment": " Create a request for a view at a particular path with the specified\noptions.\n",
+                "type": "Options -> Decoder key -> Decoder value -> Database -> String -> Request (List (Row key value))"
+            },
+            {
+                "name": "start_key",
+                "comment": " Add \"start_key\" option for query.\n",
+                "type": "Value -> Options -> Options"
+            },
+            {
+                "name": "viewWith",
+                "comment": " Create a request for a view in a design document with the specified\noptions. In order to extract the rows from the response, you must\nprovide a JSON decoder for the key and for the value.\n",
+                "type": "Options -> Decoder key -> Decoder value -> Database -> String -> String -> Request (List (Row key value))"
+            }
+        ],
+        "binops": []
+    }
+]

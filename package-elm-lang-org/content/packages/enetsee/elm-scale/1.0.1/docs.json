@@ -1,0 +1,380 @@
+[
+    {
+        "name": "Scale.Continuous.Power",
+        "comment": "\n@docs Power, power, niceDomain\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Power",
+                "comment": " Power scale\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | exponent : Float, domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "niceDomain",
+                "comment": " ",
+                "type": "Int -> Power a -> Power a"
+            },
+            {
+                "name": "power",
+                "comment": " ",
+                "type": "Power a -> Continuous Float Float"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Continuous.Log",
+        "comment": "\n@docs Log, log, niceDomain\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Log",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | base : Float, domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "log",
+                "comment": " ",
+                "type": "Log a -> Continuous Float Float"
+            },
+            {
+                "name": "niceDomain",
+                "comment": "\n",
+                "type": "Log a -> Log a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Continuous.Linear",
+        "comment": "\n@docs Linear, linear, niceDomain\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Linear",
+                "comment": " Linear scale\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "linear",
+                "comment": " ",
+                "type": "Linear a -> Continuous Float Float"
+            },
+            {
+                "name": "niceDomain",
+                "comment": " ",
+                "type": "Int -> Linear a -> Linear a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Ordinal.Band",
+        "comment": "\n@docs Band, Config, band, customBand , defaultConfig\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Band",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "domain"
+                ],
+                "type": "{ a | domain : List domain, range : ( Float, Float ), config : Maybe Config }"
+            },
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [],
+                "type": "{ paddingInner : Float, paddingOuter : Float, align : Float, round : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "band",
+                "comment": " Construct an ordinal scale from an ordinal, comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
+                "type": "Band a comparableDomain -> Ordinal comparableDomain Float"
+            },
+            {
+                "name": "customBand",
+                "comment": " Construct an ordinal scale from an ordinal, non-comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
+                "type": "Band a domain -> Ordinal domain Float"
+            },
+            {
+                "name": "defaultConfig",
+                "comment": " ",
+                "type": "Config"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Sequential.HSL",
+        "comment": "\n@docs HSL, hsl\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "HSL",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | domain : ( Float, Float ), range : ( Color, Color ), long : Bool, outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "hsl",
+                "comment": " ",
+                "type": "HSL a -> Sequential Float Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Sequential.RGB",
+        "comment": "\n@docs RGB , rgb\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "RGB",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | domain : ( Float, Float ), range : ( Color, Color ), gamma : Maybe Float, outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "rgb",
+                "comment": " ",
+                "type": "RGB a -> Sequential Float Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Sequential.RGBBasis",
+        "comment": "\n@docs RGBBasis , rgbBasis\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "RGBBasis",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | domain : ( Float, Float ), range : List Color, closed : Bool, outsideDomain : OutsideDomain }"
+            }
+        ],
+        "values": [
+            {
+                "name": "rgbBasis",
+                "comment": " ",
+                "type": "RGBBasis a -> Sequential Float Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Continuous",
+        "comment": " Continuous Scale\n@docs Continuous, continuous, scale , unscale, ticks\n\n\n",
+        "unions": [
+            {
+                "name": "Continuous",
+                "comment": " ",
+                "args": [
+                    "domain",
+                    "range"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "continuous",
+                "comment": " ",
+                "type": "{ a | compareDomain : domain -> domain -> Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolateRange : ( range, range ) -> Float -> range, outsideDomain : OutsideDomain, range : ( range, range ), reinterpolateDomain : ( domain, domain ) -> range -> domain, ticks : ( domain, domain ) -> Int -> List domain } -> Continuous domain range"
+            },
+            {
+                "name": "scale",
+                "comment": " ",
+                "type": "Continuous domain range -> domain -> Maybe range"
+            },
+            {
+                "name": "ticks",
+                "comment": " ",
+                "type": "Continuous domain range -> Int -> List domain"
+            },
+            {
+                "name": "unscale",
+                "comment": " ",
+                "type": "Continuous domain Float -> Float -> Maybe domain"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Ordinal.Custom",
+        "comment": "\n@docs Custom, custom\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Custom",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "domain",
+                    "range"
+                ],
+                "type": "{ a | domain : List domain, range : List range }"
+            }
+        ],
+        "values": [
+            {
+                "name": "custom",
+                "comment": " ",
+                "type": "Custom a domain range -> Ordinal domain range"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Ordinal.Comparable",
+        "comment": "\n@docs Comparable, comparable\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Comparable",
+                "comment": " ",
+                "args": [
+                    "a",
+                    "comparableDomain",
+                    "range"
+                ],
+                "type": "{ a | domain : List comparableDomain, range : List range }"
+            }
+        ],
+        "values": [
+            {
+                "name": "comparable",
+                "comment": " ",
+                "type": "Comparable a comparableDomain range -> Ordinal comparableDomain range"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Sequential",
+        "comment": "\n@docs Sequential, sequential, scale, ticks\n",
+        "unions": [
+            {
+                "name": "Sequential",
+                "comment": " ",
+                "args": [
+                    "domain",
+                    "range"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "scale",
+                "comment": " ",
+                "type": "Sequential domain range -> domain -> Maybe range"
+            },
+            {
+                "name": "sequential",
+                "comment": " ",
+                "type": "{ a | compareDomain : domain -> domain -> Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolator : Float -> range, outsideDomain : OutsideDomain, ticks : ( domain, domain ) -> Int -> List domain } -> Sequential domain range"
+            },
+            {
+                "name": "ticks",
+                "comment": " ",
+                "type": "Sequential domain range -> Int -> List domain"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Ordinal",
+        "comment": "\n@docs Ordinal, ordinal, scale, ticks\n",
+        "unions": [
+            {
+                "name": "Ordinal",
+                "comment": " ",
+                "args": [
+                    "domain",
+                    "range"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "ordinal",
+                "comment": " ",
+                "type": "{ a | domain : List domain, mapping : domain -> Maybe range } -> Ordinal domain range"
+            },
+            {
+                "name": "scale",
+                "comment": " ",
+                "type": "Ordinal domain range -> domain -> Maybe range"
+            },
+            {
+                "name": "ticks",
+                "comment": " ",
+                "type": "Ordinal domain range -> a -> List domain"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Scale.Config",
+        "comment": " Scale Configuration\n\n@docs OutsideDomain\n\n",
+        "unions": [
+            {
+                "name": "OutsideDomain",
+                "comment": " Options for the behavior of a `Scale` when the value it is applied to lies\noutside of the defined domain\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Clamp",
+                        []
+                    ],
+                    [
+                        "Discard",
+                        []
+                    ],
+                    [
+                        "Allow",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

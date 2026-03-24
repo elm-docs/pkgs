@@ -1,0 +1,1304 @@
+[
+    {
+        "name": "Eth.ChainEff",
+        "comment": " For dApp Single Page Applications\nIf your EventSentry or TxSentry live at the top level of your model, and you are sending txs or listening to event in your sub-pages,\nuse ChainEff. See examples.\n\n\n# Core\n\n@docs ChainEff, Sentry, execute, batch, none, map\n\n\n# TxSentry\n\n@docs sendTx, sendWithReceipt, customSend\n\n\n# EventSentry\n\n@docs watchEvent, watchEventOnce, unWatch\n\n",
+        "unions": [
+            {
+                "name": "ChainEff",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Sentry",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "( TxSentry msg, EventSentry msg )"
+            }
+        ],
+        "values": [
+            {
+                "name": "batch",
+                "comment": " ",
+                "type": "List (ChainEff msg) -> ChainEff msg"
+            },
+            {
+                "name": "customSend",
+                "comment": " ",
+                "type": "CustomSend msg -> Send -> ChainEff msg"
+            },
+            {
+                "name": "execute",
+                "comment": " ",
+                "type": "Sentry msg -> ChainEff msg -> ( Sentry msg, Cmd msg )"
+            },
+            {
+                "name": "map",
+                "comment": " ",
+                "type": "(subMsg -> msg) -> ChainEff subMsg -> ChainEff msg"
+            },
+            {
+                "name": "none",
+                "comment": " ",
+                "type": "ChainEff msg"
+            },
+            {
+                "name": "sendTx",
+                "comment": " ",
+                "type": "(Tx -> msg) -> Send -> ChainEff msg"
+            },
+            {
+                "name": "sendWithReceipt",
+                "comment": " ",
+                "type": "(Tx -> msg) -> (TxReceipt -> msg) -> Send -> ChainEff msg"
+            },
+            {
+                "name": "unWatch",
+                "comment": " ",
+                "type": "LogFilter -> ChainEff msg"
+            },
+            {
+                "name": "watchEvent",
+                "comment": " ",
+                "type": "(Value -> msg) -> LogFilter -> ChainEff msg"
+            },
+            {
+                "name": "watchEventOnce",
+                "comment": " ",
+                "type": "(Value -> msg) -> LogFilter -> ChainEff msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Sentry.Tx",
+        "comment": "\n\n\n# Core\n\n@docs TxSentry, Msg, update, init, listen\n\n\n# Send Txs\n\n@docs send, sendWithReceipt\n\n\n# Custom Send\n\n@docs CustomSend, TxTracker, customSend\n\n\n# Utils\n\n@docs withDebug, changeNode\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "TxSentry",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CustomSend",
+                "comment": "\n\n    onSign : Message after metamask/wallet has signed tx and returned tx hash\n    onBroadcast : Message after tx is confirmed sitting in tx queue on the node\n    onMined : ( message after tx is mined,\n                (number of blocks deep to watch tx, message on each mined block after tx is sent - stops sending messages when first tuple value is reached)\n              )\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ onSign : Maybe (TxHash -> msg), onBroadcast : Maybe (Tx -> msg), onMined : Maybe ( TxReceipt -> msg, Maybe ( Int, TxTracker -> msg ) ) }"
+            },
+            {
+                "name": "TxTracker",
+                "comment": " For checking whether a tx has reached a certain block depth (# of confirmations) in a customSend\n",
+                "args": [],
+                "type": "{ currentDepth : Int, minedInBlock : Int, stopWatchingAtBlock : Int, lastCheckedBlock : Int, txHash : TxHash, doneWatching : Bool, reOrg : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "changeNode",
+                "comment": " Look into the errors this might cause,\nsome kind of cleanup process should probably occur on changing a node.\n",
+                "type": "HttpProvider -> TxSentry msg -> TxSentry msg"
+            },
+            {
+                "name": "customSend",
+                "comment": " ",
+                "type": "TxSentry msg -> CustomSend msg -> Send -> ( TxSentry msg, Cmd msg )"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "( Value -> Cmd Msg, (Value -> Msg) -> Sub Msg ) -> (Msg -> msg) -> HttpProvider -> TxSentry msg"
+            },
+            {
+                "name": "listen",
+                "comment": " ",
+                "type": "TxSentry msg -> Sub msg"
+            },
+            {
+                "name": "send",
+                "comment": " ",
+                "type": "(Tx -> msg) -> TxSentry msg -> Send -> ( TxSentry msg, Cmd msg )"
+            },
+            {
+                "name": "sendWithReceipt",
+                "comment": " ",
+                "type": "(Tx -> msg) -> (TxReceipt -> msg) -> TxSentry msg -> Send -> ( TxSentry msg, Cmd msg )"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> TxSentry msg -> ( TxSentry msg, Cmd msg )"
+            },
+            {
+                "name": "withDebug",
+                "comment": " ",
+                "type": "TxSentry msg -> TxSentry msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Sentry.Event",
+        "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+        "unions": [
+            {
+                "name": "EventSentry",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "FilterKey",
+                "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "changeNode",
+                "comment": " ",
+                "type": "String -> EventSentry msg -> EventSentry msg"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "(Msg -> msg) -> String -> EventSentry msg"
+            },
+            {
+                "name": "listen",
+                "comment": " ",
+                "type": "EventSentry msg -> Sub msg"
+            },
+            {
+                "name": "newBlocks",
+                "comment": " ",
+                "type": "(BlockHead -> msg) -> EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "nextBlock",
+                "comment": " ",
+                "type": "(BlockHead -> msg) -> EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "pendingTxs",
+                "comment": " ",
+                "type": "(TxHash -> msg) -> EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "toFilterKey",
+                "comment": " ",
+                "type": "LogFilter -> FilterKey"
+            },
+            {
+                "name": "unWatch",
+                "comment": " ",
+                "type": "EventSentry msg -> LogFilter -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "unWatchNewBlocks",
+                "comment": " ",
+                "type": "EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "unWatchPendingTxs",
+                "comment": " ",
+                "type": "EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> EventSentry msg -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "watch",
+                "comment": " ",
+                "type": "(Value -> msg) -> EventSentry msg -> LogFilter -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "watchOnce",
+                "comment": " ",
+                "type": "(Value -> msg) -> EventSentry msg -> LogFilter -> ( EventSentry msg, Cmd msg )"
+            },
+            {
+                "name": "withDebug",
+                "comment": " ",
+                "type": "EventSentry msg -> EventSentry msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Shh",
+        "comment": " Whipser API (Use at your own risk! Under Construction)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Post",
+                "comment": " ",
+                "args": [],
+                "type": "{ from : Maybe String, to : Maybe String, topics : List String, payload : String, priority : Int, ttl : Int }"
+            },
+            {
+                "name": "WhisperId",
+                "comment": " ",
+                "args": [],
+                "type": "WhisperId"
+            }
+        ],
+        "values": [
+            {
+                "name": "newIdentity",
+                "comment": " ",
+                "type": "HttpProvider -> Task Error WhisperId"
+            },
+            {
+                "name": "post",
+                "comment": " ",
+                "type": "HttpProvider -> Post -> Task Error Bool"
+            },
+            {
+                "name": "toWhisperId",
+                "comment": " ",
+                "type": "String -> Result String WhisperId"
+            },
+            {
+                "name": "version",
+                "comment": " ",
+                "type": "HttpProvider -> Task Error Int"
+            },
+            {
+                "name": "whisperIdToString",
+                "comment": " ",
+                "type": "WhisperId -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth",
+        "comment": " Ethereum RPC Methods\n\nSee the [official docs][rpc-docs] for reference.\n\n[rpc-docs]: [https://github.com/ethereum/wiki/wiki/JSON-RPC]\n\n\n# Contracts\n\nIf you're making Eth transactions, you'll need to build a `Call`,\nand send to a wallet like MetaMask via `Eth.Sentry.Tx`.\n\n    ( newSentry, sentryCmd ) =\n        myCallParams\n            |> Eth.toSend\n            |> TxSentry.send TxSendResponse model.txSentry\n\nBut most likely you're interacting with a contract,\nwhat most dApps are typically engaged in. Use [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\nto auto-generate the necessary `Elm <-> Contract` interface from a contract's ABI.\n\n    import Eth\n    import Eth.Types exposing (..)\n    import Eth.Unit exposing (eth)\n    import Evm.Decode as Evm\n    import Evm.Encode as Evm exposing (Encoding(..))\n\n    myCallParams : Call BigInt\n    myCallParams =\n        let\n            data =\n                Evm.encodeFunctionCall\n                    \"petKitten(uint256)\"\n                    [ UintE someBigInt ]\n        in\n            { to = Just cryptoKittyContract\n            , from = Nothing\n            , gas = Nothing\n            , gasPrice = Nothing\n            , value = Just (eth 3)\n            , data = Just data\n            , nonce = Nothing\n            , decoder = Evm.toElmDecoder Evm.bool\n            }\n\n\n    type Msg\n        = PetKitten\n        | KittenResponse (Result Http.Error Bool)\n\n\n    update msg model =\n        case msg of\n            PetKitten ->\n                ( model\n                , Eth.call model.nodeUrl myCallParams\n                    |> Task.attempt KittenResponse\n                )\n\n            KittenResponse result ->\n                case result of\n                    ...\n\n@docs call, estimateGas, getStorageAt, getCode, callAtBlock, getStorageAtBlock, getCodeAtBlock\n\n\n# Transactions\n\n@docs getTx, getTxReceipt, toSend, encodeSend, sendTx, sendRawTx, getTxByBlockHashAndIndex, getTxByBlockNumberAndIndex\n\n\n# Address/Accounts\n\n@docs getBalance, getBalanceAtBlock, getTxCount, getTxCountAtBlock\n\n\n# Blocks\n\n@docs getBlockNumber, getBlock, getBlockByHash, getBlockWithTxObjs, getBlockByHashWithTxObjs, getBlockTxCount, getBlockTxCountByHash, getUncleCount, getUncleCountByHash, getUncleAtIndex, getUncleByBlockHashAtIndex\n\n\n# Filter/Logs/Events\n\n@docs getLogs, newFilter, newBlockFilter, newPendingTxFilter, getFilterChanges, getFilterLogs, uninstallFilter\n\n\n# Misc\n\n@docs sign, protocolVersion, syncing, coinbase, mining, hashrate, gasPrice, accounts\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "accounts",
+                "comment": " Returns a list of addresses owned by client.\n",
+                "type": "HttpProvider -> Task Error (List Address)"
+            },
+            {
+                "name": "call",
+                "comment": " Call a function on an Ethereum contract.\nUseful for reading data from contracts, or simulating a transaction before doing a Send.\n\nUse the elm-web3-contract code generator to produce an interface for a smart contract from it's ABI.\n\nNote: The decoder for a call is baked into the Call record for a simpler developer experience.\n\n",
+                "type": "HttpProvider -> Call a -> Task Error a"
+            },
+            {
+                "name": "callAtBlock",
+                "comment": " Call a function on an Ethereum contract from a particular point in history.\nAdding some more documentation.\n",
+                "type": "HttpProvider -> Call a -> BlockId -> Task Error a"
+            },
+            {
+                "name": "coinbase",
+                "comment": " Get the client's coinbase address.\n",
+                "type": "HttpProvider -> Task Error Address"
+            },
+            {
+                "name": "encodeSend",
+                "comment": " ",
+                "type": "Send -> Value"
+            },
+            {
+                "name": "estimateGas",
+                "comment": " Generates and returns an estimate of how much gas is necessary to allow the transaction to complete.\n\nNote that the estimate may be significantly more than the amount of gas actually used by the transaction,\nfor a variety of reasons including EVM mechanics and node performance.\n\n",
+                "type": "HttpProvider -> Call a -> Task Error Int"
+            },
+            {
+                "name": "gasPrice",
+                "comment": " Get the current price per gas in wei\n\nNote: not always accurate. See EthGasStation website\n\n",
+                "type": "HttpProvider -> Task Error BigInt"
+            },
+            {
+                "name": "getBalance",
+                "comment": " Get the balance of a given address/account.\nReturns Wei amount as BigInt\n",
+                "type": "HttpProvider -> Address -> Task Error BigInt"
+            },
+            {
+                "name": "getBalanceAtBlock",
+                "comment": " Get the balance of a given address/account, at a certain block height\n",
+                "type": "HttpProvider -> Address -> BlockId -> Task Error BigInt"
+            },
+            {
+                "name": "getBlock",
+                "comment": " Get information about a block given a valid block number.\n\nThe transactions field will be an array of TxHash's mined during this block.\n\n",
+                "type": "HttpProvider -> Int -> Task Error (Block TxHash)"
+            },
+            {
+                "name": "getBlockByHash",
+                "comment": " Get information about a block given a valid block hash.\n",
+                "type": "HttpProvider -> BlockHash -> Task Error (Block TxHash)"
+            },
+            {
+                "name": "getBlockByHashWithTxObjs",
+                "comment": " See getBlockWithTxObjs.\n\nUses block hash instead of nunmber for the identifier.\n\n",
+                "type": "HttpProvider -> BlockHash -> Task Error (Block Tx)"
+            },
+            {
+                "name": "getBlockNumber",
+                "comment": " Get the number of the most recent block.\n",
+                "type": "HttpProvider -> Task Error Int"
+            },
+            {
+                "name": "getBlockTxCount",
+                "comment": " Get the number of transactions in a block from a given block number.\n",
+                "type": "HttpProvider -> Int -> Task Error Int"
+            },
+            {
+                "name": "getBlockTxCountByHash",
+                "comment": " Get the number of transactions in a block from a given block hash.\n",
+                "type": "HttpProvider -> BlockHash -> Task Error Int"
+            },
+            {
+                "name": "getBlockWithTxObjs",
+                "comment": " See getBlock.\n\nThe transactions field will be an array of Tx objects instead of TxHash's.\n\n",
+                "type": "HttpProvider -> Int -> Task Error (Block Tx)"
+            },
+            {
+                "name": "getCode",
+                "comment": " Returns the bytecode from a contract at a given address.\n",
+                "type": "HttpProvider -> Address -> Task Error String"
+            },
+            {
+                "name": "getCodeAtBlock",
+                "comment": " Returns the bytecode from a contract at a given address, at a certain block height.\n",
+                "type": "HttpProvider -> Address -> BlockId -> Task Error String"
+            },
+            {
+                "name": "getFilterChanges",
+                "comment": " Polling method for a filter, which returns an array of logs which occurred since last poll.\n\nUse the correct decoder for the given filter type:\n\n    newFilter : Event a\n    newBlockFilter : BlockHeader?? TODO\n    newPendingTxFilter : TxHash\n\n",
+                "type": "HttpProvider -> Decoder a -> FilterId -> Task Error (List a)"
+            },
+            {
+                "name": "getFilterLogs",
+                "comment": " Returns an array of all logs matching filter with given id.\n",
+                "type": "HttpProvider -> Decoder a -> FilterId -> Task Error (List a)"
+            },
+            {
+                "name": "getLogs",
+                "comment": " Get an array of all logs matching a given filter object.\nMost likely you won't need this, as they are generated for you in elm-web3-contract\n",
+                "type": "HttpProvider -> LogFilter -> Task Error (List Log)"
+            },
+            {
+                "name": "getStorageAt",
+                "comment": " Returns the value from a storage position at a given address.\nSee Ethereum JSON-RPC methods for specification on retrieving data from complex data structures like maps.\n",
+                "type": "HttpProvider -> Address -> Int -> Task Error String"
+            },
+            {
+                "name": "getStorageAtBlock",
+                "comment": " Returns the value from a storage position at a given address, at a certain block height.\n",
+                "type": "HttpProvider -> Address -> Int -> BlockId -> Task Error String"
+            },
+            {
+                "name": "getTx",
+                "comment": " Get transaction information from it's hash.\nIncludes pre-execution info: value, nonce, data/input, gas, gasPrice, to, and from.\n",
+                "type": "HttpProvider -> TxHash -> Task Error Tx"
+            },
+            {
+                "name": "getTxByBlockHashAndIndex",
+                "comment": " Get a transaction by it's index in a certain block given the block hash.\n",
+                "type": "HttpProvider -> BlockHash -> Int -> Task Error Tx"
+            },
+            {
+                "name": "getTxByBlockNumberAndIndex",
+                "comment": " Get a transaction by it's index in a certain block given the block number.\n",
+                "type": "HttpProvider -> Int -> Int -> Task Error Tx"
+            },
+            {
+                "name": "getTxCount",
+                "comment": " Get the number of transactions sent from a given address/account.\n",
+                "type": "HttpProvider -> Address -> Task Error Int"
+            },
+            {
+                "name": "getTxCountAtBlock",
+                "comment": " Get the number of transactions sent from a given address/account at a given block height.\n",
+                "type": "HttpProvider -> Address -> BlockId -> Task Error Int"
+            },
+            {
+                "name": "getTxReceipt",
+                "comment": " Get the receipt of a transaction from it's hash.\nOnly exists after the transaction has been mined.\n\nIncludes post-execution info: gasUsed, cumulativeGasUsed, contractAddress, logs, logsBloom.\nAlso includes the tx execution status (if block is post-byzantium).\n\n",
+                "type": "HttpProvider -> TxHash -> Task Error TxReceipt"
+            },
+            {
+                "name": "getUncleAtIndex",
+                "comment": " Get information about an uncle given it's index in a block by block number\n",
+                "type": "HttpProvider -> Int -> Int -> Task Error Uncle"
+            },
+            {
+                "name": "getUncleByBlockHashAtIndex",
+                "comment": " Get information about an uncle given it's index in a block by block hash\n",
+                "type": "HttpProvider -> BlockHash -> Int -> Task Error Uncle"
+            },
+            {
+                "name": "getUncleCount",
+                "comment": " Get the number of uncles in a given block given a block number.\n",
+                "type": "HttpProvider -> Int -> Task Error Int"
+            },
+            {
+                "name": "getUncleCountByHash",
+                "comment": " Get the number of uncles in a given block given a block hash.\n",
+                "type": "HttpProvider -> BlockHash -> Task Error Int"
+            },
+            {
+                "name": "hashrate",
+                "comment": " Returns the number of hashes per second that the node is mining with.\n",
+                "type": "HttpProvider -> Task Error Int"
+            },
+            {
+                "name": "mining",
+                "comment": " See whether or not a given node is mining.\n",
+                "type": "HttpProvider -> Task Error Bool"
+            },
+            {
+                "name": "newBlockFilter",
+                "comment": " Creates a filter in the node to notify when a new block arrives.\nTo check if the state has changed, call getFilterChanges.\n",
+                "type": "HttpProvider -> Task Error FilterId"
+            },
+            {
+                "name": "newFilter",
+                "comment": " Establishes a filter object on a given node.\nUseful for contract events.\n\nTo check if the state has changed, call getFilterChanges.\n\n",
+                "type": "HttpProvider -> LogFilter -> Task Error FilterId"
+            },
+            {
+                "name": "newPendingTxFilter",
+                "comment": " Creates a filter in the node to notify when new pending transactions arrive.\nTo check if the state has changed, call getFilterChanges.\n",
+                "type": "HttpProvider -> Task Error FilterId"
+            },
+            {
+                "name": "protocolVersion",
+                "comment": " Get the current ethereum protocol version.\n",
+                "type": "HttpProvider -> Task Error Int"
+            },
+            {
+                "name": "sendRawTx",
+                "comment": " Broadcast a signed transaction\n",
+                "type": "HttpProvider -> String -> Task Error TxHash"
+            },
+            {
+                "name": "sendTx",
+                "comment": " Execute a transaction on chain.\nOnly useful if your keys live on the node your talking too.\n\nNOTE: You probably don't need this.\nIf you're writing a proper dApp, look at using the TxSentry to interface with wallets like MetaMask.\n\n",
+                "type": "HttpProvider -> Send -> Task Error TxHash"
+            },
+            {
+                "name": "sign",
+                "comment": " Sign an arbitrary chunk of N bytes.\n\nThe sign method calculates an Ethereum specific signature with: sign(keccak256(\"\\x19Ethereum Signed Message:\\n\" + len(message) + message))).\n\nBy adding a prefix to the message makes the calculated signature recognisable as an Ethereum specific signature. This prevents misuse where a malicious DApp can sign arbitrary data (e.g. transaction) and use the signature to impersonate the victim.\n\nNote the address to sign with must be unlocked.\n\n",
+                "type": "HttpProvider -> Address -> String -> Task Error String"
+            },
+            {
+                "name": "syncing",
+                "comment": " Get the sync status of a particular node.\n\n    Nothing == Not Syncing\n    Just SyncStatus == starting, current, and highestBlock\n\n",
+                "type": "HttpProvider -> Task Error (Maybe SyncStatus)"
+            },
+            {
+                "name": "toSend",
+                "comment": " Prepare a Call to be executed on chain.\nUsed in `Eth.Sentry.Tx`, a means to interact with MetaMask.\n",
+                "type": "Call a -> Send"
+            },
+            {
+                "name": "uninstallFilter",
+                "comment": " Uninstalls a filter with given id.\nShould always be called when watch is no longer needed.\nAdditonally Filters timeout when they aren't requested with eth_getFilterChanges for a period of time.\n",
+                "type": "HttpProvider -> FilterId -> Task Error FilterId"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Evm.Decode",
+        "comment": " Decode RPC Responses\n\n\n# Primitives\n\n@docs EvmDecoder, uint, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs evmDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
+        "unions": [
+            {
+                "name": "EvmDecoder",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "address",
+                "comment": " ",
+                "type": "EvmDecoder Address"
+            },
+            {
+                "name": "andMap",
+                "comment": " ",
+                "type": "EvmDecoder a -> EvmDecoder (a -> b) -> EvmDecoder b"
+            },
+            {
+                "name": "bool",
+                "comment": " ",
+                "type": "EvmDecoder Bool"
+            },
+            {
+                "name": "data",
+                "comment": " Useful for decoding data withing events/logs.\n",
+                "type": "Int -> EvmDecoder a -> Decoder a"
+            },
+            {
+                "name": "dynamicArray",
+                "comment": " Decode Dynamically Sized Arrays\n(dArray address) == address[]\n",
+                "type": "EvmDecoder a -> EvmDecoder (List a)"
+            },
+            {
+                "name": "dynamicBytes",
+                "comment": " ",
+                "type": "EvmDecoder String"
+            },
+            {
+                "name": "evmDecode",
+                "comment": " Similar to Json.Decode.Pipeline.decode\nalso a synonym for Json.Decode.succeed\n",
+                "type": "a -> EvmDecoder a"
+            },
+            {
+                "name": "fromString",
+                "comment": " ",
+                "type": "EvmDecoder a -> String -> Result String a"
+            },
+            {
+                "name": "ipfsHash",
+                "comment": " Decodes bytes32 into IPFS Hash (assuming use of 32 byte sha256)\nNot IPFS future proof. See <https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes>\n",
+                "type": "EvmDecoder IPFSHash"
+            },
+            {
+                "name": "staticArray",
+                "comment": " Decode Statically Sized Arrays\n(sArray 10 uint) == uint256[10]\n",
+                "type": "Int -> EvmDecoder a -> EvmDecoder (List a)"
+            },
+            {
+                "name": "staticBytes",
+                "comment": " ",
+                "type": "Int -> EvmDecoder String"
+            },
+            {
+                "name": "string",
+                "comment": " ",
+                "type": "EvmDecoder String"
+            },
+            {
+                "name": "toElmDecoder",
+                "comment": " ",
+                "type": "EvmDecoder a -> Decoder a"
+            },
+            {
+                "name": "toElmDecoderWithDebug",
+                "comment": " ",
+                "type": "String -> EvmDecoder a -> Decoder a"
+            },
+            {
+                "name": "topic",
+                "comment": " Useful for decoding data withing events/logs.\n",
+                "type": "Int -> EvmDecoder a -> Decoder a"
+            },
+            {
+                "name": "uint",
+                "comment": " ",
+                "type": "EvmDecoder BigInt"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Net",
+        "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toId, idToInt, idToString, idDecoder\n\n",
+        "unions": [
+            {
+                "name": "NetworkId",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Mainnet",
+                        []
+                    ],
+                    [
+                        "Expanse",
+                        []
+                    ],
+                    [
+                        "Ropsten",
+                        []
+                    ],
+                    [
+                        "Rinkeby",
+                        []
+                    ],
+                    [
+                        "RskMain",
+                        []
+                    ],
+                    [
+                        "RskTest",
+                        []
+                    ],
+                    [
+                        "Kovan",
+                        []
+                    ],
+                    [
+                        "ETCMain",
+                        []
+                    ],
+                    [
+                        "ETCTest",
+                        []
+                    ],
+                    [
+                        "Private",
+                        [
+                            "Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "clientVersion",
+                "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+                "type": "HttpProvider -> Task Error String"
+            },
+            {
+                "name": "idDecoder",
+                "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString idDecoder \"1\"          == Ok Mainnet\n    decodeString idDecoder 3            == Ok Ropsten\n    decodeString idDecoder \"five\"       == Err ...\n\n",
+                "type": "Decoder NetworkId"
+            },
+            {
+                "name": "idToInt",
+                "comment": " Convert an int into it's NetworkId\n",
+                "type": "NetworkId -> Int"
+            },
+            {
+                "name": "idToString",
+                "comment": " Get a NetworkId's name\n",
+                "type": "NetworkId -> String"
+            },
+            {
+                "name": "listening",
+                "comment": " Returns true if the node is actively listening for network connections.\n",
+                "type": "HttpProvider -> Task Error Bool"
+            },
+            {
+                "name": "peerCount",
+                "comment": " Get the number of peers currently connected to the client.\n",
+                "type": "HttpProvider -> Task Error Int"
+            },
+            {
+                "name": "toId",
+                "comment": " Convert an int into it's NetworkId\n",
+                "type": "Int -> NetworkId"
+            },
+            {
+                "name": "version",
+                "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+                "type": "HttpProvider -> Task Error NetworkId"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Decode",
+        "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, event\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "address",
+                "comment": " ",
+                "type": "Decoder Address"
+            },
+            {
+                "name": "blockHash",
+                "comment": " ",
+                "type": "Decoder BlockHash"
+            },
+            {
+                "name": "event",
+                "comment": " ",
+                "type": "Decoder a -> Decoder (Event a)"
+            },
+            {
+                "name": "hex",
+                "comment": " ",
+                "type": "Decoder Hex"
+            },
+            {
+                "name": "txHash",
+                "comment": " ",
+                "type": "Decoder TxHash"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Evm.Encode",
+        "comment": " Encode before sending RPC Calls\n\n@docs Encoding, encodeFunctionCall, encodeFunctionCallWithDebug\n\n\n# Low-Level\n\n@docs evmEncode\n\n",
+        "unions": [
+            {
+                "name": "Encoding",
+                "comment": " Not yet implemented :\n\n    -- DO NOT USE\n    DBytesE, BytesE, StringE, ListE\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AddressE",
+                        [
+                            "Address"
+                        ]
+                    ],
+                    [
+                        "UintE",
+                        [
+                            "BigInt"
+                        ]
+                    ],
+                    [
+                        "BoolE",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "DBytesE",
+                        [
+                            "Hex"
+                        ]
+                    ],
+                    [
+                        "BytesE",
+                        [
+                            "Hex"
+                        ]
+                    ],
+                    [
+                        "StringE",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "ListE",
+                        [
+                            "Encoding"
+                        ]
+                    ],
+                    [
+                        "IPFSHashE",
+                        [
+                            "IPFSHash"
+                        ]
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "encodeFunctionCall",
+                "comment": " ",
+                "type": "String -> List Encoding -> Hex"
+            },
+            {
+                "name": "encodeFunctionCallWithDebug",
+                "comment": " ",
+                "type": "String -> List Encoding -> Hex"
+            },
+            {
+                "name": "evmEncode",
+                "comment": " ",
+                "type": "Encoding -> Hex"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Defaults",
+        "comment": " Default values.\nFor those withDefault shenanigans.\n\n@docs invalidAddress, zeroAddress, emptyBlockHash, emptyTxHash, emptyLogFilter\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "emptyBlockHash",
+                "comment": " ",
+                "type": "BlockHash"
+            },
+            {
+                "name": "emptyLogFilter",
+                "comment": " ",
+                "type": "LogFilter"
+            },
+            {
+                "name": "emptyTxHash",
+                "comment": " ",
+                "type": "TxHash"
+            },
+            {
+                "name": "invalidAddress",
+                "comment": " ",
+                "type": "Address"
+            },
+            {
+                "name": "zeroAddress",
+                "comment": " Danger Will Robinson, why are you using this?\nOnly to burn things should it be used.\n",
+                "type": "Address"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Utils",
+        "comment": " String/Type Conversion and Application Helpers\n\n\n# Address\n\n@docs toAddress, toChecksumAddress, addressToString, isAddress, isChecksumAddress\n\n\n# Hex\n\n@docs toHex, hexToString, isHex, hexToAscii\n\n\n# Transaction Hash\n\n@docs toTxHash, txHashToString\n\n\n# Block Hash\n\n@docs toBlockHash, blockHashToString\n\n\n# SHA3\n\n@docs functionSig, keccak256, isSha256\n\n\n# IPFS\n\n@docs ipfsHashToString, ipfsToBytes32, toIPFSHash\n\n\n# Unsafe\n\n@docs unsafeToHex, unsafeToAddress, unsafeToTxHash, unsafeToBlockHash, unsafeToIPFSHash\n\n\n# Application Helpers\n\n@docs Retry, retry, valueToMsg\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Retry",
+                "comment": " ",
+                "args": [],
+                "type": "{ attempts : Int, sleep : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "addressToString",
+                "comment": " Returns Checksummed Address\n",
+                "type": "Address -> String"
+            },
+            {
+                "name": "blockHashToString",
+                "comment": " ",
+                "type": "BlockHash -> String"
+            },
+            {
+                "name": "functionSig",
+                "comment": " ",
+                "type": "String -> Hex"
+            },
+            {
+                "name": "hexToAscii",
+                "comment": " ",
+                "type": "Hex -> Result String String"
+            },
+            {
+                "name": "hexToString",
+                "comment": " ",
+                "type": "Hex -> String"
+            },
+            {
+                "name": "ipfsHashToString",
+                "comment": " ",
+                "type": "IPFSHash -> String"
+            },
+            {
+                "name": "ipfsToBytes32",
+                "comment": " Prepares IPFS Hash to store as soldity bytes32\n",
+                "type": "IPFSHash -> Hex"
+            },
+            {
+                "name": "isAddress",
+                "comment": " ",
+                "type": "String -> Bool"
+            },
+            {
+                "name": "isChecksumAddress",
+                "comment": " ",
+                "type": "Address -> Bool"
+            },
+            {
+                "name": "isHex",
+                "comment": " ",
+                "type": "String -> Bool"
+            },
+            {
+                "name": "isSha256",
+                "comment": " ",
+                "type": "String -> Bool"
+            },
+            {
+                "name": "keccak256",
+                "comment": " ",
+                "type": "String -> Hex"
+            },
+            {
+                "name": "retry",
+                "comment": " ",
+                "type": "Retry -> Task x a -> Task x a"
+            },
+            {
+                "name": "toAddress",
+                "comment": " Make an Address\n\nAll lowercase or uppercase strings, shaped like addresses, will result in `Ok`.\nMixed case strings will return `Err` if checksum is invalid.\n\n",
+                "type": "String -> Result String Address"
+            },
+            {
+                "name": "toBlockHash",
+                "comment": " ",
+                "type": "String -> Result String BlockHash"
+            },
+            {
+                "name": "toChecksumAddress",
+                "comment": " ",
+                "type": "String -> Result String Address"
+            },
+            {
+                "name": "toHex",
+                "comment": " ",
+                "type": "String -> Result String Hex"
+            },
+            {
+                "name": "toIPFSHash",
+                "comment": " ",
+                "type": "String -> Result String IPFSHash"
+            },
+            {
+                "name": "toTxHash",
+                "comment": " ",
+                "type": "String -> Result String TxHash"
+            },
+            {
+                "name": "txHashToString",
+                "comment": " ",
+                "type": "TxHash -> String"
+            },
+            {
+                "name": "unsafeToAddress",
+                "comment": " ",
+                "type": "String -> Address"
+            },
+            {
+                "name": "unsafeToBlockHash",
+                "comment": " ",
+                "type": "String -> BlockHash"
+            },
+            {
+                "name": "unsafeToHex",
+                "comment": " ",
+                "type": "String -> Hex"
+            },
+            {
+                "name": "unsafeToIPFSHash",
+                "comment": " ",
+                "type": "String -> IPFSHash"
+            },
+            {
+                "name": "unsafeToTxHash",
+                "comment": " ",
+                "type": "String -> TxHash"
+            },
+            {
+                "name": "valueToMsg",
+                "comment": " Help with decoding past a result straight into a Msg\n",
+                "type": "(a -> msg) -> (String -> msg) -> Decoder a -> Value -> msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Types",
+        "comment": " Types\n\n\n# Simple\n\n@docs Address, TxHash, BlockHash, Hex\n\n\n# Complex\n\n@docs Call, Send, Tx, TxReceipt, BlockId, Block, Uncle, BlockHead, Log, Event, LogFilter, SyncStatus\n\n\n# Misc\n\n@docs HttpProvider, FilterId, IPFSHash\n\n",
+        "unions": [
+            {
+                "name": "BlockId",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "BlockNum",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "EarliestBlock",
+                        []
+                    ],
+                    [
+                        "LatestBlock",
+                        []
+                    ],
+                    [
+                        "PendingBlock",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Address",
+                "comment": " ",
+                "args": [],
+                "type": "Address"
+            },
+            {
+                "name": "Block",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ number : Int, hash : BlockHash, parentHash : BlockHash, nonce : String, sha3Uncles : String, logsBloom : String, transactionsRoot : String, stateRoot : String, receiptsRoot : String, miner : Address, difficulty : BigInt, totalDifficulty : BigInt, extraData : String, size : Int, gasLimit : Int, gasUsed : Int, timestamp : Time, transactions : List a, uncles : List String }"
+            },
+            {
+                "name": "BlockHash",
+                "comment": " ",
+                "args": [],
+                "type": "BlockHash"
+            },
+            {
+                "name": "BlockHead",
+                "comment": " ",
+                "args": [],
+                "type": "{ number : Int, hash : BlockHash, parentHash : BlockHash, nonce : String, sha3Uncles : String, logsBloom : String, transactionsRoot : String, stateRoot : String, receiptsRoot : String, miner : Address, difficulty : BigInt, extraData : String, gasLimit : Int, gasUsed : Int, mixHash : String, timestamp : Time }"
+            },
+            {
+                "name": "Call",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ to : Maybe Address, from : Maybe Address, gas : Maybe Int, gasPrice : Maybe BigInt, value : Maybe BigInt, data : Maybe Hex, nonce : Maybe Int, decoder : Decoder a }"
+            },
+            {
+                "name": "Event",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ address : Address, data : String, topics : List Hex, removed : Bool, logIndex : Int, transactionIndex : Int, transactionHash : TxHash, blockHash : BlockHash, blockNumber : Int, returnData : a }"
+            },
+            {
+                "name": "FilterId",
+                "comment": " ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Hex",
+                "comment": " ",
+                "args": [],
+                "type": "Hex"
+            },
+            {
+                "name": "HttpProvider",
+                "comment": " ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "IPFSHash",
+                "comment": " ",
+                "args": [],
+                "type": "IPFSHash"
+            },
+            {
+                "name": "Log",
+                "comment": " ",
+                "args": [],
+                "type": "{ address : Address, data : String, topics : List Hex, removed : Bool, logIndex : Int, transactionIndex : Int, transactionHash : TxHash, blockHash : BlockHash, blockNumber : Int }"
+            },
+            {
+                "name": "LogFilter",
+                "comment": " NOTE: Different from JSON RPC API, removed some optionality to reduce complexity\n",
+                "args": [],
+                "type": "{ fromBlock : BlockId, toBlock : BlockId, address : Address, topics : List (Maybe Hex) }"
+            },
+            {
+                "name": "Send",
+                "comment": " ",
+                "args": [],
+                "type": "{ to : Maybe Address, from : Maybe Address, gas : Maybe Int, gasPrice : Maybe BigInt, value : Maybe BigInt, data : Maybe Hex, nonce : Maybe Int }"
+            },
+            {
+                "name": "SyncStatus",
+                "comment": " ",
+                "args": [],
+                "type": "{ startingBlock : Int, currentBlock : Int, highestBlock : Int, knownStates : Int, pulledStates : Int }"
+            },
+            {
+                "name": "Tx",
+                "comment": " ",
+                "args": [],
+                "type": "{ hash : TxHash, nonce : Int, blockHash : Maybe BlockHash, blockNumber : Maybe Int, transactionIndex : Int, from : Address, to : Maybe Address, value : BigInt, gasPrice : BigInt, gas : Int, input : String }"
+            },
+            {
+                "name": "TxHash",
+                "comment": " ",
+                "args": [],
+                "type": "TxHash"
+            },
+            {
+                "name": "TxReceipt",
+                "comment": " ",
+                "args": [],
+                "type": "{ hash : TxHash, index : Int, blockHash : BlockHash, blockNumber : Int, gasUsed : BigInt, cumulativeGasUsed : BigInt, contractAddress : Maybe Address, logs : List Log, logsBloom : String, root : Maybe String, status : Maybe Bool }"
+            },
+            {
+                "name": "Uncle",
+                "comment": " ",
+                "args": [],
+                "type": "Block ()"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Eth.RPC",
+        "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "RpcRequest",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ url : String, method : String, params : List Value, decoder : Decoder a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "encode",
+                "comment": " ",
+                "type": "Int -> String -> List Value -> Value"
+            },
+            {
+                "name": "toHttpBody",
+                "comment": " ",
+                "type": "Int -> String -> List Value -> Body"
+            },
+            {
+                "name": "toTask",
+                "comment": " ",
+                "type": "RpcRequest a -> Task Error a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Eth.Units",
+        "comment": " Conversions and Helpers\n\n\n# Units\n\n@docs gwei, eth\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
+        "unions": [
+            {
+                "name": "EthUnit",
+                "comment": " Eth Unit\nUseful for displaying to, and taking user input from, the UI\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Wei",
+                        []
+                    ],
+                    [
+                        "Kwei",
+                        []
+                    ],
+                    [
+                        "Mwei",
+                        []
+                    ],
+                    [
+                        "Gwei",
+                        []
+                    ],
+                    [
+                        "Microether",
+                        []
+                    ],
+                    [
+                        "Milliether",
+                        []
+                    ],
+                    [
+                        "Ether",
+                        []
+                    ],
+                    [
+                        "Kether",
+                        []
+                    ],
+                    [
+                        "Mether",
+                        []
+                    ],
+                    [
+                        "Gether",
+                        []
+                    ],
+                    [
+                        "Tether",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bigIntToWei",
+                "comment": " Convert a given BigInt EthUnit to it's Wei equivalent\n",
+                "type": "EthUnit -> BigInt -> BigInt"
+            },
+            {
+                "name": "eth",
+                "comment": " ",
+                "type": "Int -> BigInt"
+            },
+            {
+                "name": "fromWei",
+                "comment": " Convert stringy Wei to a given EthUnit\n\n    fromWei Gwei (BigInt.fromInt 123456789) == \"0.123456789\"\n    fromWei Ether (BigInt.fromInt 123456789) == \"0.000000000123456789\"\n\n**Note** Do not pass anything larger than MAX_SAFE_INTEGER into BigInt.fromInt\nMAX_SAFE_INTEGER == 9007199254740991\n\n",
+                "type": "EthUnit -> BigInt -> String"
+            },
+            {
+                "name": "gwei",
+                "comment": " ",
+                "type": "Int -> BigInt"
+            },
+            {
+                "name": "toWei",
+                "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
+                "type": "EthUnit -> String -> Result String BigInt"
+            }
+        ],
+        "binops": []
+    }
+]

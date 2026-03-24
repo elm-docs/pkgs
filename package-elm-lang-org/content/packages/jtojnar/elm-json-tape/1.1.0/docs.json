@@ -1,0 +1,79 @@
+[
+    {
+        "name": "Codec.JsonTape.Encode",
+        "comment": " This module provides JSON encoder of a directory tree.\n\n@docs dirTree\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dirTree",
+                "comment": " JSON encoder to json-tape format.\n",
+                "type": "DirTree -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Codec.JsonTape.Decode",
+        "comment": " This module provides JSON decoder of a directory tree.\n\n@docs dirTree\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dirTree",
+                "comment": " JSON decoder of json-tape format.\n",
+                "type": "Decoder DirTree"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Codec.JsonTape",
+        "comment": " This module describes data structures representing files and directories and functions for manipulating them.\n\n# Data structure\n@docs DirTree\n\n# File manipulation\n@docs getObject, readFileRaw, readFile\n\n# Helpers\n@docs getName\n",
+        "unions": [
+            {
+                "name": "DirTree",
+                "comment": " Data structure representing a directory tree.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Dir",
+                        [
+                            "{ name : FileName, contents : List DirTree }"
+                        ]
+                    ],
+                    [
+                        "File",
+                        [
+                            "{ name : FileName, file : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getName",
+                "comment": " Auxilliary function for circumventing the type system.\n",
+                "type": "DirTree -> FileName"
+            },
+            {
+                "name": "getObject",
+                "comment": " Traverse the directory tree along path and return the seeked object.\n",
+                "type": "Path -> DirTree -> Result String DirTree"
+            },
+            {
+                "name": "readFile",
+                "comment": " Traverse the directory tree along path and return the content of the found file after base64 decoding it.\n",
+                "type": "Path -> DirTree -> Result String String"
+            },
+            {
+                "name": "readFileRaw",
+                "comment": " Traverse the directory tree along path and return the content of the found file.\n",
+                "type": "Path -> DirTree -> Result String String"
+            }
+        ],
+        "binops": []
+    }
+]

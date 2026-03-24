@@ -1,0 +1,365 @@
+[
+    {
+        "name": "Framework.Button",
+        "comment": " Buttons generator\n\nCheck [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs button, buttonAttr, introspection\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " Generate an Input.button element\n\n    button [ Medium, Success, Outlined ] Nothing \"Button\"\n\n",
+                "type": "List Modifier -> Maybe msg -> String -> Element msg"
+            },
+            {
+                "name": "buttonAttr",
+                "comment": " Generate a list of attributes that can be attached to any element\n\n    row (buttonAttr [ Info ] ++ [ spacing 10 ]) [ text \"Col 1\", text \"Col 2\" ]\n\n",
+                "type": "List Modifier -> List (Attribute msg)"
+            },
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "Data msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Spinner",
+        "comment": " Spinners generator\n\nCheck [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs Spinner, spinner, introspection\n\n",
+        "unions": [
+            {
+                "name": "Spinner",
+                "comment": " Type of spinners\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ThreeCircles",
+                        []
+                    ],
+                    [
+                        "Rotation",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "Data msg"
+            },
+            {
+                "name": "spinner",
+                "comment": " SVG Spinner\n\n    spinner ThreeCircles 32 Color.black\n\n",
+                "type": "Spinner -> Int -> Color -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Color",
+        "comment": " Colors generator\n\nCheck [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs Color, colorToHex, hexToColor, introspection, color, maximumContrast\n\n\n# Colors\n\n@docs link , white , black , light , dark , primary , info , success , warning , danger , blackBis , blackTer , greyDarker , greyDark , grey , greyLight , greyLighter , whiteTer , whiteBis , transparent\n\n",
+        "unions": [
+            {
+                "name": "Color",
+                "comment": " List of colors\n",
+                "args": [],
+                "cases": [
+                    [
+                        "White",
+                        []
+                    ],
+                    [
+                        "Black",
+                        []
+                    ],
+                    [
+                        "Light",
+                        []
+                    ],
+                    [
+                        "Dark",
+                        []
+                    ],
+                    [
+                        "Primary",
+                        []
+                    ],
+                    [
+                        "Info",
+                        []
+                    ],
+                    [
+                        "Success",
+                        []
+                    ],
+                    [
+                        "Warning",
+                        []
+                    ],
+                    [
+                        "Danger",
+                        []
+                    ],
+                    [
+                        "BlackBis",
+                        []
+                    ],
+                    [
+                        "BlackTer",
+                        []
+                    ],
+                    [
+                        "GreyDarker",
+                        []
+                    ],
+                    [
+                        "GreyDark",
+                        []
+                    ],
+                    [
+                        "Grey",
+                        []
+                    ],
+                    [
+                        "GreyLight",
+                        []
+                    ],
+                    [
+                        "GreyLighter",
+                        []
+                    ],
+                    [
+                        "WhiteTer",
+                        []
+                    ],
+                    [
+                        "WhiteBis",
+                        []
+                    ],
+                    [
+                        "Link",
+                        []
+                    ],
+                    [
+                        "Transparent",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "black",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blackBis",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blackTer",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "color",
+                "comment": " Convert a type of color to a Color\n\n    color ColorPrimary == hexToColor \"#00D1B2\"\n\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "colorToHex",
+                "comment": " Convert a Color to a String\n\n    colorToHex Color.black == \"#000000\"\n\n",
+                "type": "Color -> String"
+            },
+            {
+                "name": "danger",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "dark",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "greyDark",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "greyDarker",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "greyLight",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "greyLighter",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "hexToColor",
+                "comment": " Convert a String to a Color\n\n    hexToColor \"#000000\" == Color.Black\n\n",
+                "type": "String -> Color"
+            },
+            {
+                "name": "info",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "Data msg"
+            },
+            {
+                "name": "light",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "maximumContrast",
+                "comment": " Return one of the font color that has maximum contrast on a background color\n\n    maximumContrast Color.black == color ColorFontBright\n\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "primary",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "success",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "transparent",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "warning",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "white",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "whiteBis",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "whiteTer",
+                "comment": " ",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework",
+        "comment": " This is an incomplete Style Framework that leverage the [experimental version of style-elements](http://package.elm-lang.org/packages/mdgriffith/stylish-elephants/4.0.0). Major changes may happen at any time to this Repo.\n\nSee the [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Types\n\n@docs Modifier\n\n",
+        "unions": [
+            {
+                "name": "Modifier",
+                "comment": " This is the main list of modifier that can be used with all elements\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Primary",
+                        []
+                    ],
+                    [
+                        "Link",
+                        []
+                    ],
+                    [
+                        "Info",
+                        []
+                    ],
+                    [
+                        "Success",
+                        []
+                    ],
+                    [
+                        "Warning",
+                        []
+                    ],
+                    [
+                        "Danger",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ],
+                    [
+                        "Outlined",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Waiting",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Framework.Configuration",
+        "comment": " List of values that you can change to costumize the aspect of the framwork\n\nCheck [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs conf\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "conf",
+                "comment": " ",
+                "type": "{ colors : { black : Color, blackBis : Color, blackTer : Color, danger : Color, dark : Color, grey : Color, greyDark : Color, greyDarker : Color, greyLight : Color, greyLighter : Color, info : Color, light : Color, link : Color, primary : Color, success : Color, warning : Color, white : Color, whiteBis : Color, whiteTer : Color }, sizes : { size1 : Float, size2 : Float, size3 : Float, size4 : Float, size5 : Float, size6 : Float, size7 : Float } }"
+            }
+        ],
+        "binops": []
+    }
+]

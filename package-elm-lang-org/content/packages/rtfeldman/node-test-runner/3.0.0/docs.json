@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Test.Runner.Node",
+        "comment": " # Node Runner\n\nRuns a test and outputs its results to the console. Exit code is 0 if tests\npassed and 1 if any failed.\n\n@docs run, runWithOptions, TestProgram\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "TestProgram",
+                "comment": " A program which will run tests and report their results.\n",
+                "args": [],
+                "type": "Program Value (Model Msg Model) (Msg Msg)"
+            }
+        ],
+        "values": [
+            {
+                "name": "run",
+                "comment": " Run the test and report the results.\n\nFuzz tests use a default run count of 100, and an initial seed based on the\nsystem time when the test runs begin.\n",
+                "type": "Emitter Msg -> Test -> TestProgram"
+            },
+            {
+                "name": "runWithOptions",
+                "comment": " Run the test using the provided options. If `Nothing` is provided for either\n`runs` or `seed`, it will fall back on the options used in [`run`](#run).\n",
+                "type": "{ a | runs : Int, seed : Maybe Int } -> Emitter Msg -> Test -> TestProgram"
+            }
+        ],
+        "binops": []
+    }
+]

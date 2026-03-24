@@ -1,0 +1,974 @@
+[
+    {
+        "name": "Css.Support",
+        "comment": " Functions that help you check the browser support for CSS properties.\n\n\n# Compatibility\n\n@docs compatible\n\n\n# Targets\n\n@docs Target, forTarget\n\n\n# Compatibility + Targets\n\n@docs caniuse\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Target",
+                "comment": " A `Target` is the combination of a `Browser` and a `Version`.\n",
+                "args": [],
+                "type": "( Browser, Version )"
+            }
+        ],
+        "values": [
+            {
+                "name": "caniuse",
+                "comment": " An alternative version of `forTarget` that takes:\n\n  - A list of CSS properties instead of a single one\n  - A list of `Target`s instead of a single one\n  - Returns a `Dict` with `BrowserSupport`s\n\nSo in other words, this function will generate a compatibility table.\n\n\n## Example\n\n    >>> caniuse\n    >>>   [ \"align-items\", \"flex\" ]\n    >>>   [ (Data.Chrome, VersionNumber 5), (Data.Firefox, VersionNumber 30) ]\n    Dict.fromList\n        [ ( \"align-items\"\n          , [ { browser = Data.Chrome\n              , version = VersionNumber 5\n              , note = Nothing\n              , support = PartiallySupportedWithPrefix\n              }\n            , { browser = Data.Firefox\n              , version = VersionNumber 30\n              , note = Nothing\n              , support = Supported\n              }\n            ]\n          )\n        , ( \"flex\"\n          , [ { browser = Data.Chrome\n              , version = VersionNumber 5\n              , note = Nothing\n              , support = PartiallySupportedWithPrefix\n              }\n            , { browser = Data.Firefox\n              , version = VersionNumber 30\n              , note = Nothing\n              , support = Supported\n              }\n            ]\n          )\n        ]\n\n",
+                "type": "List String -> List Target -> Dict String (List BrowserSupport)"
+            },
+            {
+                "name": "compatible",
+                "comment": " Find out which browsers fully, or partially, support a given CSS property.\nReturns `Nothing` when it cannot find any associated data.\n\n\n## Example\n\nThis is an example where we pick a single `BrowserSupport` from the result set.\n\n    -- Filter for our results\n    >>> internetExplorerOnly = .browser >> (==) Data.Ie\n\n    -- Run `compatible` function\n    >>> result =\n    >>>     compatible \"grid-row\" { includePartialSupport = True }\n    >>>         |> Maybe.map (List.filter internetExplorerOnly)\n    >>>         |> Maybe.andThen (List.reverse >> List.head)\n    >>>         |> Maybe.map .support\n\n    -- 👩‍🔬\n    >>> result\n    Just PartiallySupportedWithPrefix\n\n",
+                "type": "String -> { includePartialSupport : Bool } -> Maybe (List BrowserSupport)"
+            },
+            {
+                "name": "forTarget",
+                "comment": " Find out of the given browser-version combination supports the given CSS property.\nReturns `NotSupported` when it cannot find any associated data.\n\n    >>> forTarget \"flex\" (Data.Chrome, VersionNumber 60)\n    Supported\n\n    >>> forTarget \"flex\" (Data.Chrome, VersionNumber 22)\n    SupportedWithPrefix\n\n    >>> forTarget \"flex\" (Data.Chrome, VersionNumber 4)\n    PartiallySupportedWithPrefix\n\n    >>> forTarget \"flex\" (Data.Chrome, VersionNumber 1)\n    NotSupported\n\n",
+                "type": "String -> Target -> Supported"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Css.Support.Data",
+        "comment": " All the [caniuse.com](https://caniuse.com/) data related to CSS reduced to a more concise data format (more info in the next paragraph), a list of all the standardized CSS properties from [MDN](https://developer.mozilla.org/en-US/) and the overlap between these two data sets.\n\n## What exactly is in the `BrowserSupport` lists?\n\n__Scenario 1:__ The browser has support for the feature, it will list the first version that has partial support for the feature and also the version that has full support.\n\n__Scenario 2:__ The browser has no support for the feature, it will list the first version available from the caniuse data. If there are versions with other notes, it will list those as well.\n\nThat's pretty much the gist of it.\n\n\n# Types\n\n@docs Browser, BrowserSupport, Supported, Version\n\n\n# CSS\n\n@docs standardCssProperties, prefixFor\n\n\n# Overlap\n\n@docs overlap\n\n\n# Features\n\n@docs backgroundAttachment, backgroundImgOpts, backgroundPositionXY, backgroundRepeatRoundSpace, borderImage, borderRadius, calc, chUnit, cssAll, cssAnimation, cssAppearance, cssApplyRule, cssAtCounterStyle, cssBackdropFilter, cssBackgroundOffsets, cssBackgroundblendmode, cssBoxdecorationbreak, cssBoxshadow, cssCanvas, cssCaretColor, cssCaseInsensitive, cssClipPath, cssConicGradients, cssContainment, cssCounters, cssCrispEdges, cssCrossFade, cssDefaultPseudo, cssDescendantGtgt, cssDeviceadaptation, cssDirPseudo, cssDisplayContents, cssElementFunction, cssExclusions, cssFeaturequeries, cssFilterFunction, cssFilters, cssFirstLetter, cssFirstLine, cssFixed, cssFocusVisible, cssFocusWithin, cssFontRenderingControls, cssFontStretch, cssGencontent, cssGradients, cssGrid, cssHangingPunctuation, cssHas, cssHyphens, cssImageOrientation, cssImageSet, cssInOutOfRange, cssIndeterminatePseudo, cssInitialLetter, cssInitialValue, cssLetterSpacing, cssLineClamp, cssLogicalProps, cssMarkerPseudo, cssMasks, cssMatchesPseudo, cssMediaInteraction, cssMediaResolution, cssMediaqueries, cssMixblendmode, cssMotionPaths, cssNamespaces, cssNotSelList, cssNthChildOf, cssOpacity, cssOptionalPseudo, cssOverflowAnchor, cssOverscrollBehavior, cssPageBreak, cssPaintApi, cssPlaceholder, cssPlaceholderShown, cssReadOnlyWrite, cssRebeccapurple, cssReflections, cssRegions, cssRepeatingGradients, cssResize, cssRevertValue, cssRrggbbaa, cssScrollBehavior, cssScrollbar, cssSel2, cssSel3, cssSelection, cssShapes, cssSnappoints, cssSticky, cssTable, cssTextAlignLast, cssTextIndent, cssTextJustify, cssTextOrientation, cssTextshadow, cssTouchAction, cssTransitions, cssUnsetValue, cssVariables, cssWidowsOrphans, cssWritingMode, cssZoom, css3Attr, css3Boxsizing, css3Colors, css3Cursors, css3CursorsNewer, css3Tabsize, currentcolor, devicepixelratio, flexbox, flowRoot, fontFamilySystemUi, fontFeature, fontKerning, fontLoading, fontSizeAdjust, fontSmooth, fontUnicodeRange, fontVariantAlternates, fontface, getcomputedstyle, inlineBlock, intrinsicWidth, kerningPairsLigatures, minmaxwh, multibackgrounds, multicolumn, objectFit, outline, pointerEvents, prefersReducedMotion, rem, runIn, styleScoped, svgCss, textDecoration, textEmphasis, textOverflow, textSizeAdjust, textStroke, transforms2D, transforms3D, ttf, userSelectNone, variableFonts, viewportUnits, willChange, wordBreak, wordwrap\n\n",
+        "unions": [
+            {
+                "name": "Browser",
+                "comment": "",
+                "args": [],
+                "cases": [
+                    [
+                        "AndroidBrowser",
+                        []
+                    ],
+                    [
+                        "BaiduBrowser",
+                        []
+                    ],
+                    [
+                        "BlackberryBrowser",
+                        []
+                    ],
+                    [
+                        "Chrome",
+                        []
+                    ],
+                    [
+                        "ChromeForAndroid",
+                        []
+                    ],
+                    [
+                        "Edge",
+                        []
+                    ],
+                    [
+                        "Firefox",
+                        []
+                    ],
+                    [
+                        "FirefoxForAndroid",
+                        []
+                    ],
+                    [
+                        "Ie",
+                        []
+                    ],
+                    [
+                        "IeMobile",
+                        []
+                    ],
+                    [
+                        "IosSafari",
+                        []
+                    ],
+                    [
+                        "Opera",
+                        []
+                    ],
+                    [
+                        "OperaMini",
+                        []
+                    ],
+                    [
+                        "OperaMobile",
+                        []
+                    ],
+                    [
+                        "QqBrowser",
+                        []
+                    ],
+                    [
+                        "Safari",
+                        []
+                    ],
+                    [
+                        "SamsungInternet",
+                        []
+                    ],
+                    [
+                        "UcBrowserForAndroid",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Supported",
+                "comment": "",
+                "args": [],
+                "cases": [
+                    [
+                        "Supported",
+                        []
+                    ],
+                    [
+                        "SupportedWithPrefix",
+                        []
+                    ],
+                    [
+                        "PartiallySupported",
+                        []
+                    ],
+                    [
+                        "PartiallySupportedWithPrefix",
+                        []
+                    ],
+                    [
+                        "NotSupported",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Version",
+                "comment": "",
+                "args": [],
+                "cases": [
+                    [
+                        "VersionNumber",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "VersionRange",
+                        [
+                            "Float",
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "AllVersions",
+                        []
+                    ],
+                    [
+                        "TechnologyPreview",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BrowserSupport",
+                "comment": "",
+                "args": [],
+                "type": "{ browser : Browser, note : Maybe String, support : Supported, version : Version }"
+            }
+        ],
+        "values": [
+            {
+                "name": "backgroundAttachment",
+                "comment": " background-attachment\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "backgroundImgOpts",
+                "comment": " background-img-opts\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "backgroundPositionXY",
+                "comment": " background-position-x-y\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "backgroundRepeatRoundSpace",
+                "comment": " background-repeat-round-space\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "borderImage",
+                "comment": " border-image\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "borderRadius",
+                "comment": " border-radius\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "calc",
+                "comment": " calc\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "chUnit",
+                "comment": " ch-unit\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3Attr",
+                "comment": " css3-attr\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3Boxsizing",
+                "comment": " css3-boxsizing\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3Colors",
+                "comment": " css3-colors\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3Cursors",
+                "comment": " css3-cursors\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3CursorsNewer",
+                "comment": " css3-cursors-newer\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "css3Tabsize",
+                "comment": " css3-tabsize\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssAll",
+                "comment": " css-all\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssAnimation",
+                "comment": " css-animation\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssAppearance",
+                "comment": " css-appearance\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssApplyRule",
+                "comment": " css-apply-rule\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssAtCounterStyle",
+                "comment": " css-at-counter-style\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssBackdropFilter",
+                "comment": " css-backdrop-filter\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssBackgroundOffsets",
+                "comment": " css-background-offsets\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssBackgroundblendmode",
+                "comment": " css-backgroundblendmode\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssBoxdecorationbreak",
+                "comment": " css-boxdecorationbreak\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssBoxshadow",
+                "comment": " css-boxshadow\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCanvas",
+                "comment": " css-canvas\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCaretColor",
+                "comment": " css-caret-color\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCaseInsensitive",
+                "comment": " css-case-insensitive\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssClipPath",
+                "comment": " css-clip-path\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssConicGradients",
+                "comment": " css-conic-gradients\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssContainment",
+                "comment": " css-containment\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCounters",
+                "comment": " css-counters\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCrispEdges",
+                "comment": " css-crisp-edges\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssCrossFade",
+                "comment": " css-cross-fade\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssDefaultPseudo",
+                "comment": " css-default-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssDescendantGtgt",
+                "comment": " css-descendant-gtgt\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssDeviceadaptation",
+                "comment": " css-deviceadaptation\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssDirPseudo",
+                "comment": " css-dir-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssDisplayContents",
+                "comment": " css-display-contents\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssElementFunction",
+                "comment": " css-element-function\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssExclusions",
+                "comment": " css-exclusions\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFeaturequeries",
+                "comment": " css-featurequeries\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFilterFunction",
+                "comment": " css-filter-function\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFilters",
+                "comment": " css-filters\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFirstLetter",
+                "comment": " css-first-letter\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFirstLine",
+                "comment": " css-first-line\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFixed",
+                "comment": " css-fixed\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFocusVisible",
+                "comment": " css-focus-visible\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFocusWithin",
+                "comment": " css-focus-within\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFontRenderingControls",
+                "comment": " css-font-rendering-controls\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssFontStretch",
+                "comment": " css-font-stretch\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssGencontent",
+                "comment": " css-gencontent\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssGradients",
+                "comment": " css-gradients\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssGrid",
+                "comment": " css-grid\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssHangingPunctuation",
+                "comment": " css-hanging-punctuation\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssHas",
+                "comment": " css-has\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssHyphens",
+                "comment": " css-hyphens\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssImageOrientation",
+                "comment": " css-image-orientation\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssImageSet",
+                "comment": " css-image-set\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssInOutOfRange",
+                "comment": " css-in-out-of-range\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssIndeterminatePseudo",
+                "comment": " css-indeterminate-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssInitialLetter",
+                "comment": " css-initial-letter\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssInitialValue",
+                "comment": " css-initial-value\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssLetterSpacing",
+                "comment": " css-letter-spacing\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssLineClamp",
+                "comment": " css-line-clamp\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssLogicalProps",
+                "comment": " css-logical-props\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMarkerPseudo",
+                "comment": " css-marker-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMasks",
+                "comment": " css-masks\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMatchesPseudo",
+                "comment": " css-matches-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMediaInteraction",
+                "comment": " css-media-interaction\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMediaResolution",
+                "comment": " css-media-resolution\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMediaqueries",
+                "comment": " css-mediaqueries\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMixblendmode",
+                "comment": " css-mixblendmode\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssMotionPaths",
+                "comment": " css-motion-paths\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssNamespaces",
+                "comment": " css-namespaces\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssNotSelList",
+                "comment": " css-not-sel-list\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssNthChildOf",
+                "comment": " css-nth-child-of\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssOpacity",
+                "comment": " css-opacity\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssOptionalPseudo",
+                "comment": " css-optional-pseudo\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssOverflowAnchor",
+                "comment": " css-overflow-anchor\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssOverscrollBehavior",
+                "comment": " css-overscroll-behavior\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssPageBreak",
+                "comment": " css-page-break\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssPaintApi",
+                "comment": " css-paint-api\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssPlaceholder",
+                "comment": " css-placeholder\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssPlaceholderShown",
+                "comment": " css-placeholder-shown\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssReadOnlyWrite",
+                "comment": " css-read-only-write\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssRebeccapurple",
+                "comment": " css-rebeccapurple\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssReflections",
+                "comment": " css-reflections\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssRegions",
+                "comment": " css-regions\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssRepeatingGradients",
+                "comment": " css-repeating-gradients\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssResize",
+                "comment": " css-resize\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssRevertValue",
+                "comment": " css-revert-value\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssRrggbbaa",
+                "comment": " css-rrggbbaa\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssScrollBehavior",
+                "comment": " css-scroll-behavior\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssScrollbar",
+                "comment": " css-scrollbar\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssSel2",
+                "comment": " css-sel2\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssSel3",
+                "comment": " css-sel3\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssSelection",
+                "comment": " css-selection\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssShapes",
+                "comment": " css-shapes\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssSnappoints",
+                "comment": " css-snappoints\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssSticky",
+                "comment": " css-sticky\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTable",
+                "comment": " css-table\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTextAlignLast",
+                "comment": " css-text-align-last\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTextIndent",
+                "comment": " css-text-indent\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTextJustify",
+                "comment": " css-text-justify\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTextOrientation",
+                "comment": " css-text-orientation\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTextshadow",
+                "comment": " css-textshadow\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTouchAction",
+                "comment": " css-touch-action\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssTransitions",
+                "comment": " css-transitions\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssUnsetValue",
+                "comment": " css-unset-value\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssVariables",
+                "comment": " css-variables\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssWidowsOrphans",
+                "comment": " css-widows-orphans\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssWritingMode",
+                "comment": " css-writing-mode\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "cssZoom",
+                "comment": " css-zoom\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "currentcolor",
+                "comment": " currentcolor\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "devicepixelratio",
+                "comment": " devicepixelratio\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "flexbox",
+                "comment": " flexbox\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "flowRoot",
+                "comment": " flow-root\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontFamilySystemUi",
+                "comment": " font-family-system-ui\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontFeature",
+                "comment": " font-feature\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontKerning",
+                "comment": " font-kerning\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontLoading",
+                "comment": " font-loading\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontSizeAdjust",
+                "comment": " font-size-adjust\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontSmooth",
+                "comment": " font-smooth\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontUnicodeRange",
+                "comment": " font-unicode-range\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontVariantAlternates",
+                "comment": " font-variant-alternates\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "fontface",
+                "comment": " fontface\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "getcomputedstyle",
+                "comment": " getcomputedstyle\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "inlineBlock",
+                "comment": " inline-block\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "intrinsicWidth",
+                "comment": " intrinsic-width\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "kerningPairsLigatures",
+                "comment": " kerning-pairs-ligatures\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "minmaxwh",
+                "comment": " minmaxwh\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "multibackgrounds",
+                "comment": " multibackgrounds\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "multicolumn",
+                "comment": " multicolumn\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "objectFit",
+                "comment": " object-fit\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "outline",
+                "comment": " outline\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "overlap",
+                "comment": " The overlap between the list of CSS properties (ie. `standardCssProperties`) and the features listed below. So in other words, you give this function a css property (that is part of the standard CSS spec) and then you'll get the browser support for it.\n",
+                "type": "String -> List BrowserSupport"
+            },
+            {
+                "name": "pointerEvents",
+                "comment": " pointer-events\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "prefersReducedMotion",
+                "comment": " prefers-reduced-motion\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "prefixFor",
+                "comment": " Get the css-property prefix associated with a given `Browser`.\n",
+                "type": "Browser -> String"
+            },
+            {
+                "name": "rem",
+                "comment": " rem\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "runIn",
+                "comment": " run-in\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "standardCssProperties",
+                "comment": " A list of all the standardized CSS properties.\n",
+                "type": "List String"
+            },
+            {
+                "name": "styleScoped",
+                "comment": " style-scoped\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "svgCss",
+                "comment": " svg-css\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "textDecoration",
+                "comment": " text-decoration\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "textEmphasis",
+                "comment": " text-emphasis\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "textOverflow",
+                "comment": " text-overflow\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "textSizeAdjust",
+                "comment": " text-size-adjust\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "textStroke",
+                "comment": " text-stroke\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "transforms2D",
+                "comment": " transforms2d\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "transforms3D",
+                "comment": " transforms3d\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "ttf",
+                "comment": " ttf\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "userSelectNone",
+                "comment": " user-select-none\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "variableFonts",
+                "comment": " variable-fonts\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "viewportUnits",
+                "comment": " viewport-units\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "willChange",
+                "comment": " will-change\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "wordBreak",
+                "comment": " word-break\n",
+                "type": "List BrowserSupport"
+            },
+            {
+                "name": "wordwrap",
+                "comment": " wordwrap\n",
+                "type": "List BrowserSupport"
+            }
+        ],
+        "binops": []
+    }
+]

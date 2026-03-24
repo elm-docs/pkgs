@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Geoip",
+        "comment": " This is a library to detect the user location based on its IP address.\n\n\n# Definition\n\n@docs Geoip, empty\n\n\n# Detection\n\n@docs detect\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Geoip",
+                "comment": " User location detected information.\n",
+                "args": [],
+                "type": "{ ip : Maybe String, countryCode : Maybe String, countryName : Maybe String, regionCode : Maybe String, regionName : Maybe String, city : Maybe String, zipCode : Maybe String, timeZone : Maybe String, latitude : Maybe Float, longitude : Maybe Float, metroCode : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "detect",
+                "comment": " Detect the user location.\n",
+                "type": "Task Never Geoip"
+            },
+            {
+                "name": "empty",
+                "comment": " No information on user location yet.\n",
+                "type": "Geoip"
+            }
+        ],
+        "binops": []
+    }
+]

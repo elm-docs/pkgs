@@ -1,0 +1,543 @@
+[
+    {
+        "name": "Media",
+        "comment": " ###State\n\n@docs newVideo, newAudio, State\n\n###Audio and Video Elements\n\n@docs audio, video, audioWithEvents, videoWithEvents\n\n###Playback Control\n\n@docs PortMsg, play, pause, seek, fastSeek, load\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PortMsg",
+                "comment": " This is the data you'll send through the port you setup.\nThere should be no need to generate this yourself, the following\ncontrol functions will generate for you.\n",
+                "args": [],
+                "type": "{ tag : String, id : String, data : Value }"
+            },
+            {
+                "name": "State",
+                "comment": " This is just a convenient alias to prevent you from having to type\nMedia.State.State. State is an opaque type\n",
+                "args": [],
+                "type": "State"
+            }
+        ],
+        "values": [
+            {
+                "name": "audio",
+                "comment": " Same as the video function, but for an audio element.\n\nNOTE: audio elements and video playments can each play both audio\nand video files. If you give a video file to an audio element, it will only\nplay the audio track. These audio and video functions only refer to the kind\nof HTML element you're using, not the source file.\n\n",
+                "type": "State -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "audioWithEvents",
+                "comment": " Same as videoWithEvents, but generates an audio element.\n\nNOTE: video and audio elements can both play any supported file, but\naudio elements have no picture element. So if you play a video file in\nan audio element, you will hear the audio track, but not see the video track.\n\n",
+                "type": "State -> (State -> msg) -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "fastSeek",
+                "comment": " Same as seek, but changes position to nearest keyframe to specified\ntime, trading precision for performance\n",
+                "type": "State -> Float -> (PortMsg -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "load",
+                "comment": " Resets the media. Useful if you're changing the media source, for instance.\n",
+                "type": "State -> (PortMsg -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "newAudio",
+                "comment": " Same as newVideo, but for an audio element.\n\nNOTE: newAudio is for HTMLAudioElements and newVideo is for HTMLVideoElements.\nThe kind of file you're using doesn't really matter in this context, what matters\nis what type the media element is. An audio file will play in a video element &\nvice-versa.\n\n",
+                "type": "String -> State"
+            },
+            {
+                "name": "newVideo",
+                "comment": " This generates a default video state to put in your init, such as:\ntype alias Model =\nMedia.State\n\ninit: (Model, Cmd msg)\ninit =\n( newVideo \"myVideo\", Cmd.none )\n`\n\nNOTE: newAudio is for HTMLAudioElements and newVideo is for HTMLVideoElements.\nThe kind of file you're using doesn't really matter in this context, what matters\nis what type the media element is. An audio file will play in a video element &\nvice-versa.\n\n",
+                "type": "String -> State"
+            },
+            {
+                "name": "pause",
+                "comment": " Pause\n",
+                "type": "State -> (PortMsg -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "play",
+                "comment": " Begin playback.\n",
+                "type": "State -> (PortMsg -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "seek",
+                "comment": " Change the current position of the playhead to a different time.\n",
+                "type": "State -> Float -> (PortMsg -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "video",
+                "comment": " Generates an HTMLVideoElement with a state. Works exactly the same\nas Elm-lang/HTML's video function, except it requires a State type (which\nmeans it requires an id). It's probably best to generate a default video state in\nyour init function using the newVideo function, but you can generate one\nhere with the same function, if you prefer.\n",
+                "type": "State -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "videoWithEvents",
+                "comment": " Creates a video element with updates for all Media Events. Works just like a standard Html element from\nelm-lang/Html, except it required you to specify an id and give it a message\nfor updating the media state.\n\nThe simplest update will look like this:\n\n`type Msg =\nUpdateMedia Media.State\n\nupdate msg model =\ncase msg of\nUpdateMedia state ->\n({model | mediaState = state }, Cmd.none )\n`\nIt throws an update event on any of the standard HTMLMediaElement Events,\nsuch as onTimeUpdate, onPlaying, etc.\n\nNOTE: onTimeUpdate does not update every frame on some browsers, and can be\nthrown as infrequently as once every 1/4 second. For updates with single-frame precision,\nyou'll have to figure something out using requestAnimationFrame.\n\n",
+                "type": "State -> (State -> msg) -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Media.Events",
+        "comment": " ###Events\n\n@docs onPlaying, onPaused, onTimeUpdate, onDurationChange, onEnded, onAbort, onSeeked, onSeeking, onLoadStart, onLoadedMetadata, onLoadedData, onLoadSuspend, onEmptied, onWaiting, onStalled, onProgress, onCanPlay, onCanPlayThrough, onError\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "onAbort",
+                "comment": " Triggered when the playback of media is aborted (such as restarting it)\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onCanPlay",
+                "comment": " Triggered when enough data has been loaded to begin playback of the media,\nbut not enough has yet been loaded to play all the way to the end without pausing to\nbuffer.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onCanPlayThrough",
+                "comment": " Triggered when enough data has been loaded to playback the file to the end.\n**NOTE: This event does mean the whole media file has been buffered, only that enough\nhas been buffered that if the current download rate is continued, it will be finished\nfast enough that the user will never have to wait.\n\n** NOTE: Also fired on a toggle of play/pause **\n\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onDurationChange",
+                "comment": " Triggered when the duration of a media file changes.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onEmptied",
+                "comment": " Triggered when the media has become empty, such as if the load task\nis invoked.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onEnded",
+                "comment": " Triggered when playback completes\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onError",
+                "comment": " Triggered when a media Error occurs.\n** NOTE: These are errors from the native playr of the browser, not errors\ngenerated by this package. **\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onLoadStart",
+                "comment": " Triggered when the loading of the media has begun.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onLoadSuspend",
+                "comment": " Triggered when the loading of the media is suspended for any reason (including\nbecause it has finished downloading\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onLoadedData",
+                "comment": " Triggered when the media's first frame or sample has finished loading.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onLoadedMetadata",
+                "comment": " Triggered when the media's metadata has been completely loaded.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onPaused",
+                "comment": " Triggered when the media is paused\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onPlaying",
+                "comment": " Triggered when playback begins\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onProgress",
+                "comment": " Triggered periodically to provide updates on the download progress of\nthe media.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onSeeked",
+                "comment": " Triggered when a player finishes seeking\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onSeeking",
+                "comment": " Triggered when a player begins seeking\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onStalled",
+                "comment": " Fired when the loading of the media stalls, that is, when the browser is trying\nto fetch media data, but it is not forthcoming.\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onTimeUpdate",
+                "comment": " Triggered when the currentTime of the player has changed.\n** NOTE: This doesn't occur on a per frame basis. For performance reasons,\nsome browsers only trigger this event every so often, as infrequently as ever 250ms\nin some cases. **\n",
+                "type": "(State -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onWaiting",
+                "comment": " Sent when a task is waiting on the completion of another task (such as Play having\nto wait until Seek is complete).\n",
+                "type": "(State -> msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Media.State",
+        "comment": " ###State\n\n@docs id, MediaType, mediaType, duration, PlaybackStatus, PlaybackError, playbackStatus, currentTime, duration, source, ReadyState, readyState, NetworkState, networkState, videoSize, TimeRanges, buffered, played, seekable, TextTrack, TextTrackKind, TextTrackMode, VTTCue, textTracks\n\n",
+        "unions": [
+            {
+                "name": "MediaType",
+                "comment": " Represents whether the Media Element is an HTMLAudioElement or HTMLVideoElement,\nNOT where the file is an audio or video file. Audio files play in video elements\nand vice-versa.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Audio",
+                        []
+                    ],
+                    [
+                        "Video",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "NetworkState",
+                "comment": " The HTMLMediaElement loads its own resources (most of the time). This\ntype represents the state of it's network connection.\n\nEmpty: No data loaded or loading\nIdle: Element has a resource, but is not currently loading it (possibly because it is finished loading in its entirety)\nLoading: browser is downloading the media\nNoSource: No valid source provided\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Empty",
+                        []
+                    ],
+                    [
+                        "Idle",
+                        []
+                    ],
+                    [
+                        "DataLoading",
+                        []
+                    ],
+                    [
+                        "NoSource",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "PlaybackError",
+                "comment": " Represents an error in loading or playing the file, produced by the HTMLMediaElement,\nand a string representing the browsers error message.\n\nThe posibilities are:\nAborted: The user aborted loading the video.\nNetwork: A network error stopped the video from loading.\nDecode: the browser is unable to decode this file.\nUnsupported: the browser does not support playback of this file.\n\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "PlaybackStatus",
+                "comment": " Represents the current status of playback in the Media Element.\n\nHere are the possibilites:\nPaused: Media is not playing (and not Ended)\nPlaying: Media is playing\nLoading: Media is still loading, does not have enough data to start playing\nBuffering: Media is buffering. Media is not playing\nEnded: Media completed. Media is not playing\nPlaybackError: Media has encountered a problem and is not playing.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Paused",
+                        []
+                    ],
+                    [
+                        "Playing",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Buffering",
+                        []
+                    ],
+                    [
+                        "Ended",
+                        []
+                    ],
+                    [
+                        "PlaybackError",
+                        [
+                            "PlaybackError"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "ReadyState",
+                "comment": " Represents a more precise record of how much of the media file has been\nloaded and is ready to play.\n\nHaveNothing: No information about the media\nHaveMetadata: Information about the media, but no meaningful stream data\nHaveCurrentData: Data is available only for the current frame, not anything beyond that\nHaveFutureData: Data for some, but not all, of the remaining stream is available (as little as two frames worth)\nHaveEnoughData: Enough data to play media through to end without further buffering, if data bandwidth remains constant\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "HaveNothing",
+                        []
+                    ],
+                    [
+                        "HaveMetadata",
+                        []
+                    ],
+                    [
+                        "HaveCurrentData",
+                        []
+                    ],
+                    [
+                        "HaveFutureData",
+                        []
+                    ],
+                    [
+                        "HaveEnoughData",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "TextTrackKind",
+                "comment": " Represents the possible kinds of TextTrack.\n\nIf this module can't figure out what kind it is, it will produce an `Other String`,\nwith the string representing the kind attribute presented by the browser.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Captions",
+                        []
+                    ],
+                    [
+                        "Chapters",
+                        []
+                    ],
+                    [
+                        "Descriptions",
+                        []
+                    ],
+                    [
+                        "Metadata",
+                        []
+                    ],
+                    [
+                        "Subtitles",
+                        []
+                    ],
+                    [
+                        "Other",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "None",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "TextTrackMode",
+                "comment": " Represents where the text track is currently Showing (active), Hidden (active but non-visible),\nor Disabled (not active)\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Disabled",
+                        []
+                    ],
+                    [
+                        "Hidden",
+                        []
+                    ],
+                    [
+                        "Showing",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "TextTrack",
+                "comment": " Represents a subtitle, captions, or other synchronized text track.\n",
+                "args": [],
+                "type": "{ id : String, activeCues : List VTTCue, cues : List VTTCue, kind : TextTrackKind, inBandMetadataTrackDispatchType : String, label : String, language : String, mode : TextTrackMode }"
+            },
+            {
+                "name": "TimeRanges",
+                "comment": " This type represents a List TimeRange. A TimeRange is simply `{start: float, end: float}`.\n\nThis type is used to represent attributes about a timeline that have multiple value,\nsuch as the sections of a media that have been played already.\n\nThis will always be a list.\n\nNOTE: This cannot be used without adding an asArray property to the TimeRanges.prototype in javascript.\nYou can do so like this:\n`if (!(TimeRanges.prototype.asArray)) {\nObject.defineProperty(TimeRanges.prototype, \"asArray\", { get: function () { var arr = []; for (i = 0; i < this.length; i++) { arr.push({ start: this.start(i), end: this.end(i) }); }; return arr; } });\n}`\nor you can use function \"modifyTimeRanges() in the file \"Port/mediaPort.js.\"\n\n",
+                "args": [],
+                "type": "List TimeRange"
+            },
+            {
+                "name": "VTTCue",
+                "comment": " Represents a single, WebVTT text cue. The structure looks like this:\n\n`type alias VTTCue =\n{ text : String\n, startTime : Float\n, endTime : Float`\n}\n\n",
+                "args": [],
+                "type": "VTTCue"
+            }
+        ],
+        "values": [
+            {
+                "name": "buffered",
+                "comment": " Getter to get the buffered TimeRanges of an element from a State.\n\nBuffered represents the parts of the media that have been loaded and cached\nand are ready for playback.\n\n",
+                "type": "State -> TimeRanges"
+            },
+            {
+                "name": "currentTime",
+                "comment": " Getter to get the currentTime of an element from a State.\n",
+                "type": "State -> Float"
+            },
+            {
+                "name": "duration",
+                "comment": " Getter to get the duration of an element from a State.\n\nNOTE: On a live stream, duration will return Infinity. You need to use\nthe seekable function instead.\n\n",
+                "type": "State -> Float"
+            },
+            {
+                "name": "id",
+                "comment": " Takes your state and returns a string representing it's id.\n\nSince State and Id are both opaque types, this is the easiest way to\naccess the id of the media element.\n\n",
+                "type": "State -> String"
+            },
+            {
+                "name": "mediaType",
+                "comment": " Getter to get the MediaType of an element from a State.\n",
+                "type": "State -> MediaType"
+            },
+            {
+                "name": "networkState",
+                "comment": " Getter to get the NetworkState of an element from a State.\n",
+                "type": "State -> NetworkState"
+            },
+            {
+                "name": "playbackStatus",
+                "comment": " Getter to get the PlaybackStatus of an element from a State.\n",
+                "type": "State -> PlaybackStatus"
+            },
+            {
+                "name": "played",
+                "comment": " Getter to get the played TimeRanges of an element from a State.\n\nPlayed ranges are the parts of the video that the user has watched already.\n\n",
+                "type": "State -> TimeRanges"
+            },
+            {
+                "name": "readyState",
+                "comment": " Getter to get the readyState of an element from a State.\n",
+                "type": "State -> ReadyState"
+            },
+            {
+                "name": "seekable",
+                "comment": " Getter to get the seekable TimeRanges of an element from a State.\n\nSeekable represents the part of media that the user can currently navigate to.\n\nUseful for figuring out the length of a livestream.\n\n",
+                "type": "State -> TimeRanges"
+            },
+            {
+                "name": "source",
+                "comment": " Getter to get the src of an element from a State.\n",
+                "type": "State -> String"
+            },
+            {
+                "name": "textTracks",
+                "comment": " Getter to get the textTracks of an element from a State.\n",
+                "type": "State -> List TextTrack"
+            },
+            {
+                "name": "videoSize",
+                "comment": " Getter to get the video of an element from the State of a video element.\n\nNOTE: If used on an HTMLAudioElement it will return a `Nothing`.\n\nOn an HTMLVideoElement it returns `Just {width: Int, height: Int}`.\n\n",
+                "type": "State -> Maybe { width : Int, height : Int }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Media.Source",
+        "comment": " API for creating better source elements. Includes support for easily generating mime type and\ncodec attributes, and also for generating Media Fragment URIs.\n\n@docs source\n\n\n# Mime Types & Codecs\n\n@docs fileType, FileType, audioCodec, videoCodec\n\n\n# Media Fragment API\n\n** Note: If you check the code, there's commented out support for spatial fragments. However, so far as I can\ntell, no browser has ever implemented this part of the spec for video. **\n\n@docs timeFragment, idFragment, trackFragment\n\n",
+        "unions": [
+            {
+                "name": "FileType",
+                "comment": " Represents different audio and video formats. Some also include codec information.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "MP3",
+                        []
+                    ],
+                    [
+                        "AAC",
+                        []
+                    ],
+                    [
+                        "MP4",
+                        []
+                    ],
+                    [
+                        "HLS",
+                        []
+                    ],
+                    [
+                        "Ogg",
+                        []
+                    ],
+                    [
+                        "OggAudio",
+                        []
+                    ],
+                    [
+                        "OggVideo",
+                        []
+                    ],
+                    [
+                        "OggOpus",
+                        []
+                    ],
+                    [
+                        "WebMAudio",
+                        []
+                    ],
+                    [
+                        "WebMVideo",
+                        []
+                    ],
+                    [
+                        "Wave",
+                        []
+                    ],
+                    [
+                        "FLAC",
+                        []
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "audioCodec",
+                "comment": " For adding a custom audio codec:\n\n`source \"media.webm\" [ fileType WebMAudio, audioCodec \"opus\"]` becomes `<source type=\"audio/WebM; codecs=\"opus\"\">`\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "fileType",
+                "comment": " Used to set a type (and possibly a codec) with pre-built settings, using the union type FileType.\n\n`source [fileType OggOpus]` becomes `<source type=\"audio/ogg; codecs=\"opus\"\">`\n\n",
+                "type": "FileType -> Source msg"
+            },
+            {
+                "name": "idFragment",
+                "comment": " Allows you to specify a source where you jump to a specific time based on an id string\nembedded in the source.\n\n`source \"media.mp4\" [fileType MP4, idFragment \"#Chapter1\"]` will start playing at #Chapter1.\n\n** Note: Honestly, I produce mp4's all day, every day for a living, and I've never seen this used on the web.\nI've only seen it implemented differently.\n\nIn theory, MP4 is a subset of the MOV container format, and I believe WebM is a subset of MKV, both of which\nsupport chapters, but I've never seen either with ids.\n\nI'm going to do some work with FFMPEG, Apple Compressor, Adobe Media Encoder and MP4Box to find out, but until then,\nthis is built the HTML5 spec, but untested. **\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "source",
+                "comment": " A better source function. This function lets you generate a media source. It requires a Url and\na list of Source msgs, which represent either Mime types (such as WebM or MP4), codecs (such as vp9 or hevc),\nor media fragments(such as #t=(0,10).\n\nI really want to encourage the use of Mime types and codecs, as they let us to offer multiple sources with different\nlevels of encoding efficiency, while allowing a fallback for compatibility.\n\nFor instance, you might want to offer an h265 MP4 (most efficient) for Edge and recent safari users, a VP9\nWebM (more efficient than h264) for Firefox and Chrome users, a high-variant h264 MP4 (very compatible) for\nolder browsers, and a baseline-variant h264 MP4 (extremely compatible) for older mobile browsers. We can achieve\nthat, like so:\n\n```video\n        [   source \"media-h265.mp4\" [fileType MP4, videoCodec \"hevc\"]\n        ,   source \"media-vp9.webm\" [fileType WebMVideo, videoCodec \"vp9\"]\n        ,   source \"media-high.mp4\" [fileType MP4, videoCodec \"avc1.64001E\"]\n        ,   source \"media-baseline.mp4\" [fileType MP4, videoCodec \"avc1.42E01E\"]\n        ]\n```\n\n",
+                "type": "String -> List (Source msg) -> Html msg"
+            },
+            {
+                "name": "timeFragment",
+                "comment": " Allows you to specify a start and end time for a media file:\n\n`source \"media.mp4\" [fileType MP4, timeFragment (2,15)]` will specify the video media.mp4\nfrom 2 seconds in until 15 seconds in.\n\n** Note: This is the most cross-browser compatible part of the Media Fragments I've seen. I haven't tested\nWindows at all yet, but this seems to work on the latest versions of Safari, Chrome, and Firefox.\n\nAlso note, this doesn't appear to work on any of the browsers with the `loop` attribute. It will merely\nplay as normal, with the time-fragment, but without looping **\n\n",
+                "type": "( Float, Float ) -> Source msg"
+            },
+            {
+                "name": "trackFragment",
+                "comment": " Allows you to specify a specific track in a multi-track file.\n\n`source \"media.mp4\" [fileType MP4, trackFragment \"spanish-audio\"]` becomes\n`<source src=\"media.mp4\" type=\"video/mp4#track=spanish-audio>\"`\n\n** Note: Multi-track files are a rarity on the internet. Players like YouTube tend to implement\nthis functionality in a different way. That said, I definitely can create multi-track files and test\nthis cross-browser, and will do so ASAP. **\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "videoCodec",
+                "comment": " {-| For adding a custom audio codec:\n\n`source \"media.webm\" [ fileType WebMVideo, videoCodec \"vp9\"]` becomes `<source type=\"video/WebM; codecs=\"vp9\"\">`\n\n-}\n\n",
+                "type": "String -> Source msg"
+            }
+        ],
+        "binops": []
+    }
+]

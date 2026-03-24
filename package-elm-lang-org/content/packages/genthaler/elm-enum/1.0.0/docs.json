@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Enum",
+        "comment": " Enum is an implementation of OO style Enums in Elm.\n\nThe implementation was guided initially by [this Discourse discussion](https://discourse.elm-lang.org/t/how-to-do-enums-in-elm/1353),\nthen by usage in my personal projects.\n\n\n## Basic Enum helpers\n\n@docs Enum, makeEnum, toString, findEnumValue\n\n\n## JSON-related helpers\n\n@docs decodeEnumValue\n\n\n## HTML-related helpers\n\n@docs onEnumInput, enumSelect\n\n",
+        "unions": [
+            {
+                "name": "Enum",
+                "comment": " Union type representing an `Enum`. Note that this an [opaque type](https://medium.com/@ckoster22/advanced-types-in-elm-opaque-types-ec5ec3b84ed2);\nuse [`makeEnum`](#makeEnum) to construct `Enum`s.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decodeEnumValue",
+                "comment": " Converts the output of [`findEnumValue`](#findEnumValue) to a Json.Decode.Decoder\n",
+                "type": "Enum a -> String -> Decoder a"
+            },
+            {
+                "name": "enumSelect",
+                "comment": " Takes an `Enum`, a Msg that tags the `Enum`'s underlying union type, and a currently selected value,\nand constructs a `<select>` element.\n\n```\nview model =\n    div [] [ Enum.enumSelect Model.dataTypeEnum SetDataType model.dataType, text model.message ]\n```\n\nTake a look at the example project for a simple use-case.\n\n",
+                "type": "Enum a -> (a -> msg) -> a -> Html msg"
+            },
+            {
+                "name": "findEnumValue",
+                "comment": " If possible, return the union type tag from the String representation.\n\n```\ntype DataType\n    = Text\n\nenum = makeEnum [Text] Basics.toString\n\n(Enum.findEnumValue enum \"Text\") == Ok Text\n(Enum.findEnumValue enum \"Foo\") == Err \"Foo\"\n```\n\n",
+                "type": "Enum a -> String -> Result String a"
+            },
+            {
+                "name": "makeEnum",
+                "comment": " `Enum` constructor.\n\n```\ntype DataType\n    = Text\n    | Date\n    | Email\n    | Address\n    | Postcode\n    | State\n    | Gender\n\n\ndataTypeEnum : Enum DataType\ndataTypeEnum =\n    Enum.makeEnum\n        [ Text\n        , Date\n        , Email\n        , Address\n        , Postcode\n        , State\n        , Gender\n        ]\n        Basics.toString\n```\n\n",
+                "type": "List a -> (a -> String) -> Enum a"
+            },
+            {
+                "name": "onEnumInput",
+                "comment": " Creates an input handler for the `Enum`.\n",
+                "type": "Enum a -> (a -> msg) -> Attribute msg"
+            },
+            {
+                "name": "toString",
+                "comment": " Return the string representation of the `Enum`.\n\n```\ntype DataType\n    = Text\n\nenum = makeEnum [Text] Basics.toString\n\n(Enum.toString enum Text) == \"Text\"\n```\n\n",
+                "type": "Enum a -> a -> String"
+            }
+        ],
+        "binops": []
+    }
+]

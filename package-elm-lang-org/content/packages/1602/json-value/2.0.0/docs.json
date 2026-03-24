@@ -1,0 +1,93 @@
+[
+    {
+        "name": "Json.Value",
+        "comment": "\n# Definitions\n\n@docs JsonValue\n\n# Reading\n\n@docs getIn\n\n# Manipulation\n\n@docs setIn, setPropertyName, deleteIn\n\n# Transforms\n\n@docs decoder, encode\n\n# Helpers\n\n@docs decodeString, decodeValue\n\n",
+        "unions": [
+            {
+                "name": "JsonValue",
+                "comment": "\nType representing json value according to spec\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ObjectValue",
+                        [
+                            "List ( String, JsonValue )"
+                        ]
+                    ],
+                    [
+                        "ArrayValue",
+                        [
+                            "List JsonValue"
+                        ]
+                    ],
+                    [
+                        "BoolValue",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "NullValue",
+                        []
+                    ],
+                    [
+                        "NumericValue",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "StringValue",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decodeString",
+                "comment": "\nA helper function to decode string. JsonValue decoder always succeeds, this helper aims\nto reduce unnecessary noise in code.\n",
+                "type": "String -> JsonValue"
+            },
+            {
+                "name": "decodeValue",
+                "comment": "\nA helper function to decode value. JsonValue decoder always succeeds, this helper aims\nto reduce unnecessary noise in code.\n",
+                "type": "Value -> JsonValue"
+            },
+            {
+                "name": "decoder",
+                "comment": "\nDecoder for JsonValue\n\n    [ ( \"str\", Json.Encode.string \"value\" )\n    , ( \"array\", Json.Encode.list\n        [ Json.Encode.int 10\n        , Json.Encode.float 0.1\n        , Json.Encode.bool False\n        , Json.Encode.null\n        ] )\n    ]\n        |> object\n        |> Json.Decode.decodeValue decoder\n        |> Expect.equal\n            (Ok <|\n                ObjectValue\n                    [ ( \"str\", StringValue \"value\" )\n                    , ( \"array\", ArrayValue\n                        [ NumericValue 10\n                        , NumericValue 0.1\n                        , BoolValue False\n                        , NullValue\n                        ] )\n                    ]\n            )\n",
+                "type": "Decoder JsonValue"
+            },
+            {
+                "name": "deleteIn",
+                "comment": "\n    Delete path in json object\n",
+                "type": "List String -> JsonValue -> Result String JsonValue"
+            },
+            {
+                "name": "encode",
+                "comment": "\nEncoder for JsonValue\n\n    [ ( \"str\", StringValue \"value\" )\n    , ( \"array\", ArrayValue\n        [ NumericValue 10\n        , NumericValue 0.1\n        , BoolValue False\n        , NullValue\n        ] )\n    ]\n        |> ObjectValue\n        |> encode\n        |> Expect.equal\n            ([ ( \"str\", Json.Encode.string \"value\" )\n             , ( \"array\", Json.Encode.list\n                [ Json.Encode.int 10\n                , Json.Encode.float 0.1\n                , Json.Encode.bool False\n                , Json.Encode.null\n                ] )\n             ]\n                |> object\n            )\n",
+                "type": "JsonValue -> Value"
+            },
+            {
+                "name": "getIn",
+                "comment": "\nGet json value at given path\n\n    ObjectValue [ ( \"foo\", StringValue \"bar\" ) ]\n        |> getIn [ \"foo\" ]\n        |> Expect.equal (Ok <| StringValue \"bar\")\n",
+                "type": "List String -> JsonValue -> Result String JsonValue"
+            },
+            {
+                "name": "setIn",
+                "comment": "\nSet json value at given path\n\n    ObjectValue [ ( \"foo\", NullValue ) ]\n        |> setIn [ \"foo\" ] (StringValue \"bar\")\n        |> Expect.equal\n            (Ok (ObjectValue [ ( \"foo\", StringValue \"bar\" ) ]))\n",
+                "type": "List String -> JsonValue -> JsonValue -> Result String JsonValue"
+            },
+            {
+                "name": "setPropertyName",
+                "comment": "\nRename property in json value\n\n    StringValue \"bar\"\n        |> inObjWithProp \"foo\"\n        |> setPropertyName ( [], 0 ) \"bam\"\n        |> Expect.equal (Ok <| ObjectValue <| [ ( \"bam\", StringValue \"bar\" ) ])\n",
+                "type": "( List String, Int ) -> String -> JsonValue -> Result String JsonValue"
+            }
+        ],
+        "binops": []
+    }
+]

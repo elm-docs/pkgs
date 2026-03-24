@@ -1,0 +1,69 @@
+[
+    {
+        "name": "Machine",
+        "comment": " This library exposes functions for\nrunning the `accept` function of a finite\nor infinite state macihine and also for\nforming the convolution of two machines.\n\n\n# API\n\n@docs Machine, accept, convolve\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Machine",
+                "comment": " Type defnition for a (finite-state) machine.\n",
+                "args": [
+                    "symbol",
+                    "state"
+                ],
+                "type": "{ initial : state, accept : state -> Bool, nextState : Reducer symbol state }"
+            }
+        ],
+        "values": [
+            {
+                "name": "accept",
+                "comment": " Type defnition for the `accept` function of a (finite-state) machine.\n",
+                "type": "Machine symbol state -> List symbol -> ( Bool, state )"
+            },
+            {
+                "name": "convolve",
+                "comment": " Given two machines, form their convolution.\n",
+                "type": "Machine a b -> Machine b c -> Machine a ( b, c )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Reducer",
+        "comment": " This library exposes functions for\nworking with Reducers which is a type alias\nfor the type a -> b -> b. The transition\nfunctions of finite-state machines are\nreducers.\n\n\n# API\n\n@docs Reducer, Runner, run, convolve\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Reducer",
+                "comment": " type alias Reduce input state\nis used to define reducers\n\n    input -> state -> state\n\nThe transition functions of a finite-state\nmachines is a reducer.\n\n",
+                "args": [
+                    "input",
+                    "state"
+                ],
+                "type": "input -> state -> state"
+            },
+            {
+                "name": "Runner",
+                "comment": " type alias Runner input state\nis used to define functions which\n\"run\" a reducer on a sequence of\ninputs. See\n\n    input -> state -> state\n\nSee the function `run` below\nand the comments in `module Example`\nfor more on this.\n\n",
+                "args": [
+                    "input",
+                    "state"
+                ],
+                "type": "Reducer input state -> state -> List input -> state"
+            }
+        ],
+        "values": [
+            {
+                "name": "convolve",
+                "comment": " Let m and f be reducers.\nThen m * f = convolve m f is\nalso a reducer, a kind of composition\nof reducers. See the comments in `module Example`\nfor more on this, or see\n<a href=\"http://www.knode.io/#@public/661\">On Convolution of Machines</a>\n",
+                "type": "Reducer input state -> Reducer state state2 -> Reducer input ( state, state2 )"
+            },
+            {
+                "name": "run",
+                "comment": " Consider the function call\n\n    run nextState start inputList\n\nwhere nextState is a reducer,\nstart is a state, and inputList\nis a list of inputs. This function\ncall returns the final state achieved\nby repeatedly applying the reducer\nnextState to incoming inputs.\nSee the comments in `module Example`\nfor more on this.\n\n",
+                "type": "Runner input state"
+            }
+        ],
+        "binops": []
+    }
+]

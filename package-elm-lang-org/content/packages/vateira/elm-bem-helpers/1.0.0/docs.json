@@ -1,0 +1,60 @@
+[
+    {
+        "name": "BEMHelpers.Class",
+        "comment": " Some functions for generationg BEM class attributes.\n@docs b__\n@docs be_\n@docs b_m\n@docs bem\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "b__",
+                "comment": " Returns a class attribute from a block\n",
+                "type": "a -> Attribute msg"
+            },
+            {
+                "name": "b_m",
+                "comment": " Returns a class attribute from block and modifier.\n",
+                "type": "a -> b -> Attribute msg"
+            },
+            {
+                "name": "be_",
+                "comment": " Returns a class attribute from block and element.\n",
+                "type": "a -> b -> Attribute msg"
+            },
+            {
+                "name": "bem",
+                "comment": " Returns a class attribute from block, element, and modifier.\n",
+                "type": "a -> b -> c -> Attribute msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "BEMHelpers",
+        "comment": " Some helper functions generate BEM class as a string\n@docs b__\n@docs be_\n@docs b_m\n@docs bem\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "b__",
+                "comment": " generates a class name from a block.\n",
+                "type": "a -> String"
+            },
+            {
+                "name": "b_m",
+                "comment": " generates a class name from block and modifier.\n",
+                "type": "a -> b -> String"
+            },
+            {
+                "name": "be_",
+                "comment": " generates a class name from block and element.\n",
+                "type": "a -> b -> String"
+            },
+            {
+                "name": "bem",
+                "comment": " generates a class name from block, element, and modifier.\n",
+                "type": "a -> b -> c -> String"
+            }
+        ],
+        "binops": []
+    }
+]

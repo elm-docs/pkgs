@@ -1,0 +1,46 @@
+[
+    {
+        "name": "OutMessage.Nested",
+        "comment": "\n\nThe nested OutMsg pattern has three components:\n\n* ChildOutMsg, a user-defined type (just like Model or Msg) with the specific\n  purpose of receiving notifications from a child component.\n* ParentOutMsg, a user-defined type with the specific purpose of notifying a\n  parent component.\n* `interpretOutMsg`, a function that converts ChildOutMsg values into side-effects\n  (commands and changes to the model) and a ParentOutMsg.\n\nChildOutMsg values can be captured in the parent's update function, and handled\nthere by `interpretOutMsg`. The basic pattern can be extended to handle multiple\nChildOutMsg using List or to optionally handle no ChildOutMsg using Maybe.\n\n#Evaluators\n@docs evaluate, evaluateMaybe, evaluateList, evaluateResult\n\n#Mapping\n@docs mapComponent, mapCmd, mapOutMsg\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "evaluate",
+                "comment": " Turn a child `OutMsg` value into commands, model changes and parent `OutMsg` value.\n",
+                "type": "(childOutMsg -> model -> ( model, Cmd msg, parentOutMsg )) -> ( model, Cmd msg, childOutMsg ) -> ( model, Cmd msg, parentOutMsg )"
+            },
+            {
+                "name": "evaluateList",
+                "comment": " Turn a `List ChildOutMsg` into effects, model changes and `List ParentOutMsg`.\n\nTakes care of threading the state. When interpreting an OutMsg changes the model,\nthe updated model will be used for subsequent interpretations of OutMsgs. Cmds are\naccumulated and batched.\n",
+                "type": "(childOutMsg -> model -> ( model, Cmd msg, parentOutMsg )) -> ( model, Cmd msg, List childOutMsg ) -> ( model, Cmd msg, List parentOutMsg )"
+            },
+            {
+                "name": "evaluateMaybe",
+                "comment": " Turn a child `Maybe OutMsg` into effects, model changes and parent `Maybe OutMsg` value.\n\nHas a third argument for a default command that is used when child OutMsg is Nothing.\nThis method assumes that if the child message is `Nothing` then so is the parent\nmessage and that if the child message is not `Nothing`, then the parent isn't either.\nIf this is not the case, use the `evaluate` method with an `interpret` method that\nhandle `Maybe` cases.\n",
+                "type": "(childOutMsg -> model -> ( model, Cmd msg, parentOutMsg )) -> Cmd msg -> ( model, Cmd msg, Maybe childOutMsg ) -> ( model, Cmd msg, Maybe parentOutMsg )"
+            },
+            {
+                "name": "evaluateResult",
+                "comment": " Turn a child `Result e OutMsg` into effects, model changes and parent `Result e OutMsg` value.\n\nHas a third argument for a function that turns errors into a command that is\nused when child OutMsg is Err error.\n",
+                "type": "(childOutMsg -> model -> ( model, Cmd msg, parentOutMsg )) -> (error -> Cmd msg) -> ( model, Cmd msg, Result error childOutMsg ) -> ( model, Cmd msg, Result error parentOutMsg )"
+            },
+            {
+                "name": "mapCmd",
+                "comment": " Apply a function over the Msg from the child.\n",
+                "type": "(childMsg -> parentMsg) -> ( a, Cmd childMsg, c ) -> ( a, Cmd parentMsg, c )"
+            },
+            {
+                "name": "mapComponent",
+                "comment": " Apply a function over the updated child component.\n",
+                "type": "(childComponent -> a) -> ( childComponent, b, c ) -> ( a, b, c )"
+            },
+            {
+                "name": "mapOutMsg",
+                "comment": " Apply a function over the child's OutMsg.\n",
+                "type": "(outMsg -> c) -> ( a, b, outMsg ) -> ( a, b, c )"
+            }
+        ],
+        "binops": []
+    }
+]

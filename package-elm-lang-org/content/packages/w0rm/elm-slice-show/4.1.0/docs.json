@@ -1,0 +1,131 @@
+[
+    {
+        "name": "SliceShow",
+        "comment": " This module helps you start your SliceShow application.\n\n\n# Start your Application\n\n@docs Config, init, show, setView, setUpdate, setSubscriptions, Model, Message\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Slideshow Config type\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Protected (PrivateConfig a b)"
+            },
+            {
+                "name": "Message",
+                "comment": " Message type\n",
+                "args": [
+                    "b"
+                ],
+                "type": "Message b"
+            },
+            {
+                "name": "Model",
+                "comment": " Model type\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Model a b"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Init Model from the list of slides\n",
+                "type": "List (Slide a b) -> Config a b"
+            },
+            {
+                "name": "setSubscriptions",
+                "comment": " Set inputs for the custom content\n",
+                "type": "(a -> Sub b) -> Config a b -> Config a b"
+            },
+            {
+                "name": "setUpdate",
+                "comment": " Set update for the custom content\n",
+                "type": "(b -> a -> ( a, Cmd b )) -> Config a b -> Config a b"
+            },
+            {
+                "name": "setView",
+                "comment": " Set view for the custom content\n",
+                "type": "(a -> Html b) -> Config a b -> Config a b"
+            },
+            {
+                "name": "show",
+                "comment": " Start the SliceShow with your `slides`:\napp = show (init slides)\nmain = app.html\nport tasks : Signal (Task.Task Never ())\nport tasks = app.tasks\n",
+                "type": "Config a b -> Program Never (Model a b) (Message b)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Slide",
+        "comment": " This module helps you define a slide\n@docs Slide, slide, setDimensions\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Slide",
+                "comment": " Slide type\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Protected (SlideData a b)"
+            }
+        ],
+        "values": [
+            {
+                "name": "setDimensions",
+                "comment": " Set custom dimensions\n",
+                "type": "( Int, Int ) -> Slide a b -> Slide a b"
+            },
+            {
+                "name": "slide",
+                "comment": " Create new 1024x640 slide from a list of content items\n",
+                "type": "List (Content a b) -> Slide a b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SliceShow.Content",
+        "comment": " This module helps you define Slide content\n@docs Content, item, container, custom, hide\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Content",
+                "comment": " Content type\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "ContentData a b"
+            }
+        ],
+        "values": [
+            {
+                "name": "container",
+                "comment": " A group of content items\n",
+                "type": "(List (Html b) -> Html b) -> List (Content a b) -> Content a b"
+            },
+            {
+                "name": "custom",
+                "comment": " Custom content item\n",
+                "type": "a -> Content a b"
+            },
+            {
+                "name": "hide",
+                "comment": " Hide content\n",
+                "type": "Content a b -> Content a b"
+            },
+            {
+                "name": "item",
+                "comment": " Single content item\n",
+                "type": "Html b -> Content a b"
+            }
+        ],
+        "binops": []
+    }
+]

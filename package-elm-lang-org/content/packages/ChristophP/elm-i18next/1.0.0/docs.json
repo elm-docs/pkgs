@@ -1,0 +1,38 @@
+[
+    {
+        "name": "I18Next",
+        "comment": " This library provides a solution to load and display translations in your\napp. It allows you to load json translation files, display the text and\ninterpolate placeholders.\n# Types and Data\n@docs Translations, initialTranslations\n# Using Translations\n@docs t\n# Fetching and Deconding\n@docs fetchTranslations, decodeTranslations\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Translations",
+                "comment": " A type that represents your loaded translations\n",
+                "args": [],
+                "type": "Translations"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeTranslations",
+                "comment": " Decode a JSON translations file.\n",
+                "type": "Decoder Translations"
+            },
+            {
+                "name": "fetchTranslations",
+                "comment": " A command to load translation files.\n",
+                "type": "(Result Error Translations -> msg) -> String -> Cmd msg"
+            },
+            {
+                "name": "initialTranslations",
+                "comment": " Use this to initialize Translations in your model.\n",
+                "type": "Translations"
+            },
+            {
+                "name": "t",
+                "comment": " Translate a value at a given string.\n\n    -- Use the key.\n    t \"labels.greetings.hello\" translations\n",
+                "type": "String -> Translations -> String"
+            }
+        ],
+        "binops": []
+    }
+]

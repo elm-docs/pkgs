@@ -1,0 +1,61 @@
+[
+    {
+        "name": "InternetTime",
+        "comment": " A library that lets you use Internet Time units and convert `Time` into Internet Time, both as\n  Internet Time units (eg. beats, centibeats) or as properly formatted strings for display.\n\n# Units of time\n@docs beat, centibeat\n\n# Conversions for lengths of time\n@docs inBeats, inCentibeats\n\n# Conversions and display for daily time\n@docs convertBeats, convertCentibeats, displayBeats, displayCentibeats\n\n# Custom conversions and display for daily time\n@docs convert, display\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "beat",
+                "comment": " One Internet Time beat as a Time value (86.4 seconds). This is the largest possible measurement of time in Internet Time.\n\n    beat == 86400\n\n```\n\nsubscriptions : Model -> Sub Msg\nsubscriptions model =\n  Time.every beat Tick\n\n```\n\n",
+                "type": "Time"
+            },
+            {
+                "name": "centibeat",
+                "comment": " One Internet Time centibeat as a Time value (864 milliseconds).\n\n    centibeat == 864\n\n",
+                "type": "Time"
+            },
+            {
+                "name": "convert",
+                "comment": " Convert a `Time` to the Internet Time for that particular day in the form of an `Int`.\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\nThe first argument is for how much detail (extra digits) you want - beats are the largest form of measurement possible.\n\n\n```\n    convert 0 1525244393059 -- 333 (beats)\n    convert 2 1525244393059 -- 33325 (centibeats)\n\n    convert 0 1525221281000 -- 65 (beats)\n    convert 2 1525221281000 -- 6575 (centibeats)\n```\n\nThis returns an `Int` no matter how much detail because it's more accurate to use `Int` than `Float` for this type of context.\n(Floating point accuracy can waver and create artefacts when displaying or computing.)\n",
+                "type": "Int -> Time -> Int"
+            },
+            {
+                "name": "convertBeats",
+                "comment": " Convert a `Time` to Internet Time beats for that particular day as an `Int`.\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\n    convertBeats 1525244393059 -- 333\n    convertBeats 1525221281000 -- 65\n",
+                "type": "Time -> Int"
+            },
+            {
+                "name": "convertCentibeats",
+                "comment": " Convert a `Time` to Internet Time centibeats for that particular day as an `Int`.\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\n    convertCentibeats 1525244393059 -- 33325\n    convertCentibeats 1525221281000 -- 6575\n",
+                "type": "Time -> Int"
+            },
+            {
+                "name": "display",
+                "comment": " Convert a `Time` to a Internet Time for that particular day in the form of a display-ready `String`.\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\nThe first argument is for how much detail (extra digits) you want - beats are the largest form of measurement possible.\n\n```\n    display 0 1525244393059 -- \"333\"\n    display 2 1525244393059 -- \"333.25\"\n\n    display 0 1525294572000 -- \"914\"\n    display 2 1525294572000 -- \"914.37\"\n```\n\nThis time is padded with zeroes so you get the proper 3-number display for beats.\n\n```\n    display 0 1525221281000 -- \"065\"\n    display 2 1525221281000 -- \"065.75\"\n```\n",
+                "type": "Int -> Time -> String"
+            },
+            {
+                "name": "displayBeats",
+                "comment": " Convert a `Time` to Internet Time beats for that particular day. The output is a `String` that's prepared for display (with padded 0s).\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\n    displayBeats 1525244393059 -- \"333\"\n    displayBeats 1525221281000 -- \"065\"\n",
+                "type": "Time -> String"
+            },
+            {
+                "name": "displayCentibeats",
+                "comment": " Convert a `Time` to Internet Time centibeats for that particular day. The output is a `String` that's prepared for display (with padded 0s).\n\nThis calculation also converts the time to Internet Time's timezone (UTC+01:00).\n\n    displayCentibeats 1525244393059 -- \"333.25\"\n    displayCentibeats 1525221281000 -- \"065.75\"\n",
+                "type": "Time -> String"
+            },
+            {
+                "name": "inBeats",
+                "comment": " Convert a `Time` to Internet Time beats (1/1,000th of a day).\n\nIt treats the time as a length rather than a fixed point in time (and thus, it does not attempt to change timezone).\n\n    inBeats 1525244393059 -- 17653291.586331 (beats)\n",
+                "type": "Time -> Float"
+            },
+            {
+                "name": "inCentibeats",
+                "comment": " Convert a `Time` to Internet Time centibeats (1/100,000th of a day).\n\nIt treats the time as a length rather than a fixed point in time (and thus, it does not attempt to change timezone).\n\n    inCentiBeats 1525244393059 -- 1765329158.6331 (centibeats)\n",
+                "type": "Time -> Float"
+            }
+        ],
+        "binops": []
+    }
+]

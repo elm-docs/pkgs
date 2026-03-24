@@ -1,0 +1,1114 @@
+[
+    {
+        "name": "Framework",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\nThis simple package generates a page with Style Guides.\nIt uses certain data structure that each section of the framework expose ([Example](https://lucamug.github.io/elm-styleguide-generator/), [Example source](https://github.com/lucamug/elm-styleguide-generator/blob/master/examples/Main.elm)).\n\nThe idea is to have a Living version of the Style Guide that always stays\nupdated with no maintenance.\n\nFor more info about the idea, see [this post](https://medium.com/@l.mugnaini/zero-maintenance-always-up-to-date-living-style-guide-in-elm-dbf236d07522).\n\nThere are three way to configure/customize this package.\n\n\n## Overwrite variables\n\n  - To change the variables (mainly colors), as defined inside `Configuration.elm` use the file `FrameworkConfiguration.elm`. You can create such file in the root folder of your project or better you should copy the entire framework inside your repository. The file should contain\n\n```\nimport Dict\n\nconfiguration : Dict.Dict String String\nconfiguration =\n    Dict.fromList [ ( \"primary\", \"#909\" ) ]\n```\n\nALso add `module FrameworkConfiguration exposing (configuration)` at the very top.\nIn this example we are replacing the primary color with#909.\n\n\n## Chnage the automatically-generated-styleguide\n\n  - To change the automatically-generated-styleguide logo, title and description you need to pass a new configuration file. SOmething like:\n\n```\nview : Framework.Model -> Html.Html Framework.Msg\nview model =\n    Framework.view\n        { model\n            | conf = initConf\n        }\n\ninitConf : Framework.Conf msg\ninitConf =\n    let\n        confData =\n            Framework.initConf\n    in\n    { confData\n        | title = text \"New Title\"\n        , subTitle = \"New Subtitle\"\n    }\n```\n\n\n## Add completely new features\n\n  - To add new feature and have them showing up in the style guide just\n    remember to output the `introspection` and add them into the configurations\n\n```\nview : Framework.Model -> Html.Html Framework.Msg\nview model =\n    Framework.view\n        { model\n            | introspections = introspections\n        }\n\nintrospections : List ( Framework.Introspection, Bool )\nintrospections =\n    [ ( Color.introspection, True )\n    , ( Logo.introspection, True )\n    , ( Icon.introspection, True )\n    ]\n        ++ Framework.introspections\n```\n\nYou can combine the latest two points with\n\n    view : Framework.Model -> Html.Html Framework.Msg\n    view model =\n        Framework.view\n            { model\n                | conf = initConf\n                | introspections = introspections\n            }\n\nIf you believe that your new feature is something that everybody should have\nplease add it to the package and contribute to the opensource!\n\nFor any issue or to get in touch with the authors, refer to the github page.\n\n\n# Functions\n\n@docs Conf, Flag, Introspection, Model, Msg, init, initCmd, initConf, initModel, introspections, main, subscriptions, update, view, viewPage\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "MsgToggleSection",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "MsgOpenAllSections",
+                        []
+                    ],
+                    [
+                        "MsgCloseAllSections",
+                        []
+                    ],
+                    [
+                        "MsgChangeWindowSize",
+                        [
+                            "Size"
+                        ]
+                    ],
+                    [
+                        "MsgStyleElementsInput",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "MsgFormField",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "MsgFormFieldWithPattern",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "MsgCards",
+                        [
+                            "Msg"
+                        ]
+                    ],
+                    [
+                        "MsgChangeLocation",
+                        [
+                            "Location"
+                        ]
+                    ],
+                    [
+                        "MsgChangePassword",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Conf",
+                "comment": " Configuration\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ gray3 : Color, gray9 : Color, grayB : Color, grayD : Color, grayF : Color, title : Element msg, subTitle : String, version : String, introduction : Element msg, mainPadding : Int, password : String, forkMe : Attribute msg, hostnamesWithoutPassword : String -> Bool }"
+            },
+            {
+                "name": "Flag",
+                "comment": " ",
+                "args": [],
+                "type": "{ width : Int, height : Int }"
+            },
+            {
+                "name": "Introspection",
+                "comment": " This is the type that is required for Introspection\n\nExample, inside Framework.Button:\n\n    introspection : Styleguide.Introspection msg\n    introspection =\n        { name = \"Button\"\n        , signature = \"button : List Modifier -> Maybe msg -> String -> Element msg\"\n        , description = \"Buttons accept a list of modifiers, a Maybe msg (for example: \\\"Just DoSomething\\\") and the text to display inside the button.\"\n        , variations =\n            [ ( \"Sizes\"\n              , [ ( button [ Small ] Nothing \"Button\", \"button [ Small ] Nothing \\\"Button\\\"\" )\n                , ( button [ Medium ] Nothing \"Button\", \"button [ Medium ] Nothing \\\"Button\\\"\" )\n                , ( button [ Large ] Nothing \"Button\", \"button [ Large ] Nothing \\\"Button\\\"\" )\n                ]\n              )\n            ]\n        }\n\n",
+                "args": [],
+                "type": "{ name : String, signature : String, description : String, variations : List Variation }"
+            },
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ maybeWindowSize : Maybe Size, modelStyleElementsInput : Model, modelFormField : Model, modelFormFieldWithPattern : Model, modelCards : Model, introspections : List ( Introspection, Bool ), location : Location, maybeWindowSize : Maybe Size, password : String, conf : Conf Msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "Flag -> Location -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "initCmd",
+                "comment": " ",
+                "type": "Cmd msg"
+            },
+            {
+                "name": "initConf",
+                "comment": " ",
+                "type": "Conf msg"
+            },
+            {
+                "name": "initModel",
+                "comment": " ",
+                "type": "Flag -> Location -> Model"
+            },
+            {
+                "name": "introspections",
+                "comment": " ",
+                "type": "List ( Introspection, Bool )"
+            },
+            {
+                "name": "main",
+                "comment": " ",
+                "type": "Program Flag Model Msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " This create the entire page of Html type.\n\nExample, in your Style Guide page:\n\n    main : Html.Html msg\n    main =\n        Styleguide.viewHtmlPage\n            [ Framework.Button.introspection\n            , Framework.Color.introspection\n            ]\n\n",
+                "type": "Model -> Html Msg"
+            },
+            {
+                "name": "viewPage",
+                "comment": " This create the entire page of Element type. If you are working\nwith style-elements this is the way to go, so you can customize your page.\n\nExample, in your Style Guide page:\n\n    main : Html.Html msg\n    main =\n        layout layoutFontsAndAttributes <|\n            column []\n                [ ...\n                , Styleguide.page\n                    [ Framework.Button.introspection\n                    , Framework.Color.introspection\n                    ]\n                ...\n                ]\n\n",
+                "type": "Maybe Size -> Model -> Element Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.FormField",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs Field, Model, Msg, example1, initModel, inputText, introspection, update\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "FieldEmail",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ valueEmail : String, focus : Maybe Field }"
+            }
+        ],
+        "values": [
+            {
+                "name": "example1",
+                "comment": " ",
+                "type": "Model -> ( Element Msg, String )"
+            },
+            {
+                "name": "initModel",
+                "comment": " ",
+                "type": "Model"
+            },
+            {
+                "name": "inputText",
+                "comment": " ",
+                "type": "Model -> { a | field : Field, label : String } -> Element Msg"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Icon",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs arrows , chevronDown , exitFullscreen , fullscreen , hide , home , introspection , mobileNotification , mobileNotification2 , mobileRinging , pencil , show\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "arrows",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "chevronDown",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "exitFullscreen",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "fullscreen",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "hide",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "home",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "mobileNotification",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "mobileNotification2",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "mobileRinging",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "pencil",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            },
+            {
+                "name": "show",
+                "comment": " ",
+                "type": "Color -> Int -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Button",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs button, buttonAttr, buttonLink, buttonLinkWidth, buttonWidth, introspection\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " Generate an Input.button element\n\n    button [ Medium, Success, Outlined ] Nothing \"Button\"\n\n",
+                "type": "List Modifier -> Maybe msg -> String -> Element msg"
+            },
+            {
+                "name": "buttonAttr",
+                "comment": " Generate a list of attributes that can be attached to any element\n\n    row (buttonAttr [ Info ] ++ [ spacing 10 ]) [ text \"Col 1\", text \"Col 2\" ]\n\n",
+                "type": "List Modifier -> List (Attribute msg)"
+            },
+            {
+                "name": "buttonLink",
+                "comment": " ",
+                "type": "List Modifier -> String -> String -> Element msg"
+            },
+            {
+                "name": "buttonLinkWidth",
+                "comment": " ",
+                "type": "List Modifier -> String -> String -> Int -> Element msg"
+            },
+            {
+                "name": "buttonWidth",
+                "comment": " ",
+                "type": "List Modifier -> Maybe msg -> String -> Int -> Element msg"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element a1, String ) ) }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.FormFieldWithPattern",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs Field, Model, Msg, example1, example2, example3, initModel, inputText, introspection, update\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "FieldTelephone",
+                        []
+                    ],
+                    [
+                        "FieldCreditCard",
+                        []
+                    ],
+                    [
+                        "Field4DigitCode",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ value : String, focus : Maybe Field }"
+            }
+        ],
+        "values": [
+            {
+                "name": "example1",
+                "comment": " ",
+                "type": "Model -> ( Element Msg, String )"
+            },
+            {
+                "name": "example2",
+                "comment": " ",
+                "type": "Model -> ( Element Msg, String )"
+            },
+            {
+                "name": "example3",
+                "comment": " ",
+                "type": "Model -> ( Element Msg, String )"
+            },
+            {
+                "name": "initModel",
+                "comment": " ",
+                "type": "Model"
+            },
+            {
+                "name": "inputText",
+                "comment": " ",
+                "type": "Model -> { a | field : Field, label : String, pattern : String } -> Element Msg"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Card",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\nWrapper for content\n\n\n# Functions\n\n@docs Model, Msg, example1, flipping, initModel, introspection, simple, simpleWithTitle, update\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "Bool"
+            }
+        ],
+        "values": [
+            {
+                "name": "example1",
+                "comment": " ",
+                "type": "Bool -> ( Element Msg, String )"
+            },
+            {
+                "name": "flipping",
+                "comment": " ",
+                "type": "{ a | activeFront : Bool, back : Element msg, front : Element msg, height : Int, width : Int } -> Element msg"
+            },
+            {
+                "name": "initModel",
+                "comment": " ",
+                "type": "Model"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "simple",
+                "comment": " ",
+                "type": "Element msg -> Element msg"
+            },
+            {
+                "name": "simpleWithTitle",
+                "comment": " ",
+                "type": "String -> String -> Element msg -> Element msg"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Color",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs background, black, black_bis, black_ter, blue, border, border_hover, code, code_background, cyan, danger, dark, green, grey, grey_dark, grey_darker, grey_light, grey_lighter, info, introspection, light, link, link_active, link_active_border, link_focus, link_focus_border, link_hover, link_hover_border, link_invert, link_visited, muted, orange, pre, pre_background, primary, purple, red, success, text, text_light, text_strong, transparent, turquoise, warning, white, white_bis, white_ter, yellow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "background",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "black",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "black_bis",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "black_ter",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "blue",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "border",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "border_hover",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "code",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "code_background",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "cyan",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "danger",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "dark",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "green",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey_dark",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey_darker",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey_light",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "grey_lighter",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "info",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "light",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_active",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_active_border",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_focus",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_focus_border",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_hover",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_hover_border",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_invert",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "link_visited",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "muted",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "orange",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pre",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "pre_background",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "primary",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "purple",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "red",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "success",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "text_light",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "text_strong",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "transparent",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "turquoise",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "warning",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "white",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "white_bis",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "white_ter",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "yellow",
+                "comment": " ",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Configuration",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\nList of values that you can change to costumize the aspect of the framwork\n\nThis list is inspired by Bulma framework: <https://bulma.io/documentation/overview/variables/>\n\n\n# Functions\n\n@docs conf\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "conf",
+                "comment": " ",
+                "type": "{ color : { background : Color, black : Color, black_bis : Color, black_ter : Color, blue : Color, border : Color, border_hover : Color, code : Color, code_background : Color, cyan : Color, danger : Color, dark : Color, green : Color, grey : Color, grey_dark : Color, grey_darker : Color, grey_light : Color, grey_lighter : Color, info : Color, light : Color, link : Color, link_active : Color, link_active_border : Color, link_focus : Color, link_focus_border : Color, link_hover : Color, link_hover_border : Color, link_invert : Color, link_visited : Color, muted : Color, orange : Color, pre : Color, pre_background : Color, primary : Color, purple : Color, red : Color, success : Color, text : Color, text_light : Color, text_strong : Color, transparent : Color, turquoise : Color, warning : Color, white : Color, white_bis : Color, white_ter : Color, yellow : Color }, font : { typeface : String, typefaceFallback : Font, url : String }, moveDownPlaceHolder : { large : Float, small : Float }, size : { size1 : Float, size2 : Float, size3 : Float, size4 : Float, size5 : Float, size6 : Float, size7 : Float }, button : { fontSmall : Int, fontDefault : Int, fontMedium : Int, fontLarge : Int, fontJumbo : Int, paddingXSmall : Int, paddingYSmall : Int, paddingXDefault : Int, paddingYDefault : Int, paddingXMedium : Int, paddingYMedium : Int, paddingXLarge : Int, paddingYLarge : Int, paddingXJumbo : Int, paddingYJumbo : Int } }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Spinner",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs Spinner, spinner, introspection\n\n",
+        "unions": [
+            {
+                "name": "Spinner",
+                "comment": " Type of spinners\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ThreeCircles",
+                        []
+                    ],
+                    [
+                        "Rotation",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "spinner",
+                "comment": " SVG Spinner\n\n    spinner ThreeCircles 32 Color.black\n\n",
+                "type": "Spinner -> Int -> Color -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.ColorManipulation",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs colorToHex, colorToHsl2, lighten, maximumContrast, saturate\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colorToHex",
+                "comment": " ",
+                "type": "Color -> String"
+            },
+            {
+                "name": "colorToHsl2",
+                "comment": " ",
+                "type": "Color -> String"
+            },
+            {
+                "name": "lighten",
+                "comment": " ",
+                "type": "Float -> Color -> Color"
+            },
+            {
+                "name": "maximumContrast",
+                "comment": " Return one of the font color that has maximum contrast on a background color\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "saturate",
+                "comment": " ",
+                "type": "Float -> Color -> Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.StyleElementsInput",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\nStyle-elements Input (Alpha version) Examples\n\n\n# Functions\n\n@docs Model, Msg, example0, example1, example10, example11, example2, example3, example4, example5, example6, example7, example8, example9, initModel, introspection, update\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ radio : Maybe String, text : String, checkbox : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "example0",
+                "comment": " ",
+                "type": "a -> ( Element Msg, String )"
+            },
+            {
+                "name": "example1",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example10",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example11",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example2",
+                "comment": " ",
+                "type": "{ a | checkbox : Bool } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example3",
+                "comment": " ",
+                "type": "{ a | radio : Maybe String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example4",
+                "comment": " ",
+                "type": "{ a | radio : Maybe String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example5",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example6",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example7",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example8",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "example9",
+                "comment": " ",
+                "type": "{ a | text : String } -> ( Element Msg, String )"
+            },
+            {
+                "name": "initModel",
+                "comment": " ",
+                "type": "Model"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Typography",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs h1, h2, h3, h4, h5, h6, introspection, textExtraSmall, textLead, textSmall\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "h1",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "h2",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "h3",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "h4",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "h5",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "h6",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "textExtraSmall",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "textLead",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            },
+            {
+                "name": "textSmall",
+                "comment": " ",
+                "type": "List (Attribute msg) -> Element msg -> Element msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.StyleElements",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\nStyle-elements (Alpha version) Examples\n\n\n# Functions\n\n@docs introspection\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework.Modifier",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs Modifier\n\n",
+        "unions": [
+            {
+                "name": "Modifier",
+                "comment": " This is the main list of modifier that can be used with all elements\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Muted",
+                        []
+                    ],
+                    [
+                        "Primary",
+                        []
+                    ],
+                    [
+                        "Success",
+                        []
+                    ],
+                    [
+                        "Info",
+                        []
+                    ],
+                    [
+                        "Warning",
+                        []
+                    ],
+                    [
+                        "Danger",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ],
+                    [
+                        "Jumbo",
+                        []
+                    ],
+                    [
+                        "Outlined",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Waiting",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Framework.Logo",
+        "comment": " [Demo](https://lucamug.github.io/elm-style-framework/framework.html)\n\n\n# Functions\n\n@docs Logo, Color, LogoElmType, logo, introspection\n\n",
+        "unions": [
+            {
+                "name": "Color",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Orange",
+                        []
+                    ],
+                    [
+                        "Green",
+                        []
+                    ],
+                    [
+                        "LightBlue",
+                        []
+                    ],
+                    [
+                        "Blue",
+                        []
+                    ],
+                    [
+                        "White",
+                        []
+                    ],
+                    [
+                        "Black",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Logo",
+                "comment": " Type of logos\n",
+                "args": [],
+                "cases": [
+                    [
+                        "LogoElm",
+                        [
+                            "LogoElmType"
+                        ]
+                    ],
+                    [
+                        "LogoLucamug",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "LogoElmType",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "ElmColor",
+                        [
+                            "Color"
+                        ]
+                    ],
+                    [
+                        "ElmColorful",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "introspection",
+                "comment": " ",
+                "type": "{ name : String, description : String, signature : String, variations : List ( String, List ( Element msg1, String ) ) }"
+            },
+            {
+                "name": "logo",
+                "comment": " SVG Logo\n",
+                "type": "Logo -> Int -> Element msg"
+            }
+        ],
+        "binops": []
+    }
+]

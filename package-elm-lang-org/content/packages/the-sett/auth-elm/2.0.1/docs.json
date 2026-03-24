@@ -1,0 +1,93 @@
+[
+    {
+        "name": "Auth",
+        "comment": " Manages the state of the authentication process, and provides an API\nto request authentication operations.\n\n@docs Config , Credentials , Status\n@docs login , refresh , logout , unauthed , getStatus\n@docs Model , Msg , init , update\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Describes the events this controller responds to.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Status",
+                "comment": " Auth states of interest to the consumer.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Failed",
+                        []
+                    ],
+                    [
+                        "LoggedOut",
+                        []
+                    ],
+                    [
+                        "LoggedIn",
+                        [
+                            "{ scopes : List String, subject : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " The configuration specifying the API root to authenticate against.\n",
+                "args": [],
+                "type": "{ authApiRoot : String }"
+            },
+            {
+                "name": "Credentials",
+                "comment": " Username and password based login credentials.\n",
+                "args": [],
+                "type": "{ username : String, password : String }"
+            },
+            {
+                "name": "Model",
+                "comment": " The complete state of this auth module. The 'innerModel' is opaque and holds\nthe private state. The 'state' provides the state as visible to the consumer of\nthis module.\n",
+                "args": [],
+                "type": "{ authApiRoot : String, innerModel : Private }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getStatus",
+                "comment": " Extracts a summary view of the authentication status from the model.\n",
+                "type": "Model -> Status"
+            },
+            {
+                "name": "init",
+                "comment": " The initial unauthed state.\n",
+                "type": "Config -> Model"
+            },
+            {
+                "name": "login",
+                "comment": " Requests that a login be performed.\n",
+                "type": "Credentials -> Cmd Msg"
+            },
+            {
+                "name": "logout",
+                "comment": " Requests that a logout (including notifying the server of the logout) be\nperformed.\n",
+                "type": "Cmd Msg"
+            },
+            {
+                "name": "refresh",
+                "comment": " Requests that an attempt be made to refresh the auth token from the refresh\ntoken.\n",
+                "type": "Cmd Msg"
+            },
+            {
+                "name": "unauthed",
+                "comment": " Requests that the auth state be cleared to the LoggedOut state. Usually in\nresponse to receiving a 401 or 403 error from a server.\n",
+                "type": "Cmd Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Updates the model from Auth commands.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,174 @@
+[
+    {
+        "name": "PostgRest.Infix",
+        "comment": " PostgREST Infix Operators\n@docs (.)\n",
+        "unions": [],
+        "aliases": [],
+        "values": [],
+        "binops": [
+            {
+                "name": ".",
+                "comment": " ",
+                "type": "Query s -> a -> Field",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    },
+    {
+        "name": "PostgRest",
+        "comment": " PostgREST Query Builder\n@docs Schema, Query, Field, OrderBy, Filter, Settings, defaultSettings, schema, field, query, subQuery, select, order, filter, like, eq, gte, gt, lte, lt, ilike, in', is, not', asc, desc, postgRest\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Filter",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "OrderBy",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Query",
+                "comment": " ",
+                "args": [
+                    "s"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Schema",
+                "comment": " ",
+                "args": [
+                    "s"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Settings",
+                "comment": " ",
+                "args": [],
+                "type": "{ count : Bool, singular : Bool, limit : Maybe Int, offset : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "asc",
+                "comment": " ",
+                "type": "(s -> Field) -> s -> OrderBy"
+            },
+            {
+                "name": "defaultSettings",
+                "comment": " ",
+                "type": "Settings"
+            },
+            {
+                "name": "desc",
+                "comment": " ",
+                "type": "(s -> Field) -> s -> OrderBy"
+            },
+            {
+                "name": "eq",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "field",
+                "comment": " ",
+                "type": "String -> Field"
+            },
+            {
+                "name": "filter",
+                "comment": " ",
+                "type": "List (s -> Filter) -> Query s -> Query s"
+            },
+            {
+                "name": "gt",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "gte",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "ilike",
+                "comment": " ",
+                "type": "String -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "in'",
+                "comment": " ",
+                "type": "List a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "is",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "like",
+                "comment": " ",
+                "type": "String -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "lt",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "lte",
+                "comment": " ",
+                "type": "a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "not'",
+                "comment": " ",
+                "type": "(a -> (s -> Field) -> s -> Filter) -> a -> (s -> Field) -> s -> Filter"
+            },
+            {
+                "name": "order",
+                "comment": " ",
+                "type": "List (s -> OrderBy) -> Query s -> Query s"
+            },
+            {
+                "name": "postgRest",
+                "comment": " ",
+                "type": "String -> Settings -> Query s -> Request"
+            },
+            {
+                "name": "query",
+                "comment": " ",
+                "type": "Schema s -> Query s"
+            },
+            {
+                "name": "schema",
+                "comment": " ",
+                "type": "String -> s -> Schema s"
+            },
+            {
+                "name": "select",
+                "comment": " ",
+                "type": "List (s -> Field) -> Query s -> Query s"
+            },
+            {
+                "name": "subQuery",
+                "comment": " ",
+                "type": "Query s -> a -> Field"
+            }
+        ],
+        "binops": []
+    }
+]

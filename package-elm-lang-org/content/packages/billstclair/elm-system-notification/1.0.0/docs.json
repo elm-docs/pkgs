@@ -1,0 +1,25 @@
+[
+    {
+        "name": "SystemNotification",
+        "comment": " A simple module for creating system notifications using the JavaScript [Notifications API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API).\n\n@docs createNotification, NotifyPort\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "NotifyPort",
+                "comment": " You need to define a `port` with this type. E.g.:\n\n    port notify : NotifyPort msg\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Value -> Cmd msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "createNotification",
+                "comment": " Send a notification out through notifyPort with the title, body, and imageUrl.\n\n    createNotification notify\n      title\n      (Just body)\n      (Just imageUrl)\n\nRequests permission first. Most browsers cache your answer, or allow you to say you whether you want them to remember it. If permission is denied, no notifications will appear, and your program won't know that.\n\n",
+                "type": "NotifyPort msg -> String -> Maybe String -> Maybe String -> Cmd msg"
+            }
+        ],
+        "binops": []
+    }
+]

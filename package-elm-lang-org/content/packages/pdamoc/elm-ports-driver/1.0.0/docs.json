@@ -1,0 +1,67 @@
+[
+    {
+        "name": "PortsDriver",
+        "comment": " This is an Elm package - npm package combo designed to be used to simplify\nsome of the ports code usage.\n\n\n# Types\n\n@docs Driver, Msg, Contents\n\n\n# Html.Event Helper\n\n@docs onFileChange\n\n\n# Main function\n\n@docs Config, install\n\n",
+        "unions": [
+            {
+                "name": "Contents",
+                "comment": " A union type holding the contents of the file read by the browser.\nContents read with `readAsText` and `readAsDataURL` will be received as `TextFile String`.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TextFile",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " The types of messages received from the driver. `File id filename contents`\n",
+                "args": [],
+                "cases": [
+                    [
+                        "File",
+                        [
+                            "String",
+                            "String",
+                            "Contents"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " The `Config` record contains the output port, the input port a function to generate an error\nin case of port error and a function to lift the type of messages that can arrive from the driver to\nthe Main Msg type.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ output : Value -> Cmd msg, input : (Value -> msg) -> Sub msg, fail : String -> msg, lift : Msg -> msg }"
+            },
+            {
+                "name": "Driver",
+                "comment": " A record with links to the functions that can be used to generate commands\nfor the driver and a subscription for the replies from the driver.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ log : String -> Cmd msg, setTitle : String -> Cmd msg, updateCss : String -> Cmd msg, file : FileOps msg, subscriptions : Sub msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "install",
+                "comment": " A function that will create the driver record.\n",
+                "type": "Config msg -> Driver msg"
+            },
+            {
+                "name": "onFileChange",
+                "comment": " A helper for the FileReader part of the driver.\n",
+                "type": "msg -> Attribute msg"
+            }
+        ],
+        "binops": []
+    }
+]

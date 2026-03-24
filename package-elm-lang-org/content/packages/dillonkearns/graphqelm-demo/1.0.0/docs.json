@@ -1,0 +1,177 @@
+[
+    {
+        "name": "Swapi.Object.Droid",
+        "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs build, appearsIn, friends, id, name, primaryFunction\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Episodes the Droid appears in.\n",
+                "type": "FieldDecoder (List Episode) Droid"
+            },
+            {
+                "name": "build",
+                "comment": " Specify the fields to use for the object.\n",
+                "type": "(a -> constructor) -> Object (a -> constructor) Droid"
+            },
+            {
+                "name": "friends",
+                "comment": " Droid's friends.\n",
+                "type": "Object friends Character -> FieldDecoder (List friends) Droid"
+            },
+            {
+                "name": "id",
+                "comment": " Droid's id.\n",
+                "type": "FieldDecoder String Droid"
+            },
+            {
+                "name": "name",
+                "comment": " Droid's name.\n",
+                "type": "FieldDecoder String Droid"
+            },
+            {
+                "name": "primaryFunction",
+                "comment": " Droid's primary function.\n",
+                "type": "FieldDecoder String Droid"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Query",
+        "comment": " The top-level query for the GraphQL endoint which you can explore at\n[graphqelm.herokuapp.com](https://graphqelm.herokuapp.com)\n\n@docs build, droid, hero, human\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "build",
+                "comment": " Create a top-level query.\n",
+                "type": "(a -> constructor) -> Object (a -> constructor) RootQuery"
+            },
+            {
+                "name": "droid",
+                "comment": " Top-level query to retrieve a droid.\n",
+                "type": "{ id : String } -> Object droid Droid -> FieldDecoder droid RootQuery"
+            },
+            {
+                "name": "hero",
+                "comment": " Top-level query to retrieve a hero.\n",
+                "type": "({ episode : Maybe Episode } -> { episode : Maybe Episode }) -> Object hero Character -> FieldDecoder hero RootQuery"
+            },
+            {
+                "name": "human",
+                "comment": " Top-level query to retrieve a human.\n",
+                "type": "{ id : String } -> Object human Human -> FieldDecoder human RootQuery"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Object.Character",
+        "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs build, appearsIn, friends, id, name\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Episodes the Character appears in.\n",
+                "type": "FieldDecoder (List Episode) Character"
+            },
+            {
+                "name": "build",
+                "comment": " Specify the fields to use for the object.\n",
+                "type": "(a -> constructor) -> Object (a -> constructor) Character"
+            },
+            {
+                "name": "friends",
+                "comment": " Character's friends.\n",
+                "type": "Object friends Character -> FieldDecoder (List friends) Character"
+            },
+            {
+                "name": "id",
+                "comment": " Character's id.\n",
+                "type": "FieldDecoder String Character"
+            },
+            {
+                "name": "name",
+                "comment": " Character's name.\n",
+                "type": "FieldDecoder String Character"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Object.Human",
+        "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs build, appearsIn, friends, id, name, homePlanet\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Episodes the Human appears in.\n",
+                "type": "FieldDecoder (List Episode) Human"
+            },
+            {
+                "name": "build",
+                "comment": " Specify the fields to use for the object.\n",
+                "type": "(a -> constructor) -> Object (a -> constructor) Human"
+            },
+            {
+                "name": "friends",
+                "comment": " Human's friends.\n",
+                "type": "Object friends Character -> FieldDecoder (List friends) Human"
+            },
+            {
+                "name": "homePlanet",
+                "comment": " Human's id.\n",
+                "type": "FieldDecoder String Human"
+            },
+            {
+                "name": "id",
+                "comment": " Human's name.\n",
+                "type": "FieldDecoder String Human"
+            },
+            {
+                "name": "name",
+                "comment": " Human's home planet.\n",
+                "type": "FieldDecoder String Human"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Enum.Episode",
+        "comment": " Enum for all episodes that the API has in its system.\n@docs Episode, decoder\n",
+        "unions": [
+            {
+                "name": "Episode",
+                "comment": " Episode enum.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "EMPIRE",
+                        []
+                    ],
+                    [
+                        "JEDI",
+                        []
+                    ],
+                    [
+                        "NEWHOPE",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decode an Episode from the GraphQL endpoint.\n",
+                "type": "Decoder Episode"
+            }
+        ],
+        "binops": []
+    }
+]

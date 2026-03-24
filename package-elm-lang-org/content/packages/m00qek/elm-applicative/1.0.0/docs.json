@@ -1,0 +1,91 @@
+[
+    {
+        "name": "Applicative.Function",
+        "comment": " Instances of Functor and Applicative for functions.\n\n#Functor\n@docs fmap, (<$>), (<$), ($>)\n\n#Applicative\n@docs pure, apply, (<*>), (<*), (*>), (<**>), liftA, liftA2, liftA2, liftA3\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " Sequential application.\n",
+                "type": "(p -> a -> b) -> (p -> a) -> p -> b"
+            },
+            {
+                "name": "fmap",
+                "comment": " Function composition; a prefix synonym for `<<`.\n",
+                "type": "(a -> b) -> (p -> a) -> p -> b"
+            },
+            {
+                "name": "liftA",
+                "comment": " Lift a function to actions. This function may be used as a value for `fmap`.\n",
+                "type": "(a -> b) -> (p -> a) -> p -> b"
+            },
+            {
+                "name": "liftA2",
+                "comment": " Lift a binary function to actions.\n",
+                "type": "(a -> b -> c) -> (p -> a) -> (p -> b) -> p -> c"
+            },
+            {
+                "name": "liftA3",
+                "comment": " Lift a ternary function to actions.\n",
+                "type": "(a -> b -> c -> d) -> (p -> a) -> (p -> b) -> (p -> c) -> p -> d"
+            },
+            {
+                "name": "pure",
+                "comment": " Lift a value.\n",
+                "type": "a -> p -> a"
+            }
+        ],
+        "binops": [
+            {
+                "name": "$>",
+                "comment": " Flipped version of `<$.`\n",
+                "type": "(p -> a) -> b -> p -> b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "*>",
+                "comment": " Sequence actions, discarding the value of the first argument.\n",
+                "type": "(p -> a) -> (p -> b) -> p -> b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<$",
+                "comment": " Replace all locations in the input with the same value.\n",
+                "type": "a -> (p -> b) -> p -> a",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<$>",
+                "comment": " An infix synonym for `fmap`.\n",
+                "type": "(a -> b) -> (p -> a) -> p -> b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<*",
+                "comment": " Sequence actions, discarding the value of the second argument.\n",
+                "type": "(p -> a) -> (p -> b) -> p -> a",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<**>",
+                "comment": " A variant of `<*>` with the arguments reversed.\n",
+                "type": "(p -> a) -> (p -> a -> b) -> p -> b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<*>",
+                "comment": " Sequential application.\n",
+                "type": "(p -> a -> b) -> (p -> a) -> p -> b",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

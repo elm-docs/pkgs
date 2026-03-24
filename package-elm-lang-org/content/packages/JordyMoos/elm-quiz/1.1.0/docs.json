@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Quiz",
+        "comment": " A customizable quiz powered by Elm and Polymer\n\nSee the example on github.\n\n\n# Quiz\n\n@docs main\n@docs Model, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The Msg\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "DrawerStatus",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "ProvidingQuestions",
+                        [
+                            "List Question"
+                        ]
+                    ],
+                    [
+                        "ChosenAnswer",
+                        [
+                            "Maybe Answer"
+                        ]
+                    ],
+                    [
+                        "NextQuestion",
+                        []
+                    ],
+                    [
+                        "Restart",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The Model\n",
+                "args": [],
+                "type": "{ config : Config, game : Game, guiState : GuiState }"
+            }
+        ],
+        "values": [
+            {
+                "name": "main",
+                "comment": " Start of the Quiz\n\nIt just calls Html.programWithFlags\n\n",
+                "type": "Program Value Model Msg"
+            }
+        ],
+        "binops": []
+    }
+]

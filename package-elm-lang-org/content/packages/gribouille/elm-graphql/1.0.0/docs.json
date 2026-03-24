@@ -1,0 +1,64 @@
+[
+    {
+        "name": "GraphQL",
+        "comment": " Library to use GraphQL API easily.\n\nExample to configure the API with a token in the `authorization` header:\n\n  config : String -> GraphQL.Config\n  config token =\n    GraphQL.Config [ (\"authorization\", token) ] \"/api/graphql\"\n\n\nExample to create a request:\n\n  getUsers : String -> (GraphQL.Purpose Users -> msg) -> Cmd msg\n  getUsers token resultCallback =\n    GraphQL.cmd (myRequest token) resultCallback\n\n\n  myRequest : String -> Http.Request (GraphQL.Response Users)\n  myRequest token =\n    GraphQL.exec (config token) \"users\"\n      |> GraphQL.query myQuery\n      |> GraphQL.variabes Encode.null\n      |> GraphQL.decoder User.usersDecoder\n\n\n  myQuery : String\n  myQuery =\n    \"\"\"\n    query {\n      users { id login firstname lastname email }\n    }\n    \"\"\"\n\n\nExample to get the results:\n\n  type Msg\n    = GetUsers                    -- msg to execute the request\n    | OnGetUsers (GraphQL.Purpose Users)  -- msg to receive the data\n    ...\n\n  update : Msg -> Model -> (Model, Cmd Msg)\n  update msg model =\n    case msg of\n      GetUsers -> getUsers \"myToken\" OnGetUsers\n      OnGetUsers res -> GraphQL.response model res\n        (\\users -> { model | ... } ! [ ... ] )    -- if success\n        (\\error -> { model | ... } ! [ ... ] )    -- if error\n\n\n## Types\n@docs Config, Purpose, Response\n\n## Functions\n@docs exec, query, cmd, variables, decoder, response\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configure the headers and the url to use the GraphQL API.\n\nExample for an API with JWT token:\n\n  config : String -> GraphQL.Config\n  config token =\n    GraphQL.Config [ (\"authorization\", \"Bearer \" ++ token) ] \"/api/graphql\"\n\n",
+                "args": [],
+                "type": "{ headers : List ( String, String ), url : String }"
+            },
+            {
+                "name": "Purpose",
+                "comment": " Full API response.\n\nThere are two types of errors with the GraphQL:\n- the GraphQL error (see `Response` type)\n- the HTTP error.\n\n`Purpose` is an abstraction for these 2 types of errors.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "Result Error (Result String a)"
+            },
+            {
+                "name": "Response",
+                "comment": " GraphQL response:\n```\n{\n  data: { <query>: <result>|null },\n  errors: [\n    { message: ... }, ...\n  ]\n}\n```\nIf there is a GraphQL error:\n- the status code is **200**\n- the `data` property is null\n- the `errors` array is not empty.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "GraphQl (Maybe a)"
+            }
+        ],
+        "values": [
+            {
+                "name": "cmd",
+                "comment": " Create a `Cmd` with the GraphQL request create with `exec`.\n\nExample\n\n  getUsers : String -> (GraphQL.Purpose Users -> msg) -> Cmd msg\n  getUsers token resultCallback =\n    GraphQL.cmd (myRequest token) resultCallback\n",
+                "type": "Request (Response a) -> (Purpose a -> msg) -> Cmd msg"
+            },
+            {
+                "name": "decoder",
+                "comment": " Helper to set the JSON decoder for the GraphQL request response in `exec`. ",
+                "type": "Decoder a -> (Decoder a -> Request (Response a)) -> Request (Response a)"
+            },
+            {
+                "name": "exec",
+                "comment": " Create a GraphQL request.\n\nExample:\n\n  myRequest : String -> Http.Request (GraphQL.Response Users)\n  myRequest token =\n    GraphQL.exec (config token) \"users\"\n      |> GraphQL.query myQuery\n      |> GraphQL.variabes Encode.null\n      |> GraphQL.decoder User.usersDecoder\n",
+                "type": "Config -> String -> String -> Value -> Decoder a -> Request (Response a)"
+            },
+            {
+                "name": "query",
+                "comment": " Helper to set the query for the GraphQL request in `exec`. ",
+                "type": "String -> (String -> Value -> Decoder a -> Request (Response a)) -> Value -> Decoder a -> Request (Response a)"
+            },
+            {
+                "name": "response",
+                "comment": " Helper to parse the GraphQL response.\n\nExample:\n  update : Msg -> Model -> (Model, Cmd Msg)\n  update msg model =\n    case msg of\n      ...\n      OnGetUsers res -> GraphQL.response model res\n        (\\users -> { model | users = users, success = Just \"get all users\" } ! [] )\n        (\\error -> { model | error = Just error } ! [] )\n",
+                "type": "model -> Purpose data -> (data -> ( model, Cmd msg )) -> (String -> ( model, Cmd msg )) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "variables",
+                "comment": " Helper to set the query variables for the GraphQL request in `exec`. ",
+                "type": "Value -> (Value -> Decoder a -> Request (Response a)) -> Decoder a -> Request (Response a)"
+            }
+        ],
+        "binops": []
+    }
+]

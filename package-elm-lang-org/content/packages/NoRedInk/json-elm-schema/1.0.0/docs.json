@@ -1,0 +1,182 @@
+[
+    {
+        "name": "JsonSchema.Fuzz",
+        "comment": " Fuzzers for json structures corresponding to a certain schema.\n\n@docs schemaString, schemaValue\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "schemaString",
+                "comment": " Fuzzer that generates json strings.\n",
+                "type": "Schema -> Fuzzer String"
+            },
+            {
+                "name": "schemaValue",
+                "comment": " Fuzzer that generates json values.\n",
+                "type": "Schema -> Fuzzer Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonSchema",
+        "comment": " This library allows you to write your json schema files in elm, preventing inadvertent errors.\n\n# General\n@docs Schema\n\n# Schema types\n@docs object, array, string, integer, number, boolean, null, oneOf, allOf, anyOf\n\n# Keywords\n@docs title, description, minimum, maximum, properties, items, minLength, maxLength, pattern, format\n\n# Property constructors\n@docs required, optional\n\n# String formats\n@docs dateTime, email, hostname, ipv4, ipv6, uri, customFormat\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Schema",
+                "comment": " A type representing a json schema.\n",
+                "args": [],
+                "type": "Schema"
+            }
+        ],
+        "values": [
+            {
+                "name": "allOf",
+                "comment": " Create an allOf type schema.\n",
+                "type": "List BaseCombinatorSchemaProperty -> List Schema -> Schema"
+            },
+            {
+                "name": "anyOf",
+                "comment": " Create an anyOf type schema.\n",
+                "type": "List BaseCombinatorSchemaProperty -> List Schema -> Schema"
+            },
+            {
+                "name": "array",
+                "comment": " Create an array type schema.\n",
+                "type": "List ArraySchemaProperty -> Schema"
+            },
+            {
+                "name": "boolean",
+                "comment": " Create a boolean type schema.\n",
+                "type": "List (BaseSchemaProperty {}) -> Schema"
+            },
+            {
+                "name": "customFormat",
+                "comment": " Create a custom value to pass to `format`.\nThis allows you to use any format supported by your json schema validator.\n",
+                "type": "String -> StringFormat"
+            },
+            {
+                "name": "dateTime",
+                "comment": " `date-time` format\n",
+                "type": "StringFormat"
+            },
+            {
+                "name": "description",
+                "comment": " `description` keyword\n",
+                "type": "String -> BaseSchemaProperty extras"
+            },
+            {
+                "name": "email",
+                "comment": " `email` format\n",
+                "type": "StringFormat"
+            },
+            {
+                "name": "format",
+                "comment": " `format` keyword\n",
+                "type": "StringFormat -> StringSchemaProperty"
+            },
+            {
+                "name": "hostname",
+                "comment": " `hostname` format\n",
+                "type": "StringFormat"
+            },
+            {
+                "name": "integer",
+                "comment": " Create an integer type schema.\n",
+                "type": "List IntegerSchemaProperty -> Schema"
+            },
+            {
+                "name": "ipv4",
+                "comment": " `ipv4` format\n",
+                "type": "StringFormat"
+            },
+            {
+                "name": "ipv6",
+                "comment": " `ipv6` format\n",
+                "type": "StringFormat"
+            },
+            {
+                "name": "items",
+                "comment": " `items` keyword\n",
+                "type": "Schema -> ArraySchemaProperty"
+            },
+            {
+                "name": "maxLength",
+                "comment": " `maxLength` keyword\n",
+                "type": "Int -> StringSchemaProperty"
+            },
+            {
+                "name": "maximum",
+                "comment": " `maximum` keyword\n",
+                "type": "num -> BaseNumberSchemaProperty num"
+            },
+            {
+                "name": "minLength",
+                "comment": " `minLength` keyword\n",
+                "type": "Int -> StringSchemaProperty"
+            },
+            {
+                "name": "minimum",
+                "comment": " `minimum` keyword\n",
+                "type": "num -> BaseNumberSchemaProperty num"
+            },
+            {
+                "name": "null",
+                "comment": " Create a null type schema.\n",
+                "type": "List (BaseSchemaProperty {}) -> Schema"
+            },
+            {
+                "name": "number",
+                "comment": " Create a number type schema.\n",
+                "type": "List NumberSchemaProperty -> Schema"
+            },
+            {
+                "name": "object",
+                "comment": " Create an oject type schema.\n",
+                "type": "List ObjectSchemaProperty -> Schema"
+            },
+            {
+                "name": "oneOf",
+                "comment": " Create a oneOf type schema.\n",
+                "type": "List BaseCombinatorSchemaProperty -> List Schema -> Schema"
+            },
+            {
+                "name": "optional",
+                "comment": " Create an optional property.\n",
+                "type": "String -> Schema -> ObjectProperty"
+            },
+            {
+                "name": "pattern",
+                "comment": " `pattern` keyword\n",
+                "type": "String -> StringSchemaProperty"
+            },
+            {
+                "name": "properties",
+                "comment": " `properties` keyword\n",
+                "type": "List ObjectProperty -> ObjectSchemaProperty"
+            },
+            {
+                "name": "required",
+                "comment": " Create a required property.\n",
+                "type": "String -> Schema -> ObjectProperty"
+            },
+            {
+                "name": "string",
+                "comment": " Create a string type schema.\n",
+                "type": "List StringSchemaProperty -> Schema"
+            },
+            {
+                "name": "title",
+                "comment": " `title` keyword.\n",
+                "type": "String -> BaseSchemaProperty extras"
+            },
+            {
+                "name": "uri",
+                "comment": " `uri` format\n",
+                "type": "StringFormat"
+            }
+        ],
+        "binops": []
+    }
+]

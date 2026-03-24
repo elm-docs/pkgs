@@ -1,0 +1,226 @@
+[
+    {
+        "name": "Calendar",
+        "comment": " This library is for a drag and drop calendar\n\n\n# views\n\n@docs view\n\n\n# update\n\n@docs update\n\n\n# subscriptions\n\n@docs subscriptions\n\n\n# model\n\n@docs initCalendarModel\n\n\n# functions\n\nInits and setters for customizing the html\n\n@docs setDayContent, setCustomForwardButton, setCustomBackButton, turnOnCustomButtons, addDayContent, deleteDayContent\n@docs catchToAndFromDates, setHeaderHeight, setSidebarWidth\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "addDayContent",
+                "comment": " Takes a tuple of (year, month, date) and Html content corresponding to that date\n",
+                "type": "( Int, Int, Int ) -> Html a -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "catchToAndFromDates",
+                "comment": " Catch the from date and to date of the moved content for use by the user\n",
+                "type": "CalendarMsg a -> CalendarModel a -> Maybe MovedDates"
+            },
+            {
+                "name": "deleteDayContent",
+                "comment": " Takes a tuple of (year, month, date) to be deleted\n",
+                "type": "( Int, Int, Int ) -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "initCalendarModel",
+                "comment": "\n\n    The daycontent\n    pass in msg type of your html\n",
+                "type": "( CalendarModel a, Cmd (CalendarMsg a) )"
+            },
+            {
+                "name": "setCustomBackButton",
+                "comment": "\n\n    setCustomBackButton\n",
+                "type": "Html a -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "setCustomForwardButton",
+                "comment": "\n\n    setCustomForwardButton\n",
+                "type": "Html a -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "setDayContent",
+                "comment": " Takes a list of day content and sets that as the calendar content\n",
+                "type": "List ( CalendarDate, Html a ) -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "setHeaderHeight",
+                "comment": "\n\n    setHeaderHeight\n",
+                "type": "Int -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "setSidebarWidth",
+                "comment": "\n\n    setSidebarWidth\n",
+                "type": "Int -> CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "subscriptions",
+                "comment": "\n\n    subscriptions : Calendar Subscriptions\n",
+                "type": "CalendarModel a -> Sub (CalendarMsg a)"
+            },
+            {
+                "name": "turnOnCustomButtons",
+                "comment": "\n\n    turnOnCustomButtons\n",
+                "type": "CalendarModel a -> CalendarModel a"
+            },
+            {
+                "name": "update",
+                "comment": " updates the Calendar\n\n    Calendar.update\n\n",
+                "type": "CalendarMsg a -> CalendarModel a -> ( CalendarModel a, Cmd (CalendarMsg a) )"
+            },
+            {
+                "name": "view",
+                "comment": " Displays the Calendar\n\n    Calendar.view\n\n",
+                "type": "CalendarModel a -> Html (CalendarMsg a)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Calendar.Types",
+        "comment": " This library is for a drag and drop calendar\n\n\n# model\n\n@docs CalendarModel, MovedDates, Drag, Config, CustomStuff, DragMsg, DayContent, InternalMonth\n\n\n# types\n\n@docs CalendarMsg, CalendarDate, DragMsg\n\n",
+        "unions": [
+            {
+                "name": "CalendarDate",
+                "comment": "\n\n    Wrapper for a tuple of (year,month,date)\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CalendarDate",
+                        [
+                            "( Int, Int, Int )"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "CalendarMsg",
+                "comment": " Calendar msg\nMovedItem is exposed so that you can subscribe to it and update your side of things\nYou will have to have a msg that is msg CalendarDate CalendarDate\nMovedItem FromDate ToDate\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "RecieveDate",
+                        [
+                            "Date"
+                        ]
+                    ],
+                    [
+                        "MonthForward",
+                        []
+                    ],
+                    [
+                        "MonthBackward",
+                        []
+                    ],
+                    [
+                        "Drags",
+                        [
+                            "DragMsg a"
+                        ]
+                    ],
+                    [
+                        "Resize",
+                        [
+                            "Size"
+                        ]
+                    ],
+                    [
+                        "CustomMsg",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "DoNothing",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "DragMsg",
+                "comment": "\n\n    Export DragEnd to determine when something has moved\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "DragStart",
+                        [
+                            "Int",
+                            "Int",
+                            "DayContent a",
+                            "Position"
+                        ]
+                    ],
+                    [
+                        "DragAt",
+                        [
+                            "Position"
+                        ]
+                    ],
+                    [
+                        "DragEnd",
+                        [
+                            "Position"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CalendarModel",
+                "comment": "\n\n    The Internal calendar model\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ months : Dict ( Int, Int ) (InternalMonth a), currentDate : Maybe Date, currentMonth : Int, currentYear : Int, drag : Maybe Drag, movingContent : Maybe (DayContent a), size : Size, config : Config a }"
+            },
+            {
+                "name": "Config",
+                "comment": " Config for library\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ customDayHeader : Bool, customButtons : Bool, customStuff : CustomStuff a, toggleDragging : Bool, customHeaderHeight : Int, customSidebarWidth : Int }"
+            },
+            {
+                "name": "CustomStuff",
+                "comment": " Custom type for user custom html\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ forwardButton : Html a, backButton : Html a, headerFormat : String }"
+            },
+            {
+                "name": "DayContent",
+                "comment": " Data related to each Day\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ dayIndex : Int, weekIndex : Int, content : Html a, theDate : Date }"
+            },
+            {
+                "name": "Drag",
+                "comment": " Drag type alias for the drags\n",
+                "args": [],
+                "type": "{ xIndex : Int, startX : Int, currentX : Int, yIndex : Int, startY : Int, currentY : Int }"
+            },
+            {
+                "name": "InternalMonth",
+                "comment": "\n\n    key of days is (year,month,day)\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ month : Int, year : Int, days : Dict ( Int, Int, Int ) (DayContent a) }"
+            },
+            {
+                "name": "MovedDates",
+                "comment": "\n\n    Moved item holds the to and from CalendarDate\n",
+                "args": [],
+                "type": "{ to : CalendarDate, from : CalendarDate }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

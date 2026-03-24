@@ -1,0 +1,16 @@
+[
+    {
+        "name": "President",
+        "comment": "\n\nPresident turns a `List (Signal Element)` into a presentation\nthat you can navigate with arrow keys. That's about it.\n\n@docs present",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "present",
+                "comment": "",
+                "type": "List (Signal Element) -> Signal Element"
+            }
+        ],
+        "binops": []
+    }
+]

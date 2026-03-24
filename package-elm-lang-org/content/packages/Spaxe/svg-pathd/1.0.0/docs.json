@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Svg.PathD",
+        "comment": " PathD - Minimal SVG Path constructor of the d attribute.\n\nThis library helps you specify SVG paths with a clean Elm interface. For the\ncomplete instruction on what each segment does, consult the MDN docs on SVG:\n<https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths>\n\nExample of drawing a custom shape:\n\n    import Svg.PathD exposing (Segment(..), d_)\n\n    ...\n\n    Svg.path\n        [ d_\n            [ M (-0.5, 0.5)\n            , Q (0.5, 0.5) (0.5, -0.5)\n            , L (-0.5, -0.5)\n            , Z\n            ]\n        ]\n        []\n\n\n# Specifying a SVG Path\n\n@docs d_, Segment\n\n\n# Helper methods\n\n@docs segment\n\n\n# Data Type\n\n@docs Point\n\n",
+        "unions": [
+            {
+                "name": "Segment",
+                "comment": " Complete implementation of the SVG path `d` attribute.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "M",
+                        [
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "L",
+                        [
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "H",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "V",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Z",
+                        []
+                    ],
+                    [
+                        "C",
+                        [
+                            "Point",
+                            "Point",
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "S",
+                        [
+                            "Point",
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "Q",
+                        [
+                            "Point",
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "T",
+                        [
+                            "Point"
+                        ]
+                    ],
+                    [
+                        "A",
+                        [
+                            "Point",
+                            "Float",
+                            "Bool",
+                            "Bool",
+                            "Point"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Point",
+                "comment": " Type shorthand for 2 floats that make up a coordinate.\n",
+                "args": [],
+                "type": "( Float, Float )"
+            }
+        ],
+        "values": [
+            {
+                "name": "d_",
+                "comment": " Replaces `Svg.Attributes.d`. This function takes a list of Segments and\nproduces a SVG d attribute with exact specifications.\n",
+                "type": "List Segment -> Attribute msg"
+            },
+            {
+                "name": "segment",
+                "comment": " Converts a `Segment` to a partial SVG Path string\n",
+                "type": "Segment -> String"
+            }
+        ],
+        "binops": []
+    }
+]

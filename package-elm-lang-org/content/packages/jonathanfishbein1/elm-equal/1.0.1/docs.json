@@ -1,0 +1,1 @@
+[{"name":"Equal","comment":" A module for complex numbers\n\n\n# Types\n\n@docs Equal\n\n#functions\n\n@docs equal\n\n","unions":[{"name":"Equal","comment":" Main type.\n","args":["a"],"cases":[["Equal",["a -> a -> Basics.Bool"]]]}],"aliases":[],"values":[{"name":"equal","comment":" Extract the equality predicate\n","type":"Equal.Equal a -> a -> a -> Basics.Bool"}],"binops":[]}]

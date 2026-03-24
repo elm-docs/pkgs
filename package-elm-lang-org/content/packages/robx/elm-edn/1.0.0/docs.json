@@ -1,0 +1,300 @@
+[
+    {
+        "name": "Decode",
+        "comment": " Build decoders for [EDN](https://github.com/edn-format/edn) elements.\n\nYou can mostly just use this the way you use\n<a href=\"http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\">Json.Decode</a>\nto decode JSON values.\n\n\n# Primitives\n\n@docs Decoder\n@docs bool, int, float, string\n@docs nil, symbol, keyword\n\n\n# Data Structures\n\n@docs optional, list, vector, set, keyValuePairs, dict\n@docs index\n\n\n# Object Primitives\n\n@docs field, optionalField\n@docs tagged\n@docs at\n\n\n# Inconsistent Structure\n\n@docs oneOf\n\n\n# Run Decoders\n\n@docs decodeString\n\n\n# Mapping\n\n@docs map, map2, map3, map4, map5, map6, map7, map8\n\n\n# Fancy Decoding\n\n@docs lazy, succeed, fail, andThen\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Decoder",
+                "comment": " A value that knows how to decode EDN elements.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "Element -> Result String a"
+            }
+        ],
+        "values": [
+            {
+                "name": "andThen",
+                "comment": " Create a decoder that depends on the result of a previous decoder.\n",
+                "type": "(a -> Decoder b) -> Decoder a -> Decoder b"
+            },
+            {
+                "name": "at",
+                "comment": " Decode a nested object, requiring certain fields.\n\n    decodeString (at [\"end\", \"x\"] float)\n        \"\"\"{:start {:x 1.0, :y 1.5}\n            :end   {:x 0.5, :y 0.334}}\"\"\"\n        == Ok 0.5\n    decodeString (at [\"start\", \"z\"] float)\n        \"\"\"{:start {:x 1.0, :y 1.5}\n            :end   {:x 0.5, :y 0.334}}\"\"\"\n        == Err _\n\n",
+                "type": "List String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "bool",
+                "comment": " Decode an EDN boolean into an Elm `Bool`.\n\n     decodeString bool \"true\"   == Ok True\n     decodeString bool \"false\"  == Ok False\n     decodeString bool \"nil\"    == Err _\n     decodeString bool \"(true)\" == Err _\n\n",
+                "type": "Decoder Bool"
+            },
+            {
+                "name": "decodeString",
+                "comment": " Parse the given string into a single EDN element and\nand decode it to an Elm value using the given Decoder.\n",
+                "type": "Decoder a -> String -> Result String a"
+            },
+            {
+                "name": "dict",
+                "comment": " Decode an EDN map into an Elm `Dict`.\n\n    decodeString\n        (map int string)\n        \"\"\"{12 \"onetwo\", 21 \"twoone\", 3 \"three\"}\"\"\"\n        == Ok <| Dict.fromList\n            [ (12, \"onetwo\")\n            , (21, \"twoone\")\n            , (3,  \"three\")\n            ]\n\n",
+                "type": "Decoder comparable -> Decoder value -> Decoder (Dict comparable value)"
+            },
+            {
+                "name": "fail",
+                "comment": " Ignore the input and make the decoder fail with the given message.\n",
+                "type": "String -> Decoder a"
+            },
+            {
+                "name": "field",
+                "comment": " Decode an EDN map field.\n\n    decodeString (field \"twitter\" string)\n        \"\"\"{:name \"Alice\", :twitter \"@alice\"}\"\"\"\n        == Ok \"@alice\"\n    decodeString (field \"twitter\" string)\n        \"\"\"{:name \"Bob\", :icq 12345678}\"\"\"\n        == Err \"field not found: twitter\"\n\n    decodeString (field \"twitter\" optional string)\n        \"\"\"{:name \"Alice\", :twitter \"@alice\"}\"\"\"\n        == Ok (Just \"@alice\")\n    decodeString (field \"twitter\" (optional string)\n        \"\"\"{:name \"Eve\", :twitter nil}\"\"\"\n        == Ok Nothing\n\n",
+                "type": "String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "float",
+                "comment": " Decode an EDN floating point number into an Elm `Float`\n\n     decodeString float \"1.1\" == Ok 1.1\n     decodeString float \"1E1\" == Ok 10.0\n     decodeString float \"2\"   == Err _\n\n",
+                "type": "Decoder Float"
+            },
+            {
+                "name": "index",
+                "comment": " Decode an EDN vector, requiring a particular index.\n\n    decodeString (index 1 int)\n        \"\"\"[\"one\" 2 3.0 nil]\"\"\"\n            == Ok 2\n    decodeString (index 1 int)\n        \"[1]\"\n            == Err _\n\nThis will fail on EDN lists.\n\n    decodeString (index 1 int)\n        \"(1 2 3)\"\n            == Err _\n\n",
+                "type": "Int -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "int",
+                "comment": " Decode an EDN integer into an Elm `Int`.\n\n    decodeString int \"12345\" == Ok 12345\n    decodeString int \"1.0\"   == Err _\n\n",
+                "type": "Decoder Int"
+            },
+            {
+                "name": "keyValuePairs",
+                "comment": " Decode an EDN map into an Elm `List` of pairs. If the keys are\nsimple (strings, integers, keywords, ...), consider using\n[`dict`](dict) or [`field`](field) instead.\n\n    decodeString\n        (map (list int) string)\n        \"\"\"{(1 2) \"onetwo\"\n            (2 1) \"twoone\"\n            ()    \"three\"}\"\"\"\n        == Ok [ ([1, 2], \"onetwo\")\n              , ([2, 1], \"twoone\")\n              , ([], \"three\") ]\n\n",
+                "type": "Decoder key -> Decoder value -> Decoder (List ( key, value ))"
+            },
+            {
+                "name": "keyword",
+                "comment": " Decode an EDN keyword into an Elm `String`.\n\n     decodeString keyword \":black\" == Ok \"black\"\n     decodeString keyword \"yo\"     == Err _\n     decodeString keyword \":true\"  == Ok \"true\"\n\n",
+                "type": "Decoder String"
+            },
+            {
+                "name": "lazy",
+                "comment": " ",
+                "type": "(() -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "list",
+                "comment": " Decode an EDN list into an Elm `List`.\n\n    decodeString\n        (list int)\n        \"(1 2 3 4 5)\"\n            == Ok [1, 2, 3, 4, 5]\n    decodeString\n        (list (list string))\n        \"\"\"(() (\"hello\" \"world\") ())\"\"\"\n            == Ok [[], [\"hello\", \"world\"], []]\n\n",
+                "type": "Decoder a -> Decoder (List a)"
+            },
+            {
+                "name": "map",
+                "comment": " Transform a decoder.\n",
+                "type": "(a -> value) -> Decoder a -> Decoder value"
+            },
+            {
+                "name": "map2",
+                "comment": " Try two decoders and then combine the result. We can use this to decode\nobjects with many fields:\n\n    type alias Point =\n        { x : Float, y : Float }\n\n    point : Decoder Point\n    point =\n        map2 Point\n            (field \"x\" float)\n            (field \"y\" float)\n\n\n    -- decodeString point \"\"\"{:x 3.0, :y 4.0}\"\"\" == Ok { x = 3, y = 4 }\n\nIt tries each individual decoder and puts the result together with the `Point`\nconstructor.\n\n",
+                "type": "(a -> b -> value) -> Decoder a -> Decoder b -> Decoder value"
+            },
+            {
+                "name": "map3",
+                "comment": " ",
+                "type": "(a -> b -> c -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder value"
+            },
+            {
+                "name": "map4",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder value"
+            },
+            {
+                "name": "map5",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder value"
+            },
+            {
+                "name": "map6",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e -> f -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder value"
+            },
+            {
+                "name": "map7",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder value"
+            },
+            {
+                "name": "map8",
+                "comment": " ",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder h -> Decoder value"
+            },
+            {
+                "name": "nil",
+                "comment": " Decode an EDN nil value.\n\n     decodeString keyword \"nil\"  == Ok ()\n     decodeString keyword \"yo\"   == Err _\n     decodeString keyword \":nil\" == Err _\n\n",
+                "type": "Decoder ()"
+            },
+            {
+                "name": "oneOf",
+                "comment": " Try a bunch of different decoders, one after the other. The\nresult is the value of the first successful decoder.\n\n    type ID\n        = UserID Int\n        | Email String\n\n    decodeString\n        (list <| oneOf\n            [ map UserID int\n            , map Email string\n            ]\n        ) \"\"\"(1, \"alice@example.com\", 334)\"\"\"\n            == [ UserID 1, Email \"alice@example.com\", UserID 334 ]\n\n",
+                "type": "List (Decoder a) -> Decoder a"
+            },
+            {
+                "name": "optional",
+                "comment": " Decode an EDN nil value into `Nothing`, or any other value into an Elm value.\n\n     decodeString (optional bool) \"true\" == Ok (Just True)\n     decodeString (optional bool) \"nil\"  == Ok Nothing\n\n",
+                "type": "Decoder a -> Decoder (Maybe a)"
+            },
+            {
+                "name": "optionalField",
+                "comment": " Decode an optional EDN map field.\n\n    decodeString (field \"twitter\" string)\n        \"\"\"{:name \"Alice\", :twitter \"@alice\"}\"\"\"\n        == Ok (Just \"@alice\")\n    decodeString (field \"twitter\" string)\n        \"\"\"{:name \"Bob\", :icq 12345678}\"\"\"\n        == Ok Nothing\n    decodeString (field \"twitter\" string)\n        \"\"\"{:name \"Eve\", :twitter nil}\"\"\"\n        == Err _\n\n",
+                "type": "String -> Decoder a -> Decoder (Maybe a)"
+            },
+            {
+                "name": "set",
+                "comment": " Decode an EDN set into an Elm `Set`.\n\n    decodeString (set int) \"#{1, 2}\"\n        == Ok (Set.fromList [1, 2])\n\n",
+                "type": "Decoder comparable -> Decoder (Set comparable)"
+            },
+            {
+                "name": "string",
+                "comment": " Decode an EDN string into an Elm `String`.\n\n    decodeString string \"\\\"12345\\\"\" == Ok \"12345\"\n    decodeString string \"\\\"😞\\\"\"    == Ok \"😞\"\n    decodeString string \"12345\"     == Err _\n\n",
+                "type": "Decoder String"
+            },
+            {
+                "name": "succeed",
+                "comment": " Ignore the input and make the decoder succeed with the given value.\n",
+                "type": "a -> Decoder a"
+            },
+            {
+                "name": "symbol",
+                "comment": " Decode an EDN symbol into an Elm `String`.\n\n     decodeString keyword \"yo\"     == Ok \"yo\"\n     decodeString keyword \":black\" == Err _\n\n",
+                "type": "Decoder String"
+            },
+            {
+                "name": "tagged",
+                "comment": " Decode an element based on its tag.\n\n    type ID\n        = UserID Int\n        | Email String\n\n    decodeString\n        (list <| tagged\n            [ ( \"my/uid\",   map UserID int   )\n            , ( \"my/email\", map Email string )\n            ]\n        ) \"\"\"(#my/uid 1, #my/email \"alice@example.com\", #my/uid 334)\"\"\"\n            == [ UserID 1, Email \"alice@example.com\", UserID 334 ]\n\n",
+                "type": "List ( String, Decoder a ) -> Decoder a"
+            },
+            {
+                "name": "vector",
+                "comment": " Decode an EDN vector into an Elm `List`.\n\n    decodeString (vector int) \"[2 2]\"\n        == Ok [2, 2]\n\n",
+                "type": "Decoder a -> Decoder (List a)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Encode",
+        "comment": " Encode Elm values to EDN elements.\n\nYou can mostly just use this the way you use\n<a href=\"http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode\">Json.Encode</a>\nto encode JSON values.\n\n\n# Basics\n\n@docs Element, encode\n\n\n# Encoding basic types\n\n@docs string, int, float, symbol, keyword\n\n\n# Containers\n\n@docs list\n\n\n# Objects and tags\n\n@docs object, mustObject, tagged, mustTagged\n\n\n# Symbols\n\n@docs Symbol, toSymbol, mustSymbol\n@docs Keyword, toKeyword, mustKeyword\n@docs Tag, toTag, mustTag\n\n",
+        "unions": [
+            {
+                "name": "Keyword",
+                "comment": " An EDN keyword. You can make these from strings using\n`toKeyword` or `mustKeyword`.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Symbol",
+                "comment": " An EDN symbol. You can make these from strings using\n`toSymbol` or `mustSymbol`.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Tag",
+                "comment": " An EDN tag. You can make these from strings using\n`toTag` or `mustTag`.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " An EDN element.\n\nThis can be encoded to a `String` via [`encode`](encode).\n\n",
+                "args": [],
+                "type": "Element"
+            }
+        ],
+        "values": [
+            {
+                "name": "encode",
+                "comment": " Encode an EDN element to EDN.\n\n    encode (list [int 5, string \"hello\"])\n        == \"\"\"(5 \"hello\")\"\"\"\n\n",
+                "type": "Element -> String"
+            },
+            {
+                "name": "float",
+                "comment": " Make an EDN floating point number from an Elm `Float`.\n",
+                "type": "Float -> Element"
+            },
+            {
+                "name": "int",
+                "comment": " Make an EDN integer from an Elm `Int`.\n",
+                "type": "Int -> Element"
+            },
+            {
+                "name": "keyword",
+                "comment": " Make an EDN keyword from a `Keyword`.\n\n    encode <| keyword  <| mustKeyword \"nil\"\n        == \":nil\"\n\n",
+                "type": "Keyword -> Element"
+            },
+            {
+                "name": "list",
+                "comment": " Make an EDN list from an Elm `List` of EDN elements.\n",
+                "type": "List Element -> Element"
+            },
+            {
+                "name": "mustKeyword",
+                "comment": " Create a `Keyword` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+                "type": "String -> Keyword"
+            },
+            {
+                "name": "mustObject",
+                "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name string and field value. This will crash if any of\nthe field names are not valid EDN symbols.\n",
+                "type": "List ( String, Element ) -> Element"
+            },
+            {
+                "name": "mustSymbol",
+                "comment": " Create a `Symbol` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+                "type": "String -> Symbol"
+            },
+            {
+                "name": "mustTag",
+                "comment": " Create a `Tag` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+                "type": "String -> Tag"
+            },
+            {
+                "name": "mustTagged",
+                "comment": " Make a tagged EDN element from a `String` and an element.\nThis will crash if the tag is not a valid EDN symbol.\n",
+                "type": "String -> Element -> Element"
+            },
+            {
+                "name": "object",
+                "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name symbol and field value.\n\n    encode (object [ (\"x\", float 1.5), (\"y\", float 0.0) ])\n        == \"{:x 1.5, :y 0.0}\"\n\n",
+                "type": "List ( Keyword, Element ) -> Element"
+            },
+            {
+                "name": "string",
+                "comment": " Make an EDN string from an Elm `String`.\n",
+                "type": "String -> Element"
+            },
+            {
+                "name": "symbol",
+                "comment": " Make an EDN symbol from a `Symbol`.\n",
+                "type": "Symbol -> Element"
+            },
+            {
+                "name": "tagged",
+                "comment": " Make a tagged EDN element from a tag and an element.\n",
+                "type": "Tag -> Element -> Element"
+            },
+            {
+                "name": "toKeyword",
+                "comment": " Create a `Keyword` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
+                "type": "String -> Maybe Keyword"
+            },
+            {
+                "name": "toSymbol",
+                "comment": " Create a `Symbol` from an Elm `String`. This will fail\nand return `Nothing` if the string is not a valid symbol, compare\nthe [EDN spec](https://github.com/edn-format/edn#symbols).\n\n`nil`, `true` and `false` are not valid symbols.\n\n",
+                "type": "String -> Maybe Symbol"
+            },
+            {
+                "name": "toTag",
+                "comment": " Create a `Tag` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
+                "type": "String -> Maybe Tag"
+            }
+        ],
+        "binops": []
+    }
+]

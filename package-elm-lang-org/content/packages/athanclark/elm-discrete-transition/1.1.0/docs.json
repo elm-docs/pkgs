@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Transition.Discrete",
+        "comment": "\n\n## A Discrete State\n\n@docs Node, mkNode, NodeId\n\n## Model\n\n@docs Model, init\n\n## Msg\n\n@docs Msg, MsgSettings, emptyMsgSettings\n\n## Update\n\n@docs update, subscriptions\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Call `GoTo node settings` to initialize the transition. ",
+                "args": [
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "GoTo",
+                        [
+                            "NodeId",
+                            "MsgSettings b"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Node",
+                "comment": " The discrete state's transition settings ",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The state of the transition system ",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "{ current : NodeId, target : Maybe TargetState, nodes : Dict NodeId (Node a b), actions : PendingMsg b }"
+            },
+            {
+                "name": "MsgSettings",
+                "comment": " Actions to issue when a state transition is finished, or between\n    a state change.\n",
+                "args": [
+                    "b"
+                ],
+                "type": "{ onChange : Cmd b -> Cmd b, onBetweenChange : Cmd b -> Cmd b }"
+            },
+            {
+                "name": "NodeId",
+                "comment": " The identifier for a discrete state - note that you should\n    keep these unique; if not, the behaviour is unspecified\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "emptyMsgSettings",
+                "comment": " ",
+                "type": "MsgSettings b"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "NodeId -> Dict NodeId (Node a b) -> Model a b"
+            },
+            {
+                "name": "mkNode",
+                "comment": " Build a discrete state ",
+                "type": "Time -> (Time -> Cmd a) -> Node a b"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "Model a b -> Sub (Msg b)"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "(Msg b -> Result a b) -> Msg b -> Model a b -> ( Model a b, Cmd (Result a b) )"
+            }
+        ],
+        "binops": []
+    }
+]

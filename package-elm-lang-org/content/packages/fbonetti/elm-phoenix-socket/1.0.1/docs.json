@@ -1,0 +1,193 @@
+[
+    {
+        "name": "Phoenix.Socket",
+        "comment": "\n\n# Socket\n@docs Socket, Msg, init, withDebug, update, listen\n\n# Channels\n@docs join, leave\n\n# Events\n@docs on, off\n\n# Sending messages\n@docs push\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Socket",
+                "comment": " Stores channels, event handlers, and configuration options\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ path : String, debug : Bool, channels : Dict String (Channel msg), events : Dict ( String, String ) (Value -> msg), pushes : Dict Int (Push msg), ref : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a `Socket` with the given path\n",
+                "type": "String -> Socket msg"
+            },
+            {
+                "name": "join",
+                "comment": " Joins a channel\n\n    payload = Json.Encode.object [ (\"user_id\", Json.Encode.string \"123\") ]\n    channel = Channel.init \"rooms:lobby\" |> Channel.withPayload payload\n    (socket', cmd) = join channel socket\n\n",
+                "type": "Channel msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "leave",
+                "comment": " Leaves a channel\n\n    (socket', cmd) = leave \"rooms:lobby\" socket\n\n",
+                "type": "String -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "listen",
+                "comment": " Listens for phoenix messages and converts them into type `msg`\n",
+                "type": "Socket msg -> (Msg msg -> msg) -> Sub msg"
+            },
+            {
+                "name": "off",
+                "comment": " Removes an event handler\n\n    socket\n      |> off \"new:msg\" \"rooms:lobby\"\n      |> off \"alert:msg\" \"rooms:lobby\"\n\n",
+                "type": "String -> String -> Socket msg -> Socket msg"
+            },
+            {
+                "name": "on",
+                "comment": " Registers an event handler\n\n    socket\n      |> on \"new:msg\" \"rooms:lobby\" ReceiveChatMessage\n      |> on \"alert:msg\" \"rooms:lobby\" ReceiveAlertMessage\n\n",
+                "type": "String -> String -> (Value -> msg) -> Socket msg -> Socket msg"
+            },
+            {
+                "name": "push",
+                "comment": " Pushes a message\n\n    push' = Phoenix.Push.init \"new:msg\" \"rooms:lobby\"\n    (socket', cmd) = push push' socket\n\n",
+                "type": "Push msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "withDebug",
+                "comment": " When enabled, prints all incoming Phoenix messages to the console\n",
+                "type": "Socket msg -> Socket msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Channel",
+        "comment": "\n\n@docs Channel, State, init, withPayload, onError, onClose, onJoin, onJoinError, setState\n\n",
+        "unions": [
+            {
+                "name": "State",
+                "comment": " All possible states a channel can be in\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Closed",
+                        []
+                    ],
+                    [
+                        "Errored",
+                        []
+                    ],
+                    [
+                        "Joined",
+                        []
+                    ],
+                    [
+                        "Joining",
+                        []
+                    ],
+                    [
+                        "Leaving",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Channel",
+                "comment": " Represents a phoenix channel\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ name : String, payload : Value, state : State, onClose : Maybe (Value -> msg), onError : Maybe (Value -> msg), onJoin : Maybe (Value -> msg), onJoinError : Maybe (Value -> msg), joinRef : Int, leaveRef : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a channel\n\n    init \"rooms:lobby\"\n\n",
+                "type": "String -> Channel msg"
+            },
+            {
+                "name": "onClose",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onError",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoin",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoinError",
+                "comment": " ",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "setState",
+                "comment": " Sets the state of a channel. Internal use only.\n",
+                "type": "State -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Attaches a payload that's used for authentication\n\n    payload = JE.object [ (\"user_id\", JE.string \"123\") ]\n    init \"rooms:lobby\"\n      |> withPayload payload\n\n",
+                "type": "Value -> Channel msg -> Channel msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Push",
+        "comment": "\n\n@docs Push, init, withPayload, onError, onOk\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Push",
+                "comment": " Represents a message being pushed to the server\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ event : String, channel : String, payload : Value, onOk : Maybe (Value -> msg), onError : Maybe (Value -> msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes a push with the given event and channel\n\n    init \"new:msg\" \"rooms:lobby\"\n\n",
+                "type": "String -> String -> Push msg"
+            },
+            {
+                "name": "onError",
+                "comment": " Attaches an error handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onError HandlePushError\n\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "onOk",
+                "comment": " Attaches a success handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onOk HandlePushOk\n\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Attaches a payload\n\n    payload = JE.object [ (\"body\", JE.string \"Hello World!\") ]\n    init \"new:msg\" \"rooms:lobby\"\n      |> withPayload payload\n\n",
+                "type": "Value -> Push msg -> Push msg"
+            }
+        ],
+        "binops": []
+    }
+]

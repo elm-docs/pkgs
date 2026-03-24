@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Json.Decode.Extra",
+        "comment": " DEPRECATED. Use https://github.com/elm-community/json-extra/ instead\n\n# Nonsense\n@docs longestGermanIsogram\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "longestGermanIsogram",
+                "comment": " The longest German isogram\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

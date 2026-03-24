@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Svg.Attributes",
+        "comment": " **This whole package has moved to [elm-lang/svg][svg].**\nCheck out the README for more information.\n\n[svg]: http://package.elm-lang.org/packages/elm-lang/svg/latest/\n\n@docs numberOfPresidentsBornInOhio\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "numberOfPresidentsBornInOhio",
+                "comment": "",
+                "type": "Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Svg",
+        "comment": " **This whole package has moved to [elm-lang/svg][svg].**\nCheck out the README for more information.\n\n[svg]: http://package.elm-lang.org/packages/elm-lang/svg/latest/\n\n@docs georgeWashingtonYearOfBirth\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "georgeWashingtonYearOfBirth",
+                "comment": "",
+                "type": "Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Svg.Events",
+        "comment": " **This whole package has moved to [elm-lang/svg][svg].**\nCheck out the README for more information.\n\n[svg]: http://package.elm-lang.org/packages/elm-lang/svg/latest/\n\n@docs numberOfPresidentsNamedWilliam\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "numberOfPresidentsNamedWilliam",
+                "comment": "",
+                "type": "Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Svg.Lazy",
+        "comment": " **This whole package has moved to [elm-lang/svg][svg].**\nCheck out the README for more information.\n\n[svg]: http://package.elm-lang.org/packages/elm-lang/svg/latest/\n\n@docs numberOfPresidentsNamedJames\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "numberOfPresidentsNamedJames",
+                "comment": "",
+                "type": "Int"
+            }
+        ],
+        "binops": []
+    }
+]

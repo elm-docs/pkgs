@@ -1,0 +1,1545 @@
+[
+    {
+        "name": "Bulma.Classes",
+        "comment": " A module containing all [Bulma](https://bulma.io) classes at top\nlevel, putting the burden of not making typos on the compiler.\n\nExample usage:\n\n    import Bulma.Classes as Bulma\n\n    view =\n        Html.div\n            [ Html.Attributes.class Bulma.columns ]\n            [ Html.div\n                [ Html.Attributes.class Bulma.column ]\n                [ Html.text \"column 1\" ]\n            , Html.div\n                [ Html.Attributes.class Bulma.column ]\n                [ Html.text \"column 2\" ]\n            ]\n\n\n# Classes\n\n@docs block\n@docs box\n@docs breadcrumb\n@docs button\n@docs buttons\n@docs card\n@docs cardContent\n@docs cardFooter\n@docs cardFooterItem\n@docs cardHeader\n@docs cardHeaderIcon\n@docs cardHeaderTitle\n@docs cardImage\n@docs checkbox\n@docs column\n@docs columns\n@docs container\n@docs content\n@docs control\n@docs delete\n@docs dropdown\n@docs dropdownContent\n@docs dropdownDivider\n@docs dropdownItem\n@docs dropdownMenu\n@docs fa\n@docs field\n@docs fieldBody\n@docs fieldLabel\n@docs file\n@docs fileCta\n@docs fileIcon\n@docs fileInput\n@docs fileLabel\n@docs fileName\n@docs footer\n@docs hasAddons\n@docs hasAddonsCentered\n@docs hasAddonsFullwidth\n@docs hasAddonsRight\n@docs hasArrowSeparator\n@docs hasBulletSeparator\n@docs hasDotSeparator\n@docs hasDropdown\n@docs hasFixedSize\n@docs hasIcon\n@docs hasIconRight\n@docs hasIconsLeft\n@docs hasIconsRight\n@docs hasName\n@docs hasNavbarFixedBottom\n@docs hasNavbarFixedTop\n@docs hasShadow\n@docs hasSucceedsSeparator\n@docs hasTextBlack\n@docs hasTextBlackBis\n@docs hasTextBlackTer\n@docs hasTextCentered\n@docs hasTextDanger\n@docs hasTextDark\n@docs hasTextGrey\n@docs hasTextGreyDark\n@docs hasTextGreyDarker\n@docs hasTextGreyLight\n@docs hasTextGreyLighter\n@docs hasTextInfo\n@docs hasTextJustified\n@docs hasTextLeft\n@docs hasTextLight\n@docs hasTextLink\n@docs hasTextPrimary\n@docs hasTextRight\n@docs hasTextSuccess\n@docs hasTextWarning\n@docs hasTextWeightBold\n@docs hasTextWeightLight\n@docs hasTextWeightNormal\n@docs hasTextWeightSemibold\n@docs hasTextWhite\n@docs hasTextWhiteBis\n@docs hasTextWhiteTer\n@docs heading\n@docs help\n@docs hero\n@docs heroBody\n@docs heroButtons\n@docs heroFoot\n@docs heroHead\n@docs heroVideo\n@docs highlight\n@docs icon\n@docs image\n@docs input\n@docs is0\n@docs is1\n@docs is10\n@docs is11\n@docs is12\n@docs is128x128\n@docs is16by9\n@docs is16x16\n@docs is1by1\n@docs is2\n@docs is24x24\n@docs is2by1\n@docs is3\n@docs is32x32\n@docs is3by2\n@docs is4\n@docs is48x48\n@docs is4by3\n@docs is5\n@docs is6\n@docs is64x64\n@docs is7\n@docs is8\n@docs is9\n@docs is96x96\n@docs isActive\n@docs isAncestor\n@docs isBlack\n@docs isBlock\n@docs isBold\n@docs isBordered\n@docs isBoxed\n@docs isCapitalized\n@docs isCenter\n@docs isCentered\n@docs isChild\n@docs isClearfix\n@docs isClipped\n@docs isCurrent\n@docs isDanger\n@docs isDark\n@docs isDelete\n@docs isDisabled\n@docs isEmpty\n@docs isExpanded\n@docs isFixedBottom\n@docs isFixedTop\n@docs isFlex\n@docs isFlexible\n@docs isFocused\n@docs isFourFifths\n@docs isFull\n@docs isFullheight\n@docs isFullwidth\n@docs isGapless\n@docs isGrouped\n@docs isGroupedCentered\n@docs isGroupedMultiline\n@docs isGroupedRight\n@docs isHalf\n@docs isHalfheight\n@docs isHidden\n@docs isHoverable\n@docs isHovered\n@docs isInfo\n@docs isInline\n@docs isInlineBlock\n@docs isInlineFlex\n@docs isInverted\n@docs isInvisible\n@docs isItalic\n@docs isLarge\n@docs isLeft\n@docs isLight\n@docs isLink\n@docs isLoading\n@docs isLowercase\n@docs isMarginless\n@docs isMedium\n@docs isMobile\n@docs isMultiline\n@docs isMultiple\n@docs isNarrow\n@docs isOffset1\n@docs isOffset10\n@docs isOffset11\n@docs isOffset12\n@docs isOffset2\n@docs isOffset3\n@docs isOffset4\n@docs isOffset5\n@docs isOffset6\n@docs isOffset7\n@docs isOffset8\n@docs isOffset9\n@docs isOffsetFourFifths\n@docs isOffsetHalf\n@docs isOffsetOneFifth\n@docs isOffsetOneQuarter\n@docs isOffsetOneThird\n@docs isOffsetThreeFifths\n@docs isOffsetThreeQuarters\n@docs isOffsetTwoFifths\n@docs isOffsetTwoThirds\n@docs isOneFifth\n@docs isOneQuarter\n@docs isOneThird\n@docs isOutlined\n@docs isOverlay\n@docs isPaddingless\n@docs isParent\n@docs isPrimary\n@docs isPulledLeft\n@docs isPulledRight\n@docs isRadiusless\n@docs isRight\n@docs isRounded\n@docs isSelected\n@docs isShadowless\n@docs isSize1\n@docs isSize2\n@docs isSize3\n@docs isSize4\n@docs isSize5\n@docs isSize6\n@docs isSize7\n@docs isSmall\n@docs isSpaced\n@docs isSquare\n@docs isStatic\n@docs isStriped\n@docs isSuccess\n@docs isTab\n@docs isText\n@docs isThreeFifths\n@docs isThreeQuarters\n@docs isToggle\n@docs isToggleRounded\n@docs isTransparent\n@docs isTwoFifths\n@docs isTwoThirds\n@docs isUnselectable\n@docs isUp\n@docs isUppercase\n@docs isVariable\n@docs isVcentered\n@docs isVertical\n@docs isWarning\n@docs isWhite\n@docs isWrapped\n@docs label\n@docs level\n@docs levelItem\n@docs levelLeft\n@docs levelRight\n@docs loader\n@docs media\n@docs mediaContent\n@docs mediaLeft\n@docs mediaRight\n@docs menu\n@docs menuLabel\n@docs menuList\n@docs message\n@docs messageBody\n@docs messageHeader\n@docs modal\n@docs modalBackground\n@docs modalCard\n@docs modalCardBody\n@docs modalCardFoot\n@docs modalCardHead\n@docs modalCardTitle\n@docs modalClose\n@docs modalContent\n@docs navbar\n@docs navbarBrand\n@docs navbarBurger\n@docs navbarContent\n@docs navbarDivider\n@docs navbarDropdown\n@docs navbarItem\n@docs navbarLink\n@docs navbarMenu\n@docs navbarTabs\n@docs notification\n@docs number\n@docs pagination\n@docs paginationEllipsis\n@docs paginationLink\n@docs paginationList\n@docs paginationNext\n@docs paginationPrevious\n@docs panel\n@docs panelBlock\n@docs panelHeading\n@docs panelIcon\n@docs panelList\n@docs panelTabs\n@docs progress\n@docs radio\n@docs section\n@docs select\n@docs subtitle\n@docs table\n@docs tabs\n@docs tag\n@docs tags\n@docs textarea\n@docs tile\n@docs title\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "block",
+                "comment": " `block == \"block\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "box",
+                "comment": " `box == \"box\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "breadcrumb",
+                "comment": " `breadcrumb == \"breadcrumb\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "button",
+                "comment": " `button == \"button\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "buttons",
+                "comment": " `buttons == \"buttons\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "card",
+                "comment": " `card == \"card\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardContent",
+                "comment": " `cardContent == \"card-content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardFooter",
+                "comment": " `cardFooter == \"card-footer\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardFooterItem",
+                "comment": " `cardFooterItem == \"card-footer-item\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardHeader",
+                "comment": " `cardHeader == \"card-header\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardHeaderIcon",
+                "comment": " `cardHeaderIcon == \"card-header-icon\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardHeaderTitle",
+                "comment": " `cardHeaderTitle == \"card-header-title\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "cardImage",
+                "comment": " `cardImage == \"card-image\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "checkbox",
+                "comment": " `checkbox == \"checkbox\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "column",
+                "comment": " `column == \"column\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "columns",
+                "comment": " `columns == \"columns\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "container",
+                "comment": " `container == \"container\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "content",
+                "comment": " `content == \"content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "control",
+                "comment": " `control == \"control\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "delete",
+                "comment": " `delete == \"delete\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "dropdown",
+                "comment": " `dropdown == \"dropdown\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "dropdownContent",
+                "comment": " `dropdownContent == \"dropdown-content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "dropdownDivider",
+                "comment": " `dropdownDivider == \"dropdown-divider\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "dropdownItem",
+                "comment": " `dropdownItem == \"dropdown-item\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "dropdownMenu",
+                "comment": " `dropdownMenu == \"dropdown-menu\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fa",
+                "comment": " `fa == \"fa\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "field",
+                "comment": " `field == \"field\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fieldBody",
+                "comment": " `fieldBody == \"field-body\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fieldLabel",
+                "comment": " `fieldLabel == \"field-label\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "file",
+                "comment": " `file == \"file\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fileCta",
+                "comment": " `fileCta == \"file-cta\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fileIcon",
+                "comment": " `fileIcon == \"file-icon\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fileInput",
+                "comment": " `fileInput == \"file-input\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fileLabel",
+                "comment": " `fileLabel == \"file-label\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "fileName",
+                "comment": " `fileName == \"file-name\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "footer",
+                "comment": " `footer == \"footer\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasAddons",
+                "comment": " `hasAddons == \"has-addons\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasAddonsCentered",
+                "comment": " `hasAddonsCentered == \"has-addons-centered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasAddonsFullwidth",
+                "comment": " `hasAddonsFullwidth == \"has-addons-fullwidth\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasAddonsRight",
+                "comment": " `hasAddonsRight == \"has-addons-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasArrowSeparator",
+                "comment": " `hasArrowSeparator == \"has-arrow-separator\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasBulletSeparator",
+                "comment": " `hasBulletSeparator == \"has-bullet-separator\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasDotSeparator",
+                "comment": " `hasDotSeparator == \"has-dot-separator\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasDropdown",
+                "comment": " `hasDropdown == \"has-dropdown\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasFixedSize",
+                "comment": " `hasFixedSize == \"has-fixed-size\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasIcon",
+                "comment": " `hasIcon == \"has-icon\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasIconRight",
+                "comment": " `hasIconRight == \"has-icon-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasIconsLeft",
+                "comment": " `hasIconsLeft == \"has-icons-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasIconsRight",
+                "comment": " `hasIconsRight == \"has-icons-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasName",
+                "comment": " `hasName == \"has-name\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasNavbarFixedBottom",
+                "comment": " `hasNavbarFixedBottom == \"has-navbar-fixed-bottom\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasNavbarFixedTop",
+                "comment": " `hasNavbarFixedTop == \"has-navbar-fixed-top\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasShadow",
+                "comment": " `hasShadow == \"has-shadow\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasSucceedsSeparator",
+                "comment": " `hasSucceedsSeparator == \"has-succeeds-separator\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextBlack",
+                "comment": " `hasTextBlack == \"has-text-black\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextBlackBis",
+                "comment": " `hasTextBlackBis == \"has-text-black-bis\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextBlackTer",
+                "comment": " `hasTextBlackTer == \"has-text-black-ter\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextCentered",
+                "comment": " `hasTextCentered == \"has-text-centered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextDanger",
+                "comment": " `hasTextDanger == \"has-text-danger\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextDark",
+                "comment": " `hasTextDark == \"has-text-dark\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextGrey",
+                "comment": " `hasTextGrey == \"has-text-grey\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextGreyDark",
+                "comment": " `hasTextGreyDark == \"has-text-grey-dark\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextGreyDarker",
+                "comment": " `hasTextGreyDarker == \"has-text-grey-darker\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextGreyLight",
+                "comment": " `hasTextGreyLight == \"has-text-grey-light\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextGreyLighter",
+                "comment": " `hasTextGreyLighter == \"has-text-grey-lighter\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextInfo",
+                "comment": " `hasTextInfo == \"has-text-info\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextJustified",
+                "comment": " `hasTextJustified == \"has-text-justified\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextLeft",
+                "comment": " `hasTextLeft == \"has-text-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextLight",
+                "comment": " `hasTextLight == \"has-text-light\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextLink",
+                "comment": " `hasTextLink == \"has-text-link\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextPrimary",
+                "comment": " `hasTextPrimary == \"has-text-primary\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextRight",
+                "comment": " `hasTextRight == \"has-text-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextSuccess",
+                "comment": " `hasTextSuccess == \"has-text-success\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWarning",
+                "comment": " `hasTextWarning == \"has-text-warning\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWeightBold",
+                "comment": " `hasTextWeightBold == \"has-text-weight-bold\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWeightLight",
+                "comment": " `hasTextWeightLight == \"has-text-weight-light\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWeightNormal",
+                "comment": " `hasTextWeightNormal == \"has-text-weight-normal\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWeightSemibold",
+                "comment": " `hasTextWeightSemibold == \"has-text-weight-semibold\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWhite",
+                "comment": " `hasTextWhite == \"has-text-white\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWhiteBis",
+                "comment": " `hasTextWhiteBis == \"has-text-white-bis\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hasTextWhiteTer",
+                "comment": " `hasTextWhiteTer == \"has-text-white-ter\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heading",
+                "comment": " `heading == \"heading\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "help",
+                "comment": " `help == \"help\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "hero",
+                "comment": " `hero == \"hero\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heroBody",
+                "comment": " `heroBody == \"hero-body\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heroButtons",
+                "comment": " `heroButtons == \"hero-buttons\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heroFoot",
+                "comment": " `heroFoot == \"hero-foot\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heroHead",
+                "comment": " `heroHead == \"hero-head\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "heroVideo",
+                "comment": " `heroVideo == \"hero-video\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "highlight",
+                "comment": " `highlight == \"highlight\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "icon",
+                "comment": " `icon == \"icon\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "image",
+                "comment": " `image == \"image\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "input",
+                "comment": " `input == \"input\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is0",
+                "comment": " `is0 == \"is-0\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is1",
+                "comment": " `is1 == \"is-1\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is10",
+                "comment": " `is10 == \"is-10\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is11",
+                "comment": " `is11 == \"is-11\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is12",
+                "comment": " `is12 == \"is-12\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is128x128",
+                "comment": " `is128x128 == \"is-128x128\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is16by9",
+                "comment": " `is16by9 == \"is-16by9\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is16x16",
+                "comment": " `is16x16 == \"is-16x16\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is1by1",
+                "comment": " `is1by1 == \"is-1by1\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is2",
+                "comment": " `is2 == \"is-2\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is24x24",
+                "comment": " `is24x24 == \"is-24x24\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is2by1",
+                "comment": " `is2by1 == \"is-2by1\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is3",
+                "comment": " `is3 == \"is-3\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is32x32",
+                "comment": " `is32x32 == \"is-32x32\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is3by2",
+                "comment": " `is3by2 == \"is-3by2\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is4",
+                "comment": " `is4 == \"is-4\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is48x48",
+                "comment": " `is48x48 == \"is-48x48\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is4by3",
+                "comment": " `is4by3 == \"is-4by3\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is5",
+                "comment": " `is5 == \"is-5\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is6",
+                "comment": " `is6 == \"is-6\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is64x64",
+                "comment": " `is64x64 == \"is-64x64\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is7",
+                "comment": " `is7 == \"is-7\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is8",
+                "comment": " `is8 == \"is-8\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is9",
+                "comment": " `is9 == \"is-9\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "is96x96",
+                "comment": " `is96x96 == \"is-96x96\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isActive",
+                "comment": " `isActive == \"is-active\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isAncestor",
+                "comment": " `isAncestor == \"is-ancestor\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isBlack",
+                "comment": " `isBlack == \"is-black\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isBlock",
+                "comment": " `isBlock == \"is-block\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isBold",
+                "comment": " `isBold == \"is-bold\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isBordered",
+                "comment": " `isBordered == \"is-bordered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isBoxed",
+                "comment": " `isBoxed == \"is-boxed\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isCapitalized",
+                "comment": " `isCapitalized == \"is-capitalized\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isCenter",
+                "comment": " `isCenter == \"is-center\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isCentered",
+                "comment": " `isCentered == \"is-centered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isChild",
+                "comment": " `isChild == \"is-child\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isClearfix",
+                "comment": " `isClearfix == \"is-clearfix\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isClipped",
+                "comment": " `isClipped == \"is-clipped\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isCurrent",
+                "comment": " `isCurrent == \"is-current\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isDanger",
+                "comment": " `isDanger == \"is-danger\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isDark",
+                "comment": " `isDark == \"is-dark\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isDelete",
+                "comment": " `isDelete == \"is-delete\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isDisabled",
+                "comment": " `isDisabled == \"is-disabled\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " `isEmpty == \"is-empty\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isExpanded",
+                "comment": " `isExpanded == \"is-expanded\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFixedBottom",
+                "comment": " `isFixedBottom == \"is-fixed-bottom\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFixedTop",
+                "comment": " `isFixedTop == \"is-fixed-top\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFlex",
+                "comment": " `isFlex == \"is-flex\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFlexible",
+                "comment": " `isFlexible == \"is-flexible\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFocused",
+                "comment": " `isFocused == \"is-focused\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFourFifths",
+                "comment": " `isFourFifths == \"is-four-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFull",
+                "comment": " `isFull == \"is-full\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFullheight",
+                "comment": " `isFullheight == \"is-fullheight\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isFullwidth",
+                "comment": " `isFullwidth == \"is-fullwidth\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isGapless",
+                "comment": " `isGapless == \"is-gapless\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isGrouped",
+                "comment": " `isGrouped == \"is-grouped\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isGroupedCentered",
+                "comment": " `isGroupedCentered == \"is-grouped-centered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isGroupedMultiline",
+                "comment": " `isGroupedMultiline == \"is-grouped-multiline\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isGroupedRight",
+                "comment": " `isGroupedRight == \"is-grouped-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isHalf",
+                "comment": " `isHalf == \"is-half\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isHalfheight",
+                "comment": " `isHalfheight == \"is-halfheight\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isHidden",
+                "comment": " `isHidden == \"is-hidden\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isHoverable",
+                "comment": " `isHoverable == \"is-hoverable\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isHovered",
+                "comment": " `isHovered == \"is-hovered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInfo",
+                "comment": " `isInfo == \"is-info\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInline",
+                "comment": " `isInline == \"is-inline\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInlineBlock",
+                "comment": " `isInlineBlock == \"is-inline-block\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInlineFlex",
+                "comment": " `isInlineFlex == \"is-inline-flex\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInverted",
+                "comment": " `isInverted == \"is-inverted\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isInvisible",
+                "comment": " `isInvisible == \"is-invisible\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isItalic",
+                "comment": " `isItalic == \"is-italic\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLarge",
+                "comment": " `isLarge == \"is-large\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLeft",
+                "comment": " `isLeft == \"is-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLight",
+                "comment": " `isLight == \"is-light\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLink",
+                "comment": " `isLink == \"is-link\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLoading",
+                "comment": " `isLoading == \"is-loading\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isLowercase",
+                "comment": " `isLowercase == \"is-lowercase\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isMarginless",
+                "comment": " `isMarginless == \"is-marginless\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isMedium",
+                "comment": " `isMedium == \"is-medium\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isMobile",
+                "comment": " `isMobile == \"is-mobile\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isMultiline",
+                "comment": " `isMultiline == \"is-multiline\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isMultiple",
+                "comment": " `isMultiple == \"is-multiple\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isNarrow",
+                "comment": " `isNarrow == \"is-narrow\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset1",
+                "comment": " `isOffset1 == \"is-offset-1\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset10",
+                "comment": " `isOffset10 == \"is-offset-10\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset11",
+                "comment": " `isOffset11 == \"is-offset-11\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset12",
+                "comment": " `isOffset12 == \"is-offset-12\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset2",
+                "comment": " `isOffset2 == \"is-offset-2\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset3",
+                "comment": " `isOffset3 == \"is-offset-3\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset4",
+                "comment": " `isOffset4 == \"is-offset-4\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset5",
+                "comment": " `isOffset5 == \"is-offset-5\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset6",
+                "comment": " `isOffset6 == \"is-offset-6\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset7",
+                "comment": " `isOffset7 == \"is-offset-7\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset8",
+                "comment": " `isOffset8 == \"is-offset-8\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffset9",
+                "comment": " `isOffset9 == \"is-offset-9\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetFourFifths",
+                "comment": " `isOffsetFourFifths == \"is-offset-four-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetHalf",
+                "comment": " `isOffsetHalf == \"is-offset-half\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetOneFifth",
+                "comment": " `isOffsetOneFifth == \"is-offset-one-fifth\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetOneQuarter",
+                "comment": " `isOffsetOneQuarter == \"is-offset-one-quarter\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetOneThird",
+                "comment": " `isOffsetOneThird == \"is-offset-one-third\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetThreeFifths",
+                "comment": " `isOffsetThreeFifths == \"is-offset-three-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetThreeQuarters",
+                "comment": " `isOffsetThreeQuarters == \"is-offset-three-quarters\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetTwoFifths",
+                "comment": " `isOffsetTwoFifths == \"is-offset-two-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOffsetTwoThirds",
+                "comment": " `isOffsetTwoThirds == \"is-offset-two-thirds\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOneFifth",
+                "comment": " `isOneFifth == \"is-one-fifth\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOneQuarter",
+                "comment": " `isOneQuarter == \"is-one-quarter\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOneThird",
+                "comment": " `isOneThird == \"is-one-third\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOutlined",
+                "comment": " `isOutlined == \"is-outlined\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isOverlay",
+                "comment": " `isOverlay == \"is-overlay\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isPaddingless",
+                "comment": " `isPaddingless == \"is-paddingless\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isParent",
+                "comment": " `isParent == \"is-parent\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isPrimary",
+                "comment": " `isPrimary == \"is-primary\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isPulledLeft",
+                "comment": " `isPulledLeft == \"is-pulled-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isPulledRight",
+                "comment": " `isPulledRight == \"is-pulled-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isRadiusless",
+                "comment": " `isRadiusless == \"is-radiusless\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isRight",
+                "comment": " `isRight == \"is-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isRounded",
+                "comment": " `isRounded == \"is-rounded\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSelected",
+                "comment": " `isSelected == \"is-selected\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isShadowless",
+                "comment": " `isShadowless == \"is-shadowless\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize1",
+                "comment": " `isSize1 == \"is-size-1\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize2",
+                "comment": " `isSize2 == \"is-size-2\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize3",
+                "comment": " `isSize3 == \"is-size-3\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize4",
+                "comment": " `isSize4 == \"is-size-4\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize5",
+                "comment": " `isSize5 == \"is-size-5\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize6",
+                "comment": " `isSize6 == \"is-size-6\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSize7",
+                "comment": " `isSize7 == \"is-size-7\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSmall",
+                "comment": " `isSmall == \"is-small\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSpaced",
+                "comment": " `isSpaced == \"is-spaced\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSquare",
+                "comment": " `isSquare == \"is-square\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isStatic",
+                "comment": " `isStatic == \"is-static\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isStriped",
+                "comment": " `isStriped == \"is-striped\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isSuccess",
+                "comment": " `isSuccess == \"is-success\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isTab",
+                "comment": " `isTab == \"is-tab\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isText",
+                "comment": " `isText == \"is-text\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isThreeFifths",
+                "comment": " `isThreeFifths == \"is-three-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isThreeQuarters",
+                "comment": " `isThreeQuarters == \"is-three-quarters\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isToggle",
+                "comment": " `isToggle == \"is-toggle\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isToggleRounded",
+                "comment": " `isToggleRounded == \"is-toggle-rounded\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isTransparent",
+                "comment": " `isTransparent == \"is-transparent\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isTwoFifths",
+                "comment": " `isTwoFifths == \"is-two-fifths\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isTwoThirds",
+                "comment": " `isTwoThirds == \"is-two-thirds\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isUnselectable",
+                "comment": " `isUnselectable == \"is-unselectable\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isUp",
+                "comment": " `isUp == \"is-up\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isUppercase",
+                "comment": " `isUppercase == \"is-uppercase\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isVariable",
+                "comment": " `isVariable == \"is-variable\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isVcentered",
+                "comment": " `isVcentered == \"is-vcentered\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isVertical",
+                "comment": " `isVertical == \"is-vertical\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isWarning",
+                "comment": " `isWarning == \"is-warning\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isWhite",
+                "comment": " `isWhite == \"is-white\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "isWrapped",
+                "comment": " `isWrapped == \"is-wrapped\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "label",
+                "comment": " `label == \"label\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "level",
+                "comment": " `level == \"level\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "levelItem",
+                "comment": " `levelItem == \"level-item\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "levelLeft",
+                "comment": " `levelLeft == \"level-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "levelRight",
+                "comment": " `levelRight == \"level-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "loader",
+                "comment": " `loader == \"loader\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "media",
+                "comment": " `media == \"media\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "mediaContent",
+                "comment": " `mediaContent == \"media-content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "mediaLeft",
+                "comment": " `mediaLeft == \"media-left\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "mediaRight",
+                "comment": " `mediaRight == \"media-right\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "menu",
+                "comment": " `menu == \"menu\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "menuLabel",
+                "comment": " `menuLabel == \"menu-label\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "menuList",
+                "comment": " `menuList == \"menu-list\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "message",
+                "comment": " `message == \"message\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "messageBody",
+                "comment": " `messageBody == \"message-body\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "messageHeader",
+                "comment": " `messageHeader == \"message-header\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modal",
+                "comment": " `modal == \"modal\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalBackground",
+                "comment": " `modalBackground == \"modal-background\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalCard",
+                "comment": " `modalCard == \"modal-card\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalCardBody",
+                "comment": " `modalCardBody == \"modal-card-body\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalCardFoot",
+                "comment": " `modalCardFoot == \"modal-card-foot\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalCardHead",
+                "comment": " `modalCardHead == \"modal-card-head\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalCardTitle",
+                "comment": " `modalCardTitle == \"modal-card-title\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalClose",
+                "comment": " `modalClose == \"modal-close\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "modalContent",
+                "comment": " `modalContent == \"modal-content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbar",
+                "comment": " `navbar == \"navbar\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarBrand",
+                "comment": " `navbarBrand == \"navbar-brand\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarBurger",
+                "comment": " `navbarBurger == \"navbar-burger\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarContent",
+                "comment": " `navbarContent == \"navbar-content\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarDivider",
+                "comment": " `navbarDivider == \"navbar-divider\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarDropdown",
+                "comment": " `navbarDropdown == \"navbar-dropdown\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarItem",
+                "comment": " `navbarItem == \"navbar-item\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarLink",
+                "comment": " `navbarLink == \"navbar-link\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarMenu",
+                "comment": " `navbarMenu == \"navbar-menu\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "navbarTabs",
+                "comment": " `navbarTabs == \"navbar-tabs\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "notification",
+                "comment": " `notification == \"notification\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "number",
+                "comment": " `number == \"number\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "pagination",
+                "comment": " `pagination == \"pagination\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "paginationEllipsis",
+                "comment": " `paginationEllipsis == \"pagination-ellipsis\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "paginationLink",
+                "comment": " `paginationLink == \"pagination-link\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "paginationList",
+                "comment": " `paginationList == \"pagination-list\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "paginationNext",
+                "comment": " `paginationNext == \"pagination-next\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "paginationPrevious",
+                "comment": " `paginationPrevious == \"pagination-previous\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panel",
+                "comment": " `panel == \"panel\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panelBlock",
+                "comment": " `panelBlock == \"panel-block\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panelHeading",
+                "comment": " `panelHeading == \"panel-heading\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panelIcon",
+                "comment": " `panelIcon == \"panel-icon\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panelList",
+                "comment": " `panelList == \"panel-list\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "panelTabs",
+                "comment": " `panelTabs == \"panel-tabs\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "progress",
+                "comment": " `progress == \"progress\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "radio",
+                "comment": " `radio == \"radio\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "section",
+                "comment": " `section == \"section\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "select",
+                "comment": " `select == \"select\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "subtitle",
+                "comment": " `subtitle == \"subtitle\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "table",
+                "comment": " `table == \"table\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "tabs",
+                "comment": " `tabs == \"tabs\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "tag",
+                "comment": " `tag == \"tag\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "tags",
+                "comment": " `tags == \"tags\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "textarea",
+                "comment": " `textarea == \"textarea\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "tile",
+                "comment": " `tile == \"tile\"`\n",
+                "type": "String"
+            },
+            {
+                "name": "title",
+                "comment": " `title == \"title\"`\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bulma.Helpers",
+        "comment": " Some helpers that make using Bulma.Classes easier\n\n\n# Helpers\n\n@docs classList\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "classList",
+                "comment": " Takes a list of classes and combines them into a single String.\nIt's literally just `String.join \" \"`. If you need to conditionally\nadd classes, use [`Html.Attributes.classList`](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Attributes#classList)\ninstead.\n\n    classList\n        [ \"some-class\"\n        , Bulma.button\n        , Bulma.isSecondary\n        , \"some-other-class-for-some-reason\"\n        ] == \"some-class button is-primary some-other-class-for-some-reason\"\n\n",
+                "type": "List String -> String"
+            }
+        ],
+        "binops": []
+    }
+]

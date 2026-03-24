@@ -1,0 +1,78 @@
+[
+    {
+        "name": "Url",
+        "comment": " A tiny library for building parameterized URLs. It is intended to be used\nwith records to give the parameters names and therefore reducing errors.\n\n    userUrl : Url { id : Int }\n    userUrl = root </> s \"users\" </> int .id\n\n    userUrl @ { id = 42 } == \"/users/42\"\n\n\n# Types\n\n@docs Url, Segment\n\n\n# Builders\n\n@docs root, append, s, int, string, custom, (</>)\n\n\n# Presenting\n\n@docs toString, (@)\n\n",
+        "unions": [
+            {
+                "name": "Segment",
+                "comment": " A parameteried segment of a URL.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Url",
+                "comment": " A URL parameterized over the type `a`, which is typically a record containing\na field for each parameterized `Segment`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "append",
+                "comment": " Append a segment to the URL.\n",
+                "type": "Segment a -> Url a -> Url a"
+            },
+            {
+                "name": "custom",
+                "comment": " Build a custom segment.\n\n    root\n        |> append (custom (.ids >> List.map fromInt >> String.join \";\"))\n        |> toString { ids = [1, 2, 3] }\n        == \"/1;2;3\"\n\n",
+                "type": "(a -> String) -> Segment a"
+            },
+            {
+                "name": "int",
+                "comment": " A parameterized (variable) integer segment.\n\n    root\n        |> append (s \"users\")\n        |> append (int .id)\n        |> toString { id = 42 }\n        == \"/users/42\"\n\n",
+                "type": "(a -> Int) -> Segment a"
+            },
+            {
+                "name": "root",
+                "comment": " The root URL.\n\n    root |> toString () == \"/\"\n\n",
+                "type": "Url a"
+            },
+            {
+                "name": "s",
+                "comment": " An unparameterized (static) segment.\n\n    root |> append (s \"users\") |> toString () == \"/users\"\n\n",
+                "type": "String -> Segment a"
+            },
+            {
+                "name": "string",
+                "comment": " A parameterized string segment.\n\n    root\n        |> append (s \"say\")\n        |> append (string .word)\n        |> toString { word = \"Hello\" }\n        == \"/say/Hello\"\n\n",
+                "type": "(a -> String) -> Segment a"
+            },
+            {
+                "name": "toString",
+                "comment": " Give a string representation of the URL, given a value for the parameter.\n",
+                "type": "a -> Url a -> String"
+            }
+        ],
+        "binops": [
+            {
+                "name": "</>",
+                "comment": " Infix version of `append`.\n",
+                "type": "Url a -> Segment a -> Url a",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "@",
+                "comment": " Infix version of `toString` (\"evaluate at\").\n",
+                "type": "Url a -> a -> String",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

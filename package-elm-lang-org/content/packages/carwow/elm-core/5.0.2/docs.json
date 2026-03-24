@@ -1,0 +1,213 @@
+[
+    {
+        "name": "Core.MakeModelMenu",
+        "comment": " Make/Model menu component\n\n\n# Exported\n\n@docs init, update, subscriptions, view, Flags, Model, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The different messages the Make Model Menu accepts\n\nModalBackClicked - The back button is clicked by the user\nMakesResponse - A response is received from the Makes endpoint\nModelsResponse -A response is received from the Models endpoint\nModalMsg - A message is received by the underlying Modal component\n\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " Flags which are used to retrieve and display the Make & Model data\n",
+                "args": [],
+                "type": "{ id : String, apiEndpointUrl : String, apiFilterField : String, baseLinkUrl : String, redirectUrl : String }"
+            },
+            {
+                "name": "Model",
+                "comment": " A representation of the MakeModelMenu\n\nmodal - The modal component that the MakeModelMenu will use\napiEndpointUrl - The url of the API endpoint to retrieve the Make/Model data from\napiFilterField - The filter field used in the API request\nbaseLinkUrl - The path to re-direct to once the Make Model has been selected\nredirectUrl - The url that the Menu should re-direct to once the Make & Model has been selected, e.g https://quotes.carwow.co.uk/\n",
+                "args": [],
+                "type": "{ state : State, modal : Model, apiEndpointUrl : Url, apiFilterField : String, baseLinkUrl : Url, redirectUrl : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initialise the model\n",
+                "type": "Flags -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " The subscriptions of this model\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Update the component if a message is received\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " A view representing the whole model\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.NotificationDrawer",
+        "comment": " Displays latest notifications\n\n\n# Exported\n\n@docs Msg, Model, Flags, subscriptions, view, update, init, isDrawerOpen\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The different messages the Notification Drawer accepts\n\nNewNotification — A new notification has occured\nNotificationsResponse — A response has been received from the external notifications API\nDrawerMsg — An action has occured on the drawer element\nLoadMoreNotifications — The user has requested more notifications\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NewNotification",
+                        []
+                    ],
+                    [
+                        "DrawerMsg",
+                        [
+                            "Msg"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " A flag to represent the API endpoint to retreive notifications\n",
+                "args": [],
+                "type": "{ notifierApiEndpoint : String }"
+            },
+            {
+                "name": "Model",
+                "comment": " A representation of the NotificationDrawer\n",
+                "args": [],
+                "type": "{ flags : Flags, notifications : PaginatedResponse, currentPage : Int, drawer : Model, loadMoreDisabled : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initialise the model\n",
+                "type": "Flags -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "isDrawerOpen",
+                "comment": " The current state of the drawer.\n\nReturns true if the drawer is opened, false if it isn't\n\n",
+                "type": "Model -> Bool"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Placeholder\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Update the model based on the message received\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " The view for the notification drawer component\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.NotificationMenu",
+        "comment": " Displays notification alerts\n\n\n# Exported\n\n@docs view, Model, update, Msg, init\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UpdateBadge",
+                        [
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ unseenCount : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.Data.Model",
+        "comment": " Model menu component\n\n\n# Exported\n\n@docs Model, listDecoder, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " A representation of the Model\n",
+                "args": [],
+                "type": "{ name : String, slug : String, leaseDealsAvailable : Bool, stockAvailable : Bool, factoryOrderAvailable : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Model decoder\n",
+                "type": "Decoder Model"
+            },
+            {
+                "name": "listDecoder",
+                "comment": " Decode the list of Models\n",
+                "type": "Decoder (List Model)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.Data.Make",
+        "comment": " Make menu component\n\n\n# Exported\n\n@docs Make, listDecoder, decoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Make",
+                "comment": " A representation of the Make\n",
+                "args": [],
+                "type": "{ name : String, slug : String, leaseDealsAvailable : Bool, stockAvailable : Bool, factoryOrderAvailable : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Make decoder\n",
+                "type": "Decoder Make"
+            },
+            {
+                "name": "listDecoder",
+                "comment": " Decode the list of Makes\n",
+                "type": "Decoder (List Make)"
+            }
+        ],
+        "binops": []
+    }
+]

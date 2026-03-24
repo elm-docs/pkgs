@@ -1,0 +1,1 @@
+[{"name":"Word2DictMatcher","comment":"\n@docs result\n","unions":[],"aliases":[],"values":[{"name":"result","comment":" Finds the sentences with the most occurances from a search string\nReturns all the words from the matched sentence.\n","type":"Html.Html msg"}],"binops":[]}]

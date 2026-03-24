@@ -1,0 +1,278 @@
+[
+    {
+        "name": "Graphqelm.Http",
+        "comment": " Send requests to your GraphQL endpoint. See the `examples/` folder for an end-to-end example.\nThe builder syntax is inspired by Luke Westby's\n[elm-http-builder package](http://package.elm-lang.org/packages/lukewestby/elm-http-builder/latest).\n\n@docs buildQueryRequest, buildMutationRequest, send, toRequest, withHeader, withTimeout\n@docs Request\n\n",
+        "unions": [
+            {
+                "name": "Request",
+                "comment": " TODO\n",
+                "args": [
+                    "decodesTo"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "buildMutationRequest",
+                "comment": " TODO\n",
+                "type": "String -> SelectionSet decodesTo RootMutation -> Request decodesTo"
+            },
+            {
+                "name": "buildQueryRequest",
+                "comment": " TODO\n",
+                "type": "String -> SelectionSet decodesTo RootQuery -> Request decodesTo"
+            },
+            {
+                "name": "send",
+                "comment": " Send the `Graphqelm.Request`\n",
+                "type": "(Result Error a -> msg) -> Request a -> Cmd msg"
+            },
+            {
+                "name": "toRequest",
+                "comment": " Convert to a `Graphqelm.Http.Request` to an `Http.Request`.\nUseful for using libraries like\n[RemoteData](http://package.elm-lang.org/packages/krisajenkins/remotedata/latest/).\n\n    makeRequest : Cmd Msg\n    makeRequest =\n        query\n            |> Graphqelm.Http.buildQueryRequest \"http://localhost:4000/api\"\n            |> Graphqelm.Http.toRequest\n            |> RemoteData.sendRequest\n            |> Cmd.map GotResponse\n\n",
+                "type": "Request decodesTo -> Request decodesTo"
+            },
+            {
+                "name": "withHeader",
+                "comment": " Add a header.\n",
+                "type": "String -> String -> Request decodesTo -> Request decodesTo"
+            },
+            {
+                "name": "withTimeout",
+                "comment": " Add a timeout.\n",
+                "type": "Time -> Request decodesTo -> Request decodesTo"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.Document",
+        "comment": " You'll usually want to use `Graphqelm.Http` to perform your queries directly.\nThis package provides low-level functions for generating GraphQL documents that\nare helpful for debugging and demo purposes.\n\n@docs serializeQuery, serializeMutation\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "serializeMutation",
+                "comment": " Serialize a mutation selection set into a string for a GraphQL endpoint.\n",
+                "type": "SelectionSet decodesTo RootMutation -> String"
+            },
+            {
+                "name": "serializeQuery",
+                "comment": " Serialize a query selection set into a string for a GraphQL endpoint.\n",
+                "type": "SelectionSet decodesTo RootQuery -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.Builder.Object",
+        "comment": " Internal functions for use by auto-generated code from the `graphqelm` CLI.\n@docs fieldDecoder, listOf, object, single\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fieldDecoder",
+                "comment": " Refer to a field in auto-generated code.\n",
+                "type": "String -> List Argument -> Decoder decodesTo -> FieldDecoder decodesTo lockedTo"
+            },
+            {
+                "name": "listOf",
+                "comment": " Refer to list of objects in auto-generated code.\n",
+                "type": "String -> List Argument -> SelectionSet a objectTypeLock -> FieldDecoder (List a) lockedTo"
+            },
+            {
+                "name": "object",
+                "comment": " Used to create the `selection` functions in auto-generated code.\n",
+                "type": "(a -> constructor) -> SelectionSet (a -> constructor) typeLock"
+            },
+            {
+                "name": "single",
+                "comment": " Refer to single object in auto-generated code.\n",
+                "type": "String -> List Argument -> SelectionSet a objectTypeLock -> FieldDecoder a lockedTo"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.SelectionSet",
+        "comment": " The auto-generated code from the `graphqelm` CLI will provide `selection`\nfunctions for Objects in your GraphQL schema. These functions take a `Graphqelm.SelectionSet`\nwhich describes which fields to retrieve on that SelectionSet.\n@docs SelectionSet, with\n",
+        "unions": [
+            {
+                "name": "SelectionSet",
+                "comment": " SelectionSet type\n",
+                "args": [
+                    "decodesTo",
+                    "typeLock"
+                ],
+                "cases": [
+                    [
+                        "SelectionSet",
+                        [
+                            "List Field",
+                            "Decoder decodesTo"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "with",
+                "comment": " Used to pick out fields on an object.\n\n    import Api.Enum.Episode as Episode exposing (Episode)\n    import Api.Object\n    import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n    type alias Hero =\n        { name : String\n        , id : String\n        , appearsIn : List Episode\n        }\n\n    hero : SelectionSet Hero Api.Object.Character\n    hero =\n        Character.selection Hero\n            |> with Character.name\n            |> with Character.id\n            |> with Character.appearsIn\n\n",
+                "type": "FieldDecoder a typeLock -> SelectionSet (a -> b) typeLock -> SelectionSet b typeLock"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.FieldDecoder",
+        "comment": " `FieldDecoder`s are automatically generated by the `graphqelm` CLI command.\nYou can use `Graphqelm.FieldDecoder.map` to transform a value.\n@docs map, FieldDecoder\n",
+        "unions": [
+            {
+                "name": "FieldDecoder",
+                "comment": " ",
+                "args": [
+                    "decodesTo",
+                    "typeLock"
+                ],
+                "cases": [
+                    [
+                        "FieldDecoder",
+                        [
+                            "Field",
+                            "Decoder decodesTo"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "map",
+                "comment": " Maps the data coming back from the GraphQL endpoint. In this example,\n`User.name` is a module that the `graphqelm` CLI tool created which tells us\nthat the `name` field on a `User` object is a String according to your GraphQL\nschema.\n\n    import Api.Object\n    import Api.Object.User as User\n    import Graphqelm.FieldDecoder as FieldDecoder\n    import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n    human : SelectionSet String Api.Object.User\n    human =\n        User.selection identity\n            |> with\n                (User.name\n                    |> FieldDecoder.map String.toUpper\n                )\n\n",
+                "type": "(decodesTo -> mapsTo) -> FieldDecoder decodesTo typeLock -> FieldDecoder mapsTo typeLock"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.Builder.Argument",
+        "comment": " Internal functions for use by auto-generated code from the `graphqelm` CLI.\n@docs Argument, enum, int, optional, string\n",
+        "unions": [
+            {
+                "name": "Argument",
+                "comment": " Argument type.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Argument",
+                        [
+                            "String",
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "enum",
+                "comment": " Enum argument.\n",
+                "type": "String -> String -> Argument"
+            },
+            {
+                "name": "int",
+                "comment": " Int argument.\n",
+                "type": "String -> Int -> Argument"
+            },
+            {
+                "name": "optional",
+                "comment": " Used for passing optional arguments in generated code.\n",
+                "type": "String -> Maybe a -> (a -> Value) -> Maybe Argument"
+            },
+            {
+                "name": "string",
+                "comment": " String argument.\n",
+                "type": "String -> String -> Argument"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm.Encode",
+        "comment": " `Graphqelm.Encode.Value`s are usually low-level details used by generated code.\nCurrently the users need to pass Encode Values in for InputObjects arguments, but\notherwise they are only used by the code generated by the `graphqelm` CLI tool.\n\n@docs Value, bool, enum, int, list, string, object\n\n\n## Low-Level\n\n@docs serialize\n\n",
+        "unions": [
+            {
+                "name": "Value",
+                "comment": " Values\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bool",
+                "comment": " Encode a bool\n",
+                "type": "Bool -> Value"
+            },
+            {
+                "name": "enum",
+                "comment": " Encode an enum. The first argument is the toString function for that enum.\n",
+                "type": "(a -> String) -> a -> Value"
+            },
+            {
+                "name": "int",
+                "comment": " Encode an int\n",
+                "type": "Int -> Value"
+            },
+            {
+                "name": "list",
+                "comment": " Encode a list of Values\n",
+                "type": "(a -> Value) -> List a -> Value"
+            },
+            {
+                "name": "object",
+                "comment": " Encode a list of key-value pairs into an object\n",
+                "type": "List ( String, Value ) -> Value"
+            },
+            {
+                "name": "serialize",
+                "comment": " Low-level function for serializing a `Graphqelm.Encode.Value`s.\n",
+                "type": "Value -> String"
+            },
+            {
+                "name": "string",
+                "comment": " Encode a string\n",
+                "type": "String -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graphqelm",
+        "comment": "\n\n\n## Top-Level Types\n\n@docs RootMutation, RootQuery\n\n",
+        "unions": [
+            {
+                "name": "RootMutation",
+                "comment": " Type for top-level mutations which can be sent using functions\nfrom `Graphqelm.Http`.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "RootQuery",
+                "comment": " Type for top-level queries which can be sent using functions\nfrom `Graphqelm.Http`.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

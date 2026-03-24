@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Sexp",
+        "comment": "Parses S-expressions.\n\n@docs parse, show",
+        "unions": [
+            {
+                "name": "Sexp",
+                "comment": "",
+                "args": [],
+                "cases": [
+                    [
+                        "SexpList",
+                        [
+                            "List Sexp"
+                        ]
+                    ],
+                    [
+                        "SexpElement",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parse",
+                "comment": "Parses an S-expression",
+                "type": "String -> Maybe Sexp"
+            },
+            {
+                "name": "show",
+                "comment": "Shows an S-expression",
+                "type": "Sexp -> String"
+            }
+        ],
+        "binops": []
+    }
+]

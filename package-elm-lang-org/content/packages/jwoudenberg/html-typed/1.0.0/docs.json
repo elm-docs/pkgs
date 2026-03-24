@@ -1,0 +1,1504 @@
+[
+    {
+        "name": "Html.Typed.Attributes",
+        "comment": "\n\n@docs attr\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attr",
+                "comment": " Turn a regular attribute created using elm-lang/html into a Html.Typed.Attribute.\n",
+                "type": "Attribute msg -> Attribute attrs msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Html.Typed.Events",
+        "comment": "\n\n\n## Event handler constructors\n\n@docs on, onBlur, onClick, onDoubleClick, onInput, onMouseDown, onMouseEnter, onMouseLeave, onMouseOut, onMouseOver, onMouseUp, onWithOptions\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "on",
+                "comment": " ",
+                "type": "(attrs -> msg) -> String -> Decoder msg -> Attribute attrs msg"
+            },
+            {
+                "name": "onBlur",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onBlur : msg } msg"
+            },
+            {
+                "name": "onClick",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onClick : msg } msg"
+            },
+            {
+                "name": "onDoubleClick",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onDoubleClick : msg } msg"
+            },
+            {
+                "name": "onInput",
+                "comment": " ",
+                "type": "(String -> msg) -> Attribute { r | onInput : msg } msg"
+            },
+            {
+                "name": "onMouseDown",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseDown : msg } msg"
+            },
+            {
+                "name": "onMouseEnter",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseEnter : msg } msg"
+            },
+            {
+                "name": "onMouseLeave",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseLeave : msg } msg"
+            },
+            {
+                "name": "onMouseOut",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseOut : msg } msg"
+            },
+            {
+                "name": "onMouseOver",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseOver : msg } msg"
+            },
+            {
+                "name": "onMouseUp",
+                "comment": " ",
+                "type": "msg -> Attribute { r | onMouseUp : msg } msg"
+            },
+            {
+                "name": "onWithOptions",
+                "comment": " ",
+                "type": "(attrs -> msg) -> String -> Options -> Decoder msg -> Attribute attrs msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Html.Typed",
+        "comment": "\n\n\n## Basic types\n\nThese Html and Attribute types can be used instead of the versions exported from elm-lang/html.\n@docs Html, Attribute\n\n\n## Extra functions functions\n\nThese functions are unique to Html.Typed and do not have counterparts in elm-lang/html.\n@docs within, add, named, list, keyedList\n\n\n## Html element types\n\nThese are types corresponding to the semantic Html elements (all elements recognized by elm-lang/html apart from span and div).\n@docs A, Abbr, Address, Article, Aside, Audio, B, Bdi, Bdo, Blockquote, Body, Br, Button, Canvas, Caption, Cite, Code, Col, Colgroup, Datalist, Dd, Del, Detail, Dfn, Dl, Em, Embed, Fieldset, Figcaption, Figure, Footer, Form, H1, H2, H3, H4, H5, H6, Header, Hr, I, Iframe, Img, Input, Ins, Kbd, Keygen, Label, Legend, Li, Main, Mark, Math, Menu, Menuitem, Meter, Nav, Object, Ol, Optgroup, Option, Output, P, Param, Pre, Progress, Q, Rp, Rt, Ruby, S, Samp, Section, Select, Small, Source, Strong, Sub, Summary, Sup, Table, Tbody, Td, Textarea, Tfoot, Th, Thead, Time, Tr, Track, U, Ul, Var, Video, Wbr\n\n\n## Html element constructors\n\nThese are coulnterparts to the html element constructors exported from elm-lang/html.\n@docs a, abbr, address, article, aside, audio, b, bdi, bdo, body, br, button, canvas, caption, cite, code, col, colgroup, datalist, dd, debug, del, detail, dfn, div, dl, em, embed, empty, fieldset, figcaption, figure, footer, form, fromRaw, h1, h2, h3, h4, h5, h6, header, hr, i, iframe, img, input, ins, kbd, keygen, label, legend, li, main_, map, mark, math, menu, menuitem, meter, nav, object, ol, optgroup, option, output, p, param, pre, progress, q, rp, rt, ruby, s, samp, section, select, small, source, span, strong, sub, summary, sup, table, tbody, td, text, textarea, tfoot, th, thead, time, toRaw, tr, track, u, ul, var, video, wbr\n\n",
+        "unions": [
+            {
+                "name": "A",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Abbr",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Address",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Article",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Aside",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Audio",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "B",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Bdi",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Bdo",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Blockquote",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Body",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Br",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Button",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Canvas",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Caption",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Cite",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Code",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Col",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Colgroup",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Datalist",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Dd",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Del",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Detail",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Dfn",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Dl",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Em",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Embed",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Fieldset",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Figcaption",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Figure",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Footer",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Form",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H1",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H2",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H3",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H4",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H5",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "H6",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Header",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Hr",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Html",
+                "comment": " ",
+                "args": [
+                    "tipe",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "I",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Iframe",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Img",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Input",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Ins",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Kbd",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Keygen",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Label",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Legend",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Li",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Main",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Mark",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Math",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Menu",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Menuitem",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Meter",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Nav",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Object",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Ol",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Optgroup",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Option",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Output",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "P",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Param",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Pre",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Progress",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Q",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Rp",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Rt",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Ruby",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "S",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Samp",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Section",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Select",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Small",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Source",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Strong",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Sub",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Summary",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Sup",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Table",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Tbody",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Td",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Textarea",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Tfoot",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Th",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Thead",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Time",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Tr",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Track",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "U",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Ul",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Var",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Video",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Wbr",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "child"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Attribute",
+                "comment": " ",
+                "args": [
+                    "attrs",
+                    "msg"
+                ],
+                "type": "Attribute attrs msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "a",
+                "comment": " Represents text with no specific meaning.\n\nSpans are assumed to be wrappers that do not affect the semantics of the page,\nand so they take the same type as the element that they wrap. Put differently:\nadding extra span in your views will not affect compilation.\n\n",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (A attrs tipe) msg"
+            },
+            {
+                "name": "abbr",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Abbr attrs tipe) msg"
+            },
+            {
+                "name": "add",
+                "comment": " ",
+                "type": "Html tipe1 msg -> Html (tipe1 -> tipe2) msg -> Html tipe2 msg"
+            },
+            {
+                "name": "address",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Address attrs tipe) msg"
+            },
+            {
+                "name": "article",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Article attrs tipe) msg"
+            },
+            {
+                "name": "aside",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Aside attrs tipe) msg"
+            },
+            {
+                "name": "audio",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Audio attrs tipe) msg"
+            },
+            {
+                "name": "b",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (B attrs tipe) msg"
+            },
+            {
+                "name": "bdi",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Bdi attrs tipe) msg"
+            },
+            {
+                "name": "bdo",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Bdo attrs tipe) msg"
+            },
+            {
+                "name": "body",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Body attrs tipe) msg"
+            },
+            {
+                "name": "br",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Br attrs tipe) msg"
+            },
+            {
+                "name": "button",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Button attrs tipe) msg"
+            },
+            {
+                "name": "canvas",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Canvas attrs tipe) msg"
+            },
+            {
+                "name": "caption",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Caption attrs tipe) msg"
+            },
+            {
+                "name": "cite",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Cite attrs tipe) msg"
+            },
+            {
+                "name": "code",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Code attrs tipe) msg"
+            },
+            {
+                "name": "col",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Col attrs tipe) msg"
+            },
+            {
+                "name": "colgroup",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Colgroup attrs tipe) msg"
+            },
+            {
+                "name": "datalist",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Datalist attrs tipe) msg"
+            },
+            {
+                "name": "dd",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Dd attrs tipe) msg"
+            },
+            {
+                "name": "debug",
+                "comment": " Useful during development, to get unimplemented parts of view functions compiling.\n",
+                "type": "Html tipe msg"
+            },
+            {
+                "name": "del",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Del attrs tipe) msg"
+            },
+            {
+                "name": "detail",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Detail attrs tipe) msg"
+            },
+            {
+                "name": "dfn",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Dfn attrs tipe) msg"
+            },
+            {
+                "name": "div",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html tipe msg"
+            },
+            {
+                "name": "dl",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Dl attrs tipe) msg"
+            },
+            {
+                "name": "em",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Em attrs tipe) msg"
+            },
+            {
+                "name": "embed",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Embed attrs tipe) msg"
+            },
+            {
+                "name": "empty",
+                "comment": " ",
+                "type": "Html () msg"
+            },
+            {
+                "name": "fieldset",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Fieldset attrs tipe) msg"
+            },
+            {
+                "name": "figcaption",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Figcaption attrs tipe) msg"
+            },
+            {
+                "name": "figure",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Figure attrs tipe) msg"
+            },
+            {
+                "name": "footer",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Footer attrs tipe) msg"
+            },
+            {
+                "name": "form",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Form attrs tipe) msg"
+            },
+            {
+                "name": "fromRaw",
+                "comment": " ",
+                "type": "Html msg -> Html tipe msg"
+            },
+            {
+                "name": "h1",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H1 attrs tipe) msg"
+            },
+            {
+                "name": "h2",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H2 attrs tipe) msg"
+            },
+            {
+                "name": "h3",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H3 attrs tipe) msg"
+            },
+            {
+                "name": "h4",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H4 attrs tipe) msg"
+            },
+            {
+                "name": "h5",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H5 attrs tipe) msg"
+            },
+            {
+                "name": "h6",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (H6 attrs tipe) msg"
+            },
+            {
+                "name": "header",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Header attrs tipe) msg"
+            },
+            {
+                "name": "hr",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Hr attrs tipe) msg"
+            },
+            {
+                "name": "i",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (I attrs tipe) msg"
+            },
+            {
+                "name": "iframe",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Iframe attrs tipe) msg"
+            },
+            {
+                "name": "img",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Img attrs tipe) msg"
+            },
+            {
+                "name": "input",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Input attrs tipe) msg"
+            },
+            {
+                "name": "ins",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Ins attrs tipe) msg"
+            },
+            {
+                "name": "kbd",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Kbd attrs tipe) msg"
+            },
+            {
+                "name": "keyedList",
+                "comment": " ",
+                "type": "List ( String, Html tipe msg ) -> Html (List tipe) msg"
+            },
+            {
+                "name": "keygen",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Keygen attrs tipe) msg"
+            },
+            {
+                "name": "label",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Label attrs tipe) msg"
+            },
+            {
+                "name": "legend",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Legend attrs tipe) msg"
+            },
+            {
+                "name": "li",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Li attrs tipe) msg"
+            },
+            {
+                "name": "list",
+                "comment": " ",
+                "type": "List (Html tipe msg) -> Html (List tipe) msg"
+            },
+            {
+                "name": "main_",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Main attrs tipe) msg"
+            },
+            {
+                "name": "map",
+                "comment": " ",
+                "type": "(a -> msg) -> Html tipe a -> Html tipe msg"
+            },
+            {
+                "name": "mark",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Mark attrs tipe) msg"
+            },
+            {
+                "name": "math",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Math attrs tipe) msg"
+            },
+            {
+                "name": "menu",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Menu attrs tipe) msg"
+            },
+            {
+                "name": "menuitem",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Menuitem attrs tipe) msg"
+            },
+            {
+                "name": "meter",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Meter attrs tipe) msg"
+            },
+            {
+                "name": "named",
+                "comment": " Name a view type to have that named appear in compiler errors rather than a\ntree of html types.\n\nSuppose your social network app contains a chatbox widget. Ordinarily view\ncompilation errors of parts of your page that include the widget would contain\nthe tree-like Html type describing the widget. Using `named` we can make it that\nwe only see the widget named instead.\n\n    type ChatBoxWidget\n        = ChatBoxWidget ( H2 String, List Message )\n\n    view : Model -> Html ChatBoxWidget msg\n    view model =\n        named ChatBoxWidget\n            ( h2 (text \"Chatbox\")\n            , list (List.map viewMessage model.messages)\n            )\n\n",
+                "type": "(a -> b) -> Html a msg -> Html b msg"
+            },
+            {
+                "name": "nav",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Nav attrs tipe) msg"
+            },
+            {
+                "name": "object",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Object attrs tipe) msg"
+            },
+            {
+                "name": "ol",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Ol attrs tipe) msg"
+            },
+            {
+                "name": "optgroup",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Optgroup attrs tipe) msg"
+            },
+            {
+                "name": "option",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Option attrs tipe) msg"
+            },
+            {
+                "name": "output",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Output attrs tipe) msg"
+            },
+            {
+                "name": "p",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (P attrs tipe) msg"
+            },
+            {
+                "name": "param",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Param attrs tipe) msg"
+            },
+            {
+                "name": "pre",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Pre attrs tipe) msg"
+            },
+            {
+                "name": "progress",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Progress attrs tipe) msg"
+            },
+            {
+                "name": "q",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Q attrs tipe) msg"
+            },
+            {
+                "name": "rp",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Rp attrs tipe) msg"
+            },
+            {
+                "name": "rt",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Rt attrs tipe) msg"
+            },
+            {
+                "name": "ruby",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Ruby attrs tipe) msg"
+            },
+            {
+                "name": "s",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (S attrs tipe) msg"
+            },
+            {
+                "name": "samp",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Samp attrs tipe) msg"
+            },
+            {
+                "name": "section",
+                "comment": " Represents a generic container with no special meaning.\n\nDivs are assumed to be wrappers that do not affect the semantics of the page,\nand so they take the same type as the element that they wrap. Put differently:\nadding extra divs in your views will not affect compilation.\n\n",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Section attrs tipe) msg"
+            },
+            {
+                "name": "select",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Select attrs tipe) msg"
+            },
+            {
+                "name": "small",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Small attrs tipe) msg"
+            },
+            {
+                "name": "source",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Source attrs tipe) msg"
+            },
+            {
+                "name": "span",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html tipe msg"
+            },
+            {
+                "name": "strong",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Strong attrs tipe) msg"
+            },
+            {
+                "name": "sub",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Sub attrs tipe) msg"
+            },
+            {
+                "name": "summary",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Summary attrs tipe) msg"
+            },
+            {
+                "name": "sup",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Sup attrs tipe) msg"
+            },
+            {
+                "name": "table",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Table attrs tipe) msg"
+            },
+            {
+                "name": "tbody",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Tbody attrs tipe) msg"
+            },
+            {
+                "name": "td",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Td attrs tipe) msg"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "String -> Html String msg"
+            },
+            {
+                "name": "textarea",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Textarea attrs tipe) msg"
+            },
+            {
+                "name": "tfoot",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Tfoot attrs tipe) msg"
+            },
+            {
+                "name": "th",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Th attrs tipe) msg"
+            },
+            {
+                "name": "thead",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Thead attrs tipe) msg"
+            },
+            {
+                "name": "time",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Time attrs tipe) msg"
+            },
+            {
+                "name": "toRaw",
+                "comment": " ",
+                "type": "Html tipe msg -> Html msg"
+            },
+            {
+                "name": "tr",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Tr attrs tipe) msg"
+            },
+            {
+                "name": "track",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Track attrs tipe) msg"
+            },
+            {
+                "name": "u",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (U attrs tipe) msg"
+            },
+            {
+                "name": "ul",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Ul attrs tipe) msg"
+            },
+            {
+                "name": "var",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Var attrs tipe) msg"
+            },
+            {
+                "name": "video",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Video attrs tipe) msg"
+            },
+            {
+                "name": "wbr",
+                "comment": " ",
+                "type": "List (Attribute attrs msg) -> Html tipe msg -> Html (Wbr attrs tipe) msg"
+            },
+            {
+                "name": "within",
+                "comment": " ",
+                "type": "(a -> b) -> Html (a -> b) msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,31 @@
+[
+    {
+        "name": "MiniLatex.Driver",
+        "comment": " This library exposes functions for rendering MiniLaTeX text into HTML.\n\n\n# API\n\n@docs render, setup, getRenderedText, update\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getRenderedText",
+                "comment": " getRenderedText extrats the rendred text as a string\nfrom an EditRecord, e.g.,\n\ngetRenderedText editRecord\n\n",
+                "type": "EditRecord -> String"
+            },
+            {
+                "name": "render",
+                "comment": " The function call render sourceTest produces\nan HTML string corresponding to the MiniLatex source text.\nThus, if\n\nstr = \"\\italic{Test:}\\n\\n$$a^2 + b^2 = c^2$$\\n\\n\\strong{Q.E.D.}\"\n\nthen `render str` yields the HTML text\n\n    <p>\n    <span class=italic>Test:</span></p>\n    <p>\n    $$a^2 + b^2 = c^2$$</p>\n    <p>\n\n<span class=\"strong\">Q.E.D.</span> </p>\n\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "setup",
+                "comment": " Create an EditRecord from a string of MiniLaTeX text:\n\n> editRecord = setup str\n> { paragraphs =\n\n        [ \"\\\\italic{Test:}\\n\\n\"\n        , \"$$a^2 + b^2 = c^2$$\\n\\n\"\n        , \"\\\\strong{Q.E.D.}\\n\\n\"\n        ]\n    , renderedParagraphs =\n        [ \"\\n<p>\\n  <span class=italic>Test:</span></p>\"\n        , \"\\n<p>\\n $$a^2 + b^2 = c^2$$</p>\"\n        , \"\\n<p>\\n  <span class=\\\"strong\\\">Q.E.D.</span> </p>\"\n        ]\n    , latexState =\n        { counters = Dict.fromList [ ( \"eqno\", 0 ), ( \"s1\", 0 ), ( \"s2\", 0 ), ( \"s3\", 0 ), ( \"tno\", 0 ) ]\n        , crossReferences = Dict.fromList []\n        }\n    }\n\n    : MiniLatex.Differ.EditRecord\n\n",
+                "type": "String -> EditRecord"
+            },
+            {
+                "name": "update",
+                "comment": " Update the given edit record with modified text.\nThus, if\n\nstr2 = \"\\italic{Test:}\\n\\n$$a^3 + b^3 = c^3$$\\n\\n\\strong{Q.E.D.}\"\n\nthen we can say\n\neditRecord2 = update str2 editRecord\n\nThe `update` function attempts to re-render only the paragraph\nwhich have been changed. It will always update the text correctly,\nbut its efficiency depends on the nature of the edit. This is\nbecause the \"differ\" used to detect changes is rather crude.\n\n",
+                "type": "EditRecord -> String -> EditRecord"
+            }
+        ],
+        "binops": []
+    }
+]

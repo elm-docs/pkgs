@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Bubblegum.Preview.Widget",
+        "comment": " A flexible preview widget to display content:\n\n  - Supports multiple languages as well as right to left writing.\n\nPlease have a look at the main [documentation](https://github.com/flarebyte/bubblegum-ui-preview) for more details about the possible settings.\n\n@docs view\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "view",
+                "comment": " View for the widget\n\n    attr key value = { id = Nothing , key = key, facets = [], values = [value]}\n\n    adapter =  =\n        { onSearchInput = OnSearchInput\n        , onToggleDropbox = OnToggleDropbox\n        , onAddTag = OnAddTag\n        , onDeleteTag = OnDeleteTag\n        }\n\n    userSettings = { attributes = [attr ui_userLanguage \"en-US\"] }\n    settings = { attributes = [ attr ui_contentAppearance \"ui:content-appearance/paragraphs\" ] }\n    state = { attributes = [ attr ui_content \"My Story\"] }\n\n    view adapter userSettings settings state\n\n",
+                "type": "Model msg -> Model -> Model -> Model -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

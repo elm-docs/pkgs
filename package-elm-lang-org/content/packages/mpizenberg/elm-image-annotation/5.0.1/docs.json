@@ -1,0 +1,481 @@
+[
+    {
+        "name": "DrawingArea",
+        "comment": " The DrawingArea module aims at collecting annotations.\n\n# Model\n@docs DrawingArea, default\n\n# Annotations\n@docs nbAnnotations, createAnnotation, removeAnnotation, getAnnotation, setAnnotation, updateAnnotation\n\n# Tools\n@docs useTool\n\n# Update\n@docs updateArea\n\n# Svg viewer management\n@docs changeBgImage, fitImage, zoomIn, zoomOut\n\n# View\n@docs view, viewAnnotation, selectAnnotationTag, selectToolTag\n\n# Outputs\n@docs exportAnnotations, exportSelectionsPaths\n\n# Others\n@docs hasSelection\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "DrawingArea",
+                "comment": " A drawing area.\n",
+                "args": [],
+                "type": "{ annotations : AnnotationSet, viewer : SvgViewer, currentTool : Tool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "changeBgImage",
+                "comment": " Change the background image.\n",
+                "type": "Maybe Image -> DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "createAnnotation",
+                "comment": " Create new annotation.\n",
+                "type": "DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "default",
+                "comment": " The default drawing area, no annotation and no tool.\n",
+                "type": "DrawingArea"
+            },
+            {
+                "name": "exportAnnotations",
+                "comment": " Export the complete model of the annotation set to a JS object\n",
+                "type": "DrawingArea -> Value"
+            },
+            {
+                "name": "exportSelectionsPaths",
+                "comment": " Export only the seletions paths to a JS object\n",
+                "type": "DrawingArea -> Value"
+            },
+            {
+                "name": "fitImage",
+                "comment": " Adapt the view so that the image fit a certain percentage of the view.\n",
+                "type": "Float -> DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "getAnnotation",
+                "comment": " Returns an annotation with its id if it exists.\n",
+                "type": "Int -> DrawingArea -> Maybe ( Int, Annotation )"
+            },
+            {
+                "name": "hasSelection",
+                "comment": " Indicates if the drawing area has at least one selection\n",
+                "type": "DrawingArea -> Bool"
+            },
+            {
+                "name": "nbAnnotations",
+                "comment": " Return the number of annotations in the annotation set.\n",
+                "type": "DrawingArea -> Int"
+            },
+            {
+                "name": "removeAnnotation",
+                "comment": " Remove annotation having a certain id.\n",
+                "type": "Int -> DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "selectAnnotationTag",
+                "comment": " Create a <select> tag for the annotations.\n",
+                "type": "DrawingArea -> Maybe ( Int, Annotation ) -> (Maybe ( Int, Annotation ) -> msg) -> Html msg"
+            },
+            {
+                "name": "selectToolTag",
+                "comment": " Create a <select> tag for the tools.\n",
+                "type": "DrawingArea -> (Tool -> msg) -> Html msg"
+            },
+            {
+                "name": "setAnnotation",
+                "comment": " Set an annotation of the drawing area.\n",
+                "type": "Int -> Annotation -> DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "updateAnnotation",
+                "comment": " Update the current annotation.\n",
+                "type": "(Annotation -> Annotation) -> Maybe ( Int, Annotation ) -> DrawingArea -> ( Maybe ( Int, Annotation ), DrawingArea )"
+            },
+            {
+                "name": "updateArea",
+                "comment": " Update the drawing area depending on the mouse event.\n",
+                "type": "( Float, Float ) -> Pointer -> Maybe ( Int, Annotation ) -> DrawingArea -> ( Maybe ( Int, Annotation ), DrawingArea )"
+            },
+            {
+                "name": "useTool",
+                "comment": " Change the current tool.\n",
+                "type": "Tool -> DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "view",
+                "comment": " View the svg tag representing the DrawingArea model\n",
+                "type": "List (Attribute msg) -> DrawingArea -> Svg msg"
+            },
+            {
+                "name": "viewAnnotation",
+                "comment": " View the given annotation.\n",
+                "type": "List (Attribute msg) -> Maybe Annotation -> DrawingArea -> Svg msg"
+            },
+            {
+                "name": "zoomIn",
+                "comment": " Zoom in the view.\n",
+                "type": "DrawingArea -> DrawingArea"
+            },
+            {
+                "name": "zoomOut",
+                "comment": " Zoom out the view.\n",
+                "type": "DrawingArea -> DrawingArea"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SvgViewer",
+        "comment": " The viewer of a drawing area.\nIt holds all the geometric properties of the view.\n\n# Model\n@docs Option, OptionSet, defaultOptions, SvgViewer, default\n\n# Update\n@docs changeBgImage, fitImage\n@docs optionValue, changeOption\n@docs resize, changeZoom, changeZoomCentered, zoomIn, zoomOut\n@docs currentCenter, reCenter, move\n@docs transformPos, transformSize\n\n# View\n@docs view\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Option",
+                "comment": " One option (a string giving its name).\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "OptionSet",
+                "comment": " Regrouping off the viewer options.\n",
+                "args": [],
+                "type": "Dict Option Bool"
+            },
+            {
+                "name": "SvgViewer",
+                "comment": " An Svg viewer has a background image and some geometric properties.\n",
+                "args": [],
+                "type": "{ bgImage : Maybe Image, options : OptionSet, size : ( Float, Float ), origin : ( Float, Float ), zoom : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "changeBgImage",
+                "comment": " Change the background image.\n",
+                "type": "Maybe Image -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "changeOption",
+                "comment": " Change an option of the viewer.\n",
+                "type": "Option -> Bool -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "changeZoom",
+                "comment": " Change and zoom value.\n",
+                "type": "Float -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "changeZoomCentered",
+                "comment": " Change and zoom value while keeping the current center.\n",
+                "type": "Float -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "currentCenter",
+                "comment": " Get the current center of the viewer.\n",
+                "type": "SvgViewer -> ( Float, Float )"
+            },
+            {
+                "name": "default",
+                "comment": " The default Svg viewer for a drawing area.\n",
+                "type": "SvgViewer"
+            },
+            {
+                "name": "defaultOptions",
+                "comment": " The default options.\n",
+                "type": "OptionSet"
+            },
+            {
+                "name": "fitImage",
+                "comment": " Fit the view so that the image takes a certain percentage of its max viewable size.\n",
+                "type": "Float -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "move",
+                "comment": " Move the viewer.\n",
+                "type": "( Float, Float ) -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "optionValue",
+                "comment": " Get the value of an option.\n",
+                "type": "Option -> SvgViewer -> Bool"
+            },
+            {
+                "name": "reCenter",
+                "comment": " Recenter the viewer at a given point.\n",
+                "type": "( Float, Float ) -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "resize",
+                "comment": " Resize the viewer.\n",
+                "type": "( Float, Float ) -> SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "transformPos",
+                "comment": " Transform coordinates of a position.\n",
+                "type": "SvgViewer -> ( Float, Float ) -> ( Int, Int )"
+            },
+            {
+                "name": "transformSize",
+                "comment": " Transform coordinates of a size.\n",
+                "type": "SvgViewer -> ( Float, Float ) -> ( Int, Int )"
+            },
+            {
+                "name": "view",
+                "comment": " View the svg tag representing the DrawingArea model\n",
+                "type": "List (Attribute msg) -> AnnotationSet -> SvgViewer -> Html msg"
+            },
+            {
+                "name": "zoomIn",
+                "comment": " Zoom in (x2).\n",
+                "type": "SvgViewer -> SvgViewer"
+            },
+            {
+                "name": "zoomOut",
+                "comment": " Zoom out (x0.5).\n",
+                "type": "SvgViewer -> SvgViewer"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "AnnotationSet",
+        "comment": " AnnotationSet aims at managing a set of annotations.\nBasically, it is an array of Annotation.\nSo anything that can be done on arrays can be done on an AnnotationSet.\n\n# Model\n@docs AnnotationSet\n\n# Update\n@docs remove\n\n# View\n@docs viewAllSelections, selectTag\n\n# Output\n@docs object, pathsObject\n\n# Other\n@docs hasSelection\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AnnotationSet",
+                "comment": " An annotation set is basically an array of annotations.\n",
+                "args": [],
+                "type": "Array Annotation"
+            }
+        ],
+        "values": [
+            {
+                "name": "hasSelection",
+                "comment": " Indicates if the annotation set has at least one selection.\n",
+                "type": "AnnotationSet -> Bool"
+            },
+            {
+                "name": "object",
+                "comment": " JavaScript object representing an annotation set.\n",
+                "type": "AnnotationSet -> Value"
+            },
+            {
+                "name": "pathsObject",
+                "comment": " Simplified JavaScript object representing the selection paths of the annotation set.\n",
+                "type": "AnnotationSet -> Value"
+            },
+            {
+                "name": "remove",
+                "comment": " Remove the annotation at the given id from the set.\n",
+                "type": "Int -> AnnotationSet -> AnnotationSet"
+            },
+            {
+                "name": "selectTag",
+                "comment": " Create a <select> tag with an <option> tag for each annotation.\ncurrentId is the id of the currently selected option.\n\ntype Msg\n    = SelectAnnotation (Int, Annotation)\n\ncurrentAnnotation =\n    Maybe.withDefault Ann.default <| Array.get currentId set\n\nhtml =\n    H.div\n        []\n        (selectTag set (currentId, currentAnnotation) SelectAnnotation)\n",
+                "type": "AnnotationSet -> Maybe ( Int, Annotation ) -> (Maybe ( Int, Annotation ) -> msg) -> Html msg"
+            },
+            {
+                "name": "viewAllSelections",
+                "comment": " View of the SVG representation of all the annotations in the set.\n",
+                "type": "AnnotationSet -> List (Svg msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Pointer",
+        "comment": " This module aims at giving helper functions to deal with pointer events.\n\n@docs Event, Pointer, offset, movement, attributes, noToolAttributes, toolAttributes\n@docs askTime\n",
+        "unions": [
+            {
+                "name": "Event",
+                "comment": " Events generated by a pointer device.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Down",
+                        []
+                    ],
+                    [
+                        "Move",
+                        []
+                    ],
+                    [
+                        "Up",
+                        []
+                    ],
+                    [
+                        "Cancel",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Pointer",
+                "comment": " A Pointer.\n",
+                "args": [],
+                "type": "{ event : Event, offsetX : Float, offsetY : Float, movementX : Float, movementY : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "askTime",
+                "comment": " Use a message maker (tagger) to create a command message giving Time.now.\n",
+                "type": "(Time -> msg) -> Cmd msg"
+            },
+            {
+                "name": "attributes",
+                "comment": " Returns a list of attribute messages with useful mouse events listeners.\n",
+                "type": "(Pointer -> msg) -> Tool -> Maybe Pointer -> List (Attribute msg)"
+            },
+            {
+                "name": "movement",
+                "comment": " Returns (movementX, movementY).\n",
+                "type": "Pointer -> ( Float, Float )"
+            },
+            {
+                "name": "noToolAttributes",
+                "comment": " Returns a list of attribute messages to detect movement when no tool is used.\n",
+                "type": "(Pointer -> msg) -> Maybe Pointer -> List (Attribute msg)"
+            },
+            {
+                "name": "offset",
+                "comment": " Returns (offsetX, offsetY).\n",
+                "type": "Pointer -> ( Float, Float )"
+            },
+            {
+                "name": "toolAttributes",
+                "comment": " Returns a list of attribute messages to detect movement when a tool is used.\n",
+                "type": "(Pointer -> msg) -> Maybe Pointer -> List (Attribute msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Annotation",
+        "comment": " An annotation is the combination of a selection and a label.\n\n# Model\n@docs Selection, Event, Annotation, default\n\n# Update\n@docs setStartTime, setStopTime, setLabel, updateSelection\n\n# View\n@docs selectionView\n\n# Outputs\n@docs object, pathObject\n\n# Others\n@docs hasSelection\n",
+        "unions": [
+            {
+                "name": "Event",
+                "comment": " Event marking the starting of a new selection or just the continuation of the current one.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Start",
+                        []
+                    ],
+                    [
+                        "Continue",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Selection",
+                "comment": " What can be the selection of an annotation.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoSelection",
+                        []
+                    ],
+                    [
+                        "RSel",
+                        [
+                            "Rectangle"
+                        ]
+                    ],
+                    [
+                        "OSel",
+                        [
+                            "Outline"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Annotation",
+                "comment": " An annotation is composed of a selection and has a label.\n",
+                "args": [],
+                "type": "{ selection : Selection, label : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "default",
+                "comment": " Default empty annotation.\n",
+                "type": "Annotation"
+            },
+            {
+                "name": "hasSelection",
+                "comment": " Indicates if the annotation has a selection.\n",
+                "type": "Annotation -> Bool"
+            },
+            {
+                "name": "object",
+                "comment": " Return JS object representing the annotation.\n",
+                "type": "Annotation -> Value"
+            },
+            {
+                "name": "pathObject",
+                "comment": " Return JS object simplified version of the path only.\n",
+                "type": "Annotation -> Value"
+            },
+            {
+                "name": "selectionView",
+                "comment": " Svg view representing the annotation.\n",
+                "type": "Annotation -> Svg msg"
+            },
+            {
+                "name": "setLabel",
+                "comment": " Set the label of the annotation.\n",
+                "type": "String -> Annotation -> Annotation"
+            },
+            {
+                "name": "setStartTime",
+                "comment": " Set the start time of the annotation.\n",
+                "type": "Maybe Time -> Annotation -> Annotation"
+            },
+            {
+                "name": "setStopTime",
+                "comment": " Set the stop time of the annotation.\n",
+                "type": "Maybe Time -> Annotation -> Annotation"
+            },
+            {
+                "name": "updateSelection",
+                "comment": " Update the selection of the annotation depending on the type of event,\nthe corner positions and the current tool.\n",
+                "type": "Event -> ( Int, Int ) -> ( Int, Int ) -> Tool -> Annotation -> Annotation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Tools",
+        "comment": " Tools aims at providing helper functions related to the drawing area tools.\n\n@docs Tool, selectTag\n",
+        "unions": [
+            {
+                "name": "Tool",
+                "comment": " The type of tool that can be used to draw selections.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Rectangle",
+                        []
+                    ],
+                    [
+                        "Outline",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "selectTag",
+                "comment": " An html <select> tag enabling the choice of a tool.\n",
+                "type": "Tool -> (Tool -> msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

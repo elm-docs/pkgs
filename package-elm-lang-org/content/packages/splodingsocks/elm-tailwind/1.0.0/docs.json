@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Tailwind",
+        "comment": " A small library that makes using [tailwind.css](https://tailwindcss.com/) a little easier and a little safer to use within Elm.\n\n@docs stylesheet, classes\n\nThis is mostly just a placeholder for the library. The goal would be to write a script that can generate an API for the tailwind library. A basic step would be to generate functions for all of the possible classes, and that helps avoid spelling errors and makes it easier to find usages of a class. But a more ideal solution would be to make a more type-safe api, maybe something like this:\n\nTo give types to: <https://tailwindcss.com/docs/spacing/#app>\n\n    spacing : SpacingFlavor -> Side -> SpacingLength -> String\n\n    type SpacingFlavor\n        = Padding\n        | Margin\n        | NegMargin\n\n    type Side\n        = All\n        | Top\n        | Left\n        | Right\n        | Bottom\n        | X\n        | Y\n\n    type SpacingLength\n        = S0\n        | S1\n        | S2\n        | S3\n        | S4\n        | S5\n        | S6\n        | S7\n        | S8\n        | Spx\n        | Sauto\n\nAnd a vertical padding could be expressed like so:\n\n`padding Y S2`\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "classes",
+                "comment": " A convenience function for specifying classes as a list of strings\n",
+                "type": "List String -> Attribute msg"
+            },
+            {
+                "name": "stylesheet",
+                "comment": " An HTML \"link\" tag that will import the default tailwind stylesheet\n",
+                "type": "Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

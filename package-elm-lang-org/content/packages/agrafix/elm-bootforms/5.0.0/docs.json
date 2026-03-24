@@ -1,0 +1,128 @@
+[
+    {
+        "name": "Html.Form.Input",
+        "comment": " This module will help generating good looking forms using the twitter bootstrap framework\n\n# Default input element structure\n@docs FormValue, Element, FormElement\n\n# Popular form groups\n@docs textInput, passwordInput, intInput, floatInput, dateInput, TimeOfDay, timeInput, checkBox, SelectElement, selectBox, textArea\n\n# Helper functions\n@docs stringFormVal, mayStringFormVal\n\n# Custom input elements\n@docs InputElement, basicInput\n\n# Custom form groups\n@docs formGroup\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Element",
+                "comment": " All inputs will be defined by this basic structure ",
+                "args": [
+                    "v",
+                    "e"
+                ],
+                "type": "{ id : String, label : String, helpBlock : Maybe String, value : FormValue (Maybe v), onValue : FormValue (Result e v) -> Message }"
+            },
+            {
+                "name": "FormElement",
+                "comment": " An element with de and encoder ",
+                "args": [
+                    "v",
+                    "e",
+                    "a"
+                ],
+                "type": "{ element : Element v e, props : a, decoder : String -> Result e v, encoder : v -> String }"
+            },
+            {
+                "name": "FormValue",
+                "comment": " The input string of the user and the parsed value ",
+                "args": [
+                    "v"
+                ],
+                "type": "{ userInput : String, value : v }"
+            },
+            {
+                "name": "InputElement",
+                "comment": " Spec for an input with a type ",
+                "args": [
+                    "v",
+                    "e"
+                ],
+                "type": "FormElement v e { type_ : String }"
+            },
+            {
+                "name": "SelectElement",
+                "comment": " Spec for selectBox ",
+                "args": [
+                    "v",
+                    "e"
+                ],
+                "type": "FormElement v e { choices : List v, displayChoice : v -> String }"
+            },
+            {
+                "name": "TimeOfDay",
+                "comment": " Time of day ",
+                "args": [],
+                "type": "{ hour : Int, minute : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "basicInput",
+                "comment": " A simple text input ",
+                "type": "InputElement v e -> Html"
+            },
+            {
+                "name": "checkBox",
+                "comment": " A simple checkbox input ",
+                "type": "Element Bool e -> Html"
+            },
+            {
+                "name": "dateInput",
+                "comment": " A simple date input ",
+                "type": "Element Date String -> Html"
+            },
+            {
+                "name": "floatInput",
+                "comment": " A simple float input ",
+                "type": "Element Float String -> Html"
+            },
+            {
+                "name": "formGroup",
+                "comment": " Build your own input element ",
+                "type": "Element v e -> Html -> Html"
+            },
+            {
+                "name": "intInput",
+                "comment": " A simple int input ",
+                "type": "Element Int String -> Html"
+            },
+            {
+                "name": "mayStringFormVal",
+                "comment": " Generate a FormValue for textual input boxes w/o validation ",
+                "type": "Maybe String -> FormValue (Maybe String)"
+            },
+            {
+                "name": "passwordInput",
+                "comment": " A simple password input ",
+                "type": "Element String e -> Html"
+            },
+            {
+                "name": "selectBox",
+                "comment": " A simple dropdown ",
+                "type": "SelectElement v e -> Html"
+            },
+            {
+                "name": "stringFormVal",
+                "comment": " Generate a FormValue for textual input boxes w/o validation ",
+                "type": "String -> FormValue (Maybe String)"
+            },
+            {
+                "name": "textArea",
+                "comment": " A textarea ",
+                "type": "Element String e -> Html"
+            },
+            {
+                "name": "textInput",
+                "comment": " A simple text input ",
+                "type": "Element String e -> Html"
+            },
+            {
+                "name": "timeInput",
+                "comment": " A simple time input ",
+                "type": "Element TimeOfDay String -> Html"
+            }
+        ],
+        "binops": []
+    }
+]

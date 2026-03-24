@@ -1,0 +1,5554 @@
+[
+    {
+        "name": "FontAwesome.Layers",
+        "comment": " This module enables the layers feature of Font Awesome 5. Layers allows you\nto stack any number of Font Awesome icons and elements, as well as overlay text\nor counter badges.\n\nNote that this feature requires using SVG Font Awesome elements.\n\n\n# Entry point\n\n@docs layers\n\n\n# Options and layers\n\n@docs IconLayer, LayerOption, BadgePosition\n\n",
+        "unions": [
+            {
+                "name": "BadgePosition",
+                "comment": " Positioning for a `Badge` layer option.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "BottomLeft",
+                        []
+                    ],
+                    [
+                        "BottomRight",
+                        []
+                    ],
+                    [
+                        "TopLeft",
+                        []
+                    ],
+                    [
+                        "TopRight",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "IconLayer",
+                "comment": " A layer consisting of any Font Awesome icon or logo.\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "IconLayer",
+                        [
+                            "Icon",
+                            "Style",
+                            "List Option",
+                            "List (Attribute msg)"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "LayerOption",
+                "comment": " Other options for a set of layers.\n\nIncluding the `LayerHasFixedWidth` option will align all layers.\n\nIncluding the `TextLayer` option will place the given text on top\nof your layers element.\n\nIncluding the `Badge` option adds a badge with the given text on top\nof your element. This is often used to display a counter.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "LayerHasFixedWidth",
+                        []
+                    ],
+                    [
+                        "TextLayer",
+                        [
+                            "String",
+                            "List Transform",
+                            "List (Attribute msg)"
+                        ]
+                    ],
+                    [
+                        "Badge",
+                        [
+                            "String",
+                            "BadgePosition",
+                            "List (Attribute msg)"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "layers",
+                "comment": " Create a layered Font Awesome element.\n\n    layers\n        [ IconLayer envelope Solid [] [] ]\n        [ LayerHasFixedWidth\n        , Badge \"821\" TopLeft []\n        ]\n\n    -- <span class=\"fa-layers fa-fw\">\n    --     <i class=\"fas fa-envelope\"></i>\n    --     <span class=\"fa-layers-counter fa-layers-top-left\">821</i>\n    -- </span>\n\n",
+                "type": "List (IconLayer msg) -> List (LayerOption msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FontAwesome",
+        "comment": " A type-checked interface for using the Font Awesome 5 icon library.\n\n\n# CDN Helpers\n\n@docs useSvg, useCss\n\n\n# Elements\n\n@docs icon, iconWithOptions\n\n\n# Options\n\n@docs Option, Animation, HtmlTag, Pull, Size, Style, Transform\n\n\n# Icons\n\n@docs accessibleIcon\n@docs accusoft\n@docs addressBook\n@docs addressCard\n@docs adjust\n@docs adn\n@docs adversal\n@docs affiliateTheme\n@docs alarmClock\n@docs algolia\n@docs alignCenter\n@docs alignJustify\n@docs alignLeft\n@docs alignRight\n@docs allergies\n@docs amazon\n@docs amazonPay\n@docs ambulance\n@docs americanSignLanguageInterpreting\n@docs amilia\n@docs anchor\n@docs android\n@docs angelList\n@docs angleDoubleDown\n@docs angleDoubleLeft\n@docs angleDoubleRight\n@docs angleDoubleUp\n@docs angleDown\n@docs angleLeft\n@docs angleRight\n@docs angleUp\n@docs angryCreative\n@docs angular\n@docs appStore\n@docs appStoreIos\n@docs apper\n@docs apple\n@docs applePay\n@docs archive\n@docs arrowAltCircleDown\n@docs arrowAltCircleLeft\n@docs arrowAltCircleRight\n@docs arrowAltCircleUp\n@docs arrowAltDown\n@docs arrowAltFromBottom\n@docs arrowAltFromLeft\n@docs arrowAltFromRight\n@docs arrowAltFromTop\n@docs arrowAltLeft\n@docs arrowAltRight\n@docs arrowAltSquareDown\n@docs arrowAltSquareLeft\n@docs arrowAltSquareRight\n@docs arrowAltSquareUp\n@docs arrowAltToBottom\n@docs arrowAltToLeft\n@docs arrowAltToRight\n@docs arrowAltToTop\n@docs arrowAltUp\n@docs arrowCircleDown\n@docs arrowCircleLeft\n@docs arrowCircleRight\n@docs arrowCircleUp\n@docs arrowDown\n@docs arrowFromBottom\n@docs arrowFromLeft\n@docs arrowFromRight\n@docs arrowFromTop\n@docs arrowLeft\n@docs arrowRight\n@docs arrowSquareDown\n@docs arrowSquareLeft\n@docs arrowSquareRight\n@docs arrowSquareUp\n@docs arrowToBottom\n@docs arrowToLeft\n@docs arrowToRight\n@docs arrowToTop\n@docs arrowUp\n@docs arrows\n@docs arrowsAlt\n@docs arrowsAltHorizontal\n@docs arrowsAltVertical\n@docs arrowsHorizontal\n@docs arrowsVertical\n@docs assistiveListeningSystems\n@docs asterisk\n@docs asymmetrik\n@docs at\n@docs audible\n@docs audioDescription\n@docs autoprefixer\n@docs avianex\n@docs aviato\n@docs aws\n@docs backward\n@docs badge\n@docs badgeCheck\n@docs balanceScale\n@docs ban\n@docs bandAid\n@docs bandcamp\n@docs barcode\n@docs barcodeAlt\n@docs barcodeRead\n@docs barcodeScan\n@docs bars\n@docs baseball\n@docs baseballBall\n@docs basketballBall\n@docs basketballHoop\n@docs bath\n@docs batteryBolt\n@docs batteryEmpty\n@docs batteryFull\n@docs batteryHalf\n@docs batteryQuarter\n@docs batterySlash\n@docs batteryThreeQuarters\n@docs bed\n@docs beer\n@docs behance\n@docs behanceSquare\n@docs bell\n@docs bellSlash\n@docs bicycle\n@docs bimObject\n@docs binoculars\n@docs birthdayCake\n@docs bitbucket\n@docs bitcoin\n@docs bity\n@docs blackTie\n@docs blackberry\n@docs blind\n@docs blogger\n@docs bloggerB\n@docs bluetooth\n@docs bluetoothB\n@docs bold\n@docs bolt\n@docs bomb\n@docs book\n@docs bookmark\n@docs bowlingBall\n@docs bowlingPins\n@docs box\n@docs boxCheck\n@docs boxes\n@docs boxingGlove\n@docs braille\n@docs briefcase\n@docs briefcaseMedical\n@docs browser\n@docs btc\n@docs bug\n@docs building\n@docs bullhorn\n@docs bullseye\n@docs burn\n@docs buromobelExperte\n@docs bus\n@docs buySellAds\n@docs calculator\n@docs calendar\n@docs calendarAlt\n@docs calendarCheck\n@docs calendarEdit\n@docs calendarExclamation\n@docs calendarMinus\n@docs calendarPlus\n@docs calendarTimes\n@docs camera\n@docs cameraAlt\n@docs cameraRetro\n@docs capsules\n@docs car\n@docs caretCircleDown\n@docs caretCircleLeft\n@docs caretCircleRight\n@docs caretCircleUp\n@docs caretDown\n@docs caretLeft\n@docs caretRight\n@docs caretSquareDown\n@docs caretSquareLeft\n@docs caretSquareRight\n@docs caretSquareUp\n@docs caretUp\n@docs cartArrowDown\n@docs cartPlus\n@docs ccAmazonPay\n@docs ccAmex\n@docs ccApplePay\n@docs ccDinersClub\n@docs ccDiscover\n@docs ccJcb\n@docs ccMastercard\n@docs ccPayPal\n@docs ccStripe\n@docs ccVisa\n@docs centercode\n@docs certificate\n@docs chartArea\n@docs chartBar\n@docs chartLine\n@docs chartPie\n@docs check\n@docs checkCircle\n@docs checkSquare\n@docs chess\n@docs chessBishop\n@docs chessBishopAlt\n@docs chessBoard\n@docs chessClock\n@docs chessClockAlt\n@docs chessKing\n@docs chessKingAlt\n@docs chessKnight\n@docs chessKnightAlt\n@docs chessPawn\n@docs chessPawnAlt\n@docs chessQueen\n@docs chessQueenAlt\n@docs chessRook\n@docs chessRookAlt\n@docs chevronCircleDown\n@docs chevronCircleLeft\n@docs chevronCircleRight\n@docs chevronCircleUp\n@docs chevronDoubleDown\n@docs chevronDoubleLeft\n@docs chevronDoubleRight\n@docs chevronDoubleUp\n@docs chevronDown\n@docs chevronLeft\n@docs chevronRight\n@docs chevronSquareDown\n@docs chevronSquareLeft\n@docs chevronSquareRight\n@docs chevronSquareUp\n@docs chevronUp\n@docs child\n@docs chrome\n@docs circle\n@docs circleNotch\n@docs clipboard\n@docs clipboardCheck\n@docs clipboardList\n@docs clock\n@docs clone\n@docs closedCaptioning\n@docs cloud\n@docs cloudDownload\n@docs cloudDownloadAlt\n@docs cloudUpload\n@docs cloudUploadAlt\n@docs cloudScale\n@docs cloudsmith\n@docs cloudversify\n@docs club\n@docs code\n@docs codeBranch\n@docs codeCommit\n@docs codeMerge\n@docs codePen\n@docs codiePie\n@docs coffee\n@docs cog\n@docs cogs\n@docs columns\n@docs comment\n@docs commentAlt\n@docs comments\n@docs compass\n@docs compress\n@docs compressAlt\n@docs compressWide\n@docs connectDevelop\n@docs contao\n@docs conveyorBelt\n@docs conveyorBeltAlt\n@docs copy\n@docs copyright\n@docs cpanel\n@docs creativeCommons\n@docs creditCard\n@docs creditCardBlank\n@docs creditCardFront\n@docs cricket\n@docs crop\n@docs crosshairs\n@docs css3\n@docs css3Alt\n@docs cube\n@docs cubes\n@docs curling\n@docs cut\n@docs cuttlefish\n@docs dAndD\n@docs dashcube\n@docs database\n@docs deaf\n@docs delicious\n@docs deployDog\n@docs deskpro\n@docs desktop\n@docs desktopAlt\n@docs deviantArt\n@docs diagnoses\n@docs diamond\n@docs digg\n@docs digitalOcean\n@docs discord\n@docs discourse\n@docs dna\n@docs docHub\n@docs docker\n@docs dollarSign\n@docs dolly\n@docs dollyEmpty\n@docs dollyFlatbed\n@docs dollyFlatbedAlt\n@docs dollyFlatbedEmpty\n@docs dotCircle\n@docs download\n@docs draft2Digital\n@docs dribbble\n@docs dribbbleSquare\n@docs dropbox\n@docs drupal\n@docs dumbbell\n@docs dyalog\n@docs earlyBirds\n@docs edge\n@docs edit\n@docs eject\n@docs elementor\n@docs ellipsisHorizontal\n@docs ellipsisHorizontalAlt\n@docs ellipsisVertical\n@docs ellipsisVerticalAlt\n@docs ember\n@docs empire\n@docs envelope\n@docs envelopeOpen\n@docs envelopeSquare\n@docs envira\n@docs eraser\n@docs erlang\n@docs ethereum\n@docs etsy\n@docs euroSign\n@docs exchange\n@docs exchangeAlt\n@docs exclamation\n@docs exclamationCircle\n@docs exclamationSquare\n@docs exclamationTriangle\n@docs expand\n@docs expandAlt\n@docs expandArrows\n@docs expandArrowsAlt\n@docs expandWide\n@docs expeditedSSL\n@docs externalLink\n@docs externalLinkAlt\n@docs externalLinkSquare\n@docs externalLinkSquareAlt\n@docs eye\n@docs eyeDropper\n@docs eyeSlash\n@docs facebook\n@docs facebookF\n@docs facebookMessenger\n@docs facebookSquare\n@docs fastBackward\n@docs fastForward\n@docs fax\n@docs female\n@docs fieldHockey\n@docs fighterJet\n@docs file\n@docs fileAlt\n@docs fileArchive\n@docs fileAudio\n@docs fileCheck\n@docs fileCode\n@docs fileEdit\n@docs fileExcel\n@docs fileExclamation\n@docs fileImage\n@docs fileMedical\n@docs fileMedicalAlt\n@docs fileMinus\n@docs filePdf\n@docs filePlus\n@docs filePowerPoint\n@docs fileTimes\n@docs fileVideo\n@docs fileWord\n@docs film\n@docs filmAlt\n@docs filter\n@docs fire\n@docs fireExtinguisher\n@docs firefox\n@docs firstAid\n@docs firstDraft\n@docs firstOrder\n@docs fiveHundredPx\n@docs flag\n@docs flagCheckered\n@docs flask\n@docs flickr\n@docs flipboard\n@docs fly\n@docs folder\n@docs folderOpen\n@docs font\n@docs fontAwesome\n@docs fontAwesomeAlt\n@docs fontAwesomeFlag\n@docs fontIcons\n@docs fontIconsFi\n@docs footballBall\n@docs footballHelmet\n@docs forklift\n@docs fortAwesome\n@docs fortAwesomeAlt\n@docs forumbee\n@docs forward\n@docs foursquare\n@docs freeBSD\n@docs freeCodeCamp\n@docs frown\n@docs futbol\n@docs gamepad\n@docs gavel\n@docs gem\n@docs genderless\n@docs getPocket\n@docs gg\n@docs ggCircle\n@docs gift\n@docs git\n@docs gitSquare\n@docs gitHub\n@docs gitHubAlt\n@docs gitHubSquare\n@docs gitKraken\n@docs gitLab\n@docs gitter\n@docs glassMartini\n@docs glide\n@docs glideG\n@docs globe\n@docs gofore\n@docs golfBall\n@docs golfClub\n@docs goodreads\n@docs goodreadsG\n@docs google\n@docs googleDrive\n@docs googlePlay\n@docs googlePlus\n@docs googlePlusG\n@docs googlePlusSquare\n@docs googleWallet\n@docs graduationCap\n@docs gratipay\n@docs grav\n@docs gripfire\n@docs grunt\n@docs gulp\n@docs hSquare\n@docs h1\n@docs h2\n@docs h3\n@docs hackerNews\n@docs hackerNewsSquare\n@docs handHoldingBox\n@docs handLizard\n@docs handPaper\n@docs handPeace\n@docs handPointDown\n@docs handPointLeft\n@docs handPointRight\n@docs handPointUp\n@docs handPointer\n@docs handReceiving\n@docs handRock\n@docs handScissors\n@docs handSpock\n@docs handshake\n@docs hashtag\n@docs hdd\n@docs heading\n@docs headphones\n@docs heart\n@docs heartbeat\n@docs hexagon\n@docs hips\n@docs hireAHelper\n@docs history\n@docs hockeyPuck\n@docs hockeySticks\n@docs home\n@docs hooli\n@docs hospital\n@docs hospitalAlt\n@docs hospitalSymbol\n@docs hotjar\n@docs hourglass\n@docs hourglassEnd\n@docs hourglassHalf\n@docs hourglassStart\n@docs houzz\n@docs html5\n@docs hubSpot\n@docs iCursor\n@docs idBadge\n@docs idCard\n@docs idCardAlt\n@docs image\n@docs images\n@docs imdb\n@docs inbox\n@docs inboxIn\n@docs inboxOut\n@docs indent\n@docs industry\n@docs industryAlt\n@docs info\n@docs infoCircle\n@docs infoSquare\n@docs instagram\n@docs internetExplorer\n@docs inventory\n@docs ioxHost\n@docs italic\n@docs iTunes\n@docs iTunesNote\n@docs jackOLantern\n@docs jenkins\n@docs joget\n@docs joomla\n@docs js\n@docs jsSquare\n@docs jsFiddle\n@docs key\n@docs keyboard\n@docs keyCDN\n@docs kickstarter\n@docs kickstarterK\n@docs korvue\n@docs language\n@docs laptop\n@docs laravel\n@docs lastfm\n@docs lastfmSquare\n@docs leaf\n@docs leanpub\n@docs lemon\n@docs less\n@docs levelDown\n@docs levelDownAlt\n@docs levelUp\n@docs levelUpAlt\n@docs lifeRing\n@docs lightbulb\n@docs line\n@docs link\n@docs linkedIn\n@docs linkedInInverted\n@docs linode\n@docs linux\n@docs liraSign\n@docs list\n@docs listAlt\n@docs listOl\n@docs listUl\n@docs locationArrow\n@docs lock\n@docs lockAlt\n@docs lockOpen\n@docs lockOpenAlt\n@docs longArrowAltDown\n@docs longArrowAltLeft\n@docs longArrowAltRight\n@docs longArrowAltUp\n@docs longArrowDown\n@docs longArrowLeft\n@docs longArrowRight\n@docs longArrowUp\n@docs lowVision\n@docs luchador\n@docs lyft\n@docs magento\n@docs magic\n@docs magnet\n@docs male\n@docs map\n@docs mapMarker\n@docs mapMarkerAlt\n@docs mapPin\n@docs mapSigns\n@docs mars\n@docs marsDouble\n@docs marsStroke\n@docs marsStrokeHorizontal\n@docs marsStrokeVertical\n@docs maxCDN\n@docs medApps\n@docs medium\n@docs mediumM\n@docs medkit\n@docs medRT\n@docs meetup\n@docs meh\n@docs mercury\n@docs microchip\n@docs microphone\n@docs microphoneAlt\n@docs microphoneSlash\n@docs microsoft\n@docs minus\n@docs minusCircle\n@docs minusHexagon\n@docs minusOctagon\n@docs minusSquare\n@docs mix\n@docs mixcloud\n@docs mizuni\n@docs mobile\n@docs mobileAlt\n@docs mobileAndroid\n@docs mobileAndroidAlt\n@docs modX\n@docs monero\n@docs moneyBill\n@docs moneyBillAlt\n@docs moon\n@docs motorcycle\n@docs mousePointer\n@docs music\n@docs napster\n@docs neuter\n@docs newspaper\n@docs nintendoSwitch\n@docs node\n@docs nodejs\n@docs notesMedical\n@docs npm\n@docs ns8\n@docs nutritionix\n@docs objectGroup\n@docs objectUngroup\n@docs octagon\n@docs odnoklassniki\n@docs odnoklassnikiSquare\n@docs openCart\n@docs openID\n@docs opera\n@docs optinMonster\n@docs openSourceInitiative\n@docs outdent\n@docs page4\n@docs pageLines\n@docs paintBrush\n@docs palFed\n@docs pallet\n@docs palletAlt\n@docs paperPlane\n@docs paperclip\n@docs paragraph\n@docs paste\n@docs patreon\n@docs pause\n@docs pauseCircle\n@docs paw\n@docs payPal\n@docs pen\n@docs penAlt\n@docs penSquare\n@docs pencil\n@docs pencilAlt\n@docs pennant\n@docs percent\n@docs periscope\n@docs phabricator\n@docs phoenixFramework\n@docs phone\n@docs phoneSlash\n@docs phoneSquare\n@docs phoneVolume\n@docs php\n@docs piedPiper\n@docs piedPiperAlt\n@docs piedPiperPP\n@docs pills\n\n@docs pinterest\n@docs pinterestP\n@docs pinterestSquare\n@docs plane\n@docs planeAlt\n@docs play\n@docs playCircle\n@docs playstation\n@docs plug\n@docs plus\n@docs plusCircle\n@docs plusHexagon\n@docs plusOctagon\n@docs plusSquare\n@docs podcast\n@docs poo\n@docs portrait\n@docs poundSign\n@docs powerOff\n@docs prescriptionBottle\n@docs prescriptionBottleAlt\n@docs print\n@docs procedures\n@docs productHunt\n@docs pushed\n@docs puzzlePiece\n@docs python\n@docs qq\n@docs qrCode\n@docs question\n@docs questionCircle\n@docs questionSquare\n@docs quidditch\n@docs quinScape\n@docs quora\n@docs quoteLeft\n@docs quoteRight\n@docs racquet\n@docs random\n@docs ravelry\n@docs react\n@docs rebel\n@docs rectangleLandscape\n@docs rectanglePortrait\n@docs rectangleWide\n@docs recycle\n@docs redRiver\n@docs reddit\n@docs redditAlien\n@docs redditSquare\n@docs redo\n@docs redoAlt\n@docs registered\n@docs rendact\n@docs renren\n@docs repeat\n@docs repeatAlt\n@docs repeat1\n@docs repeat1Alt\n@docs reply\n@docs replyAll\n@docs replyd\n@docs resolving\n@docs retweet\n@docs retweetAlt\n@docs road\n@docs rocket\n@docs rocketChat\n@docs rockRMS\n@docs rss\n@docs rssSquare\n@docs rubleSign\n@docs rupeeSign\n@docs safari\n@docs sass\n@docs save\n@docs scanner\n@docs scannerKeyboard\n@docs scannerTouchscreen\n@docs schlix\n@docs scribd\n@docs scrubber\n@docs search\n@docs searchMinus\n@docs searchPlus\n@docs searchengin\n@docs sellCast\n@docs sellsy\n@docs server\n@docs serviceStack\n@docs share\n@docs shareAll\n@docs shareAlt\n@docs shareAltSquare\n@docs shareSquare\n@docs shekelSign\n@docs shield\n@docs shieldAlt\n@docs shieldCheck\n@docs ship\n@docs shippingFast\n@docs shippingTimed\n@docs shirtsInBulk\n@docs shoppingBag\n@docs shoppingBasket\n@docs shoppingCart\n@docs shower\n@docs shuttlecock\n@docs signIn\n@docs signInAlt\n@docs signLanguage\n@docs signOut\n@docs signOutAlt\n@docs signal\n@docs simplyBuilt\n@docs sistrix\n@docs sitemap\n@docs skyAtlas\n@docs skype\n@docs slack\n@docs slackHash\n@docs slidersHorizontal\n@docs slidersHorizontalSquare\n@docs slidersVertical\n@docs slidersVerticalSquare\n@docs slideshare\n@docs smile\n@docs smoking\n@docs snapchat\n@docs snapchatGhost\n@docs snapchatSquare\n@docs snowflake\n@docs sort\n@docs sortAlphaDown\n@docs sortAlphaUp\n@docs sortAmountDown\n@docs sortAmountUp\n@docs sortDown\n@docs sortNumericDown\n@docs sortNumericUp\n@docs sortUp\n@docs soundCloud\n@docs spaceShuttle\n@docs spade\n@docs speakap\n@docs spinner\n@docs spinnerThird\n@docs spotify\n@docs square\n@docs squareFull\n@docs stackExchange\n@docs stackOverflow\n@docs star\n@docs starExclamation\n@docs starHalf\n@docs stayLinked\n@docs steam\n@docs steamSquare\n@docs steamSymbol\n@docs stepBackward\n@docs stepForward\n@docs stethoscope\n@docs stickerMule\n@docs stickyNote\n@docs stop\n@docs stopCircle\n@docs stopwatch\n@docs strava\n@docs streetView\n@docs strikethrough\n@docs stripe\n@docs stripeS\n@docs studioVinari\n@docs stumbleUpon\n@docs stumbleUponCircle\n@docs subscript\n@docs subway\n@docs suitcase\n@docs sun\n@docs superpowers\n@docs superscript\n@docs supple\n@docs sync\n@docs syncAlt\n@docs syringe\n@docs table\n@docs tableTennis\n@docs tablet\n@docs tabletAlt\n@docs tabletAndroid\n@docs tabletAndroidAlt\n@docs tabletRugged\n@docs tablets\n@docs tachometer\n@docs tachometerAlt\n@docs tag\n@docs tags\n@docs tasks\n@docs taxi\n@docs telegram\n@docs telegramPlane\n@docs tencentWeibo\n@docs tennisBall\n@docs terminal\n@docs textHeight\n@docs textWidth\n@docs th\n@docs thLarge\n@docs thList\n@docs themeIsle\n@docs thermometer\n@docs thermometerEmpty\n@docs thermometerFull\n@docs thermometerHalf\n@docs thermometerQuarter\n@docs thermometerThreeQuarters\n@docs thumbsDown\n@docs thumbsUp\n@docs thumbtack\n@docs ticket\n@docs ticketAlt\n@docs times\n@docs timesCircle\n@docs timesHexagon\n@docs timesOctagon\n@docs timesSquare\n@docs tint\n@docs toggleOff\n@docs toggleOn\n@docs trademark\n@docs train\n@docs transgender\n@docs transgenderAlt\n@docs trash\n@docs trashAlt\n@docs tree\n@docs treeAlt\n@docs trello\n@docs triangle\n@docs tripAdvisor\n@docs trophy\n@docs trophyAlt\n@docs truck\n@docs tty\n@docs tumblr\n@docs tumblrSquare\n@docs tv\n@docs tvRetro\n@docs twitch\n@docs twitter\n@docs twitterSquare\n@docs typo3\n@docs uber\n@docs uiKit\n@docs umbrella\n@docs underline\n@docs undo\n@docs undoAlt\n@docs uniregistry\n@docs universalAccess\n@docs university\n@docs unlink\n@docs unlock\n@docs unlockAlt\n@docs untappd\n@docs upload\n@docs usb\n@docs usdCircle\n@docs usdSquare\n@docs user\n@docs userAlt\n@docs userCircle\n@docs userMD\n@docs userPlus\n@docs userSecret\n@docs userTimes\n@docs users\n@docs usSunnah\n@docs utensilFork\n@docs utensilKnife\n@docs utensilSpoon\n@docs utensils\n@docs utensilsAlt\n@docs vaadin\n@docs venus\n@docs venusDouble\n@docs venusMars\n@docs viacoin\n@docs viadeo\n@docs viadeoSquare\n@docs vial\n@docs vials\n@docs viber\n@docs video\n@docs vimeo\n@docs vimeoSquare\n@docs vimeoV\n@docs vine\n@docs vk\n@docs vnv\n@docs volleyball\n@docs volumeDown\n@docs volumeMute\n@docs volumeOff\n@docs volumeUp\n@docs vuejs\n@docs warehouse\n@docs warehouseAlt\n@docs watch\n@docs weight\n@docs weibo\n@docs weixin\n@docs whatsApp\n@docs whatsAppSquare\n@docs wheelchair\n@docs whistle\n@docs whmcs\n@docs wifi\n@docs wikipedia\n@docs window\n@docs windowAlt\n@docs windowClose\n@docs windowMaximize\n@docs windowMinimize\n@docs windowRestore\n@docs windows\n@docs wonSign\n@docs wordPress\n@docs wordPressSimple\n@docs wpBeginner\n@docs wpExplorer\n@docs wpForms\n@docs wrench\n@docs xbox\n@docs xing\n@docs xingSquare\n@docs xray\n@docs yCombinator\n@docs yahoo\n@docs yandex\n@docs yandexInternational\n@docs yelp\n@docs yenSign\n@docs yoast\n@docs youTube\n@docs youTubeSquare\n\n",
+        "unions": [
+            {
+                "name": "Animation",
+                "comment": " Font Awesome's built-in animations.\n\n    iconWithOptions print Solid [ Animation Pulse ] []\n    -- <i class=\"fas fa-print fa-pulse\"></i>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Spin",
+                        []
+                    ],
+                    [
+                        "Pulse",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "HtmlTag",
+                "comment": " Surrounding tag for icon and logo elements. Defaults to `<i>` if not set.\n\n    iconWithOptions truck Regular [ HtmlTag Span ] []\n    -- <span class=\"far fa-truck\"></span>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "I",
+                        []
+                    ],
+                    [
+                        "Span",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Option",
+                "comment": " Font Awesome specific options. Any number of these can be passed in\nwhen generating an icon or logo. If any option is repeated, then only one\nwill be selected. However, there is no guarantee as to which option will be\nselected, so please only use each option once per icon or logo.\n\nIncluding the `HasBorder` option will draw a border around the icon or logo.\n\n    iconWithOptions quoteLeft Solid [ HasBorder ] []\n    -- <i class=\"fas fa-quote-left fa-border\"></i>\n\nIncluding the `HasFixedWidth` option will set a fixed width on the icon or logo.\nAll elements with this option will have the same width.\n\n    iconWithOptions diamond Regular [ HasFixedWidth ] []\n    -- <i class=\"far fa-diamond fa-fw\"></i>\n\nIncluding the `InvertColor` option will invert the color of the icon or logo.\n\n    iconWithOptions home Light [ InvertColor ] []\n    -- <i class=\"fal fa-home fa-inverse\"></i>\n\nThe `Mask` option allows you to set an outer icon or logo which sits behind\nthe main Font Awesome element. It only works if you are using SVG elements.\n\n    iconWithOptions pencil Regular [ Mask comment Solid ] []\n    -- <i class=\"far fa-pencil\" data-fa-mask=\"fas fa-comment\"></i>\n\nDocumentation for the other options appears with their type definitions below.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Animation",
+                        [
+                            "Animation"
+                        ]
+                    ],
+                    [
+                        "HasBorder",
+                        []
+                    ],
+                    [
+                        "HasFixedWidth",
+                        []
+                    ],
+                    [
+                        "HtmlTag",
+                        [
+                            "HtmlTag"
+                        ]
+                    ],
+                    [
+                        "InvertColor",
+                        []
+                    ],
+                    [
+                        "Mask",
+                        [
+                            "Icon",
+                            "Style"
+                        ]
+                    ],
+                    [
+                        "Pull",
+                        [
+                            "Pull"
+                        ]
+                    ],
+                    [
+                        "Size",
+                        [
+                            "Size"
+                        ]
+                    ],
+                    [
+                        "Transform",
+                        [
+                            "List Transform"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Pull",
+                "comment": " Options for pulling a logo or icon to the left or right.\n\n    iconWithOptions fileImage Light [ Pull Left ] []\n    -- <i class=\"far fa-file-image fa-pull-left\"></i>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Size",
+                "comment": " Font Awesome's alternative size options. Valid values for the `Mult`\noptions are integers 2 - 10 inclusive.\n\n    iconWithOptions cog Solid [ Size ExtraSmall ] []\n    -- <i class=\"fas fa-cog fa-xs\"></i>\n\n    iconWithOptions list Regular [ Size (Mult 4) ] []\n    -- <i class=\"far fa-list fa-4x\"></i>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ExtraSmall",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ],
+                    [
+                        "Mult",
+                        [
+                            "Int"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Style",
+                "comment": " Every icon has one variation per style. Some of the Solid, most of the\n`Regular`, and all of the `Light` variations require Font Awesome Pro, so if\nyou are using the free version then please refer to Font Awesome's icon library\nto determine which styles are available to you.\n\nNote that brand logos are only available in a single style, and so they will\nignore whatever style is given.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Solid",
+                        []
+                    ],
+                    [
+                        "Regular",
+                        []
+                    ],
+                    [
+                        "Light",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Transform",
+                "comment": " The `Transform` option accepts transformation instructions for the element.\nSee Font Awesome's documentation for supported instructions.\n\n    iconWithOptions bicycle light [ Transform [ Shrink 3, ShiftUp 6, Rotate 45 ] ] []\n    -- <i class=\"fal fa-bicycle\" data-fa-transform = \"shrink-3 up-6 rotate-45\"></i>\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Grow",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Shrink",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ShiftDown",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ShiftLeft",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ShiftRight",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ShiftUp",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Rotate",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "FlipHorizontal",
+                        []
+                    ],
+                    [
+                        "FlipVertical",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "accessibleIcon",
+                "comment": " Accessible Icon - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "accusoft",
+                "comment": " Accusoft - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "addressBook",
+                "comment": " Address Book - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "addressCard",
+                "comment": " Address Card - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "adjust",
+                "comment": " Adjust - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "adn",
+                "comment": " Adn = - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "adversal",
+                "comment": " Adversal = - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "affiliateTheme",
+                "comment": " Affiliate Theme - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "alarmClock",
+                "comment": " Alarm Clock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "algolia",
+                "comment": " Algolia - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "alignCenter",
+                "comment": " Align Center - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "alignJustify",
+                "comment": " Align Justify - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "alignLeft",
+                "comment": " Align Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "alignRight",
+                "comment": " Align Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "allergies",
+                "comment": " Allergies - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "amazon",
+                "comment": " Amazon - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "amazonPay",
+                "comment": " Amazon Pay - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ambulance",
+                "comment": " Ambulance - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "americanSignLanguageInterpreting",
+                "comment": " American Sign Language Interpreting - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "amilia",
+                "comment": " Amilia - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "anchor",
+                "comment": " Anchor - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "android",
+                "comment": " Android - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angelList",
+                "comment": " Angel List - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleDoubleDown",
+                "comment": " Angle Double Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleDoubleLeft",
+                "comment": " Angle Double Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleDoubleRight",
+                "comment": " Angle Double Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleDoubleUp",
+                "comment": " Angle Double Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleDown",
+                "comment": " Angle Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleLeft",
+                "comment": " Angle Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleRight",
+                "comment": " Angle Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angleUp",
+                "comment": " Angle Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angryCreative",
+                "comment": " Angry Creative - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "angular",
+                "comment": " Angular - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "appStore",
+                "comment": " App Store - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "appStoreIos",
+                "comment": " App Store iOS - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "apper",
+                "comment": " Apper - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "apple",
+                "comment": " Apple - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "applePay",
+                "comment": " Apple Pay - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "archive",
+                "comment": " Archive - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltCircleDown",
+                "comment": " Arrow Alternate Circle Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltCircleLeft",
+                "comment": " Arrow Alternate Circle Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltCircleRight",
+                "comment": " Arrow Alternate Circle Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltCircleUp",
+                "comment": " Arrow Alternate Circle Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltDown",
+                "comment": " Arrow Alternate Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltFromBottom",
+                "comment": " Arrow Alternate From Bottom - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltFromLeft",
+                "comment": " Arrow Alternate From Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltFromRight",
+                "comment": " Arrow Alternate From Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltFromTop",
+                "comment": " Arrow Alternate From Top - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltLeft",
+                "comment": " Arrow Alternate Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltRight",
+                "comment": " Arrow Alternate Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltSquareDown",
+                "comment": " Arrow Alternate Square Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltSquareLeft",
+                "comment": " Arrow Alternate Square Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltSquareRight",
+                "comment": " Arrow Alternate Square Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltSquareUp",
+                "comment": " Arrow Alternate Square Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltToBottom",
+                "comment": " Arrow Alternate To Bottom - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltToLeft",
+                "comment": " Arrow Alternate To Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltToRight",
+                "comment": " Arrow Alternate To Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltToTop",
+                "comment": " Arrow Alternate To Top - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowAltUp",
+                "comment": " Arrow Alternate Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowCircleDown",
+                "comment": " Arrow Circle Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowCircleLeft",
+                "comment": " Arrow Circle Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowCircleRight",
+                "comment": " Arrow Circle Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowCircleUp",
+                "comment": " Arrow Circle Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowDown",
+                "comment": " Arrow Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowFromBottom",
+                "comment": " Arrow From Bottom - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowFromLeft",
+                "comment": " Arrow From Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowFromRight",
+                "comment": " Arrow From Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowFromTop",
+                "comment": " Arrow From Top - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowLeft",
+                "comment": " Arrow Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowRight",
+                "comment": " Arrow Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowSquareDown",
+                "comment": " Arrow Square Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowSquareLeft",
+                "comment": " Arrow Square Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowSquareRight",
+                "comment": " Arrow Square Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowSquareUp",
+                "comment": " Arrow Square Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowToBottom",
+                "comment": " Arrow To Bottom - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowToLeft",
+                "comment": " Arrow To Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowToRight",
+                "comment": " Arrow To Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowToTop",
+                "comment": " Arrow To Top - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowUp",
+                "comment": " Arrow Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrows",
+                "comment": " Arrows - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowsAlt",
+                "comment": " Arrows Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowsAltHorizontal",
+                "comment": " Arrows Alternate Horizontal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowsAltVertical",
+                "comment": " Arrows Alternate Vertical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowsHorizontal",
+                "comment": " Arrows Horizontal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "arrowsVertical",
+                "comment": " Arrows Vertical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "assistiveListeningSystems",
+                "comment": " Assistive Listening Systems - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "asterisk",
+                "comment": " Asterisk - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "asymmetrik",
+                "comment": " Asymmetrik - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "at",
+                "comment": " At - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "audible",
+                "comment": " Audible - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "audioDescription",
+                "comment": " Audio Description - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "autoprefixer",
+                "comment": " Autoprefixer - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "avianex",
+                "comment": " Avianex - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "aviato",
+                "comment": " Aviato - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "aws",
+                "comment": " AWS - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "backward",
+                "comment": " Backward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "badge",
+                "comment": " Badge - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "badgeCheck",
+                "comment": " Badge Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "balanceScale",
+                "comment": " Balance Scale - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ban",
+                "comment": " Ban - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bandAid",
+                "comment": " Band-aid - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bandcamp",
+                "comment": " Bandcamp - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "barcode",
+                "comment": " Barcode - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "barcodeAlt",
+                "comment": " Barcode Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "barcodeRead",
+                "comment": " Barcode Read - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "barcodeScan",
+                "comment": " Barcode Scan - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bars",
+                "comment": " Bars - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "baseball",
+                "comment": " Baseball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "baseballBall",
+                "comment": " Baseball Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "basketballBall",
+                "comment": " Basketball Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "basketballHoop",
+                "comment": " Basketball Hoop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bath",
+                "comment": " Bath - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryBolt",
+                "comment": " Battery Bolt - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryEmpty",
+                "comment": " Battery Empty - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryFull",
+                "comment": " Battery Full - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryHalf",
+                "comment": " Battery Half - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryQuarter",
+                "comment": " Battery Quarter - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batterySlash",
+                "comment": " Battery Slash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "batteryThreeQuarters",
+                "comment": " Battery Three Quarters - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bed",
+                "comment": " Bed - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "beer",
+                "comment": " Beer - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "behance",
+                "comment": " Behance - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "behanceSquare",
+                "comment": " Behance Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bell",
+                "comment": " Bell - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bellSlash",
+                "comment": " Bell Slash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bicycle",
+                "comment": " Bicycle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bimObject",
+                "comment": " BIMobject - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "binoculars",
+                "comment": " Binoculars - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "birthdayCake",
+                "comment": " Birthday Cake - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bitbucket",
+                "comment": " Bitbucket - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bitcoin",
+                "comment": " Bitcoin - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bity",
+                "comment": " Bity - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "blackTie",
+                "comment": " Black Tie - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "blackberry",
+                "comment": " Blackberry - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "blind",
+                "comment": " Blind - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "blogger",
+                "comment": " Blogger - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bloggerB",
+                "comment": " Blogger B - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bluetooth",
+                "comment": " Bluetooth - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bluetoothB",
+                "comment": " Bluetooth B - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bold",
+                "comment": " Bold - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bolt",
+                "comment": " Bolt - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bomb",
+                "comment": " Bomb - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "book",
+                "comment": " Book - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bookmark",
+                "comment": " Bookmark - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bowlingBall",
+                "comment": " Bowling Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bowlingPins",
+                "comment": " Bowling Pins - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "box",
+                "comment": " Box - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "boxCheck",
+                "comment": " Box Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "boxes",
+                "comment": " Boxes - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "boxingGlove",
+                "comment": " Boxing Glove - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "braille",
+                "comment": " Braille - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "briefcase",
+                "comment": " Briefcase - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "briefcaseMedical",
+                "comment": " Briefcase Medical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "browser",
+                "comment": " Browser - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "btc",
+                "comment": " BTC - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bug",
+                "comment": " Bug - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "building",
+                "comment": " Building - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bullhorn",
+                "comment": " Bullhorn - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bullseye",
+                "comment": " Bullseye - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "burn",
+                "comment": " Burn - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "buromobelExperte",
+                "comment": " Buromobel Experte - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "bus",
+                "comment": " Bus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "buySellAds",
+                "comment": " BuySellAds - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calculator",
+                "comment": " Calculator - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendar",
+                "comment": " Calendar - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarAlt",
+                "comment": " Calendar Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarCheck",
+                "comment": " Calendar Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarEdit",
+                "comment": " Calendar Edit - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarExclamation",
+                "comment": " Calendar Exclamation - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarMinus",
+                "comment": " Calendar Minus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarPlus",
+                "comment": " Calendar Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "calendarTimes",
+                "comment": " Calendar Times - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "camera",
+                "comment": " Camera - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cameraAlt",
+                "comment": " Camera Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cameraRetro",
+                "comment": " Camera Retro - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "capsules",
+                "comment": " Capsules - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "car",
+                "comment": " Car - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretCircleDown",
+                "comment": " Caret Circle Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretCircleLeft",
+                "comment": " Caret Circle Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretCircleRight",
+                "comment": " Caret Circle Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretCircleUp",
+                "comment": " Caret Circle Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretDown",
+                "comment": " Caret Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretLeft",
+                "comment": " Caret Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretRight",
+                "comment": " Caret Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretSquareDown",
+                "comment": " Caret Square Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretSquareLeft",
+                "comment": " Caret Square Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretSquareRight",
+                "comment": " Caret Square Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretSquareUp",
+                "comment": " Caret Square Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "caretUp",
+                "comment": " Caret Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cartArrowDown",
+                "comment": " Cart Arrow Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cartPlus",
+                "comment": " Cart Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccAmazonPay",
+                "comment": " CC Amazon Pay - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccAmex",
+                "comment": " CC Amex - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccApplePay",
+                "comment": " CC Apple Pay - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccDinersClub",
+                "comment": " CC Diners Club - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccDiscover",
+                "comment": " CC Discover - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccJcb",
+                "comment": " CC Jcb - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccMastercard",
+                "comment": " CC Mastercard - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccPayPal",
+                "comment": " CC PayPal - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccStripe",
+                "comment": " CC Stripe - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ccVisa",
+                "comment": " CC Visa - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "centercode",
+                "comment": " Centercode - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "certificate",
+                "comment": " Certificate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chartArea",
+                "comment": " Chart Area - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chartBar",
+                "comment": " Chart Bar - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chartLine",
+                "comment": " Chart Line - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chartPie",
+                "comment": " Chart Pie - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "check",
+                "comment": " Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "checkCircle",
+                "comment": " Check Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "checkSquare",
+                "comment": " Check Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chess",
+                "comment": " Chess - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessBishop",
+                "comment": " Chess Bishop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessBishopAlt",
+                "comment": " Chess Bishop Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessBoard",
+                "comment": " Chess Board - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessClock",
+                "comment": " Chess Clock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessClockAlt",
+                "comment": " Chess Clock Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessKing",
+                "comment": " Chess King - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessKingAlt",
+                "comment": " Chess King Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessKnight",
+                "comment": " Chess Knight - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessKnightAlt",
+                "comment": " Chess Knight Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessPawn",
+                "comment": " Chess Pawn - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessPawnAlt",
+                "comment": " Chess Pawn Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessQueen",
+                "comment": " Chess Queen - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessQueenAlt",
+                "comment": " Chess Queen Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessRook",
+                "comment": " Chess Rook - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chessRookAlt",
+                "comment": " Chess Rook Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronCircleDown",
+                "comment": " Chevron Circle Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronCircleLeft",
+                "comment": " Chevron Circle Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronCircleRight",
+                "comment": " Chevron Circle Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronCircleUp",
+                "comment": " Chevron Circle Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronDoubleDown",
+                "comment": " Chevron Double Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronDoubleLeft",
+                "comment": " Chevron Double Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronDoubleRight",
+                "comment": " Chevron Double Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronDoubleUp",
+                "comment": " Chevron Double Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronDown",
+                "comment": " Chevron Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronLeft",
+                "comment": " Chevron Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronRight",
+                "comment": " Chevron Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronSquareDown",
+                "comment": " Chevron Square Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronSquareLeft",
+                "comment": " Chevron Square Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronSquareRight",
+                "comment": " Chevron Square Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronSquareUp",
+                "comment": " Chevron Square Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chevronUp",
+                "comment": " Chevron Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "child",
+                "comment": " Child - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "chrome",
+                "comment": " Chrome - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "circle",
+                "comment": " Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "circleNotch",
+                "comment": " Circle Notch - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "clipboard",
+                "comment": " Clipboard - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "clipboardCheck",
+                "comment": " Clipboard Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "clipboardList",
+                "comment": " Clipboard List - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "clock",
+                "comment": " Clock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "clone",
+                "comment": " Clone - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "closedCaptioning",
+                "comment": " Closed Captioning - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloud",
+                "comment": " Cloud - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudDownload",
+                "comment": " Cloud Download - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudDownloadAlt",
+                "comment": " Cloud Download Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudScale",
+                "comment": " CloudScale - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudUpload",
+                "comment": " Cloud Upload - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudUploadAlt",
+                "comment": " Cloud Upload Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudsmith",
+                "comment": " Cloudsmith - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cloudversify",
+                "comment": " Cloudversify - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "club",
+                "comment": " Club - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "code",
+                "comment": " Code - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "codeBranch",
+                "comment": " Code Branch - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "codeCommit",
+                "comment": " Code Commit - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "codeMerge",
+                "comment": " Code Merge - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "codePen",
+                "comment": " CodePen - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "codiePie",
+                "comment": " Codiepie - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "coffee",
+                "comment": " Coffee - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cog",
+                "comment": " Cog - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cogs",
+                "comment": " Cogs - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "columns",
+                "comment": " Columns - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "comment",
+                "comment": " Comment - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "commentAlt",
+                "comment": " Comment Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "comments",
+                "comment": " Comments - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "compass",
+                "comment": " Compass - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "compress",
+                "comment": " Compress - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "compressAlt",
+                "comment": " Compress Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "compressWide",
+                "comment": " Compress Wide - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "connectDevelop",
+                "comment": " Connect Develop - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "contao",
+                "comment": " Contao - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "conveyorBelt",
+                "comment": " Conveyor Belt - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "conveyorBeltAlt",
+                "comment": " Conveyor Belt Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "copy",
+                "comment": " Copy - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "copyright",
+                "comment": " Copyright - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cpanel",
+                "comment": " cPanel - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "creativeCommons",
+                "comment": " Creative Commons - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "creditCard",
+                "comment": " Credit Card - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "creditCardBlank",
+                "comment": " Credit Card Blank - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "creditCardFront",
+                "comment": " Credit Card Front - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cricket",
+                "comment": " Cricket - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "crop",
+                "comment": " Crop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "crosshairs",
+                "comment": " Crosshairs - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "css3",
+                "comment": " CSS3 - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "css3Alt",
+                "comment": " Css3Alternate - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cube",
+                "comment": " Cube - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cubes",
+                "comment": " Cubes - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "curling",
+                "comment": " Curling - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cut",
+                "comment": " Cut - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "cuttlefish",
+                "comment": " Cuttlefish - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dAndD",
+                "comment": " Dungeons & Dragons - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dashcube",
+                "comment": " Dashcube - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "database",
+                "comment": " Database - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "deaf",
+                "comment": " Deaf - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "delicious",
+                "comment": " Delicious - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "deployDog",
+                "comment": " Deploy Dog - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "deskpro",
+                "comment": " Deskpro - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "desktop",
+                "comment": " Desktop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "desktopAlt",
+                "comment": " Desktop Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "deviantArt",
+                "comment": " Deviant Art - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "diagnoses",
+                "comment": " Diagnoses - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "diamond",
+                "comment": " Diamond - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "digg",
+                "comment": " Digg - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "digitalOcean",
+                "comment": " Digital Ocean - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "discord",
+                "comment": " Discord - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "discourse",
+                "comment": " Discourse - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dna",
+                "comment": " DNA - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "docHub",
+                "comment": " DocHub - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "docker",
+                "comment": " Docker - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dollarSign",
+                "comment": " Dollar Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dolly",
+                "comment": " Dolly - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dollyEmpty",
+                "comment": " Dolly Empty - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dollyFlatbed",
+                "comment": " Dolly Flatbed - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dollyFlatbedAlt",
+                "comment": " Dolly Flatbed Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dollyFlatbedEmpty",
+                "comment": " Dolly Flatbed Empty - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dotCircle",
+                "comment": " Dot Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "download",
+                "comment": " Download - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "draft2Digital",
+                "comment": " Draft2digital - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dribbble",
+                "comment": " Dribbble - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dribbbleSquare",
+                "comment": " Dribbble Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dropbox",
+                "comment": " Dropbox - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "drupal",
+                "comment": " Drupal - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dumbbell",
+                "comment": " Dumbbell - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "dyalog",
+                "comment": " Dyalog - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "earlyBirds",
+                "comment": " Early Birds - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "edge",
+                "comment": " Edge - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "edit",
+                "comment": " Edit - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "eject",
+                "comment": " Eject - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "elementor",
+                "comment": " Elementor - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ellipsisHorizontal",
+                "comment": " Ellipsis Horizontal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ellipsisHorizontalAlt",
+                "comment": " Ellipsis Horizontal Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ellipsisVertical",
+                "comment": " Ellipsis Vertical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ellipsisVerticalAlt",
+                "comment": " Ellipsis Vertical Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ember",
+                "comment": " Ember - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "empire",
+                "comment": " Empire - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "envelope",
+                "comment": " Envelope - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "envelopeOpen",
+                "comment": " Envelope Open - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "envelopeSquare",
+                "comment": " Envelope Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "envira",
+                "comment": " Envira - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "eraser",
+                "comment": " Eraser - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "erlang",
+                "comment": " Erlang - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ethereum",
+                "comment": " Ethereum - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "etsy",
+                "comment": " Etsy - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "euroSign",
+                "comment": " Euro Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exchange",
+                "comment": " Exchange - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exchangeAlt",
+                "comment": " Exchange Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exclamation",
+                "comment": " Exclamation - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exclamationCircle",
+                "comment": " Exclamation Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exclamationSquare",
+                "comment": " Exclamation Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "exclamationTriangle",
+                "comment": " Exclamation Triangle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expand",
+                "comment": " Expand - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expandAlt",
+                "comment": " Expand Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expandArrows",
+                "comment": " Expand Arrows - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expandArrowsAlt",
+                "comment": " Expand Arrows Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expandWide",
+                "comment": " Expand Wide - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "expeditedSSL",
+                "comment": " Expedited SSL - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "externalLink",
+                "comment": " External Link - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "externalLinkAlt",
+                "comment": " External Link Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "externalLinkSquare",
+                "comment": " External Link Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "externalLinkSquareAlt",
+                "comment": " External Link Square Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "eye",
+                "comment": " Eye - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "eyeDropper",
+                "comment": " Eye Dropper - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "eyeSlash",
+                "comment": " Eye Slash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "facebook",
+                "comment": " Facebook - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "facebookF",
+                "comment": " Facebook F - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "facebookMessenger",
+                "comment": " Facebook Messenger - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "facebookSquare",
+                "comment": " Facebook Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fastBackward",
+                "comment": " Fast Backward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fastForward",
+                "comment": " Fast Forward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fax",
+                "comment": " Fax - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "female",
+                "comment": " Female - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fieldHockey",
+                "comment": " Field Hockey - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fighterJet",
+                "comment": " Fighter Jet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "file",
+                "comment": " File - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileAlt",
+                "comment": " File Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileArchive",
+                "comment": " File Archive - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileAudio",
+                "comment": " File Audio - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileCheck",
+                "comment": " File Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileCode",
+                "comment": " File Code - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileEdit",
+                "comment": " File Edit - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileExcel",
+                "comment": " File Excel - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileExclamation",
+                "comment": " File Exclamation - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileImage",
+                "comment": " File Image - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileMedical",
+                "comment": " File Medical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileMedicalAlt",
+                "comment": " File Medical Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileMinus",
+                "comment": " File Minus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "filePdf",
+                "comment": " File Pdf - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "filePlus",
+                "comment": " File Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "filePowerPoint",
+                "comment": " File PowerPoint - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileTimes",
+                "comment": " File Times - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileVideo",
+                "comment": " File Video - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fileWord",
+                "comment": " File Word - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "film",
+                "comment": " Film - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "filmAlt",
+                "comment": " Film Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "filter",
+                "comment": " Filter - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fire",
+                "comment": " Fire - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fireExtinguisher",
+                "comment": " Fire Extinguisher - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "firefox",
+                "comment": " Firefox - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "firstAid",
+                "comment": " First Aid - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "firstDraft",
+                "comment": " First Draft - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "firstOrder",
+                "comment": " First Order - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fiveHundredPx",
+                "comment": " 500px - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "flag",
+                "comment": " Flag - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "flagCheckered",
+                "comment": " Flag Checkered - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "flask",
+                "comment": " Flask - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "flickr",
+                "comment": " Flickr - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "flipboard",
+                "comment": " Flipboard - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fly",
+                "comment": " Fly - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "folder",
+                "comment": " Folder - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "folderOpen",
+                "comment": " Folder Open - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "font",
+                "comment": " Font - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fontAwesome",
+                "comment": " Font Awesome - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fontAwesomeAlt",
+                "comment": " Font Awesome Alternate - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fontAwesomeFlag",
+                "comment": " Font Awesome Flag - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fontIcons",
+                "comment": " Font Icons - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fontIconsFi",
+                "comment": " Font Icons Fi - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "footballBall",
+                "comment": " Football Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "footballHelmet",
+                "comment": " Football Helmet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "forklift",
+                "comment": " Forklift - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fortAwesome",
+                "comment": " Fort Awesome - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "fortAwesomeAlt",
+                "comment": " Fort Awesome Alternate - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "forumbee",
+                "comment": " Forumbee - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "forward",
+                "comment": " Forward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "foursquare",
+                "comment": " Foursquare - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "freeBSD",
+                "comment": " Free BSD - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "freeCodeCamp",
+                "comment": " Free Code Camp - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "frown",
+                "comment": " Frown - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "futbol",
+                "comment": " Futbol - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gamepad",
+                "comment": " Gamepad - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gavel",
+                "comment": " Gavel - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gem",
+                "comment": " Gem - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "genderless",
+                "comment": " Genderless - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "getPocket",
+                "comment": " Get Pocket - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gg",
+                "comment": " GG - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ggCircle",
+                "comment": " Gg Circle - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gift",
+                "comment": " Gift - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "git",
+                "comment": " Git - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitHub",
+                "comment": " GitHub - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitHubAlt",
+                "comment": " GitHub Alternate - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitHubSquare",
+                "comment": " GitHub Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitKraken",
+                "comment": " GitKraken - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitLab",
+                "comment": " GitLab - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitSquare",
+                "comment": " Git Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gitter",
+                "comment": " Gitter - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "glassMartini",
+                "comment": " Glass Martini - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "glide",
+                "comment": " Glide - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "glideG",
+                "comment": " Glide G - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "globe",
+                "comment": " Globe - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gofore",
+                "comment": " Gofore - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "golfBall",
+                "comment": " Golf Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "golfClub",
+                "comment": " Golf Club - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "goodreads",
+                "comment": " Goodreads - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "goodreadsG",
+                "comment": " Goodreads G - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "google",
+                "comment": " Google - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googleDrive",
+                "comment": " Google Drive - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googlePlay",
+                "comment": " Google Play - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googlePlus",
+                "comment": " Google Plus - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googlePlusG",
+                "comment": " Google Plus G - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googlePlusSquare",
+                "comment": " Google Plus Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "googleWallet",
+                "comment": " Google Wallet - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "graduationCap",
+                "comment": " Graduation Cap - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gratipay",
+                "comment": " Gratipay - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "grav",
+                "comment": " Grav - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gripfire",
+                "comment": " Gripfire - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "grunt",
+                "comment": " Grunt - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "gulp",
+                "comment": " Gulp - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "h1",
+                "comment": " H1 - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "h2",
+                "comment": " H2 - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "h3",
+                "comment": " H3 - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hSquare",
+                "comment": " H Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hackerNews",
+                "comment": " Hacker News - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hackerNewsSquare",
+                "comment": " Hacker News Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handHoldingBox",
+                "comment": " Hand Holding Box - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handLizard",
+                "comment": " Hand Lizard - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPaper",
+                "comment": " Hand Paper - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPeace",
+                "comment": " Hand Peace - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPointDown",
+                "comment": " Hand Point Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPointLeft",
+                "comment": " Hand Point Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPointRight",
+                "comment": " Hand Point Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPointUp",
+                "comment": " Hand Point Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handPointer",
+                "comment": " Hand Pointer - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handReceiving",
+                "comment": " Hand Receiving - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handRock",
+                "comment": " Hand Rock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handScissors",
+                "comment": " Hand Scissors - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handSpock",
+                "comment": " Hand Spock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "handshake",
+                "comment": " Handshake - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hashtag",
+                "comment": " Hashtag - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hdd",
+                "comment": " HDD - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "heading",
+                "comment": " Heading - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "headphones",
+                "comment": " Headphones - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "heart",
+                "comment": " Heart - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "heartbeat",
+                "comment": " Heartbeat - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hexagon",
+                "comment": " Hexagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hips",
+                "comment": " Hips - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hireAHelper",
+                "comment": " HireAHelper - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "history",
+                "comment": " History - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hockeyPuck",
+                "comment": " Hockey Puck - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hockeySticks",
+                "comment": " Hockey Sticks - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "home",
+                "comment": " Home - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hooli",
+                "comment": " Hooli - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hospital",
+                "comment": " Hospital - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hospitalAlt",
+                "comment": " Hospital Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hospitalSymbol",
+                "comment": " Hospital Symbol - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hotjar",
+                "comment": " Hotjar - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hourglass",
+                "comment": " Hourglass - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hourglassEnd",
+                "comment": " Hourglass End - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hourglassHalf",
+                "comment": " Hourglass Half - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hourglassStart",
+                "comment": " Hourglass Start - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "houzz",
+                "comment": " Houzz - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "html5",
+                "comment": " Html5 - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "hubSpot",
+                "comment": " HubSpot - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "iCursor",
+                "comment": " I Cursor - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "iTunes",
+                "comment": " iTunes - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "iTunesNote",
+                "comment": " iTunes Note - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "icon",
+                "comment": " Create an icon with the default style (`Solid` for icons),\ndefault tag (`<i>`), and no additional options or attributes.\n\n    icon file\n    -- <i class=\"fas fa-file\"></i>\n\n    icon pinterest\n    -- <i class=\"fab fa-pinterest\"></i>\n\n",
+                "type": "Icon -> Html msg"
+            },
+            {
+                "name": "iconWithOptions",
+                "comment": " Create an icon with the given options and attributes.\n\n    iconWithOptions spinner Solid [ Animation Spin ] []\n    -- <i class=\"fas fa-spinner fa-spin\"></i>\n\n    iconWithOptions question Light [ HasBorder, Pull Right ] [ Html.Attributes.title \"Question\"]\n    -- <i class=\"fal fa-question fa-border fa-pull-right\" title=\"Question\"></i>\n\n    iconWithOptions info Regular [ HasFixedWidth, Size Large, HtmlTag Span ] []\n    -- <span class=\"far fa-info fa-fw fa-lg\"></span>\n\n    iconWithOptions snapchat Solid [ Transform [ Grow 5 ] ]\n    -- <i class=\"fab fa-snapchat\" data-fa-transform = \"grow-5\"></i>\n\n",
+                "type": "Icon -> Style -> List Option -> List (Attribute msg) -> Html msg"
+            },
+            {
+                "name": "idBadge",
+                "comment": " Id Badge - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "idCard",
+                "comment": " Id Card - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "idCardAlt",
+                "comment": " Id Card Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "image",
+                "comment": " Image - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "images",
+                "comment": " Images - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "imdb",
+                "comment": " IMDb - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "inbox",
+                "comment": " Inbox - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "inboxIn",
+                "comment": " Inbox In - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "inboxOut",
+                "comment": " Inbox Out - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "indent",
+                "comment": " Indent - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "industry",
+                "comment": " Industry - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "industryAlt",
+                "comment": " Industry Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "info",
+                "comment": " Info - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "infoCircle",
+                "comment": " Info Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "infoSquare",
+                "comment": " Info Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "instagram",
+                "comment": " Instagram - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "internetExplorer",
+                "comment": " Internet Explorer - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "inventory",
+                "comment": " Inventory - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ioxHost",
+                "comment": " IoxHost - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "italic",
+                "comment": " Italic - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "jackOLantern",
+                "comment": " Jack o' Lantern - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "jenkins",
+                "comment": " Jenkins - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "joget",
+                "comment": " Joget - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "joomla",
+                "comment": " Joomla - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "js",
+                "comment": " JavaScript - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "jsFiddle",
+                "comment": " JSFiddle - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "jsSquare",
+                "comment": " JavaScript Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "key",
+                "comment": " Key - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "keyCDN",
+                "comment": " Key CDN - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "keyboard",
+                "comment": " Keyboard - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "kickstarter",
+                "comment": " Kickstarter - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "kickstarterK",
+                "comment": " Kickstarter K - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "korvue",
+                "comment": " KORVUE - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "language",
+                "comment": " Language - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "laptop",
+                "comment": " Laptop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "laravel",
+                "comment": " Laravel - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lastfm",
+                "comment": " Last.fm - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lastfmSquare",
+                "comment": " Last.fm Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "leaf",
+                "comment": " Leaf - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "leanpub",
+                "comment": " Leanpub - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lemon",
+                "comment": " Lemon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "less",
+                "comment": " Less - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "levelDown",
+                "comment": " Level Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "levelDownAlt",
+                "comment": " Level Down Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "levelUp",
+                "comment": " Level Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "levelUpAlt",
+                "comment": " Level Up Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lifeRing",
+                "comment": " Life Ring - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lightbulb",
+                "comment": " Lightbulb - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "line",
+                "comment": " Line - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "link",
+                "comment": " Link - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "linkedIn",
+                "comment": " LinkedIn - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "linkedInInverted",
+                "comment": " LinkedIn Inverted - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "linode",
+                "comment": " Linode - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "linux",
+                "comment": " Linux - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "liraSign",
+                "comment": " Lira Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "list",
+                "comment": " List - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "listAlt",
+                "comment": " List Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "listOl",
+                "comment": " List Ol - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "listUl",
+                "comment": " List Ul - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "locationArrow",
+                "comment": " Location Arrow - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lock",
+                "comment": " Lock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lockAlt",
+                "comment": " Lock Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lockOpen",
+                "comment": " Lock Open - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lockOpenAlt",
+                "comment": " Lock Open Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowAltDown",
+                "comment": " Long Arrow Alternate Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowAltLeft",
+                "comment": " Long Arrow Alternate Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowAltRight",
+                "comment": " Long Arrow Alternate Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowAltUp",
+                "comment": " Long Arrow Alternate Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowDown",
+                "comment": " Long Arrow Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowLeft",
+                "comment": " Long Arrow Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowRight",
+                "comment": " Long Arrow Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "longArrowUp",
+                "comment": " Long Arrow Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lowVision",
+                "comment": " Low Vision - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "luchador",
+                "comment": " Luchador - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "lyft",
+                "comment": " Lyft - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "magento",
+                "comment": " Magento - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "magic",
+                "comment": " Magic - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "magnet",
+                "comment": " Magnet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "male",
+                "comment": " Male - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "map",
+                "comment": " Map - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mapMarker",
+                "comment": " Map Marker - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mapMarkerAlt",
+                "comment": " Map Marker Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mapPin",
+                "comment": " Map Pin - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mapSigns",
+                "comment": " Map Signs - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mars",
+                "comment": " Mars - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "marsDouble",
+                "comment": " Mars Double - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "marsStroke",
+                "comment": " Mars Stroke - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "marsStrokeHorizontal",
+                "comment": " Mars Stroke Horizontal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "marsStrokeVertical",
+                "comment": " Mars Stroke Vertical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "maxCDN",
+                "comment": " MaxCDN - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "medApps",
+                "comment": " MedApps - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "medRT",
+                "comment": " MedRT - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "medium",
+                "comment": " Medium - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mediumM",
+                "comment": " Medium M - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "medkit",
+                "comment": " Medkit - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "meetup",
+                "comment": " Meetup - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "meh",
+                "comment": " Meh - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mercury",
+                "comment": " Mercury - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "microchip",
+                "comment": " Microchip - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "microphone",
+                "comment": " Microphone - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "microphoneAlt",
+                "comment": " Microphone Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "microphoneSlash",
+                "comment": " Microphone Slash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "microsoft",
+                "comment": " Microsoft - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "minus",
+                "comment": " Minus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "minusCircle",
+                "comment": " Minus Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "minusHexagon",
+                "comment": " Minus Hexagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "minusOctagon",
+                "comment": " Minus Octagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "minusSquare",
+                "comment": " Minus Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mix",
+                "comment": " Mix - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mixcloud",
+                "comment": " Mixcloud - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mizuni",
+                "comment": " Mizuni - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mobile",
+                "comment": " Mobile - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mobileAlt",
+                "comment": " Mobile Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mobileAndroid",
+                "comment": " Mobile Android - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mobileAndroidAlt",
+                "comment": " Mobile Android Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "modX",
+                "comment": " MODX - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "monero",
+                "comment": " Monero - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "moneyBill",
+                "comment": " Money Bill - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "moneyBillAlt",
+                "comment": " Money Bill Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "moon",
+                "comment": " Moon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "motorcycle",
+                "comment": " Motorcycle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "mousePointer",
+                "comment": " Mouse Pointer - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "music",
+                "comment": " Music - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "napster",
+                "comment": " Napster - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "neuter",
+                "comment": " Neuter - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "newspaper",
+                "comment": " Newspaper - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "nintendoSwitch",
+                "comment": " Nintendo Switch - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "node",
+                "comment": " Node - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "nodejs",
+                "comment": " Node.js - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "notesMedical",
+                "comment": " Notes Medical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "npm",
+                "comment": " npm - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ns8",
+                "comment": " Ns8 - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "nutritionix",
+                "comment": " Nutritionix - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "objectGroup",
+                "comment": " Object Group - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "objectUngroup",
+                "comment": " Object Ungroup - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "octagon",
+                "comment": " Octagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "odnoklassniki",
+                "comment": " Odnoklassniki - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "odnoklassnikiSquare",
+                "comment": " Odnoklassniki Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "openCart",
+                "comment": " Open Cart - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "openID",
+                "comment": " Open ID - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "openSourceInitiative",
+                "comment": " Open Source Initiative - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "opera",
+                "comment": " Opera - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "optinMonster",
+                "comment": " Optin Monster - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "outdent",
+                "comment": " Outdent - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "page4",
+                "comment": " page4 - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pageLines",
+                "comment": " Page Lines - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paintBrush",
+                "comment": " Paint Brush - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "palFed",
+                "comment": " PalFed - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pallet",
+                "comment": " Pallet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "palletAlt",
+                "comment": " Pallet Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paperPlane",
+                "comment": " Paper Plane - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paperclip",
+                "comment": " Paperclip - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paragraph",
+                "comment": " Paragraph - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paste",
+                "comment": " Paste - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "patreon",
+                "comment": " Patreon - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pause",
+                "comment": " Pause - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pauseCircle",
+                "comment": " Pause Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "paw",
+                "comment": " Paw - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "payPal",
+                "comment": " PayPal - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pen",
+                "comment": " Pen - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "penAlt",
+                "comment": " Pen Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "penSquare",
+                "comment": " Pen Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pencil",
+                "comment": " Pencil - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pencilAlt",
+                "comment": " Pencil Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pennant",
+                "comment": " Pennant - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "percent",
+                "comment": " Percent - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "periscope",
+                "comment": " Periscope - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phabricator",
+                "comment": " Phabricator - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phoenixFramework",
+                "comment": " Phoenix Framework - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phone",
+                "comment": " Phone - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phoneSlash",
+                "comment": " Phone Slash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phoneSquare",
+                "comment": " Phone Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "phoneVolume",
+                "comment": " Phone Volume - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "php",
+                "comment": " PHP - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "piedPiper",
+                "comment": " Pied Piper - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "piedPiperAlt",
+                "comment": " Pied Piper Alternate - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "piedPiperPP",
+                "comment": " Pied Piper PP - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pills",
+                "comment": " Pills - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pinterest",
+                "comment": " Pinterest - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pinterestP",
+                "comment": " Pinterest P - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pinterestSquare",
+                "comment": " Pinterest Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plane",
+                "comment": " Plane - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "planeAlt",
+                "comment": " Plane Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "play",
+                "comment": " Play - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "playCircle",
+                "comment": " Play Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "playstation",
+                "comment": " Playstation - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plug",
+                "comment": " Plug - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plus",
+                "comment": " Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plusCircle",
+                "comment": " Plus Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plusHexagon",
+                "comment": " Plus Hexagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plusOctagon",
+                "comment": " Plus Octagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "plusSquare",
+                "comment": " Plus Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "podcast",
+                "comment": " Podcast - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "poo",
+                "comment": " Poo - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "portrait",
+                "comment": " Portrait - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "poundSign",
+                "comment": " Pound Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "powerOff",
+                "comment": " Power Off - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "prescriptionBottle",
+                "comment": " Prescription Bottle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "prescriptionBottleAlt",
+                "comment": " Prescription Bottle Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "print",
+                "comment": " Print - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "procedures",
+                "comment": " Procedures - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "productHunt",
+                "comment": " Product Hunt - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "pushed",
+                "comment": " Pushed - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "puzzlePiece",
+                "comment": " Puzzle Piece - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "python",
+                "comment": " Python - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "qq",
+                "comment": " QQ - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "qrCode",
+                "comment": " QR Code - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "question",
+                "comment": " Question - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "questionCircle",
+                "comment": " Question Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "questionSquare",
+                "comment": " Question Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "quidditch",
+                "comment": " Quidditch - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "quinScape",
+                "comment": " QuinScape - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "quora",
+                "comment": " Quora - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "quoteLeft",
+                "comment": " Quote Left - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "quoteRight",
+                "comment": " Quote Right - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "racquet",
+                "comment": " Racquet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "random",
+                "comment": " Random - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ravelry",
+                "comment": " Ravelry - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "react",
+                "comment": " React - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rebel",
+                "comment": " Rebel - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rectangleLandscape",
+                "comment": " Rectangle Landscape - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rectanglePortrait",
+                "comment": " Rectangle Portrait - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rectangleWide",
+                "comment": " Rectangle Wide - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "recycle",
+                "comment": " Recycle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "redRiver",
+                "comment": " Red River - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "reddit",
+                "comment": " Reddit - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "redditAlien",
+                "comment": " Reddit Alien - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "redditSquare",
+                "comment": " Reddit Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "redo",
+                "comment": " Redo - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "redoAlt",
+                "comment": " Redo Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "registered",
+                "comment": " Registered - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rendact",
+                "comment": " Rendact - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "renren",
+                "comment": " Renren - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "repeat",
+                "comment": " Repeat - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "repeat1",
+                "comment": " Repeat1 - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "repeat1Alt",
+                "comment": " Repeat1 Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "repeatAlt",
+                "comment": " Repeat Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "reply",
+                "comment": " Reply - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "replyAll",
+                "comment": " Reply All - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "replyd",
+                "comment": " Replyd - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "resolving",
+                "comment": " Resolving - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "retweet",
+                "comment": " Retweet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "retweetAlt",
+                "comment": " Retweet Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "road",
+                "comment": " Road - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rockRMS",
+                "comment": " Rock RMS - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rocket",
+                "comment": " Rocket - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rocketChat",
+                "comment": " Rocket Chat - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rss",
+                "comment": " RSS - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rssSquare",
+                "comment": " RSS Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rubleSign",
+                "comment": " Ruble Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "rupeeSign",
+                "comment": " Rupee Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "safari",
+                "comment": " Safari - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sass",
+                "comment": " Sass - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "save",
+                "comment": " Save - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "scanner",
+                "comment": " Scanner - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "scannerKeyboard",
+                "comment": " Scanner Keyboard - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "scannerTouchscreen",
+                "comment": " Scanner Touchscreen - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "schlix",
+                "comment": " Schlix - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "scribd",
+                "comment": " Scribd - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "scrubber",
+                "comment": " Scrubber - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "search",
+                "comment": " Search - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "searchMinus",
+                "comment": " Search Minus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "searchPlus",
+                "comment": " Search Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "searchengin",
+                "comment": " Searchengin - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sellCast",
+                "comment": " SellCast - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sellsy",
+                "comment": " Sellsy - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "server",
+                "comment": " Server - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "serviceStack",
+                "comment": " Service Stack - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "share",
+                "comment": " Share - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shareAll",
+                "comment": " Share All - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shareAlt",
+                "comment": " Share Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shareAltSquare",
+                "comment": " Share Alternate Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shareSquare",
+                "comment": " Share Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shekelSign",
+                "comment": " Shekel Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shield",
+                "comment": " Shield - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shieldAlt",
+                "comment": " Shield Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shieldCheck",
+                "comment": " Shield Check - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ship",
+                "comment": " Ship - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shippingFast",
+                "comment": " Shipping Fast - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shippingTimed",
+                "comment": " Shipping Timed - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shirtsInBulk",
+                "comment": " Shirts In Bulk - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shoppingBag",
+                "comment": " Shopping Bag - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shoppingBasket",
+                "comment": " Shopping Basket - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shoppingCart",
+                "comment": " Shopping Cart - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shower",
+                "comment": " Shower - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "shuttlecock",
+                "comment": " Shuttlecock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signIn",
+                "comment": " Sign In - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signInAlt",
+                "comment": " Sign In Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signLanguage",
+                "comment": " Sign Language - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signOut",
+                "comment": " Sign Out - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signOutAlt",
+                "comment": " Sign Out Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "signal",
+                "comment": " Signal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "simplyBuilt",
+                "comment": " Simply Built - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sistrix",
+                "comment": " Sistrix - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sitemap",
+                "comment": " Sitemap - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "skyAtlas",
+                "comment": " Sky Atlas - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "skype",
+                "comment": " Skype - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slack",
+                "comment": " Slack - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slackHash",
+                "comment": " Slack Hash - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slidersHorizontal",
+                "comment": " Sliders Horizontal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slidersHorizontalSquare",
+                "comment": " Sliders Horizontal Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slidersVertical",
+                "comment": " Sliders Vertical - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slidersVerticalSquare",
+                "comment": " Sliders Vertical Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "slideshare",
+                "comment": " Slideshare - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "smile",
+                "comment": " Smile - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "smoking",
+                "comment": " Smoking - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "snapchat",
+                "comment": " Snapchat - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "snapchatGhost",
+                "comment": " Snapchat Ghost - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "snapchatSquare",
+                "comment": " Snapchat Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "snowflake",
+                "comment": " Snowflake - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sort",
+                "comment": " Sort - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortAlphaDown",
+                "comment": " Sort Alpha Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortAlphaUp",
+                "comment": " Sort Alpha Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortAmountDown",
+                "comment": " Sort Amount Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortAmountUp",
+                "comment": " Sort Amount Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortDown",
+                "comment": " Sort Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortNumericDown",
+                "comment": " Sort Numeric Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortNumericUp",
+                "comment": " Sort Numeric Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sortUp",
+                "comment": " Sort Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "soundCloud",
+                "comment": " Sound Cloud - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "spaceShuttle",
+                "comment": " Space Shuttle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "spade",
+                "comment": " Spade - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "speakap",
+                "comment": " Speakap - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "spinner",
+                "comment": " Spinner - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "spinnerThird",
+                "comment": " Spinner Third - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "spotify",
+                "comment": " Spotify - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "square",
+                "comment": " Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "squareFull",
+                "comment": " Square Full - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stackExchange",
+                "comment": " Stack Exchange - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stackOverflow",
+                "comment": " Stack Overflow - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "star",
+                "comment": " Star - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "starExclamation",
+                "comment": " Star Exclamation - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "starHalf",
+                "comment": " Star Half - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stayLinked",
+                "comment": " StayLinked - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "steam",
+                "comment": " Steam - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "steamSquare",
+                "comment": " Steam Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "steamSymbol",
+                "comment": " Steam Symbol - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stepBackward",
+                "comment": " Step Backward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stepForward",
+                "comment": " Step Forward - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stethoscope",
+                "comment": " Stethoscope - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stickerMule",
+                "comment": " Sticker Mule - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stickyNote",
+                "comment": " Sticky Note - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stop",
+                "comment": " Stop - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stopCircle",
+                "comment": " Stop Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stopwatch",
+                "comment": " Stopwatch - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "strava",
+                "comment": " Strava - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "streetView",
+                "comment": " Street View - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "strikethrough",
+                "comment": " Strikethrough - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stripe",
+                "comment": " Stripe - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stripeS",
+                "comment": " Stripe S - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "studioVinari",
+                "comment": " Studio Vinari - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stumbleUpon",
+                "comment": " StumbleUpon - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "stumbleUponCircle",
+                "comment": " StumbleUpon Circle - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "subscript",
+                "comment": " Subscript - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "subway",
+                "comment": " Subway - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "suitcase",
+                "comment": " Suitcase - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sun",
+                "comment": " Sun - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "superpowers",
+                "comment": " Superpowers - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "superscript",
+                "comment": " Superscript - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "supple",
+                "comment": " Supple - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "sync",
+                "comment": " Sync - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "syncAlt",
+                "comment": " Sync Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "syringe",
+                "comment": " Syringe - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "table",
+                "comment": " Table - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tableTennis",
+                "comment": " Table Tennis - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tablet",
+                "comment": " Tablet - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tabletAlt",
+                "comment": " Tablet Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tabletAndroid",
+                "comment": " Tablet Android - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tabletAndroidAlt",
+                "comment": " Tablet Android Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tabletRugged",
+                "comment": " Tablet Rugged - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tablets",
+                "comment": " Tablets - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tachometer",
+                "comment": " Tachometer - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tachometerAlt",
+                "comment": " Tachometer Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tag",
+                "comment": " Tag - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tags",
+                "comment": " Tags - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tasks",
+                "comment": " Tasks - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "taxi",
+                "comment": " Taxi - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "telegram",
+                "comment": " Telegram - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "telegramPlane",
+                "comment": " Telegram Plane - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tencentWeibo",
+                "comment": " Tencent Weibo - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tennisBall",
+                "comment": " Tennis Ball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "terminal",
+                "comment": " Terminal - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "textHeight",
+                "comment": " Text Height - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "textWidth",
+                "comment": " Text Width - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "th",
+                "comment": " Th - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thLarge",
+                "comment": " Th Large - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thList",
+                "comment": " Th List - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "themeIsle",
+                "comment": " Theme Isle - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometer",
+                "comment": " Thermometer - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometerEmpty",
+                "comment": " Thermometer Empty - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometerFull",
+                "comment": " Thermometer Full - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometerHalf",
+                "comment": " Thermometer Half - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometerQuarter",
+                "comment": " Thermometer Quarter - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thermometerThreeQuarters",
+                "comment": " Thermometer Three Quarters - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thumbsDown",
+                "comment": " Thumbs Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thumbsUp",
+                "comment": " Thumbs Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "thumbtack",
+                "comment": " Thumbtack - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ticket",
+                "comment": " Ticket - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "ticketAlt",
+                "comment": " Ticket Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "times",
+                "comment": " Times - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "timesCircle",
+                "comment": " Times Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "timesHexagon",
+                "comment": " Times Hexagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "timesOctagon",
+                "comment": " Times Octagon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "timesSquare",
+                "comment": " Times Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tint",
+                "comment": " Tint - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "toggleOff",
+                "comment": " Toggle Off - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "toggleOn",
+                "comment": " Toggle On - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trademark",
+                "comment": " Trademark - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "train",
+                "comment": " Train - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "transgender",
+                "comment": " Transgender - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "transgenderAlt",
+                "comment": " Transgender Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trash",
+                "comment": " Trash - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trashAlt",
+                "comment": " Trash Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tree",
+                "comment": " Tree - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "treeAlt",
+                "comment": " Tree Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trello",
+                "comment": " Trello - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "triangle",
+                "comment": " Triangle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tripAdvisor",
+                "comment": " Trip Advisor - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trophy",
+                "comment": " Trophy - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "trophyAlt",
+                "comment": " Trophy Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "truck",
+                "comment": " Truck - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tty",
+                "comment": " TTY - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tumblr",
+                "comment": " Tumblr - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tumblrSquare",
+                "comment": " Tumblr Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tv",
+                "comment": " TV - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "tvRetro",
+                "comment": " TV Retro - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "twitch",
+                "comment": " Twitch - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "twitter",
+                "comment": " Twitter - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "twitterSquare",
+                "comment": " Twitter Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "typo3",
+                "comment": " Typo3 - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "uber",
+                "comment": " Uber - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "uiKit",
+                "comment": " UIkit - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "umbrella",
+                "comment": " Umbrella - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "underline",
+                "comment": " Underline - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "undo",
+                "comment": " Undo - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "undoAlt",
+                "comment": " Undo Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "uniregistry",
+                "comment": " Uniregistry - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "universalAccess",
+                "comment": " Universal Access - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "university",
+                "comment": " University - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "unlink",
+                "comment": " Unlink - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "unlock",
+                "comment": " Unlock - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "unlockAlt",
+                "comment": " Unlock Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "untappd",
+                "comment": " Untappd - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "upload",
+                "comment": " Upload - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "usSunnah",
+                "comment": " us Sunnah - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "usb",
+                "comment": " USB - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "usdCircle",
+                "comment": " USD Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "usdSquare",
+                "comment": " USD Square - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "useCss",
+                "comment": " A convenience helper for including Font Awesome CSS on your page using their CDN.\nPlace this inside your `<head>` tag.\n\nNote that some features will not work if you choose CSS rather than SVGs.\nPlease refer to Font Awesome's documentation for details.\n\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "useSvg",
+                "comment": " A convenience helper for including Font Awesome SVGs on your page using their CDN.\nPlace this inside your `<head>` tag.\n",
+                "type": "Html msg"
+            },
+            {
+                "name": "user",
+                "comment": " User - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userAlt",
+                "comment": " User Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userCircle",
+                "comment": " User Circle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userMD",
+                "comment": " User MD - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userPlus",
+                "comment": " User Plus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userSecret",
+                "comment": " User Secret - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "userTimes",
+                "comment": " User Times - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "users",
+                "comment": " Users - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "utensilFork",
+                "comment": " Utensil Fork - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "utensilKnife",
+                "comment": " Utensil Knife - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "utensilSpoon",
+                "comment": " Utensil Spoon - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "utensils",
+                "comment": " Utensils - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "utensilsAlt",
+                "comment": " Utensils Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vaadin",
+                "comment": " Vaadin - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "venus",
+                "comment": " Venus - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "venusDouble",
+                "comment": " Venus Double - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "venusMars",
+                "comment": " Venus Mars - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "viacoin",
+                "comment": " Viacoin - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "viadeo",
+                "comment": " Viadeo - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "viadeoSquare",
+                "comment": " Viadeo Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vial",
+                "comment": " Vial - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vials",
+                "comment": " Vials - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "viber",
+                "comment": " Viber - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "video",
+                "comment": " Video - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vimeo",
+                "comment": " Vimeo - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vimeoSquare",
+                "comment": " Vimeo Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vimeoV",
+                "comment": " Vimeo V - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vine",
+                "comment": " Vine - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vk",
+                "comment": " VK - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vnv",
+                "comment": " Vnv - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "volleyball",
+                "comment": " Volleyball - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "volumeDown",
+                "comment": " Volume Down - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "volumeMute",
+                "comment": " Volume Mute - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "volumeOff",
+                "comment": " Volume Off - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "volumeUp",
+                "comment": " Volume Up - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "vuejs",
+                "comment": " Vue.js - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "warehouse",
+                "comment": " Warehouse - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "warehouseAlt",
+                "comment": " Warehouse Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "watch",
+                "comment": " Watch - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "weibo",
+                "comment": " Weibo - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "weight",
+                "comment": " Weight - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "weixin",
+                "comment": " Weixin - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "whatsApp",
+                "comment": " WhatsApp - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "whatsAppSquare",
+                "comment": " WhatsApp Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wheelchair",
+                "comment": " Wheelchair - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "whistle",
+                "comment": " Whistle - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "whmcs",
+                "comment": " WHMCS - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wifi",
+                "comment": " Wifi - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wikipedia",
+                "comment": " Wikipedia - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "window",
+                "comment": " Window - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windowAlt",
+                "comment": " Window Alternate - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windowClose",
+                "comment": " Window Close - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windowMaximize",
+                "comment": " Window Maximize - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windowMinimize",
+                "comment": " Window Minimize - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windowRestore",
+                "comment": " Window Restore - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "windows",
+                "comment": " Windows - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wonSign",
+                "comment": " Won Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wordPress",
+                "comment": " WordPress - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wordPressSimple",
+                "comment": " WordPress Simple - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wpBeginner",
+                "comment": " WPBeginner - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wpExplorer",
+                "comment": " WPExplorer - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wpForms",
+                "comment": " WPForms - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "wrench",
+                "comment": " Wrench - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "xbox",
+                "comment": " Xbox - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "xing",
+                "comment": " XING - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "xingSquare",
+                "comment": " XING Square - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "xray",
+                "comment": " X-ray - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yCombinator",
+                "comment": " YCombinator - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yahoo",
+                "comment": " Yahoo - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yandex",
+                "comment": " Yandex - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yandexInternational",
+                "comment": " Yandex International - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yelp",
+                "comment": " Yelp - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yenSign",
+                "comment": " Yen Sign - Icon\n",
+                "type": "Icon"
+            },
+            {
+                "name": "yoast",
+                "comment": " Yoast - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "youTube",
+                "comment": " YouTube - Logo\n",
+                "type": "Icon"
+            },
+            {
+                "name": "youTubeSquare",
+                "comment": " YouTube Square - Logo\n",
+                "type": "Icon"
+            }
+        ],
+        "binops": []
+    }
+]

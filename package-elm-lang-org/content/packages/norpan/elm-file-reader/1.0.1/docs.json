@@ -1,0 +1,33 @@
+[
+    {
+        "name": "FileReader",
+        "comment": " This module exposes attributes that you can use to read\nfiles into Elm.\n\n@docs File\n@docs fileInput, filesInput, dropZone\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "File",
+                "comment": " A selected file that has been read into the application.\nThe file contents are in the form of a data URL as specified by RFC 2397.\n\n`lastModified` is of type `Maybe Time` because not all browsers and situations\nwill give you a last modified field.\n\n",
+                "args": [],
+                "type": "{ lastModified : Maybe Time, name : String, size : Int, mimeType : String, dataURL : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "dropZone",
+                "comment": " Add these attributes to any node to create a \"drop zone\" for files\nand get the contents of the dropped files. The `enterMsg` and `leaveMsg`\nmessages could be used to visually indicate the drop zone.\n\nYou will either get a `leaveMsg` or a `filesMsg`, so make sure the `filesMsg`\nalso clears any visual indication started by the `enterMsg`.\n\n    type Msg\n        = EnterDropZone\n        | LeaveDropZone\n        | FilesDropped (List File)\n\n    view =\n        Html.div\n            (dropZone\n                { enterMsg = EnterDropZone\n                , leaveMsg = LeaveDropZone\n                , filesMsg = FilesDropped\n                }\n            )\n            [ Html.text \"Drop files here\" ]\n\n",
+                "type": "{ enterMsg : msg, leaveMsg : msg, filesMsg : List File -> msg } -> List (Attribute msg)"
+            },
+            {
+                "name": "fileInput",
+                "comment": " Add these attributes to an input node to get the contents of the selected file.\n\n    type Msg\n        = FileSelected File\n\n    view =\n        Html.input (fileInput FileSelected) []\n\n",
+                "type": "(File -> msg) -> List (Attribute msg)"
+            },
+            {
+                "name": "filesInput",
+                "comment": " Add these attributes to an input node to get the contents of the selected files.\n\n    type Msg\n        = FilesSelected (List File)\n\n    view =\n        Html.input (filesInput FilesSelected) []\n\n",
+                "type": "(List File -> msg) -> List (Attribute msg)"
+            }
+        ],
+        "binops": []
+    }
+]

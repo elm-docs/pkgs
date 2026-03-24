@@ -1,0 +1,142 @@
+[
+    {
+        "name": "Slider.Helpers",
+        "comment": " Helpers for interacting with the slider\n\n# Value\n@docs valueFormatter, valueParser\n\n# Step\n@docs stepParser\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "stepParser",
+                "comment": " Converts a `Float` to a `Float` within `( 0, 1 )` range based on the given range\n\n    stepParser ( -5, 10 ) 5 == 0.3333333333333333\n",
+                "type": "Range -> Float -> Float"
+            },
+            {
+                "name": "valueFormatter",
+                "comment": " Maps a `Float` within `( 0, 1 )` range to a `Float` within the given range\n\n    valueFormatter ( 0, 10 ) 0.5 == 5\n",
+                "type": "Range -> Float -> Float"
+            },
+            {
+                "name": "valueParser",
+                "comment": " Maps a `Float` within the given range to a `Float` within `( 0, 1 )` range\n\n    valueParser ( 0, 10 ) 5 == 0.5\n",
+                "type": "Range -> Float -> Float"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Slider.Core",
+        "comment": " Slider component\n\n# Types\n@docs Config, Msg, Model, Values, Range\n\n# Configuration\n@docs init\n\n# State\n@docs getValues\n\n# Update\n@docs update\n\n# Subscriptions\n@docs subscriptions\n\n# View\n@docs view\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " Slider model\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " Internal slider messages\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Slider config\n",
+                "args": [],
+                "type": "{ size : Maybe Int, values : Maybe Values, step : Maybe Float }"
+            },
+            {
+                "name": "Range",
+                "comment": " Slider range\n",
+                "args": [],
+                "type": "( Float, Float )"
+            },
+            {
+                "name": "Values",
+                "comment": " Slider values\n",
+                "args": [],
+                "type": "( Float, Float )"
+            }
+        ],
+        "values": [
+            {
+                "name": "getValues",
+                "comment": " Retrieves the currently selected values\n",
+                "type": "Model -> Values"
+            },
+            {
+                "name": "init",
+                "comment": " Initializes the slider\n",
+                "type": "Config -> Model"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Subscriptions required by the slider to work\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Updates slider model based on a message\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Renders the slider\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Slider.Styles",
+        "comment": " Default slider styles\n\n@docs styles\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "styles",
+                "comment": " Default styles\n",
+                "type": "Stylesheet"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Slider.ClassNames",
+        "comment": " CSS class names for generating slider styles\n\n@docs ClassName\n",
+        "unions": [
+            {
+                "name": "ClassName",
+                "comment": " Class names used by the slider\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Slider",
+                        []
+                    ],
+                    [
+                        "Knob",
+                        []
+                    ],
+                    [
+                        "LeftKnob",
+                        []
+                    ],
+                    [
+                        "RightKnob",
+                        []
+                    ],
+                    [
+                        "Range",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

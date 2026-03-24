@@ -1,0 +1,108 @@
+[
+    {
+        "name": "Prima.Autocomplete",
+        "comment": "\n Documentation will come eventually ^_^\n\n@docs State\n@docs Config\n@docs Customizations\n@docs Msg\n@docs initialState\n@docs setInputValue\n@docs getInputValue\n@docs onKeyDown\n@docs config\n@docs customConfig\n@docs view\n@docs hasData\n@docs hasNoData\n@docs isPristine\n",
+        "unions": [
+            {
+                "name": "Config",
+                "comment": "\n  Config type.\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": "\n  Messages your app can listen to.\n",
+                "args": [
+                    "data"
+                ],
+                "cases": [
+                    [
+                        "OnSearch",
+                        [
+                            "{ value : String, thresholdReached : Bool }"
+                        ]
+                    ],
+                    [
+                        "OnSelect",
+                        [
+                            "data"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "State",
+                "comment": "\n  Holds the state of the Autocomplete.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Customizations",
+                "comment": "\n  Customize the autocomplete!\n",
+                "args": [
+                    "data",
+                    "msg"
+                ],
+                "type": "{ placeholder : String, threshold : Int, container : ViewState msg -> Html msg -> Html msg, input : List (Attribute msg) -> Html msg, listContainer : (( Bool, data, msg ) -> Html msg) -> List ( Bool, data, msg ) -> Html msg, elementContainer : ( Bool, data, msg ) -> Html msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "config",
+                "comment": "\n  Setup config.\n",
+                "type": "(( State, Msg data ) -> msg) -> (data -> Html msg) -> Config data msg"
+            },
+            {
+                "name": "customConfig",
+                "comment": "\n  Setup custom config.\n",
+                "type": "{ toMsg : ( State, Msg data ) -> msg, customizations : Customizations data msg } -> Config data msg"
+            },
+            {
+                "name": "getInputValue",
+                "comment": "\n  Get the current input value.\n",
+                "type": "State -> String"
+            },
+            {
+                "name": "hasData",
+                "comment": "\n  Utility helper\n",
+                "type": "ViewState msg -> Bool"
+            },
+            {
+                "name": "hasNoData",
+                "comment": "\n  Utility helper\n",
+                "type": "ViewState msg -> Bool"
+            },
+            {
+                "name": "initialState",
+                "comment": "\n  Initial state.\n",
+                "type": "State"
+            },
+            {
+                "name": "isPristine",
+                "comment": "\n  Utility helper\n",
+                "type": "ViewState msg -> Bool"
+            },
+            {
+                "name": "onKeyDown",
+                "comment": "\n  Handle Keyboard events.\n",
+                "type": "Int -> Int -> State -> State"
+            },
+            {
+                "name": "setInputValue",
+                "comment": "\n  Update the autocomplete value from your app.\n",
+                "type": "String -> State -> State"
+            },
+            {
+                "name": "view",
+                "comment": "\n  Autocomplete view.\n",
+                "type": "Config data msg -> State -> List data -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

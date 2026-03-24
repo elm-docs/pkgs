@@ -1,0 +1,2220 @@
+[
+    {
+        "name": "Css",
+        "comment": " This module provides functions to help you write your CSS in Elm.\n\nThe names of some of the functions/values clash. Here are the resolutions:\n1. for values add a prime mark as in `left'`, `right'` or `flex'`\n2. `em` is used for the unit measurement. For the type selector use `em'`\n3. for pseudoselectors `:left` and `:right` use `leftP` and `rightP`\n\n# Types\n\n@docs Rule, Declaration, Namespace\n\n# Integration functions\n\n@docs styledNode, render, prettyPrint, withNamespace, namespace, importUrl\n\n\n# Selector combinators\n@docs descendant, child, sibling, adjacent\n\n# Pseudo Selectors\n\n\n\n@docs any, default, link, visited, hover, active, focus, target, enabled, disabled, checked, indeterminate, invalid, valid, fullscreen, root, scope, firstChild, lastChild, nthChild, nthLastChild, nthOfType, nthLastOfType, firstOfType, lastOfType, onlyOfType, lang, dir, empty, leftP, rightP, firstLetter, firstLine, before, after, selection, backdrop\n\n# Basic Selectors\n@docs (.), (#), (.:), (#:), (!:), everything\n\n# Type Selectors\n@docs h1, h2, h3, h4, h5, h6, div, p, hr, pre, blockquote, span, a, code, em', strong, i, b, u, sub, sup, br, ol, ul, li, dl, dt, dd, img, iframe, canvas, svg, math, form, input, textarea, button, select, option, section, nav, article, aside, header, footer, address, main', body, figure, figcaption, table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th, fieldset, legend, label, datalist, optgroup, keygen, output, progress, meter, audio, video, source, track, embed, object, param, ins, del, small, cite, dfn, abbr, time, var, samp, kbd, s, q, mark, ruby, rt, rp, bdi, bdo, wbr, details, summary, menuitem, menu\n\n# Declarations\n\n# Units\n@docs px, pc, pct, em, rem, vw, vh, deg, rad, just, color'\n\n\n# Properties\n@docs alignContent, alignItems, alignSelf, all, animation, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, backfaceVisibility, background, backgroundAttachment, backgroundBlendMode, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, border, borderAll, borderBottom, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderCollapse, borderColor, borderImage, borderImageOutset, borderImageRepeat, borderImageSlice, borderImageSource, borderImageWidth, borderLeft, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRight, borderRightColor, borderRightStyle, borderRightWidth, borderSpacing, borderStyle, borderTop, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, bottom, boxShadow, boxSizing, captionSide, clear, clip, color, columnCount, columnFill, columnGap, columnRule, columnRuleColor, columnRuleStyle, columnRuleWidth, columnSpan, columnWidth, columns, content, counterIncrement, counterReset, cursor, direction, display, displayFlex, emptyCells, filter, flex, flexBasis, flexDirection, flexFlow, flexGrow, flexShrink, flexWrap, float, font, fontFamily, fontFamilies, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontVariant, fontWeight, hangingPunctuation, height, justifyContent, left, letterSpacing, lineHeight, listStyle, listStyleImage, listStylePosition, listStyleType, margin, marginAll, marginBottom, marginLeft, marginRight, marginTop, maxHeight, maxWidth, minHeight, minWidth, navDown, navIndex, navLeft, navRight, navUp, opacity, order, outline, outlineColor, outlineOffset, outlineStyle, outlineWidth, overflow, overflowX, overflowY, padding, paddingAll, paddingBottom, paddingLeft, paddingRight, paddingTop, pageBreakAfter, pageBreakBefore, pageBreakInside, perspective, perspectiveOrigin, position, quotes, resize, right, tabSize, tableLayout, textAlign, textAlignLast, textDecoration, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textJustify, textOverflow, textShadow, textTransform, top, transform, transformOrigin, transformStyle, transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, unicodeBidi, verticalAlign, visibility, whiteSpace, width, wordBreak, wordSpacing, wordWrap, zIndex\n\n# Transform Values\n@docs matrix, translate, translateX, translateY , scale, scaleX , scaleY , rotate , skew , skewX, skewY\n\n# Values\n\n@docs init, inherit, absolute, relative, static, auto, inline, block, inlineBlock, flex', inlineFlex, listItem, runIn, table', inlineTable, tableCaption, tableColumnGroup, tableHeaderGroup, tableFooterGroup, tableRowGroup, tableCell, tableColumn, tableRow, baseline, center, flexStart, flexEnd, spaceBetween, spaceAround, column, columnReverse, row, rowReverse, wrap, nowrap, wrapReverse, none, left', right', both, normal, italic, oblique, smallCaps, repeat, repeatX, repeatY, noRepeat, scroll, visible, fixed, hidden, dotted, dashed, solid, double, groove, ridge, inset, outset, inside, outside, rtl, justify, underline, overline, lineThrough, embed', bidiOverride, pre', preLine, preWrap, borderBox, pointer, middle, collapse, uppercase, lowercase, capitalize\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Declaration",
+                "comment": " A declaration is a pair of a property name and a value.\n",
+                "args": [],
+                "type": "( String, String )"
+            },
+            {
+                "name": "Namespace",
+                "comment": " A Namespace is a tupple of three functions that help create the id, class and classList\n",
+                "args": [
+                    "a",
+                    "b",
+                    "msg"
+                ],
+                "type": "( a -> Attribute msg, b -> Attribute msg, List b -> Attribute msg )"
+            },
+            {
+                "name": "Rule",
+                "comment": " A rule consists of a selector and a list of declarations.\n",
+                "args": [],
+                "type": "{ selector : String, declarations : List Declaration }"
+            }
+        ],
+        "values": [
+            {
+                "name": "a",
+                "comment": " Selector for type a\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "abbr",
+                "comment": " Selector for type abbr\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "absolute",
+                "comment": " absolute\n",
+                "type": "String"
+            },
+            {
+                "name": "active",
+                "comment": " :active\n",
+                "type": "String"
+            },
+            {
+                "name": "address",
+                "comment": " Selector for type address\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "adjacent",
+                "comment": " Adjacent combination of selectors\n",
+                "type": "List (List Declaration -> Rule) -> List Declaration -> Rule"
+            },
+            {
+                "name": "after",
+                "comment": " ::after\n",
+                "type": "String"
+            },
+            {
+                "name": "alignContent",
+                "comment": " align-content\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "alignItems",
+                "comment": " align-items\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "alignSelf",
+                "comment": " align-self\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "all",
+                "comment": " all\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animation",
+                "comment": " animation\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationDelay",
+                "comment": " animation-delay\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationDirection",
+                "comment": " animation-direction\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationDuration",
+                "comment": " animation-duration\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationFillMode",
+                "comment": " animation-fill-mode\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationIterationCount",
+                "comment": " animation-iteration-count\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationName",
+                "comment": " animation-name\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationPlayState",
+                "comment": " animation-play-state\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "animationTimingFunction",
+                "comment": " animation-timing-function\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "any",
+                "comment": " :any\n",
+                "type": "String"
+            },
+            {
+                "name": "article",
+                "comment": " Selector for type article\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "aside",
+                "comment": " Selector for type aside\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "audio",
+                "comment": " Selector for type audio\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "auto",
+                "comment": " auto\n",
+                "type": "String"
+            },
+            {
+                "name": "b",
+                "comment": " Selector for type b\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "backdrop",
+                "comment": " ::backdrop\n",
+                "type": "String"
+            },
+            {
+                "name": "backfaceVisibility",
+                "comment": " backface-visibility\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "background",
+                "comment": " background\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundAttachment",
+                "comment": " background-attachment\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundBlendMode",
+                "comment": " background-blend-mode\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundClip",
+                "comment": " background-clip\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundColor",
+                "comment": " background-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundImage",
+                "comment": " background-image\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundOrigin",
+                "comment": " background-origin\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundPosition",
+                "comment": " background-position\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundRepeat",
+                "comment": " background-repeat\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "backgroundSize",
+                "comment": " background-size\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "baseline",
+                "comment": " baseline\n",
+                "type": "String"
+            },
+            {
+                "name": "bdi",
+                "comment": " Selector for type bdi\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "bdo",
+                "comment": " Selector for type bdo\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "before",
+                "comment": " ::before\n",
+                "type": "String"
+            },
+            {
+                "name": "bidiOverride",
+                "comment": " bidi-override\n",
+                "type": "String"
+            },
+            {
+                "name": "block",
+                "comment": " block\n",
+                "type": "String"
+            },
+            {
+                "name": "blockquote",
+                "comment": " Selector for type blockquote\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "body",
+                "comment": " Selector for type body\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "border",
+                "comment": " border : takes a list with all the values\n",
+                "type": "List String -> Declaration"
+            },
+            {
+                "name": "borderAll",
+                "comment": " borderAll : single value border\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottom",
+                "comment": " border-bottom\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottomColor",
+                "comment": " border-bottom-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottomLeftRadius",
+                "comment": " border-bottom-left-radius\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottomRightRadius",
+                "comment": " border-bottom-right-radius\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottomStyle",
+                "comment": " border-bottom-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBottomWidth",
+                "comment": " border-bottom-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderBox",
+                "comment": " border-box\n",
+                "type": "String"
+            },
+            {
+                "name": "borderCollapse",
+                "comment": " border-collapse\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderColor",
+                "comment": " border-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImage",
+                "comment": " border-image\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImageOutset",
+                "comment": " border-image-outset\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImageRepeat",
+                "comment": " border-image-repeat\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImageSlice",
+                "comment": " border-image-slice\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImageSource",
+                "comment": " border-image-source\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderImageWidth",
+                "comment": " border-image-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderLeft",
+                "comment": " border-left\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderLeftColor",
+                "comment": " border-left-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderLeftStyle",
+                "comment": " border-left-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderLeftWidth",
+                "comment": " border-left-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderRadius",
+                "comment": " border-radius\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderRight",
+                "comment": " border-right\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderRightColor",
+                "comment": " border-right-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderRightStyle",
+                "comment": " border-right-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderRightWidth",
+                "comment": " border-right-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderSpacing",
+                "comment": " border-spacing\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderStyle",
+                "comment": " border-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTop",
+                "comment": " border-top\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTopColor",
+                "comment": " border-top-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTopLeftRadius",
+                "comment": " border-top-left-radius\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTopRightRadius",
+                "comment": " border-top-right-radius\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTopStyle",
+                "comment": " border-top-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderTopWidth",
+                "comment": " border-top-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "borderWidth",
+                "comment": " border-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "both",
+                "comment": " both\n",
+                "type": "String"
+            },
+            {
+                "name": "bottom",
+                "comment": " bottom\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "boxShadow",
+                "comment": " box-shadow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "boxSizing",
+                "comment": " box-sizing\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "br",
+                "comment": " Selector for type br\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "button",
+                "comment": " Selector for type button\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "canvas",
+                "comment": " Selector for type canvas\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "capitalize",
+                "comment": " capitalize\n",
+                "type": "String"
+            },
+            {
+                "name": "caption",
+                "comment": " Selector for type caption\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "captionSide",
+                "comment": " caption-side\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "center",
+                "comment": " center\n",
+                "type": "String"
+            },
+            {
+                "name": "checked",
+                "comment": " :checked\n",
+                "type": "String"
+            },
+            {
+                "name": "child",
+                "comment": " Child combination of selectors\n",
+                "type": "List (List Declaration -> Rule) -> List Declaration -> Rule"
+            },
+            {
+                "name": "cite",
+                "comment": " Selector for type cite\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "clear",
+                "comment": " clear\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "clip",
+                "comment": " clip\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "code",
+                "comment": " Selector for type code\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "col",
+                "comment": " Selector for type col\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "colgroup",
+                "comment": " Selector for type colgroup\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "collapse",
+                "comment": " collapse\n",
+                "type": "String"
+            },
+            {
+                "name": "color",
+                "comment": " color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "color'",
+                "comment": " Color to webcolor\n",
+                "type": "Color -> String"
+            },
+            {
+                "name": "column",
+                "comment": " column\n",
+                "type": "String"
+            },
+            {
+                "name": "columnCount",
+                "comment": " column-count\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnFill",
+                "comment": " column-fill\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnGap",
+                "comment": " column-gap\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnReverse",
+                "comment": " column-reverse\n",
+                "type": "String"
+            },
+            {
+                "name": "columnRule",
+                "comment": " column-rule\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnRuleColor",
+                "comment": " column-rule-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnRuleStyle",
+                "comment": " column-rule-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnRuleWidth",
+                "comment": " column-rule-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnSpan",
+                "comment": " column-span\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columnWidth",
+                "comment": " column-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "columns",
+                "comment": " columns\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "content",
+                "comment": " content\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "counterIncrement",
+                "comment": " counter-increment\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "counterReset",
+                "comment": " counter-reset\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "cursor",
+                "comment": " cursor\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "dashed",
+                "comment": " dashed\n",
+                "type": "String"
+            },
+            {
+                "name": "datalist",
+                "comment": " Selector for type datalist\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "dd",
+                "comment": " Selector for type dd\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "default",
+                "comment": " :default\n",
+                "type": "String"
+            },
+            {
+                "name": "deg",
+                "comment": " deg\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "del",
+                "comment": " Selector for type del\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "descendant",
+                "comment": " Descendant combination of selectors\n",
+                "type": "List (List Declaration -> Rule) -> List Declaration -> Rule"
+            },
+            {
+                "name": "details",
+                "comment": " Selector for type details\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "dfn",
+                "comment": " Selector for type dfn\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "dir",
+                "comment": " :dir(\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "direction",
+                "comment": " direction\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "disabled",
+                "comment": " :disabled\n",
+                "type": "String"
+            },
+            {
+                "name": "display",
+                "comment": " display\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "displayFlex",
+                "comment": " shortcut for display:flex\n",
+                "type": "Declaration"
+            },
+            {
+                "name": "div",
+                "comment": " Selector for type div\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "dl",
+                "comment": " Selector for type dl\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "dotted",
+                "comment": " dotted\n",
+                "type": "String"
+            },
+            {
+                "name": "double",
+                "comment": " double\n",
+                "type": "String"
+            },
+            {
+                "name": "dt",
+                "comment": " Selector for type dt\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "em",
+                "comment": " em\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "em'",
+                "comment": " Selector for type em\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "embed",
+                "comment": " Selector for type embed\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "embed'",
+                "comment": " embed\n",
+                "type": "String"
+            },
+            {
+                "name": "empty",
+                "comment": " :empty\n",
+                "type": "String"
+            },
+            {
+                "name": "emptyCells",
+                "comment": " empty-cells\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "enabled",
+                "comment": " :enabled\n",
+                "type": "String"
+            },
+            {
+                "name": "everything",
+                "comment": " Creates a rule with selector \"*\"\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "fieldset",
+                "comment": " Selector for type fieldset\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "figcaption",
+                "comment": " Selector for type figcaption\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "figure",
+                "comment": " Selector for type figure\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "filter",
+                "comment": " filter\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "firstChild",
+                "comment": " :first-child\n",
+                "type": "String"
+            },
+            {
+                "name": "firstLetter",
+                "comment": " ::first-letter\n",
+                "type": "String"
+            },
+            {
+                "name": "firstLine",
+                "comment": " ::first-line\n",
+                "type": "String"
+            },
+            {
+                "name": "firstOfType",
+                "comment": " :first-of-type\n",
+                "type": "String"
+            },
+            {
+                "name": "fixed",
+                "comment": " fixed\n",
+                "type": "String"
+            },
+            {
+                "name": "flex",
+                "comment": " flex\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flex'",
+                "comment": " flex\n",
+                "type": "String"
+            },
+            {
+                "name": "flexBasis",
+                "comment": " flex-basis\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flexDirection",
+                "comment": " flex-direction\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flexEnd",
+                "comment": " flex-end\n",
+                "type": "String"
+            },
+            {
+                "name": "flexFlow",
+                "comment": " flex-flow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flexGrow",
+                "comment": " flex-grow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flexShrink",
+                "comment": " flex-shrink\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "flexStart",
+                "comment": " flex-start\n",
+                "type": "String"
+            },
+            {
+                "name": "flexWrap",
+                "comment": " flex-wrap\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "float",
+                "comment": " float\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "focus",
+                "comment": " :focus\n",
+                "type": "String"
+            },
+            {
+                "name": "font",
+                "comment": " font\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontFamilies",
+                "comment": " font-family as a list of families\n",
+                "type": "List String -> Declaration"
+            },
+            {
+                "name": "fontFamily",
+                "comment": " font-family\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontSize",
+                "comment": " font-size\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontSizeAdjust",
+                "comment": " font-size-adjust\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontStretch",
+                "comment": " font-stretch\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontStyle",
+                "comment": " font-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontVariant",
+                "comment": " font-variant\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "fontWeight",
+                "comment": " font-weight\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "footer",
+                "comment": " Selector for type footer\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "form",
+                "comment": " Selector for type form\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "fullscreen",
+                "comment": " :fullscreen\n",
+                "type": "String"
+            },
+            {
+                "name": "groove",
+                "comment": " groove\n",
+                "type": "String"
+            },
+            {
+                "name": "h1",
+                "comment": " Selector for type h1\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "h2",
+                "comment": " Selector for type h2\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "h3",
+                "comment": " Selector for type h3\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "h4",
+                "comment": " Selector for type h4\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "h5",
+                "comment": " Selector for type h5\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "h6",
+                "comment": " Selector for type h6\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "hangingPunctuation",
+                "comment": " hanging-punctuation\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "header",
+                "comment": " Selector for type header\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "height",
+                "comment": " height\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "hidden",
+                "comment": " hidden\n",
+                "type": "String"
+            },
+            {
+                "name": "hover",
+                "comment": " :hover\n",
+                "type": "String"
+            },
+            {
+                "name": "hr",
+                "comment": " Selector for type hr\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "i",
+                "comment": " Selector for type i\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "iframe",
+                "comment": " Selector for type iframe\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "img",
+                "comment": " Selector for type img\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "importUrl",
+                "comment": " Render a url to an @import directive.\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "indeterminate",
+                "comment": " :indeterminate\n",
+                "type": "String"
+            },
+            {
+                "name": "inherit",
+                "comment": " inherit\n",
+                "type": "String"
+            },
+            {
+                "name": "init",
+                "comment": " init\n",
+                "type": "String"
+            },
+            {
+                "name": "inline",
+                "comment": " inline\n",
+                "type": "String"
+            },
+            {
+                "name": "inlineBlock",
+                "comment": " inline-block\n",
+                "type": "String"
+            },
+            {
+                "name": "inlineFlex",
+                "comment": " inline-flex\n",
+                "type": "String"
+            },
+            {
+                "name": "inlineTable",
+                "comment": " inline-table\n",
+                "type": "String"
+            },
+            {
+                "name": "input",
+                "comment": " Selector for type input\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "ins",
+                "comment": " Selector for type ins\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "inset",
+                "comment": " inset\n",
+                "type": "String"
+            },
+            {
+                "name": "inside",
+                "comment": " inside\n",
+                "type": "String"
+            },
+            {
+                "name": "invalid",
+                "comment": " :invalid\n",
+                "type": "String"
+            },
+            {
+                "name": "italic",
+                "comment": " italic\n",
+                "type": "String"
+            },
+            {
+                "name": "just",
+                "comment": " Let's the number pass as it is\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "justify",
+                "comment": " justify\n",
+                "type": "String"
+            },
+            {
+                "name": "justifyContent",
+                "comment": " justify-content\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "kbd",
+                "comment": " Selector for type kbd\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "keygen",
+                "comment": " Selector for type keygen\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "label",
+                "comment": " Selector for type label\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "lang",
+                "comment": " :lang(\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "lastChild",
+                "comment": " :last-child\n",
+                "type": "String"
+            },
+            {
+                "name": "lastOfType",
+                "comment": " :last-of-type\n",
+                "type": "String"
+            },
+            {
+                "name": "left",
+                "comment": " left\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "left'",
+                "comment": " left'\n",
+                "type": "String"
+            },
+            {
+                "name": "leftP",
+                "comment": " :left\n",
+                "type": "String"
+            },
+            {
+                "name": "legend",
+                "comment": " Selector for type legend\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "letterSpacing",
+                "comment": " letter-spacing\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "li",
+                "comment": " Selector for type li\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "lineHeight",
+                "comment": " line-height\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "lineThrough",
+                "comment": " line-through\n",
+                "type": "String"
+            },
+            {
+                "name": "link",
+                "comment": " :link\n",
+                "type": "String"
+            },
+            {
+                "name": "listItem",
+                "comment": " list-item\n",
+                "type": "String"
+            },
+            {
+                "name": "listStyle",
+                "comment": " list-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "listStyleImage",
+                "comment": " list-style-image\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "listStylePosition",
+                "comment": " list-style-position\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "listStyleType",
+                "comment": " list-style-type\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "lowercase",
+                "comment": " lowercase\n",
+                "type": "String"
+            },
+            {
+                "name": "main'",
+                "comment": " Selector for type main'\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "margin",
+                "comment": " margin : takes a list with all the values\n",
+                "type": "List String -> Declaration"
+            },
+            {
+                "name": "marginAll",
+                "comment": " marginAll : single value margin\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "marginBottom",
+                "comment": " margin-bottom\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "marginLeft",
+                "comment": " margin-left\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "marginRight",
+                "comment": " margin-right\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "marginTop",
+                "comment": " margin-top\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "mark",
+                "comment": " Selector for type mark\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "math",
+                "comment": " Selector for type math\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "matrix",
+                "comment": " matrix transform\n",
+                "type": "number -> number -> number -> number -> number -> number -> String"
+            },
+            {
+                "name": "maxHeight",
+                "comment": " max-height\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "maxWidth",
+                "comment": " max-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "menu",
+                "comment": " Selector for type menu\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "menuitem",
+                "comment": " Selector for type menuitem\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "meter",
+                "comment": " Selector for type meter\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "middle",
+                "comment": " middle\n",
+                "type": "String"
+            },
+            {
+                "name": "minHeight",
+                "comment": " min-height\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "minWidth",
+                "comment": " min-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "namespace",
+                "comment": " Adds a namespace to the selectors of a list of Rules.\n",
+                "type": "String -> Namespace a b msg"
+            },
+            {
+                "name": "nav",
+                "comment": " Selector for type nav\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "navDown",
+                "comment": " nav-down\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "navIndex",
+                "comment": " nav-index\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "navLeft",
+                "comment": " nav-left\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "navRight",
+                "comment": " nav-right\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "navUp",
+                "comment": " nav-up\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "noRepeat",
+                "comment": " no-repeat\n",
+                "type": "String"
+            },
+            {
+                "name": "none",
+                "comment": " none\n",
+                "type": "String"
+            },
+            {
+                "name": "normal",
+                "comment": " normal\n",
+                "type": "String"
+            },
+            {
+                "name": "nowrap",
+                "comment": " nowrap\n",
+                "type": "String"
+            },
+            {
+                "name": "nthChild",
+                "comment": " :nth-child(\n",
+                "type": "Int -> String"
+            },
+            {
+                "name": "nthLastChild",
+                "comment": " :nth-last-child(\n",
+                "type": "Int -> String"
+            },
+            {
+                "name": "nthLastOfType",
+                "comment": " :nth-last-of-type(\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "nthOfType",
+                "comment": " :nth-of-type(\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "object",
+                "comment": " Selector for type object\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "oblique",
+                "comment": " oblique\n",
+                "type": "String"
+            },
+            {
+                "name": "ol",
+                "comment": " Selector for type ol\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "onlyOfType",
+                "comment": " :only-of-type\n",
+                "type": "String"
+            },
+            {
+                "name": "opacity",
+                "comment": " opacity\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "optgroup",
+                "comment": " Selector for type optgroup\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "option",
+                "comment": " Selector for type option\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "order",
+                "comment": " order\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "outline",
+                "comment": " outline\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "outlineColor",
+                "comment": " outline-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "outlineOffset",
+                "comment": " outline-offset\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "outlineStyle",
+                "comment": " outline-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "outlineWidth",
+                "comment": " outline-width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "output",
+                "comment": " Selector for type output\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "outset",
+                "comment": " outset\n",
+                "type": "String"
+            },
+            {
+                "name": "outside",
+                "comment": " outside\n",
+                "type": "String"
+            },
+            {
+                "name": "overflow",
+                "comment": " overflow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "overflowX",
+                "comment": " overflow-x\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "overflowY",
+                "comment": " overflow-y\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "overline",
+                "comment": " overline\n",
+                "type": "String"
+            },
+            {
+                "name": "p",
+                "comment": " Selector for type p\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "padding",
+                "comment": " padding : takes a list with all the values\n",
+                "type": "List String -> Declaration"
+            },
+            {
+                "name": "paddingAll",
+                "comment": " paddingAll : single value padding\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "paddingBottom",
+                "comment": " padding-bottom\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "paddingLeft",
+                "comment": " padding-left\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "paddingRight",
+                "comment": " padding-right\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "paddingTop",
+                "comment": " padding-top\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "pageBreakAfter",
+                "comment": " page-break-after\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "pageBreakBefore",
+                "comment": " page-break-before\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "pageBreakInside",
+                "comment": " page-break-inside\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "param",
+                "comment": " Selector for type param\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "pc",
+                "comment": " pc\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "pct",
+                "comment": " pct\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "perspective",
+                "comment": " perspective\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "perspectiveOrigin",
+                "comment": " perspective-origin\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "pointer",
+                "comment": " pointer\n",
+                "type": "String"
+            },
+            {
+                "name": "position",
+                "comment": " position\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "pre",
+                "comment": " Selector for type pre\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "pre'",
+                "comment": " pre\n",
+                "type": "String"
+            },
+            {
+                "name": "preLine",
+                "comment": " pre-line\n",
+                "type": "String"
+            },
+            {
+                "name": "preWrap",
+                "comment": " pre-wrap\n",
+                "type": "String"
+            },
+            {
+                "name": "prettyPrint",
+                "comment": " Renders the list of rules into a pretty string.\n",
+                "type": "List String -> List Rule -> String"
+            },
+            {
+                "name": "progress",
+                "comment": " Selector for type progress\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "px",
+                "comment": " px\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "q",
+                "comment": " Selector for type q\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "quotes",
+                "comment": " quotes\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "rad",
+                "comment": " rad\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "relative",
+                "comment": " relative\n",
+                "type": "String"
+            },
+            {
+                "name": "rem",
+                "comment": " rem\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "render",
+                "comment": " Renders the list of rules into a string.\n",
+                "type": "List Rule -> String"
+            },
+            {
+                "name": "repeat",
+                "comment": " repeat\n",
+                "type": "String"
+            },
+            {
+                "name": "repeatX",
+                "comment": " repeat-x\n",
+                "type": "String"
+            },
+            {
+                "name": "repeatY",
+                "comment": " repeat-y\n",
+                "type": "String"
+            },
+            {
+                "name": "resize",
+                "comment": " resize\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "ridge",
+                "comment": " ridge\n",
+                "type": "String"
+            },
+            {
+                "name": "right",
+                "comment": " right\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "right'",
+                "comment": " right'\n",
+                "type": "String"
+            },
+            {
+                "name": "rightP",
+                "comment": " :right\n",
+                "type": "String"
+            },
+            {
+                "name": "root",
+                "comment": " :root\n",
+                "type": "String"
+            },
+            {
+                "name": "rotate",
+                "comment": " rotate transform (in deg)\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "row",
+                "comment": " row\n",
+                "type": "String"
+            },
+            {
+                "name": "rowReverse",
+                "comment": " row-reverse\n",
+                "type": "String"
+            },
+            {
+                "name": "rp",
+                "comment": " Selector for type rp\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "rt",
+                "comment": " Selector for type rt\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "rtl",
+                "comment": " rtl\n",
+                "type": "String"
+            },
+            {
+                "name": "ruby",
+                "comment": " Selector for type ruby\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "runIn",
+                "comment": " run-in\n",
+                "type": "String"
+            },
+            {
+                "name": "s",
+                "comment": " Selector for type s\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "samp",
+                "comment": " Selector for type samp\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "scale",
+                "comment": " scale transform\n",
+                "type": "number -> number -> String"
+            },
+            {
+                "name": "scaleX",
+                "comment": " scaleX transform\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "scaleY",
+                "comment": " scaleY transform\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "scope",
+                "comment": " :scope\n",
+                "type": "String"
+            },
+            {
+                "name": "scroll",
+                "comment": " scroll\n",
+                "type": "String"
+            },
+            {
+                "name": "section",
+                "comment": " Selector for type section\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "select",
+                "comment": " Selector for type select\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "selection",
+                "comment": " ::selection\n",
+                "type": "String"
+            },
+            {
+                "name": "sibling",
+                "comment": " Sibling combination of selectors\n",
+                "type": "List (List Declaration -> Rule) -> List Declaration -> Rule"
+            },
+            {
+                "name": "skew",
+                "comment": " skew transform (in deg)\n",
+                "type": "number -> number -> String"
+            },
+            {
+                "name": "skewX",
+                "comment": " skewX transform (in deg)\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "skewY",
+                "comment": " skewY transform (in deg)\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "small",
+                "comment": " Selector for type small\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "smallCaps",
+                "comment": " small-caps\n",
+                "type": "String"
+            },
+            {
+                "name": "solid",
+                "comment": " solid\n",
+                "type": "String"
+            },
+            {
+                "name": "source",
+                "comment": " Selector for type source\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "spaceAround",
+                "comment": " space-around\n",
+                "type": "String"
+            },
+            {
+                "name": "spaceBetween",
+                "comment": " space-between\n",
+                "type": "String"
+            },
+            {
+                "name": "span",
+                "comment": " Selector for type span\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "static",
+                "comment": " static\n",
+                "type": "String"
+            },
+            {
+                "name": "strong",
+                "comment": " Selector for type strong\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "styledNode",
+                "comment": " A Html div to be used at the top most level in order to render the CSS.\n",
+                "type": "List String -> List Rule -> List (Html a) -> Html a"
+            },
+            {
+                "name": "sub",
+                "comment": " Selector for type sub\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "summary",
+                "comment": " Selector for type summary\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "sup",
+                "comment": " Selector for type sup\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "svg",
+                "comment": " Selector for type svg\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "tabSize",
+                "comment": " tab-size\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "table",
+                "comment": " Selector for type table\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "table'",
+                "comment": " table\n",
+                "type": "String"
+            },
+            {
+                "name": "tableCaption",
+                "comment": " table-caption\n",
+                "type": "String"
+            },
+            {
+                "name": "tableCell",
+                "comment": " table-cell\n",
+                "type": "String"
+            },
+            {
+                "name": "tableColumn",
+                "comment": " table-column\n",
+                "type": "String"
+            },
+            {
+                "name": "tableColumnGroup",
+                "comment": " table-column-group\n",
+                "type": "String"
+            },
+            {
+                "name": "tableFooterGroup",
+                "comment": " table-footer-group\n",
+                "type": "String"
+            },
+            {
+                "name": "tableHeaderGroup",
+                "comment": " table-header-group\n",
+                "type": "String"
+            },
+            {
+                "name": "tableLayout",
+                "comment": " table-layout\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "tableRow",
+                "comment": " table-row\n",
+                "type": "String"
+            },
+            {
+                "name": "tableRowGroup",
+                "comment": " table-row-group\n",
+                "type": "String"
+            },
+            {
+                "name": "target",
+                "comment": " :target\n",
+                "type": "String"
+            },
+            {
+                "name": "tbody",
+                "comment": " Selector for type tbody\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "td",
+                "comment": " Selector for type td\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "textAlign",
+                "comment": " text-align\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textAlignLast",
+                "comment": " text-align-last\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textDecoration",
+                "comment": " text-decoration\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textDecorationColor",
+                "comment": " text-decoration-color\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textDecorationLine",
+                "comment": " text-decoration-line\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textDecorationStyle",
+                "comment": " text-decoration-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textIndent",
+                "comment": " text-indent\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textJustify",
+                "comment": " text-justify\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textOverflow",
+                "comment": " text-overflow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textShadow",
+                "comment": " text-shadow\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textTransform",
+                "comment": " text-transform\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "textarea",
+                "comment": " Selector for type textarea\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "tfoot",
+                "comment": " Selector for type tfoot\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "th",
+                "comment": " Selector for type th\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "thead",
+                "comment": " Selector for type thead\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "time",
+                "comment": " Selector for type time\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "top",
+                "comment": " top\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "tr",
+                "comment": " Selector for type tr\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "track",
+                "comment": " Selector for type track\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "transform",
+                "comment": " transform\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transformOrigin",
+                "comment": " transform-origin\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transformStyle",
+                "comment": " transform-style\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transition",
+                "comment": " transition\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transitionDelay",
+                "comment": " transition-delay\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transitionDuration",
+                "comment": " transition-duration\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transitionProperty",
+                "comment": " transition-property\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "transitionTimingFunction",
+                "comment": " transition-timing-function\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "translate",
+                "comment": " translate transform\n",
+                "type": "String -> String -> String"
+            },
+            {
+                "name": "translateX",
+                "comment": " translateY transform\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "translateY",
+                "comment": " translateY transform\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "u",
+                "comment": " Selector for type u\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "ul",
+                "comment": " Selector for type ul\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "underline",
+                "comment": " underline\n",
+                "type": "String"
+            },
+            {
+                "name": "unicodeBidi",
+                "comment": " unicode-bidi\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "uppercase",
+                "comment": " uppercase\n",
+                "type": "String"
+            },
+            {
+                "name": "valid",
+                "comment": " :valid\n",
+                "type": "String"
+            },
+            {
+                "name": "var",
+                "comment": " Selector for type var\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "verticalAlign",
+                "comment": " vertical-align\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "vh",
+                "comment": " vh\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "video",
+                "comment": " Selector for type video\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "visibility",
+                "comment": " visibility\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "visible",
+                "comment": " visible\n",
+                "type": "String"
+            },
+            {
+                "name": "visited",
+                "comment": " :visited\n",
+                "type": "String"
+            },
+            {
+                "name": "vw",
+                "comment": " vw\n",
+                "type": "number -> String"
+            },
+            {
+                "name": "wbr",
+                "comment": " Selector for type wbr\n",
+                "type": "List Declaration -> Rule"
+            },
+            {
+                "name": "whiteSpace",
+                "comment": " white-space\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "width",
+                "comment": " width\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "withNamespace",
+                "comment": " Adds a namespace to the selectors of a list of Rules.\n",
+                "type": "String -> List Rule -> List Rule"
+            },
+            {
+                "name": "wordBreak",
+                "comment": " word-break\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "wordSpacing",
+                "comment": " word-spacing\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "wordWrap",
+                "comment": " word-wrap\n",
+                "type": "String -> Declaration"
+            },
+            {
+                "name": "wrap",
+                "comment": " wrap\n",
+                "type": "String"
+            },
+            {
+                "name": "wrapReverse",
+                "comment": " wrap-reverse\n",
+                "type": "String"
+            },
+            {
+                "name": "zIndex",
+                "comment": " z-index\n",
+                "type": "String -> Declaration"
+            }
+        ],
+        "binops": [
+            {
+                "name": "!:",
+                "comment": " Combines an type selector with a pseudo selector\n",
+                "type": "(List Declaration -> Rule) -> String -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "#",
+                "comment": " Creates a rule with an id selector\n",
+                "type": "a -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "#:",
+                "comment": " Combines an id selector with a pseudo selector\n",
+                "type": "a -> String -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": ".",
+                "comment": " Creates a rule with a class selector\n",
+                "type": "a -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": ".:",
+                "comment": " Combines a class selector with a pseudo selector\n",
+                "type": "a -> String -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

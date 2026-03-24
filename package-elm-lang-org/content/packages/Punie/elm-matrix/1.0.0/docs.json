@@ -1,0 +1,95 @@
+[
+    {
+        "name": "Matrix",
+        "comment": " A simple linear algebra library using flat-arrays\n\n\n# The Matrix type\n\n@docs Matrix\n\n\n# Creating matrices\n\n@docs empty, repeat, initialize, identity\n\n\n# Get matrix dimensions\n\n@docs height, width, size\n\n\n# Working with individual elements\n\n@docs get\n\n\n# Matrix manipulation\n\n@docs map, map2, transpose, dot\n\n\n# Matrix representation\n\n@docs toList, toLists, pretty\n\n",
+        "unions": [
+            {
+                "name": "Matrix",
+                "comment": " Representation of a matrix. You can create matrices of any type\nbut arithmetic operations in Matrix.Operations requires the matrices\nto have numeric types.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dot",
+                "comment": " Perform the standard matrix multiplication.\nIf the dimensions of the matrices are incompatible, returns `Nothing`.\n",
+                "type": "Matrix number -> Matrix number -> Maybe (Matrix number)"
+            },
+            {
+                "name": "empty",
+                "comment": " Create an empty matrix.\n\n    size empty == (0, 0)\n\n",
+                "type": "Matrix a"
+            },
+            {
+                "name": "get",
+                "comment": " Return `Just` the element at the index or `Nothing` if the index is out of bounds.\n",
+                "type": "Int -> Int -> Matrix a -> Maybe a"
+            },
+            {
+                "name": "height",
+                "comment": " Return the number of rows in a given matrix.\n",
+                "type": "Matrix a -> Int"
+            },
+            {
+                "name": "identity",
+                "comment": " Create the identity matrix of dimension `n`.\n",
+                "type": "Int -> Matrix number"
+            },
+            {
+                "name": "initialize",
+                "comment": " Createsa matrix with a given size, with the elements at index `(i, j)` initialized to the result of `f (i, j)`.\n\n    initialize 3 3 (\\(i,j) -> if i == j then 1 else 0) == identity 3\n\n",
+                "type": "Int -> Int -> (( Int, Int ) -> a) -> Matrix a"
+            },
+            {
+                "name": "map",
+                "comment": " Apply a function on every element of a matrix\n",
+                "type": "(a -> b) -> Matrix a -> Matrix b"
+            },
+            {
+                "name": "map2",
+                "comment": " Apply a function between pairwise elements of two matrices.\nIf the matrices are of differents sizes, returns `Nothing`.\n",
+                "type": "(a -> b -> c) -> Matrix a -> Matrix b -> Maybe (Matrix c)"
+            },
+            {
+                "name": "pretty",
+                "comment": " Convert a matrix to a formatted string.\n\n    pretty (identity 3) = \"\"\"\n        [ [ 1, 0, 0 ]\n        , [ 0, 1, 0 ]\n        , [ 0, 0, 1 ] ]\n    \"\"\"\n\n",
+                "type": "Matrix a -> String"
+            },
+            {
+                "name": "repeat",
+                "comment": " Create a matrix with a given size, filled with a default value.\n\n    repeat 2 3 0 ~= [ [ 0, 0, 0 ], [ 0, 0, 0 ] ]\n\n",
+                "type": "Int -> Int -> a -> Matrix a"
+            },
+            {
+                "name": "size",
+                "comment": " Return the dimensions of a given matrix in the form `(rows, columns)`.\n",
+                "type": "Matrix a -> ( Int, Int )"
+            },
+            {
+                "name": "toList",
+                "comment": " Convert the matrix to a flat list.\n\n    toList (identity 3) == [1,0,0,0,1,0,0,0,1]\n\n",
+                "type": "Matrix a -> List a"
+            },
+            {
+                "name": "toLists",
+                "comment": " Convert the matrix to a list of lists.\n\n    toLists (identity 3) = [ [1,0,0], [0,1,0], [0,0,1] ]\n\n",
+                "type": "Matrix a -> List (List a)"
+            },
+            {
+                "name": "transpose",
+                "comment": " Return the transpose of a matrix.\n",
+                "type": "Matrix a -> Matrix a"
+            },
+            {
+                "name": "width",
+                "comment": " Return the number of columns in a given matrix.\n",
+                "type": "Matrix a -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Greeting",
+        "comment": " Greeting functions and Msg.\n\n# Model\n@docs Model, init, model\n\n# Message\n@docs Msg\n\n# Update function\n@docs update\n\n# View function\n@docs view\n\n# Main function\n@docs main\n\n# Common Helpers\n@docs getGreeting, getRandomInt\n\n# Static data\n@docs greetings\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " A union type representing The Elm Architect's `Msg`\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SetRandomInt",
+                        [
+                            "Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Model\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "getGreeting",
+                "comment": " Convert the greetings list to an array and retrieve a value\n",
+                "type": "Int -> String -> String"
+            },
+            {
+                "name": "getRandomInt",
+                "comment": " Generate a Random int and send it to SetRandomInt\n",
+                "type": "Int -> Cmd Msg"
+            },
+            {
+                "name": "greetings",
+                "comment": " A list of availble greetings\n",
+                "type": "List String"
+            },
+            {
+                "name": "init",
+                "comment": " Init the app and generate a random Int\n",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "main",
+                "comment": " The Elm Architect's main function.\n",
+                "type": "Program Never"
+            },
+            {
+                "name": "model",
+                "comment": " The inital model\n",
+                "type": "Model"
+            },
+            {
+                "name": "update",
+                "comment": " The Elm Architect's update function.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Render a greeting element\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

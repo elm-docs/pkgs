@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Form.Infix",
+        "comment": " Form validation infix operators.\n\n@docs (:=), (?=), (|:)\n",
+        "unions": [],
+        "aliases": [],
+        "values": [],
+        "binops": [
+            {
+                "name": ":=",
+                "comment": " Infix version of `get`.\n\n    \"name\" := string\n",
+                "type": "String -> Validation e a -> Validation e a",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "?=",
+                "comment": " Access given field, wrapped in a `maybe` (Nothing if error).\n\n    \"hobby\" ?= string\n",
+                "type": "String -> Validation e a -> Validation e (Maybe a)",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "|:",
+                "comment": " Infix version of `apply`:\n\nForm.succeed SomeRecord\n|: (\"foo\" := string)\n|: (\"bar\" := string)\n\n",
+                "type": "Validation e (a -> b) -> Validation e a -> Validation e b",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

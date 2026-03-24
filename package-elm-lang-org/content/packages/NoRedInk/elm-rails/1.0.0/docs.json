@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Rails",
+        "comment": "\n\n# Http\n@docs send",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "send",
+                "comment": "Utility for working with rails. Wraps Http.send passing an Authenticity Token\nalong with the type of request and a way to decode results.",
+                "type": "String -> Decoder value -> String -> String -> Body -> Task Error value"
+            }
+        ],
+        "binops": []
+    }
+]

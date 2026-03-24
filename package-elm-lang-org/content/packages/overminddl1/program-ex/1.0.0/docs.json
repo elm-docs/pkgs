@@ -1,0 +1,57 @@
+[
+    {
+        "name": "ProgramEx",
+        "comment": "\n@docs programExBuilderWithFlags, programExBuilderWithFlagsAndNavigation\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "programExBuilderWithFlags",
+                "comment": "\nPass in the usual callbacks and it returns a built callback set.\n\nThis can be used via Html.App.programWithFlags like:\n\n    Html.App.programWithFlags\n      ( programExBuilderWithFlags\n        { init=init\n        , filter=filter\n        , update=update\n        , view=view\n        , subscriptions=subscriptions\n        }\n      )\n",
+                "type": "{ init : flags -> ( userModel, Cmd userMsg ), filters : userMsg -> userModel -> ( userMsg, States ), update : userMsg -> userModel -> ( userModel, Cmd userMsg ), view : userModel -> Html userMsg, subscriptions : userModel -> Sub userMsg } -> { init : flags -> ( Model userModel userMsg, Cmd userMsg ), update : userMsg -> Model userModel userMsg -> ( Model userModel userMsg, Cmd userMsg ), view : Model userModel userMsg -> Html userMsg, subscriptions : Model userModel userMsg -> Sub userMsg }"
+            },
+            {
+                "name": "programExBuilderWithFlagsAndNavigation",
+                "comment": "\nPass in the usual callbacks and it returns a built callback set.\n\nThis can be used via Html.App.programWithFlags like:\n\n    Navigation.programWithFlags urlParser\n      { programExBuilderWithFlagsAndNavigation\n        { init=init\n        , filter=filter\n        , update=update\n        , view=view\n        , subscriptions=subscriptions\n        , urlUpdate=urlUpdate\n        }\n      }\n",
+                "type": "{ init : flags -> ( userModel, Cmd userMsg ), filters : userMsg -> userModel -> ( userMsg, States ), update : userMsg -> userModel -> ( userModel, Cmd userMsg ), view : userModel -> Html userMsg, subscriptions : userModel -> Sub userMsg, urlUpdate : data -> userModel -> ( userModel, Cmd userMsg ) } -> { init : flags -> ( Model userModel userMsg, Cmd userMsg ), update : userMsg -> Model userModel userMsg -> ( Model userModel userMsg, Cmd userMsg ), view : Model userModel userMsg -> Html userMsg, subscriptions : Model userModel userMsg -> Sub userMsg, urlUpdate : data -> userModel -> ( userModel, Cmd userMsg ) }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ProgramEx.States",
+        "comment": "\n@docs States, default, doUpdate, doSubscriptions, doView\n",
+        "unions": [
+            {
+                "name": "States",
+                "comment": " Holds the State information\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "default",
+                "comment": " Gets the default state set, everything is allowed\n",
+                "type": "States"
+            },
+            {
+                "name": "doSubscriptions",
+                "comment": " Gets from the state if the subscriptions callback should be run\n",
+                "type": "States -> Bool"
+            },
+            {
+                "name": "doUpdate",
+                "comment": " Gets from the state if the update callback should be run\n",
+                "type": "States -> Bool"
+            },
+            {
+                "name": "doView",
+                "comment": " Gets from the state if the view callback should be run\n",
+                "type": "States -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

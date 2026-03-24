@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Char.Extra",
+        "comment": "Extra functions for working with characters.\n\n# Classification\n@docs isWhitespace",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isWhitespace",
+                "comment": "True for ASCII whitesapce characters `\\b\\t\\n\\v\\f\\r`",
+                "type": "Char -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

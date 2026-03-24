@@ -1,0 +1,293 @@
+[
+    {
+        "name": "Phoenix",
+        "comment": "\n\n\n# Basic Usage\n\n@docs listen, update, join, push\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "join",
+                "comment": " Joins a channel\n",
+                "type": "(Msg msg -> msg) -> Channel msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "listen",
+                "comment": " Listens to socket change and timers\n",
+                "type": "(Msg msg -> msg) -> Socket msg -> Sub msg"
+            },
+            {
+                "name": "push",
+                "comment": " Pushes a a message\n",
+                "type": "(Msg msg -> msg) -> Push msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Updates socket model and send messages\n",
+                "type": "(Msg msg -> msg) -> Msg msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Socket",
+        "comment": "\n\n\n# This module provides an interface for connecting to Phoenix Socket\n\n@docs Socket, init, update, join, listen, push, withLongPoll\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Socket",
+                "comment": " Socket model\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ endPoint : String, channels : Dict String (Channel msg), serializer : Serializer, transport : Transport, pushedEvents : Dict Int (Push msg), heartbeatIntervalSeconds : Float, heartbeatTimestamp : Float, heartbeatReplyTimestamp : Float, longPollToken : Maybe String, ref : Int, readyState : State, withDebug : Bool, withoutHeartbeat : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initializes Socket using the websocket address\n",
+                "type": "String -> Socket msg"
+            },
+            {
+                "name": "join",
+                "comment": " Joins a channel\nAdds the channel to the socket model and returns a command that sends data\n",
+                "type": "Channel msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "listen",
+                "comment": " Listens to socket\n",
+                "type": "(Msg msg -> msg) -> Socket msg -> Sub msg"
+            },
+            {
+                "name": "push",
+                "comment": " pushs a message\n",
+                "type": "Push msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "update",
+                "comment": " Handles Phoenix Msg\n",
+                "type": "(Msg msg -> msg) -> Msg msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "withLongPoll",
+                "comment": " withLongPoll\n",
+                "type": "Socket msg -> Socket msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Push",
+        "comment": "\n\n\n# This module provides an interface for pushed messages\n\n@docs Push, init, initWithChannel, onError, onErrorCommand, onOk, onOkCommand, withPayload\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Push",
+                "comment": " Push model\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ event : String, topic : String, on : Dict String (Value -> msg), payload : Value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " initializes Push with event name and the channel\n",
+                "type": "String -> String -> Push msg"
+            },
+            {
+                "name": "initWithChannel",
+                "comment": " initializes Push with event name and the channel\n",
+                "type": "String -> Channel msg -> Push msg"
+            },
+            {
+                "name": "onError",
+                "comment": " When Channel replies with errro this message gets triggred\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "onErrorCommand",
+                "comment": " Convert a Error response to Message\n",
+                "type": "Value -> Push msg -> Msg msg"
+            },
+            {
+                "name": "onOk",
+                "comment": " When Channel replies with ok this message gets triggred\n",
+                "type": "(Value -> msg) -> Push msg -> Push msg"
+            },
+            {
+                "name": "onOkCommand",
+                "comment": " Convert an Ok response to Message\n",
+                "type": "Value -> Push msg -> Msg msg"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Adds payload to Push\n",
+                "type": "Value -> Push msg -> Push msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Message",
+        "comment": "\n\n\n# This module provides Msg that the package handles\n\n@docs Msg, mapAll, none, toInternalMsg, toExternalMsg, extractInternalMsg, extractExternalMsg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " This Msg should be used in user's main app\n\n    import Phoenix.Message as PhxMsg\n\n    type MyAppMsg =\n        ..\n        | PhoenixMsg (PhxMsg.Msg MyAppMsg)\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "extractExternalMsg",
+                "comment": " ",
+                "type": "Msg msg -> Maybe msg"
+            },
+            {
+                "name": "extractInternalMsg",
+                "comment": " ",
+                "type": "Msg msg -> InternalMessage msg"
+            },
+            {
+                "name": "mapAll",
+                "comment": " ",
+                "type": "(Msg msg -> msg) -> Msg msg -> msg"
+            },
+            {
+                "name": "none",
+                "comment": " ",
+                "type": "Msg msg"
+            },
+            {
+                "name": "toExternalMsg",
+                "comment": " ",
+                "type": "msg -> Msg msg"
+            },
+            {
+                "name": "toInternalMsg",
+                "comment": " ",
+                "type": "InternalMessage msg -> Msg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Channel",
+        "comment": "\n\n\n# This module is keeping states related to channel\n\n@docs Channel, init, setJoiningState, setClosedState, setJoinedState, setErroredState, isOngoing, isClosed, isJoined, isErrored, addChannel, updateChannel, updateChannelDict, findChannelWithRef, findChannel, on, onJoin, onJoinError, onError, onClose\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Channel",
+                "comment": " Channel Model\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ topic : String, on : Dict String (Value -> msg), state : State, joinRef : Maybe Int, receive : Dict String (Value -> msg), payload : Value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "addChannel",
+                "comment": " Adds a channel to Dict of channels\n",
+                "type": "Channel msg -> Dict String (Channel msg) -> Dict String (Channel msg)"
+            },
+            {
+                "name": "findChannel",
+                "comment": " Finds a channel in Dict of channels by its topic\n",
+                "type": "String -> Dict String (Channel msg) -> Maybe (Channel msg)"
+            },
+            {
+                "name": "findChannelWithRef",
+                "comment": " Finds a channel with its topic and joinRef number\n",
+                "type": "String -> Maybe Int -> Dict String (Channel msg) -> Maybe (Channel msg)"
+            },
+            {
+                "name": "init",
+                "comment": " Init channel model using channel topic\n",
+                "type": "String -> Channel msg"
+            },
+            {
+                "name": "isClosed",
+                "comment": " Is this channel closed ?\n",
+                "type": "Channel msg -> Bool"
+            },
+            {
+                "name": "isErrored",
+                "comment": " Is this channel faild to join\n",
+                "type": "Channel msg -> Bool"
+            },
+            {
+                "name": "isJoined",
+                "comment": " Is this channel joined successfully ?\n",
+                "type": "Channel msg -> Bool"
+            },
+            {
+                "name": "isOngoing",
+                "comment": " Returns true if state is Joined Joining\n",
+                "type": "Channel msg -> Bool"
+            },
+            {
+                "name": "on",
+                "comment": " Triggers this message when event is received\n",
+                "type": "String -> (Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onClose",
+                "comment": " Triggers this message when channel is closed\n\nonClose messages are invoked if the channel explicitly closed on the server.\n\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onError",
+                "comment": " Triggers this message when failed to send join command on the connection\n\nonError messages are invoked if the channel crashes on the server.\n\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoin",
+                "comment": " Triggers this message to send when joined a channel\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoinError",
+                "comment": " Triggers this message to send when failed to join a channel\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "setClosedState",
+                "comment": " Sets stats to Closed\n",
+                "type": "Channel msg -> Channel msg"
+            },
+            {
+                "name": "setErroredState",
+                "comment": " Sets stats to Errored\n",
+                "type": "Channel msg -> Channel msg"
+            },
+            {
+                "name": "setJoinedState",
+                "comment": " Sets stats to joined state\n",
+                "type": "Channel msg -> Channel msg"
+            },
+            {
+                "name": "setJoiningState",
+                "comment": " Sets the joining reference and state to Joining\n",
+                "type": "Int -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "updateChannel",
+                "comment": " Updates channel in the given Dict\n",
+                "type": "Channel msg -> Dict String (Channel msg) -> Dict String (Channel msg)"
+            },
+            {
+                "name": "updateChannelDict",
+                "comment": " ",
+                "type": "Channel msg -> Dict String (Channel msg) -> Dict String (Channel msg)"
+            }
+        ],
+        "binops": []
+    }
+]

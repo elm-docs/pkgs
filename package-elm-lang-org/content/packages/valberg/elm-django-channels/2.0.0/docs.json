@@ -1,0 +1,46 @@
+[
+    {
+        "name": "DjangoChannels",
+        "comment": "\n\nDecoders and such to ease communication with django channels.\n\nelm-django-channels is an oppinionated way to use communicate with Django Channels from Elm.\n\n# Definition\n@docs StreamHandler\n\n# Utilities\n@docs streamDemultiplexer, handleStream\n\n# Default operations\n@docs defaultCreate, defaultUpdate, defaultDelete\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "StreamHandler",
+                "comment": " StreamHandler defines how we should deal with a specific stream.\n",
+                "args": [
+                    "instanceType",
+                    "pkType"
+                ],
+                "type": "{ streamName : String, instanceDecoder : Decoder instanceType, pkDecoder : Decoder pkType, createFunc : instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ), updateFunc : instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ), deleteFunc : pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultCreate",
+                "comment": " Default function for creating an instance.\n",
+                "type": "instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "defaultDelete",
+                "comment": " Default function for deleting an instance given a pk.\n",
+                "type": "pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "defaultUpdate",
+                "comment": " Default function for updating an instance.\n",
+                "type": "instanceType -> pkType -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "handleStream",
+                "comment": " Handle data on a given StreamHandler.\n",
+                "type": "StreamHandler instanceType pkType -> String -> List ( pkType, instanceType ) -> List ( pkType, instanceType )"
+            },
+            {
+                "name": "streamDemultiplexer",
+                "comment": " Deal with streams from a WebsocketDemultiplexer.\n",
+                "type": "String -> String"
+            }
+        ],
+        "binops": []
+    }
+]

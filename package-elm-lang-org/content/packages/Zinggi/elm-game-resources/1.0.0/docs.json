@@ -1,0 +1,85 @@
+[
+    {
+        "name": "Game.Resources",
+        "comment": "\nA module for managing resources needed for games.\nThis currently only manages textures, but a future version might add sounds, 3d-meshes etc..\n\n# Resources\n@docs Resources, init, update, Msg\n\n## Textures\n@docs Texture, loadTextures, getTexture\n\n@docs loadTexturesWithConfig, LoadTextureConfig\n\n@docs TextureFilter, linear, nearest\n\n@docs textureSize\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Resources",
+                "comment": "\nThe main type of this library\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "LoadTextureConfig",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ success : Msg -> msg, failed : String -> msg }"
+            },
+            {
+                "name": "Texture",
+                "comment": " ",
+                "args": [],
+                "type": "Texture"
+            },
+            {
+                "name": "TextureFilter",
+                "comment": " ",
+                "args": [],
+                "type": "TextureFilter"
+            }
+        ],
+        "values": [
+            {
+                "name": "getTexture",
+                "comment": "\nReturns a maybe as the texture might not be loaded yet.\n",
+                "type": "String -> Resources -> Maybe Texture"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "Resources"
+            },
+            {
+                "name": "linear",
+                "comment": " ",
+                "type": "TextureFilter"
+            },
+            {
+                "name": "loadTextures",
+                "comment": "\nLoads a list of textures from the given urls.\nPNGs and JPEGs are known to work.\nFor WebGL make sure that your textures have a dimension with a power of two, e.g. 2^n x 2^m\n",
+                "type": "List String -> Cmd Msg"
+            },
+            {
+                "name": "loadTexturesWithConfig",
+                "comment": "\nSame as loadTextures, but gives you more controll\nby being able to react to a texture loading error\nand by specifying a texture filter.\n\n    loadTexturesWithConfig\n        { success = Resources\n        , failed = LoadingTextureFailed\n        }\n        [ (linear, \"images/blob.png\"), (nearest, \"images/box.jpeg\") ]\n\n",
+                "type": "LoadTextureConfig msg -> List ( TextureFilter, String ) -> Cmd msg"
+            },
+            {
+                "name": "nearest",
+                "comment": " ",
+                "type": "TextureFilter"
+            },
+            {
+                "name": "textureSize",
+                "comment": "\n",
+                "type": "Texture -> ( Int, Int )"
+            },
+            {
+                "name": "update",
+                "comment": "\n",
+                "type": "Msg -> Resources -> Resources"
+            }
+        ],
+        "binops": []
+    }
+]

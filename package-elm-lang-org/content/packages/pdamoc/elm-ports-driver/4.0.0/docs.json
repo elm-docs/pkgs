@@ -1,0 +1,118 @@
+[
+    {
+        "name": "PortsDriver",
+        "comment": " This is an Elm package - npm package combo designed to be used to simplify\nsome of the ports code usage.\n\n\n# Types\n\n@docs Config, ID, FileRef, FileData\n\n\n# Html.Event Helper\n\n@docs onFile\n\n\n# FileReader API\n\nThese are the commands that will cause a reply to be sent back to Elm.\n\n@docs readAsText, readAsDataURL\n@docs receiveFileAsText, receiveFileAsDataURL\n\n\n# LocalStorage API\n\nThese are the commands that will cause a reply to be sent back to Elm.\n\n@docs localStorageGetItem, localStorageSetItem, localStorageRemoveItem\n@docs receiveLocalStorageItem, receiveLocalStorageChange\n\n\n# Other Commands\n\nThese are the commands that will not produce a reply.\n\n@docs log, setTitle, updateCss, send\n\n\n# Subscriptions\n\nDecoders for the subscriptions.\n\n@docs inputDecoder, subscriptions\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " The `Config` record contains the output port, the input port a function handle\nunknown input port messages. This record is needed for all the functions.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ output : Value -> Cmd msg, input : (Value -> msg) -> Sub msg, fail : String -> msg }"
+            },
+            {
+                "name": "FileData",
+                "comment": " An alias to make the type signatures more explicit\n",
+                "args": [],
+                "type": "{ id : ID, filename : String, contents : String }"
+            },
+            {
+                "name": "FileRef",
+                "comment": " An alias to make the type signatures more explicit\n",
+                "args": [],
+                "type": "Value"
+            },
+            {
+                "name": "ID",
+                "comment": " An alias to make the type signatures more explicit\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "inputDecoder",
+                "comment": " Generic input decoder. Receives the tag of the message and a decoder for the\npayload of the message. Returns a decoder that can be used with `subscriptions`.\n",
+                "type": "String -> Decoder msg -> Decoder msg"
+            },
+            {
+                "name": "localStorageGetItem",
+                "comment": " Requests the value for the provided `key`. The value will arrive through the\n`receiveLocalStorageItem` subscription decoder.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "localStorageRemoveItem",
+                "comment": " Removes the `localStorage` key.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "localStorageSetItem",
+                "comment": " Sets the `localStorage` key to this value.\n",
+                "type": "Config msg -> String -> String -> Cmd msg"
+            },
+            {
+                "name": "log",
+                "comment": " Logs the provided `String` to the Console.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "onFile",
+                "comment": " A helper for input elements with `type_ \"file\"`\n",
+                "type": "(FileRef -> msg) -> Attribute msg"
+            },
+            {
+                "name": "readAsDataURL",
+                "comment": " sends a read command for the node with the provided ID. The contents are\nread as a dataURL.\n",
+                "type": "Config msg -> ID -> FileRef -> Cmd msg"
+            },
+            {
+                "name": "readAsText",
+                "comment": " sends a read command for the node with the provided ID. The contents are\nread as text.\n",
+                "type": "Config msg -> ID -> FileRef -> Cmd msg"
+            },
+            {
+                "name": "receiveFileAsDataURL",
+                "comment": " Decoder for the file reader `readAsDataURL` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+                "type": "(FileData -> msg) -> Decoder msg"
+            },
+            {
+                "name": "receiveFileAsText",
+                "comment": " Decoder for the file reader `readAsText` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+                "type": "(FileData -> msg) -> Decoder msg"
+            },
+            {
+                "name": "receiveLocalStorageChange",
+                "comment": " Decoder for the localStorage message received from listening for changes.\n",
+                "type": "(String -> Maybe String -> msg) -> Decoder msg"
+            },
+            {
+                "name": "receiveLocalStorageItem",
+                "comment": " Decoder for the localStorage message after `localStorageGetItem`\n",
+                "type": "(String -> Maybe String -> msg) -> Decoder msg"
+            },
+            {
+                "name": "send",
+                "comment": " Generic function for sending messages to JavaScript.\n",
+                "type": "Config msg -> String -> Value -> Cmd msg"
+            },
+            {
+                "name": "setTitle",
+                "comment": " Sets the provided `String` as the title of the page.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " The main subscription. Receives a list of decoders for the messages received\nfrom the input port.\n",
+                "type": "Config msg -> List (Decoder msg) -> Sub msg"
+            },
+            {
+                "name": "updateCss",
+                "comment": " Updates the head node with a style node containing the value provided as a\n`String`.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            }
+        ],
+        "binops": []
+    }
+]

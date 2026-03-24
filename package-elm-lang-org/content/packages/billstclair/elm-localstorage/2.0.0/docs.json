@@ -1,0 +1,186 @@
+[
+    {
+        "name": "LocalStorage.DictPorts",
+        "comment": " Simulate ports for using the `LocalStorage` module from `elm reactor`.\n\n\n# Functions\n\n@docs make\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "make",
+                "comment": " Create a `Ports` object from a message wrapper, usually just one of your Msg options.\n",
+                "type": "MsgWrapper msg -> Ports msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "LocalStorage",
+        "comment": " The 'LocalStorage' module does most of the work in using the JavaScript `localStorage` facility to persistently store key/value pairs.\n\n\n# Types\n\n@docs LocalStorage\n\n\n# Constructors\n\n@docs make, makeRealPorts\n\n\n# Functions\n\n@docs getItem, setItem, clear\n\n\n# State accessors\n\n@docs getPorts, setPorts\n\n",
+        "unions": [
+            {
+                "name": "LocalStorage",
+                "comment": " Opaque type. Returned by `make` and `getPorts`. Passed to the other functions.\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "clear",
+                "comment": " Return a `Cmd` to clear all JS `localStorage` keys that begin with the `prefix` passed to `make`.\n",
+                "type": "LocalStorage msg -> Cmd msg"
+            },
+            {
+                "name": "getItem",
+                "comment": " Return a `Cmd` to fetch the value for the `Key` from `LocalStorage`.\n",
+                "type": "LocalStorage msg -> Key -> Cmd msg"
+            },
+            {
+                "name": "getPorts",
+                "comment": " Return the `Ports` instance you passed to `make` or `setPorts`.\n",
+                "type": "LocalStorage msg -> Ports msg"
+            },
+            {
+                "name": "make",
+                "comment": " Make a `LocalStorage` instance.\n\nIf `prefix` is not empty (\"\"), will prefix all keys in JS `localStorage` with\n`prexix ++ \".\"`.\n\n",
+                "type": "Ports msg -> String -> LocalStorage msg"
+            },
+            {
+                "name": "makeRealPorts",
+                "comment": " Create a `Ports` value, using what are usually your real Elm `port`s.\n",
+                "type": "(Key -> Cmd msg) -> (( Key, Value ) -> Cmd msg) -> (String -> Cmd msg) -> Ports msg"
+            },
+            {
+                "name": "setItem",
+                "comment": " Return a `Cmd` to set the value for the `Key` to `Value` in `LocalStorage`.\n",
+                "type": "LocalStorage msg -> Key -> Value -> Cmd msg"
+            },
+            {
+                "name": "setPorts",
+                "comment": " Set the internal `Ports` value. Fetch it back with `getPorts`.\n",
+                "type": "Ports msg -> LocalStorage msg -> LocalStorage msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "LocalStorage.SharedTypes",
+        "comment": " Types for the `LocalStorage` module.\n\n\n# Types\n\n@docs Key, Value, Operation, Ports, DictState, MsgWrapper\n\n\n# Port Signatures\n\n@docs GetItemPort, SetItemPort, ClearPort, ReceiveItemPort\n\n\n# Functions\n\n@docs receiveWrapper\n\n\n# Constants\n\n@docs emptyDictState\n\n",
+        "unions": [
+            {
+                "name": "Operation",
+                "comment": " The operation that caused your wrapper `Msg` to be sent.\n\nFor real ports, you'll only ever see GetItemOperation.\n\nFor simluated ports, you'll see the others as well, because you have to save the updated state.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "GetItemOperation",
+                        []
+                    ],
+                    [
+                        "SetItemOperation",
+                        []
+                    ],
+                    [
+                        "ClearOperation",
+                        []
+                    ],
+                    [
+                        "ErrorOperation",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Ports",
+                "comment": " Wrap up your ports.\n\nYou'll usually create one of these with `LocalStorage.realRealPorts` or `DictPorts.make`.\n\nYour update Msg will receive one, if you're using simulated ports.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "Ports",
+                        [
+                            "{ getItem : Ports msg -> GetItemPort msg, setItem : Ports msg -> SetItemPort msg, clear : Ports msg -> ClearPort msg, state : DictState }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ClearPort",
+                "comment": " The required signature of your `localStorage.clear` port.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "String -> Cmd msg"
+            },
+            {
+                "name": "DictState",
+                "comment": " A `Dict` that stores key/value pairs for the simulated ports.\n",
+                "args": [],
+                "type": "Dict Key Value"
+            },
+            {
+                "name": "GetItemPort",
+                "comment": " The required signature of your `localStorage.getItem` port.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Key -> Cmd msg"
+            },
+            {
+                "name": "Key",
+                "comment": " A convenience type for keys in the store. Same as `String`.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "MsgWrapper",
+                "comment": " Your Msg, which wraps the key/value pair from a `getItem` return.\n\nFor real ports, you'll only care about the `GetItem` operation. You'll get `Nothing` for the `Ports`.\n\nFor simluated ports, you need to store the `Ports` in your `Model`.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "Operation -> Maybe (Ports msg) -> Key -> Value -> msg"
+            },
+            {
+                "name": "ReceiveItemPort",
+                "comment": " The required signature of your subscription to receive `getItem` values.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "(Value -> msg) -> Sub msg"
+            },
+            {
+                "name": "SetItemPort",
+                "comment": " The required signature of your `localStorage.setItem` port.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "( Key, Value ) -> Cmd msg"
+            },
+            {
+                "name": "Value",
+                "comment": " A convenience type for values in the store. Same as `Json.Encode.Value`.\n",
+                "args": [],
+                "type": "Value"
+            }
+        ],
+        "values": [
+            {
+                "name": "emptyDictState",
+                "comment": " `Dict.empty`\n",
+                "type": "DictState"
+            },
+            {
+                "name": "receiveWrapper",
+                "comment": " Use this to turn the Value coming from a receive port into a Msg.\n",
+                "type": "MsgWrapper msg -> Value -> msg"
+            }
+        ],
+        "binops": []
+    }
+]

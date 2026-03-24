@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Statechart",
+        "comment": " A pure Elm implementation of statecharts designed to hook direct;y into The Elm Architecture\nupdate function.\n\n@docs Statechart\n@docs StateModel\n@docs decoder\n@docs encode\n@docs mkStatechart\n@docs mkCompoundState\n@docs mkState\n@docs noAction\n@docs empty\n@docs start\n@docs step\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "StateModel",
+                "comment": "\n",
+                "args": [],
+                "type": "{ currentStateName : String, targetStateName : String, history : Dict String String }"
+            },
+            {
+                "name": "Statechart",
+                "comment": "\n",
+                "args": [
+                    "msg",
+                    "model"
+                ],
+                "type": "Tree (StateConfig msg model)"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decode a stored StateModel.\n",
+                "type": "Statechart msg model -> Decoder StateModel"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty StateModel; this is the initial value in the model.\n",
+                "type": "StateModel"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode the StateModel into a value ready to be stored in the main model.\n",
+                "type": "StateModel -> Value"
+            },
+            {
+                "name": "mkCompoundState",
+                "comment": " Make a compound state from a StateConfig\n",
+                "type": "BranchStateConfig msg model -> List (Statechart msg model) -> Statechart msg model"
+            },
+            {
+                "name": "mkState",
+                "comment": " Make a state from a StateConfig\n",
+                "type": "LeafStateConfig msg model -> Statechart msg model"
+            },
+            {
+                "name": "mkStatechart",
+                "comment": " Make the top level statechart\n",
+                "type": "String -> List (Statechart msg model) -> Statechart msg model"
+            },
+            {
+                "name": "noAction",
+                "comment": " The identity action that does nothing\n",
+                "type": "Action model msg"
+            },
+            {
+                "name": "start",
+                "comment": " Start the statechart based on the StateModel.\nTODO: the problem here is that if the starting state has no children then onEnter doesn't get run\n",
+                "type": "Config msg model -> ( model, Cmd msg ) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "step",
+                "comment": " Step through the statechart in response to an incoming message.\n",
+                "type": "Config msg model -> msg -> ( model, Cmd msg ) -> ( model, Cmd msg )"
+            }
+        ],
+        "binops": []
+    }
+]

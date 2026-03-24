@@ -1,0 +1,16 @@
+[
+    {
+        "name": "BootstrapCardsGrid",
+        "comment": " Splits a list into sub lists containing a given number of children.\n\n@docs renderBootstrapCardsGrid\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "renderBootstrapCardsGrid",
+                "comment": " Renders rows to a given number of columns. Gives the ability to wrap a list\nof Html msg with columns and rows.\nThis will give classes for mobile and tablet, mobile will always have one\nelement per row and tablet will have half (or close to it with odd numbers) the\nnumber of elements given for desktop.\n",
+                "type": "Int -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

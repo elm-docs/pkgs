@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Ports.Mail",
+        "comment": " A different way of using ports in Elm, as a request and response similar to http request. Please look at the readme and github example for a full explanation of this package.\n\n\n# Mail\n\n@docs Mail, Letter, letter, expectResponse, send, map, cmd, none\n\n\n# Program\n\n@docs Program, program\n\n",
+        "unions": [
+            {
+                "name": "Letter",
+                "comment": " `Letter`s are things that go through ports into the JS side of your application. They can either be made to expect an explicit response, or be made to just \"send and forget\" without receiving a response.\n\n    Mail.letter \"receiveName\" (Encode.string \"Ludwig\")\n    -- The address \"receiveName\" in JS will receive\n    -- the value \"Ludwig\"\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Mail",
+                "comment": " `Mail` is stuff thats sent out of the Elm run time. `Mail` is sent out from update functions as `(Model, Mail Msg)`, just like `Cmd`s are in a normal Elm application. Regular Elm `Cmd`s can be wrapped up as a `Mail`, along with `Letter`s.\n\n    import Ports.Mail as Mail exposing (Mail)\n\n    update : Msg -> Model -> ( Model, Mail Msg )\n    update msg model =\n        case msg of\n            ShutDownClicked ->\n                ( model, attemptShutDown )\n\n            ShutDownGranted (Ok True) ->\n                ( model, shutDown )\n\n            ShutDownGranted _ ->\n                ( model, Mail.none )\n\n    attemptShutDown : Mail Msg\n    attemptShutDown =\n        Encode.null\n            |> Mail.letter \"attemptShutDown\"\n            |> Mail.expectResponse Decode.bool ShutDownGranted\n            |> Mail.send\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Program",
+                "comment": " Identical to the type `Platform.Program`\n",
+                "args": [
+                    "json",
+                    "model",
+                    "msg"
+                ],
+                "type": "Program json (Model model msg) (Msg msg)"
+            }
+        ],
+        "values": [
+            {
+                "name": "cmd",
+                "comment": " You can still use `Cmd`s in a `Mail.Program`, you just have to wrap it using `Mail.cmd`\n\n    Random.generate NewFace (Random.int 1 6)\n        |> Mail.cmd\n    -- : Mail Msg\n\n    Mail.none == Mail.cmd Cmd.none\n\n",
+                "type": "Cmd msg -> Mail msg"
+            },
+            {
+                "name": "expectResponse",
+                "comment": " Many ports are sent out with the expectation of a response. To define what exactly your outgoing message expects in return, use this function. It takes a `Decoder a` of the value it expects in the incoming Json, a `Msg` constructor that can handle the result of decoding the value, and an existing letter.\n\n    Mail.expectResponse Decode.int RandomNumberFetched\n\n",
+                "type": "Decoder a -> (Result String a -> msg) -> Letter msg -> Letter msg"
+            },
+            {
+                "name": "letter",
+                "comment": " Construct a letter. The `String` parameter is the \"address\" your `Encode.Value` will reach. The address is defined as the key in the javascript object given to `PortsMail` in your javascript. In the following case its `\"getRandomNumber\"`\n\n    -- In Elm\n    Mail.letter \"getRandomNumber\" (Encode.int 12)\n\n    -- In JavaScript\n    PortsMail(app, {\n        getRandomNumber: function(payload, reply) {\n            reply(Math.floor(payload * Math.random()));\n        }\n    });\n\n",
+                "type": "String -> Value -> Letter msg"
+            },
+            {
+                "name": "map",
+                "comment": " Map your `Mail` from one type to another\n\n    Mail.map LoginMsg loginMail\n\n..much like..\n\n    Cmd.map LoginMsg loginCmd\n    Html.map LoginMsg Login.view\n\n",
+                "type": "(a -> b) -> Mail a -> Mail b"
+            },
+            {
+                "name": "none",
+                "comment": " No `Mail` to send, just like..\n\n    Cmd.none : Cmd msg\n    Mail.none : Mail msg\n\n",
+                "type": "Mail msg"
+            },
+            {
+                "name": "program",
+                "comment": " The same as `Html.program` with two exceptions. First the model takes toJs and fromJs ports. Second, the init and update functions return `(model, Mail msg)` instead of `(model, Cmd msg)`. You can still issue `Cmd msg`s, just through the `Mail.cmd` function. The toJs and fromJs ports _must_ have the following names and type signatures.\n\n    import Json.Encode\n    import Ports.Mail as Mail exposing (Mail)\n\n    main : Mail.Program Never Model Msg\n    main =\n        { init = init\n        , update = update\n        , view = view\n        , subscriptions = always Sub.none\n        , toJs = toJs\n        , fromJs = fromJs\n        }\n            |> Mail.program\n\n    port fromJs : (Json.Encode.Value -> msg) -> Sub msg\n\n    port toJs : Json.Encode.Value -> Cmd msg\n\n",
+                "type": "{ init : ( model, Mail msg ), update : msg -> model -> ( model, Mail msg ), view : model -> Html msg, subscriptions : model -> Sub msg, toJs : Value -> Cmd msg, fromJs : (Value -> Msg msg) -> Sub (Msg msg) } -> Program Never (Model model msg) (Msg msg)"
+            },
+            {
+                "name": "send",
+                "comment": " This function packs a `Letter` up into a `Mail`.\n",
+                "type": "Letter msg -> Mail msg"
+            }
+        ],
+        "binops": []
+    }
+]

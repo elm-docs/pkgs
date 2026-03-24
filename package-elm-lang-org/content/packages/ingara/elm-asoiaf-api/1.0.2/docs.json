@@ -1,0 +1,176 @@
+[
+    {
+        "name": "Asoiaf.Api",
+        "comment": "\n\n# Characters\n@docs getCharacters, getCharacter, queryCharacters\n\n# Houses\n@docs getHouses, getHouse, queryHouses\n\n# Books\n@docs getBooks, getBook, queryBooks\n\n# Pagination\n@docs Pagination, defaultPagination\n\n# Queries\n@docs CharacterQuery, HouseQuery, BookQuery, defaultCharacterQuery, defaultHouseQuery, defaultBookQuery\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BookQuery",
+                "comment": " Represents the fields we can query books by\n",
+                "args": [],
+                "type": "{ name : Maybe String, fromReleaseDate : Maybe Date, toReleaseDate : Maybe Date }"
+            },
+            {
+                "name": "CharacterQuery",
+                "comment": " Represents the fields we can query characters by\n",
+                "args": [],
+                "type": "{ name : Maybe String, gender : Maybe String, culture : Maybe String, born : Maybe Int, died : Maybe Int, isAlive : Maybe Bool }"
+            },
+            {
+                "name": "HouseQuery",
+                "comment": " Represents the fields we can query houses by\n",
+                "args": [],
+                "type": "{ name : Maybe String, region : Maybe String, words : Maybe String, hasWords : Maybe Bool, hasTitles : Maybe Bool, hasSeats : Maybe Bool, hasDiedOut : Maybe Bool, hasAncestralWeapons : Maybe Bool }"
+            },
+            {
+                "name": "Pagination",
+                "comment": " All requests are paginated. Use this to specify which page to request and\nwhat page size to use.\n",
+                "args": [],
+                "type": "{ page : Int, pageSize : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultBookQuery",
+                "comment": " Default book query. No fields specified.\n",
+                "type": "BookQuery"
+            },
+            {
+                "name": "defaultCharacterQuery",
+                "comment": " Default character query. No fields specified.\n",
+                "type": "CharacterQuery"
+            },
+            {
+                "name": "defaultHouseQuery",
+                "comment": " Default house query. No fields specified.\n",
+                "type": "HouseQuery"
+            },
+            {
+                "name": "defaultPagination",
+                "comment": " Default pagination.\n\n    { page = 1\n    , pageSize = 10\n    }\n",
+                "type": "Pagination"
+            },
+            {
+                "name": "getBook",
+                "comment": " Get a book by id\n",
+                "type": "Id -> Task Error Book"
+            },
+            {
+                "name": "getBooks",
+                "comment": " Get a list of books\n",
+                "type": "Pagination -> Task Error (List Book)"
+            },
+            {
+                "name": "getCharacter",
+                "comment": " Get a character by id\n",
+                "type": "Id -> Task Error Character"
+            },
+            {
+                "name": "getCharacters",
+                "comment": " Get a list of characters\n",
+                "type": "Pagination -> Task Error (List Character)"
+            },
+            {
+                "name": "getHouse",
+                "comment": " Get a house by id\n",
+                "type": "Id -> Task Error House"
+            },
+            {
+                "name": "getHouses",
+                "comment": " Get a list of houses\n",
+                "type": "Pagination -> Task Error (List House)"
+            },
+            {
+                "name": "queryBooks",
+                "comment": " Query books\n\n    pagination =\n      { page = 1\n      , pageSize = 25\n      }\n    query =\n      { defaultBookQuery\n      | name = Just \"A Game of Thrones\"\n      }\n    queryBooks pagination query == [ { name = \"A Game of Thrones\", ... } ]\n",
+                "type": "Pagination -> BookQuery -> Task Error (List Book)"
+            },
+            {
+                "name": "queryCharacters",
+                "comment": " Query characters\n\n    pagination =\n      { page = 1\n      , pageSize = 25\n      }\n    query =\n      { defaultCharacterQuery\n      | name = Just \"Jon Snow\"\n      }\n    queryCharacters pagination query == [ { name = \"Jon Snow\", ... } ]\n",
+                "type": "Pagination -> CharacterQuery -> Task Error (List Character)"
+            },
+            {
+                "name": "queryHouses",
+                "comment": " Query houses\n\n    pagination =\n      { page = 1\n      , pageSize = 25\n      }\n    query =\n      { defaultBookQuery\n      | words = Just \"Winter is Coming\"\n      }\n    queryHouses pagination query == [ { name = \"House Stark of Winterfell\", ... } ]\n",
+                "type": "Pagination -> HouseQuery -> Task Error (List House)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Asoiaf.Models",
+        "comment": " Models\n\n# Types\n@docs Character, House, Book, Url, Id\n\n# Utils\n@docs getId\n\n# Decoders\n@docs decodeCharacter, decodeHouse, decodeBook\n\n# Encoders\n@docs encodeCharacter, encodeHouse, encodeBook\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Book",
+                "comment": " Represents a book\n",
+                "args": [],
+                "type": "{ url : String, name : String, isbn : String, authors : List String, numberOfPages : Int, publisher : String, country : String, mediaType : String, released : String, characters : List String, povCharacters : List String }"
+            },
+            {
+                "name": "Character",
+                "comment": " Represents a character\n",
+                "args": [],
+                "type": "{ url : String, name : String, gender : String, culture : String, born : String, died : String, titles : List String, aliases : List String, father : String, mother : String, spouse : String, allegiances : List String, books : List String, povBooks : List String, tvSeries : List String, playedBy : List String }"
+            },
+            {
+                "name": "House",
+                "comment": " Represents a house\n",
+                "args": [],
+                "type": "{ url : String, name : String, region : String, coatOfArms : String, words : String, titles : List String, seats : List String, currentLord : String, heir : String, overlord : String, founded : String, founder : String, diedOut : String, ancestralWeapons : List String, cadetBranches : List String, swornMembers : List String }"
+            },
+            {
+                "name": "Id",
+                "comment": " Represents an id\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "Url",
+                "comment": " Represents a url\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeBook",
+                "comment": " Json decode a book\n",
+                "type": "Decoder Book"
+            },
+            {
+                "name": "decodeCharacter",
+                "comment": " Json decode a character\n",
+                "type": "Decoder Character"
+            },
+            {
+                "name": "decodeHouse",
+                "comment": " Json decode a house\n",
+                "type": "Decoder House"
+            },
+            {
+                "name": "encodeBook",
+                "comment": " Json encode a book\n",
+                "type": "Book -> Value"
+            },
+            {
+                "name": "encodeCharacter",
+                "comment": " Json encode a character\n",
+                "type": "Character -> Value"
+            },
+            {
+                "name": "encodeHouse",
+                "comment": " Json encode a House\n",
+                "type": "House -> Value"
+            },
+            {
+                "name": "getId",
+                "comment": " Gets the id from the end of a URL as used in the ASOIAF API.\n\n    getId \"http://www.anapioficeandfire.com/api/houses/362\" == 362\n\nUseful for for example getting ids of the books a character is appearing in\n\n    getBookIds : Character -> List Int\n    getBookIds character =\n      List.map getId character.books\n",
+                "type": "Url -> Id"
+            }
+        ],
+        "binops": []
+    }
+]

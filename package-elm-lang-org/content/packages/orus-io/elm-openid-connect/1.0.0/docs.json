@@ -1,0 +1,92 @@
+[
+    {
+        "name": "OpenIDConnect.Decode",
+        "comment": " Provide decoders for the most common JWT attributes\n\n@docs expDecoder, subDecoder\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "expDecoder",
+                "comment": " Decode the 'exp' attribute\n",
+                "type": "Decoder Int"
+            },
+            {
+                "name": "subDecoder",
+                "comment": " Decode the 'sub' attribute\n",
+                "type": "Decoder String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "OpenIDConnect",
+        "comment": " An OpenID Connect implementation\n\n\n## Responses\n\n@docs Token, ParseErr, parse\n\n\n## Requests\n\n@docs authorize, newAuth, withScope, withState\n\n\n## Use\n\n@docs use\n\n",
+        "unions": [
+            {
+                "name": "ParseErr",
+                "comment": " Error returned by parsing functions\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoToken",
+                        []
+                    ],
+                    [
+                        "Error",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "OAuthErr",
+                        [
+                            "Err"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Token",
+                "comment": " Token holder\n",
+                "args": [
+                    "data"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "authorize",
+                "comment": " Build a Cmd that will redirect to the identity provider\n",
+                "type": "Authorization -> Cmd msg"
+            },
+            {
+                "name": "newAuth",
+                "comment": " Creates a Authorization\n",
+                "type": "String -> String -> String -> Authorization"
+            },
+            {
+                "name": "parse",
+                "comment": " Extracts a Token from a location\n",
+                "type": "Decoder data -> Location -> Result ParseErr (Token data)"
+            },
+            {
+                "name": "use",
+                "comment": " Use a token to authenticate a request.\n",
+                "type": "Token data -> List Header -> List Header"
+            },
+            {
+                "name": "withScope",
+                "comment": " Add a custom scope to a Authorization\n",
+                "type": "List String -> Authorization -> Authorization"
+            },
+            {
+                "name": "withState",
+                "comment": " Add a custom state to a Authorization\n",
+                "type": "String -> Authorization -> Authorization"
+            }
+        ],
+        "binops": []
+    }
+]

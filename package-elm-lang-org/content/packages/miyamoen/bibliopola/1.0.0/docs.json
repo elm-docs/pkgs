@@ -1,0 +1,99 @@
+[
+    {
+        "name": "Bibliopola",
+        "comment": " UI Catalog for Elm applications built by style-elements inspired by Storybook\n\n[demo](https://miyamoen.github.io/bibliopola/)\n\n\n# Types\n\n@docs BibliopolaProgram, ViewItem, ViewTree\n\n\n## Program\n\n@docs createProgramFromViewItem, createProgramFromViewTree\n\n\n# ViewItem\n\n@docs createEmptyViewItem, createViewItem, createViewItem2, createViewItem3, createViewItem4\n\n@docs withDefaultVariation\n\n\n# ViewTree\n\n@docs createEmptyViewTree, createViewTreeFromItem\n@docs insertViewItem, insertViewTree\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BibliopolaProgram",
+                "comment": " ",
+                "args": [
+                    "style",
+                    "variation"
+                ],
+                "type": "BibliopolaProgram style variation"
+            },
+            {
+                "name": "ViewItem",
+                "comment": " ",
+                "args": [
+                    "style",
+                    "variation"
+                ],
+                "type": "ViewItem style variation"
+            },
+            {
+                "name": "ViewTree",
+                "comment": " ",
+                "args": [
+                    "style",
+                    "variation"
+                ],
+                "type": "ViewTree style variation"
+            }
+        ],
+        "values": [
+            {
+                "name": "createEmptyViewItem",
+                "comment": " ",
+                "type": "String -> ViewItem style variation"
+            },
+            {
+                "name": "createEmptyViewTree",
+                "comment": " ",
+                "type": "String -> ViewTree style variation"
+            },
+            {
+                "name": "createProgramFromViewItem",
+                "comment": " ",
+                "type": "List (Style style variation) -> ViewItem style variation -> BibliopolaProgram style variation"
+            },
+            {
+                "name": "createProgramFromViewTree",
+                "comment": " ",
+                "type": "List (Style style variation) -> ViewTree style variation -> BibliopolaProgram style variation"
+            },
+            {
+                "name": "createViewItem",
+                "comment": " ",
+                "type": "String -> (a -> Element style variation msg) -> ( String, List ( String, a ) ) -> ViewItem style variation"
+            },
+            {
+                "name": "createViewItem2",
+                "comment": " ",
+                "type": "String -> (a -> b -> Element style variation msg) -> ( String, List ( String, a ) ) -> ( String, List ( String, b ) ) -> ViewItem style variation"
+            },
+            {
+                "name": "createViewItem3",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> Element style variation msg) -> ( String, List ( String, a ) ) -> ( String, List ( String, b ) ) -> ( String, List ( String, c ) ) -> ViewItem style variation"
+            },
+            {
+                "name": "createViewItem4",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> d -> Element style variation msg) -> ( String, List ( String, a ) ) -> ( String, List ( String, b ) ) -> ( String, List ( String, c ) ) -> ( String, List ( String, d ) ) -> ViewItem style variation"
+            },
+            {
+                "name": "createViewTreeFromItem",
+                "comment": " ",
+                "type": "ViewItem style variation -> ViewTree style variation"
+            },
+            {
+                "name": "insertViewItem",
+                "comment": " ",
+                "type": "ViewItem s v -> ViewTree s v -> ViewTree s v"
+            },
+            {
+                "name": "insertViewTree",
+                "comment": " ",
+                "type": "ViewTree s v -> ViewTree s v -> ViewTree s v"
+            },
+            {
+                "name": "withDefaultVariation",
+                "comment": " ",
+                "type": "Element style variation msg -> ViewItem style variation -> ViewItem style variation"
+            }
+        ],
+        "binops": []
+    }
+]

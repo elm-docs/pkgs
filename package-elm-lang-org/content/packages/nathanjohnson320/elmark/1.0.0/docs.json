@@ -1,0 +1,79 @@
+[
+    {
+        "name": "ElmArk.Msgs",
+        "comment": " A Msg type for dealing with API responses\n\n@docs Msg\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " A Msg representing one of the various HTTP response types.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ReceiveAccountBalance",
+                        [
+                            "Result Error Balance"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "ElmArk.Api",
+        "comment": " Sends API calls to the ark network\n\n# Environments\n@docs mainNet, devNet, send\n\n# Requests\n@docs send\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "devNet",
+                "comment": " Contains the URL and required headers for making\na request to the Ark dev/test network\n\n    devNet == { url = \"http://167.114.29.52:4002/\"\n    , headers =\n        [ (header \"nethash\" \"578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23\")\n        , (header \"version\" \"1.1.1\")\n        , (header \"port\" \"4002\")\n        ]\n    }\n",
+                "type": "RequestHead"
+            },
+            {
+                "name": "mainNet",
+                "comment": " Contains the URL and required headers for making\na request to the Ark mainnet\n\nArk main net, refers to this IP\n\"http://37.59.129.164:4001/\"\n\n    mainNet == { url = \"https://api.arknode.net/\"\n    , headers =\n        [ (header \"nethash\" \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\")\n        , (header \"version\" \"1.0.1\")\n        , (header \"port\" \"4001\")\n        ]\n    }\n",
+                "type": "RequestHead"
+            },
+            {
+                "name": "send",
+                "comment": " Sends the HTTP request\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n        |> send ReceiveAccountBalance decodeBalance\n",
+                "type": "(Result Error a -> msg) -> Decoder a -> ( RequestHead, RequestBody ) -> Cmd msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ElmArk.Account",
+        "comment": " Handles building requests for the account endpoints\nand encoding/decoding their json.\n\n# Models\n@docs Balance\n\n# Requests\n@docs getBalance\n\n# JSON\n@docs encodeBalance, decodeBalance\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Balance",
+                "comment": " The balance record returned by ark.\n\nSample JSON:\n```\n{\n    \"success\": true,\n    \"balance\": \"21231062440\",\n    \"unconfirmedBalance\": \"21231062440\"\n}\n```\n",
+                "args": [],
+                "type": "{ success : Bool, balance : String, unconfirmedBalance : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeBalance",
+                "comment": " decodeBalance parses JSON and turns it into a Balance record\n",
+                "type": "Decoder Balance"
+            },
+            {
+                "name": "encodeBalance",
+                "comment": " encodeBalance turns a Balance record into a JSON string\n",
+                "type": "Balance -> Value"
+            },
+            {
+                "name": "getBalance",
+                "comment": " Get an account's balance\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n",
+                "type": "String -> RequestHead -> ( RequestHead, RequestBody )"
+            }
+        ],
+        "binops": []
+    }
+]

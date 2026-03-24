@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Engage.Http",
+        "comment": " Helpers for working with DNN Web API\n\n\n# Types\n\n@docs Config\n\n\n# Http Verbs\n\n@docs get, post, patch, put, delete\n\n\n# Helper functions\n\n@docs getErrorMessage\n\n\n# Decode/Encoder\n\n@docs configDecoder, serverErrorDecoder, multipleServerErrorDecoder, nullDecoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configuration type\n\n  - `baseUrl` the base URL for Http request\n  - `headers`: `list of the header for Http request\n\n",
+                "args": [],
+                "type": "{ baseUrl : String, headers : List Header }"
+            }
+        ],
+        "values": [
+            {
+                "name": "configDecoder",
+                "comment": " Json decoder for `Config`\n",
+                "type": "Decoder Config"
+            },
+            {
+                "name": "delete",
+                "comment": " Http DELETE\n",
+                "type": "Config -> { methodName : String, value : Value } -> Task Never (WebData String)"
+            },
+            {
+                "name": "get",
+                "comment": " Http GET\n",
+                "type": "Config -> Decoder success -> { methodName : String, queryStringParams : List ( String, String ) } -> Task Never (WebData success)"
+            },
+            {
+                "name": "getErrorMessage",
+                "comment": " Get the localized error message from the `Http.Error`\n",
+                "type": "{ a | localization : Localization } -> Error -> String"
+            },
+            {
+                "name": "multipleServerErrorDecoder",
+                "comment": " Json decoder for multiple server error messages, localized.\n",
+                "type": "{ a | localization : Localization } -> Decoder String"
+            },
+            {
+                "name": "nullDecoder",
+                "comment": " Null decoder. Useful for when the server doesn't return any value.\n",
+                "type": "Decoder ()"
+            },
+            {
+                "name": "patch",
+                "comment": " Http PATCH\n",
+                "type": "Config -> Decoder success -> { methodName : String, value : Value } -> Task Never (WebData success)"
+            },
+            {
+                "name": "post",
+                "comment": " Http POST\n",
+                "type": "Config -> Decoder success -> { methodName : String, value : Value } -> Task Never (WebData success)"
+            },
+            {
+                "name": "put",
+                "comment": " Http PUT\n",
+                "type": "Config -> Decoder success -> { methodName : String, value : Value } -> Task Never (WebData success)"
+            },
+            {
+                "name": "serverErrorDecoder",
+                "comment": " Json decoder for server error, localized.\n",
+                "type": "{ a | localization : Localization } -> Decoder String"
+            }
+        ],
+        "binops": []
+    }
+]

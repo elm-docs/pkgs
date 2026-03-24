@@ -1,0 +1,277 @@
+[
+    {
+        "name": "Field.Float",
+        "comment": " A pre-applied `Float` version of the `Field` type, and validation functions\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs greaterThan, lessThan\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A field to hold a `Float` value, with an error type of `String`. See [`Field`](#Field)\n",
+                "args": [],
+                "type": "Field Float String"
+            },
+            {
+                "name": "ValidationFunc",
+                "comment": " A validation function for a Float `Field`\n",
+                "args": [],
+                "type": "ValidationFunc Float String"
+            },
+            {
+                "name": "ViewConfig",
+                "comment": " A view config object for Float fields. See [`ViewConfig`](#ViewConfig)\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "ViewConfig Float String msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "greaterThan",
+                "comment": " Enforce that a field is greater than `x`\n",
+                "type": "Float -> ValidationFunc"
+            },
+            {
+                "name": "lessThan",
+                "comment": " Enforce that a field is greater than `x`\n",
+                "type": "Float -> ValidationFunc"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Field.Int",
+        "comment": " A pre-applied `Int` version of the `Field` type, and validation functions\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs atLeast, atMost, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A field to hold a `Int` value, with an error type of `String`. See [`Field`](#Field)\n",
+                "args": [],
+                "type": "Field Int String"
+            },
+            {
+                "name": "ValidationFunc",
+                "comment": " A validation function for an Int `Field`\n",
+                "args": [],
+                "type": "ValidationFunc Int String"
+            },
+            {
+                "name": "ViewConfig",
+                "comment": " A view config object for Int fields. See [`ViewConfig`](#ViewConfig)\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "ViewConfig Int String msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "atLeast",
+                "comment": " Enforce that the a field is at least `x` digits long\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "atMost",
+                "comment": " Enforce that a field is at most `x` digits long\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "greaterThan",
+                "comment": " Enforce that a field is greater than `x`\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "greaterThanOrEqual",
+                "comment": " Enforce that a field is greater than or equal to `x`\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "lessThan",
+                "comment": " Enforce that a field is less than `x`\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "lessThanOrEqual",
+                "comment": " Enforce that a field is less than or equal to `x`\n",
+                "type": "Int -> ValidationFunc"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Field.String",
+        "comment": " A pre-applied `String` version of the `Field` type, and validation function\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs notEmpty, email, numeric, nonnumeric, atLeast, atMost, exactly, optional\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A field to hold a `String` value, with an error type of `String`. See [`Field`](#Field)\n",
+                "args": [],
+                "type": "Field String String"
+            },
+            {
+                "name": "ValidationFunc",
+                "comment": " A validation function for a String `Field`\n",
+                "args": [],
+                "type": "ValidationFunc String String"
+            },
+            {
+                "name": "ViewConfig",
+                "comment": " A view config object for String fields. See [`ViewConfig`](#ViewConfig)\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "ViewConfig String String msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "atLeast",
+                "comment": " Enforce that a field is at least `x` characters long\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "atMost",
+                "comment": " Enforce that a field is at most `x` characters long\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "email",
+                "comment": " Enforce that a field is an email.\n\nThe format the email just follow is:\n\n    [ >1 upper,lower,digit,symbol ]@[ >2 upper,lower,digit,symbol ].[ >2 upper,lower,digit, ]\n\nTo validate emails, we don't use regex we use\n[elm-tools/parser](https://github.com/elm-tools/parser) to validate. If\nthere's a specific format you need your emails to follow, you can easily implement your\nown validation function.\n\n",
+                "type": "ValidationFunc"
+            },
+            {
+                "name": "exactly",
+                "comment": " Enforce that a field is exactly `x` characters long\n",
+                "type": "Int -> ValidationFunc"
+            },
+            {
+                "name": "nonnumeric",
+                "comment": " Enforce that a field does not contains only numbers.\n",
+                "type": "ValidationFunc"
+            },
+            {
+                "name": "notEmpty",
+                "comment": " Enforces that a field is not empty\n",
+                "type": "ValidationFunc"
+            },
+            {
+                "name": "numeric",
+                "comment": " Enforce that a field contains only numbers.\n",
+                "type": "ValidationFunc"
+            },
+            {
+                "name": "optional",
+                "comment": " A validation function wrapper that will only run the `ValidationFunc` if the provided\nif the field's value is not `\"\"`. If the field's value is `\"\"` then this will just return the\nfield\n",
+                "type": "ValidationFunc -> ValidationFunc"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Field",
+        "comment": " This library provides a datatype to model and validate input field data.\n\nTo use this data type, let's say that you need a sign up form that has a requried name field,\na required email field, and an age field that must be between 18 & 100 that you need to send\nto your server after it's validated.\n\nFirst, you can import the package and create the fields in your model\n\n    ... other imports\n    import Field as F\n    import Field.Int as FInt\n    import Field.String as FStr\n\n    type alias Model =\n        { name : FStr.Field\n        , email : FStr.Field\n        , age : FInt.Field\n        }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        { name = F.init \"\"\n        , email = F.init \"\"\n        , age = F.init 0\n        }\n            ! []\n\nThen, you add a few messages to update the fields, and one to submit your form\n\n    type Msg\n        = SetNameField String\n        | SetEmailField String\n        | SetAgeField String\n        | Submit\n\nNext, you add logic to set & validate the fields to your update function\n\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update msg model =\n        case msg of\n            SetNameField value ->\n                { model\n                    | name =\n                        value\n                            |> F.resetValue model.name\n                            |> validateName\n                }\n                    ! []\n\n            SetEmailField value ->\n                { model\n                    | email =\n                        value\n                            |> F.resetValue model.email\n                            |> validateEmail\n                }\n                    ! []\n\n            SetAgeField value ->\n                { model\n                    | age =\n                        value\n                            |> (String.toInt >> Result.withDefault 0)\n                            |> F.resetValue model.age\n                            |> validateAge\n                }\n                    ! []\n\n            Submit ->\n                let\n                    name =\n                        validateName model.name\n\n                    email =\n                        validateEmail model.email\n\n                    age =\n                        validateAge model.age\n\n                    cmds =\n                        case ( F.toResult name, F.toResult email, F.toResult age ) of\n                            ( Ok nameValue, Ok emailValue, Ok ageValue ) ->\n                                [ ... some command ... ]\n\n                            _ ->\n                                []\n                in\n                { model\n                    | name = name\n                    , email = email\n                    , age = age\n                }\n                    ! cmds\n\n\n    validateName : FStr.ValidationFunc\n    validateName =\n        FStr.notEmpty\n\n\n    validateEmail : FStr.ValidationFunc\n    validateEmail =\n        FStr.notEmpty >> FStr.email\n\n\n    validateAge : FInt.ValidationFunc\n    validateAge =\n        FInt.greaterThanOrEqual 18 >> FInt.lessThan 100\n\nFinally, wire it into the view!\n\n    view : Model -> Html Msg\n    view model =\n        Html.div []\n            [ Html.h1 [] [ Html.text \"Sign Up!\" ]\n            , F.view (stringFieldConfig \"Name\" SetNameField) model.name\n            , F.view (stringFieldConfig \"Email\" SetEmailField) model.email\n            , F.view (intFieldConfig \"Age\" SetAgeField) model.age\n            , Html.button [ Html.Events.onClick Submit ]\n                [ Html.span [] [ Html.text \"Submit\" ] ]\n            ]\n\n    stringFieldConfig : String -> (String -> msg) -> FStr.ViewConfig msg\n    stringFieldConfig title toMsg =\n        { valid =\n            \\meta value ->\n                Html.div []\n                    [ Html.input\n                        [ Html.Events.onInput toMsg\n                        , Html.Attributes.value value\n                        , Html.Attributes.disabled meta.disabled\n                        ]\n                        []\n                    ]\n        , invalid =\n            \\meta value errorMessage ->\n                Html.div []\n                    [ Html.input\n                        [ Html.Events.onInput toMsg\n                        , Html.Attributes.value value\n                        , Html.Attributes.disabled meta.disabled\n                        ]\n                        []\n                    , Html.span []\n                        [ Html.text errorMessage ]\n                    ]\n        }\n\n    intFieldConfig : String -> (String -> msg) -> FInt.ViewConfig msg\n    intFieldConfig title toMsg =\n        { valid =\n            \\meta value ->\n                Html.div []\n                    [ Html.input\n                        [ Html.Events.onInput toMsg\n                        , Html.Attributes.value (toString value)\n                        , Html.Attributes.type_ \"number\"\n                        , Html.Attributes.disabled meta.disabled\n                        ]\n                        []\n                    ]\n        , invalid =\n            \\meta value errorMessage ->\n                Html.div []\n                    [ Html.input\n                        [ Html.Events.onInput toMsg\n                        , Html.Attributes.value (toString value)\n                        , Html.Attributes.type_ \"number\"\n                        , Html.Attributes.disabled meta.disabled\n                        ]\n                        []\n                    , Html.span []\n                        [ Html.text errorMessage ]\n                    ]\n        }\n\nIn this example, we only use the built-in validators, but it's pretty\nsimple to create your own validators too! Take a look at [an example](https://github.com/jaredramirez/elm-field/blob/master/example/Main.elm) to see a\nsimilar example to the one above but with a custom validator.\n\n\n# Base\n\n@docs Field, Metadata\n\n\n# Viewing fields\n\n@docs ViewConfig, view\n\n\n# Interacting with fields\n\n@docs init, resetValue, extractValue, resetMetadata, extractMetadata, withDefault, toMaybe, toResult, isValid, isInvalid\n\n\n# Validation\n\n@docs ValidationFunc, test\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " The field type, it represents all the possible state that a field\ncan be in. It has take parameters of an error type and a value type.\n\nUnless you're trying to model some unique data you probably won't be using this\ntype, but one with the `value` and `error` arguements already applied. Take a look at the [`Field.String`](#Field-String), [`Field.Int`](#Field-Int) and [`Field.Float`](#Field-Float) modules to see some common types already appplied and for examples to modeling your own data.\n\n",
+                "args": [
+                    "value",
+                    "error"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Metadata",
+                "comment": " A type to reperesent various bits of data about any individiual field. You can get this record\nfrom a field with [`extractMetadata`](#extractMetadata), and set this record with [`resetMetadata`](#resetMetadata)\n",
+                "args": [],
+                "type": "{ active : Bool, touched : Bool, disabled : Bool }"
+            },
+            {
+                "name": "ValidationFunc",
+                "comment": " Type alias that takes a field, and returns a field\n",
+                "args": [
+                    "value",
+                    "error"
+                ],
+                "type": "Field value error -> Field value error"
+            },
+            {
+                "name": "ViewConfig",
+                "comment": " A mapping from different field statuses to `Html`\n",
+                "args": [
+                    "value",
+                    "error",
+                    "msg"
+                ],
+                "type": "{ valid : Metadata -> value -> Html msg, invalid : Metadata -> value -> error -> Html msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "extractMetadata",
+                "comment": " Extract the value from a field, regardless of the field's status\n",
+                "type": "Field value error -> Metadata"
+            },
+            {
+                "name": "extractValue",
+                "comment": " Extract the metadata from a field, regardless of the field's status\n",
+                "type": "Field value error -> value"
+            },
+            {
+                "name": "init",
+                "comment": " Create a new field with the given value that is in a valid status\n",
+                "type": "value -> Field value error"
+            },
+            {
+                "name": "isInvalid",
+                "comment": " Returns true if the field in currently in a invalid state, false otherwise\n",
+                "type": "Field value error -> Bool"
+            },
+            {
+                "name": "isValid",
+                "comment": " Returns true if the field in currently in a valid state, false otherwise\n",
+                "type": "Field value error -> Bool"
+            },
+            {
+                "name": "resetMetadata",
+                "comment": " Reset a field with new metadata\n",
+                "type": "Field value error -> Metadata -> Field value error"
+            },
+            {
+                "name": "resetValue",
+                "comment": " Reset a field with a new value, _and_ set it to the valid status\n",
+                "type": "Field value error -> value -> Field value error"
+            },
+            {
+                "name": "test",
+                "comment": " Test a field against the provided function. If the field passes then return the field the exact same,\notherwise return a field marked as invalid with the provided error. If the field is already invalid,\nthen this function just returns the field as it got it. This is to keep the exisitng error, so you can\nchain together validation functions easily.\n\nLook to the [`Field.String`](#Field-String), [`Field.Int`](#Field-Int) and [`Field.Float`](#Field-Float) modules in this package. for pre-created validation functions.\n\n",
+                "type": "(value -> Bool) -> error -> ValidationFunc value error"
+            },
+            {
+                "name": "toMaybe",
+                "comment": " Convert a field to a `Maybe`. This discards the `error`.\n",
+                "type": "Field value error -> Maybe value"
+            },
+            {
+                "name": "toResult",
+                "comment": " Convert a field to a `Result`\n",
+                "type": "Field value error -> Result error value"
+            },
+            {
+                "name": "view",
+                "comment": " Takes a `ViewConfig` and a field and uses the different possible `Html` based on the field's status\n",
+                "type": "ViewConfig value error msg -> Field value error -> Html msg"
+            },
+            {
+                "name": "withDefault",
+                "comment": " Return the value of a field if it is in a valid status, otherwise get the default value provided\n",
+                "type": "value -> Field value error -> value"
+            }
+        ],
+        "binops": []
+    }
+]

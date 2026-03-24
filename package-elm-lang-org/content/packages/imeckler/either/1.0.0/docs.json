@@ -1,0 +1,64 @@
+[
+    {
+        "name": "Either",
+        "comment": "A simple module providing an Either type.\n\n# Types\n@docs Either\n\n# Maps\n@docs mapLeft, mapRight, mapBoth\n\n# Elimination\n@docs elim, isLeft, isRight",
+        "unions": [
+            {
+                "name": "Either",
+                "comment": "",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Left",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "Right",
+                        [
+                            "b"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "elim",
+                "comment": "",
+                "type": "(a -> c) -> (b -> c) -> Either a b -> c"
+            },
+            {
+                "name": "isLeft",
+                "comment": "",
+                "type": "Either a b -> Bool"
+            },
+            {
+                "name": "isRight",
+                "comment": "",
+                "type": "Either a b -> Bool"
+            },
+            {
+                "name": "mapBoth",
+                "comment": "",
+                "type": "(a -> a_) -> (b -> b_) -> Either a b -> Either a_ b_"
+            },
+            {
+                "name": "mapLeft",
+                "comment": "",
+                "type": "(a -> a_) -> Either a b -> Either a_ b"
+            },
+            {
+                "name": "mapRight",
+                "comment": "",
+                "type": "(b -> b_) -> Either a b -> Either a b_"
+            }
+        ],
+        "binops": []
+    }
+]

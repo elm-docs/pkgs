@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Worker",
+        "comment": " Start Elm applications without a view\n\n@docs workerWithFlags, worker, beginnerWorker\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "beginnerWorker",
+                "comment": " Start a worker program with just a model a simpler update function\n",
+                "type": "(model -> Cmd msg) -> { model : model, update : msg -> model -> model } -> Program Never"
+            },
+            {
+                "name": "worker",
+                "comment": " Start a worker program\n",
+                "type": "(model -> Cmd msg) -> { init : ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program Never"
+            },
+            {
+                "name": "workerWithFlags",
+                "comment": " Start a worker program with flags from the outside world\n\n    ```javascript\n    // Program { userId : String, token : String }\n\n    var app = Elm.MyApp.worker({\n        userId: 'Tom',\n        token: '12345'\n    });\n    ```\n",
+                "type": "(model -> Cmd msg) -> { init : flags -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg } -> Program flags"
+            }
+        ],
+        "binops": []
+    }
+]

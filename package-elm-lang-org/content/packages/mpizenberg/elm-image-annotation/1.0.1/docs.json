@@ -1,0 +1,163 @@
+[
+    {
+        "name": "DrawingArea",
+        "comment": " The DrawingArea module aims at collecting annotations.\n\n# Model\n@docs Tool, Model, init\n\n# Update\n@docs Msg, update\n\n# View\n@docs view, selectHtml, selectToolView\n\n# Exporters\n@docs exportAnnotations, exportSelectionsPaths\n\n",
+        "unions": [
+            {
+                "name": "Model",
+                "comment": " The model to manipulate drawing areas ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " The messages used to Manipulate a DrawingArea ",
+                "args": [],
+                "cases": [
+                    [
+                        "ZoomIn",
+                        []
+                    ],
+                    [
+                        "ZoomOut",
+                        []
+                    ],
+                    [
+                        "Wheel",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ChangeZoomLevel",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ChangeOrigin",
+                        [
+                            "( Float, Float )"
+                        ]
+                    ],
+                    [
+                        "Center",
+                        [
+                            "( Float, Float )"
+                        ]
+                    ],
+                    [
+                        "Down",
+                        [
+                            "( Int, Int )"
+                        ]
+                    ],
+                    [
+                        "Move",
+                        [
+                            "( Int, Int )"
+                        ]
+                    ],
+                    [
+                        "Up",
+                        []
+                    ],
+                    [
+                        "ChangeImage",
+                        [
+                            "Maybe Model"
+                        ]
+                    ],
+                    [
+                        "CreateAnnotation",
+                        []
+                    ],
+                    [
+                        "DeleteAnnotation",
+                        []
+                    ],
+                    [
+                        "ResetAnnotation",
+                        []
+                    ],
+                    [
+                        "SelectAnnotation",
+                        [
+                            "Maybe Int"
+                        ]
+                    ],
+                    [
+                        "SelectTool",
+                        [
+                            "Tool"
+                        ]
+                    ],
+                    [
+                        "Annotations",
+                        [
+                            "Msg"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Tool",
+                "comment": " The type of tool that can be used to draw selections ",
+                "args": [],
+                "cases": [
+                    [
+                        "NoTool",
+                        []
+                    ],
+                    [
+                        "RectangleTool",
+                        []
+                    ],
+                    [
+                        "OutlineTool",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "exportAnnotations",
+                "comment": " Export the complete model of the annotation set to a JS object ",
+                "type": "Model -> Value"
+            },
+            {
+                "name": "exportSelectionsPaths",
+                "comment": " Export only the seletions paths to a JS object ",
+                "type": "Model -> Value"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize a DrawingArea.Model ",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "selectHtml",
+                "comment": " Create a select form tag to change dynamically the current annotation ",
+                "type": "Model -> Html Msg"
+            },
+            {
+                "name": "selectToolView",
+                "comment": " A select form tag to change dynamically the current Tool ",
+                "type": "Model -> Html Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Update a DrawingArea model ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " View the svg tag representing the DrawingArea model ",
+                "type": "Model -> Svg Msg"
+            }
+        ],
+        "binops": []
+    }
+]

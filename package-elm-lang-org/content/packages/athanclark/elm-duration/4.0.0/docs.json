@@ -1,0 +1,63 @@
+[
+    {
+        "name": "Duration",
+        "comment": "\n\n## Duration State\n\n@docs Model\n\n@docs init\n\n## Duration Initialization\n\n@docs Msg\n\n## Duration Evaluation\n\n@docs update\n\n@docs subscriptions\n\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " \n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Forward",
+                        [
+                            "Cmd a -> Cmd a"
+                        ]
+                    ],
+                    [
+                        "Reverse",
+                        [
+                            "Cmd a -> Cmd a"
+                        ]
+                    ],
+                    [
+                        "Toggle",
+                        [
+                            "Cmd a -> Cmd a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The state of the duration ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ elapsed : Maybe ( Time, Direction ), onCompletion : Cmd a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " The initial state of the duration ",
+                "type": "Model a"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " The subscriptions for the duration - every time the browser screen refreshes. ",
+                "type": "Model a -> Sub (Msg a)"
+            },
+            {
+                "name": "update",
+                "comment": " Given a time-indexed command and the length of time the animation should play over, create an update function. ",
+                "type": "(Time -> Cmd a) -> Time -> Msg a -> Model a -> ( Model a, Cmd a )"
+            }
+        ],
+        "binops": []
+    }
+]

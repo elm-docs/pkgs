@@ -1,0 +1,342 @@
+[
+    {
+        "name": "QueryBuilder.Update",
+        "comment": "\n\n\n# Update\n\n@docs update, initState\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "initState",
+                "comment": " Initialize the query builder state\n",
+                "type": "Config -> Predicate -> List ( String, OperandType ) -> State"
+            },
+            {
+                "name": "update",
+                "comment": " Update the query builder state\n",
+                "type": "Msg -> State -> ( State, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.View",
+        "comment": "\n\n\n# Update\n\n@docs queryBuilder, dropdownCss\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dropdownCss",
+                "comment": " Default CSS for the dropdown selectors\n",
+                "type": "Attribute Msg"
+            },
+            {
+                "name": "queryBuilder",
+                "comment": " Render a query builder\n",
+                "type": "State -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.Json",
+        "comment": "\n\n\n# PredicateOperator\n\n@docs decodePredicateOperator, encodePredicateOperator\n\n\n# Predicate\n\n@docs decodePredicate, encodePredicate\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decodePredicate",
+                "comment": " Decode json to a Predicate\n",
+                "type": "Decoder Predicate"
+            },
+            {
+                "name": "decodePredicateOperator",
+                "comment": " Decode json to a PredicateOperator\n",
+                "type": "Decoder PredicateOperator"
+            },
+            {
+                "name": "encodePredicate",
+                "comment": " Encode a Predicate to json\n",
+                "type": "Predicate -> Value"
+            },
+            {
+                "name": "encodePredicateOperator",
+                "comment": " Encode a PredicateOperator to json\n",
+                "type": "PredicateOperator -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.State",
+        "comment": "\n\n\n# State\n\n@docs State, OperandType, PredicateOperator, Predicate, Operand, StringOperand, StringOperator, OptionOperand, NumberOperand, NumberOperator, BooleanOperand, Selector, Selection, Config, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Query Builder messages\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AddOp",
+                        []
+                    ],
+                    [
+                        "RemoveOp",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Negated",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "UpdateValue",
+                        [
+                            "Int",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "OnSelect",
+                        [
+                            "Int",
+                            "Maybe Selection"
+                        ]
+                    ],
+                    [
+                        "DropdownMsg",
+                        [
+                            "Int",
+                            "Msg Selection"
+                        ]
+                    ],
+                    [
+                        "UpdatePredicateOperator",
+                        [
+                            "PredicateOperator"
+                        ]
+                    ],
+                    [
+                        "RandomId",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "NumberOperator",
+                "comment": " Operator available to query numerical attributes.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "EqualTo",
+                        []
+                    ],
+                    [
+                        "GreaterThan",
+                        []
+                    ],
+                    [
+                        "GreaterThanOrEqualTo",
+                        []
+                    ],
+                    [
+                        "LessThan",
+                        []
+                    ],
+                    [
+                        "LessThanOrEqualTo",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Operand",
+                "comment": " A single condition of the whole predicate used to make the query.\n\n`NoOp` represents a currently undefined operand, while the rest define operands for each `OperandType`.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "StringOp",
+                        [
+                            "StringOperand"
+                        ]
+                    ],
+                    [
+                        "OptionOp",
+                        [
+                            "List String",
+                            "OptionOperand"
+                        ]
+                    ],
+                    [
+                        "NumOp",
+                        [
+                            "NumberOperand"
+                        ]
+                    ],
+                    [
+                        "BoolOp",
+                        [
+                            "BooleanOperand"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "OperandType",
+                "comment": " Defines the type of operands that are supported by the query builder.\n\nThe `IsOption` type includes all the possible options.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "IsString",
+                        []
+                    ],
+                    [
+                        "IsOption",
+                        [
+                            "List String"
+                        ]
+                    ],
+                    [
+                        "IsNumber",
+                        []
+                    ],
+                    [
+                        "IsBoolean",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "PredicateOperator",
+                "comment": " Logical operator for the predicate, either all operands must be statisfied (`And`) or only a single operand must be satisfied (`Or`).\n",
+                "args": [],
+                "cases": [
+                    [
+                        "And",
+                        []
+                    ],
+                    [
+                        "Or",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Selection",
+                "comment": " Represents the possible options for dropdown menus in the query builder.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SelectOperand",
+                        [
+                            "( String, OperandType )"
+                        ]
+                    ],
+                    [
+                        "SelectStrOperator",
+                        [
+                            "StringOperator"
+                        ]
+                    ],
+                    [
+                        "SelectOptionValue",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "SelectNumOperator",
+                        [
+                            "NumberOperator"
+                        ]
+                    ],
+                    [
+                        "SelectBoolValue",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "StringOperator",
+                "comment": " Operators available to query string attributes\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ExactMatch",
+                        []
+                    ],
+                    [
+                        "Contains",
+                        []
+                    ],
+                    [
+                        "DoesNotContain",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BooleanOperand",
+                "comment": " `attribute` is the name of the attribute being queried.\n`negated` is whether the query is looking for a match or inverse.\n`value` is the value that will be used to match against.\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, value : Bool }"
+            },
+            {
+                "name": "Config",
+                "comment": " Configuration options for the query builder.\n\n`dropdownCss` is optional custom css for the dropdown selector.\n`removeClass` is an optional class that will be added to the remove button next to each operand.\n`addClass` is an optional class that will be added to the add an operand button.\n`allowNegation` determines whether the query builder allows operands to be negated.\n\n",
+                "args": [],
+                "type": "{ dropdownCss : Maybe (Attribute Msg), removeClass : Maybe String, addClass : Maybe String, allowNegation : Bool }"
+            },
+            {
+                "name": "NumberOperand",
+                "comment": " `attribute` is the name of the attribute being queried.\n`operator` is the operation that will be used to make the query.\n`negated` is whether the query will return matches or its inverse.\n`value` is the value that will be used by the operator in the query.\n",
+                "args": [],
+                "type": "{ attribute : String, operator : NumberOperator, negated : Bool, value : String }"
+            },
+            {
+                "name": "OptionOperand",
+                "comment": " `attribute` is the name of the attribute being queried.\n`negated` is whether the query is looking for a match or inverse.\n`value` is the value that will be used to match against.\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, value : String }"
+            },
+            {
+                "name": "Predicate",
+                "comment": " A predicate is just a list of operands.\n",
+                "args": [],
+                "type": "List Operand"
+            },
+            {
+                "name": "Selector",
+                "comment": " Represents a dropdown menu in the query builder.\n",
+                "args": [],
+                "type": "{ dropdown : State, dropdownId : String, options : List Selection }"
+            },
+            {
+                "name": "State",
+                "comment": " Holds the state of the query builder, including the predicate as well as the state of the dropdowns.\n",
+                "args": [],
+                "type": "{ predicate : Predicate, predicateOperator : PredicateOperator, selectorState : List Selector, allAttributes : List ( String, OperandType ), dropdownConfig : Int -> Config Msg Selection, config : Config, nextId : String }"
+            },
+            {
+                "name": "StringOperand",
+                "comment": " `attribute` is the name of the attribute being queried.\n`operator` is the operation that will be used to make the query.\n`value` is the value that will be used by the operator in the query.\n",
+                "args": [],
+                "type": "{ attribute : String, operator : StringOperator, value : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,127 @@
+[
+    {
+        "name": "OpenIDConnect",
+        "comment": " An OpenID Connect implementation\n\n\n## Token\n\n@docs Token, tokenRaw, tokenData, parseToken, showToken\n\n\n## Responses\n\n@docs ParseErr, parse, parseWithNonce\n\n\n## Requests\n\n@docs authorize, newAuth, withScope, withState, withNonce, withParam\n\n\n## Use\n\n@docs use\n\n",
+        "unions": [
+            {
+                "name": "ParseErr",
+                "comment": " Error returned by parsing functions\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoToken",
+                        []
+                    ],
+                    [
+                        "Error",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "OAuthErr",
+                        [
+                            "Err"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Token",
+                "comment": " Token holder\n",
+                "args": [
+                    "data"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "authorize",
+                "comment": " Build a Cmd that will redirect to the identity provider\n\nMake sure to use withNonce\n\n",
+                "type": "Authorization -> Cmd msg"
+            },
+            {
+                "name": "newAuth",
+                "comment": " Creates a Authorization\n",
+                "type": "String -> String -> String -> Authorization"
+            },
+            {
+                "name": "parse",
+                "comment": " Extracts a Token from a location\n",
+                "type": "Decoder data -> Location -> Result ParseErr (Token data)"
+            },
+            {
+                "name": "parseToken",
+                "comment": " Parse a token\n",
+                "type": "Decoder data -> String -> Result ParseErr (Token data)"
+            },
+            {
+                "name": "parseWithNonce",
+                "comment": " Extracts a Token from a location and check the incoming nonce\n",
+                "type": "String -> Decoder data -> Location -> Result ParseErr (Token data)"
+            },
+            {
+                "name": "showToken",
+                "comment": " Returns the token as a string\n",
+                "type": "Token data -> String"
+            },
+            {
+                "name": "tokenData",
+                "comment": " Returns the data of a Token\n",
+                "type": "Token data -> data"
+            },
+            {
+                "name": "tokenRaw",
+                "comment": " Returns the raw encoded token as a string\n",
+                "type": "Token data -> String"
+            },
+            {
+                "name": "use",
+                "comment": " Use a token to authenticate a request.\n",
+                "type": "Token data -> List Header -> List Header"
+            },
+            {
+                "name": "withNonce",
+                "comment": " Add a nonce to a Authorization (required)\n\nIf omitted, the authorize function will work but the openid-connect\nprotocol will not be respected.\nSee <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest>\n\n",
+                "type": "String -> Authorization -> Authorization"
+            },
+            {
+                "name": "withParam",
+                "comment": " Add additional querystring parameters to the authorize url\n",
+                "type": "String -> String -> Authorization -> Authorization"
+            },
+            {
+                "name": "withScope",
+                "comment": " Add a custom scope to a Authorization\n",
+                "type": "List String -> Authorization -> Authorization"
+            },
+            {
+                "name": "withState",
+                "comment": " Add a custom state to a Authorization\n",
+                "type": "String -> Authorization -> Authorization"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "OpenIDConnect.Decode",
+        "comment": " Provide decoders for the most common JWT attributes\n\n@docs expDecoder, subDecoder\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "expDecoder",
+                "comment": " Decode the 'exp' attribute\n",
+                "type": "Decoder Int"
+            },
+            {
+                "name": "subDecoder",
+                "comment": " Decode the 'sub' attribute\n",
+                "type": "Decoder String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Paginated",
+        "comment": " A library for Facilitates fetching data from a paginated JSON API.\n\n# Requests and Responses\n\n@docs Request, Response, get, post\n\n\n## Custom requests\n\n@docs RequestOptions, request\n\n\n## Converting\n\n@docs httpRequest\n\n\n# Sending requests\n\n@docs send\n\n\n# Handling responses\n\n@docs Response, update\n\n",
+        "unions": [
+            {
+                "name": "Request",
+                "comment": " Encapsulates an API request for a list of items of type `a`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Response",
+                "comment": " Describes an API response.\n\nA response may either be Partial (there are more pages of results yet\nto be fetched), or Complete (all records have been fetched). The\nresponse includes all of the items fetched in order.\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Partial",
+                        [
+                            "Request a",
+                            "List a"
+                        ]
+                    ],
+                    [
+                        "Complete",
+                        [
+                            "List a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "RequestOptions",
+                "comment": " Describes an API request.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ method : String, headers : List Header, url : String, body : Body, decoder : Decoder a, timeout : Maybe Time, withCredentials : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "get",
+                "comment": " Build a GET request.\n",
+                "type": "String -> Decoder a -> Request a"
+            },
+            {
+                "name": "httpRequest",
+                "comment": " Convert a `Request` to a `Http.Request` that can then be sent via\n`Http.send`.\n",
+                "type": "Request a -> Request (Response a)"
+            },
+            {
+                "name": "post",
+                "comment": " Build a POST request.\n",
+                "type": "String -> Body -> Decoder a -> Request a"
+            },
+            {
+                "name": "request",
+                "comment": " Create a custom request, allowing the specification of HTTP\nheaders and other options. For example:\n\n    Paginated.request\n        { method = \"GET\"\n        , headers = [Http.header \"Private-Token\" \"XXXXXXXXXXXXXXXX\"]\n        , url = url\n        , body = Http.emptyBody\n        , decoder = decoder\n        , timeout = Nothing\n        , withCredentials = False\n        }\n\n",
+                "type": "RequestOptions a -> Request a"
+            },
+            {
+                "name": "send",
+                "comment": " Send a `Request`.\n",
+                "type": "(Result Error (Response a) -> msg) -> Request a -> Cmd msg"
+            },
+            {
+                "name": "update",
+                "comment": " Append two paginated responses, collecting the results within.\n",
+                "type": "Response a -> Response a -> Response a"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,183 @@
+[
+    {
+        "name": "SvgAst.Render",
+        "comment": "\nModule that converts SvgAst to Svg\n\n@docs render\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "render",
+                "comment": " Render an SvgAst\n",
+                "type": "SvgAst -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SvgAst.Parser",
+        "comment": "\nModule that parses svg from a string\n\n@docs parse, parser\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parse",
+                "comment": " Parse an SvgAst\n",
+                "type": "String -> Result String (List SvgAst)"
+            },
+            {
+                "name": "parser",
+                "comment": " SvgAst Parser\n",
+                "type": "Parser s (List SvgAst)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SvgAst.Encode",
+        "comment": "\n# Encode an SvgAst\n\n@docs encode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "encode",
+                "comment": " Encode an SvgAst\n",
+                "type": "SvgAst -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SvgAst.Decode",
+        "comment": "\n# Decode an SvgAst\n\n@docs decode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decode an SvgAst\n",
+                "type": "Decoder SvgAst"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "SvgAst",
+        "comment": "\n# SvgAst\n\nModule for parsing and building up an Ast of an SVG. Can also serialize and deserialize to JSON.\n\n@docs Attributes, DElement, Key, SvgAst, Value, map, changeAttribute, fold, getStringAttribute, updateAttribute, getAttributeString\n",
+        "unions": [
+            {
+                "name": "Attributes",
+                "comment": " Svg Attribute\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "DElement",
+                "comment": " D attribute in path elements\n",
+                "args": [],
+                "cases": [
+                    [
+                        "M",
+                        [
+                            "Float",
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "L",
+                        [
+                            "Float",
+                            "Float"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "SvgAst",
+                "comment": " SvgAst type\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Tag",
+                        [
+                            "TagName",
+                            "Dict Key Value",
+                            "List SvgAst"
+                        ]
+                    ],
+                    [
+                        "Body",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Comment",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Value",
+                "comment": " Value of an attribute\n",
+                "args": [],
+                "cases": [
+                    [
+                        "D",
+                        [
+                            "List DElement"
+                        ]
+                    ],
+                    [
+                        "Value",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Key",
+                "comment": " Key of an attribute\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "changeAttribute",
+                "comment": " Change an attribute of an SvgAst\n",
+                "type": "( Key, Value ) -> SvgAst -> SvgAst"
+            },
+            {
+                "name": "fold",
+                "comment": " fold an SvgAst\n",
+                "type": "(SvgAst -> a -> a) -> a -> SvgAst -> a"
+            },
+            {
+                "name": "getAttributeString",
+                "comment": " Get a string attribute as a string\n",
+                "type": "String -> SvgAst -> Maybe String"
+            },
+            {
+                "name": "getStringAttribute",
+                "comment": " Get a string attribute as a string\n",
+                "type": "String -> Dict Key Value -> Maybe String"
+            },
+            {
+                "name": "map",
+                "comment": " map an SvgAst\n",
+                "type": "(SvgAst -> SvgAst) -> SvgAst -> SvgAst"
+            },
+            {
+                "name": "updateAttribute",
+                "comment": " Update an attribute of an SvgAst\n",
+                "type": "Key -> (Value -> Value) -> SvgAst -> SvgAst"
+            }
+        ],
+        "binops": []
+    }
+]

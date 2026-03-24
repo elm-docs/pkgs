@@ -1,0 +1,297 @@
+[
+    {
+        "name": "Signal.Alt",
+        "comment": "See [Signal.Prompt](http://package.elm-lang.org/packages/rehno-lindeque/elm-signal-alt/latest/Signal/Prompt) and [Signal.Defered](http://package.elm-lang.org/packages/rehno-lindeque/elm-signal-alt/latest/Signal/Defered) for detailed documentation.\n\n#  Re-export prompt signal interface\n@docs Signal\n@docs foldl\n\n# Re-export defered signal conversion functions\n@docs prompt, defer\n\n# Re-export prompt signal interface from core\n@docs Channel, Message\n@docs constant, map, map2, map3, map4, map5, merge, mergeMany, keepIf, dropIf, keepWhen, dropWhen, dropRepeats, sampleOn, (<~), (~), channel, send, subscribe",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Channel",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "Channel a"
+            },
+            {
+                "name": "Message",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "Message a"
+            },
+            {
+                "name": "Signal",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "Signal a"
+            }
+        ],
+        "values": [
+            {
+                "name": "channel",
+                "comment": "",
+                "type": "a -> Channel a"
+            },
+            {
+                "name": "constant",
+                "comment": "",
+                "type": "a -> Signal a"
+            },
+            {
+                "name": "defer",
+                "comment": "",
+                "type": "Signal a -> Signal a"
+            },
+            {
+                "name": "dropIf",
+                "comment": "",
+                "type": "(a -> Bool) -> a -> Signal a -> Signal a"
+            },
+            {
+                "name": "dropRepeats",
+                "comment": "",
+                "type": "Signal a -> Signal a"
+            },
+            {
+                "name": "dropWhen",
+                "comment": "",
+                "type": "Signal Bool -> a -> Signal a -> Signal a"
+            },
+            {
+                "name": "foldl",
+                "comment": "",
+                "type": "(a -> b -> b) -> b -> Signal a -> Signal b"
+            },
+            {
+                "name": "keepIf",
+                "comment": "",
+                "type": "(a -> Bool) -> a -> Signal a -> Signal a"
+            },
+            {
+                "name": "keepWhen",
+                "comment": "",
+                "type": "Signal Bool -> a -> Signal a -> Signal a"
+            },
+            {
+                "name": "map",
+                "comment": "",
+                "type": "(a -> result) -> Signal a -> Signal result"
+            },
+            {
+                "name": "map2",
+                "comment": "",
+                "type": "(a -> b -> result) -> Signal a -> Signal b -> Signal result"
+            },
+            {
+                "name": "map3",
+                "comment": "",
+                "type": "(a -> b -> c -> result) -> Signal a -> Signal b -> Signal c -> Signal result"
+            },
+            {
+                "name": "map4",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> result) -> Signal a -> Signal b -> Signal c -> Signal d -> Signal result"
+            },
+            {
+                "name": "map5",
+                "comment": "",
+                "type": "(a -> b -> c -> d -> e -> result) -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal result"
+            },
+            {
+                "name": "merge",
+                "comment": "",
+                "type": "Signal a -> Signal a -> Signal a"
+            },
+            {
+                "name": "mergeMany",
+                "comment": "",
+                "type": "List (Signal a) -> Signal a"
+            },
+            {
+                "name": "prompt",
+                "comment": "",
+                "type": "a -> Signal a -> Signal a"
+            },
+            {
+                "name": "sampleOn",
+                "comment": "",
+                "type": "Signal a -> Signal b -> Signal b"
+            },
+            {
+                "name": "send",
+                "comment": "",
+                "type": "Channel a -> a -> Message"
+            },
+            {
+                "name": "subscribe",
+                "comment": "",
+                "type": "Channel a -> Signal a"
+            }
+        ],
+        "binops": [
+            {
+                "name": "<~",
+                "comment": "",
+                "type": "(a -> b) -> Signal a -> Signal b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "~",
+                "comment": "",
+                "type": "Signal (a -> b) -> Signal a -> Signal b",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    },
+    {
+        "name": "Signal.Alt.Internal",
+        "comment": "Internal types and functions. Don't import this unless you know what you're doing.s",
+        "unions": [
+            {
+                "name": "DeferedSignal",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Defered",
+                        [
+                            "Signal a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "apply",
+                "comment": "",
+                "type": "Signal (a -> b) -> Signal a -> Signal b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Signal.Prompt",
+        "comment": "Import this module as follows:\n\n    import Signal.Alt as Signal\n    import Signal.Alt (Signal)\n    import Signal.Defered as Defered\n    import Mouse.Defered as Mouse\n\n    -- Produces a defered signal that looks like this: <1,2,3,4,5,...>\n    clicksCounter : Defered.Signal Int\n    clicksCounter = Defered.foldl (\\c -> c + 1) 0 Mouse.clicks\n    \n    -- Produces a prompt signal that looks like this: <Nothing,Just \"1\",Just \"2\",Just \"3\",Just \"4\",Just \"5\",...>\n    displayedClicks : Signal Int\n    displayedClicks = Singal.prompt Nothing <| (Just << toString <~ clicksCounter)",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Signal",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "Signal a"
+            }
+        ],
+        "values": [
+            {
+                "name": "foldl",
+                "comment": "An alternative to `foldp` for signals that builds on the intuition carried over from `List.foldl` and `Array.foldl`.\nThis function differs from `foldp` in that the starting value is a seed as is conventional in `foldl` and `foldr`\nrather than being an initialization value as in `foldp`.",
+                "type": "(a -> b -> b) -> b -> Signal a -> Signal b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Signal.Defered",
+        "comment": "Defered signals\n\n@docs foldl, prompt, defer",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Signal",
+                "comment": "",
+                "args": [
+                    "a"
+                ],
+                "type": "DeferedSignal a"
+            }
+        ],
+        "values": [
+            {
+                "name": "defer",
+                "comment": "Defer a prompt signal, discarding the initialized value",
+                "type": "Signal a -> Signal a"
+            },
+            {
+                "name": "foldl",
+                "comment": "Fold from the past, starting with an empty (defered) signal\n**TODO: This is not yet implemented, please don't use it.**",
+                "type": "(a -> b -> b) -> b -> Signal a -> Signal b"
+            },
+            {
+                "name": "prompt",
+                "comment": "Activate a defered signal to produce a regular (prompt) signal",
+                "type": "a -> Signal a -> Signal a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Mouse.Defered",
+        "comment": "Defered signals for the `Mouse` module.\n\n@docs position, x, y, isDown, clicks",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "clicks",
+                "comment": "",
+                "type": "Signal ()"
+            },
+            {
+                "name": "isDown",
+                "comment": "",
+                "type": "Signal Bool"
+            },
+            {
+                "name": "position",
+                "comment": "",
+                "type": "Signal ( Int, Int )"
+            },
+            {
+                "name": "x",
+                "comment": "",
+                "type": "Signal Int"
+            },
+            {
+                "name": "y",
+                "comment": "",
+                "type": "Signal Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Touch.Defered",
+        "comment": "Defered signals for the `Touch` module.\n\n@docs Touch\n@docs touches, taps",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Touch",
+                "comment": "",
+                "args": [],
+                "type": "Touch"
+            }
+        ],
+        "values": [
+            {
+                "name": "taps",
+                "comment": "",
+                "type": "Signal { x : Int, y : Int }"
+            },
+            {
+                "name": "touches",
+                "comment": "",
+                "type": "Signal (List Touch)"
+            }
+        ],
+        "binops": []
+    }
+]

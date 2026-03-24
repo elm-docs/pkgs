@@ -1,0 +1,55 @@
+[
+    {
+        "name": "Id",
+        "comment": " A simple `Id` type for your types that have ids.\n\n\n# Id\n\n@docs Id, fromString, encode, decoder, generator\n\n\n# Origin\n\n@docs Origin\n\n",
+        "unions": [
+            {
+                "name": "Id",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Origin",
+                "comment": " Data that comes from a remote source usually has an id, while data that is made locally doesnt. If thats your situation, using this `Origin` type might be a better way of representing your datas id.\n\n    type alias Car =\n        { origin : Origin\n        , make : String\n        }\n\n    saveCar : Car -> Http.Request (Result Err ())\n    saveCar car =\n        case car.origin of\n            Id id ->\n                Car.update id car\n\n            New ->\n                Car.create car\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Local",
+                        []
+                    ],
+                    [
+                        "Remote",
+                        [
+                            "Id"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decode an `Id`\n\n    Decode.decodeString (Decode.field \"id\" Id.decoder) \"{\\\"id\\\":\\\"19\\\"}\"\n    -- Ok (Id 19) : Result String Id\n\n",
+                "type": "Decoder Id"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode an `Id`\n\n    Encode.encode 0 (Id.encode id)\n    -- \"\"hDFL0Cs2EqWJ4jc3kMtOrKdEUTWh\"\" : String\n\n    [ (\"id\", Id.encode id) ]\n        |> Encode.object\n        |> Encode.encode 0\n\n    -- {\\\"id\\\":\\\"hDFL0Cs2EqWJ4jc3kMtOrKdEUTWh\\\"} : String\n\n",
+                "type": "Id -> Value"
+            },
+            {
+                "name": "fromString",
+                "comment": " The only way to make an Id\n\n    Id.fromString \"vq93rUv0A4\"\n\n",
+                "type": "String -> Id"
+            },
+            {
+                "name": "generator",
+                "comment": " A way to generate random `Id`s\n\n    import Id exposing (Id)\n    import Random.Pcg as Random exposing (Seed)\n\n    user : Seed -> ( User, Seed )\n    user seed =\n        let\n            ( id, nextSeed ) =\n                Random.step Id.generator seed\n        in\n        ( { id = id, email = \"Bob@sci.org\" }\n        , nextSeed\n        )\n\n",
+                "type": "Generator Id"
+            }
+        ],
+        "binops": []
+    }
+]

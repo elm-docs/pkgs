@@ -1,0 +1,128 @@
+[
+    {
+        "name": "BigInt",
+        "comment": " Infinite digits integers\n\n@docs BigInt\n\n\n# From/To\n\n@docs fromInt, fromString, toString, toHexString\n\n\n# Operations\n\n@docs add, sub, mul, div, mod, divmod, pow\n\n\n# Sign\n\n@docs abs, negate\n\n\n# Comparison\n\n@docs compare, gt, gte, lt, lte, max, min\n\n\n# Misc\n\n@docs isEven, isOdd\n\n",
+        "unions": [
+            {
+                "name": "BigInt",
+                "comment": " BigInt type\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "abs",
+                "comment": " Absolute value\n",
+                "type": "BigInt -> BigInt"
+            },
+            {
+                "name": "add",
+                "comment": " Adds two BigInts\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "compare",
+                "comment": " Compares two BigInts\n",
+                "type": "BigInt -> BigInt -> Order"
+            },
+            {
+                "name": "div",
+                "comment": " BigInt division. Produces 0 when dividing by 0 (like (//)).\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "divmod",
+                "comment": " Division and modulus\n",
+                "type": "BigInt -> BigInt -> Maybe ( BigInt, BigInt )"
+            },
+            {
+                "name": "fromInt",
+                "comment": " Makes an BigInt from an Int\n",
+                "type": "Int -> BigInt"
+            },
+            {
+                "name": "fromString",
+                "comment": " Makes an BigInt from a Integer or Hex String, positive or negative\n\n    fromString \"123\" == Just (BigInt.Pos ...)\n    fromString \"0x456\" == Just (BigInt.Pos ...)\n    fromString \"-123\" == Just (BigInt.Neg ...)\n    fromString \"-0x123\" == Just (BigInt.Neg ...)\n    fromString \"\" == Nothing\n    fromString \"0x\" == Nothing\n    fromString \"this is not a number :P\" == Nothing\n\n",
+                "type": "String -> Maybe BigInt"
+            },
+            {
+                "name": "gt",
+                "comment": " Greater than\n",
+                "type": "BigInt -> BigInt -> Bool"
+            },
+            {
+                "name": "gte",
+                "comment": " Greater than or equals\n",
+                "type": "BigInt -> BigInt -> Bool"
+            },
+            {
+                "name": "isEven",
+                "comment": " Parity Check - Even.\n",
+                "type": "BigInt -> Bool"
+            },
+            {
+                "name": "isOdd",
+                "comment": " Parity Check - Odd.\n",
+                "type": "BigInt -> Bool"
+            },
+            {
+                "name": "lt",
+                "comment": " Less than\n",
+                "type": "BigInt -> BigInt -> Bool"
+            },
+            {
+                "name": "lte",
+                "comment": " Less than or equals\n",
+                "type": "BigInt -> BigInt -> Bool"
+            },
+            {
+                "name": "max",
+                "comment": " Returns the largest of two BigInts\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "min",
+                "comment": " Returns the smallest of two BigInts\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "mod",
+                "comment": " Modulus. Crashes on zero (like (%)).\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "mul",
+                "comment": " Multiplies two BigInts\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "negate",
+                "comment": " Changes the sign of an BigInt\n",
+                "type": "BigInt -> BigInt"
+            },
+            {
+                "name": "pow",
+                "comment": " Power/Exponentiation.\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "sub",
+                "comment": " Substracts the second BigInt from the first\n",
+                "type": "BigInt -> BigInt -> BigInt"
+            },
+            {
+                "name": "toHexString",
+                "comment": " Print the number as a hex string.\n",
+                "type": "BigInt -> String"
+            },
+            {
+                "name": "toString",
+                "comment": " Converts the BigInt to a String\n",
+                "type": "BigInt -> String"
+            }
+        ],
+        "binops": []
+    }
+]

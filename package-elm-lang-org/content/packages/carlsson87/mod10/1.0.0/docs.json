@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Mod10",
+        "comment": " This library helps you create and verify numeric strings according to the Modulus 10 algorithm.\n\n\n# Verify\n\n@docs verify\n\n\n# Calculate\n\n@docs calculate\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "calculate",
+                "comment": " Calculate the \"check digit\" for a numeric string.\n\n    calculate \"7992739871\" == Just '3'\n    calculate \"nonsense\" == Nothing\n\n",
+                "type": "String -> Maybe Char"
+            },
+            {
+                "name": "verify",
+                "comment": " Verfify a numeric string with the Modulus 10 algorithm.\n\n    verify \"79927398713\" == True\n    verify \"79927398712\" == False\n    verify \"nonsense\" == False\n\n",
+                "type": "String -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

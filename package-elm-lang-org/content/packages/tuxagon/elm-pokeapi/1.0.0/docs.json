@@ -1,0 +1,1791 @@
+[
+    {
+        "name": "PokeApi.Tasks",
+        "comment": " A collection of tasks that represent endpoints to the PokeAPI\n\n\n# Models\n\n@docs ParameterType, Page, nameOf, idOf, urlOf, onPage, onPageOfSize\n\n\n# List-based HTTP tasks\n\nGets a list of the specified resource\n\n@docs getResourceList, getResourceListByUrl\n\n    -- gets a list of pokemon\n    getResourceList Pokemon_ (onPage 1)\n\n\n# Single resource-based HTTP tasks\n\nRetrieves a single resource of the specific resource for that function\n\n    -- gets the pokemon with name \"pikachu\"\n    getPokemonBy (nameOf \"pikachu\")\n\n    -- gets the berry with id 5\n    getBerryBy (idOf 5)\n\n@docs getAbilityBy, getBerryBy, getBerryFirmnessBy, getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy, getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy, getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy, getGenerationBy, getGrowthRateBy, getItemBy, getItemAttributeBy, getItemCategoryBy, getItemFlingEffectBy, getItemPocketBy, getLanguageBy, getLocationBy, getLocationAreaBy, getMachineBy, getMoveBy, getMoveAilmentBy, getMoveBattleStyleBy, getMoveCategoryBy, getMoveDamageClassBy, getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy, getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy, getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy, getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy, getVersionGroupBy, getBy\n\n",
+        "unions": [
+            {
+                "name": "Page",
+                "comment": " Specify what page and how big that page should be\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "ParameterType",
+                "comment": " Represents the type of parameter used to search with\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getAbilityBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Ability"
+            },
+            {
+                "name": "getBerryBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Berry"
+            },
+            {
+                "name": "getBerryFirmnessBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error BerryFirmness"
+            },
+            {
+                "name": "getBerryFlavorBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error BerryFlavor"
+            },
+            {
+                "name": "getBy",
+                "comment": " ",
+                "type": "Resource -> Decoder a -> ParameterType -> Task Error a"
+            },
+            {
+                "name": "getCharacteristicBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Characteristic"
+            },
+            {
+                "name": "getContestEffectBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ContestEffect"
+            },
+            {
+                "name": "getContestTypeBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ContestType"
+            },
+            {
+                "name": "getEggGroupBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EggGroup"
+            },
+            {
+                "name": "getEncounterConditionBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EncounterCondition"
+            },
+            {
+                "name": "getEncounterConditionValueBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EncounterConditionValue"
+            },
+            {
+                "name": "getEncounterMethodBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EncounterMethod"
+            },
+            {
+                "name": "getEvolutionChainBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EvolutionChain"
+            },
+            {
+                "name": "getEvolutionTriggerBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error EvolutionTrigger"
+            },
+            {
+                "name": "getGenderBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Gender"
+            },
+            {
+                "name": "getGenerationBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Generation"
+            },
+            {
+                "name": "getGrowthRateBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error GrowthRate"
+            },
+            {
+                "name": "getItemAttributeBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ItemAttribute"
+            },
+            {
+                "name": "getItemBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Item"
+            },
+            {
+                "name": "getItemCategoryBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ItemCategory"
+            },
+            {
+                "name": "getItemFlingEffectBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ItemFlingEffect"
+            },
+            {
+                "name": "getItemPocketBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error ItemPocket"
+            },
+            {
+                "name": "getLanguageBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Language"
+            },
+            {
+                "name": "getLocationAreaBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error LocationArea"
+            },
+            {
+                "name": "getLocationBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Location"
+            },
+            {
+                "name": "getMachineBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Machine"
+            },
+            {
+                "name": "getMoveAilmentBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveAilment"
+            },
+            {
+                "name": "getMoveBattleStyleBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveBattleStyle"
+            },
+            {
+                "name": "getMoveBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Move"
+            },
+            {
+                "name": "getMoveCategoryBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveCategory"
+            },
+            {
+                "name": "getMoveDamageClassBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveDamageClass"
+            },
+            {
+                "name": "getMoveLearnMethodBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveLearnMethod"
+            },
+            {
+                "name": "getMoveTargetBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error MoveTarget"
+            },
+            {
+                "name": "getNatureBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Nature"
+            },
+            {
+                "name": "getPalParkAreaBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PalParkArea"
+            },
+            {
+                "name": "getPokeathlonStatBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokeathlonStat"
+            },
+            {
+                "name": "getPokedexBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Pokedex"
+            },
+            {
+                "name": "getPokemonBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Pokemon"
+            },
+            {
+                "name": "getPokemonColorBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokemonColor"
+            },
+            {
+                "name": "getPokemonFormBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokemonForm"
+            },
+            {
+                "name": "getPokemonHabitatBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokemonHabitat"
+            },
+            {
+                "name": "getPokemonShapeBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokemonShape"
+            },
+            {
+                "name": "getPokemonSpeciesBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error PokemonSpecies"
+            },
+            {
+                "name": "getRegionBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Region"
+            },
+            {
+                "name": "getResourceList",
+                "comment": " Gets a list of the specified resource\n\nExample\n\n    -- get a list of pokemon\n    getResourceList Pokemon_ (OnPage 1)\n\n",
+                "type": "Resource -> Page -> Task Error ApiResourceList"
+            },
+            {
+                "name": "getResourceListByUrl",
+                "comment": " Provides a way to chain tasks\n\nExample\n\n    -- gets the next page of pokemon\n    getResourceList Pokemon_ (OnPage 1)\n        |> Task.andThen (getResourceListByUrl << .next)\n\n",
+                "type": "ApiListUrl -> Task Error ApiResourceList"
+            },
+            {
+                "name": "getStatBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Stat"
+            },
+            {
+                "name": "getSuperContestEffectBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error SuperContestEffect"
+            },
+            {
+                "name": "getTypeBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Type"
+            },
+            {
+                "name": "getVersionBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error Version"
+            },
+            {
+                "name": "getVersionGroupBy",
+                "comment": " ",
+                "type": "ParameterType -> Task Error VersionGroup"
+            },
+            {
+                "name": "idOf",
+                "comment": " ",
+                "type": "Int -> ParameterType"
+            },
+            {
+                "name": "nameOf",
+                "comment": " ",
+                "type": "String -> ParameterType"
+            },
+            {
+                "name": "onPage",
+                "comment": " ",
+                "type": "Int -> Page"
+            },
+            {
+                "name": "onPageOfSize",
+                "comment": " Specifies page with a page limit\n\n    -- page 2 with limit of 30 items per page\n    onPageOfSize 2 30\n\n",
+                "type": "Int -> Int -> Page"
+            },
+            {
+                "name": "urlOf",
+                "comment": " ",
+                "type": "ApiUrl -> ParameterType"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "PokeApi.Decoders",
+        "comment": " PokeApi decoders\n\n@docs decodeAbility, decodeAbilityEffectChange, decodeAbilityFlavorText, decodeAbilityPokemon, decodeApiResource, decodeApiResourceList, decodeApiUrl, decodeApiListUrl, decodeAwesomeName, decodeBerry, decodeBerryFirmness, decodeBerryFlavor, decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic, decodeContestComboSets, decodeContestComboDetail, decodeContestEffect, decodeContestName, decodeContestType, decodeDescription, decodeEffect, decodeEggGroup, decodeEncounter, decodeEncounterCondition, decodeEncounterConditionValue, decodeEncounterMethod, decodeEncounterMethodRate, decodeEncounterVersionDetails, decodeEvolutionChain, decodeEvolutionDetail, decodeEvolutionTrigger, decodeFlavorBerryMap, decodeFlavorText, decodeGeneration, decodeGender, decodeGenerationGameIndex, decodeGenus, decodeGrowthRate, decodeGrowthRateExperienceLevel, decodeItem, decodeItemAttribute, decodeItemCategory, decodeItemFlingEffect, decodeItemHolderPokemon, decodeItemHolderPokemonVersionDetail, decodeItemPocket, decodeItemSprites, decodeLanguage, decodeLocation, decodeLocationArea, decodeLocationAreaEncounter, decodeMachine, decodeMachineVersionDetail, decodeMove, decodeMoveAilment, decodeMoveBattleStyle, decodeMoveBattleStylePreference, decodeMoveCategory, decodeMoveDamageClass, decodeMoveFlavorText, decodeMoveLearnMethod, decodeMoveMetaData, decodeMoveStatAffect, decodeMoveStatAffectSets, decodeMoveStatChange, decodeMoveTarget, decodeName, decodeNature, decodeNaturePokeathlonStatAffect, decodeNaturePokeathlonStatAffectSets, decodeNatureStatAffectSets, decodeNatureStatChange,decodeNotFound, decodePalParkArea, decodePalParkEncounterArea, decodePalParkEncounterSpecies, decodePastMoveStatValues, decodePokeathlonStat, decodePokedex, decodePokemon, decodePokemonAbility, decodePokemonColor, decodePokemonEncounter, decodePokemonEntry, decodePokemonForm, decodePokemonFormSprites, decodePokemonHabitat, decodePokemonHeldItem, decodePokemonHeldItemVersion, decodePokemonMove, decodePokemonMoveVersion, decodePokemonShape, decodePokemonSpecies, decodePokemonSpeciesDexEntry, decodePokemonSpeciesGender, decodePokemonSpeciesVariety, decodePokemonSprites, decodePokemonStat, decodePokemonType, decodeRegion, decodeStat, decodeSuperContestEffect, decodeType, decodeTypePokemon, decodeTypeRelations, decodeVerboseEffect, decodeVersion, decodeVersionEncounterDetail, decodeVersionGameIndex, decodeVersionGroup, decodeVersionGroupFlavorText decodeVersionGroupFlavorText\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decodeAbility",
+                "comment": " ",
+                "type": "Decoder Ability"
+            },
+            {
+                "name": "decodeAbilityEffectChange",
+                "comment": " ",
+                "type": "Decoder AbilityEffectChange"
+            },
+            {
+                "name": "decodeAbilityFlavorText",
+                "comment": " ",
+                "type": "Decoder AbilityFlavorText"
+            },
+            {
+                "name": "decodeAbilityPokemon",
+                "comment": " ",
+                "type": "Decoder AbilityPokemon"
+            },
+            {
+                "name": "decodeApiListUrl",
+                "comment": " ",
+                "type": "Decoder ApiListUrl"
+            },
+            {
+                "name": "decodeApiResource",
+                "comment": " ",
+                "type": "Decoder ApiResource"
+            },
+            {
+                "name": "decodeApiResourceList",
+                "comment": " ",
+                "type": "Decoder ApiResourceList"
+            },
+            {
+                "name": "decodeApiUrl",
+                "comment": " ",
+                "type": "Decoder ApiUrl"
+            },
+            {
+                "name": "decodeAwesomeName",
+                "comment": " ",
+                "type": "Decoder AwesomeName"
+            },
+            {
+                "name": "decodeBerry",
+                "comment": " ",
+                "type": "Decoder Berry"
+            },
+            {
+                "name": "decodeBerryFirmness",
+                "comment": " ",
+                "type": "Decoder BerryFirmness"
+            },
+            {
+                "name": "decodeBerryFlavor",
+                "comment": " ",
+                "type": "Decoder BerryFlavor"
+            },
+            {
+                "name": "decodeBerryFlavorMap",
+                "comment": " ",
+                "type": "Decoder BerryFlavorMap"
+            },
+            {
+                "name": "decodeChainLink",
+                "comment": " ",
+                "type": "Decoder ChainLink"
+            },
+            {
+                "name": "decodeCharacteristic",
+                "comment": " ",
+                "type": "Decoder Characteristic"
+            },
+            {
+                "name": "decodeContestComboDetail",
+                "comment": " ",
+                "type": "Decoder ContestComboDetail"
+            },
+            {
+                "name": "decodeContestComboSets",
+                "comment": " ",
+                "type": "Decoder ContestComboSets"
+            },
+            {
+                "name": "decodeContestEffect",
+                "comment": " ",
+                "type": "Decoder ContestEffect"
+            },
+            {
+                "name": "decodeContestName",
+                "comment": " ",
+                "type": "Decoder ContestName"
+            },
+            {
+                "name": "decodeContestType",
+                "comment": " ",
+                "type": "Decoder ContestType"
+            },
+            {
+                "name": "decodeDescription",
+                "comment": " ",
+                "type": "Decoder Description"
+            },
+            {
+                "name": "decodeEffect",
+                "comment": " ",
+                "type": "Decoder Effect"
+            },
+            {
+                "name": "decodeEggGroup",
+                "comment": " ",
+                "type": "Decoder EggGroup"
+            },
+            {
+                "name": "decodeEncounter",
+                "comment": " ",
+                "type": "Decoder Encounter"
+            },
+            {
+                "name": "decodeEncounterCondition",
+                "comment": " ",
+                "type": "Decoder EncounterCondition"
+            },
+            {
+                "name": "decodeEncounterConditionValue",
+                "comment": " ",
+                "type": "Decoder EncounterConditionValue"
+            },
+            {
+                "name": "decodeEncounterMethod",
+                "comment": " ",
+                "type": "Decoder EncounterMethod"
+            },
+            {
+                "name": "decodeEncounterMethodRate",
+                "comment": " ",
+                "type": "Decoder EncounterMethodRate"
+            },
+            {
+                "name": "decodeEncounterVersionDetails",
+                "comment": " ",
+                "type": "Decoder EncounterVersionDetails"
+            },
+            {
+                "name": "decodeEvolutionChain",
+                "comment": " ",
+                "type": "Decoder EvolutionChain"
+            },
+            {
+                "name": "decodeEvolutionDetail",
+                "comment": " ",
+                "type": "Decoder EvolutionDetail"
+            },
+            {
+                "name": "decodeEvolutionTrigger",
+                "comment": " ",
+                "type": "Decoder EvolutionTrigger"
+            },
+            {
+                "name": "decodeFlavorBerryMap",
+                "comment": " ",
+                "type": "Decoder FlavorBerryMap"
+            },
+            {
+                "name": "decodeFlavorText",
+                "comment": " ",
+                "type": "Decoder FlavorText"
+            },
+            {
+                "name": "decodeGender",
+                "comment": " ",
+                "type": "Decoder Gender"
+            },
+            {
+                "name": "decodeGeneration",
+                "comment": " ",
+                "type": "Decoder Generation"
+            },
+            {
+                "name": "decodeGenerationGameIndex",
+                "comment": " ",
+                "type": "Decoder GenerationGameIndex"
+            },
+            {
+                "name": "decodeGenus",
+                "comment": " ",
+                "type": "Decoder Genus"
+            },
+            {
+                "name": "decodeGrowthRate",
+                "comment": " ",
+                "type": "Decoder GrowthRate"
+            },
+            {
+                "name": "decodeGrowthRateExperienceLevel",
+                "comment": " ",
+                "type": "Decoder GrowthRateExperienceLevel"
+            },
+            {
+                "name": "decodeItem",
+                "comment": " ",
+                "type": "Decoder Item"
+            },
+            {
+                "name": "decodeItemAttribute",
+                "comment": " ",
+                "type": "Decoder ItemAttribute"
+            },
+            {
+                "name": "decodeItemCategory",
+                "comment": " ",
+                "type": "Decoder ItemCategory"
+            },
+            {
+                "name": "decodeItemFlingEffect",
+                "comment": " ",
+                "type": "Decoder ItemFlingEffect"
+            },
+            {
+                "name": "decodeItemHolderPokemon",
+                "comment": " ",
+                "type": "Decoder ItemHolderPokemon"
+            },
+            {
+                "name": "decodeItemHolderPokemonVersionDetail",
+                "comment": " ",
+                "type": "Decoder ItemHolderPokemonVersionDetail"
+            },
+            {
+                "name": "decodeItemPocket",
+                "comment": " ",
+                "type": "Decoder ItemPocket"
+            },
+            {
+                "name": "decodeItemSprites",
+                "comment": " ",
+                "type": "Decoder ItemSprites"
+            },
+            {
+                "name": "decodeLanguage",
+                "comment": " ",
+                "type": "Decoder Language"
+            },
+            {
+                "name": "decodeLocation",
+                "comment": " ",
+                "type": "Decoder Location"
+            },
+            {
+                "name": "decodeLocationArea",
+                "comment": " ",
+                "type": "Decoder LocationArea"
+            },
+            {
+                "name": "decodeLocationAreaEncounter",
+                "comment": " ",
+                "type": "Decoder LocationAreaEncounter"
+            },
+            {
+                "name": "decodeMachine",
+                "comment": " ",
+                "type": "Decoder Machine"
+            },
+            {
+                "name": "decodeMachineVersionDetail",
+                "comment": " ",
+                "type": "Decoder MachineVersionDetail"
+            },
+            {
+                "name": "decodeMove",
+                "comment": " ",
+                "type": "Decoder Move"
+            },
+            {
+                "name": "decodeMoveAilment",
+                "comment": " ",
+                "type": "Decoder MoveAilment"
+            },
+            {
+                "name": "decodeMoveBattleStyle",
+                "comment": " ",
+                "type": "Decoder MoveBattleStyle"
+            },
+            {
+                "name": "decodeMoveBattleStylePreference",
+                "comment": " ",
+                "type": "Decoder MoveBattleStylePreference"
+            },
+            {
+                "name": "decodeMoveCategory",
+                "comment": " ",
+                "type": "Decoder MoveCategory"
+            },
+            {
+                "name": "decodeMoveDamageClass",
+                "comment": " ",
+                "type": "Decoder MoveDamageClass"
+            },
+            {
+                "name": "decodeMoveFlavorText",
+                "comment": " ",
+                "type": "Decoder MoveFlavorText"
+            },
+            {
+                "name": "decodeMoveLearnMethod",
+                "comment": " ",
+                "type": "Decoder MoveLearnMethod"
+            },
+            {
+                "name": "decodeMoveMetaData",
+                "comment": " ",
+                "type": "Decoder MoveMetaData"
+            },
+            {
+                "name": "decodeMoveStatAffect",
+                "comment": " ",
+                "type": "Decoder MoveStatAffect"
+            },
+            {
+                "name": "decodeMoveStatAffectSets",
+                "comment": " ",
+                "type": "Decoder MoveStatAffectSets"
+            },
+            {
+                "name": "decodeMoveStatChange",
+                "comment": " ",
+                "type": "Decoder MoveStatChange"
+            },
+            {
+                "name": "decodeMoveTarget",
+                "comment": " ",
+                "type": "Decoder MoveTarget"
+            },
+            {
+                "name": "decodeName",
+                "comment": " ",
+                "type": "Decoder Name"
+            },
+            {
+                "name": "decodeNature",
+                "comment": " ",
+                "type": "Decoder Nature"
+            },
+            {
+                "name": "decodeNaturePokeathlonStatAffect",
+                "comment": " ",
+                "type": "Decoder NaturePokeathlonStatAffect"
+            },
+            {
+                "name": "decodeNaturePokeathlonStatAffectSets",
+                "comment": " ",
+                "type": "Decoder NaturePokeathlonStatAffectSets"
+            },
+            {
+                "name": "decodeNatureStatAffectSets",
+                "comment": " ",
+                "type": "Decoder NatureStatAffectSets"
+            },
+            {
+                "name": "decodeNatureStatChange",
+                "comment": " ",
+                "type": "Decoder NatureStatChange"
+            },
+            {
+                "name": "decodeNotFound",
+                "comment": " ",
+                "type": "Decoder NotFound"
+            },
+            {
+                "name": "decodePalParkArea",
+                "comment": " ",
+                "type": "Decoder PalParkArea"
+            },
+            {
+                "name": "decodePalParkEncounterArea",
+                "comment": " ",
+                "type": "Decoder PalParkEncounterArea"
+            },
+            {
+                "name": "decodePalParkEncounterSpecies",
+                "comment": " ",
+                "type": "Decoder PalParkEncounterSpecies"
+            },
+            {
+                "name": "decodePastMoveStatValues",
+                "comment": " ",
+                "type": "Decoder PastMoveStatValues"
+            },
+            {
+                "name": "decodePokeathlonStat",
+                "comment": " ",
+                "type": "Decoder PokeathlonStat"
+            },
+            {
+                "name": "decodePokedex",
+                "comment": " ",
+                "type": "Decoder Pokedex"
+            },
+            {
+                "name": "decodePokemon",
+                "comment": " ",
+                "type": "Decoder Pokemon"
+            },
+            {
+                "name": "decodePokemonAbility",
+                "comment": " ",
+                "type": "Decoder PokemonAbility"
+            },
+            {
+                "name": "decodePokemonColor",
+                "comment": " ",
+                "type": "Decoder PokemonColor"
+            },
+            {
+                "name": "decodePokemonEncounter",
+                "comment": " ",
+                "type": "Decoder PokemonEncounter"
+            },
+            {
+                "name": "decodePokemonEntry",
+                "comment": " ",
+                "type": "Decoder PokemonEntry"
+            },
+            {
+                "name": "decodePokemonForm",
+                "comment": " ",
+                "type": "Decoder PokemonForm"
+            },
+            {
+                "name": "decodePokemonFormSprites",
+                "comment": " ",
+                "type": "Decoder PokemonFormSprites"
+            },
+            {
+                "name": "decodePokemonHabitat",
+                "comment": " ",
+                "type": "Decoder PokemonHabitat"
+            },
+            {
+                "name": "decodePokemonHeldItem",
+                "comment": " ",
+                "type": "Decoder PokemonHeldItem"
+            },
+            {
+                "name": "decodePokemonHeldItemVersion",
+                "comment": " ",
+                "type": "Decoder PokemonHeldItemVersion"
+            },
+            {
+                "name": "decodePokemonMove",
+                "comment": " ",
+                "type": "Decoder PokemonMove"
+            },
+            {
+                "name": "decodePokemonMoveVersion",
+                "comment": " ",
+                "type": "Decoder PokemonMoveVersion"
+            },
+            {
+                "name": "decodePokemonShape",
+                "comment": " ",
+                "type": "Decoder PokemonShape"
+            },
+            {
+                "name": "decodePokemonSpecies",
+                "comment": " ",
+                "type": "Decoder PokemonSpecies"
+            },
+            {
+                "name": "decodePokemonSpeciesDexEntry",
+                "comment": " ",
+                "type": "Decoder PokemonSpeciesDexEntry"
+            },
+            {
+                "name": "decodePokemonSpeciesGender",
+                "comment": " ",
+                "type": "Decoder PokemonSpeciesGender"
+            },
+            {
+                "name": "decodePokemonSpeciesVariety",
+                "comment": " ",
+                "type": "Decoder PokemonSpeciesVariety"
+            },
+            {
+                "name": "decodePokemonSprites",
+                "comment": " ",
+                "type": "Decoder PokemonSprites"
+            },
+            {
+                "name": "decodePokemonStat",
+                "comment": " ",
+                "type": "Decoder PokemonStat"
+            },
+            {
+                "name": "decodePokemonType",
+                "comment": " ",
+                "type": "Decoder PokemonType"
+            },
+            {
+                "name": "decodeRegion",
+                "comment": " ",
+                "type": "Decoder Region"
+            },
+            {
+                "name": "decodeStat",
+                "comment": " ",
+                "type": "Decoder Stat"
+            },
+            {
+                "name": "decodeSuperContestEffect",
+                "comment": " ",
+                "type": "Decoder SuperContestEffect"
+            },
+            {
+                "name": "decodeType",
+                "comment": " ",
+                "type": "Decoder Type"
+            },
+            {
+                "name": "decodeTypePokemon",
+                "comment": " ",
+                "type": "Decoder TypePokemon"
+            },
+            {
+                "name": "decodeTypeRelations",
+                "comment": " ",
+                "type": "Decoder TypeRelations"
+            },
+            {
+                "name": "decodeVerboseEffect",
+                "comment": " ",
+                "type": "Decoder VerboseEffect"
+            },
+            {
+                "name": "decodeVersion",
+                "comment": " ",
+                "type": "Decoder Version"
+            },
+            {
+                "name": "decodeVersionEncounterDetail",
+                "comment": " ",
+                "type": "Decoder VersionEncounterDetail"
+            },
+            {
+                "name": "decodeVersionGameIndex",
+                "comment": " ",
+                "type": "Decoder VersionGameIndex"
+            },
+            {
+                "name": "decodeVersionGroup",
+                "comment": " ",
+                "type": "Decoder VersionGroup"
+            },
+            {
+                "name": "decodeVersionGroupFlavorText",
+                "comment": " ",
+                "type": "Decoder VersionGroupFlavorText"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "PokeApi",
+        "comment": " This library is a wrapper for PokeApi (<https://pokeapi.co/>) that provides\nyou with concrete types to all the applicable models\n\n\n# General\n\n@docs ApiUrl, ApiListUrl, asApiUrl, asApiListUrl, asEvolutions, getChainLinkList, getUrl, getListUrl\n\n\n# Pokeapi Models\n\n@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource, ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap, ChainLink, Characteristic, ContestComboDetail, ContestComboSets, ContestEffect, ContestName, ContestType, Description, Effect, EggGroup, Encounter, EncounterCondition , EncounterConditionValue, EncounterMethod, EncounterMethodRate, EncounterVersionDetails, EvolutionChain, EvolutionDetail, EvolutionTrigger, Evolutions, FlavorBerryMap, FlavorText, Gender, Generation, GenerationGameIndex, Genus, GrowthRate, GrowthRateExperienceLevel, Item, ItemAttribute, ItemCategory, ItemFlingEffect, ItemHolderPokemon, ItemHolderPokemonVersionDetail, ItemPocket, ItemSprites, Language, Location, LocationArea, LocationAreaEncounter, Machine, MachineVersionDetail, Move, MoveAilment, MoveBattleStyle, MoveBattleStylePreference, MoveCategory, MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData, MoveStatAffect, MoveStatAffectSets, MoveStatChange, MoveTarget, Name, Nature, NaturePokeathlonStatAffect, NaturePokeathlonStatAffectSets, NatureStatAffectSets, NatureStatChange, NotFound, PalParkArea, PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues, PokeathlonStat, Pokedex, Pokemon, PokemonAbility, PokemonColor, PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites, PokemonHabitat, PokemonHeldItem, PokemonHeldItemVersion, PokemonMove, PokemonMoveVersion, PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry, PokemonSpeciesGender, PokemonSpeciesVariety, PokemonSprites, PokemonStat, PokemonType, Region, Resource, Stat, SuperContestEffect, Type, TypePokemon, TypeRelations, VerboseEffect, Version, VersionEncounterDetail, VersionGameIndex, VersionGroup, VersionGroupFlavorText\n\n",
+        "unions": [
+            {
+                "name": "ApiListUrl",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "ApiUrl",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Evolutions",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Resource",
+                "comment": " Resource represents each endpoint available to you on the API\n\nNote that each resource ends with an underscore because the design choice\nwas to keep the name of each related model free of the underscore\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Ability_",
+                        []
+                    ],
+                    [
+                        "Berry_",
+                        []
+                    ],
+                    [
+                        "BerryFirmness_",
+                        []
+                    ],
+                    [
+                        "BerryFlavor_",
+                        []
+                    ],
+                    [
+                        "Characteristic_",
+                        []
+                    ],
+                    [
+                        "ContestEffect_",
+                        []
+                    ],
+                    [
+                        "ContestType_",
+                        []
+                    ],
+                    [
+                        "EggGroup_",
+                        []
+                    ],
+                    [
+                        "EncounterCondition_",
+                        []
+                    ],
+                    [
+                        "EncounterConditionValue_",
+                        []
+                    ],
+                    [
+                        "EncounterMethod_",
+                        []
+                    ],
+                    [
+                        "EvolutionChain_",
+                        []
+                    ],
+                    [
+                        "EvolutionTrigger_",
+                        []
+                    ],
+                    [
+                        "Gender_",
+                        []
+                    ],
+                    [
+                        "Generation_",
+                        []
+                    ],
+                    [
+                        "GrowthRate_",
+                        []
+                    ],
+                    [
+                        "Item_",
+                        []
+                    ],
+                    [
+                        "ItemAttribute_",
+                        []
+                    ],
+                    [
+                        "ItemCategory_",
+                        []
+                    ],
+                    [
+                        "ItemFlingEffect_",
+                        []
+                    ],
+                    [
+                        "ItemPocket_",
+                        []
+                    ],
+                    [
+                        "Language_",
+                        []
+                    ],
+                    [
+                        "Location_",
+                        []
+                    ],
+                    [
+                        "LocationArea_",
+                        []
+                    ],
+                    [
+                        "Machine_",
+                        []
+                    ],
+                    [
+                        "Move_",
+                        []
+                    ],
+                    [
+                        "MoveAilment_",
+                        []
+                    ],
+                    [
+                        "MoveBattleStyle_",
+                        []
+                    ],
+                    [
+                        "MoveCategory_",
+                        []
+                    ],
+                    [
+                        "MoveDamageClass_",
+                        []
+                    ],
+                    [
+                        "MoveLearnMethod_",
+                        []
+                    ],
+                    [
+                        "MoveTarget_",
+                        []
+                    ],
+                    [
+                        "Nature_",
+                        []
+                    ],
+                    [
+                        "PalParkArea_",
+                        []
+                    ],
+                    [
+                        "PokeathlonStat_",
+                        []
+                    ],
+                    [
+                        "Pokedex_",
+                        []
+                    ],
+                    [
+                        "Pokemon_",
+                        []
+                    ],
+                    [
+                        "PokemonColor_",
+                        []
+                    ],
+                    [
+                        "PokemonForm_",
+                        []
+                    ],
+                    [
+                        "PokemonHabitat_",
+                        []
+                    ],
+                    [
+                        "PokemonShape_",
+                        []
+                    ],
+                    [
+                        "PokemonSpecies_",
+                        []
+                    ],
+                    [
+                        "Region_",
+                        []
+                    ],
+                    [
+                        "Stat_",
+                        []
+                    ],
+                    [
+                        "SuperContestEffect_",
+                        []
+                    ],
+                    [
+                        "Type_",
+                        []
+                    ],
+                    [
+                        "Version_",
+                        []
+                    ],
+                    [
+                        "VersionGroup_",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Ability",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, isMainSeries : Bool, generation : ApiResource, names : List Name, effectEntries : List VerboseEffect, effectChanges : List AbilityEffectChange, flavorTextEntries : List AbilityFlavorText, pokemon : List AbilityPokemon }"
+            },
+            {
+                "name": "AbilityEffectChange",
+                "comment": " ",
+                "args": [],
+                "type": "{ effectEntries : List Effect, versionGroup : ApiResource }"
+            },
+            {
+                "name": "AbilityFlavorText",
+                "comment": " ",
+                "args": [],
+                "type": "{ flavorText : String, language : ApiResource, versionGroup : ApiResource }"
+            },
+            {
+                "name": "AbilityPokemon",
+                "comment": " ",
+                "args": [],
+                "type": "{ isHidden : Bool, slot : Int, pokemon : ApiResource }"
+            },
+            {
+                "name": "ApiResource",
+                "comment": " ",
+                "args": [],
+                "type": "{ name : String, url : ApiUrl }"
+            },
+            {
+                "name": "ApiResourceList",
+                "comment": " ",
+                "args": [],
+                "type": "{ count : Int, next : Maybe ApiListUrl, previous : Maybe ApiListUrl, results : List ApiResource }"
+            },
+            {
+                "name": "AwesomeName",
+                "comment": " ",
+                "args": [],
+                "type": "{ awesomeName : String, language : ApiResource }"
+            },
+            {
+                "name": "Berry",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, growthTime : Int, maxHarvest : Int, naturalGiftPower : Int, size : Int, smoothness : Int, soilDryness : Int, firmness : ApiResource, flavors : List BerryFlavorMap, item : ApiResource, naturalGiftType : ApiResource }"
+            },
+            {
+                "name": "BerryFirmness",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, berries : List ApiResource, names : List Name }"
+            },
+            {
+                "name": "BerryFlavor",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, berries : List FlavorBerryMap, contestType : ApiResource, names : List Name }"
+            },
+            {
+                "name": "BerryFlavorMap",
+                "comment": " ",
+                "args": [],
+                "type": "{ potency : Int, flavor : ApiResource }"
+            },
+            {
+                "name": "ChainLink",
+                "comment": " ",
+                "args": [],
+                "type": "{ isBaby : Bool, species : ApiResource, evolutionDetails : List EvolutionDetail, evolvesTo : Evolutions }"
+            },
+            {
+                "name": "Characteristic",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, geneModulo : Int, possibleValues : List Int, descriptions : List Description }"
+            },
+            {
+                "name": "ContestComboDetail",
+                "comment": " ",
+                "args": [],
+                "type": "{ useBefore : Maybe (List ApiResource), useAfter : Maybe (List ApiResource) }"
+            },
+            {
+                "name": "ContestComboSets",
+                "comment": " ",
+                "args": [],
+                "type": "{ normal : Maybe ContestComboDetail, super : Maybe ContestComboDetail }"
+            },
+            {
+                "name": "ContestEffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, appeal : Int, jam : Int, effectEntries : List Effect, flavorTextEntries : List FlavorText }"
+            },
+            {
+                "name": "ContestName",
+                "comment": " ",
+                "args": [],
+                "type": "{ name : String, color : String, language : ApiResource }"
+            },
+            {
+                "name": "ContestType",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, berryFlavor : ApiResource, names : List ContestName }"
+            },
+            {
+                "name": "Description",
+                "comment": " ",
+                "args": [],
+                "type": "{ description : String, language : ApiResource }"
+            },
+            {
+                "name": "Effect",
+                "comment": " ",
+                "args": [],
+                "type": "{ effect : String, language : ApiResource }"
+            },
+            {
+                "name": "EggGroup",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "Encounter",
+                "comment": " ",
+                "args": [],
+                "type": "{ minLevel : Int, maxLevel : Int, conditionValues : List ApiResource, chance : Int, method : ApiResource }"
+            },
+            {
+                "name": "EncounterCondition",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, values : List ApiResource }"
+            },
+            {
+                "name": "EncounterConditionValue",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, condition : ApiResource, names : List Name }"
+            },
+            {
+                "name": "EncounterMethod",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, order : Int, names : List Name }"
+            },
+            {
+                "name": "EncounterMethodRate",
+                "comment": " ",
+                "args": [],
+                "type": "{ encounterMethod : ApiResource, versionDetails : List EncounterVersionDetails }"
+            },
+            {
+                "name": "EncounterVersionDetails",
+                "comment": " ",
+                "args": [],
+                "type": "{ rate : Int, version : ApiResource }"
+            },
+            {
+                "name": "EvolutionChain",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, babyTriggerItem : Maybe ApiResource, chain : Maybe ChainLink }"
+            },
+            {
+                "name": "EvolutionDetail",
+                "comment": " ",
+                "args": [],
+                "type": "{ item : Maybe ApiResource, trigger : ApiResource, gender : Maybe Int, heldItem : Maybe ApiResource, knownMove : Maybe ApiResource, knownMoveType : Maybe ApiResource, location : Maybe ApiResource, minLevel : Int, minHappiness : Maybe Int, minBeauty : Maybe Int, minAffection : Maybe Int, needsOverworldRain : Bool, partySpecies : Maybe ApiResource, partyType : Maybe ApiResource, relativePhysicalStats : Maybe Int, timeOfDay : String, tradeSpecies : Maybe ApiResource, turnUpsideDown : Bool }"
+            },
+            {
+                "name": "EvolutionTrigger",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "FlavorBerryMap",
+                "comment": " ",
+                "args": [],
+                "type": "{ potency : Int, berry : ApiResource }"
+            },
+            {
+                "name": "FlavorText",
+                "comment": " ",
+                "args": [],
+                "type": "{ flavorText : String, language : ApiResource }"
+            },
+            {
+                "name": "Gender",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, pokemonSpeciesDetails : List PokemonSpeciesGender, requiredForEvolution : List ApiResource }"
+            },
+            {
+                "name": "Generation",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, abilities : List ApiResource, names : List Name, mainRegion : ApiResource, moves : List ApiResource, pokemonSpecies : List ApiResource, types : List ApiResource, versionGroups : List ApiResource }"
+            },
+            {
+                "name": "GenerationGameIndex",
+                "comment": " ",
+                "args": [],
+                "type": "{ gameIndex : Int, generation : ApiResource }"
+            },
+            {
+                "name": "Genus",
+                "comment": " ",
+                "args": [],
+                "type": "{ genus : String, language : ApiResource }"
+            },
+            {
+                "name": "GrowthRate",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, formula : String, descriptions : List Description, levels : List GrowthRateExperienceLevel, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "GrowthRateExperienceLevel",
+                "comment": " ",
+                "args": [],
+                "type": "{ level : Int, experience : Int }"
+            },
+            {
+                "name": "Item",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, cost : Int, flingPower : Maybe Int, flingEffect : Maybe ApiResource, attributes : List ApiResource, category : ApiResource, effectEntries : List VerboseEffect, flavorTextEntries : List VersionGroupFlavorText, gameIndicies : List GenerationGameIndex, names : List Name, sprites : ItemSprites, heldByPokemon : List ItemHolderPokemon, babyTriggerFor : Maybe ApiResource, machines : List MachineVersionDetail }"
+            },
+            {
+                "name": "ItemAttribute",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, items : List ApiResource, names : List Name, descriptions : List Description }"
+            },
+            {
+                "name": "ItemCategory",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, items : List ApiResource, names : List Name, pocket : ApiResource }"
+            },
+            {
+                "name": "ItemFlingEffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, effectEntries : List Effect, items : List ApiResource }"
+            },
+            {
+                "name": "ItemHolderPokemon",
+                "comment": " ",
+                "args": [],
+                "type": "{ pokemon : ApiResource, versionDetails : List ItemHolderPokemonVersionDetail }"
+            },
+            {
+                "name": "ItemHolderPokemonVersionDetail",
+                "comment": " ",
+                "args": [],
+                "type": "{ rarity : Int, version : ApiResource }"
+            },
+            {
+                "name": "ItemPocket",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, categories : List ApiResource, names : List Name }"
+            },
+            {
+                "name": "ItemSprites",
+                "comment": " ",
+                "args": [],
+                "type": "{ default : String }"
+            },
+            {
+                "name": "Language",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, official : Bool, iso639 : String, iso3166 : String, names : List Name }"
+            },
+            {
+                "name": "Location",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, region : Maybe ApiResource, names : List Name, gameIndices : List GenerationGameIndex, areas : List ApiResource }"
+            },
+            {
+                "name": "LocationArea",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, gameIndex : Int, encounterMethodRates : List EncounterMethodRate, location : ApiResource, names : List Name, pokemonEncounters : List PokemonEncounter }"
+            },
+            {
+                "name": "LocationAreaEncounter",
+                "comment": " ",
+                "args": [],
+                "type": "{ locationArea : ApiResource, versionDetails : List VersionEncounterDetail }"
+            },
+            {
+                "name": "Machine",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, item : ApiResource, move : ApiResource, versionGroup : ApiResource }"
+            },
+            {
+                "name": "MachineVersionDetail",
+                "comment": " ",
+                "args": [],
+                "type": "{ machine : ApiResource, versionGroup : ApiResource }"
+            },
+            {
+                "name": "Move",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, accuracy : Maybe Int, effectChance : Maybe Int, pp : Maybe Int, priority : Int, power : Maybe Int, contestCombos : Maybe ContestComboSets, contestType : Maybe ApiResource, contestEffect : Maybe ApiResource, damageClass : ApiResource, effectEntries : List VerboseEffect, effectChanges : List AbilityEffectChange, flavorTextEntries : List MoveFlavorText, generation : ApiResource, machines : List MachineVersionDetail, meta : Maybe MoveMetaData, names : List Name, pastValues : List PastMoveStatValues, statChanges : List MoveStatChange, superContestEffect : Maybe ApiResource, target : ApiResource, type_ : ApiResource }"
+            },
+            {
+                "name": "MoveAilment",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, moves : List ApiResource, names : List Name }"
+            },
+            {
+                "name": "MoveBattleStyle",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name }"
+            },
+            {
+                "name": "MoveBattleStylePreference",
+                "comment": " ",
+                "args": [],
+                "type": "{ lowHpPreference : Int, highHpPreference : Int, moveBattleStyle : ApiResource }"
+            },
+            {
+                "name": "MoveCategory",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, moves : List ApiResource, descriptions : List Description }"
+            },
+            {
+                "name": "MoveDamageClass",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, descriptions : List Description, moves : List ApiResource, names : List Name }"
+            },
+            {
+                "name": "MoveFlavorText",
+                "comment": " ",
+                "args": [],
+                "type": "{ flavorText : String, language : ApiResource, versionGroup : ApiResource }"
+            },
+            {
+                "name": "MoveLearnMethod",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, descriptions : List Description, names : List Name, versionGroups : List ApiResource }"
+            },
+            {
+                "name": "MoveMetaData",
+                "comment": " ",
+                "args": [],
+                "type": "{ ailment : ApiResource, category : ApiResource, minHits : Maybe Int, maxHits : Maybe Int, minTurns : Maybe Int, maxTurns : Maybe Int, drain : Int, healing : Int, critRate : Int, ailmentChance : Int, flinchChance : Int, statChance : Int }"
+            },
+            {
+                "name": "MoveStatAffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ change : Int, move : ApiResource }"
+            },
+            {
+                "name": "MoveStatAffectSets",
+                "comment": " ",
+                "args": [],
+                "type": "{ increase : List MoveStatAffect, decrease : List MoveStatAffect }"
+            },
+            {
+                "name": "MoveStatChange",
+                "comment": " ",
+                "args": [],
+                "type": "{ change : Int, stat : ApiResource }"
+            },
+            {
+                "name": "MoveTarget",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, descriptions : List Description, moves : List ApiResource, names : List Name }"
+            },
+            {
+                "name": "Name",
+                "comment": " ",
+                "args": [],
+                "type": "{ name : String, language : ApiResource }"
+            },
+            {
+                "name": "Nature",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, decreasedStat : Maybe ApiResource, increasedStat : Maybe ApiResource, hatesFlavor : Maybe ApiResource, likesFlavor : Maybe ApiResource, pokeathlonStatChanges : List NatureStatChange, moveBattleStylePreferences : List MoveBattleStylePreference, names : List Name }"
+            },
+            {
+                "name": "NaturePokeathlonStatAffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ maxChange : Int, nature : ApiResource }"
+            },
+            {
+                "name": "NaturePokeathlonStatAffectSets",
+                "comment": " ",
+                "args": [],
+                "type": "{ increase : List NaturePokeathlonStatAffect, decrease : List NaturePokeathlonStatAffect }"
+            },
+            {
+                "name": "NatureStatAffectSets",
+                "comment": " ",
+                "args": [],
+                "type": "{ increase : List ApiResource, decrease : List ApiResource }"
+            },
+            {
+                "name": "NatureStatChange",
+                "comment": " ",
+                "args": [],
+                "type": "{ maxChange : Int, pokeathlonStat : ApiResource }"
+            },
+            {
+                "name": "NotFound",
+                "comment": " ",
+                "args": [],
+                "type": "{ detail : String }"
+            },
+            {
+                "name": "PalParkArea",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, pokemonEncounters : List PalParkEncounterSpecies }"
+            },
+            {
+                "name": "PalParkEncounterArea",
+                "comment": " ",
+                "args": [],
+                "type": "{ baseScore : Int, rate : Int, area : ApiResource }"
+            },
+            {
+                "name": "PalParkEncounterSpecies",
+                "comment": " ",
+                "args": [],
+                "type": "{ baseScore : Int, rate : Int, pokemonSpecies : ApiResource }"
+            },
+            {
+                "name": "PastMoveStatValues",
+                "comment": " ",
+                "args": [],
+                "type": "{ accuracy : Maybe Int, effectChance : Maybe Int, power : Maybe Int, pp : Maybe Int, effectEntries : List VerboseEffect, type_ : Maybe ApiResource, versionGroup : ApiResource }"
+            },
+            {
+                "name": "PokeathlonStat",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, affectingNatures : NaturePokeathlonStatAffectSets }"
+            },
+            {
+                "name": "Pokedex",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, isMainSeries : Bool, descriptions : List Description, names : List Name, pokemonEntries : List PokemonEntry, region : Maybe ApiResource, versionGroups : List ApiResource }"
+            },
+            {
+                "name": "Pokemon",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, baseExperience : Int, height : Int, isDefault : Bool, order : Int, weight : Int, locationAreaEncounters : String, abilities : List PokemonAbility, forms : List ApiResource, moves : List PokemonMove, sprites : PokemonSprites, stats : List PokemonStat, heldItems : List PokemonHeldItem, species : ApiResource, gameIndices : List VersionGameIndex, types : List PokemonType }"
+            },
+            {
+                "name": "PokemonAbility",
+                "comment": " ",
+                "args": [],
+                "type": "{ slot : Int, isHidden : Bool, ability : ApiResource }"
+            },
+            {
+                "name": "PokemonColor",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "PokemonEncounter",
+                "comment": " ",
+                "args": [],
+                "type": "{ pokemon : ApiResource, versionDetails : List VersionEncounterDetail }"
+            },
+            {
+                "name": "PokemonEntry",
+                "comment": " ",
+                "args": [],
+                "type": "{ entryNumber : Int, pokemonSpecies : ApiResource }"
+            },
+            {
+                "name": "PokemonForm",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, order : Int, formOrder : Int, isDefault : Bool, isBattleOnly : Bool, isMega : Bool, formName : String, pokemon : ApiResource, sprites : PokemonFormSprites, versionGroup : ApiResource, names : List Name, formNames : List Name }"
+            },
+            {
+                "name": "PokemonFormSprites",
+                "comment": " ",
+                "args": [],
+                "type": "{ frontDefault : Maybe String, frontShiny : Maybe String, backDefault : Maybe String, backShiny : Maybe String }"
+            },
+            {
+                "name": "PokemonHabitat",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "PokemonHeldItem",
+                "comment": " ",
+                "args": [],
+                "type": "{ item : ApiResource, versionDetails : List PokemonHeldItemVersion }"
+            },
+            {
+                "name": "PokemonHeldItemVersion",
+                "comment": " ",
+                "args": [],
+                "type": "{ version : ApiResource, rarity : Int }"
+            },
+            {
+                "name": "PokemonMove",
+                "comment": " ",
+                "args": [],
+                "type": "{ move : ApiResource, versionGroupDetails : List PokemonMoveVersion }"
+            },
+            {
+                "name": "PokemonMoveVersion",
+                "comment": " ",
+                "args": [],
+                "type": "{ moveLearnMethod : ApiResource, versionGroup : ApiResource, levelLearnedAt : Int }"
+            },
+            {
+                "name": "PokemonShape",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, awesomeNames : List AwesomeName, names : List Name, pokemonSpecies : List ApiResource }"
+            },
+            {
+                "name": "PokemonSpecies",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, order : Int, genderRate : Int, captureRate : Int, baseHappiness : Int, isBaby : Bool, hatchCounter : Int, hasGenderDifferences : Bool, formsSwitchable : Bool, growthRate : ApiResource, pokedexNumbers : List PokemonSpeciesDexEntry, eggGroups : List ApiResource, color : ApiResource, shape : ApiResource, evolvesFromSpecies : Maybe ApiResource, evolutionChain : ApiResource, habitat : Maybe ApiResource, generation : ApiResource, names : List Name, palParkEncounters : List PalParkEncounterArea, flavorTextEntries : List FlavorText, formDescription : List Description, genera : List Genus, varieties : List PokemonSpeciesVariety }"
+            },
+            {
+                "name": "PokemonSpeciesDexEntry",
+                "comment": " ",
+                "args": [],
+                "type": "{ entryNumber : Int, pokedex : ApiResource }"
+            },
+            {
+                "name": "PokemonSpeciesGender",
+                "comment": " ",
+                "args": [],
+                "type": "{ rate : Int, pokemonSpecies : ApiResource }"
+            },
+            {
+                "name": "PokemonSpeciesVariety",
+                "comment": " ",
+                "args": [],
+                "type": "{ isDefault : Bool, pokemon : ApiResource }"
+            },
+            {
+                "name": "PokemonSprites",
+                "comment": " ",
+                "args": [],
+                "type": "{ frontDefault : Maybe String, frontShiny : Maybe String, frontFemale : Maybe String, frontShinyFemale : Maybe String, backDefault : Maybe String, backShiny : Maybe String, backFemale : Maybe String, backShinyFemale : Maybe String }"
+            },
+            {
+                "name": "PokemonStat",
+                "comment": " ",
+                "args": [],
+                "type": "{ effort : Int, baseStat : Int, stat : ApiResource }"
+            },
+            {
+                "name": "PokemonType",
+                "comment": " ",
+                "args": [],
+                "type": "{ slot : Int, type_ : ApiResource }"
+            },
+            {
+                "name": "Region",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, locations : List ApiResource, mainGeneration : ApiResource, names : List Name, pokedexes : List ApiResource, versionGroups : List ApiResource }"
+            },
+            {
+                "name": "Stat",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, gameIndex : Int, isBattleOnly : Bool, affectingMoves : MoveStatAffectSets, affectingNatures : NatureStatAffectSets, characteristics : List ApiResource, moveDamageClass : Maybe ApiResource, names : List Name }"
+            },
+            {
+                "name": "SuperContestEffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, appeal : Int, flavorTextEntries : List FlavorText, moves : List ApiResource }"
+            },
+            {
+                "name": "Type",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, damageRelations : TypeRelations, gameIndices : List GenerationGameIndex, generation : ApiResource, moveDamageClass : Maybe ApiResource, names : List Name, pokemon : List TypePokemon, moves : List ApiResource }"
+            },
+            {
+                "name": "TypePokemon",
+                "comment": " ",
+                "args": [],
+                "type": "{ slot : Int, pokemon : ApiResource }"
+            },
+            {
+                "name": "TypeRelations",
+                "comment": " ",
+                "args": [],
+                "type": "{ noDamageTo : List ApiResource, halfDamageTo : List ApiResource, doubleDamageTo : List ApiResource, noDamageFrom : List ApiResource, halfDamageFrom : List ApiResource, doubleDamageFrom : List ApiResource }"
+            },
+            {
+                "name": "VerboseEffect",
+                "comment": " ",
+                "args": [],
+                "type": "{ effect : String, shortEffect : String, language : ApiResource }"
+            },
+            {
+                "name": "Version",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, names : List Name, versionGroup : ApiResource }"
+            },
+            {
+                "name": "VersionEncounterDetail",
+                "comment": " ",
+                "args": [],
+                "type": "{ version : ApiResource, maxChance : Int, encounterDetails : List Encounter }"
+            },
+            {
+                "name": "VersionGameIndex",
+                "comment": " ",
+                "args": [],
+                "type": "{ gameIndex : Int, version : ApiResource }"
+            },
+            {
+                "name": "VersionGroup",
+                "comment": " ",
+                "args": [],
+                "type": "{ id : Int, name : String, order : Int, generation : ApiResource, moveLearnMethods : List ApiResource, pokedexes : List ApiResource, regions : List ApiResource, versions : List ApiResource }"
+            },
+            {
+                "name": "VersionGroupFlavorText",
+                "comment": " ",
+                "args": [],
+                "type": "{ text : String, language : ApiResource, versionGroup : ApiResource }"
+            }
+        ],
+        "values": [
+            {
+                "name": "asApiListUrl",
+                "comment": " ",
+                "type": "String -> ApiListUrl"
+            },
+            {
+                "name": "asApiUrl",
+                "comment": " ",
+                "type": "String -> ApiUrl"
+            },
+            {
+                "name": "asEvolutions",
+                "comment": " ",
+                "type": "List ChainLink -> Evolutions"
+            },
+            {
+                "name": "getChainLinkList",
+                "comment": " ",
+                "type": "Evolutions -> List ChainLink"
+            },
+            {
+                "name": "getListUrl",
+                "comment": " ",
+                "type": "ApiListUrl -> String"
+            },
+            {
+                "name": "getUrl",
+                "comment": " ",
+                "type": "ApiUrl -> String"
+            }
+        ],
+        "binops": []
+    }
+]

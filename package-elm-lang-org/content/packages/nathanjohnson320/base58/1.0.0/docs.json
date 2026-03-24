@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Base58",
+        "comment": " Handles encoding/decoding base58 data\n\n# Transformations\n@docs decode, encode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decodes turns a string into its original BigInt\n        \"ANYBx47k26vP81XFbQXh6XKUj7ptQRJMLt\"\n            |> Base58.decode\n        == BigInt.fromString \"146192635802076751054841979942155177482410195601230638449945\"\n",
+                "type": "String -> BigInt"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode turns a big int into a string\n        BigInt.fromString \"146192635802076751054841979942155177482410195601230638449945\"\n            |> Base58.encode\n        == \"ANYBx47k26vP81XFbQXh6XKUj7ptQRJMLt\"\n",
+                "type": "BigInt -> String"
+            }
+        ],
+        "binops": []
+    }
+]

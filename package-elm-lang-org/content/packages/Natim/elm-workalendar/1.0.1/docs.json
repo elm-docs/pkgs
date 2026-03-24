@@ -1,0 +1,16 @@
+[
+    {
+        "name": "FrenchHolidays",
+        "comment": " This library makes it easy to compute the list of French Holidays for a given year\n\n@docs offdays\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "offdays",
+                "comment": " Return a list of Dates with their description\n\n    import FrenchHolidays exposing (offdays)\n    import Date exposing (Date, Month)\n    import Date.Extra as Date\n\n\n    date : Int -> Month -> Int -> Date\n    date year month day =\n        Date.fromParts year month day 0 0 0 0\n\n\n    offdays 2017\n\n    ==\n       [ ( date 2017 Jan 1, \"New Year\" )\n       , ( date 2017 Apr 17, \"Easter Monday\" )\n       , ( date 2017 May 1, \"Labour Day\" )\n       , ( date 2017 May 8, \"Victory Europe Day\" )\n       , ( date 2017 May 25, \"Ascension\" )\n       , ( date 2017 Jun 5, \"Whit Monday\" )\n       , ( date 2017 Jul 14, \"Bastille Day\" )\n       , ( date 2017 Aug 15, \"Assumption Day\" )\n       , ( date 2017 Nov 1, \"All Saints Day\" )\n       , ( date 2017 Nov 11, \"Armistice Day\" )\n       , ( date 2017 Dec 25, \"Christmas Day\" )\n       ]\n\n",
+                "type": "Int -> List ( Date, String )"
+            }
+        ],
+        "binops": []
+    }
+]

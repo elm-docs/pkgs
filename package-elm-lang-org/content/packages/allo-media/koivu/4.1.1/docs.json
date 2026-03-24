@@ -1,0 +1,230 @@
+[
+    {
+        "name": "Koivu",
+        "comment": " An interactive tree representation of [AlloMedia](https://www.allo-media.fr/)'s Customer Path.\n\n\n# Minimal application setup\n\n    import Koivu\n    import Koivu.Tree as Tree\n    import Koivu.Settings exposing (Settings)\n    import Html\n\n    settings : Settings\n    settings =\n        { autoNormalize = False\n        , globalQty = 100000\n        , minNodeQty = 3000\n        , maxChildren = 4\n        , maxGlobalQty = 200000\n        , maxLevels = 3\n        , nodeWidth = 140\n        , nodeHeight = 80\n        , nodePadding = 10\n        }\n\n    main : Program Never Koivu.Model Koivu.Msg\n    main =\n        Tree.empty\n            |> Koivu.setup settings\n            |> Html.program\n\nYou'll find a more elaborate integration example [here](https://github.com/allo-media/koivu/tree/4.0.0/example).\n\n\n# Documentation\n\n@docs setup, Program, Model, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Koivu messages.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AppendChild",
+                        [
+                            "NodeInfo"
+                        ]
+                    ],
+                    [
+                        "CancelEdit",
+                        []
+                    ],
+                    [
+                        "CommitLabel",
+                        []
+                    ],
+                    [
+                        "DeleteNode",
+                        [
+                            "NodeInfo"
+                        ]
+                    ],
+                    [
+                        "EditNode",
+                        [
+                            "NodeInfo"
+                        ]
+                    ],
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "Normalize",
+                        []
+                    ],
+                    [
+                        "SetAutoNormalize",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "ToggleLock",
+                        [
+                            "NodeInfo"
+                        ]
+                    ],
+                    [
+                        "UpdateLabel",
+                        [
+                            "NodeInfo",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "UpdateQty",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "UpdateShare",
+                        [
+                            "NodeInfo",
+                            "Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Koivu main model.\n",
+                "args": [],
+                "type": "{ root : Tree, editedNode : Maybe NodeInfo, settings : Settings }"
+            },
+            {
+                "name": "Program",
+                "comment": " A Koivu program.\n",
+                "args": [],
+                "type": "{ init : ( Model, Cmd Msg ), subscriptions : Model -> Sub Msg, update : Msg -> Model -> ( Model, Cmd Msg ), view : Model -> Html Msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "setup",
+                "comment": " Setup a Koivu program.\n",
+                "type": "Settings -> Tree -> Program"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Koivu.Tree",
+        "comment": " A representation of a Classification Tree.\n\n\n# Basics\n\n@docs Tree, NodeInfo\n\n\n# Building a tree\n\n@docs empty, appendChild, createNodeInfo, deleteNode, toggleLock, updateShare\n\n\n# Querying a tree\n\n@docs allowExpand, findNode, findNodes, getMaxSharable, getProp, isLockable, isUnderfed\n\n\n# Normalizing a tree\n\n@docs distributeShare, distributeQty, normalize, resetDistribution\n\n\n# Encoding\n\n@docs encode\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "NodeInfo",
+                "comment": " A node information.\n",
+                "args": [],
+                "type": "{ id : Int, label : String, qty : Int, share : Int, locked : Bool }"
+            },
+            {
+                "name": "Tree",
+                "comment": " A Koivu Tree.\n",
+                "args": [],
+                "type": "Node NodeInfo"
+            }
+        ],
+        "values": [
+            {
+                "name": "allowExpand",
+                "comment": " Check whether a node is allowed to append new children.\n",
+                "type": "Settings -> Int -> Tree -> Bool"
+            },
+            {
+                "name": "appendChild",
+                "comment": " Append a NodeInfo child to a Tree.\n",
+                "type": "NodeInfo -> NodeInfo -> Tree -> Tree"
+            },
+            {
+                "name": "createNodeInfo",
+                "comment": " Create a new node to be addable to a given tree.\n\nA unique identifier is generated for this node.\n\n",
+                "type": "Tree -> NodeInfo"
+            },
+            {
+                "name": "deleteNode",
+                "comment": " Deletes a node, ensuring to re-spread shares to deleted node siblings.\n",
+                "type": "NodeInfo -> Tree -> Tree"
+            },
+            {
+                "name": "distributeQty",
+                "comment": " Distributes a quantity across all nodes in a tree.\n",
+                "type": "Int -> Tree -> Tree"
+            },
+            {
+                "name": "distributeShare",
+                "comment": " Distributes shares to a given node siblings in a tree, dealing with a\npossibly locked sibling.\n\nIf the target node itself is locked, this function is a noop.\n\n",
+                "type": "Int -> Int -> Tree -> Tree"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty node.\n",
+                "type": "Tree"
+            },
+            {
+                "name": "encode",
+                "comment": " A tree JSON encoder.\n\n    demoTree\n        |> encode\n        |> Json.Encode.encode 2\n\n",
+                "type": "Tree -> Value"
+            },
+            {
+                "name": "findNode",
+                "comment": " Finds a node by its id in a tree.\n",
+                "type": "Int -> Tree -> Maybe Tree"
+            },
+            {
+                "name": "findNodes",
+                "comment": " Finds nodes by their id in a tree.\n",
+                "type": "List Int -> Tree -> List Tree"
+            },
+            {
+                "name": "getMaxSharable",
+                "comment": " Get maximum share a node can reach.\n",
+                "type": "Int -> Tree -> Int"
+            },
+            {
+                "name": "getProp",
+                "comment": " Retrieve a NodeInfo propery from a node.\n",
+                "type": "(NodeInfo -> a) -> Tree -> a"
+            },
+            {
+                "name": "isLockable",
+                "comment": " Check whether a node can be locked or not. A node can be locked if:\n\n  - it has more than one sibling\n  - and none of its sibling are already locked\n\n",
+                "type": "NodeInfo -> Tree -> Bool"
+            },
+            {
+                "name": "isUnderfed",
+                "comment": " Checks whether a tree has all its nodes having the minimum quantity configured\nin the `Settings`.\n",
+                "type": "Int -> Tree -> Bool"
+            },
+            {
+                "name": "normalize",
+                "comment": " Normalize a tree, ensuring all leaves have a minimum quantity assigned.\n",
+                "type": "Int -> Tree -> Tree"
+            },
+            {
+                "name": "resetDistribution",
+                "comment": " Reset tree nodes share distribution equitably and recompute node quantities accordingly.\n\nNote: the root node is reset with a share of 100.\n\n",
+                "type": "Int -> Tree -> Tree"
+            },
+            {
+                "name": "toggleLock",
+                "comment": " Toggles a locked status of a node. Locking a node means its share value is\nlocked and can't be modified, so distribution is guaranteed across its siblings\nonly.\n",
+                "type": "Int -> Tree -> Tree"
+            },
+            {
+                "name": "updateShare",
+                "comment": " Update a node share in a tree.\n\nNote: if share is < 1, it will be forced to 1.\n\n",
+                "type": "NodeInfo -> Int -> Tree -> Tree"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Koivu.Settings",
+        "comment": " Koivu settings.\n\n@docs Settings\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Settings",
+                "comment": " Settings description:\n\n  - `autoNormalize`: enable auto-normalization of the tree\n  - `globalQty`: initial global available quantity\n  - `minNodeQty`: minimal quantity for a viable tree\n  - `maxChildren`: maximum number of children per node\n  - `maxGlobalQty`: maximum global available quantity\n  - `maxLevels`: maximum depth for the tree\n  - `nodeWidth`: node width, in pixels\n  - `nodeHeight`: node height, in pixels\n  - `nodePadding`: node padding, in pixels\n\n",
+                "args": [],
+                "type": "{ autoNormalize : Bool, globalQty : Int, maxChildren : Int, maxGlobalQty : Int, maxLevels : Int, minNodeQty : Int, nodeWidth : Int, nodeHeight : Int, nodePadding : Int }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

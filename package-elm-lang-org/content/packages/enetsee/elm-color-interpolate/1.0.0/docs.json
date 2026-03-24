@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Color.Interpolate",
+        "comment": "\n@docs rgb, rgbBasis, rgbBasisClosed\n@docs hsl, hslLong\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "hsl",
+                "comment": " ",
+                "type": "Color -> Color -> Float -> { hue : Float, saturation : Float, lightness : Float, alpha : Float }"
+            },
+            {
+                "name": "hslLong",
+                "comment": " ",
+                "type": "Color -> Color -> Float -> { hue : Float, saturation : Float, lightness : Float, alpha : Float }"
+            },
+            {
+                "name": "rgb",
+                "comment": " ",
+                "type": "Maybe Float -> Color -> Color -> Float -> { red : Int, green : Int, blue : Int, alpha : Float }"
+            },
+            {
+                "name": "rgbBasis",
+                "comment": " ",
+                "type": "List Color -> Float -> { alpha : Float, blue : Int, green : Int, red : Int }"
+            },
+            {
+                "name": "rgbBasisClosed",
+                "comment": " ",
+                "type": "List Color -> Float -> { alpha : Float, blue : Int, green : Int, red : Int }"
+            }
+        ],
+        "binops": []
+    }
+]

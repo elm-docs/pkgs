@@ -1,0 +1,187 @@
+[
+    {
+        "name": "JsonApi.Decode",
+        "comment": " Library for decoding JSONAPI-compliant payloads\n\n@docs document, errors\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "document",
+                "comment": " Decode a JSONAPI-compliant payload.\n",
+                "type": "Decoder Document"
+            },
+            {
+                "name": "errors",
+                "comment": " Decode the errors returned from a JSON API-compliant server.\n",
+                "type": "Decoder (List ErrorObject)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi.Encode",
+        "comment": " Functions for encoding JSON API resources to Json\n\n@docs clientResource\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "clientResource",
+                "comment": " Encode a resource constructed on the client to a JSON API-compliant value\n    see: http://jsonapi.org/format/#crud-creating\n",
+                "type": "ClientResource -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi.Resources",
+        "comment": " Helper functions for working with a single JsonApi Resource\n\n# Common Helpers\n@docs id, attributes, attribute, links, relatedResource, relatedResourceCollection,\n      meta, relatedLinks, relatedMeta, build, withAttributes, withRelationship, withRelationships, withUuid\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attribute",
+                "comment": " Serialize a single attributes of a Resource. You must provide the string key of the attribute\n    and a Json Decoder to convert the attribute into a type that you define.\n",
+                "type": "String -> Decoder a -> Resource -> Result String a"
+            },
+            {
+                "name": "attributes",
+                "comment": " Serialize the attributes of a Resource. Because the attributes are unstructured,\n    you must provide a Json Decoder to convert them into a type that you define.\n",
+                "type": "Decoder a -> Resource -> Result String a"
+            },
+            {
+                "name": "build",
+                "comment": " Construct a ClientResource instance with the supplied type.\n    ClientResources are like Resources but without an 'id' field or related resources.\n    Use them to represent new Resources that you want to POST to a JSON API server.\n",
+                "type": "String -> ClientResource"
+            },
+            {
+                "name": "id",
+                "comment": " Get the string ID of a Resource\n",
+                "type": "Resource -> String"
+            },
+            {
+                "name": "links",
+                "comment": " Pull the attributes off of a Resource.\n",
+                "type": "Resource -> Links"
+            },
+            {
+                "name": "meta",
+                "comment": " Pull the meta value off of a Resource.\n",
+                "type": "Resource -> Meta"
+            },
+            {
+                "name": "relatedLinks",
+                "comment": " Retreive the links from a relationship.\n    Will return an Err if the relationship does not exist.\n",
+                "type": "String -> Resource -> Result String Links"
+            },
+            {
+                "name": "relatedMeta",
+                "comment": " Retreive the meta information from a relationship.\n    Will return an Err if the relationship does not exist.\n",
+                "type": "String -> Resource -> Result String Meta"
+            },
+            {
+                "name": "relatedResource",
+                "comment": " Find a related resource.\n    Will return an Err if a resource collection is found.\n",
+                "type": "String -> Resource -> Result String Resource"
+            },
+            {
+                "name": "relatedResourceCollection",
+                "comment": " Find a related collection of resources.\n    Will return an Err if a single resource is found.\n",
+                "type": "String -> Resource -> Result String (List Resource)"
+            },
+            {
+                "name": "withAttributes",
+                "comment": " Add a list of string-value pairs as attributes to a ClientResource\n",
+                "type": "List ( String, Value ) -> ClientResource -> ClientResource"
+            },
+            {
+                "name": "withRelationship",
+                "comment": " Add a relationship with a single related resource to a ClientResource\n",
+                "type": "String -> ResourceIdentifier -> ClientResource -> ClientResource"
+            },
+            {
+                "name": "withRelationships",
+                "comment": " Add a relationship with a collection of related resources to a ClientResource\n",
+                "type": "String -> List ResourceIdentifier -> ClientResource -> ClientResource"
+            },
+            {
+                "name": "withUuid",
+                "comment": " Add a client-generated UUID to the resource. MUST be a valid Uuid in the\n    canonical representation xxxxxxxx-xxxx-Axxx-Yxxx-xxxxxxxxxxxx where A is\n    the version number between [1-5] and Y is in the range [8-B].\n\n    I recommend using http://package.elm-lang.org/packages/danyx23/elm-uuid/2.0.2/Uuid\n    to general a valid UUID.\n",
+                "type": "String -> ClientResource -> Result String ClientResource"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi.Documents",
+        "comment": " Helper functions for working with a full JsonApi Document\n\n# Common Helpers\n@docs links, jsonapi, primaryResource, primaryResourceCollection, meta\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "jsonapi",
+                "comment": " Fetch information from the top-level 'jsonapi' object\n",
+                "type": "Document -> Maybe JsonApiObject"
+            },
+            {
+                "name": "links",
+                "comment": " Fetch the top-level links object from the document.\n",
+                "type": "Document -> Links"
+            },
+            {
+                "name": "meta",
+                "comment": " Fetch the top-level meta object from the document.\n",
+                "type": "Document -> Meta"
+            },
+            {
+                "name": "primaryResource",
+                "comment": " Retrieve the primary resource from a decoded Document.\n    This function assumes a singular primary resource and will return an Err\n    if the document contains a collection of primary resources.\n",
+                "type": "Document -> Result String Resource"
+            },
+            {
+                "name": "primaryResourceCollection",
+                "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
+                "type": "Document -> Result String (List Resource)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi",
+        "comment": " A library for processing and working with JSON API payloads.\n\n# Generic Data Types\n@docs Document, Resource, Links, Meta, ErrorObject\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Document",
+                "comment": " Data type representing the entire JsonApi document.\n",
+                "args": [],
+                "type": "Document"
+            },
+            {
+                "name": "ErrorObject",
+                "comment": " Data type describing the types of problems that can be encountered when processing a JSON API payload.\n\n",
+                "args": [],
+                "type": "{ id : Maybe String, links : Maybe ErrorLinks, status : Maybe String, code : Maybe String, title : Maybe String, detail : Maybe String, source : Maybe Source, meta : Meta }"
+            },
+            {
+                "name": "Links",
+                "comment": " Data type representing a JsonApi links object.\n    See: jsonapi.org/format/#document-links\n",
+                "args": [],
+                "type": "Links"
+            },
+            {
+                "name": "Meta",
+                "comment": " Data type representing a JsonApi meta object. Alias for Json.Encode.Value.\n    See: jsonapi.org/format/#document-meta\n",
+                "args": [],
+                "type": "Meta"
+            },
+            {
+                "name": "Resource",
+                "comment": " Data type representing a single JsonApi resource.\n",
+                "args": [],
+                "type": "Resource"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

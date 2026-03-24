@@ -1,0 +1,58 @@
+[
+    {
+        "name": "ScrollProgress",
+        "comment": " ScrollProgress functions and Msg.\n\n# Model\n@docs Model, ScrollAttributes, initialModel\n\n# Message\n@docs Msg\n\n# Update function\n@docs update, calculateProgress\n\n# View function\n@docs view\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " A union type representing The Elm Architect's `Msg`\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Progress",
+                        [
+                            "ScrollAttributes"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " A type representing a model.\n",
+                "args": [],
+                "type": "{ progress : Int, color : Maybe String, from : Maybe String, to : Maybe String }"
+            },
+            {
+                "name": "ScrollAttributes",
+                "comment": " A type representing the arrtibutes we're expecting 'on scroll'.\n",
+                "args": [],
+                "type": "{ scrollTop : Int, targetScrollHeight : Int, clientHeight : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "calculateProgress",
+                "comment": " A function to calculate the percentage an element has been scrolled\n",
+                "type": "ScrollAttributes -> Int"
+            },
+            {
+                "name": "initialModel",
+                "comment": " Initalize the model\n",
+                "type": "Model"
+            },
+            {
+                "name": "update",
+                "comment": " The Elm Architect's update function.\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " A view function that will render the scroll progress ekement.\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

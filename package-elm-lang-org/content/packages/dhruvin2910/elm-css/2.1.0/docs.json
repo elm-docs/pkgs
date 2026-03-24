@@ -1,0 +1,83 @@
+[
+    {
+        "name": "Css",
+        "comment": " A library to create and use css stylesheets in Elm.\n\n# Type Definitions\n@docs Node, Rule, Selector, Declaration, Property, Value\n\n# Constructors\n@docs stylesheet, rule, declaration\n\n# Html Elements\n@docs style\n\n# Operators\n@docs (=>), (:-)\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Declaration",
+                "comment": " A member of Rule. It has a property and it's value.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Node",
+                "comment": " A top level member of Css stylesheet.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Property",
+                "comment": " A member of Declaration. Css Property.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Rule",
+                "comment": " A member of Css stylesheet. It has a selector and declarations (body).\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Selector",
+                "comment": " A member of Rule. Css Selector.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Value",
+                "comment": " A member of Declaration. Css Value.\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "declaration",
+                "comment": " Constructs a Declaration from a Property and a Value.\n",
+                "type": "Property -> Value -> Declaration"
+            },
+            {
+                "name": "rule",
+                "comment": " Constructs a Rule from a Selector and a List of Declaration.\n",
+                "type": "Selector -> List Declaration -> Rule"
+            },
+            {
+                "name": "style",
+                "comment": " Html style tag.\n",
+                "type": "List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "stylesheet",
+                "comment": " Constructs a Html Style Element from a List of Node.\n",
+                "type": "List Node -> Html msg"
+            }
+        ],
+        "binops": [
+            {
+                "name": ":-",
+                "comment": " For Property :- Value. Alias of declaration.\n",
+                "type": "Property -> Value -> Declaration",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "=>",
+                "comment": " For Selector => [Declaration]. Alias of rule.\n",
+                "type": "Selector -> List Declaration -> Rule",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

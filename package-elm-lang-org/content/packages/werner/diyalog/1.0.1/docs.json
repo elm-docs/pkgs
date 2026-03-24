@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Diyalog",
+        "comment": " A Dialog for Elm\n\n# The model\n@docs Model\n\n# The view\n@docs view\n\n# The update\n@docs update\n\n# The subscriptions\n@docs subscriptions\n\n# The initial state\n@docs initial\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Set up the model with style as the animation for the modal to show up, uses a pretty basic animation.\n    The body property is the modal body, headerTitle just the title, fullHeader is the complete header with css\n    fullBody is the whole body with css and the body, fullFooter should include the buttons with the actions.\n    You don't need to modify visibility ",
+                "args": [],
+                "type": "{ style : State, mainModalCss : Attribute Msg, modalContentCss : Attribute Msg, body : Html Msg, headerTitle : String, fullHeader : String -> Html Msg, fullBody : Html Msg -> Html Msg, fullFooter : Html Msg, visibility : ModalVisibility }"
+            }
+        ],
+        "values": [
+            {
+                "name": "initial",
+                "comment": " ",
+                "type": "Model"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " ",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " This is the modal itself ",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Diyalog.Message",
+        "comment": " The Message module\n\n# The message\n@docs Msg \n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "ShowingModal",
+                        []
+                    ],
+                    [
+                        "OkModal",
+                        []
+                    ],
+                    [
+                        "CloseModal",
+                        []
+                    ],
+                    [
+                        "Animate",
+                        [
+                            "Msg"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

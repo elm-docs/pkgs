@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Glob",
+        "comment": " This module allows you to create patterns for matching strings based on standard glob or fn-match rules.\n\n@docs Glob, Error, glob, globWithOptions, caseInsensitive, Options, defaultOptions, match, toRegexString\n\n",
+        "unions": [
+            {
+                "name": "Error",
+                "comment": " This type holds the potential errors that might come from trying to create a glob from a string. ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Glob",
+                "comment": " A glob with a particular pattern ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " This type describes the options available when generating the Glob. The different entries allow you to disable parts of the Glob syntax. ",
+                "args": [],
+                "type": "{ enableAsterisk : Bool, enableQuestionMark : Bool, enableBrackets : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "caseInsensitive",
+                "comment": " Converts a Glob into a case insensitive version of itself. It applies Regex.caseInsensitive to the underlying Regex. ",
+                "type": "Glob -> Glob"
+            },
+            {
+                "name": "defaultOptions",
+                "comment": " Default options value that has all options set to True. Useful if you want to only disable one option whilst keeping the rest as standard. ",
+                "type": "Options"
+            },
+            {
+                "name": "glob",
+                "comment": " Creates a glob from a string with the default options. This can fail as some patterns are invalid globs. ",
+                "type": "String -> Result Error Glob"
+            },
+            {
+                "name": "globWithOptions",
+                "comment": " Creates a Glob from a string allowing the caller to provide the options they desire. This can fail. ",
+                "type": "Options -> String -> Result Error Glob"
+            },
+            {
+                "name": "match",
+                "comment": " Returns true if the string matches the Glob. ",
+                "type": "Glob -> String -> Bool"
+            },
+            {
+                "name": "toRegexString",
+                "comment": " Generates the regular expression syntax from the given string. ",
+                "type": "Options -> String -> Result Error String"
+            }
+        ],
+        "binops": []
+    }
+]

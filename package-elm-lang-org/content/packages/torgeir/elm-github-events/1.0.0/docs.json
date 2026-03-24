@@ -1,0 +1,139 @@
+[
+    {
+        "name": "Github",
+        "comment": " This library fetches public github events for users using the github api.\n\n# Functions\n@docs fetchAllEvents\n\n# Errors\n@docs ApiError\n\n# Query types\n@docs Username\n\n# Response types\n@docs Events, Event, EventActor, EventRepo, EventAction, PullRequest\n\n",
+        "unions": [
+            {
+                "name": "EventAction",
+                "comment": " EventAction types that represent the action that happened in the event api\n",
+                "args": [],
+                "cases": [
+                    [
+                        "EventActionPush",
+                        [
+                            "EventActionPushPayload"
+                        ]
+                    ],
+                    [
+                        "EventActionFork",
+                        []
+                    ],
+                    [
+                        "EventActionPullRequestReviewComment",
+                        [
+                            "Comment",
+                            "PullRequest"
+                        ]
+                    ],
+                    [
+                        "EventActionPullRequest",
+                        [
+                            "PullRequest"
+                        ]
+                    ],
+                    [
+                        "EventActionIssueComment",
+                        [
+                            "IssueComment"
+                        ]
+                    ],
+                    [
+                        "EventActionIssue",
+                        [
+                            "IssueAction"
+                        ]
+                    ],
+                    [
+                        "EventActionCommitComment",
+                        [
+                            "Comment"
+                        ]
+                    ],
+                    [
+                        "EventActionWatch",
+                        []
+                    ],
+                    [
+                        "EventActionDelete",
+                        [
+                            "EventActionDeletePayload"
+                        ]
+                    ],
+                    [
+                        "EventActionMember",
+                        [
+                            "String",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "EventActionCreate",
+                        [
+                            "Maybe String",
+                            "String",
+                            "Maybe String"
+                        ]
+                    ],
+                    [
+                        "EventActionUnknown",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ApiError",
+                "comment": " Error response returned when api calls fail\n",
+                "args": [],
+                "type": "Error"
+            },
+            {
+                "name": "Event",
+                "comment": " Event type returned from the api\n",
+                "args": [],
+                "type": "{ id : String, action : EventAction, created_at : String, actor : EventActor, repo : EventRepo }"
+            },
+            {
+                "name": "EventActor",
+                "comment": " EventActor type that states who triggered the event\n",
+                "args": [],
+                "type": "{ display_login : String, url : String, avatar_url : String }"
+            },
+            {
+                "name": "EventRepo",
+                "comment": " EventRepo type for the repo that has been acted on and its url'en\n",
+                "args": [],
+                "type": "{ name : String, url : String }"
+            },
+            {
+                "name": "Events",
+                "comment": " Events returned from the api\n",
+                "args": [],
+                "type": "List Event"
+            },
+            {
+                "name": "PullRequest",
+                "comment": " PullRequest type with extra info about pull requests\n",
+                "args": [],
+                "type": "{ action : String, number : Int, url : String, title : String }"
+            },
+            {
+                "name": "Username",
+                "comment": " Username query type\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "fetchAllEvents",
+                "comment": " Fetch all github events for a list of string usernames\n",
+                "type": "(Error -> a) -> (Events -> a) -> List String -> Cmd a"
+            }
+        ],
+        "binops": []
+    }
+]

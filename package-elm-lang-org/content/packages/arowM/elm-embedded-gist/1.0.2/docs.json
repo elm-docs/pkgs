@@ -1,0 +1,16 @@
+[
+    {
+        "name": "EmbeddedGist",
+        "comment": " An unrecommended (but useful) module to embed gist code block in Elm view.\n\n⚠⚠⚠⚠⚠⚠⚠⚠🐐WARNING🐐⚠⚠⚠⚠⚠⚠⚠⚠\n\nThis module is harmful, so you should use it carefully.\n\n  - this module could create an element that Elm cannot handle\n\n⚠⚠⚠⚠⚠⚠⚠⚠🐐WARNING🐐⚠⚠⚠⚠⚠⚠⚠⚠\n\n\n# Renderers\n\n@docs unsafeEmbeddedGist\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "unsafeEmbeddedGist",
+                "comment": " Render function to construct a node that generates a script tag for gist embedding in it.\n\ne.g.,\n\n    div\n        [ class \"wrapper\" ]\n        [ unsafeEmbeddedGist \"arowM/836d478bda8cac261e1e5cab200a5ab0\"\n        ]\n\nAbove Elm view is rendered to bellow.\n\n    <div class=\"wrapper\">\n        <div style=\"padding: 0px;\">\n            <script>\n            function handleGist(json) {\n                ...\n            }\n            </script>\n            <script src=\"https://gist.github.com/arowM/836d478bda8cac261e1e5cab200a5ab0.json?callback=handleGist\"></script>\n        <div>\n    </div>\n\n",
+                "type": "String -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

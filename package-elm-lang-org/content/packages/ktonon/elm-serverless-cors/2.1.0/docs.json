@@ -1,0 +1,93 @@
+[
+    {
+        "name": "Serverless.Cors",
+        "comment": " CORS Middleware for elm-serverless.\n\n\n## Types\n\n@docs Config, Reflectable\n\n\n## Decoders\n\n@docs configDecoder, methodsDecoder, reflectableDecoder\n\n\n## Middleware\n\n@docs fromConfig, allowOrigin, exposeHeaders, maxAge, allowCredentials, allowMethods, allowHeaders\n\n\n## Deprecated\n\n@docs cors\n\n",
+        "unions": [
+            {
+                "name": "Reflectable",
+                "comment": " A reflectable header value.\n\nA reflectable value can either be\n\n  - `ReflectRequest` derive the headers from the request\n  - `Exactly` set to a specific value\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "ReflectRequest",
+                        []
+                    ],
+                    [
+                        "Exactly",
+                        [
+                            "a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Specify all CORS configuration in one record.\n",
+                "args": [],
+                "type": "{ origin : Reflectable (List String), expose : List String, maxAge : Int, credentials : Bool, methods : List Method, headers : Reflectable (List String) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "allowCredentials",
+                "comment": " Sets `access-control-allow-credentials`.\n\nOnly sets the header if the value is `True`.\n\n",
+                "type": "Bool -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "allowHeaders",
+                "comment": " Sets `access-control-allow-headers`.\n\n`ReflectRequest` will reflect the request `access-control-request-headers` headers\nor if absent, it will not set the header at all.\n\n",
+                "type": "Reflectable (List String) -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "allowMethods",
+                "comment": " Sets `access-control-allow-methods`.\n",
+                "type": "List Method -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "allowOrigin",
+                "comment": " Sets `access-control-allow-origin`.\n\n`ReflectRequest` will reflect the request `origin` header, or if absent, will\njust be set to `*`\n\n",
+                "type": "Reflectable (List String) -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "configDecoder",
+                "comment": " Decode CORS configuration from JSON.\n",
+                "type": "Decoder Config"
+            },
+            {
+                "name": "cors",
+                "comment": " Deprecated. Use fromConfig.\n",
+                "type": "Config -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "exposeHeaders",
+                "comment": " Sets `access-control-expose-headers`.\n",
+                "type": "List String -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "fromConfig",
+                "comment": " Set CORS headers according to a configuration record.\n\nThis function is best used when the configuration is provided externally and\ndecoded using `configDecoder`. For example, npm rc and AWS Lambda environment\nvariables can be used as the source of CORS configuration.\n\n",
+                "type": "(config -> Config) -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "maxAge",
+                "comment": " Sets `access-control-max-age`.\n\nIf the value is not positive, the header will not be set.\n\n",
+                "type": "Int -> Conn config model route interop -> Conn config model route interop"
+            },
+            {
+                "name": "methodsDecoder",
+                "comment": " Case-insensitive decode a list of HTTP methods.\n",
+                "type": "Decoder (List Method)"
+            },
+            {
+                "name": "reflectableDecoder",
+                "comment": " Decode a reflectable value from JSON.\n\n  - `\"*\"` decodes to `ReflectRequest`\n  - `\"foo,bar\"` or `[\"foo\", \"bar\"]` decodes to `Exactly [\"foo\", \"bar\"]`\n\n",
+                "type": "Decoder (Reflectable (List String))"
+            }
+        ],
+        "binops": []
+    }
+]

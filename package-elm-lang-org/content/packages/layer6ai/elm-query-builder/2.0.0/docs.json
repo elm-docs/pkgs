@@ -1,0 +1,313 @@
+[
+    {
+        "name": "QueryBuilder.Update",
+        "comment": "\n\n\n# Update\n\n@docs update, initState\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "initState",
+                "comment": " initState\n",
+                "type": "Config -> Predicate -> List ( String, OperandType ) -> State"
+            },
+            {
+                "name": "update",
+                "comment": " update\n",
+                "type": "Msg -> State -> ( State, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.View",
+        "comment": "\n\n\n# Update\n\n@docs queryBuilder, dropdownCss\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dropdownCss",
+                "comment": " dropdownCss\n",
+                "type": "Attribute Msg"
+            },
+            {
+                "name": "queryBuilder",
+                "comment": " queryBuilder\n",
+                "type": "State -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.State",
+        "comment": "\n\n\n# State\n\n@docs State, OperandType, PredicateOperator, Predicate, Operand, StringOperand, StringOperator, OptionOperand, NumberOperand, NumberOperator, BooleanOperand, Selector, Operator, Config, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Msg\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AddOp",
+                        []
+                    ],
+                    [
+                        "RemoveOp",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Negated",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "UpdateValue",
+                        [
+                            "Int",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "OnSelect",
+                        [
+                            "Int",
+                            "Maybe Operator"
+                        ]
+                    ],
+                    [
+                        "DropdownMsg",
+                        [
+                            "Int",
+                            "Msg Operator"
+                        ]
+                    ],
+                    [
+                        "UpdatePredicateOperator",
+                        [
+                            "PredicateOperator"
+                        ]
+                    ],
+                    [
+                        "RandomId",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "NumberOperator",
+                "comment": " NumberOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "EqualTo",
+                        []
+                    ],
+                    [
+                        "GreaterThan",
+                        []
+                    ],
+                    [
+                        "GreaterThanOrEqualTo",
+                        []
+                    ],
+                    [
+                        "LessThan",
+                        []
+                    ],
+                    [
+                        "LessThanOrEqualTo",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Operand",
+                "comment": " Operand\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "StringOp",
+                        [
+                            "StringOperand"
+                        ]
+                    ],
+                    [
+                        "OptionOp",
+                        [
+                            "List String",
+                            "OptionOperand"
+                        ]
+                    ],
+                    [
+                        "NumOp",
+                        [
+                            "NumberOperand"
+                        ]
+                    ],
+                    [
+                        "BoolOp",
+                        [
+                            "BooleanOperand"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "OperandType",
+                "comment": " OperandType\n",
+                "args": [],
+                "cases": [
+                    [
+                        "IsString",
+                        []
+                    ],
+                    [
+                        "IsOption",
+                        [
+                            "List String"
+                        ]
+                    ],
+                    [
+                        "IsNumber",
+                        []
+                    ],
+                    [
+                        "IsBoolean",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Operator",
+                "comment": " Operator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ChooseRator",
+                        [
+                            "( String, OperandType )"
+                        ]
+                    ],
+                    [
+                        "StringRator",
+                        [
+                            "StringOperator"
+                        ]
+                    ],
+                    [
+                        "OptionRator",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "NumberRator",
+                        [
+                            "NumberOperator"
+                        ]
+                    ],
+                    [
+                        "BooleanRator",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "PredicateOperator",
+                "comment": " PredicateOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "And",
+                        []
+                    ],
+                    [
+                        "Or",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "StringOperator",
+                "comment": " StringOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ExactMatch",
+                        []
+                    ],
+                    [
+                        "Contains",
+                        []
+                    ],
+                    [
+                        "DoesNotContain",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BooleanOperand",
+                "comment": " BooleanOperand\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, operator : Bool }"
+            },
+            {
+                "name": "Config",
+                "comment": " Config\n",
+                "args": [],
+                "type": "{ dropdownCss : Maybe (Attribute Msg), removeClass : Maybe String, addClass : Maybe String, allowNegation : Bool }"
+            },
+            {
+                "name": "NumberOperand",
+                "comment": " NumberOperand\n",
+                "args": [],
+                "type": "{ attribute : String, operator : NumberOperator, negated : Bool, value : String }"
+            },
+            {
+                "name": "OptionOperand",
+                "comment": " OptionOperand\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, operator : String }"
+            },
+            {
+                "name": "Predicate",
+                "comment": " Predicate\n",
+                "args": [],
+                "type": "List Operand"
+            },
+            {
+                "name": "Selector",
+                "comment": " Selector\n",
+                "args": [],
+                "type": "{ dropdown : State, dropdownId : String, options : List Operator }"
+            },
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "type": "{ predicate : Predicate, predicateOperator : PredicateOperator, selectorState : List Selector, allAttributes : List ( String, OperandType ), dropdownConfig : Int -> Config Msg Operator, config : Config, nextId : String }"
+            },
+            {
+                "name": "StringOperand",
+                "comment": " StringOperand\n",
+                "args": [],
+                "type": "{ attribute : String, operator : StringOperator, value : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

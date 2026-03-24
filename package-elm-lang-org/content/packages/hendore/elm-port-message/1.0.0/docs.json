@@ -1,0 +1,28 @@
+[
+    {
+        "name": "PortMessage",
+        "comment": " Add a short description here.\n\n@docs PortMessage\n\n\n# Builder\n\n@docs new, withPayload\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PortMessage",
+                "comment": " ",
+                "args": [],
+                "type": "{ tag : Tag, payload : Value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "new",
+                "comment": " Create a new PortMessage with an empty payload.\n",
+                "type": "Tag -> PortMessage"
+            },
+            {
+                "name": "withPayload",
+                "comment": " Attach a payload to the PortMessage\n",
+                "type": "Value -> PortMessage -> PortMessage"
+            }
+        ],
+        "binops": []
+    }
+]

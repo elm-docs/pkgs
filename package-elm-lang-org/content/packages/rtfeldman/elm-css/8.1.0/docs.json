@@ -1,0 +1,3463 @@
+[
+    {
+        "name": "Css.File",
+        "comment": " Functions for writing CSS files from elm-css.\n\n@docs compile, compiler, toFileStructure, CssFileStructure, CssCompilerProgram\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CssCompilerProgram",
+                "comment": " A prorgam that compiles a CSS file.\n\nSee [`compiler`](#compiler).\n",
+                "args": [],
+                "type": "Program Never () Never"
+            },
+            {
+                "name": "CssFileStructure",
+                "comment": " A description of CSS files that will be created by elm-css.\n",
+                "args": [],
+                "type": "List { filename : String, content : String, success : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " Convenience re-export of Css.compile\n",
+                "type": "List Stylesheet -> { css : String, warnings : List String }"
+            },
+            {
+                "name": "compiler",
+                "comment": " Create a program that compiles an elm-css stylesheet to a CSS file.\n\n    port module Stylesheets exposing (..)\n\n    import Css.File exposing (CssFileStructure, CssCompilerProgram)\n    import HomepageCss as Homepage\n\n\n    port files : CssFileStructure -> Cmd msg\n\n\n    fileStructure : CssFileStructure\n    fileStructure =\n        Css.File.toFileStructure\n            [ ( \"homepage.css\", Css.File.compile [ Homepage.css ] ) ]\n\n\n    main : CssCompilerProgram\n    main =\n        Css.File.compiler files fileStructure\n",
+                "type": "(CssFileStructure -> Cmd Never) -> CssFileStructure -> CssCompilerProgram"
+            },
+            {
+                "name": "toFileStructure",
+                "comment": " Translate a list of filenames and [`prettyPrint`](#prettyPrint) results\nto a list of tuples suitable for being sent to a port in a Stylesheets.elm file.\n",
+                "type": "List ( String, { css : String, warnings : List String } ) -> CssFileStructure"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Css.Colors",
+        "comment": " A nicer default set of colors than the ones CSS ships with. Color codes taken from [clrs.cc](http://clrs.cc).\n\n    import Css.Colors exposing (..)\n\n    stylesheet\n      [ button\n          [ backgroundColor blue ]\n      ]\n\n...compiles to:\n\n    button {\n        backgroundColor: #0074D9;\n    }\n\n# Colors\n@docs navy, blue, aqua, teal, olive, green, lime, yellow, orange, red, maroon, fuchsia, purple, black, gray, silver\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "aqua",
+                "comment": " [Colors](http://clrs.cc) hex code #7FDBFF\n",
+                "type": "Color"
+            },
+            {
+                "name": "black",
+                "comment": " [Colors](http://clrs.cc) hex code #111111\n",
+                "type": "Color"
+            },
+            {
+                "name": "blue",
+                "comment": " [Colors](http://clrs.cc) hex code #0074D9\n",
+                "type": "Color"
+            },
+            {
+                "name": "fuchsia",
+                "comment": " [Colors](http://clrs.cc) hex code #F012BE\n",
+                "type": "Color"
+            },
+            {
+                "name": "gray",
+                "comment": " [Colors](http://clrs.cc) hex code #AAAAAA\n",
+                "type": "Color"
+            },
+            {
+                "name": "green",
+                "comment": " [Colors](http://clrs.cc) hex code #2ECC40\n",
+                "type": "Color"
+            },
+            {
+                "name": "lime",
+                "comment": " [Colors](http://clrs.cc) hex code #01FF70\n",
+                "type": "Color"
+            },
+            {
+                "name": "maroon",
+                "comment": " [Colors](http://clrs.cc) hex code #85144b\n",
+                "type": "Color"
+            },
+            {
+                "name": "navy",
+                "comment": " [Colors](http://clrs.cc) hex code #001F3F\n",
+                "type": "Color"
+            },
+            {
+                "name": "olive",
+                "comment": " [Colors](http://clrs.cc) hex code #3D9970\n",
+                "type": "Color"
+            },
+            {
+                "name": "orange",
+                "comment": " [Colors](http://clrs.cc) hex code #FF851B\n",
+                "type": "Color"
+            },
+            {
+                "name": "purple",
+                "comment": " [Colors](http://clrs.cc) hex code #B10DC9\n",
+                "type": "Color"
+            },
+            {
+                "name": "red",
+                "comment": " [Colors](http://clrs.cc) hex code #FF4136\n",
+                "type": "Color"
+            },
+            {
+                "name": "silver",
+                "comment": " [Colors](http://clrs.cc) hex code #dddddd\n",
+                "type": "Color"
+            },
+            {
+                "name": "teal",
+                "comment": " [Colors](http://clrs.cc) hex code #39CCCC\n",
+                "type": "Color"
+            },
+            {
+                "name": "yellow",
+                "comment": " [Colors](http://clrs.cc) hex code #FFDC00\n",
+                "type": "Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Css",
+        "comment": " Functions for building stylesheets.\n\n\n\n# Misc\n@docs Stylesheet, asPairs, absolute, all, allPetiteCaps, allSmallCaps, withClass, auto, baseline, block, bold, bolder, border, border2, border3, borderBlockEnd, borderBlockEnd2, borderBlockEnd3, borderBlockEndColor, borderBlockEndStyle, borderBlockStart, borderBlockStart2, borderBlockStart3, borderBlockStartColor, borderBlockStartStyle, borderBottom, borderBottom2, borderBottom3, borderBottomColor, borderBottomLeftRadius, borderBottomLeftRadius2, borderBottomRightRadius, borderBottomRightRadius2, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderColor2, borderColor3, borderColor4, borderImageOutset, borderImageOutset2, borderImageOutset3, borderImageOutset4, borderImageWidth, borderImageWidth2, borderImageWidth3, borderImageWidth4, borderInlineEnd, borderInlineEnd2, borderInlineEnd3, borderInlineEndColor, borderInlineEndStyle, borderInlineEndWidth, borderInlineStart, borderInlineStart2, borderInlineStart3, borderInlineStartColor, borderInlineStartStyle, borderLeft, borderLeft2, borderLeft3, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRadius2, borderRadius3, borderRadius4, borderRight, borderRight2, borderRight3, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderCollapse, borderTop, borderTop2, borderTop3, borderTopColor, borderTopLeftRadius, borderTopLeftRadius2, borderTopRightRadius, borderTopRightRadius2, borderTopStyle, borderTopWidth, bottom, column, columnReverse, commonLigatures, content, contentBox, contextual, cursive, dashed, diagonalFractions, discretionaryLigatures, dotted, double, fantasy, fillBox, fixed, flat, displayFlex, flexEnd, flexStart, groove, hex, hidden, historicalLigatures, hsl, hsla, important, inherit, initial, inline, inlineBlock, table, inlineTable, tableCell, tableRow, tableColumn, tableCaption, tableRowGroup, tableColumnGroup, tableHeaderGroup, tableFooterGroup, inlineListItem, inset, italic, large, larger, lighter, liningNums, listItem, matrix, matrix3d, middle, monospace, noCommonLigatures, noContextual, noDiscretionaryLigatures, noHistoricalLigatures, noWrap, none, normal, oblique, oldstyleNums, ordinal, outset, perspective, petiteCaps, position, float, preserve3d, proportionalNums, relative, rgb, rgba, ridge, rotate, rotate3d, rotateX, rotateY, rotateZ, row, rowReverse, sansSerif, scale, scale2, scale3d, scaleX, scaleY, scroll, serif, skew, skew2, skewX, skewY, slashedZero, small, smallCaps, smaller, solid, stackedFractions, static, sticky, stretch, sub, super, tabularNums, textBottom, textTop, titlingCaps, top, translate, translate2, translate3d, translateX, translateY, translateZ, transparent, unicase, unset, viewBox, visible, wavy, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, backgroundRepeat, backgroundRepeat2, repeatX, repeatY, repeat, space, round, noRepeat, backgroundAttachment, local, backgroundBlendMode, multiply, overlay, darken, lighten, colorDodge, colorBurn, hardLight, softLight, difference, exclusion, hue, saturation, luminosity, screenBlendMode, backgroundClip, paddingBox, backgroundImage, url, backgroundPosition, backgroundPosition2, backgroundOrigin, backgroundSize, backgroundSize2, cover, contain, both, horizontal, vertical, breakWord, spaceAround, spaceBetween, separate, collapse\n@docs listStyleType, disc, circle, square, decimal, decimalLeadingZero, lowerRoman, upperRoman, lowerGreek, lowerAlpha, lowerLatin, upperAlpha, upperLatin, arabicIndic, armenian, bengali, cjkEarthlyBranch, cjkHeavenlyStem, devanagari, georgian, gujarati, gurmukhi, kannada, khmer, lao, malayalam, myanmar, oriya, telugu, thai\n@docs listStylePosition, inside, outside\n@docs listStyle, listStyle2, listStyle3\n\n# Style\n@docs Snippet, Mixin, mixin, stylesheet, compile\n\n# Statements\n@docs class, id, selector, everything\n\n# Combinators\n@docs children, descendants, adjacentSiblings, generalSiblings\n\n# Media Queries\n@docs screen, tv, projection, print\n\n# Properties\n@docs property, flex, flex2, flex3, medium, alignSelf, alignItems, justifyContent, order, flexDirection, flexFlow1, flexFlow2, flexWrap, flexBasis, flexGrow, flexShrink, transformStyle, transformBox, transform, transforms, currentColor, underline, overline, lineThrough, textOrientation, textDecoration, textDecoration2, textDecoration3, textDecorationLine, textDecorations, textDecorations2, textDecorations3, textDecorationLine, textDecorationLines, textDecorationStyle, textEmphasisColor, capitalize, uppercase, lowercase, fullWidth, hanging, eachLine, textIndent, textIndent2, textIndent3, clip, ellipsis, textOverflow, optimizeSpeed, optimizeLegibility, geometricPrecision, textRendering, textTransform, textAlign, textAlignLast, left, right, center, textJustify, justifyAll, start, end, matchParent, true, verticalAlign, display, opacity, minContent, maxContent, fitContent, fillAvailable, width, minWidth, maxWidth, height, minHeight, maxHeight, padding, padding2, padding3, padding4, paddingTop, paddingBottom, paddingRight, paddingLeft, paddingBlockStart, paddingBlockEnd, paddingInlineStart, paddingInlineEnd, margin, margin2, margin3, margin4, marginTop, marginBottom, marginRight, marginLeft, marginBlockStart, marginBlockEnd, marginInlineStart, marginInlineEnd, boxSizing, overflow, overflowX, overflowY, overflowWrap, whiteSpace, backgroundColor, color, withMedia, each, media, mediaQuery, textShadow, textShadow2, textShadow3, textShadow4, boxShadow, boxShadow2, boxShadow3, boxShadow4, boxShadow5, boxShadow6, lineHeight, letterSpacing, fontFace, fontFamily, fontSize, fontStyle, fontWeight, fontVariant, fontVariant2, fontVariant3, fontVariantLigatures, fontVariantCaps, fontVariantNumeric, fontVariantNumeric2, fontVariantNumeric3, fontFamilies, fontVariantNumerics, fontFeatureSettings, fontFeatureSettingsList, cursor, outline, outline3, outlineColor, outlineWidth, outlineStyle, outlineOffset, zIndex, spaceAround, spaceBetween, resize, fill\n\n# Values\n\n## Color values\n@docs Color all, important, custom, solid, transparent, rgb, rgba, hsl, hsla, hex\n\n## Font values\n@docs featureTag, featureTag2, featureOn, featureOff\n\n## Other values\n@docs borderCollapse, borderColor, borderColor2, borderColor3, borderColor4, borderBottomLeftRadius, borderBottomLeftRadius2, borderBottomRightRadius, borderBottomRightRadius2, borderTopLeftRadius, borderTopLeftRadius2, borderTopRightRadius, borderTopRightRadius2, borderRadius, borderRadius2, borderRadius3, borderRadius4, borderBottomWidth, borderInlineEndWidth, borderLeftWidth, borderRightWidth, borderTopWidth, borderBlockEndStyle, borderBlockStartStyle, borderInlineEndStyle, borderBottomStyle, borderInlineStartStyle, borderLeftStyle, borderRightStyle, borderTopStyle, borderStyle, borderBlockStartColor, borderBlockEndColor, borderBottomColor, borderInlineStartColor, borderInlineEndColor, borderLeftColor, borderRightColor, borderTopColor, borderBox, contentBox, border, border2, border3, borderTop, borderTop2, borderTop3, borderBottom, borderBottom2, borderBottom3, borderLeft, borderLeft2, borderLeft3, borderRight, borderRight2, borderRight3, borderBlockEnd, borderBlockEnd2, borderBlockEnd3, borderBlockStart, borderBlockStart2, borderBlockStart3, borderInlineEnd, borderInlineEnd2, borderInlineEnd3, borderInlineStart, borderInlineStart2, borderInlineStart3, borderImageOutset, borderImageOutset2, borderImageOutset3, borderImageOutset4, borderImageWidth, borderImageWidth2, borderImageWidth3, borderImageWidth4, scroll, visible, block, inlineBlock, inline, none, auto, inherit, unset, initial, noWrap, top, static, fixed, sticky, relative, absolute, position, float, bottom, middle, baseline, sub, super, textTop, textBottom, hidden, wavy, dotted, dashed, solid, double, groove, ridge, inset, outset, matrix, matrix3d, perspective, rotate3d, rotateX, rotateY, rotateZ, scale, scale2, scale3d, scaleX, scaleY, skew, skew2, skewX, skewY, translate, translate2, translate3d, translateX, translateY, translateZ, rotate, fillBox, viewBox, flat, preserve3d, content, wrapReverse, wrap, flexStart, flexEnd, stretch, row, rowReverse, column, columnReverse, serif, sansSerif, monospace, cursive, fantasy, xxSmall, xSmall, small, large, xLarge, xxLarge, smaller, larger, normal, italic, oblique, bold, lighter, bolder, smallCaps, allSmallCaps, petiteCaps, allPetiteCaps, unicase, titlingCaps, commonLigatures, noCommonLigatures, discretionaryLigatures, noDiscretionaryLigatures, historicalLigatures, noHistoricalLigatures, contextual, noContextual, liningNums, oldstyleNums, proportionalNums, tabularNums, diagonalFractions, stackedFractions, ordinal, slashedZero, default, pointer, crosshair, contextMenu, help, progress, wait, cell, text, verticalText, cursorAlias, copy, move, noDrop, notAllowed, eResize, nResize, neResize, nwResize, sResize, seResize, swResize, wResize, ewResize, nsResize, neswResize, nwseResize, colResize, rowResize, allScroll, zoomIn, zoomOut, grab, grabbing\n\n# Length\n@docs Length, pct, px, em, pt, ex, ch, rem, vh, vw, vmin, vmax, mm, cm, inches, pc, int, num, zero, (|+|), (|-|), (|*|), (|/|)\n\n# Length Units\n@docs Px, Em, Rem, Pct, Ex, Ch, Vh, Vw, Vmin, Vmax,  Mm, Cm, In, Pt, Pc\n\n# Angle\n@docs deg, rad, grad, turn\n\n# Pseudo-Classes\n@docs active, any, checked, dir, disabled, empty, enabled, first, firstChild, firstOfType, fullscreen, focus, hover, indeterminate, invalid, lang, lastChild, lastOfType, link, nthChild, nthLastChild, nthLastOfType, nthOfType, onlyChild, onlyOfType, optional, outOfRange, readWrite, required, root, scope, target, valid\n\n# Pseudo-Elements\n@docs after, before, firstLetter, firstLine, selection\n\n# Media Queries\n@docs MediaQuery, screen, print, tv, projection\n\n# Source\n@docs src\n\n# Quoting\n@docs qt\n\n# Types\n\n@docs FontSize, ColorValue, IntOrAuto\n\n# Intentionally Unsupported\n\nThese are features you might expect to be in elm-css (because they are in the\nCSS specification) but which have been omitted because their use is either\ndeprecated or discouraged.\n\n@docs thin, medium, thick, blink\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Ch",
+                "comment": " [`ch`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#ch) units.\n",
+                "args": [],
+                "type": "ExplicitLength ChUnits"
+            },
+            {
+                "name": "Cm",
+                "comment": " [`cm`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#cm) units.\n",
+                "args": [],
+                "type": "ExplicitLength CMUnits"
+            },
+            {
+                "name": "Color",
+                "comment": " ",
+                "args": [],
+                "type": "ColorValue { red : Int, green : Int, blue : Int, alpha : Float }"
+            },
+            {
+                "name": "ColorValue",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/CSS/color#Values\n",
+                "args": [
+                    "compatible"
+                ],
+                "type": "{ compatible | value : String, color : Compatible, warnings : List String }"
+            },
+            {
+                "name": "Em",
+                "comment": " [`em`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#em) units.\n",
+                "args": [],
+                "type": "ExplicitLength EmUnits"
+            },
+            {
+                "name": "Ex",
+                "comment": " [`ex`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#ex) units.\n",
+                "args": [],
+                "type": "ExplicitLength ExUnits"
+            },
+            {
+                "name": "FontSize",
+                "comment": " A font size\n",
+                "args": [
+                    "compatible"
+                ],
+                "type": "{ compatible | value : String, fontSize : Compatible }"
+            },
+            {
+                "name": "In",
+                "comment": " [`in`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#in) units.\n",
+                "args": [],
+                "type": "ExplicitLength InchUnits"
+            },
+            {
+                "name": "IntOrAuto",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/CSS/z-index\n",
+                "args": [
+                    "compatible"
+                ],
+                "type": "{ compatible | value : String, intOrAuto : Compatible }"
+            },
+            {
+                "name": "Length",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/CSS/length\n",
+                "args": [
+                    "compatible",
+                    "units"
+                ],
+                "type": "{ compatible | value : String, length : Compatible, numericValue : Float, units : units, unitLabel : String }"
+            },
+            {
+                "name": "MediaQuery",
+                "comment": " ",
+                "args": [],
+                "type": "MediaQuery"
+            },
+            {
+                "name": "Mixin",
+                "comment": " ",
+                "args": [],
+                "type": "Mixin"
+            },
+            {
+                "name": "Mm",
+                "comment": " [``](https://developer.mozilla.org/en-US/docs/Web/CSS/length#mm) units.\n",
+                "args": [],
+                "type": "ExplicitLength MMUnits"
+            },
+            {
+                "name": "Pc",
+                "comment": " [`pc`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pc) units.\n",
+                "args": [],
+                "type": "ExplicitLength PcUnits"
+            },
+            {
+                "name": "Pct",
+                "comment": " [`pct`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pct) units.\n",
+                "args": [],
+                "type": "ExplicitLength PercentageUnits"
+            },
+            {
+                "name": "Pt",
+                "comment": " [`pt`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pt) units.\n",
+                "args": [],
+                "type": "ExplicitLength PtUnits"
+            },
+            {
+                "name": "Px",
+                "comment": " [`px`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#px) units.\n",
+                "args": [],
+                "type": "ExplicitLength PxUnits"
+            },
+            {
+                "name": "Rem",
+                "comment": " [`rem`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#rem) units.\n",
+                "args": [],
+                "type": "ExplicitLength RemUnits"
+            },
+            {
+                "name": "Snippet",
+                "comment": " ",
+                "args": [],
+                "type": "Snippet"
+            },
+            {
+                "name": "Stylesheet",
+                "comment": " ",
+                "args": [],
+                "type": "Stylesheet"
+            },
+            {
+                "name": "Vh",
+                "comment": " [`vh`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vh) units.\n",
+                "args": [],
+                "type": "ExplicitLength VhUnits"
+            },
+            {
+                "name": "Vmax",
+                "comment": " [`vmax`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vmax) units.\n",
+                "args": [],
+                "type": "ExplicitLength VMaxUnits"
+            },
+            {
+                "name": "Vmin",
+                "comment": " [`vmin`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vmin) units.\n",
+                "args": [],
+                "type": "ExplicitLength VMinUnits"
+            },
+            {
+                "name": "Vw",
+                "comment": " [`vw`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vw) units.\n",
+                "args": [],
+                "type": "ExplicitLength VwUnits"
+            }
+        ],
+        "values": [
+            {
+                "name": "absolute",
+                "comment": " An `absolute` [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) value.\n\n    position absolute\n",
+                "type": "Position {}"
+            },
+            {
+                "name": "active",
+                "comment": " An [`:active`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aactive)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "adjacentSiblings",
+                "comment": " ",
+                "type": "List Snippet -> Mixin"
+            },
+            {
+                "name": "after",
+                "comment": " An [`::after`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3A%3Aafter)\n[pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "alignItems",
+                "comment": " Sets [`align-items`](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items).\n\n  **Note:** `auto` is not currently supported here. If you need to set this property to `auto`,\n  use this workaround:\n\n  property \"align-items\" \"auto\"\n\n  If this is annoying, please file an issue, so adding support for \"auto\"\n  can be prioritized!\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "alignSelf",
+                "comment": " Sets [`align-self`](https://developer.mozilla.org/en-US/docs/Web/CSS/align-self).\n\n  **Note:** `auto` is not currently supported here. If you need to set this property to `auto`,\n  use this workaround:\n\n  property \"align-self\" \"auto\"\n\n  If this is annoying, please file an issue, so adding support for \"auto\"\n  can be prioritized!\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "all",
+                "comment": " An [`all`](https://developer.mozilla.org/en-US/docs/Web/CSS/all) property.\n",
+                "type": "All compatible -> Mixin"
+            },
+            {
+                "name": "allPetiteCaps",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "allScroll",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "allSmallCaps",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "any",
+                "comment": " An [`:any`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aany)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "arabicIndic",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "armenian",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "asPairs",
+                "comment": " Take a list of mixins and return a list of key-value pairs that\ncan then be passed to a `style` attribute.\n\n    styles = asPairs >> Html.Attributes.style\n\n    button\n      [ styles [ position absolute, left (px 5) ] ]\n      [ text \"Whee!\" ]\n",
+                "type": "List Mixin -> List ( String, String )"
+            },
+            {
+                "name": "auto",
+                "comment": " ",
+                "type": "{ lengthOrAuto : Compatible, overflow : Compatible, textRendering : Compatible, flexBasis : Compatible, lengthOrNumberOrAutoOrNoneOrContent : Compatible, alignItemsOrAuto : Compatible, justifyContentOrAuto : Compatible, cursor : Compatible, value : String, lengthOrAutoOrCoverOrContain : Compatible, intOrAuto : Compatible }"
+            },
+            {
+                "name": "backgroundAttachment",
+                "comment": " Sets ['background-attachment'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment)\n\n    backgroundAttachment fixed\n",
+                "type": "BackgroundAttachment compatible -> Mixin"
+            },
+            {
+                "name": "backgroundBlendMode",
+                "comment": " Sets ['background-blend-mode'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-blend-mode)\n\n    backgroundBlendMode darken\n",
+                "type": "(ColorValue NonMixable -> Mixin) -> Mixin"
+            },
+            {
+                "name": "backgroundClip",
+                "comment": " Sets ['background-clip'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip)\n\n    backgroundClip borderBox\n",
+                "type": "BackgroundClip compatible -> Mixin"
+            },
+            {
+                "name": "backgroundColor",
+                "comment": " ",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "backgroundImage",
+                "comment": " Sets ['background-image'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-image)\n\n    backgroundImage (url \"http://www.example.com/chicken.jpg\")\n",
+                "type": "BackgroundImage compatible -> Mixin"
+            },
+            {
+                "name": "backgroundOrigin",
+                "comment": " Sets ['background-origin'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-origin)\n\n    backgroundOrigin borderBox\n",
+                "type": "BackgroundOrigin compatible -> Mixin"
+            },
+            {
+                "name": "backgroundPosition",
+                "comment": " Sets ['background-position'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-position)\n\n    backgroundPosition top\n\nOnly supports keywords values like \"top\" or \"center\". If you want to pass a single length, use `backgroundPosition2`:\n\n    backgroundPosition2 (px 10) zero\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "backgroundPosition2",
+                "comment": " Sets ['background-position'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-position)\n\n    backgroundPosition2 (px 10) zero\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "backgroundRepeat",
+                "comment": " Sets ['background-repeat'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat)\n\n    backgroundRepeat repeatX\n",
+                "type": "BackgroundRepeatShorthand compatible -> Mixin"
+            },
+            {
+                "name": "backgroundRepeat2",
+                "comment": " Sets ['background-repeat'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat)\n\n    backgroundRepeat2 repeat noRepeat\n",
+                "type": "BackgroundRepeat compatibleA -> BackgroundRepeat compatibleB -> Mixin"
+            },
+            {
+                "name": "backgroundSize",
+                "comment": " Sets ['background-size'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size)\n\n    backgroundSize cover\n",
+                "type": "LengthOrAutoOrCoverOrContain compatible -> Mixin"
+            },
+            {
+                "name": "backgroundSize2",
+                "comment": " Sets ['background-size'](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size)\n\n    backgroundSize2 50% auto\n",
+                "type": "LengthOrAuto compatibleA -> LengthOrAuto compatibleB -> Mixin"
+            },
+            {
+                "name": "baseline",
+                "comment": " The `baseline` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign baseline\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "before",
+                "comment": " A [`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3A%3Abefore)\n[pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "bengali",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "blink",
+                "comment": " [`blink`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line#Value)\nis ~~totally rad~~ deprecated, and as such has been ~~reluctantly~~ omitted\nfrom elm-css.\n",
+                "type": "IntentionallyUnsupportedPleaseSeeDocs"
+            },
+            {
+                "name": "block",
+                "comment": " ",
+                "type": "Display {}"
+            },
+            {
+                "name": "bold",
+                "comment": " ",
+                "type": "FontWeight {}"
+            },
+            {
+                "name": "bolder",
+                "comment": " ",
+                "type": "FontWeight {}"
+            },
+            {
+                "name": "border",
+                "comment": " Sets [`border`](https://developer.mozilla.org/en-US/docs/Web/CSS/border)\n\n    border  (px 10)\n    border2 (px 10) dashed\n    border3 (px 10) dashed (rgb 11 14 17)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "border2",
+                "comment": " Sets [`border`](https://developer.mozilla.org/en-US/docs/Web/CSS/border)\n\n    border  (px 10)\n    border2 (px 10) dashed\n    border3 (px 10) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "border3",
+                "comment": " Sets [`border`](https://developer.mozilla.org/en-US/docs/Web/CSS/border)\n\n    border  (px 10)\n    border2 (px 10) dashed\n    border3 (px 10) dashed (rgb 11 14 17)\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderBlockEnd",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderBlockEnd  (px 5)\n    borderBlockEnd2 (px 5) dashed\n    borderBlockEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBlockEnd2",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderBlockEnd  (px 5)\n    borderBlockEnd2 (px 5) dashed\n    borderBlockEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderBlockEnd3",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderBlockEnd  (px 5)\n    borderBlockEnd2 (px 5) dashed\n    borderBlockEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderBlockEndColor",
+                "comment": " Sets [`border-block-end-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end-color)\n\n    borderBlockEndColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderBlockEndStyle",
+                "comment": " Sets [`border-block-end-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end-style)\n\n    borderBlockEndStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderBlockStart",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderBlockStart  (px 5)\n    borderBlockStart2 (px 5) dashed\n    borderBlockStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBlockStart2",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderBlockStart  (px 5)\n    borderBlockStart2 (px 5) dashed\n    borderBlockStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderBlockStart3",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderBlockStart  (px 5)\n    borderBlockStart2 (px 5) dashed\n    borderBlockStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA units -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderBlockStartColor",
+                "comment": " Sets [`border-block-start-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start-color)\n\n    borderBlockStartColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderBlockStartStyle",
+                "comment": " Sets [`border-block-start-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start-style)\n\n    borderBlockStartStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderBottom",
+                "comment": " Sets [`border-bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom)\n\n    borderBottom  (px 5)\n    borderBottom2 (px 5) dashed\n    borderBottom3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBottom2",
+                "comment": " Sets [`border-bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom)\n\n    borderBottom  (px 5)\n    borderBottom2 (px 5) dashed\n    borderBottom3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderBottom3",
+                "comment": " Sets [`border-bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom)\n\n    borderBottom  (px 5)\n    borderBottom2 (px 5) dashed\n    borderBottom3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderBottomColor",
+                "comment": " Sets [`border-bottom-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-color)\n\n    borderBottomColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderBottomLeftRadius",
+                "comment": " Sets [`border-bottom-left-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-left-radius)\n\n    borderBottomLeftRadius  (em 4)\n    borderBottomLeftRadius2 (em 4) (px 2)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBottomLeftRadius2",
+                "comment": " Sets [`border-bottom-left-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-left-radius)\n\n    borderBottomLeftRadius  (em 4)\n    borderBottomLeftRadius2 (em 4) (px 2)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "borderBottomRightRadius",
+                "comment": " Sets [`border-bottom-right-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-right-radius)\n\n    borderBottomRightRadius  (em 4)\n    borderBottomRightRadius2 (em 4) (px 2)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBottomRightRadius2",
+                "comment": " Sets [`border-bottom-right-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-right-radius)\n\n    borderBottomRightRadius  (em 4)\n    borderBottomRightRadius2 (em 4) (px 2)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "borderBottomStyle",
+                "comment": " Sets [`border-bottom-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-style)\n\n    borderBottomStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderBottomWidth",
+                "comment": " Sets [`border-bottom-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-width)\n\n    borderBottomWidth (em 4)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderBox",
+                "comment": " The `border-box` value for the [`box-sizing`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing) property.\nCan also be used as `border-box` value for the [`background-clip`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip) property.\n",
+                "type": "BoxSizing (BackgroundClip {})"
+            },
+            {
+                "name": "borderCollapse",
+                "comment": " Sets [`border-collapse`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse)\n\n    borderCollapse collapse\n",
+                "type": "BorderCollapse compatible -> Mixin"
+            },
+            {
+                "name": "borderColor",
+                "comment": " Sets [`border-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-color)\n\n    borderColor  (rgb 12 11 10)\n    borderColor2 (rgb 12 11 10) (hex \"FFBBCC\")\n    borderColor3 (rgb 12 11 10) (hex \"FFBBCC\") inherit\n    borderColor4 (rgb 12 11 10) (hex \"FFBBCC\") inherit (rgb 1 2 3)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderColor2",
+                "comment": " Sets [`border-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-color)\n\n    borderColor  (rgb 12 11 10)\n    borderColor2 (rgb 12 11 10) (hex \"FFBBCC\")\n    borderColor3 (rgb 12 11 10) (hex \"FFBBCC\") inherit\n    borderColor4 (rgb 12 11 10) (hex \"FFBBCC\") inherit (rgb 1 2 3)\n",
+                "type": "ColorValue compatibleA -> ColorValue compatibleB -> Mixin"
+            },
+            {
+                "name": "borderColor3",
+                "comment": " Sets [`border-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-color)\n\n    borderColor  (rgb 12 11 10)\n    borderColor2 (rgb 12 11 10) (hex \"FFBBCC\")\n    borderColor3 (rgb 12 11 10) (hex \"FFBBCC\") inherit\n    borderColor4 (rgb 12 11 10) (hex \"FFBBCC\") inherit (rgb 1 2 3)\n",
+                "type": "ColorValue compatibleA -> ColorValue compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderColor4",
+                "comment": " Sets [`border-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-color)\n\n    borderColor  (rgb 12 11 10)\n    borderColor2 (rgb 12 11 10) (hex \"FFBBCC\")\n    borderColor3 (rgb 12 11 10) (hex \"FFBBCC\") inherit\n    borderColor4 (rgb 12 11 10) (hex \"FFBBCC\") inherit (rgb 1 2 3)\n",
+                "type": "ColorValue compatibleA -> ColorValue compatibleB -> ColorValue compatibleC -> ColorValue compatibleD -> Mixin"
+            },
+            {
+                "name": "borderImageOutset",
+                "comment": " Sets [`border-image-outset`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-outset)\n\n    borderImageOutset  (int 2)\n    borderImageOutset2 (int 2) (px 15)\n    borderImageOutset3 (int 2) (px 15) (int 1.5)\n    borderImageOutset4 (int 2) (px 15) (int 14) (em 3)\n\n",
+                "type": "LengthOrNumber compatible -> Mixin"
+            },
+            {
+                "name": "borderImageOutset2",
+                "comment": " Sets [`border-image-outset`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-outset)\n\n    borderImageOutset  (int 2)\n    borderImageOutset2 (int 2) (px 15)\n    borderImageOutset3 (int 2) (px 15) (int 1.5)\n    borderImageOutset4 (int 2) (px 15) (int 14) (em 3)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> Mixin"
+            },
+            {
+                "name": "borderImageOutset3",
+                "comment": " Sets [`border-image-outset`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-outset)\n\n    borderImageOutset  (int 2)\n    borderImageOutset2 (int 2) (px 15)\n    borderImageOutset3 (int 2) (px 15) (int 1.5)\n    borderImageOutset4 (int 2) (px 15) (int 14) (em 3)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> LengthOrNumber compatibleC -> Mixin"
+            },
+            {
+                "name": "borderImageOutset4",
+                "comment": " Sets [`border-image-outset`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-outset)\n\n    borderImageOutset  (int 2)\n    borderImageOutset2 (int 2) (px 15)\n    borderImageOutset3 (int 2) (px 15) (int 1.5)\n    borderImageOutset4 (int 2) (px 15) (int 14) (em 3)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> LengthOrNumber compatibleC -> LengthOrNumber compatibleD -> Mixin"
+            },
+            {
+                "name": "borderImageWidth",
+                "comment": " Sets [`border-image-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width)\n\n    borderImageWidth  (int 3)\n    borderImageWidth2 (int 3) (px 15)\n    borderImageWidth3 (int 3) (px 15) auto\n    borderImageWidth4 (int 3) (px 15) auto (int 2)\n\n",
+                "type": "LengthOrNumber compatible -> Mixin"
+            },
+            {
+                "name": "borderImageWidth2",
+                "comment": " Sets [`border-image-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width)\n\n    borderImageWidth  (int 3)\n    borderImageWidth2 (int 3) (px 15)\n    borderImageWidth3 (int 3) (px 15) auto\n    borderImageWidth4 (int 3) (px 15) auto (int 2)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> Mixin"
+            },
+            {
+                "name": "borderImageWidth3",
+                "comment": " Sets [`border-image-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width)\n\n    borderImageWidth  (int 3)\n    borderImageWidth2 (int 3) (px 15)\n    borderImageWidth3 (int 3) (px 15) auto\n    borderImageWidth4 (int 3) (px 15) auto (int 2)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> LengthOrNumber compatibleC -> Mixin"
+            },
+            {
+                "name": "borderImageWidth4",
+                "comment": " Sets [`border-image-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width)\n\n    borderImageWidth  (int 3)\n    borderImageWidth2 (int 3) (px 15)\n    borderImageWidth3 (int 3) (px 15) auto\n    borderImageWidth4 (int 3) (px 15) auto (int 2)\n\n",
+                "type": "LengthOrNumber compatibleA -> LengthOrNumber compatibleB -> LengthOrNumber compatibleC -> LengthOrNumber compatibleD -> Mixin"
+            },
+            {
+                "name": "borderInlineEnd",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderInlineEnd  (px 5)\n    borderInlineEnd2 (px 5) dashed\n    borderInlineEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderInlineEnd2",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderInlineEnd  (px 5)\n    borderInlineEnd2 (px 5) dashed\n    borderInlineEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderInlineEnd3",
+                "comment": " Sets [`border-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end)\n\n    borderInlineEnd  (px 5)\n    borderInlineEnd2 (px 5) dashed\n    borderInlineEnd3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderInlineEndColor",
+                "comment": " Sets [`border-inline-end-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-end-color)\n\n    borderInlineEndColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderInlineEndStyle",
+                "comment": " Sets [`border-inline-end-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-end-style)\n\n    borderInlineEndStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderInlineEndWidth",
+                "comment": " Sets [`border-inline-end-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-end-width)\n\n    borderInlineEndWidth (em 4)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderInlineStart",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderInlineStart  (px 5)\n    borderInlineStart2 (px 5) dashed\n    borderInlineStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderInlineStart2",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderInlineStart  (px 5)\n    borderInlineStart2 (px 5) dashed\n    borderInlineStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderInlineStart3",
+                "comment": " Sets [`border-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start)\n\n    borderInlineStart  (px 5)\n    borderInlineStart2 (px 5) dashed\n    borderInlineStart3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderInlineStartColor",
+                "comment": " Sets [`border-inline-start-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-start-color)\n\n    borderInlineStartColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderInlineStartStyle",
+                "comment": " Sets [`border-inline-start-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-start-style)\n\n    borderInlineStartStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderLeft",
+                "comment": " Sets [`border-left`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left)\n\n    borderLeft  (px 5)\n    borderLeft2 (px 5) dashed\n    borderLeft3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderLeft2",
+                "comment": " Sets [`border-left`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left)\n\n    borderLeft  (px 5)\n    borderLeft2 (px 5) dashed\n    borderLeft3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderLeft3",
+                "comment": " Sets [`border-left`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left)\n\n    borderLeft  (px 5)\n    borderLeft2 (px 5) dashed\n    borderLeft3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderLeftColor",
+                "comment": " Sets [`border-left-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-color)\n\n    borderLeftColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderLeftStyle",
+                "comment": " Sets [`border-left-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-style)\n\n    borderLeftStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderLeftWidth",
+                "comment": " Sets [`border-left-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-width)\n\n    borderLeftWidth (em 4)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderRadius",
+                "comment": " Sets [`border-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius)\n\n    borderRadius  (em 4)\n    borderRadius2 (em 4) (px 2)\n    borderRadius3 (em 4) (px 2) (pct 5)\n    borderRadius4 (em 4) (px 2) (pct 5) (px 3)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderRadius2",
+                "comment": " Sets [`border-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius)\n\n    borderRadius  (em 4)\n    borderRadius2 (em 4) (px 2)\n    borderRadius3 (em 4) (px 2) (pct 5)\n    borderRadius4 (em 4) (px 2) (pct 5) (px 3)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "borderRadius3",
+                "comment": " Sets [`border-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius)\n\n    borderRadius  (em 4)\n    borderRadius2 (em 4) (px 2)\n    borderRadius3 (em 4) (px 2) (pct 5)\n    borderRadius4 (em 4) (px 2) (pct 5) (px 3)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> Mixin"
+            },
+            {
+                "name": "borderRadius4",
+                "comment": " Sets [`border-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius)\n\n    borderRadius  (em 4)\n    borderRadius2 (em 4) (px 2)\n    borderRadius3 (em 4) (px 2) (pct 5)\n    borderRadius4 (em 4) (px 2) (pct 5) (px 3)\n",
+                "type": "Length compatibleB unitsB -> Length compatibleB unitsB -> Length compatibleC unitsC -> Length compatibleD unitsD -> Mixin"
+            },
+            {
+                "name": "borderRight",
+                "comment": " Sets [`border-right`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right)\n\n    borderRight  (px 5)\n    borderRight2 (px 5) dashed\n    borderRight3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderRight2",
+                "comment": " Sets [`border-right`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right)\n\n    borderRight  (px 5)\n    borderRight2 (px 5) dashed\n    borderRight3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderRight3",
+                "comment": " Sets [`border-right`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right)\n\n    borderRight  (px 5)\n    borderRight2 (px 5) dashed\n    borderRight3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderRightColor",
+                "comment": " Sets [`border-right-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-color)\n\n    borderRightColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderRightStyle",
+                "comment": " Sets [`border-right-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-style)\n\n    borderRightStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderRightWidth",
+                "comment": " Sets [`border-right-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-width)\n\n    borderRightWidth (em 4)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderStyle",
+                "comment": " Sets [`border-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style)\n\n    borderStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderTop",
+                "comment": " Sets [`border-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top)\n\n    borderTop  (px 5)\n    borderTop2 (px 5) dashed\n    borderTop3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderTop2",
+                "comment": " Sets [`border-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top)\n\n    borderTop  (px 5)\n    borderTop2 (px 5) dashed\n    borderTop3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "borderTop3",
+                "comment": " Sets [`border-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top)\n\n    borderTop  (px 5)\n    borderTop2 (px 5) dashed\n    borderTop3 (px 5) dashed (rgb 11 14 17)\n\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "borderTopColor",
+                "comment": " Sets [`border-top-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-color)\n\n    borderTopColor (rgb 101 202 0)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "borderTopLeftRadius",
+                "comment": " Sets [`border-top-left-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-left-radius)\n\n    borderTopLeftRadius  (em 4)\n    borderTopLeftRadius2 (em 4) (px 2)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderTopLeftRadius2",
+                "comment": " Sets [`border-top-left-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-left-radius)\n\n    borderTopLeftRadius  (em 4)\n    borderTopLeftRadius2 (em 4) (px 2)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "borderTopRightRadius",
+                "comment": " Sets [`border-top-right-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-right-radius)\n\n    borderTopRightRadius  (em 4)\n    borderTopRightRadius2 (em 4) (px 2)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "borderTopRightRadius2",
+                "comment": " Sets [`border-top-right-radius`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-right-radius)\n\n    borderTopRightRadius  (em 4)\n    borderTopRightRadius2 (em 4) (px 2)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "borderTopStyle",
+                "comment": " Sets [`border-top-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-style)\n\n    borderTopStyle dashed\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "borderTopWidth",
+                "comment": " Sets [`border-top-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-width)\n\n    borderTopWidth  (em 4)\n    borderTopWidth2 (em 4) (px 2)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "both",
+                "comment": " The `both` value for the [`resize`](https://developer.mozilla.org/en/docs/Web/CSS/resize#Values) property.\n",
+                "type": "Resize {}"
+            },
+            {
+                "name": "bottom",
+                "comment": " The [`bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/bottom) property.\n\n    position absolute\n    bottom (px 5)\n\nThis can also be used as a `bottom` [vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value:\n\n    verticalAlign bottom\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "boxShadow",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "None compatible -> Mixin"
+            },
+            {
+                "name": "boxShadow2",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "boxShadow3",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "Value a -> Length compatibleB unitsB -> Value c -> Mixin"
+            },
+            {
+                "name": "boxShadow4",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "Value a -> Length compatibleB unitsB -> Length compatibleC unitsC -> Value d -> Mixin"
+            },
+            {
+                "name": "boxShadow5",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "Value a -> Length compatibleB unitsB -> Length compatibleC unitsC -> Length compatibleD unitsD -> ColorValue compatibleE -> Mixin"
+            },
+            {
+                "name": "boxShadow6",
+                "comment": " Sets [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow).\n\n    boxShadow  none\n    boxShadow2 (px 1) (px 2)\n    boxShadow3 (px 1) (px 2) (rgb 211 121 112)\n    boxShadow3 (px 1) (px 2) (px 3)\n    boxShadow3 inset (px 2) (px 3)\n    boxShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 inset (px 2) (px 3) (rgb 211 121 112)\n    boxShadow4 (px 1) (px 2) (px 3) (px 4)\n    boxShadow4 inset (px 2) (px 3) (px 4)\n    boxShadow5 (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow5 inset (px 2) (px 3) (px 4) (rgb 211 121 112)\n    boxShadow6 inset (px 1) (px 2) (px 3) (px 4) (rgb 211 121 112)\n\n",
+                "type": "Value a -> Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> Length compatibleD unitsD -> ColorValue compatibleE -> Mixin"
+            },
+            {
+                "name": "boxSizing",
+                "comment": " Sets [`box-sizing`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)\n\n    boxSizing borderBox\n",
+                "type": "BoxSizing compatible -> Mixin"
+            },
+            {
+                "name": "breakWord",
+                "comment": " The `break-word` value for the [`overflow-wrap`](https://developer.mozilla.org/en/docs/Web/CSS/overflow-wrap#Values) property.\n",
+                "type": "Wrap {}"
+            },
+            {
+                "name": "capitalize",
+                "comment": " `capitalize` [`text-transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform#Values) value\n",
+                "type": "TextTransform {}"
+            },
+            {
+                "name": "cell",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "center",
+                "comment": " `center` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\nCan also be used with flex-box's align-items and justify-content properties to apply the value of center\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "ch",
+                "comment": " [`ch`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#ch) units.\n",
+                "type": "Float -> Ch"
+            },
+            {
+                "name": "checked",
+                "comment": " A [`:checked`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Achecked)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "children",
+                "comment": " ",
+                "type": "List Snippet -> Mixin"
+            },
+            {
+                "name": "circle",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "cjkEarthlyBranch",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "cjkHeavenlyStem",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "class",
+                "comment": " A [class selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors).\n\n    stylesheet\n        [ class LoginFormButton\n            [ fontWeight normal\n            , color (rgb 128 64 32)\n            ]\n        ]\n",
+                "type": "class -> List Mixin -> Snippet"
+            },
+            {
+                "name": "clip",
+                "comment": " `clip` [`text-overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow#Values) value\n",
+                "type": "TextOverflow {}"
+            },
+            {
+                "name": "cm",
+                "comment": " [`cm`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#cm) units.\n",
+                "type": "Float -> Cm"
+            },
+            {
+                "name": "colResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "collapse",
+                "comment": " A `collapse` [border-collapse](https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse#Values).\n",
+                "type": "BorderCollapse {}"
+            },
+            {
+                "name": "color",
+                "comment": " ",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "colorBurn",
+                "comment": " The `color-burn` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#color-burn).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "colorDodge",
+                "comment": " The `color-dodge` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#color-dodge).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "column",
+                "comment": " The[`column`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction #Values) value for the\n  flex-direction property.\n",
+                "type": "FlexDirectionOrWrap (FlexDirection {})"
+            },
+            {
+                "name": "columnReverse",
+                "comment": " The[`column-reverse`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction #Values) value for the\n  flex-direction property.\n",
+                "type": "FlexDirectionOrWrap (FlexDirection {})"
+            },
+            {
+                "name": "commonLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "compile",
+                "comment": " Compile the given stylesheets to a CSS string, or to an error\nmessage if it could not be compiled.\n",
+                "type": "List Stylesheet -> { css : String, warnings : List String }"
+            },
+            {
+                "name": "contain",
+                "comment": " The `contain` [`background-size`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size) value.\n",
+                "type": "{ value : String, lengthOrAutoOrCoverOrContain : Compatible }"
+            },
+            {
+                "name": "content",
+                "comment": " The [`content`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#Values) value for the\n  flex-basis property.\n",
+                "type": "LengthOrNumberOrAutoOrNoneOrContent (FlexBasis {})"
+            },
+            {
+                "name": "contentBox",
+                "comment": " The `content-box` value for the [`box-sizing`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing) property.\nCan also be used as `content-box` value for the [`background-clip`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip) property.\n",
+                "type": "BoxSizing (BackgroundClip {})"
+            },
+            {
+                "name": "contextMenu",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "contextual",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "copy",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "cover",
+                "comment": " The `cover` [`background-size`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size) value.\n",
+                "type": "{ value : String, lengthOrAutoOrCoverOrContain : Compatible }"
+            },
+            {
+                "name": "crosshair",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "currentColor",
+                "comment": " The [`currentColor`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#currentColor_keyword)\n    value.\n",
+                "type": "ColorValue NonMixable"
+            },
+            {
+                "name": "cursive",
+                "comment": " ",
+                "type": "FontFamily {}"
+            },
+            {
+                "name": "cursor",
+                "comment": " A [`cursor`](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#Values)\nspecifies the mouse cursor displayed when mouse pointer is over an element.\n",
+                "type": "Cursor compatible -> Mixin"
+            },
+            {
+                "name": "cursorAlias",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "darken",
+                "comment": " The `darken` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#darken).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "dashed",
+                "comment": " A `dashed` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle (TextDecorationStyle {})"
+            },
+            {
+                "name": "decimal",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "decimalLeadingZero",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "default",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "deg",
+                "comment": " [`deg`](https://developer.mozilla.org/en-US/docs/Web/CSS/angle#deg) units.\n",
+                "type": "number -> Angle {}"
+            },
+            {
+                "name": "descendants",
+                "comment": " ",
+                "type": "List Snippet -> Mixin"
+            },
+            {
+                "name": "devanagari",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "diagonalFractions",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "difference",
+                "comment": " The `difference` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#difference).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "dir",
+                "comment": " A [`:dir`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Adir)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "Directionality -> List Mixin -> Mixin"
+            },
+            {
+                "name": "disabled",
+                "comment": " A [`:disabled`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Adisabled)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "disc",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "discretionaryLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "display",
+                "comment": " For `display: flex`, use [`displayFlex`](#displayFlex).\n",
+                "type": "Display compatible -> Mixin"
+            },
+            {
+                "name": "displayFlex",
+                "comment": " `display: flex`. This works around the fact that\n[`flex` is already taken](#flex).\n",
+                "type": "Mixin"
+            },
+            {
+                "name": "dotted",
+                "comment": " A `dotted` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle (TextDecorationStyle {})"
+            },
+            {
+                "name": "double",
+                "comment": " A `double` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle (TextDecorationStyle {})"
+            },
+            {
+                "name": "eResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "each",
+                "comment": " ",
+                "type": "List (List Mixin -> Snippet) -> List Mixin -> Snippet"
+            },
+            {
+                "name": "eachLine",
+                "comment": " `each-line` [`text-indent`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent#Values) value\n",
+                "type": "TextIndent {}"
+            },
+            {
+                "name": "ellipsis",
+                "comment": " `ellipsis` [`text-overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow#Values) value\n",
+                "type": "TextOverflow {}"
+            },
+            {
+                "name": "em",
+                "comment": " [`em`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#em) units.\n",
+                "type": "Float -> Em"
+            },
+            {
+                "name": "empty",
+                "comment": " An [`:empty`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aempty)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "enabled",
+                "comment": " An [`:enabled`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aenabled)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "end",
+                "comment": " `end` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "everything",
+                "comment": " A [`*` selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    class Foo\n      [ children\n          [ everything\n              [ color (rgb 14 15 16)\n              , borderRadius (px 5)\n              ]\n          ]\n      ]\n\n...compiles to:\n\n    .Foo > * {\n      color: rgb(14, 15, 16);\n      border-radius: 5px;\n    }\n\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "ewResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "ex",
+                "comment": " [`ex`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#ex) units.\n",
+                "type": "Float -> Ex"
+            },
+            {
+                "name": "exclusion",
+                "comment": " The `exclusion` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#exclusion).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "fantasy",
+                "comment": " ",
+                "type": "FontFamily {}"
+            },
+            {
+                "name": "featureOff",
+                "comment": " Alias for `off` value of [`font-feature-settings`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings#Formal_syntax)\n",
+                "type": "Int"
+            },
+            {
+                "name": "featureOn",
+                "comment": " Alias for `on` value of [`font-feature-settings`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings#Formal_syntax)\n",
+                "type": "Int"
+            },
+            {
+                "name": "featureTag",
+                "comment": " Creates a [`feature-tag-value`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings#feature-tag-value)\nwith the default value of `1`\n\n    fontFeatureSettings (featureTag \"hist\")\n",
+                "type": "String -> FeatureTagValue {}"
+            },
+            {
+                "name": "featureTag2",
+                "comment": " Creates a [`feature-tag-value`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings#feature-tag-value)\nwith a particular integer value\n\n    fontFeatureSettings (featureTag2 \"smcp\" on)\n    fontFeatureSettings (featureTag2 \"swsh\" 2)\n",
+                "type": "String -> Int -> FeatureTagValue {}"
+            },
+            {
+                "name": "fill",
+                "comment": " ",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "fillAvailable",
+                "comment": " The `fill-available` value for\n[`min-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-width#Values),\n[`max-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-width#Values),\n[`min-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-height#Values), and\n[`max-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-height#Values)\n",
+                "type": "MinMaxDimension {}"
+            },
+            {
+                "name": "fillBox",
+                "comment": " The `fill-box` value for the [`transform-box`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box) property.\n",
+                "type": "TransformBox {}"
+            },
+            {
+                "name": "first",
+                "comment": " A [`:first`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Afirst)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "firstChild",
+                "comment": " A [`:first-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Afirst-child)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "firstLetter",
+                "comment": " A [`::first-letter`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3A%3Afirst-letter)\n[pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "firstLine",
+                "comment": " A [`::first-line`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3A%3Afirst-line)\n[pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "firstOfType",
+                "comment": " A [`:first-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Afirst-of-type)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "fitContent",
+                "comment": " The `fit-content` value for\n[`min-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-width#Values),\n[`max-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-width#Values),\n[`min-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-height#Values), and\n[`max-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-height#Values)\n",
+                "type": "MinMaxDimension {}"
+            },
+            {
+                "name": "fixed",
+                "comment": " A `fixed` [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) value.\nThis can also represent a `fixed` [`background-attachment`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment) value.\n\n    position fixed\n",
+                "type": "Position (BackgroundAttachment {})"
+            },
+            {
+                "name": "flat",
+                "comment": " The `flat` value for the [`transform-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style) property.\n",
+                "type": "TransformStyle {}"
+            },
+            {
+                "name": "flex",
+                "comment": " Sets [`flex`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) property.\n\nflex (none | content | auto | (int 1) | (px 10))\nflex2 (int 1) ((int 1) | (px 10 ))\nflex3 (int 1) (int 1) ((int 1) | (px 10))\n\n",
+                "type": "LengthOrNumberOrAutoOrNoneOrContent compatible -> Mixin"
+            },
+            {
+                "name": "flex2",
+                "comment": " Sets [`flex`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) property.\n\nflex (none | content | auto | (int 1) | (px 10))\nflex2 (int 1) ((int 1) | (px 10 ))\nflex3 (int 1) (int 1) ((int 1) | (px 10))\n\n",
+                "type": "Number compatibleA -> LengthOrNumber compatibleB -> Mixin"
+            },
+            {
+                "name": "flex3",
+                "comment": " Sets [`flex`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) property.\n\nflex (none | content | auto | (int 1) | (px 10))\nflex2 (int 1) ((int 1) | (px 10 ))\nflex3 (int 1) (int 1) ((int 1) | (px 10))\n\n",
+                "type": "Number compatibleA -> Number compatibleB -> LengthOrNumber compatbileC -> Mixin"
+            },
+            {
+                "name": "flexBasis",
+                "comment": " Sets [`flex-basis`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis) property.\n\nflex (none | content | auto | (int 1) | (px 10))\nflex2 (int 1) ((int 1) | (px 10 ))\nflex3 (int 1) (int 1) ((int 1) | (px 10))\n\n",
+                "type": "FlexBasis compatible -> Mixin"
+            },
+            {
+                "name": "flexDirection",
+                "comment": " Sets [`flex-direction`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) property.\n",
+                "type": "FlexDirection compatible -> Mixin"
+            },
+            {
+                "name": "flexEnd",
+                "comment": " The[`flex-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#Values) value for the\n  align-items property.\n  Can also be used with flex-box's justify-content property to apply the value of flex-end.\n",
+                "type": "AlignItems a b"
+            },
+            {
+                "name": "flexFlow1",
+                "comment": " Sets [`flex-flow`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow) property.\n\nflexFlow1 (wrap | wrapReverse | noWrap)\nflexFlow2 (wrap | wrapReverse | noWrap) (row | column | rowReverse | columnReverse)\n\nOr vice versa, order is not important for flex-flow\n",
+                "type": "FlexDirectionOrWrap compatible -> Mixin"
+            },
+            {
+                "name": "flexFlow2",
+                "comment": " Sets [`flex-flow`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow) property.\n\nflexFlow1 (wrap | wrapReverse | noWrap)\nflexFlow2 (wrap | wrapReverse | noWrap) (row | column | rowReverse | columnReverse)\n\nOr vice versa, order is not important for flex-flow\n",
+                "type": "FlexDirectionOrWrap compatibleA -> FlexDirectionOrWrap compatibleB -> Mixin"
+            },
+            {
+                "name": "flexGrow",
+                "comment": " Sets [`flex-grow`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) property.\n",
+                "type": "Number compatible -> Mixin"
+            },
+            {
+                "name": "flexShrink",
+                "comment": " Sets [`flex-shrink`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) property.\n",
+                "type": "Number compatible -> Mixin"
+            },
+            {
+                "name": "flexStart",
+                "comment": " The[`flex-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#Values) value for the\n  align-items property.\n  Can also be used with flex-box's justify-content property to apply the value of flex-start.\n",
+                "type": "AlignItems a b"
+            },
+            {
+                "name": "flexWrap",
+                "comment": " Sets [`flex-wrap`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) property.\n",
+                "type": "FlexWrap compatible -> Mixin"
+            },
+            {
+                "name": "float",
+                "comment": " Sets ['float'](https://developer.mozilla.org/en-US/docs/Web/CSS/float)\nfloat : Float compatible -> Mixin\n\n    float right\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "focus",
+                "comment": " A [`:focus`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Afocus)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "fontFace",
+                "comment": " ",
+                "type": "String -> String"
+            },
+            {
+                "name": "fontFamilies",
+                "comment": " For multiple font families:\n\n    fontFamilies  [\"Verdana\", \"Arial\"]\n    fontFamilies  [(qt \"Gill Sans Extrabold\"), \"Helvetica\", .value sansSerif]\n",
+                "type": "List String -> Mixin"
+            },
+            {
+                "name": "fontFamily",
+                "comment": " For when your font is one of [`serif`](#serif), [`sansSerif`](#sansSerif), [`monospace`](#monospace), [`cursive`](#cursive) or [`fantasy`](#fantasy).\nIf you want to refer to a font by its name (like Helvetica or Arial), use [`fontFamilies`](#fontFamilies) instead.\n",
+                "type": "FontFamily a -> Mixin"
+            },
+            {
+                "name": "fontFeatureSettings",
+                "comment": " Sets [`font-feature-settings`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings)\n\n    fontFeatureSettings (featureTag \"hist\")\n    fontFeatureSettings (featureTag2 \"smcp\" on)\n    fontFeatureSettings (featureTag2 \"swsh\" 2)\n",
+                "type": "FeatureTagValue a -> Mixin"
+            },
+            {
+                "name": "fontFeatureSettingsList",
+                "comment": " Sets [`font-feature-settings`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings)\n\n    fontFeatureSettingsList [featureTag \"c2sc\", featureTag \"smcp\"]\n",
+                "type": "List (FeatureTagValue a) -> Mixin"
+            },
+            {
+                "name": "fontSize",
+                "comment": " Sets [`font-size`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-size)\n\n    fontSize  xxSmall\n    fontSize  (px 12)\n",
+                "type": "FontSize a -> Mixin"
+            },
+            {
+                "name": "fontStyle",
+                "comment": " Sets [`font-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-style)\n\n    fontStyle  italic\n",
+                "type": "FontStyle a -> Mixin"
+            },
+            {
+                "name": "fontVariant",
+                "comment": " Sets [`font-variant`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant)\n\n    fontVariant   smallCaps\n    fontVariant2  commonLigatures smallCaps\n    fontVariant3  commonLigatures smallCaps slashedZero\n    fontVariants  [ oldstyleNums tabularNums stackedFractions ordinal slashedZero ]\n",
+                "type": "FontVariant a -> Mixin"
+            },
+            {
+                "name": "fontVariant2",
+                "comment": " ",
+                "type": "FontVariant compatibleA -> FontVariant compatibleB -> Mixin"
+            },
+            {
+                "name": "fontVariant3",
+                "comment": " ",
+                "type": "FontVariant compatibleA -> FontVariant compatibleB -> FontVariant compatibleC -> Mixin"
+            },
+            {
+                "name": "fontVariantCaps",
+                "comment": " ",
+                "type": "FontVariantCaps a -> Mixin"
+            },
+            {
+                "name": "fontVariantLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures a -> Mixin"
+            },
+            {
+                "name": "fontVariantNumeric",
+                "comment": " ",
+                "type": "FontVariantNumeric a -> Mixin"
+            },
+            {
+                "name": "fontVariantNumeric2",
+                "comment": " ",
+                "type": "FontVariantNumeric compatibleA -> FontVariantNumeric compatibleB -> Mixin"
+            },
+            {
+                "name": "fontVariantNumeric3",
+                "comment": " ",
+                "type": "FontVariantNumeric compatibleA -> FontVariantNumeric compatibleB -> FontVariantNumeric compatibleC -> Mixin"
+            },
+            {
+                "name": "fontVariantNumerics",
+                "comment": " ",
+                "type": "List (FontVariantNumeric compatible) -> Mixin"
+            },
+            {
+                "name": "fontWeight",
+                "comment": " Sets [`font-weight`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight)\n\n    fontWeight  bold\n    fontWeight  (int 300)\n",
+                "type": "FontWeight a -> Mixin"
+            },
+            {
+                "name": "fullWidth",
+                "comment": " `full-width` [`text-transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform#Values) value\n",
+                "type": "TextTransform {}"
+            },
+            {
+                "name": "fullscreen",
+                "comment": " A [`:fullscreen`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Afullscreen)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "generalSiblings",
+                "comment": " ",
+                "type": "List Snippet -> Mixin"
+            },
+            {
+                "name": "geometricPrecision",
+                "comment": " `geometricPrecision` [`text-rendering`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering#Values) value\n",
+                "type": "TextRendering {}"
+            },
+            {
+                "name": "georgian",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "grab",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "grabbing",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "grad",
+                "comment": " [`grad`](https://developer.mozilla.org/en-US/docs/Web/CSS/angle#grad) units.\n",
+                "type": "number -> Angle {}"
+            },
+            {
+                "name": "groove",
+                "comment": " A `groove` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle {}"
+            },
+            {
+                "name": "gujarati",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "gurmukhi",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "hanging",
+                "comment": " `hanging` [`hanging`](https://developer.mozilla.org/en-US/docs/Web/CSS/hanging#Values) value\n",
+                "type": "TextIndent {}"
+            },
+            {
+                "name": "hardLight",
+                "comment": " The `hard-light` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#hard-light).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "height",
+                "comment": " Sets [`height`](https://developer.mozilla.org/en-US/docs/Web/CSS/height)\n\n    height (px 800)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "help",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "hex",
+                "comment": " [RGB color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb())\nin hexadecimal notation. You can optionally include `#` as the first character,\nfor benefits like syntax highlighting in editors, ease of copy/pasting from\ntools which express these as e.g. `#abcdef0`, etc.\n",
+                "type": "String -> Color"
+            },
+            {
+                "name": "hidden",
+                "comment": " `hidden` [`overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#Values) value.\n\nThis can also represent a `hidden` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "Overflow (BorderStyle {})"
+            },
+            {
+                "name": "historicalLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "horizontal",
+                "comment": " The `horizontal` value for the [`resize`](https://developer.mozilla.org/en/docs/Web/CSS/resize#Values) property.\n",
+                "type": "Resize {}"
+            },
+            {
+                "name": "hover",
+                "comment": " An [`:hover`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Ahover)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "hsl",
+                "comment": " [HSL color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl())\n`s` and `l` values are expressed as a number between 0 and 1 and are converted\nto the appropriate percentage at compile-time\n",
+                "type": "Float -> Float -> Float -> Color"
+            },
+            {
+                "name": "hsla",
+                "comment": " [HSLA color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsla())\n`s` and `l` values are expressed as a number between 0 and 1 and are converted\nto the appropriate percentage at compile-time\n",
+                "type": "Float -> Float -> Float -> Float -> Color"
+            },
+            {
+                "name": "hue",
+                "comment": " The `hue` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#hue).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "id",
+                "comment": " An [id selector](https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors).\n\n    stylesheet\n        [ id NavBar\n            [ width 960 px\n            , backgroundColor (rgb 123 42 208)\n            ]\n        ]\n",
+                "type": "id -> List Mixin -> Snippet"
+            },
+            {
+                "name": "important",
+                "comment": " Transforms the given property by adding !important to the end of its\ndeclaration.\n",
+                "type": "Mixin -> Mixin"
+            },
+            {
+                "name": "inches",
+                "comment": " [`in`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#in) units.\n\n(This is `inches` instead of `in` because `in` is a reserved keyword in Elm.)\n",
+                "type": "Float -> In"
+            },
+            {
+                "name": "indeterminate",
+                "comment": " An [`:indeterminate`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aindeterminate)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "inherit",
+                "comment": " The [`inherit`](https://developer.mozilla.org/en-US/docs/Web/CSS/inherit) value.\nAny CSS property can be set to this value.\n",
+                "type": "BasicProperty"
+            },
+            {
+                "name": "initial",
+                "comment": " The [`initial`](https://developer.mozilla.org/en-US/docs/Web/CSS/initial) value.\nAny CSS property can be set to this value.\n",
+                "type": "BasicProperty"
+            },
+            {
+                "name": "inline",
+                "comment": " ",
+                "type": "Display {}"
+            },
+            {
+                "name": "inlineBlock",
+                "comment": " ",
+                "type": "Display {}"
+            },
+            {
+                "name": "inlineListItem",
+                "comment": " ",
+                "type": "Display {}"
+            },
+            {
+                "name": "inlineTable",
+                "comment": " Sets the display style to [`inline-table`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "inset",
+                "comment": " An `inset` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle {}"
+            },
+            {
+                "name": "inside",
+                "comment": " ",
+                "type": "ListStyle (ListStylePosition {})"
+            },
+            {
+                "name": "int",
+                "comment": " A unitless integer. Useful with properties like [`borderImageOutset`](#borderImageOutset)\nwhich accept either length units or unitless numbers for some properties.\n",
+                "type": "Int -> IntOrAuto (LengthOrNumberOrAutoOrNoneOrContent (LengthOrNumber (FontWeight (Number { numericValue : Float, unitLabel : String, units : UnitlessInteger }))))"
+            },
+            {
+                "name": "invalid",
+                "comment": " An [`:invalid`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Ainvalid)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "italic",
+                "comment": " ",
+                "type": "FontStyle {}"
+            },
+            {
+                "name": "justifyAll",
+                "comment": " `justify-all` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "justifyContent",
+                "comment": " Sets [`justify-content`](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content).\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "kannada",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "khmer",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "lang",
+                "comment": " A [`:lang`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Alang)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "lao",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "large",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "larger",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "lastChild",
+                "comment": " A [`:last-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Alast-child)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "lastOfType",
+                "comment": " A [`:last-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Alast-of-type)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "left",
+                "comment": " The [`left`](https://developer.mozilla.org/en-US/docs/Web/CSS/left) property.\n\n    position absolute\n    left (px 5)\n\nThis can also be used as a `left` [text alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align) value:\n\n    textAlign left\n\n\nIt can also be used as a `left` [float](https://developer.mozilla.org/en-US/docs/Web/CSS/float) value :\n\n    float left\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "letterSpacing",
+                "comment": " Sets [`letter-spacing`](https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing)\n\n    letterSpacing (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "lighten",
+                "comment": " The `lighten` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#lighten).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "lighter",
+                "comment": " ",
+                "type": "FontWeight {}"
+            },
+            {
+                "name": "lineHeight",
+                "comment": " Sets [`line-height`](https://developer.mozilla.org/en-US/docs/Web/CSS/line-height)\n\n    lineHeight (px 10)\n",
+                "type": "LengthOrNumber compatible -> Mixin"
+            },
+            {
+                "name": "lineThrough",
+                "comment": " A [`line-through`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line#Value)\ntext decoration line.\n",
+                "type": "TextDecorationLine {}"
+            },
+            {
+                "name": "liningNums",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "link",
+                "comment": " A [`:link`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Alink)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "listItem",
+                "comment": " ",
+                "type": "Display {}"
+            },
+            {
+                "name": "listStyle",
+                "comment": " The [`list-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style) shorthand property.\n",
+                "type": "ListStyle compatible -> Mixin"
+            },
+            {
+                "name": "listStyle2",
+                "comment": " The [`list-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style) shorthand property.\n",
+                "type": "ListStyle compatible1 -> ListStyle compatible2 -> Mixin"
+            },
+            {
+                "name": "listStyle3",
+                "comment": " The [`list-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style) shorthand property.\n",
+                "type": "ListStyle compatible1 -> ListStyle compatible2 -> ListStyle compatible3 -> Mixin"
+            },
+            {
+                "name": "listStylePosition",
+                "comment": " The [`list-style-position`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position) property.\n",
+                "type": "ListStylePosition compatible -> Mixin"
+            },
+            {
+                "name": "listStyleType",
+                "comment": " The [`list-style-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type) property.\n",
+                "type": "ListStyleType compatible -> Mixin"
+            },
+            {
+                "name": "local",
+                "comment": " The `local` [`background-attachment`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment) value.\n",
+                "type": "BackgroundAttachment {}"
+            },
+            {
+                "name": "lowerAlpha",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "lowerGreek",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "lowerLatin",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "lowerRoman",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "lowercase",
+                "comment": " `lowercase` [`text-transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform#Values) value\n",
+                "type": "TextTransform {}"
+            },
+            {
+                "name": "luminosity",
+                "comment": " The `luminosity` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#luminosity).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "malayalam",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "margin",
+                "comment": " Sets [`margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin)\n\n    margin  (px 10)\n    margin2 (px 10) (px 10)\n    margin3 (px 10) (px 10) (px 10)\n    margin4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "margin2",
+                "comment": " Sets [`margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin)\n\n    margin  (px 10)\n    margin2 (px 10) (px 10)\n    margin3 (px 10) (px 10) (px 10)\n    margin4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "LengthOrAuto compatibleA -> LengthOrAuto compatibleB -> Mixin"
+            },
+            {
+                "name": "margin3",
+                "comment": " Sets [`margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin)\n\n    margin  (px 10)\n    margin2 (px 10) (px 10)\n    margin3 (px 10) (px 10) (px 10)\n    margin4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "LengthOrAuto compatibleA -> LengthOrAuto compatibleB -> LengthOrAuto compatibleC -> Mixin"
+            },
+            {
+                "name": "margin4",
+                "comment": " Sets [`margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin)\n\n    margin  (px 10)\n    margin2 (px 10) (px 10)\n    margin3 (px 10) (px 10) (px 10)\n    margin4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "LengthOrAuto compatibleA -> LengthOrAuto compatibleB -> LengthOrAuto compatibleC -> LengthOrAuto compatibleD -> Mixin"
+            },
+            {
+                "name": "marginBlockEnd",
+                "comment": " Sets [`margin-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-block-end)\n\n    marginBlockEnd (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginBlockStart",
+                "comment": " Sets [`margin-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-block-start)\n\n    marginBlockStart (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginBottom",
+                "comment": " Sets [`margin-bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-bottom)\n\n    marginBottom (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginInlineEnd",
+                "comment": " Sets [`margin-inline-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-inline-end)\n\n    marginInlineEnd (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginInlineStart",
+                "comment": " Sets [`margin-inline-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-inline-start)\n\n    marginInlineStart (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginLeft",
+                "comment": " Sets [`margin-left`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-left)\n\n    marginLeft (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginRight",
+                "comment": " Sets [`margin-right`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-right)\n\n    marginRight (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "marginTop",
+                "comment": " Sets [`margin-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/margin-top)\n\n    marginTop (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "matchParent",
+                "comment": " `match-parent` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "matrix",
+                "comment": " The [`matrix()`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#matrix()) transform-function.\n\n    transform (matrix 0.5 1 1.5 2 2.5 3)\n",
+                "type": "number -> number -> number -> number -> number -> number -> Transform {}"
+            },
+            {
+                "name": "matrix3d",
+                "comment": " The [`matrix3d()`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#matrix3d()) transform-function.\n\n    transform (matrix3d 0.5 1 1.5 2 2.5 3 0.5 1 1.5 2 2.5 3 0.5 1 1.5 2 2.5 3 0.5 1 1.5 2 2.5 3)\n",
+                "type": "number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> number -> Transform {}"
+            },
+            {
+                "name": "maxContent",
+                "comment": " The `max-content` value for\n[`min-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-width#Values),\n[`max-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-width#Values),\n[`min-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-height#Values), and\n[`max-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-height#Values)\n",
+                "type": "MinMaxDimension {}"
+            },
+            {
+                "name": "maxHeight",
+                "comment": " Sets [`max-height`](https://developer.mozilla.org/en-US/docs/Web/CSS/max-height)\n\n    maxHeight (px 1024)\n\n",
+                "type": "LengthOrNoneOrMinMaxDimension compatible -> Mixin"
+            },
+            {
+                "name": "maxWidth",
+                "comment": " Sets [`max-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/max-width)\n\n    maxWidth (px 960)\n",
+                "type": "LengthOrNoneOrMinMaxDimension compatible -> Mixin"
+            },
+            {
+                "name": "media",
+                "comment": " ",
+                "type": "List MediaQuery -> List Snippet -> Snippet"
+            },
+            {
+                "name": "mediaQuery",
+                "comment": " ",
+                "type": "String -> List Snippet -> Snippet"
+            },
+            {
+                "name": "medium",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "middle",
+                "comment": " The `middle` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign middle\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "minContent",
+                "comment": " The `min-content` value for\n[`min-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-width#Values),\n[`max-width`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-width#Values),\n[`min-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/min-height#Values), and\n[`max-height`]https://developer.mozilla.org/en-US/docs/Web/CSS/max-height#Values)\n",
+                "type": "MinMaxDimension {}"
+            },
+            {
+                "name": "minHeight",
+                "comment": " Sets [`min-height`](https://developer.mozilla.org/en-US/docs/Web/CSS/min-height)\n\n    minHeight (px 100)\n\n",
+                "type": "LengthOrMinMaxDimension compatible -> Mixin"
+            },
+            {
+                "name": "minWidth",
+                "comment": " Sets [`min-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/min-width)\n\n    minWidth (px 100)\n",
+                "type": "LengthOrMinMaxDimension compatible -> Mixin"
+            },
+            {
+                "name": "mixin",
+                "comment": " A Mixin allowing you to modularly reuse common styles in other styles.\nThe return value of `mixin` can be used like any other property, since all\nproperties in elm-css are implemented as mixins.\n\n    underlineOnHover =\n        mixin\n            [ textDecoration none\n\n            , hover\n                [ textDecoration underline ]\n            ]\n\n    stylesheet\n      [ class FancyLink\n          [ color (rgb 128 64 32)\n          , underlineOnHover\n          ]\n      ]\n\n...has the same result as:\n\n    stylesheet\n      [ class FancyLink\n          [ color (rgb 128 64 32)\n          , textDecoration none\n          , hover\n            [ textDecoration underline ]\n          ]\n      ]\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "mm",
+                "comment": " [``](https://developer.mozilla.org/en-US/docs/Web/CSS/length#mm) units.\n",
+                "type": "Float -> Mm"
+            },
+            {
+                "name": "monospace",
+                "comment": " ",
+                "type": "FontFamily {}"
+            },
+            {
+                "name": "move",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "multiply",
+                "comment": " The `multiply` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#multiply).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "myanmar",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "nResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "neResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "neswResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "noCommonLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "noContextual",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "noDiscretionaryLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "noDrop",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "noHistoricalLigatures",
+                "comment": " ",
+                "type": "FontVariantLigatures {}"
+            },
+            {
+                "name": "noRepeat",
+                "comment": " The `no-repeat` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeat {}"
+            },
+            {
+                "name": "noWrap",
+                "comment": " ",
+                "type": "WhiteSpace (FlexDirectionOrWrap (FlexWrap {}))"
+            },
+            {
+                "name": "none",
+                "comment": " ",
+                "type": "{ borderStyle : Compatible, cursor : Compatible, display : Compatible, lengthOrNumberOrAutoOrNoneOrContent : Compatible, none : Compatible, lengthOrNone : Compatible, lengthOrNoneOrMinMaxDimension : Compatible, listStyleType : Compatible, listStyleTypeOrPositionOrImage : Compatible, outline : Compatible, resize : Compatible, textDecorationLine : Compatible, transform : Compatible, value : String }"
+            },
+            {
+                "name": "normal",
+                "comment": " ",
+                "type": "Wrap (FontStyleOrFeatureTagValue (FontWeight {}))"
+            },
+            {
+                "name": "notAllowed",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "nsResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "nthChild",
+                "comment": " An [`:nth-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Anth-child)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "nthLastChild",
+                "comment": " An [`:nth-last-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Anth-last-child)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "nthLastOfType",
+                "comment": " An [`:nth-last-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Anth-last-of-type)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "nthOfType",
+                "comment": " An [`:nth`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Anth-of-type)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "String -> List Mixin -> Mixin"
+            },
+            {
+                "name": "num",
+                "comment": " A unitless number. Useful with properties like [`flexGrow`](#flexGrow)\nwhich accept unitless numbers.\n",
+                "type": "Float -> LengthOrNumberOrAutoOrNoneOrContent (LengthOrNumber (Number { numericValue : Float, unitLabel : String, units : UnitlessFloat }))"
+            },
+            {
+                "name": "nwResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "nwseResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "oblique",
+                "comment": " ",
+                "type": "FontStyle {}"
+            },
+            {
+                "name": "oldstyleNums",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "onlyChild",
+                "comment": " An [`:only-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aonly-child)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "onlyOfType",
+                "comment": " An [`:only-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aonly-of-type)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "opacity",
+                "comment": " ",
+                "type": "Number compatible -> Mixin"
+            },
+            {
+                "name": "optimizeLegibility",
+                "comment": " `optimizeLegibility` [`text-rendering`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering#Values) value\n",
+                "type": "TextRendering {}"
+            },
+            {
+                "name": "optimizeSpeed",
+                "comment": " `optimizeSpeed` [`text-rendering`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering#Values) value\n",
+                "type": "TextRendering {}"
+            },
+            {
+                "name": "optional",
+                "comment": " An [`:optional`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aoptional)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "order",
+                "comment": " Sets [`order`](https://developer.mozilla.org/en-US/docs/Web/CSS/order) property.\n",
+                "type": "Number compatible -> Mixin"
+            },
+            {
+                "name": "ordinal",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "oriya",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "outOfRange",
+                "comment": " An [`:out-of-range`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aout-of-range)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "outline",
+                "comment": " Sets [`outline`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline)\n\n    outline  zero\n    outline  initial\n    outline3 (px 10) dashed (rgb 11 14 17)\n",
+                "type": "Outline compatible -> Mixin"
+            },
+            {
+                "name": "outline3",
+                "comment": " Sets [`outline`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline)\n\n    outline  zero\n    outline  initial\n    outline3 (px 10) dashed (rgb 11 14 17)\n",
+                "type": "Length compatibleA unitsA -> BorderStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "outlineColor",
+                "comment": " Sets [`outline-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color)\n\n    outlineColor (rgb 11 14 17)\n    outlineColor (hex \"#ffffff\")\n    outlineColor (hsla 120 0.5 0.5 0.5)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "outlineOffset",
+                "comment": " Sets [`outline-offset`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-offset)\n\n    outlineOffset (px 10)\n    outlineOffset (em 1.4)\n    outlineOffset (pct 50)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "outlineStyle",
+                "comment": " Sets [`outline-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-style)\n\n    outlineStyle dashed\n    outlineStyle solid\n    outlineStyle outset\n",
+                "type": "BorderStyle compatible -> Mixin"
+            },
+            {
+                "name": "outlineWidth",
+                "comment": " Sets [`outline-width`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-width)\n\n    outlineWidth (px 10)\n    outlineWidth (em 1.4)\n    outlineWidth none\n",
+                "type": "LengthOrNone compatible -> Mixin"
+            },
+            {
+                "name": "outset",
+                "comment": " An `outset` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle {}"
+            },
+            {
+                "name": "outside",
+                "comment": " ",
+                "type": "ListStyle (ListStylePosition {})"
+            },
+            {
+                "name": "overflow",
+                "comment": " ",
+                "type": "Overflow compatible -> Mixin"
+            },
+            {
+                "name": "overflowWrap",
+                "comment": " ",
+                "type": "Wrap compatible -> Mixin"
+            },
+            {
+                "name": "overflowX",
+                "comment": " ",
+                "type": "Overflow compatible -> Mixin"
+            },
+            {
+                "name": "overflowY",
+                "comment": " ",
+                "type": "Overflow compatible -> Mixin"
+            },
+            {
+                "name": "overlay",
+                "comment": " The `overlay` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#overlay).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "overline",
+                "comment": " An [`overline`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line#Value)\ntext decoration line.\n",
+                "type": "TextDecorationLine {}"
+            },
+            {
+                "name": "padding",
+                "comment": " Sets [`padding`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)\n\n    padding  (px 10)\n    padding2 (px 10) (px 10)\n    padding3 (px 10) (px 10) (px 10)\n    padding4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "padding2",
+                "comment": " Sets [`padding`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)\n\n    padding  (px 10)\n    padding2 (px 10) (px 10)\n    padding3 (px 10) (px 10) (px 10)\n    padding4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "padding3",
+                "comment": " Sets [`padding`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)\n\n    padding  (px 10)\n    padding2 (px 10) (px 10)\n    padding3 (px 10) (px 10) (px 10)\n    padding4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> Mixin"
+            },
+            {
+                "name": "padding4",
+                "comment": " Sets [`padding`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)\n\n    padding  (px 10)\n    padding2 (px 10) (px 10)\n    padding3 (px 10) (px 10) (px 10)\n    padding4 (px 10) (px 10) (px 10) (px 10)\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> Length compatible units -> Mixin"
+            },
+            {
+                "name": "paddingBlockEnd",
+                "comment": " Sets [`padding-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-end)\n\n    paddingBlockEnd (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "paddingBlockStart",
+                "comment": " Sets [`padding-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-start)\n\n    paddingBlockStart (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "paddingBottom",
+                "comment": " Sets [`padding-bottom`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-bottom)\n\n    paddingBottom (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "paddingBox",
+                "comment": " The `padding-box` [`background-clip`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip) value.\n",
+                "type": "BackgroundClip {}"
+            },
+            {
+                "name": "paddingInlineEnd",
+                "comment": " Sets [`padding-inline-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-end)\n\n    paddingInlineEnd (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "paddingInlineStart",
+                "comment": " Sets [`padding-inline-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-start)\n\n    paddingInlineStart (px 10)\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "paddingLeft",
+                "comment": " Sets [`padding-left`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-left)\n\n    paddingLeft (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "paddingRight",
+                "comment": " Sets [`padding-right`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-right)\n\n    paddingRight (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "paddingTop",
+                "comment": " Sets [`padding-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top)\n\n    paddingTop (px 10)\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "pc",
+                "comment": " [`pc`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pc) units.\n",
+                "type": "Float -> Pc"
+            },
+            {
+                "name": "pct",
+                "comment": " [`pct`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pct) units.\n",
+                "type": "Float -> Pct"
+            },
+            {
+                "name": "perspective",
+                "comment": " The [`perspective()`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#perspective()) transform-function.\n\n     transform (perspective 0.5)\n",
+                "type": "number -> Transform {}"
+            },
+            {
+                "name": "petiteCaps",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "pointer",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "position",
+                "comment": " The [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) property.\n",
+                "type": "Position compatible -> Mixin"
+            },
+            {
+                "name": "preserve3d",
+                "comment": " The `preserve-3d` value for the [`transform-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style) property.\n",
+                "type": "TransformStyle {}"
+            },
+            {
+                "name": "print",
+                "comment": " ",
+                "type": "MediaQuery"
+            },
+            {
+                "name": "progress",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "projection",
+                "comment": " ",
+                "type": "MediaQuery"
+            },
+            {
+                "name": "property",
+                "comment": " Define a custom property.\n\n    stylesheet\n      [ body\n          [ property \"-webkit-font-smoothing\" \"none\" ]\n      ]\n\n...outputs\n\n    body {\n        -webkit-font-smoothing: none;\n    }\n",
+                "type": "String -> String -> Mixin"
+            },
+            {
+                "name": "proportionalNums",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "pt",
+                "comment": " [`pt`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#pt) units.\n",
+                "type": "Float -> Pt"
+            },
+            {
+                "name": "px",
+                "comment": " [`px`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#px) units.\n",
+                "type": "Float -> Px"
+            },
+            {
+                "name": "qt",
+                "comment": " For use with [`font-family`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family)\n\n    fontFamily    serif\n    fontFamilies  [(qt \"Gill Sans Extrabold\"), \"Helvetica\", .value sansSerif]\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "rad",
+                "comment": " [`rad`](https://developer.mozilla.org/en-US/docs/Web/CSS/angle#rad) units.\n",
+                "type": "number -> Angle {}"
+            },
+            {
+                "name": "readWrite",
+                "comment": " A [`:read-write`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aread-write)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "relative",
+                "comment": " A `relative` [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) value.\n\n    position relative\n",
+                "type": "Position {}"
+            },
+            {
+                "name": "rem",
+                "comment": " [`rem`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#rem) units.\n",
+                "type": "Float -> Rem"
+            },
+            {
+                "name": "repeat",
+                "comment": " The `repeat` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeat {}"
+            },
+            {
+                "name": "repeatX",
+                "comment": " The `repeat-x` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeatShorthand {}"
+            },
+            {
+                "name": "repeatY",
+                "comment": " The `repeat-y` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeatShorthand {}"
+            },
+            {
+                "name": "required",
+                "comment": " A [`:required`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Arequired)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "resize",
+                "comment": " ",
+                "type": "Resize compatible -> Mixin"
+            },
+            {
+                "name": "rgb",
+                "comment": " [RGB color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb())\n    in functional notation.\n",
+                "type": "Int -> Int -> Int -> Color"
+            },
+            {
+                "name": "rgba",
+                "comment": " [RGBA color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgba()).\n",
+                "type": "Int -> Int -> Int -> Float -> Color"
+            },
+            {
+                "name": "ridge",
+                "comment": " A `ridge` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle {}"
+            },
+            {
+                "name": "right",
+                "comment": " Sets [`right`](https://developer.mozilla.org/en-US/docs/Web/CSS/right).\n\n    position absolute\n    right (px 5)\n\nThis can also be used as a `right` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align) value:\n\n    textAlign right\n\n\nIt can also be used as a `right` [float](https://developer.mozilla.org/en-US/docs/Web/CSS/float) value :\n\n    float right\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "root",
+                "comment": " A [`:root`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Aroot)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "rotate",
+                "comment": " The [`rotate`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()) transform-function.\n\n     transform (rotate (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "rotate3d",
+                "comment": " The [`rotate3d`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate3d()) transform-function.\n\n     transform (rotate3d 1 1 1 (deg 90))\n",
+                "type": "number -> number -> number -> Angle compatible -> Transform {}"
+            },
+            {
+                "name": "rotateX",
+                "comment": " The [`rotateX`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotateX()) transform-function.\n\n     transform (rotateX (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "rotateY",
+                "comment": " The [`rotateY`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotateY()) transform-function.\n\n     transform (rotateY (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "rotateZ",
+                "comment": " The [`rotateZ`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotateZ()) transform-function.\n\n     transform (rotateZ (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "round",
+                "comment": " The `round` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeat {}"
+            },
+            {
+                "name": "row",
+                "comment": " The[`row`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction #Values) value for the\n  flex-direction property.\n",
+                "type": "FlexDirectionOrWrap (FlexDirection {})"
+            },
+            {
+                "name": "rowResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "rowReverse",
+                "comment": " The[`row-reverse`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction #Values) value for the\n  flex-direction property.\n",
+                "type": "FlexDirectionOrWrap (FlexDirection {})"
+            },
+            {
+                "name": "sResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "sansSerif",
+                "comment": " ",
+                "type": "FontFamily {}"
+            },
+            {
+                "name": "saturation",
+                "comment": " The `saturation` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#saturation).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "scale",
+                "comment": " The [`scale`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()) transform-function.\n\n     transform (scale 0.5)\n     transform (scale2 0.5 0.7)\n",
+                "type": "number -> Transform {}"
+            },
+            {
+                "name": "scale2",
+                "comment": " The [`scale`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()) transform-function.\n\n     transform (scale 0.5)\n     transform (scale2 0.5 0.7)\n",
+                "type": "number -> number -> Transform {}"
+            },
+            {
+                "name": "scale3d",
+                "comment": " The [`scale3d`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale3d()) transform-function.\n\n     transform (scale3d 0.5 0.5 1)\n",
+                "type": "number -> number -> number -> Transform {}"
+            },
+            {
+                "name": "scaleX",
+                "comment": " The [`scaleX`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scaleX()) transform-function.\n\n     transform (scaleX 0.5)\n",
+                "type": "number -> Transform {}"
+            },
+            {
+                "name": "scaleY",
+                "comment": " The [`scaleY`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scaleY()) transform-function.\n\n     transform (scaleY 0.5)\n",
+                "type": "number -> Transform {}"
+            },
+            {
+                "name": "scope",
+                "comment": " A [`:scope`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Ascope)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "screen",
+                "comment": " ",
+                "type": "MediaQuery"
+            },
+            {
+                "name": "screenBlendMode",
+                "comment": " The `screen` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#screen).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "scroll",
+                "comment": " The `scroll` [`overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#Values) value.\nThis can also represent a `scroll` [`background-attachment`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment) value.\n",
+                "type": "Overflow (BackgroundAttachment {})"
+            },
+            {
+                "name": "seResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "selection",
+                "comment": " A [`::selection`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3A%3Aselection)\n[pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "selector",
+                "comment": " A custom selector. Use this for things like\n[attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors)\nand [universal selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    stylesheet \"homepage\"\n        [ selector \"* [lang^=en]\"\n            [ textDecoration underline\n            , color (rgb 7 7 7)\n            ]\n        ]\n",
+                "type": "String -> List Mixin -> Snippet"
+            },
+            {
+                "name": "separate",
+                "comment": " A `separate` [border-collapse](https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse#Values).\n",
+                "type": "BorderCollapse {}"
+            },
+            {
+                "name": "serif",
+                "comment": " ",
+                "type": "FontFamily {}"
+            },
+            {
+                "name": "skew",
+                "comment": " The [`skew`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#skew()) transform-function.\n\n     transform (skew (deg 90))\n     transform (skew2 (deg 90) (deg 45))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "skew2",
+                "comment": " The [`skew`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#skew()) transform-function.\n\n     transform (skew (deg 90))\n     transform (skew2 (deg 90) (deg 45))\n",
+                "type": "Angle compatibleA -> Angle compatibleB -> Transform {}"
+            },
+            {
+                "name": "skewX",
+                "comment": " The [`skewX`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#skewX()) transform-function.\n\n     transform (skewX (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "skewY",
+                "comment": " The [`skewY`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#skewY()) transform-function.\n\n    transform (skewY (deg 90))\n",
+                "type": "Angle compatible -> Transform {}"
+            },
+            {
+                "name": "slashedZero",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "small",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "smallCaps",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "smaller",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "softLight",
+                "comment": " The `soft-light` [`blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode#soft-light).\n",
+                "type": "BackgroundBlendMode compatible"
+            },
+            {
+                "name": "solid",
+                "comment": " A `solid` [border style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values).\n",
+                "type": "BorderStyle (TextDecorationStyle {})"
+            },
+            {
+                "name": "space",
+                "comment": " The `space` [`background-repeat`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat) value.\n",
+                "type": "BackgroundRepeat {}"
+            },
+            {
+                "name": "spaceAround",
+                "comment": " The[`space-around`](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#Values) value for the\n  justify-content property.\n",
+                "type": "JustifyContent a b"
+            },
+            {
+                "name": "spaceBetween",
+                "comment": " The[`space-between`](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#Values) value for the\n  justify-content property.\n",
+                "type": "JustifyContent a b"
+            },
+            {
+                "name": "square",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "src",
+                "comment": " ",
+                "type": "ImportType compatible -> String"
+            },
+            {
+                "name": "stackedFractions",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "start",
+                "comment": " `start` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "static",
+                "comment": " A `static` [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) value.\n\n    position static\n",
+                "type": "Position {}"
+            },
+            {
+                "name": "sticky",
+                "comment": " A `sticky` [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/position) value.\n\n    position sticky\n",
+                "type": "Position {}"
+            },
+            {
+                "name": "stretch",
+                "comment": " The[`stretch`](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#Values) value for the\n  align-items property.\n",
+                "type": "AlignItems a b"
+            },
+            {
+                "name": "stylesheet",
+                "comment": " A stylesheet.\n\n    stylesheet\n        [ body\n            [ width (px 960)\n            , color (rgb 7 7 7)\n            ]\n        ]\n",
+                "type": "List Snippet -> Stylesheet"
+            },
+            {
+                "name": "sub",
+                "comment": " The `sub` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign sub\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "super",
+                "comment": " The `super` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign super\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "swResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "table",
+                "comment": " Sets the display style to [`table`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableCaption",
+                "comment": " Sets the display style to [`table-caption`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableCell",
+                "comment": " Sets the display style to [`table-cell`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableColumn",
+                "comment": " Sets the display style to [`table-column`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableColumnGroup",
+                "comment": " Sets the display style to [`table-column-group`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableFooterGroup",
+                "comment": " Sets the display style to [`table-footer-group`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableHeaderGroup",
+                "comment": " Sets the display style to [`table-header-group`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableRow",
+                "comment": " Sets the display style to [`table-row`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tableRowGroup",
+                "comment": " Sets the display style to [`table-row-group`](https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values)\n",
+                "type": "Display {}"
+            },
+            {
+                "name": "tabularNums",
+                "comment": " ",
+                "type": "FontVariantNumeric {}"
+            },
+            {
+                "name": "target",
+                "comment": " A [`:target`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Atarget)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "telugu",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "text",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "textAlign",
+                "comment": " Sets [`text-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "textAlignLast",
+                "comment": " Sets [`text-align-last`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align-last).\n    **Note:** `auto` is not currently supported here. If you need to set this property to `auto`,\n    use this workaround:\n\n    property \"text-align-last\" \"auto\"\n\n    If this is annoying, please file an issue, so adding support for \"auto\"\n    can be prioritized!\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "textBottom",
+                "comment": " The `text-bottom` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign textBottom\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "textDecoration",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecoration  underline\n    textDecoration2 underline wavy\n    textDecoration3 underline wavy (rgb 128 64 32)\n\nYou can specify multiple line decorations with `textDecorations`.\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "TextDecorationLine a -> Mixin"
+            },
+            {
+                "name": "textDecoration2",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecoration  underline\n    textDecoration2 underline wavy\n    textDecoration3 underline wavy (rgb 128 64 32)\n\nYou can specify multiple line decorations with `textDecorations`.\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "TextDecorationLine compatibleA -> TextDecorationStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "textDecoration3",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecoration  underline\n    textDecoration2 underline wavy\n    textDecoration3 underline wavy (rgb 128 64 32)\n\nYou can specify multiple line decorations with `textDecorations`.\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "TextDecorationLine compatibleA -> TextDecorationStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "textDecorationLine",
+                "comment": " Sets [`text-decoration-line`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line)\n\n    textDecorationLine underline\n\nYou can specify multiple line decorations with `textDecorationLines`.\n\n    textDecorationLines  [ underline, overline ]\n",
+                "type": "TextDecorationLine compatible -> Mixin"
+            },
+            {
+                "name": "textDecorationLines",
+                "comment": " Sets [`text-decoration-line`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line)\n\n    textDecorationLines  [ underline, overline ]\n",
+                "type": "List (TextDecorationLine compatible) -> Mixin"
+            },
+            {
+                "name": "textDecorationStyle",
+                "comment": " Sets [`text-decoration-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style)\n\n    textDecorationStyle dotted\n",
+                "type": "TextDecorationStyle compatible -> Mixin"
+            },
+            {
+                "name": "textDecorations",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "List (TextDecorationLine compatible) -> Mixin"
+            },
+            {
+                "name": "textDecorations2",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "List (TextDecorationLine compatibleA) -> TextDecorationStyle compatibleB -> Mixin"
+            },
+            {
+                "name": "textDecorations3",
+                "comment": " Sets [`text-decoration`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration)\n\n    textDecorations  [ underline, overline ]\n    textDecorations2 [ underline, overline ] wavy\n    textDecorations3 [ underline, overline ] wavy (rgb 128 64 32)\n",
+                "type": "List (TextDecorationLine compatibleA) -> TextDecorationStyle compatibleB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "textEmphasisColor",
+                "comment": " Sets ['text-emphasis-color'](https://developer.mozilla.org/en-US/docs/Web/CSS/text-emphasis-color)\n\n     textEmphasisColor (rgb 100 100 100)\n",
+                "type": "ColorValue compatible -> Mixin"
+            },
+            {
+                "name": "textIndent",
+                "comment": " Sets [`text-indent`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent).\n\n    textIndent  (px 40)\n    textIndent2 (px 40) hanging\n    textIndent3 (px 40) hanging eachLine\n",
+                "type": "Length compatible units -> Mixin"
+            },
+            {
+                "name": "textIndent2",
+                "comment": " Sets [`text-indent`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent).\n\n    textIndent  (px 40)\n    textIndent2 (px 40) hanging\n    textIndent3 (px 40) hanging eachLine\n",
+                "type": "Length compatibleA unitsA -> TextIndent compatibleB -> Mixin"
+            },
+            {
+                "name": "textIndent3",
+                "comment": " Sets [`text-indent`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent).\n\n    textIndent  (px 40)\n    textIndent2 (px 40) hanging\n    textIndent3 (px 40) hanging eachLine\n",
+                "type": "Length compatibleA unitsA -> TextIndent compatibleB -> TextIndent compatibleC -> Mixin"
+            },
+            {
+                "name": "textJustify",
+                "comment": " `text-justify` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "textOrientation",
+                "comment": " Sets [`text-orientation`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-orientation).\n\n    text-orientation mixed\n",
+                "type": "TextOrientation compatible -> Mixin"
+            },
+            {
+                "name": "textOverflow",
+                "comment": " Sets [`text-overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow).\n\n    textOverflow ellipsis\n",
+                "type": "TextOverflow compatible -> Mixin"
+            },
+            {
+                "name": "textRendering",
+                "comment": " Sets [`text-rendering`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering).\n",
+                "type": "TextRendering a -> Mixin"
+            },
+            {
+                "name": "textShadow",
+                "comment": " Sets [`text-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow).\n\n    textShadow  none\n    textShadow2 (px 1) (px 2)\n    textShadow3 (px 1) (px 2) (rgb 211 121 112)\n    textShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n\n",
+                "type": "None compatible -> Mixin"
+            },
+            {
+                "name": "textShadow2",
+                "comment": " Sets [`text-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow).\n\n    textShadow  none\n    textShadow2 (px 1) (px 2)\n    textShadow3 (px 1) (px 2) (rgb 211 121 112)\n    textShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Mixin"
+            },
+            {
+                "name": "textShadow3",
+                "comment": " Sets [`text-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow).\n\n    textShadow  none\n    textShadow2 (px 1) (px 2)\n    textShadow3 (px 1) (px 2) (rgb 211 121 112)\n    textShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> ColorValue compatibleC -> Mixin"
+            },
+            {
+                "name": "textShadow4",
+                "comment": " Sets [`text-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow).\n\n    textShadow  none\n    textShadow2 (px 1) (px 2)\n    textShadow3 (px 1) (px 2) (rgb 211 121 112)\n    textShadow4 (px 1) (px 2) (px 3) (rgb 211 121 112)\n\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> ColorValue compatibleD -> Mixin"
+            },
+            {
+                "name": "textTop",
+                "comment": " The `text-top` [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value.\n\n    verticalAlign textTop\n",
+                "type": "VerticalAlign a b"
+            },
+            {
+                "name": "textTransform",
+                "comment": " Sets [`text-transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform).\n",
+                "type": "TextTransform compatible -> Mixin"
+            },
+            {
+                "name": "thai",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "thick",
+                "comment": " The\n[border width values](https://developer.mozilla.org/en-US/docs/Web/CSS/border-width)\nof `thin`, `medium`, and `thick` have unspecified behavior according to the\nCSS specification, and as such are intentionally unsupported.\n\nUsing them is a bad idea, but if the fate of the world depends on it, you can\nfall back on something like this:\n\n    stylesheet\n        [ button\n            [ property \"border-left\" \"thick\" ]\n        ]\n",
+                "type": "IntentionallyUnsupportedPleaseSeeDocs"
+            },
+            {
+                "name": "thin",
+                "comment": " The\n[border width values](https://developer.mozilla.org/en-US/docs/Web/CSS/border-width)\nof `thin`, `medium`, and `thick` have unspecified behavior according to the\nCSS specification, and as such are intentionally unsupported.\n\nUsing them is a bad idea, but if the fate of the world depends on it, you can\nfall back on something like this:\n\n    stylesheet\n        [ button\n            [ property \"border-left\" \"thin\" ]\n        ]\n",
+                "type": "IntentionallyUnsupportedPleaseSeeDocs"
+            },
+            {
+                "name": "titlingCaps",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "top",
+                "comment": " The [`top`](https://developer.mozilla.org/en-US/docs/Web/CSS/top) property.\n\n    position absolute\n    top (px 5)\n\nThis can also be used as a `top` [vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) value:\n\n    verticalAlign top\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "transform",
+                "comment": " Sets [`transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)\nwith a single explicit transform value. If you need to set the transform\nproperty to `none`, use the `transforms` function with an empty list. See\n`transforms` for more details.\n\n    transform (scaleX 1.4)\n",
+                "type": "Transform compatible -> Mixin"
+            },
+            {
+                "name": "transformBox",
+                "comment": " The [`transform-box`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box) property.\n",
+                "type": "TransformBox compatible -> Mixin"
+            },
+            {
+                "name": "transformStyle",
+                "comment": " The [`transform-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style) property.\n",
+                "type": "TransformStyle compatible -> Mixin"
+            },
+            {
+                "name": "transforms",
+                "comment": " Sets [`transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)\nwith a series of transform-functions. If an empty list is provided, the CSS\noutput will be `none`, as if to state directly that the set of transforms\napplied to the current selector is empty:\n\n    transforms [] -- transform: none;\n\nIn the case that only one transform is needed, the `transform` function may be\nused instead for convenience. `transform` expects exactly one transform-function\nand cannot be passed `none`:\n\n    transform (matrix 1 2 3 4 5 6) -- transform: matrix(1, 2, 3, 4, 5, 6);\n\nIf a collection of transforms is needed, use the `transforms` function with a\npopulated list:\n\n    transforms [ perspective 1, scale2 1 1.4 ]\n",
+                "type": "List (Transform compatible) -> Mixin"
+            },
+            {
+                "name": "translate",
+                "comment": " The [`translate`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translate()) transform-function.\n\n    transform (translate (px 100))\n    transform (translate2 (px 100) (pct -45))\n",
+                "type": "Length compatible units -> Transform {}"
+            },
+            {
+                "name": "translate2",
+                "comment": " The [`translate`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translate()) transform-function.\n\n    transform (translate (px 100))\n    transform (translate2 (px 100) (pct -45))\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Transform {}"
+            },
+            {
+                "name": "translate3d",
+                "comment": " The [`translateX`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translateX()) transform-function.\n\n    transform (translate3d (px 100) (px 100) (px 100))\n",
+                "type": "Length compatibleA unitsA -> Length compatibleB unitsB -> Length compatibleC unitsC -> Transform {}"
+            },
+            {
+                "name": "translateX",
+                "comment": " The [`translateX`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translateX()) transform-function.\n\n    transform (translateX (px 100))\n",
+                "type": "Length compatible units -> Transform {}"
+            },
+            {
+                "name": "translateY",
+                "comment": " The [`translateY`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translateY()) transform-function.\n\n    transform (translateY (px 100))\n",
+                "type": "Length compatible units -> Transform {}"
+            },
+            {
+                "name": "translateZ",
+                "comment": " The [`translateZ`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#translateZ()) transform-function.\n\n    transform (translateZ (px 100))\n",
+                "type": "Length compatible units -> Transform {}"
+            },
+            {
+                "name": "transparent",
+                "comment": " A [`transparent`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#transparent_keyword) color.\n",
+                "type": "ColorValue NonMixable"
+            },
+            {
+                "name": "true",
+                "comment": " `true` [alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align).\n",
+                "type": "TextAlign a b"
+            },
+            {
+                "name": "turn",
+                "comment": " [`turn`](https://developer.mozilla.org/en-US/docs/Web/CSS/angle#tr) units.\n",
+                "type": "number -> Angle {}"
+            },
+            {
+                "name": "tv",
+                "comment": " ",
+                "type": "MediaQuery"
+            },
+            {
+                "name": "underline",
+                "comment": " An [`underline`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line#Value)\ntext decoration line.\n",
+                "type": "TextDecorationLine {}"
+            },
+            {
+                "name": "unicase",
+                "comment": " ",
+                "type": "FontVariantCaps {}"
+            },
+            {
+                "name": "unset",
+                "comment": " The [`unset`](https://developer.mozilla.org/en-US/docs/Web/CSS/unset) value.\nAny CSS property can be set to this value.\n",
+                "type": "BasicProperty"
+            },
+            {
+                "name": "upperAlpha",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "upperLatin",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "upperRoman",
+                "comment": " ",
+                "type": "ListStyle (ListStyleType {})"
+            },
+            {
+                "name": "uppercase",
+                "comment": " `uppercase` [`text-transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform#Values) value\n",
+                "type": "TextTransform {}"
+            },
+            {
+                "name": "url",
+                "comment": " The `url` [`background-image`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-image) value.\n",
+                "type": "String -> BackgroundImage {}"
+            },
+            {
+                "name": "valid",
+                "comment": " A [`:valid`](https://developer.mozilla.org/en-US/docs/Web/CSS/%3Avalid)\n[pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).\n",
+                "type": "List Mixin -> Mixin"
+            },
+            {
+                "name": "vertical",
+                "comment": " The `vertical` value for the [`resize`](https://developer.mozilla.org/en/docs/Web/CSS/resize#Values) property.\n",
+                "type": "Resize {}"
+            },
+            {
+                "name": "verticalAlign",
+                "comment": " Sets [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align).\n",
+                "type": "(ExplicitLength IncompatibleUnits -> Mixin) -> Mixin"
+            },
+            {
+                "name": "verticalText",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "vh",
+                "comment": " [`vh`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vh) units.\n",
+                "type": "Float -> Vh"
+            },
+            {
+                "name": "viewBox",
+                "comment": " The `view-box` value for the [`transform-box`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box) property.\n",
+                "type": "TransformBox {}"
+            },
+            {
+                "name": "visible",
+                "comment": " The `visible` value for the [`overflow`](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#Values) property.\n",
+                "type": "Overflow {}"
+            },
+            {
+                "name": "vmax",
+                "comment": " [`vmax`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vmax) units.\n",
+                "type": "Float -> Vmax"
+            },
+            {
+                "name": "vmin",
+                "comment": " [`vmin`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vmin) units.\n",
+                "type": "Float -> Vmin"
+            },
+            {
+                "name": "vw",
+                "comment": " [`vw`](https://developer.mozilla.org/en-US/docs/Web/CSS/length#vw) units.\n",
+                "type": "Float -> Vw"
+            },
+            {
+                "name": "wResize",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "wait",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "wavy",
+                "comment": " A `wavy` [text decoration style](https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style#Values).\n",
+                "type": "TextDecorationStyle {}"
+            },
+            {
+                "name": "whiteSpace",
+                "comment": " ",
+                "type": "WhiteSpace compatible -> Mixin"
+            },
+            {
+                "name": "width",
+                "comment": " Sets [`width`](https://developer.mozilla.org/en-US/docs/Web/CSS/width)\n\n    width (px 960)\n\n",
+                "type": "LengthOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "withClass",
+                "comment": " ",
+                "type": "class -> List Mixin -> Mixin"
+            },
+            {
+                "name": "withMedia",
+                "comment": " ",
+                "type": "List MediaQuery -> List Mixin -> Mixin"
+            },
+            {
+                "name": "wrap",
+                "comment": " The[`wrap`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap#Values) value for the\n  flex-wrap property.\n",
+                "type": "FlexDirectionOrWrap (FlexWrap {})"
+            },
+            {
+                "name": "wrapReverse",
+                "comment": " The[`wrap-reverse`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap#Values) value for the\n  flex-wrap property.\n",
+                "type": "FlexDirectionOrWrap (FlexWrap {})"
+            },
+            {
+                "name": "xLarge",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "xSmall",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "xxLarge",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "xxSmall",
+                "comment": " ",
+                "type": "FontSize {}"
+            },
+            {
+                "name": "zIndex",
+                "comment": " Sets [`z-index`](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)\n\n    zIndex (int 2)\n",
+                "type": "IntOrAuto compatible -> Mixin"
+            },
+            {
+                "name": "zero",
+                "comment": " Convenience length value that compiles to 0 with no units.\n\n    stylesheet\n      [ ul\n          [ padding zero ]\n      ]\n\n...compiles to:\n\n    ul {\n        padding: 0;\n    }\n",
+                "type": "{ value : String, length : Compatible, lengthOrNumber : Compatible, lengthOrNone : Compatible, lengthOrAuto : Compatible, lengthOrMinMaxDimension : Compatible, lengthOrNoneOrMinMaxDimension : Compatible, number : Compatible, outline : Compatible, units : UnitlessInteger, unitLabel : String, numericValue : Float, lengthOrAutoOrCoverOrContain : Compatible }"
+            },
+            {
+                "name": "zoomIn",
+                "comment": " ",
+                "type": "Cursor {}"
+            },
+            {
+                "name": "zoomOut",
+                "comment": " ",
+                "type": "Cursor {}"
+            }
+        ],
+        "binops": [
+            {
+                "name": "|*|",
+                "comment": " Subtract two lengths.\n\n    >>> em 3 |*| em 6\n    em 18\n",
+                "type": "Length compatible units -> Length compatible units -> Length compatible units",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "|+|",
+                "comment": " Add two lengths.\n\n    >>> em 2 |+| em 3\n    em 5\n",
+                "type": "Length compatible units -> Length compatible units -> Length compatible units",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "|-|",
+                "comment": " Subtract two lengths.\n\n    >>> em 7 |-| em 3\n    em 4\n",
+                "type": "Length compatible units -> Length compatible units -> Length compatible units",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "|/|",
+                "comment": " Subtract two lengths.\n\n    >>> em 9 |/| em 2\n    em 4.5\n",
+                "type": "Length compatible units -> Length compatible units -> Length compatible units",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    },
+    {
+        "name": "Css.Elements",
+        "comment": " Selectors for HTML elements.\n\n# Basic elements\n@docs html, body\n\n# Content sectioning\n@docs article, header, footer, h1, h2, h3, h4, h5, h6, nav, section\n\n# Text content\n@docs div, hr, li, main_, ol, p, ul, pre, blockquote\n\n# Inline text semantics\n@docs a, code, small, span, strong, i, em\n\n# Image and multimedia\n@docs img, audio, video, canvas\n\n# Table content\n@docs caption, col, colgroup, table, tbody, td, tfoot, th, thead, tr\n\n# Forms\n@docs button, fieldset, form, input, label, legend, optgroup, option, progress, select, textarea\n\n# SVG\n@docs svg, path, rect, circle, ellipse, line, polyline, polygon\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "a",
+                "comment": " Selector for an `<a>` element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "article",
+                "comment": " Selector for an article element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "audio",
+                "comment": " Selector for an audio element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "blockquote",
+                "comment": " Selector for a blockquote element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "body",
+                "comment": " Selector for a body element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "button",
+                "comment": " Selector for a button element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "canvas",
+                "comment": " Selector for a canvas element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "caption",
+                "comment": " Selector for a caption element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "circle",
+                "comment": " Selector for a circle element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "code",
+                "comment": " Selector for a code element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "col",
+                "comment": " Selector for a col element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "colgroup",
+                "comment": " Selector for a colgroup element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "div",
+                "comment": " Selector for a div element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "ellipse",
+                "comment": " Selector for a ellipse element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "em",
+                "comment": " Selector for a em element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "fieldset",
+                "comment": " Selector for a fieldset element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "footer",
+                "comment": " Selector for a footer element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "form",
+                "comment": " Selector for a form element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h1",
+                "comment": " Selector for an h1 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h2",
+                "comment": " Selector for an h2 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h3",
+                "comment": " Selector for an h3 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h4",
+                "comment": " Selector for an h4 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h5",
+                "comment": " Selector for an h5 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "h6",
+                "comment": " Selector for an h6 element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "header",
+                "comment": " Selector for a header element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "hr",
+                "comment": " Selector for an hr element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "html",
+                "comment": " Selector for a html element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "i",
+                "comment": " Selector for a i element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "img",
+                "comment": " Selector for a img element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "input",
+                "comment": " Selector for an input element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "label",
+                "comment": " Selector for a label element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "legend",
+                "comment": " Selector for a legend element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "li",
+                "comment": " Selector for an li element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "line",
+                "comment": " Selector for a line element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "main_",
+                "comment": " Selector for a main element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "nav",
+                "comment": " Selector for a nav element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "ol",
+                "comment": " Selector for an ol element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "optgroup",
+                "comment": " Selector for an optgroup element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "option",
+                "comment": " Selector for an option element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "p",
+                "comment": " Selector for a p element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "path",
+                "comment": " Selector for a path element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "polygon",
+                "comment": " Selector for a polygon element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "polyline",
+                "comment": " Selector for a polyline element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "pre",
+                "comment": " Selector for a pre element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "progress",
+                "comment": " Selector for a progress element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "rect",
+                "comment": " Selector for a rect element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "section",
+                "comment": " Selector for a section element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "select",
+                "comment": " Selector for a select element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "small",
+                "comment": " Selector for a small element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "span",
+                "comment": " Selector for a span element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "strong",
+                "comment": " Selector for a strong element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "svg",
+                "comment": " Selector for a svg element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "table",
+                "comment": " Selector for a table element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "tbody",
+                "comment": " Selector for a tbody element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "td",
+                "comment": " Selector for a td element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "textarea",
+                "comment": " Selector for a textarea element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "tfoot",
+                "comment": " Selector for a tfoot element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "th",
+                "comment": " Selector for a th element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "thead",
+                "comment": " Selector for a thead element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "tr",
+                "comment": " Selector for a thead element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "ul",
+                "comment": " Selector for a ul element.\n",
+                "type": "List Mixin -> Snippet"
+            },
+            {
+                "name": "video",
+                "comment": " Selector for a video element.\n",
+                "type": "List Mixin -> Snippet"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Css.Namespace",
+        "comment": " Namespacing\n@docs namespace\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "namespace",
+                "comment": "\ntakes an identifier, namespaces the list of snippets given with that identifier\n",
+                "type": "a -> List Snippet -> List Snippet"
+            }
+        ],
+        "binops": []
+    }
+]

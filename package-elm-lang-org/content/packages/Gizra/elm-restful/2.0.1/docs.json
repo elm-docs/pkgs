@@ -1,0 +1,857 @@
+[
+    {
+        "name": "Restful.Cache",
+        "comment": " Given an endpoint, manage data retrieved from that endpoint.\n\nAt the moment, this is read-only, because that's all that was needed for the\napp this was extracted from. This should handle writing and validating at some\npoint, of course.\n\n@docs Cache, ReadOnlyCache, empty, withPageSize\n\n@docs getParams, setParams, mapParams\n@docs invalidate\n\n@docs Msg, fetchFrom, tryFetching\n\n@docs update\n\n@docs Values, Ranges, getValues, loaded, allItemsLoaded\n@docs FetchRequest, getFetchRequests, getFetchErrors, forgetFetchErrors\n\n",
+        "unions": [
+            {
+                "name": "Cache",
+                "comment": " Represents a local cache of values from an endpoint.\n\nNote that, at least for now, we're assuming that the `params` type has reliable\nbehaviour for `==` (which the compiler doesn't guarantee) ... we could fix that\nby requiring a comparison function at some point.\n\n",
+                "args": [
+                    "w",
+                    "e",
+                    "k",
+                    "v",
+                    "c",
+                    "p"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " Messages we can handle. Needed for things that may kick off contact with\nthe backend.\n",
+                "args": [
+                    "e",
+                    "k",
+                    "v",
+                    "p"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Values",
+                "comment": " Represents the items we've received from the backend.\n",
+                "args": [
+                    "k",
+                    "v",
+                    "p"
+                ],
+                "cases": [
+                    [
+                        "Pending",
+                        [
+                            "p",
+                            "Maybe (Ranges k v p)"
+                        ]
+                    ],
+                    [
+                        "Arrived",
+                        [
+                            "Ranges k v p"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "FetchRequest",
+                "comment": " Encapsulates information about a fetch request.\n",
+                "args": [
+                    "p"
+                ],
+                "type": "{ params : p, offset : Int, pageSize : Maybe Int }"
+            },
+            {
+                "name": "Ranges",
+                "comment": " Represents values we've received from the backend.\n\n  - `items` is a dictionary of items we've received from the backend. The key\n    to the outer dictionary is the offset into the order of the items. The idea\n    is that we can represent a bunch of items from the \"middle\" without needing\n    a placeholder for every value. (So, ideally, to support possibly showing\n    just a few items out of millions).\n\n  - `count` is how many items the backend says it has in total.\n\n  - `params` are the params we used to fetch these items.\n\n",
+                "args": [
+                    "k",
+                    "v",
+                    "p"
+                ],
+                "type": "{ items : IntDict (EveryDictList k v), count : Int, params : p }"
+            },
+            {
+                "name": "ReadOnlyCache",
+                "comment": " An alias for a `Cache` which works with a read-only endpoint.\n",
+                "args": [
+                    "e",
+                    "k",
+                    "v",
+                    "p"
+                ],
+                "type": "Cache ReadOnly e k v v p"
+            }
+        ],
+        "values": [
+            {
+                "name": "allItemsLoaded",
+                "comment": " Have we loaded all the items?\n",
+                "type": "Ranges k v p -> Bool"
+            },
+            {
+                "name": "empty",
+                "comment": " Given an endpoint, create a cache for values to be send to/from\nthat endpoint.\n\nFor now, at least, the params are required ... you can arrange the\nEndPoint to have no params by using ().\n\n",
+                "type": "p -> EndPoint w e k v c p -> Cache w e k v c p"
+            },
+            {
+                "name": "fetchFrom",
+                "comment": " Get things from the backend at the specific offset. Uses the page size\nspecified for the cache, if any. (Note that the server won't necessarily\nreturn the page size you want).\n\nThis unconditionally contacts the backend, even if we already have values\ncached.\n\n",
+                "type": "Int -> Msg e k v p"
+            },
+            {
+                "name": "forgetFetchErrors",
+                "comment": " Forget all fetch errors ... for instance, if the user has acknowledged them\nand you don't want to show them any longer.\n\nOnce you've done this, `tryFetching` will actually try fetching again. So, it's\nthe basic mechanism for a kind of \"retry\" after an error. (We don't want to\nautomatically retry after an error, since that could well produce an infinite\nloop of errors and retries).\n\n",
+                "type": "Cache w e k v c p -> Cache w e k v c p"
+            },
+            {
+                "name": "getFetchErrors",
+                "comment": " What fetch errors have occured since the last successful fetch?\n",
+                "type": "Cache w e k v c p -> List ( FetchRequest p, e )"
+            },
+            {
+                "name": "getFetchRequests",
+                "comment": " What fetch requests are in-progress?\n",
+                "type": "Cache w e k v c p -> List (FetchRequest p)"
+            },
+            {
+                "name": "getParams",
+                "comment": " What are our currently active params?\n",
+                "type": "Cache w e k v c p -> p"
+            },
+            {
+                "name": "getValues",
+                "comment": " What have we received from the backend?\n",
+                "type": "Cache w e k v c p -> Values k v p"
+            },
+            {
+                "name": "invalidate",
+                "comment": " Throw away the current values. This doesn't, by itself, trigger a new\nfetch. Also, it doesn't invalidate fetches in-flight ... if results are\nreceived after this, from fetches initiated before this, they will still be\nused. (Perhaps a variant that also invalidates fetches in flight would be\nuseful?)\n",
+                "type": "Cache w e k v c p -> Cache w e k v c p"
+            },
+            {
+                "name": "loaded",
+                "comment": " How many values have we actually loaded from the backend?\n",
+                "type": "Ranges k v p -> Int"
+            },
+            {
+                "name": "mapParams",
+                "comment": " Given a function which updates params, update the `Cache`\n",
+                "type": "(p -> p) -> Cache w e k v c p -> Cache w e k v c p"
+            },
+            {
+                "name": "setParams",
+                "comment": " Set the params to apply. If they have changed, the cache will be\ninvalidated.\n\nWe don't automatically trigger a fetch when you set params, since who knows how\nyou'll want to start filling the cache. So, you should have code that checks\nwhether the offsets you need are present ... invalidating the cache will then\naffect that (since they won't be).\n\n",
+                "type": "p -> Cache w e k v c p -> Cache w e k v c p"
+            },
+            {
+                "name": "tryFetching",
+                "comment": " Given an offset and a number of items to check from that offset onwards,\nfetch the next pageSize that we don't have.\n\nThis takes into account:\n\n  - data we already have\n  - requests that are in-flight\n  - errors we have received\n\nThat is, it doesn't automatically retry errors.\n\nIf the number to fetch is unspecified, we try to load all data from the offset.\n\n",
+                "type": "Int -> Maybe Int -> Cache w e k v c p -> Maybe (Msg e k v p)"
+            },
+            {
+                "name": "update",
+                "comment": " Our update function.\n",
+                "type": "BackendUrl -> Maybe AccessToken -> Msg e k v p -> Cache w e k v c p -> ( Cache w e k v c p, Cmd (Msg e k v p) )"
+            },
+            {
+                "name": "withPageSize",
+                "comment": " Use the specificed page size when contacting the backend. By default,\nwe don't speficy a page size. However, the backend may paginate anyway,\nof course.\n",
+                "type": "Int -> Cache w e k v c p -> Cache w e k v c p"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Restful.Login",
+        "comment": " This module models the state associated with the login process,\nbut not the UI -- the idea is that the UI will vary more than the basic logic\nof logging in does.\n\nOf course, this model will probably be supplied as a parameter to functions\nthat manipulate the UI, and those functions will probably return messages that\ncan be handled here.\n\n\n## Types\n\n@docs UserAndData, Credentials, AnonymousUser, AuthenticatedUser\n@docs LoginProgress, LoginEvent, LoginMethod, LoginError\n\n\n## Initialization\n\n@docs loggedOut, checkCachedCredentials, loggedIn\n\n\n## Actions\n\n@docs tryLogin, logout, accessTokenRejected, accessTokenAccepted\n\n\n## Integration with your app\n\n@docs Config, AppConfig, drupalConfig, Msg, update\n\n\n## Accessing the data associated with the login\n\n@docs maybeAnonymousData, maybeAuthenticatedData, getData\n@docs mapAnonymousData, mapAuthenticatedData, mapBoth\n@docs hasAccessToken, hasValidAccessToken\n@docs getError, getLoginProgress\n@docs isAnonymousUser, isAuthenticatedUser\n@docs isChecking, isCheckingAccessToken, isCheckingPassword\n@docs getUser\n\n",
+        "unions": [
+            {
+                "name": "LoginError",
+                "comment": " An error which has occurred in the login process.\n\n  - Rejected\n\n    We got a definite response from the backend rejecting our login request ...\n    that is, our access token or username/password was firmly rejected.\n\n  - HttpError\n\n    We got some other HTTP error. That is, the backend did not definitely\n    indicate that our credentials are invalid, but some other sort of HTTP\n    error occurred. If the error might be transient ... that is, if\n    retrying might help ... then we include a `msg` you can send in\n    order to retry.\n\n",
+                "args": [
+                    "user"
+                ],
+                "cases": [
+                    [
+                        "Rejected",
+                        [
+                            "LoginMethod"
+                        ]
+                    ],
+                    [
+                        "HttpError",
+                        [
+                            "LoginMethod",
+                            "Error",
+                            "Maybe (Msg user)"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "LoginEvent",
+                "comment": " Our `update` method returns a third parameter to indicate moments at which\ncertain events occur, in case you'd like to trigger some further actions at\nthat moment.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "LoggedIn",
+                        []
+                    ],
+                    [
+                        "LoggedOut",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "LoginMethod",
+                "comment": " How are we trying to login? Are we checking an access token, or are we sending\na username and password?\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ByAccessToken",
+                        []
+                    ],
+                    [
+                        "ByPassword",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "LoginProgress",
+                "comment": " Represents the status of an attempt to login.\n\n  - Checking\n\n    We have sent a request to the backend and are waiting for a response. The\n    `LoginMethod` indicates whether we're checking an acccess token or a\n    username/password combination.\n\n  - LoginError\n\n    We got a response from the backend with an error.\n\n",
+                "args": [
+                    "user"
+                ],
+                "cases": [
+                    [
+                        "Checking",
+                        [
+                            "LoginMethod"
+                        ]
+                    ],
+                    [
+                        "LoginError",
+                        [
+                            "LoginError user"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " An opaque type representing messages we handle. You can create\nthese messages with various functions (e.g. `tryLogin`, `logout`) and handle\nthem with the `update` function.\n",
+                "args": [
+                    "user"
+                ],
+                "cases": []
+            },
+            {
+                "name": "UserAndData",
+                "comment": " Models the state of the login process, from beginning to end.\n\n  - `user` is the type we use to model information about the user\n    (e.g. name etc.). If we have a cached access token, we check whether\n    it's still valid by making a request for user data.\n\n  - `authenticatedData` is a type for data that we only keep for logged-in users. It\n    facilitates forgetting that data when we logout ... it's baked into the type.\n    If you don't want to bother with that, you can use a Tuple0 here ... that is, `()`.\n\n  - `anonymousData` is a type for data that we only keep for anonymous users. It\n    facilitates forgetting that data when we login ... it's baked into the type.\n    If you don't want to bother with that, you can use a Tuple0 here ... that is, `()`.\n\nNote that you would not use `anonymousData` for data that is equally valid\nwhether you're logged in or logged out. That data you should manage outside of\nthis structure. It is only for data that you want to throw away when you\nsuccessfully login. For instance, you might have an endpoint that returns\none set of things for anonymous users and a different set of things for\nlogged-in users. In that case, you might want to throw away the data\nrelevant to anonymous users when you login.\n\n  - Anonymous\n\n    We don't have credentials (yet). We track any progress we are making\n    towards login, as well as data that is specific to anonymous users (which\n    will be thrown away when we successfully login).\n\n  - Authenticated\n\n    We've got credentials. In addition to the credentials themsevles, we track\n    what we know about the validity of the credentials, and any app-specific\n    data that only applies where we have credentials (i.e. that should be\n    thrown away upon logout).\n\n",
+                "args": [
+                    "anonymousData",
+                    "user",
+                    "authenticatedData"
+                ],
+                "cases": [
+                    [
+                        "Anonymous",
+                        [
+                            "AnonymousUser user anonymousData"
+                        ]
+                    ],
+                    [
+                        "Authenticated",
+                        [
+                            "AuthenticatedUser user authenticatedData"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "AnonymousUser",
+                "comment": " Represents the data we have if we are not logged in.\n\n  - progress\n\n    Represents the progress we are making towards login, if any.\n\n  - data\n\n    The app-specific data that only pertains to anonymous users. This will be thrown\n    away when you login, so it should not contain data that is indifferent to\n    login status -- you should manage that sort of data elsewhere.\n\n",
+                "args": [
+                    "user",
+                    "data"
+                ],
+                "type": "{ progress : Maybe (LoginProgress user), data : data }"
+            },
+            {
+                "name": "AppConfig",
+                "comment": " The parts of `Config` that tend to vary from one app to the next.\n",
+                "args": [
+                    "anonymousData",
+                    "user",
+                    "authenticatedData",
+                    "msg"
+                ],
+                "type": "{ decodeUser : Decoder user, encodeUser : Maybe (user -> Value), initialAuthenticatedData : anonymousData -> user -> authenticatedData, initialAnonymousData : anonymousData, cacheCredentials : BackendUrl -> String -> Cmd msg, tag : Msg user -> msg }"
+            },
+            {
+                "name": "AuthenticatedUser",
+                "comment": " Represents the data we have if we're logged in.\n\n  - credentials\n\n    What credentials did we log in with?\n\n  - logout\n\n    Tracks a request-in-progress to logout. In some cases, we need to contact\n    the server in order to logout, because it maintains an HTTP-only session\n    cookie which we can only delete via an HTTP request.\n\n  - relogin\n\n    Do we need to re-login? If our credentials are rejected, we don't\n    transition back to `Anonymous` immediately, since that would prematurely\n    throw away some information that we may want to keep. Instead, we mark that\n    relogin is `Just LoginRequired`. We can then track the relogin process\n    without disturbing the other data.\n\n    Note that we shouldn't switch relogin to `Just` if there some kind of\n    transient network error ... only if our access token is definitely\n    rejected because it is permanently invalid.\n\n  - data\n\n    The app-specific data that only pertains to logged-in users, which we should\n    throw away when the user logs out.\n\n",
+                "args": [
+                    "user",
+                    "data"
+                ],
+                "type": "{ credentials : Credentials user, logout : WebData (), relogin : Maybe (LoginProgress user), data : data }"
+            },
+            {
+                "name": "Config",
+                "comment": " Some static configuration which we need to integrate with your app.\nYou should be able to define this once, as a constant, and then use it\nwhere needed.\n\nThe type variables have the following meanings.\n\n  - anonymousData\n\n    The type of data that is only for anonymous users ... that is, which\n    you'd like to throw away upon login.\n\n  - user\n\n    The type you use for your user.\n\n  - authenticatedData\n\n    The type of data that is only for users ... that is, which you'd like\n    to throw away upon logout.\n\n  - msg\n\n    Your Msg type.\n\nThe fields have the following meanings.\n\n  - loginPath\n\n    Relative to a backendUrl, what's the path to the endpoint for getting an\n    access token? e.g. \"api/login-token\"\n\n  - logoutPath\n\n    Relative to a backendUrl, what's the path we can send a GET to in order\n    to logout? E.g. to destroy a session cookie, if it's HTTP only, so we can't\n    destroy it from Javascript.\n\n  - userPath\n\n    Once we have an access token, what's the path to the endpoint from which we\n    can request information about the current user?\n\n  - decodeAccessToken\n\n    A decoder for an access token, given the response from the loginPath\n\n  - decodeUser\n\n    A decoder for the `user` type, as send from userPath.\n\n  - encodeUser\n\n    A function that will produce JSON that `decodeUser` can decode. This is\n    used to cache the `user` object in local storage along with the access\n    token. This would mainly be useful if you want to remember who was last\n    logged in when your app is offline. If you don't need to do that, you could\n    supply `Nothing` here.\n\n  - initialAuthenticatedData\n\n    Given the newly logged-in user, and the anonymous data which we already had\n    before login, what initial data should we start with for the user?\n\n    In many cases, you may want to ignore one or both of the parameters ... that\n    is, the initial data may well be a constant. You can preserve as much or\n    as little of the anonymousData as you wish upon login. Whatever you don't\n    use will be thrown away.\n\n  - initialAnonymousData\n\n    If we have no logged in user, or if we log out, what data should we start with\n    for an anonymous user.\n\n  - cacheCredentials\n\n    A function which, when given a backendURL and a JSON string, will return a\n    command that caches that string. Exactly how you do that is up to you ... it\n    will probably be via ports.\n\n    We provide the backendUrl in case you want to store the credentials for multiple\n    backends and pick amongst them when needed. But you can ignore it if you like ...\n    the important part for us is the JSON string.\n\n    However you store the JSON string, you can provide it to `checkCachedCredentials`\n    and we'll use it.\n\n  - tag\n\n    What tag do you use in your `Msg` type to wrap our `Msg` type? This allows\n    our `update` function to work in the context of your `Msg` type ... in\n    effect, we'll do the mapping, rather than making you do it.\n\n",
+                "args": [
+                    "anonymousData",
+                    "user",
+                    "authenticatedData",
+                    "msg"
+                ],
+                "type": "{ loginPath : String, logoutPath : Maybe String, userPath : String, decodeAccessToken : Decoder AccessToken, decodeUser : Decoder user, encodeUser : Maybe (user -> Value), initialAuthenticatedData : anonymousData -> user -> authenticatedData, initialAnonymousData : anonymousData, cacheCredentials : BackendUrl -> String -> Cmd msg, tag : Msg user -> msg }"
+            },
+            {
+                "name": "Credentials",
+                "comment": " What a successful login ultimately results in is:\n\n-- an access token\n-- which is valid for a particular backend URL\n-- and some information about the logged-in user\n\nWe parameterize the user information, since it will vary from app to app.\n\nYou'll have to supply the backendUrl, of course, but it's handy to group it\nhere with the credentials, since you'll often want to supply the backend URL\nand access token together as a parameter. And, this accessToken is valid for\nthis backendUrl.\n\n",
+                "args": [
+                    "user"
+                ],
+                "type": "{ accessToken : AccessToken, backendUrl : BackendUrl, user : user }"
+            }
+        ],
+        "values": [
+            {
+                "name": "accessTokenAccepted",
+                "comment": " If you previously recorded `accessTokenRejected` but it was a transient\nproblem, and now it has been accepted, you can record that with this function.\n\nYou don't need to call this every time the access token is accepted (though\nit won't do any harm, either).\n\nNote that this doesn't switch our state from `Anonymous` to `Authenticated` ...\nit only resets `Authenticated` (if that's what we are) to show that `relogin`\nis not required.\n\n",
+                "type": "UserAndData anonymousData user authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "accessTokenRejected",
+                "comment": " Record the fact that our access token was rejected.\n\nIf we're in a `Authenticated` state, we'll stay in that state ... we'll\nmerely record that re-login is required.\n\n",
+                "type": "Error -> UserAndData anonymousData user authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "checkCachedCredentials",
+                "comment": " Initializes a `UserAndData` by indicating that we're checking cached credentials\nagainst the backend, and return a `Cmd` that will do that.\n\n  - BackendUrl is the backend to check the cached credentials against.\n\n  - The `Maybe String` parameter is the JSON string which your `cacheCredentials`\n    function (from Config) has cached. So, it's up to you to fetch that value\n    somehow, either via flags at startup, or via ports. If you've cached\n    credentials for multiple backends, it's up to you to match your backendURL\n    and your credentials.\n\nIf you supply the cached credentials, then the following sequence of events\nwill occur:\n\n  - The `UserAndData` will start as `Anonymous`, with its `progress` field set to\n    `(Just (Checking ByAccessToken))`. At this point, your UI should treat\n    the login process as unresolved ... it will soon resolve one way or\n    another. So, you might show a \"checking for cached login\" message, or\n    just nothing.\n\n  - If we can decode the access toekn, we'll use the access token to get\n    updated user information from the backend.\n      - It that succeeds, we'll switch to `Authenticated` state.\n\n      - If it does not succeed, we'll try to decode a cached `user` (if you have\n        cached user information).\n          - It that succeeds, we'll be in `Authenticated` state, but we'll record\n            the error checking the access token in the `relogin` field.\n\n          - If we don't have a cached user, we'll be in `Anonymous` state, and we'll\n            record the error checking the access toekn in the `progress` field.\n\n  - If we can't decode the access token, we'll stay `Anonymous` and show `NotAsked`\n    as the progess.\n\nIf you don't supply any cached credentials, we'll simply start out as `Anonymous`,\nshowing no progress.\n\n",
+                "type": "Config anonymousData user authenticatedData msg -> BackendUrl -> Maybe String -> ( UserAndData anonymousData user authenticatedData, Cmd msg )"
+            },
+            {
+                "name": "drupalConfig",
+                "comment": " Make a `Config` that uses default values oriented towards Drupal's\nrestful implementation.\n",
+                "type": "AppConfig anonymousData user authenticatedData msg -> Config anonymousData user authenticatedData msg"
+            },
+            {
+                "name": "getData",
+                "comment": " Extract the data by turning either anonymous data or authenticated data\ninto a common data type. This could be useful if there are some common elements\nto your `anonymous` and `authenticated` data types. Though, remember that\nyou should manage **truly** common data outside of these structures ...\nthis is only for data which you want to throw away when transitioning from\nlogged in to logged out and vice versa.\n\nIf you only want to deal with `authenticatedData` or `anonymousData` and leave the\nother possibility alone, see the `maybeAuthenticatedData` and `maybeAnonymousData`\nfunctions.\n\n",
+                "type": "(anonymousData -> a) -> (authenticatedData -> a) -> UserAndData anonymousData user authenticatedData -> a"
+            },
+            {
+                "name": "getError",
+                "comment": " Do we have an error to report?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Maybe (LoginError user)"
+            },
+            {
+                "name": "getLoginProgress",
+                "comment": " Gets the progress we are making towards login, if any. (For cases in which\nwe have cached credentials, this would represent attempts to re-login where our\ncredentials have expired).\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Maybe (LoginProgress user)"
+            },
+            {
+                "name": "getUser",
+                "comment": " Gets the `user`, if we are authenticated.\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Maybe user"
+            },
+            {
+                "name": "hasAccessToken",
+                "comment": " Do we have an access token, whether or not we think it's valid?\n\nIf we're still checking, we say `False`.\n\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "hasValidAccessToken",
+                "comment": " As far as we know, do we have a still-valid access token?\n\nIf we don't know yet, we indicate `False`.\n\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "isAnonymousUser",
+                "comment": " Is our user anonymous?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "isAuthenticatedUser",
+                "comment": " Is our user authenticated?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "isChecking",
+                "comment": " Are we waiting for a response from the backend?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "isCheckingAccessToken",
+                "comment": " Are we waiting for the backend to respond to a request to check our access token?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "isCheckingPassword",
+                "comment": " Are we waiting for the backend to respond to a request to check a username and password?\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Bool"
+            },
+            {
+                "name": "loggedIn",
+                "comment": " A starting point which represents an authenticated user.\n\nThis is one possible \"starting point\" for initializing the UserAndData. The\nother main starting points would be `checkCachedCredentials` or `loggedOut`.\n\nThis is meant for cases where you've received credentials through some other\nmechanism.. For checking credentials, you'd use either\n`checkCachedCredentials` or `tryLogin`.\n\n",
+                "type": "Credentials user -> authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "loggedOut",
+                "comment": " A starting point which represents an anonymous user.\n\nThis is one possible \"starting point\" for initializing the UserAndData. The other\nmain starting points would be `checkCachedCredentials` or `loggedIn`.\n\nNote that you should use `logout` to actually perform the action of logging\nout, since that will also clear the cached credentials.\n\n",
+                "type": "anonymousData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "logout",
+                "comment": " Message which will log out and clear cached credentials.\n",
+                "type": "Msg user"
+            },
+            {
+                "name": "mapAnonymousData",
+                "comment": " Map over the anonymous data, if the user is not logged in.\n",
+                "type": "(anonymousData -> anonymousData) -> UserAndData anonymousData user authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "mapAuthenticatedData",
+                "comment": " Map over the authenticated data, if the user is logged in.\n",
+                "type": "(authenticatedData -> authenticatedData) -> UserAndData anonymousData user authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "mapBoth",
+                "comment": " Map over the data, choosing the mapping function depending on whether the\nuser is logged in or not.\n",
+                "type": "(anonymousData -> anonymousData) -> (authenticatedData -> authenticatedData) -> UserAndData anonymousData user authenticatedData -> UserAndData anonymousData user authenticatedData"
+            },
+            {
+                "name": "maybeAnonymousData",
+                "comment": " Extract the anonymous data as a Maybe, which will be `Just` if the user is not logged in.\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Maybe anonymousData"
+            },
+            {
+                "name": "maybeAuthenticatedData",
+                "comment": " Extract the authenticated data as a Maybe, which will be `Just` if the user is logged in.\n",
+                "type": "UserAndData anonymousData user authenticatedData -> Maybe authenticatedData"
+            },
+            {
+                "name": "tryLogin",
+                "comment": " Message which will try logging in against the specified backendUrl\n\n  - The second parameter is a list of query params to add the URL. (Typically,\n    you won't need this, so you can supply an empty list.\n\n  - The third parameter is the username.\n\n  - The fourth parameter is the password.\n\n",
+                "type": "BackendUrl -> List ( String, String ) -> String -> String -> Msg user"
+            },
+            {
+                "name": "update",
+                "comment": " Our update function. Note that the `Cmd` we return is in terms of\nyour own msg type. So, you can integrate it into your app roughly\nas follows:\n\n    loginConfig : Config AnonymousData User AuthenticatedData Msg\n    loginConfig =\n        { ...\n        , tag = LoginMsg\n        }\n\n    type alias Model =\n        { ...\n        , userAndData : UserAndData AnonymousData User AuthenticatedData\n        }\n\n    emptyModel : Model\n    emptyModel =\n        { ...\n        , userAndData = loggedOut initialAnonymousData\n        }\n\n    type Msg\n        = ...\n        | LoginMsg (Restful.Login.Msg User)\n\n    update : Msg -> Model -> (Model, Cmd Msg)\n    update msg model =\n        case msg of\n            ...\n\n            LoginMsg subMsg ->\n                let\n                    ( subModel, cmd, event ) =\n                        Restful.Login.update loginConfig subMsg model.userAndData\n                in\n                    -- Possibly do something additional depending on the `event`,\n                    -- if you need to trigger some action on login or logout\n                    ( { model | userAndData = subModel }\n                    , cmd\n                    )\n\nThe third return parameter will be `Just` at the very moment at which a\nsuccessful login or logout has occurred. But only at that very moment ... it's\nnot reflecting state, but instead a kind of notification that we've just logged\nin or logged out, in case there is some further action you'd like to\ntrigger at that moment.\n\n",
+                "type": "Config anonymousData user authenticatedData msg -> Msg user -> UserAndData anonymousData user authenticatedData -> ( UserAndData anonymousData user authenticatedData, Cmd msg, Maybe LoginEvent )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Restful.Endpoint",
+        "comment": " These functions and types are intended to facilitate CRUD operations upon\nbackend entities exposed through a Restful HTTP API.\n\n\n## Backends\n\n@docs Backend, backend, drupalBackend\n@docs withItems, withDrupalItems, withPlainItems\n@docs withCountDecoder, withDrupalCountDecoder\n@docs withOffsetParam, withRangeParam\n@docs withManyKeys\n@docs withTokenStrategy\n\n\n## Endpoints\n\n@docs ReadOnly, ReadWrite\n@docs EndPoint, ReadOnlyEndPoint, ReadWriteEndPoint\n@docs drupalEndpoint, endpoint\n@docs withBackend, withKeyEncoder, withValueEncoder, withCreatedEncoder, withParamsEncoder, withErrorDecoder, withPath\n\n\n## Access Tokens\n\n@docs AccessToken, TokenStrategy, tokenHeader, tokenUrlParam\n\n\n## CRUD Operations\n\n@docs BackendUrl, Offset, Range, QueryResult\n@docs get, getMany, select, selectRange, patch, patchAny, patchFull, post, put, delete\n@docs CrudOperations, applyBackendUrl, applyAccessToken\n\n\n# Requests\n\n@docs CrudRequest, withAccessToken, withoutDecoder, modifyRequest\n@docs toTask, toTaskMaybe, toCmd, toCmdMaybe\n\n\n## EntityId\n\n@docs EntityId, decodeEntityId, encodeEntityId, fromEntityId, toEntityId\n\n\n## EntityUuid\n\n@docs EntityUuid, decodeEntityUuid, encodeEntityUuid, fromEntityUuid, toEntityUuid\n\n\n## Helpers\n\n@docs (</>), decodeSingleDrupalEntity\n\n",
+        "unions": [
+            {
+                "name": "Backend",
+                "comment": " Common configuration for endpoints connected to a particular backend.\n\nYou might wonder why the `BackendUrl` could not be specified as part of the\n`Backend`, rather than asking for it with each CRUD request. The reason is\nthat, in our setups, the `BackendUrl` is typically provided a run-time,\nwhereas the rest of the information needed to construct the `Backend` (or an\n`EndPoint`) is known at compile-time. So, it's convenient to construct the\n`Backend` and `EndPoint` values statically, without requiring parameters.\n\nYou can pre-apply a `BackendUrl` (or `AccessToken`), once known, using\n`applyBackendUrl` and `applyAccessToken`.\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "CrudRequest",
+                "comment": " A type representing a CRUD request. The `err` type is the kind of result you'll\nget back for errors. The `ok` type is the kind of result you'll get back if the\nrequest succeeds.\n\n  - You can construct requests with `select`, `get`, etc.\n\n  - You can use requests via `toTask` or `toCmd`.\n\n",
+                "args": [
+                    "err",
+                    "ok"
+                ],
+                "cases": []
+            },
+            {
+                "name": "EndPoint",
+                "comment": " The `EndPoint` type represents a Restful JSON endpoint, with at least\na path for URLs, and a decoder for the JSON it emits.\n\nThe structure is somewhat specialized for a headless Drupal backend using its\nRestful module. However, it should be adaptable for use in other REST\nenvironments (let us know if any changes are needed to handle your case).\n\nThe type parameters have the following significance.\n\n  - `writeable`\n\n    A type which flags whether this endpoint is read-only or read-write.\n\n  - `error`\n\n    Your error type. If you don't want to do something special with errors, then\n    it can just be `Http.Error`\n\n  - `key`\n\n    Your ID type. We usually use some kind of `EntityId`, but you can use\n    something else if you like.\n\n  - `value`\n\n    Your value type.\n\n  - `created`\n\n    The type you would use in POST requests, when creating a new value.\n\n    May be missing some information from `value` which the backend will supply.\n    May be the same as `value` if POST isn't special.\n\n  - `params`\n\n    A type for the query params that this endpoint uses.\n\n    If your endpoint doesn't take params, just use `()` (or, a phantom type\n    variable, if you like).\n\nIn function signatures, we sometimes abbreviate these type parameters to\nsomething like `EndPoint w e p k v c` ... at least, for the type parameters\nthat aren't relevant to that particular function. Also, we use the type aliases\n`ReadOnlyEndPoint` and `ReadWriteEndPoint` to simplify some function\nsignatures.\n\nTo create an `EndPoint`, start with `drupalEndpoint` (or `endpoint`), and then use the various\n`with...` functions to customize it as needed.\n\nTo use your endpoint, see functions like `get`, `put`, `post`, `delete`, etc.\n\n",
+                "args": [
+                    "writeable",
+                    "error",
+                    "key",
+                    "value",
+                    "created",
+                    "params"
+                ],
+                "cases": []
+            },
+            {
+                "name": "EntityId",
+                "comment": " This is a wrapper for an `Int` id. It takes a \"phantom\" type variable\nin order to gain type-safety about what kind of entity it is an ID for.\nSo, to specify that you have an id for a clinic, you would say:\n\n    type ClinicId\n        = ClinicId\n\n    clinidId : EntityId ClinicId\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "EntityUuid",
+                "comment": " This is a wrapper for an UUID.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "ReadOnly",
+                "comment": " A type which flags an `EndPoint` as being read-only.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "ReadWrite",
+                "comment": " A type which flags an `EndPoint` as being read-only.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "TokenStrategy",
+                "comment": " We can use two strategies to send an `AccessToken` to the backend -- either an\nHTTP header (with a key and value), or a param for the URL (with key and value).\nUse `tokenHeader` or `tokenUrlParam` to construct.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "AccessToken",
+                "comment": " An access token.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "BackendUrl",
+                "comment": " The base URL for a backend (i.e. the part that doesn't vary from\none endpoint to another).\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "CrudOperations",
+                "comment": " A record with alll the functions for CRUD requests, with the `BackendUrl`\npartially applied (and, optionally, the `AccessToken`).\n\nSo, at the top of an `update` function, you might do something like:\n\n    let\n        ops =\n            applyBackendUrl backendUrl\n                |> applyAccessToken accessToken\n\nThen, in the rest of the `update` function, you can say thtings like:\n\n    ops.select ...\n\n... without having to supply the `backendUrl` over and over, and without having\nto say `withAccessToken accessToken` each time.\n\nOr, your `update` function might just ask for a `CrudOperations` as a parameter,\nrather than asking for a `BackendUrl` or `AccessToken` at all.\n\n",
+                "args": [
+                    "w",
+                    "e",
+                    "k",
+                    "v",
+                    "c",
+                    "p"
+                ],
+                "type": "{ delete : EndPoint w e k v c p -> k -> CrudRequest e (), get : EndPoint w e k v c p -> k -> CrudRequest e v, getMany : EndPoint w e k v c p -> List k -> CrudRequest e (List ( k, v )), patch : ReadWriteEndPoint e k v c p -> k -> v -> (v -> Value) -> CrudRequest e v, patchAny : ReadWriteEndPoint e k v c p -> k -> Value -> CrudRequest e v, patchFull : ReadWriteEndPoint e k v c p -> k -> v -> CrudRequest e v, post : ReadWriteEndPoint e k v c p -> c -> CrudRequest e ( k, v ), put : ReadWriteEndPoint e k v c p -> k -> v -> CrudRequest e v, select : EndPoint w e k v c p -> p -> CrudRequest e (QueryResult k v p), selectRange : EndPoint w e k v c p -> p -> Offset -> Maybe Range -> CrudRequest e (QueryResult k v p) }"
+            },
+            {
+                "name": "Offset",
+                "comment": " A zero-based offset that you would like the backend to start from.\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "QueryResult",
+                "comment": " When we're querying the backend, our result consists of a list of items,\nthe count of how many items there are on the backend, and the offset on the\nbackend that our list starts at. We also remember what params we supplied,\nsince that will affect the meaning of the total and the offset.\n",
+                "args": [
+                    "key",
+                    "value",
+                    "params"
+                ],
+                "type": "{ params : params, offset : Int, items : List ( key, value ), count : Int }"
+            },
+            {
+                "name": "Range",
+                "comment": " How many items would you like the backend to return?\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "ReadOnlyEndPoint",
+                "comment": " A type alias which represents a read-only `EndPoint`.\n",
+                "args": [
+                    "error",
+                    "key",
+                    "value",
+                    "params"
+                ],
+                "type": "EndPoint ReadOnly error key value value params"
+            },
+            {
+                "name": "ReadWriteEndPoint",
+                "comment": " A type alias which represents a read-write `EndPoint`.\n",
+                "args": [
+                    "error",
+                    "key",
+                    "value",
+                    "created",
+                    "params"
+                ],
+                "type": "EndPoint ReadWrite error key value created params"
+            }
+        ],
+        "values": [
+            {
+                "name": "applyAccessToken",
+                "comment": " Applies the given `AccessToken` to each of the functions, so you don't need\nto do it every time.\n",
+                "type": "AccessToken -> CrudOperations w e k v c p -> CrudOperations w e k v c p"
+            },
+            {
+                "name": "applyBackendUrl",
+                "comment": " Returns a `CrudOperations` record that has the `BackendUrl` applied to each function.\n",
+                "type": "BackendUrl -> CrudOperations w e k v c p"
+            },
+            {
+                "name": "backend",
+                "comment": " Constructs a default `Backend`.\n\nThis is a starting point for further configuration -- it won't\nwork for your backend out of the box.\n\nFor use with Drupal's Restful module, you can use `drupalBackend` (or simply\nuse `drupalEndpoint`).\n\n",
+                "type": "Backend a"
+            },
+            {
+                "name": "decodeEntityId",
+                "comment": " Decodes a EntityId.\n\nThis just turns JSON int (or string that is an int) to an `EntityId`. You need\nto supply the `field \"id\"` yourself, if necessary, since id's could be present\nin other fields as well.\n\nThis decodes any kind of `EntityId` you like (since there is fundamentally no type\ninformation in the JSON iself, of course). So, you need to verify that the type\nis correct yourself.\n\n",
+                "type": "Decoder (EntityId a)"
+            },
+            {
+                "name": "decodeEntityUuid",
+                "comment": " Decodes an `EntityUuid`.\n",
+                "type": "Decoder (EntityUuid a)"
+            },
+            {
+                "name": "decodeSingleDrupalEntity",
+                "comment": " Given a decoder for an item, applies that decoder to the kind of\nresponse Drupal sends for a single item (as the only element in a JSON\narray in a \"data\" field).\n",
+                "type": "Decoder a -> Decoder a"
+            },
+            {
+                "name": "delete",
+                "comment": " Delete entity.\n\nIf you want to treat a 404 result as a success, use `toTaskMaybe` or `toCmdMaybe`\non the resulting `CrudRequest`.\n\n",
+                "type": "BackendUrl -> EndPoint w error key v c p -> key -> CrudRequest error ()"
+            },
+            {
+                "name": "drupalBackend",
+                "comment": " A `Backend` which decodes the kind of responses a Drupal backend sends\nwhen using the Restful module.\n",
+                "type": "Backend a"
+            },
+            {
+                "name": "drupalEndpoint",
+                "comment": " Construct a Drupal-oriented endpoint, with as many defaults filled in as possible.\n\n  - The first parameter is the `path` to the endpoint (which will be appended to the\n    `BackendUrl` you provide for requests).\n\n  - The second parameter is a decoder for your `value` type.\n\nYes, just two parameters! We'll supplement that with various Drupal-oriented defaults:\n\n  - The `key` is some kind of `EntityId`, and it can be found in an `id` field\n    in the JSON.\n\n  - Multiple values are returned as a JSON array inside a `data` field.\n    But you can change that using `withBackend`.\n\n  - Single values are returned as a single-elmeent JSON array, inside a `data` field.\n    But you can change that using `withBackend`.\n\n  - Your endpoint doesn't use any URL params.\n    But you can change that using `withParamsEncoder`.\n\n  - You're not using a custom error type.\n    But you can change that using `withErrorDecoder`.\n\nIf you need a different `key` type, you can start with `endpoint` instead, and supply\n`drupalBackend` to it as a parameter to get the rest of the defaults.\n\nThis initially produces a `ReadOnlyEndPoint`. To obtain a `ReadWriteEndpoint`,\napply `withValueEncoder` to the result.\n\n",
+                "type": "String -> Decoder value -> ReadOnlyEndPoint Error (EntityId a) value p"
+            },
+            {
+                "name": "encodeEntityId",
+                "comment": " Encodes any kind of `EntityId` as a JSON int.\n",
+                "type": "EntityId a -> Value"
+            },
+            {
+                "name": "encodeEntityUuid",
+                "comment": " Encodes any kind of `EntityUuid` as a JSON string.\n",
+                "type": "EntityUuid a -> Value"
+            },
+            {
+                "name": "endpoint",
+                "comment": " Produces an `EndPoint` which you may then customize further.\n\n  - The first parameter is the `path` to the endpoint (which will be appended\n    to the `BackendUrl` you provide for requests).\n\n  - The second parameter is a decoder for your `key` type.\n\n  - The third parameter is a decoder for your `value` type.\n\n  - The fourth parameter is your backend.\n\nTo turn this into a `ReadWriteEndpoint`, apply `withValueEncoder` to the result.\n\n",
+                "type": "String -> Decoder key -> Decoder value -> Backend ( key, value ) -> ReadOnlyEndPoint Error key value p"
+            },
+            {
+                "name": "fromEntityId",
+                "comment": " This is how you get an `Int` back from a `EntityId`. You should only use\nthis in boundary situations, where you need to send the id out in an untyped\nway. Normally, you should just pass around the `EntityId` itself, to retain\ntype-safety.\n",
+                "type": "EntityId a -> Int"
+            },
+            {
+                "name": "fromEntityUuid",
+                "comment": " This is how you get a `String` back from an `EntityUuid`. You should only use\nthis in boundary situations, where you need to send the UUID out in an untyped\nway. Normally, you should just pass around the `EntityUuid` itself, to retain\ntype-safety.\n",
+                "type": "EntityUuid a -> String"
+            },
+            {
+                "name": "get",
+                "comment": " Gets a entity from the backend via its `key`.\n\nSometimes you'd like to treat a 404 error specially, since the request\nessentially succeeded ... it's just that there was no result. To do that, you\ncan use `toTaskMaybe` or `toCmdMaybe` with the resulting `CrudRequest`.\n\n",
+                "type": "BackendUrl -> EndPoint w error key value c p -> key -> CrudRequest error value"
+            },
+            {
+                "name": "getMany",
+                "comment": " Gets several entities from the backend via multiple `key`s.\n",
+                "type": "BackendUrl -> EndPoint w error key value c p -> List key -> CrudRequest error (List ( key, value ))"
+            },
+            {
+                "name": "modifyRequest",
+                "comment": " Despite all the fine work and careful thought which has gone into this\npackage, perhaps there is some modification you'd like to make to the HTTP\nrequest before you send it. Under the hood, we're using the very fine\n`RequestBuilder` from\n[`lukewestby/elm-http-builder`](http://package.elm-lang.org/packages/lukewestby/elm-http-builder/5.1.0)\nto construct the HTTP requests. So, once you're got a `CrudRequest`, you\ncan use `modifyRequest` to alter the request. But consider filing a bug\nreport if it's something we could handle in the package itself!\n",
+                "type": "(RequestBuilder a -> RequestBuilder b) -> CrudRequest e a -> CrudRequest e b"
+            },
+            {
+                "name": "patch",
+                "comment": " Sends a `PATCH` request for the specified key and value, using the encoder\nyou supply.\n\n  - If you want to send a `PATCH` with your usual encoder, then you can use\n    `patchFull` insteed. (The result will be just like `put`, but it will use\n    a PATCH request instead of PUT).\n\n  - If you want to send an arbitrary JSON `Value` that doesn't depend on your\n    `value`, then you can use `patchAny`.\n\nIf you want to ignore the JSON the server sends back for the value, you\ncan apply `withoutDecoder` to the result.\n\n",
+                "type": "BackendUrl -> ReadWriteEndPoint error key value c p -> key -> value -> (value -> Value) -> CrudRequest error value"
+            },
+            {
+                "name": "patchAny",
+                "comment": " Sends a `PATCH` request for the specified key, using an arbitrary JSON `Value`\nthat you supply.\n\n  - If you have one of your `value` entities, and an encoder, you can use\n    `patch` instead.\n\n  - If you want to send a `PATCH` with your usual encoder, then you can use\n    `patchFull` insteed. (The result will be just like `put`, but it will use\n    a PATCH request instead of PUT).\n\nIf you want to ignore the JSON the server sends back for the value, you\ncan apply `withoutDecoder` to the result.\n\n",
+                "type": "BackendUrl -> ReadWriteEndPoint error key value c p -> key -> Value -> CrudRequest error value"
+            },
+            {
+                "name": "patchFull",
+                "comment": " Sends a `PATCH` request for the specified key and value, using the encoder\ndefined for this endpoint. So, this is just like a `put`, except it uses an\nHTTP PATCH request.\n\n  - If you want to send a `PATCH` with just some fields, you can use `patch`\n    instead, and provide an alternate encoder for your `value`.\n\n  - If you want to send an arbitrary JSON `Value` that doesn't depend on your\n    `value`, then you can use `patchAny`.\n\nIf you want to ignore the JSON the server sends back for the value, you\ncan apply `withoutDecoder` to the result.\n\n",
+                "type": "BackendUrl -> ReadWriteEndPoint error key value c p -> key -> value -> CrudRequest error value"
+            },
+            {
+                "name": "post",
+                "comment": " Sends a `POST` request to create the specified value.\n",
+                "type": "BackendUrl -> ReadWriteEndPoint error key value created p -> created -> CrudRequest error ( key, value )"
+            },
+            {
+                "name": "put",
+                "comment": " Sends a `PUT` request to create the specified value.\n\nIf you want to ignore the JSON the server sends back for the value, you\ncan apply `withoutDecoder` to the result.\n\nIf you want to send the full value, but use the `PATCH` HTTP method, see\n`patchFull`.\n\n",
+                "type": "BackendUrl -> ReadWriteEndPoint error key value c p -> key -> value -> CrudRequest error value"
+            },
+            {
+                "name": "select",
+                "comment": " Select entities from an endpoint.\n",
+                "type": "BackendUrl -> EndPoint w error key value c params -> params -> CrudRequest error (QueryResult key value params)"
+            },
+            {
+                "name": "selectRange",
+                "comment": " Like `select`, but you specify an offset and the number of items you want to fetch at once.\n\nIf you don't supply the range, we'll start at the offset, but not specify any particular number\nof items to fetch.\n\n",
+                "type": "BackendUrl -> EndPoint w error key value c params -> params -> Offset -> Maybe Range -> CrudRequest error (QueryResult key value params)"
+            },
+            {
+                "name": "toCmd",
+                "comment": " Convert a `CrudRequest` into a `Cmd`. You provide a tagger which indicates\nwhich `Msg` should handle the result.\n\nIf you'd prefer to get a `Task`, you can use `toTask` instead.\n\n",
+                "type": "(Result err ok -> msg) -> CrudRequest err ok -> Cmd msg"
+            },
+            {
+                "name": "toCmdMaybe",
+                "comment": " Like `toCmd`, but treats a 404 error specially. Instead of handling it as\nan error, it is treating as a successful result, returning `Nothing`. So, the\nsuccess type is now wrapped in a `Maybe`. Other errors are still treated as an\nerror.\n",
+                "type": "(Result err (Maybe ok) -> msg) -> CrudRequest err ok -> Cmd msg"
+            },
+            {
+                "name": "toEntityId",
+                "comment": " This is how you create an `EntityId`, if you have an `Int`. You can create\nany kind of `EntityId` this way ... so you would normally only do this in\nsituations that are fundamentally untyped, such as when you are decoding\nJSON data. Except in those kind of \"boundary\" situations, you should be\nworking with the typed `EntityIds`.\n",
+                "type": "Int -> EntityId a"
+            },
+            {
+                "name": "toEntityUuid",
+                "comment": " This is how you create a `EntityUuid`, if you have a `String`. You can create\nany kind of `EntityUuid` this way ... so you would normally only do this in\nsituations that are fundamentally untyped, such as when you are decoding\nJSON data. Except in those kind of \"boundary\" situations, you should be\nworking with the typed `EntityUuid`s.\n",
+                "type": "String -> EntityUuid a"
+            },
+            {
+                "name": "toTask",
+                "comment": " Convert a `CrudRequest` into a `Task`.\n\nIf you'd prefer to go directly to a `Cmd`, see `toCmd`.\n\n",
+                "type": "CrudRequest err ok -> Task err ok"
+            },
+            {
+                "name": "toTaskMaybe",
+                "comment": " Like `toTask`, but treats a 404 error specially. Instead of handling it as\nan error, it is treating as a successful result, returning `Nothing`. So, the\nsuccess type is now wrapped in a `Maybe`. Other errors are still treated as an\nerror.\n",
+                "type": "CrudRequest err ok -> Task err (Maybe ok)"
+            },
+            {
+                "name": "tokenHeader",
+                "comment": " Send an `AccessToken` to the backend using the specified HTTP header.\n",
+                "type": "String -> TokenStrategy"
+            },
+            {
+                "name": "tokenUrlParam",
+                "comment": " Send an `AccessToken` to the backend using the specified parameter in the URL.\n",
+                "type": "String -> TokenStrategy"
+            },
+            {
+                "name": "withAccessToken",
+                "comment": " Supply an `AccessToken` to be used with the request.\n",
+                "type": "AccessToken -> CrudRequest err ok -> CrudRequest err ok"
+            },
+            {
+                "name": "withBackend",
+                "comment": " Use the supplied backend with the endpoint.\n",
+                "type": "Backend ( k, v ) -> EndPoint w e k v c p -> EndPoint w e k v c p"
+            },
+            {
+                "name": "withCountDecoder",
+                "comment": " Given the JSON your backend returns for queries, how can we decode the\ntotal count of all the items on the backend? (They may not all necessarily have\nbeen returned, due to paging).\n",
+                "type": "Decoder Int -> Backend a -> Backend a"
+            },
+            {
+                "name": "withCreatedEncoder",
+                "comment": " Use the supplied function to encode new `created` values for the endpoint,\nfor use in POST requests.\n\nThis is for cases where some values are supplied by the backend after the\nentity is created. So, they are part of your `value` type, but you can't send\nthem as part of a POST request.\n\nIf you don't use a special `created` type, then we'll POST with your `value`\nencoder.\n\n",
+                "type": "(created -> Value) -> ReadWriteEndPoint e k v c p -> ReadWriteEndPoint e k v created p"
+            },
+            {
+                "name": "withDrupalCountDecoder",
+                "comment": " Decode the item count the Drupal way, by looking at a field named `count`.\n",
+                "type": "Backend a -> Backend a"
+            },
+            {
+                "name": "withDrupalItems",
+                "comment": " Unwrap items the Drupal way, as sent by its Restful module.\n\n  - Single items are sent as the first element of a JSON array, inside a\n    field called \"data\".\n\n  - Multiple items are sent as a JSON array, inside a field called \"data\".\n\nSo, this is equivalent to something like:\n\n    withItems\n        (field \"data\" << index 0)\n        (field \"data\" << list)\n\n",
+                "type": "Backend a -> Backend b"
+            },
+            {
+                "name": "withErrorDecoder",
+                "comment": " Use the supplied function to convert an `Http.Error` to your desired\n`error` type.\n\nBy default, we use `identity` (that is, by default, our error type is\n`Http.Error`). However, you may have a way to turn that into a more\nhelpful type.\n\n",
+                "type": "(Error -> error) -> EndPoint w e k v c p -> EndPoint w error k v c p"
+            },
+            {
+                "name": "withItems",
+                "comment": " Specify how to unwrap items sent by the backend, before applying the\ndecoders for the `key` and `value`.\n\n  - The first parameter is used for functions like `get`, which return only one\n    value. So, the question is: given what the backend sends, what do we need to\n    decode to get an item to which we can apply the `key` or `value` decoders?\n\n    If the decoders actually operate on exactly what the backend returns, you\n    could supply `identity`.\n\n  - The second parameter is used for functions like `select`, which return a\n    list of values. So, the question is: given what the backend sends, what do\n    we need to decode to get a list of items to which we can apply the `key` or\n    `value` decoders?\n\n    If the backend actually returns just a JSON array of the things the decoders\n    can handle, you could just supply `Json.Decode.list`.\n\nFor a pre-built version that handles how Drupal sends responses with its\nRestful module, see `withDrupalItems`.\n\n",
+                "type": "(Decoder a -> Decoder a) -> (Decoder a -> Decoder (List a)) -> Backend b -> Backend a"
+            },
+            {
+                "name": "withKeyEncoder",
+                "comment": " Use the supplied function to convert your `key` type to a string we can append\nto the URL for a `get` request. By default, we just use `toString`, but you may need\nto something else, depending on your `key` type.\n",
+                "type": "(key -> String) -> EndPoint w e key v c p -> EndPoint w e key v c p"
+            },
+            {
+                "name": "withManyKeys",
+                "comment": " When doing a GET via `getMany`, for multiple keys, how do we combine the\nkeys for the URL?\n\nBy default, an `endpoint` combines keys using `String.join \",\"` ... that is, by\nputting a comma between each key.\n\n",
+                "type": "(List String -> String) -> Backend a -> Backend a"
+            },
+            {
+                "name": "withOffsetParam",
+                "comment": " What is the name of the query parameter this backend uses to specify an\noffset for queries?\n\nBy default, we use \"offset\".\n\n",
+                "type": "String -> Backend a -> Backend a"
+            },
+            {
+                "name": "withParamsEncoder",
+                "comment": " Use the supplied function to convert your `params` type into something we can feed to\n`HttpBuilder.withQueryParams`. So, you get type-safety for the params!\n\nThis is how you would implement sorting or filtering, by:\n\n  - making up a type which describes the query\n  - telling us how to convert that to parameters for the URL\n\n`endpoint` and `drupalEndpoint` both default this to `always []` (i.e. no params)\n\n",
+                "type": "(params -> List ( String, String )) -> EndPoint w e k v c p -> EndPoint w e k v c params"
+            },
+            {
+                "name": "withPath",
+                "comment": " Use the supplied `path` for this endpoint.\n\nThe path is appenend to whatever you supply for the `BackendUrl` for a request.\n\n",
+                "type": "String -> EndPoint w e k v c p -> EndPoint w e k v c p"
+            },
+            {
+                "name": "withPlainItems",
+                "comment": " Unwrap items in the simplest possible way:\n\n  - Single items are sent in a way that your decoders can handle directly.\n\n  - Multiple items are sent as a JSON array of things your decoders can\n    handle directly.\n\nSo, this is equivalent to:\n\n    withItems identity Json.Decode.list\n\n",
+                "type": "Backend a -> Backend b"
+            },
+            {
+                "name": "withRangeParam",
+                "comment": " What is the name of the query parameter this backend uses to specify how\nmany items you want at once?\n\nBy default, we use \"range\".\n\n",
+                "type": "String -> Backend a -> Backend a"
+            },
+            {
+                "name": "withTokenStrategy",
+                "comment": " Use the supplied token strategy for this backend.\n\nYou can use `tokenHeader` or `tokenUrlParam` to construct a `TokenStrategy`.\n\n",
+                "type": "TokenStrategy -> Backend a -> Backend a"
+            },
+            {
+                "name": "withValueEncoder",
+                "comment": " Use the supplied function to encode your `value` type when writing to the backend.\n\nIf you need a special `created` type for `POST` requests, apply `withCreatedEncoder`\nafter this function. Otherwise, we'll use this function for both `PUT` and `POST`.\n\n",
+                "type": "(value -> Value) -> ReadOnlyEndPoint e k value p -> ReadWriteEndPoint e k value value p"
+            },
+            {
+                "name": "withoutDecoder",
+                "comment": " Sometimes we want to send a request, but we're not interested in the\nresponse, just whether there was an error. In that case, you can use\n`withoutDecoder` to omit parsing the response.\n",
+                "type": "CrudRequest e a -> CrudRequest e ()"
+            }
+        ],
+        "binops": [
+            {
+                "name": "</>",
+                "comment": " Appends the second parameter to the first, joining them with a \"/\", but avoiding \"//\".\n\n    \"http://www.apple.com\"  </> \"path\"  --> \"http://www.apple.com/path\"\n\n    \"http://www.apple.com\"  </> \"/path\" --> \"http://www.apple.com/path\"\n\n    \"http://www.apple.com/\" </> \"path\"  --> \"http://www.apple.com/path\"\n\n    \"http://www.apple.com/\" </> \"/path\" --> \"http://www.apple.com/path\"\n\n    \"\" </> \"path\" --> \"path\"\n\n    \"http://www.apple.com/path\" </> \"\" --> \"http://www.apple.com/path\"\n\n",
+                "type": "String -> String -> String",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

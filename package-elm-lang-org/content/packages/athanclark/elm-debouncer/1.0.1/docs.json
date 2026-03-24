@@ -1,0 +1,60 @@
+[
+    {
+        "name": "Debounce",
+        "comment": "\n\nThis is a delay-based debouncer, where given a _minimum_ delay and an action\nto issue, we'll build a stateful component that will eventually issue the action\n_once_, after being given a slew of requests within the delay timeframe.\n\n\n## Debouncer State\n\n@docs Debouncer\n\n@docs initDebouncer\n\n\n## Starting the Debouncer\n\n@docs DebouncerMsg\n\n\n## Evaluating the Debouncer\n\n@docs updateDebouncer\n\n@docs DebouncerResults\n\n@docs handleDebouncerResults\n\n",
+        "unions": [
+            {
+                "name": "DebouncerMsg",
+                "comment": " To bounce the debouncer, just make multiple calls to `Bounce`.\n",
+                "args": [
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Bounce",
+                        [
+                            "b"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "DebouncerResults",
+                "comment": " Representing either more messages needing to be handled in this component,\n    or the message you've been trying to debounce.\n",
+                "args": [
+                    "b",
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Debouncer",
+                "comment": " The state of the debouncer\n",
+                "args": [
+                    "b"
+                ],
+                "type": "{ since : Maybe ( Time, b ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "handleDebouncerResults",
+                "comment": " By being able to convert a `DebouncerMsg` to a message we understand, we\n    can turn a whole `DebouncerResults` to a message we understand.\n",
+                "type": "(DebouncerMsg b -> a) -> DebouncerResults b a -> a"
+            },
+            {
+                "name": "initDebouncer",
+                "comment": " The initial debouncer\n",
+                "type": "Debouncer b"
+            },
+            {
+                "name": "updateDebouncer",
+                "comment": " The main logic of the debouncer.\n",
+                "type": "Time -> (b -> a) -> DebouncerMsg b -> Debouncer b -> ( Debouncer b, Cmd (DebouncerResults b a) )"
+            }
+        ],
+        "binops": []
+    }
+]

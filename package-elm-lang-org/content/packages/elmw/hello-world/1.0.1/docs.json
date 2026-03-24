@@ -1,0 +1,1 @@
+[{"name":"Main","comment":"\nA \"Hello, World!\" in an introductory computer program.\n@docs main\n","unions":[],"aliases":[],"values":[{"name":"main","comment":"\nStart application with model, update & view (MVC).\n\n  main\n","type":"Platform.Program () Main.Model Main.Msg"}],"binops":[]}]

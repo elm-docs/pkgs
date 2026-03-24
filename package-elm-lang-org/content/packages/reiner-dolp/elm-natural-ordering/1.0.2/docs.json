@@ -1,0 +1,48 @@
+[
+    {
+        "name": "NaturalOrdering",
+        "comment": " Sorts strings in a [human-friendly, natural ordering](https://en.wikipedia.org/wiki/Natural_sort_order)\nby treating multi-digit numbers as a single character.\n\n\n# Usage Example\n\n    import Html exposing (div, h3, li, text, ul)\n    import NaturalOrdering\n\n    main =\n        let\n            data =\n                [ \"4-banana\"\n                , \"12-apple\"\n                , \"1-orange\"\n                , \"2-bananb\"\n                ]\n\n            defaultSort =\n                List.sort data\n\n            naturalSort =\n                sort data\n        in\n        div []\n            [ h3 [] [ text \"Default Sort\" ]\n            , ul [] <|\n                List.map\n                    (\\txt -> li [] [ text txt ])\n                    defaultSort\n            , h3 [] [ text \"Natural Sort\" ]\n            , ul [] <|\n                List.map\n                    (\\txt -> li [] [ text txt ])\n                    naturalSort\n            ]\n\nThe snippet above will output\n\n    Default Sort\n\n        1-orange\n        12-apple\n        2-bananb\n        4-banana\n\n    Natural Sort\n\n        1-orange\n        2-bananb\n        4-banana\n        12-apple\n\n\n# Sorting\n\n@docs sort\n@docs sortBy\n\n\n# Sorting With Options\n\n@docs Options\n@docs defaultOptions\n\n@docs customSort\n@docs customSortBy\n\n@docs defaultNaturalOrderingOptions\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " Can be used for modified sorting using `customSort` and `customSortBy`.\n",
+                "args": [],
+                "type": "{ lettersBeforeNumbers : Bool, caseInsensitive : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "customSort",
+                "comment": " Naturaly sort strings from lowest to highest with non-default settings.\n",
+                "type": "Options -> List String -> List String"
+            },
+            {
+                "name": "customSortBy",
+                "comment": " Naturaly sort string values from lowest to highest by a derived property\nusing non-default settings.\n",
+                "type": "Options -> (a -> String) -> List a -> List a"
+            },
+            {
+                "name": "defaultNaturalOrderingOptions",
+                "comment": " Alias for `defaultOptions` that can be directly imported without collision,\nwhich is convenient if you want to use the update record syntax.\n\n     -- this does not work in Elm 0.18\n     -- mySettings = { NaturalOrdering.defaultOptions | caseInsensitive = True }\n\n     -- instead\n     mySettings =\n         { defaultNaturalOrderingOptions | caseInsensitive = True }\n\n",
+                "type": "Options"
+            },
+            {
+                "name": "defaultOptions",
+                "comment": " Default settings used for sorting. `lettersBeforeNumbers = False` and\n`caseInsensitive = False`.\n",
+                "type": "Options"
+            },
+            {
+                "name": "sort",
+                "comment": " Naturaly sort string values from lowest to highest.\n",
+                "type": "List String -> List String"
+            },
+            {
+                "name": "sortBy",
+                "comment": " Naturaly sort string values from lowest to highest by a derived property.\n",
+                "type": "(a -> String) -> List a -> List a"
+            }
+        ],
+        "binops": []
+    }
+]

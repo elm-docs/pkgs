@@ -1,0 +1,53 @@
+[
+    {
+        "name": "ScreenOverlay",
+        "comment": " This can be used to add a screen overlay with provided content that can be\ndisplayed and hidden.\n\n\n# Initializing\n\n@docs ScreenOverlay, initOverlay\n\n\n# Displaying\n\n@docs show, hide, isOverlayVisible\n\n\n# View\n\n@docs overlayView, noXOverlayView, withOverlayStyles\n\n",
+        "unions": [
+            {
+                "name": "ScreenOverlay",
+                "comment": " An opaque type to store in the model that represents the overlay state and html content\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "hide",
+                "comment": " Make the overlay screen hidden\n",
+                "type": "ScreenOverlay -> ScreenOverlay"
+            },
+            {
+                "name": "initOverlay",
+                "comment": " Create a ScreenOverlay with no html content\n",
+                "type": "ScreenOverlay"
+            },
+            {
+                "name": "isOverlayVisible",
+                "comment": " For determining if the overlay is visible or not\n",
+                "type": "ScreenOverlay -> Bool"
+            },
+            {
+                "name": "noXOverlayView",
+                "comment": " Same as `overlayView` but without the (X) - close button\n",
+                "type": "ScreenOverlay -> Html msg -> Html msg"
+            },
+            {
+                "name": "overlayView",
+                "comment": " Add this to the view to add the overlay screen content to the dom\nAccepts the ScreenOverlay , a closeMsg that is fired when x (close) button is clicked,\nand the markup to add to the overlay\n",
+                "type": "ScreenOverlay -> msg -> Html msg -> Html msg"
+            },
+            {
+                "name": "show",
+                "comment": " Make the overlay screen visible\n",
+                "type": "ScreenOverlay -> ScreenOverlay"
+            },
+            {
+                "name": "withOverlayStyles",
+                "comment": " Update a ScreenOverlay with styles to override the default styling\n",
+                "type": "List Style -> ScreenOverlay -> ScreenOverlay"
+            }
+        ],
+        "binops": []
+    }
+]

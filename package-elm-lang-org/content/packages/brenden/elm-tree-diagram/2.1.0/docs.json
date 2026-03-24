@@ -1,0 +1,128 @@
+[
+    {
+        "name": "TreeDiagram.Svg",
+        "comment": " Provides a draw function for drawing trees as SVGs.\n\n@docs draw\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "draw",
+                "comment": " Draws the tree using the provided functions for drawings nodes and edges.\n    TreeLayout contains some more options for positioning the tree.\n",
+                "type": "TreeLayout -> NodeDrawer a (Svg msg) -> EdgeDrawer (Svg msg) -> Tree a -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "TreeDiagram.Canvas",
+        "comment": " Provides a draw function for drawing trees as canvas images.\n\n@docs draw\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "draw",
+                "comment": " Draws the tree using the provided functions for drawings nodes and edges.\n    TreeLayout contains some more options for positioning the tree.\n",
+                "type": "TreeLayout -> NodeDrawer a Form -> EdgeDrawer Form -> Tree a -> Element"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "TreeDiagram",
+        "comment": " This library provides functions drawing diagrams of trees.\n\n# Building a tree\n@docs Tree, node\n\n# Drawing a tree\n@docs Coord, Drawable, NodeDrawer, EdgeDrawer, draw'\n\n# Tree layout options\n@docs TreeLayout, defaultTreeLayout, TreeOrientation, leftToRight, rightToLeft, bottomToTop, topToBottom\n",
+        "unions": [
+            {
+                "name": "Tree",
+                "comment": " A tree data structure\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "TreeOrientation",
+                "comment": " Direction of the tree from root to leaves\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Coord",
+                "comment": " 2D coordinate\n",
+                "args": [],
+                "type": "( Float, Float )"
+            },
+            {
+                "name": "Drawable",
+                "comment": " Functions for moving around and composing drawings\n",
+                "args": [
+                    "fmt",
+                    "out"
+                ],
+                "type": "{ position : Coord -> fmt -> fmt, compose : Int -> Int -> List fmt -> out, transform : Int -> Int -> Coord -> Coord }"
+            },
+            {
+                "name": "EdgeDrawer",
+                "comment": " Alias for functions that draw edges between nodes\n",
+                "args": [
+                    "fmt"
+                ],
+                "type": "Coord -> fmt"
+            },
+            {
+                "name": "NodeDrawer",
+                "comment": " Alias for functions that draw nodes\n",
+                "args": [
+                    "a",
+                    "fmt"
+                ],
+                "type": "a -> fmt"
+            },
+            {
+                "name": "TreeLayout",
+                "comment": " Options to be passed to `draw'` for laying out the tree:\n  * orientation: direction of the tree from root to leaves.\n  * levelHeight: vertical distance between parent and child nodes.\n  * subtreeDistance: horizontal distance between subtrees.\n  * siblingDistance: horizontal distance between siblings. This is usually set\n    below `subtreeDistance` to produce a clearer distinction between sibling\n    nodes and non-siblings on the same level of the tree.\n  * padding: amount of space to leave around the edges of the diagram.\n",
+                "args": [],
+                "type": "{ orientation : TreeOrientation, levelHeight : Int, siblingDistance : Int, subtreeDistance : Int, padding : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "bottomToTop",
+                "comment": " Bottom-to-top tree orientation\n",
+                "type": "TreeOrientation"
+            },
+            {
+                "name": "defaultTreeLayout",
+                "comment": " A set of default values that should be modified to create your TreeLayout\n",
+                "type": "TreeLayout"
+            },
+            {
+                "name": "draw'",
+                "comment": " Draws the tree using the provided functions for drawings nodes and edges.\n    TreeLayout contains some more options for positioning the tree.\n",
+                "type": "Drawable fmt out -> TreeLayout -> NodeDrawer a fmt -> EdgeDrawer fmt -> Tree a -> out"
+            },
+            {
+                "name": "leftToRight",
+                "comment": " Left-to-right tree orientation\n",
+                "type": "TreeOrientation"
+            },
+            {
+                "name": "node",
+                "comment": " Constructs a tree out of a root value and a list of subtrees\n",
+                "type": "a -> List (Tree a) -> Tree a"
+            },
+            {
+                "name": "rightToLeft",
+                "comment": " Right-to-left tree orientation\n",
+                "type": "TreeOrientation"
+            },
+            {
+                "name": "topToBottom",
+                "comment": " Top-to-bottom tree orientation\n",
+                "type": "TreeOrientation"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Segment",
+        "comment": " Library for sending events to segment.io\n\n\n# Available commands\n\n\n## Identify\n\n@docs IdentifyData\n@docs createIdentifyCmd\n\n\n## Events\n\n@docs EventData\n@docs createPageEventCmd\n@docs createTrackEventCmd\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "EventData",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ msg : WebData Value -> msg, key : String, applicationName : String, name : String, properties : List ( String, Value ), userId : String, anonymous : Bool }"
+            },
+            {
+                "name": "IdentifyData",
+                "comment": " ",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ msg : WebData Value -> msg, key : String, applicationName : String, traits : List ( String, Value ), userId : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "createIdentifyCmd",
+                "comment": "\n\n    let\n        eventData =\n            let\n                traits =\n                    [ ( \"email\", Json.Encode.string \"pgibbons@initech.com\" )\n                    , ( \"name\", Json.Encode.string \"Peter Gibbons\" )\n                    ]\n            in\n            { msg = UpdateIdentifyReqStateMsg\n            , key = \"segmentKey\"\n            , applicationName = \"myApplicationName\"\n            , traits = traits\n            , userId = \"1234\"\n            }\n    in\n    createIdentifyCmd eventData\n\n",
+                "type": "IdentifyData msg -> Cmd msg"
+            },
+            {
+                "name": "createPageEventCmd",
+                "comment": "\n\n    let\n        eventData =\n            let\n                properties =\n                    [ ( \"title\", Json.Encode.string \"Welcome | Initech\" )\n                    , ( \"url\", Json.Encode.string \"http://www.initech.com\" )\n                    ]\n            in\n            { msg = UpdatePageEventReqState\n            , key = \"segmentKey\"\n            , applicationName = \"myApplicationName\"\n            , name = \"Home\"\n            , properties = properties\n            , userId = \"1234\"\n            , anonymous = False\n            }\n    in\n    createPageEventCmd eventData\n\n",
+                "type": "EventData msg -> Cmd msg"
+            },
+            {
+                "name": "createTrackEventCmd",
+                "comment": "\n\n    let\n        eventData =\n            let\n                properties =\n                    [ ( \"plan\", Json.Encode.string \"Pro Annual\" )\n                    , ( \"accountType\", Json.Encode.string \"Facebook\" )\n                    ]\n            in\n            { msg = UpdateTrackEventReqState\n            , key = \"segmentKey\"\n            , applicationName = \"myApplicationName\"\n            , name = \"Registered\"\n            , properties = properties\n            , userId = \"someAnonymousId\"\n            , anonymous = True\n            }\n    in\n    createTrackEventCmd eventData\n\n",
+                "type": "EventData msg -> Cmd msg"
+            }
+        ],
+        "binops": []
+    }
+]

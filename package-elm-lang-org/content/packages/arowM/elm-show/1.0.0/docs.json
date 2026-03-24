@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Show",
+        "comment": " A module that provides type-safe ways to convert primitive types to `String`.\n\n@docs int\n@docs float\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "float",
+                "comment": "\n\n    float Nothing 123.456\n    --> \"123.456\"\n\n    float (Just 1) 123.456\n    --> \"123.4\"\n\n    float (Just 2) 123.456\n    --> \"123.45\"\n\n    float (Just 3) 123.456\n    --> \"123.456\"\n\n    float (Just 4) 123.456\n    --> \"123.456\"\n",
+                "type": "Maybe Int -> Float -> String"
+            },
+            {
+                "name": "int",
+                "comment": "\n\n    int 3\n    --> \"3\"\n\n    int -4\n    --> \"-4\"\n",
+                "type": "Int -> String"
+            }
+        ],
+        "binops": []
+    }
+]

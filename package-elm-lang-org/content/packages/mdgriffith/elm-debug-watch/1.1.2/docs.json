@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Debug.Watch",
+        "comment": " Log the input and output of a function to the console.\n\n@docs watch, watch2, watch3, watch4, watch5\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "watch",
+                "comment": " You can use it by putting it in front of a function you’re trying to debug.\n\n    import Debug.Watch as Debug\n\n    addOne x =\n        x + 1\n\n    x =\n        Debug.watch \"add one\" addOne 5\n\nresults in a console log of\n\n    add one : 5\n         -> : 6\n\n",
+                "type": "String -> (a -> b) -> a -> b"
+            },
+            {
+                "name": "watch2",
+                "comment": " Same as `watch, but for a function with 2 arguments.\n\n    multiply x y =\n        x * y\n\n    x =\n        Debug.watch2 \"multiply\" multiply 5 5\n\nresults in\n\n    multiply : 5\n          -> : 5\n          -> : 25\n\n",
+                "type": "String -> (a -> b -> c) -> a -> b -> c"
+            },
+            {
+                "name": "watch3",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> d) -> a -> b -> c -> d"
+            },
+            {
+                "name": "watch4",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> d -> e) -> a -> b -> c -> d -> e"
+            },
+            {
+                "name": "watch5",
+                "comment": " ",
+                "type": "String -> (a -> b -> c -> d -> e -> f) -> a -> b -> c -> d -> e -> f"
+            }
+        ],
+        "binops": []
+    }
+]

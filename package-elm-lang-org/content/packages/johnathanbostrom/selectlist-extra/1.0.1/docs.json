@@ -1,0 +1,42 @@
+[
+    {
+        "name": "SelectList.Extra",
+        "comment": " A library of SelectList helpers.\n\n# Helpers\n@docs step, fromList, selectAt\n\n# Types\n@docs StepDirection\n",
+        "unions": [
+            {
+                "name": "StepDirection",
+                "comment": " Step direction used with step function. \n",
+                "args": [],
+                "cases": [
+                    [
+                        "Forwards",
+                        []
+                    ],
+                    [
+                        "Backwards",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromList",
+                "comment": " Build a select list from a single list and a selected element.\nIf the provided element is not in the list, returns Nothing. \n\n    sList = fromList \"b\" [\"a\", \"b\", \"c\"] --[\"a\"] \"b\" [\"c\"]\n    sList = fromList \"z\" [\"a\", \"b\", \"c\"] --Nothing\n\n ",
+                "type": "a -> List a -> Maybe (SelectList a)"
+            },
+            {
+                "name": "selectAt",
+                "comment": " Select the element at the given index. \nreturns unchaged select list if index is invalid.\n\n    sList = fromLists [\"a\", \"b\", \"c\"] \"d\" []\n\n    selectAt -1 sList  -- [\"a\", \"b\", \"c\"] \"d\" []\n    selectAt 1 sList  -- [\"a\"] \"b\" [\"c\", \"d\"]\n ",
+                "type": "Int -> SelectList a -> SelectList a"
+            },
+            {
+                "name": "step",
+                "comment": " Step your selection forwards (increment by one) or backwards (decrement by one) through your list.\nIf there are no more elements in the step direction, returns an unmodified select list.\n\n    sList = fromLists [\"a\", \"b\", \"c\"] \"d\" []\n    \n    step Forwards sList -- [\"a\", \"b\", \"c\"] \"d\" []\n    step Backwards sList  -- [\"a\", \"b\"] \"c\" [\"d\"]\n ",
+                "type": "StepDirection -> SelectList a -> SelectList a"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,74 @@
+[
+    {
+        "name": "DistinctColors.HSLuv",
+        "comment": " Generator of distinct colors (using the **HSLuv** colorspace under the hood).\n\nThe ranges of saturation, lightness and alpha in the HSLuv colorspace are `0..1`.\n\n    { saturation = 0.8\n    , lightness = 0.7\n    , alpha = 1.0\n    }\n\nNote that functions in this module work in the HSLuv colorspace. Its advantage\nagainst HSL is that **changes in hue will result in colors of the same perceived\nbrightness.** And against HCL: **all argument combinations result in a color!**\n\nFor more information read [this comparison](http://www.hsluv.org/comparison/).\nFor perceptionally uniform colors switch to other modules in this package!\n\nAlgorithm behind moving the hues:\n<https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/>\n\n@docs nextColor, colors, randomColor\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colors",
+                "comment": " Generates a list of colors distinct from each other (consecutively).\nNice for programmatically assigning colors to elements in a list (users, ...).\n",
+                "type": "{ saturation : Float, lightness : Float, alpha : Float, numberOfColors : Int } -> Generator (List Color)"
+            },
+            {
+                "name": "nextColor",
+                "comment": " Moves the hue of the current color by 1/phi (0.618...) (assuming hue is 0..1).\n\nThis means that we have to move the hue 222.49224 degrees when hue is 0..360.\n\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "randomColor",
+                "comment": " Generate a color with given saturation, lightness, alpha and a random hue.\n",
+                "type": "{ saturation : Float, lightness : Float, alpha : Float } -> Generator Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "DistinctColors.HSL",
+        "comment": " Generator of distinct colors (using the **HSL** colorspace under the hood).\n\nThe ranges of saturation, lightness and alpha in the HSL colorspace are `0..1`.\n\n    { saturation = 0.8\n    , lightness = 0.7\n    , alpha = 1.0\n    }\n\nNote that functions in this module work in the HSL colorspace. That means\n**changes in hue will result in brighter and darker colors.**\n\nFor more information read [this comparison](http://www.hsluv.org/comparison/).\nFor perceptionally uniform colors switch to other modules in this package!\n\nAlgorithm behind moving the hues:\n<https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/>\n\n@docs nextColor, colors, randomColor\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colors",
+                "comment": " Generates a list of colors distinct from each other (consecutively).\nNice for programmatically assigning colors to elements in a list (users, ...).\n",
+                "type": "{ saturation : Float, lightness : Float, alpha : Float, numberOfColors : Int } -> Generator (List Color)"
+            },
+            {
+                "name": "nextColor",
+                "comment": " Moves the hue of the current color by 1/phi (0.618...) (assuming hue is 0..1).\n\nThis means that we have to move the hue 222.49224 degrees when hue is 0..360.\n\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "randomColor",
+                "comment": " Generate a color with given saturation, lightness, alpha and a random hue.\n",
+                "type": "{ saturation : Float, lightness : Float, alpha : Float } -> Generator Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "DistinctColors.HCL",
+        "comment": " Generator of distinct colors (using the **HCL** - also known as CIELUV LCh -\ncolorspace under the hood).\n\nThe ranges of chroma, luminance and alpha in the HCL colorspace are `0..1`.\n\n    { chroma = 0.8\n    , luminance = 0.7\n    , alpha = 1.0\n    }\n\nNote that functions in this module work in the HCL colorspace. Its advantage\nagainst HSL is that **changes in hue will result in colors of the same perceived\nbrightness.** But it has a disadvantage against HSLuv: **not all argument\ncombinations result in a color!**\n\nFor more information read [this comparison](http://www.hsluv.org/comparison/).\nFor perceptionally uniform colors switch to other modules in this package!\n\nAlgorithm behind moving the hues:\n<https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/>\n\n@docs nextColor, colors, randomColor\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colors",
+                "comment": " Generates a list of colors distinct from each other (consecutively).\nNice for programmatically assigning colors to elements in a list (users, ...).\n",
+                "type": "{ chroma : Float, luminance : Float, alpha : Float, numberOfColors : Int } -> Generator (List Color)"
+            },
+            {
+                "name": "nextColor",
+                "comment": " Moves the hue of the current color by 1/phi (0.618...) (assuming hue is 0..1).\n\nThis means that we have to move the hue 222.49224 degrees when hue is 0..360.\n\n",
+                "type": "Color -> Color"
+            },
+            {
+                "name": "randomColor",
+                "comment": " Generate a color with given saturation, lightness, alpha and a random hue.\n",
+                "type": "{ chroma : Float, luminance : Float, alpha : Float } -> Generator Color"
+            }
+        ],
+        "binops": []
+    }
+]

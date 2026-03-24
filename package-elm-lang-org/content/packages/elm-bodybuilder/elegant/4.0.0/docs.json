@@ -1,0 +1,887 @@
+[
+    {
+        "name": "Elegant.Button",
+        "comment": "\n@docs btnStyle\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "btnStyle",
+                "comment": " Create a nice looking button\n",
+                "type": "( SizeUnit, SizeUnit ) -> List (Style -> Style)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Elegant.Grid",
+        "comment": "\n@docs col\n@docs fullGrid\n@docs grid\n@docs standardGrid\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "col",
+                "comment": " Creates a column\n",
+                "type": "Int -> Int -> List (Html msg) -> Column msg"
+            },
+            {
+                "name": "fullGrid",
+                "comment": " Full grid creates a grid with no gutter\n",
+                "type": "List (Column msg) -> Html msg"
+            },
+            {
+                "name": "grid",
+                "comment": " Creates a grid with a custom gutter and columns\n",
+                "type": "SizeUnit -> List (Column msg) -> Html msg"
+            },
+            {
+                "name": "standardGrid",
+                "comment": " Standard grid creates a grid with a 12px gutter\n",
+                "type": "List (Column msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Elegant.Elements",
+        "comment": "\n@docs border\n@docs flexnav\n@docs borderBottom\n@docs link\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "border",
+                "comment": " Create a solid border with 1px of width and the color is a parameter\n",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderBottom",
+                "comment": " Create a solid border bottom with 1px of width and the color is a parameter\n",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "flexnav",
+                "comment": " Create a flex navigation\n",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "link",
+                "comment": " Create a nice looking Link\n",
+                "type": "Color -> Style -> Style"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Elegant",
+        "comment": "\n\n\n# Types\n\n@docs Vector\n@docs Style\n@docs SizeUnit\n@docs BoxShadow\n@docs Offset\n\n# Styling\n@docs style\n\n# Styles\n## Positions\n@docs positionStatic\n@docs positionAbsolute\n@docs positionRelative\n@docs positionFixed\n@docs left\n@docs right\n@docs top\n@docs bottom\n@docs absolutelyPositionned\n@docs verticalAlignMiddle\n\n## Align Items\n@docs alignItemsBaseline\n@docs alignItemsCenter\n@docs alignItemsFlexStart\n@docs alignItemsFlexEnd\n@docs alignItemsInherit\n@docs alignItemsInitial\n@docs alignItemsStretch\n@docs alignSelfCenter\n\n## SizeUnit operations\n@docs opposite\n\n## Paddings\n@docs padding\n@docs paddingHorizontal\n@docs paddingVertical\n@docs paddingLeft\n@docs paddingRight\n@docs paddingTop\n@docs paddingBottom\n\n## Margins\n@docs margin\n@docs marginAuto\n@docs marginHorizontal\n@docs marginVertical\n@docs marginTop\n@docs marginBottom\n@docs marginLeft\n@docs marginRight\n\n## Text Attributes\n@docs textColor\n@docs uppercase\n@docs lowercase\n@docs capitalize\n@docs textDecorationNone\n@docs underline\n@docs lineThrough\n@docs bold\n@docs strong\n@docs lineHeight\n@docs fontWeightNormal\n@docs fontStyleNormal\n@docs fontStyleItalic\n@docs fontSize\n@docs cursorPointer\n@docs lineHeightNormal\n@docs whiteSpaceNoWrap\n\n## Text Alignements\n@docs textCenter\n@docs textLeft\n@docs textRight\n@docs textJustify\n@docs backgroundColor\n\n## Border\n@docs borderColor\n@docs borderSolid\n@docs borderDashed\n@docs borderWidth\n@docs borderBottomColor\n@docs borderBottomWidth\n@docs borderBottomSolid\n@docs borderBottomDashed\n@docs borderLeftColor\n@docs borderLeftWidth\n@docs borderLeftSolid\n@docs borderLeftDashed\n@docs borderTopColor\n@docs borderTopWidth\n@docs borderTopSolid\n@docs borderTopDashed\n@docs borderRightColor\n@docs borderRightWidth\n@docs borderRightSolid\n@docs borderRightDashed\n@docs borderBottomLeftRadius\n@docs borderBottomRightRadius\n@docs borderTopLeftRadius\n@docs borderTopRightRadius\n@docs borderRadius\n@docs borderAndTextColor\n@docs boxShadow\n@docs boxShadowPlain\n@docs boxShadowBlurry\n@docs boxShadowCenteredBlurry\n\n## Display\n@docs displayBlock\n@docs displayInlineBlock\n@docs displayFlex\n@docs displayInlineFlex\n@docs displayInline\n@docs displayNone\n\n## Flex Attributes\n@docs flex\n@docs flexWrapWrap\n@docs flexWrapNoWrap\n@docs flexBasis\n@docs flexGrow\n@docs flexShrink\n@docs flexDirectionColumn\n\n## Opacity\n@docs opacity\n\n## Overflow\n@docs overflowAuto\n@docs overflowHidden\n@docs overflowScroll\n@docs overflowVisible\n\n## List Style Type\n@docs listStyleNone\n@docs listStyleDisc\n@docs listStyleCircle\n@docs listStyleSquare\n@docs listStyleDecimal\n@docs listStyleGeorgian\n\n## Round\n@docs roundCorner\n@docs round\n\n\n## Justify Content\n\n@docs justifyContentSpaceBetween\n@docs justifyContentSpaceAround\n@docs justifyContentCenter\n\n## Spacings\n@docs spaceBetween\n@docs spaceAround\n@docs fontInherit\n\n## Width and Height\n@docs width\n@docs widthPercent\n@docs maxWidth\n@docs minWidth\n@docs height\n@docs heightPercent\n@docs maxHeight\n@docs minHeight\n@docs fullWidth\n\n## Z-Index\n@docs zIndex\n\n## Visibility\n@docs visibilityHidden\n\n\n# Constants\n\n## Sizes\n@docs huge\n@docs large\n@docs medium\n@docs small\n@docs tiny\n@docs zero\n\n## Color\n@docs transparent\n\n## Font Sizes\n@docs alpha\n@docs beta\n@docs gamma\n@docs delta\n@docs epsilon\n@docs zeta\n@docs eta\n@docs theta\n@docs iota\n@docs kappa\n\n",
+        "unions": [
+            {
+                "name": "SizeUnit",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Px",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Pt",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Percent",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Vh",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Em",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Rem",
+                        [
+                            "Float"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Style",
+                "comment": " Contains all style for an element used with Elegant.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BoxShadow",
+                "comment": " BoxShadow type\n",
+                "args": [],
+                "type": "{ inset : Bool, spreadRadius : Maybe SizeUnit, blurRadius : Maybe SizeUnit, maybeColor : Maybe Color, offset : Offset }"
+            },
+            {
+                "name": "Offset",
+                "comment": " Offset type\n",
+                "args": [],
+                "type": "( SizeUnit, SizeUnit )"
+            },
+            {
+                "name": "Vector",
+                "comment": " ",
+                "args": [],
+                "type": "( Float, Float )"
+            }
+        ],
+        "values": [
+            {
+                "name": "absolutelyPositionned",
+                "comment": " ",
+                "type": "Vector -> Style -> Style"
+            },
+            {
+                "name": "alignItemsBaseline",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsCenter",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsFlexEnd",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsFlexStart",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsInherit",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsInitial",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignItemsStretch",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alignSelfCenter",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "alpha",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "backgroundColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "beta",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "bold",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderAndTextColor",
+                "comment": " Set both text and border in same color.\n",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderBottomColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderBottomDashed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderBottomLeftRadius",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderBottomRightRadius",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderBottomSolid",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderBottomWidth",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderDashed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderLeftColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderLeftDashed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderLeftSolid",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderLeftWidth",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderRadius",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderRightColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderRightDashed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderRightSolid",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderRightWidth",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderSolid",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderTopColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "borderTopDashed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderTopLeftRadius",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderTopRightRadius",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderTopSolid",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "borderTopWidth",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "borderWidth",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "bottom",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "boxShadow",
+                "comment": " Set the box shadow\n",
+                "type": "BoxShadow -> Style -> Style"
+            },
+            {
+                "name": "boxShadowBlurry",
+                "comment": " Create a blurry box shadow\n",
+                "type": "Offset -> SizeUnit -> Color -> Style -> Style"
+            },
+            {
+                "name": "boxShadowCenteredBlurry",
+                "comment": " Create a centered blurry box shadow\n",
+                "type": "SizeUnit -> Color -> Style -> Style"
+            },
+            {
+                "name": "boxShadowPlain",
+                "comment": " Create a plain box shadow\n",
+                "type": "Offset -> Color -> Style -> Style"
+            },
+            {
+                "name": "capitalize",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "cursorPointer",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "delta",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "displayBlock",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "displayFlex",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "displayInline",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "displayInlineBlock",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "displayInlineFlex",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "displayNone",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "epsilon",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "eta",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "flex",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "flexBasis",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "flexDirectionColumn",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "flexGrow",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "flexShrink",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "flexWrapNoWrap",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "flexWrapWrap",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "fontInherit",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "fontSize",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "fontStyleItalic",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "fontStyleNormal",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "fontWeightNormal",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "fullWidth",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "gamma",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "height",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "heightPercent",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "huge",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "iota",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "justifyContentCenter",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "justifyContentSpaceAround",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "justifyContentSpaceBetween",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "kappa",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "large",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "left",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "lineHeight",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "lineHeightNormal",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "lineThrough",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleCircle",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleDecimal",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleDisc",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleGeorgian",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleNone",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "listStyleSquare",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "lowercase",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "margin",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginAuto",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "marginBottom",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginHorizontal",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginLeft",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginRight",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginTop",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "marginVertical",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "maxHeight",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "maxWidth",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "medium",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "minHeight",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "minWidth",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "opacity",
+                "comment": " ",
+                "type": "Float -> Style -> Style"
+            },
+            {
+                "name": "opposite",
+                "comment": " Calculate the opposite of a size unit value.\n    Ex : opposite (Px 2) == Px -2\n",
+                "type": "SizeUnit -> SizeUnit"
+            },
+            {
+                "name": "overflowAuto",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "overflowHidden",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "overflowScroll",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "overflowVisible",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "padding",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingBottom",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingHorizontal",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingLeft",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingRight",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingTop",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "paddingVertical",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "positionAbsolute",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "positionFixed",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "positionRelative",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "positionStatic",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "right",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "round",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "roundCorner",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "small",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "spaceAround",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "spaceBetween",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "strong",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "style",
+                "comment": " ",
+                "type": "List StyleTransformer -> Attribute msg"
+            },
+            {
+                "name": "textCenter",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "textColor",
+                "comment": " ",
+                "type": "Color -> Style -> Style"
+            },
+            {
+                "name": "textDecorationNone",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "textJustify",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "textLeft",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "textRight",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "theta",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "tiny",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "top",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "transparent",
+                "comment": " ",
+                "type": "Color"
+            },
+            {
+                "name": "underline",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "uppercase",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "verticalAlignMiddle",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "visibilityHidden",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "whiteSpaceNoWrap",
+                "comment": " ",
+                "type": "Style -> Style"
+            },
+            {
+                "name": "width",
+                "comment": " ",
+                "type": "SizeUnit -> Style -> Style"
+            },
+            {
+                "name": "widthPercent",
+                "comment": " ",
+                "type": "Float -> Style -> Style"
+            },
+            {
+                "name": "zIndex",
+                "comment": " ",
+                "type": "Int -> Style -> Style"
+            },
+            {
+                "name": "zero",
+                "comment": " ",
+                "type": "SizeUnit"
+            },
+            {
+                "name": "zeta",
+                "comment": " ",
+                "type": "SizeUnit"
+            }
+        ],
+        "binops": []
+    }
+]

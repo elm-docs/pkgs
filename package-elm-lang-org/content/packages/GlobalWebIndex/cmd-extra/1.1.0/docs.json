@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Cmd.Extra",
+        "comment": " Extra functions for working with Cmds.\n\n\n# Constructors\n\n@docs perform, attempt, maybe, fromResult, fromMaybe\n\n\n# Chaining in update\n\n@docs pure, with, add, withTrigger, addTrigger\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Add new cmd to an existing pair.\n",
+                "type": "Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "addTrigger",
+                "comment": " Add new trigger of Msg to an existing pair.\n",
+                "type": "msg -> ( model, Cmd msg ) -> ( model, Cmd msg )"
+            },
+            {
+                "name": "attempt",
+                "comment": " Similar to perform but takes `Result msg` and performs action only on `Ok`.\n\n    attempted : Cmd String\n    attempted =\n      attempt <| Ok \"I'm fine\"\n\n    attempt (Err \"Failed\") == Cmd.none\n    --> True\n\n",
+                "type": "Result x msg -> Cmd msg"
+            },
+            {
+                "name": "fromMaybe",
+                "comment": " Construct from Maybe.\n\n    stringCmd : Cmd String\n    stringCmd =\n      toString (Just 1)\n\n    fromMaybe toString Nothing\n    --> Cmd.none\n\n",
+                "type": "(a -> msg) -> Maybe a -> Cmd msg"
+            },
+            {
+                "name": "fromResult",
+                "comment": " Construct from Result.\n\n    resultCmd : Cmd String\n    resultCmd =\n      fromResult toString (Ok 1)\n\n    fromResult toString (Err ())\n    --> Cmd.none\n\n",
+                "type": "(a -> msg) -> Result x a -> Cmd msg"
+            },
+            {
+                "name": "maybe",
+                "comment": " Similar to attempt but works with `Maybe` instead\n\n    maybeCmd : Cmd String\n    maybeCmd =\n        maybe <| Just 1\n\n    maybe Nothing == Cmd.none\n    --> True\n\n",
+                "type": "Maybe msg -> Cmd msg"
+            },
+            {
+                "name": "perform",
+                "comment": " Cmd costructor.\nUsefull when you want to artificially emit Cmd from update function.\n\n    performed : Cmd String\n    performed =\n        perform \"foo\"\n\n\"real world\" example:\n\n    type alias Model =\n        ()\n\n    type Msg\n        = Fire\n        | FireRockets\n\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update msg () =\n        case msg of\n            Fire ->\n                ( (), perform FireRockets )\n\n            FireRockets ->\n                Debug.crash \"World ended:(\"\n\n",
+                "type": "msg -> Cmd msg"
+            },
+            {
+                "name": "pure",
+                "comment": " Creates pair `model` with `Cmd.none`\n\n    pair : ( String, Cmd msg )\n    pair = pure \"foo\"\n\n    pair\n      |> Tuple.second\n      |> ((==) Cmd.none)\n    --> True\n\n",
+                "type": "model -> ( model, Cmd msg )"
+            },
+            {
+                "name": "with",
+                "comment": " Add Cmd to model to create a pair.\n",
+                "type": "Cmd msg -> model -> ( model, Cmd msg )"
+            },
+            {
+                "name": "withTrigger",
+                "comment": " Trigger Cmd from Msg and create a pair\n",
+                "type": "msg -> model -> ( model, Cmd msg )"
+            }
+        ],
+        "binops": []
+    }
+]

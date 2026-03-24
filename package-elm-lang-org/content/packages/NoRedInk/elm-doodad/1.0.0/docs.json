@@ -1,0 +1,71 @@
+[
+    {
+        "name": "Nri.Text",
+        "comment": " Text types:\n\n@docs caption\n@docs heading\n@docs mediumBody\n@docs smallBody\n@docs smallBodyGray\n@docs subHeading\n@docs tagline\n\nText class strings:\n\n@docs captionClassString\n@docs mediumBodyClassString\n@docs smallBodyClassString\n\n@docs styles\n\nModifying strings to display nicely:\n\n@docs noWidow\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "caption",
+                "comment": " This is a little note or caption.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "captionClassString",
+                "comment": " Stringified version of `captionClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "heading",
+                "comment": " This is a Page Heading.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "mediumBody",
+                "comment": " This is some medium body copy.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "mediumBodyClassString",
+                "comment": " Stringified version of `mediumBodyClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "noWidow",
+                "comment": " Eliminate widows (single words on their own line caused by\nwrapping) by inserting a non-breaking space if there are at least two\nwords.\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "smallBody",
+                "comment": " This is some small body copy.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "smallBodyClassString",
+                "comment": " Stringified version of `smallBodyClasses`.\nNecessary because <https://github.com/rtfeldman/elm-css-helpers/issues/2>\n",
+                "type": "String"
+            },
+            {
+                "name": "smallBodyGray",
+                "comment": " This is some small body copy but it's gray.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "styles",
+                "comment": " ",
+                "type": "Styles Never CssClasses msg"
+            },
+            {
+                "name": "subHeading",
+                "comment": " This is a subhead.\n",
+                "type": "List (Html msg) -> Html msg"
+            },
+            {
+                "name": "tagline",
+                "comment": " This is a tagline for a page heading.\n",
+                "type": "List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

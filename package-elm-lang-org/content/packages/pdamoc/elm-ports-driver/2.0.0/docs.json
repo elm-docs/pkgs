@@ -1,0 +1,81 @@
+[
+    {
+        "name": "PortsDriver",
+        "comment": " This is an Elm package - npm package combo designed to be used to simplify\nsome of the ports code usage.\n\n\n# Types\n\n@docs Config, ID\n\n\n# Html.Event Helper\n\n@docs onFileChange\n\n\n# Commands without reply\n\nThese are the commands that will not produce a reply.\n\n@docs log, setTitle, updateCss, send\n\n\n# Commands with reply\n\nThese are the commands that will cause a reply to be sent back to Elm.\n\n@docs readAsText, readAsDataURL\n\n\n# Subscriptions\n\nDecoders for the subscriptions.\n\n@docs inputDecoder, receiveFileAsText, receiveFileAsDataURL, subscriptions\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " The `Config` record contains the output port, the input port a function handle\nunknown input port messages. This record is needed for all the functions.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ output : Value -> Cmd msg, input : (Value -> msg) -> Sub msg, fail : String -> msg }"
+            },
+            {
+                "name": "ID",
+                "comment": " An alias to make the type signatures more explicit\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "inputDecoder",
+                "comment": " Generic input decoder. Receives the tag of the message and a decoder for the\npayload of the message. Returns a decoder that can be used with `subscriptions`.\n",
+                "type": "String -> Decoder msg -> Decoder msg"
+            },
+            {
+                "name": "log",
+                "comment": " Logs the provided `String` to the Console.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "onFileChange",
+                "comment": " A helper for the FileReader part of the driver.\n",
+                "type": "msg -> Attribute msg"
+            },
+            {
+                "name": "readAsDataURL",
+                "comment": " sends a read command for the node with the provided ID. The contents are\nread as a dataURL.\n",
+                "type": "Config msg -> ID -> Cmd msg"
+            },
+            {
+                "name": "readAsText",
+                "comment": " sends a read command for the node with the provided ID. The contents are\nread as text.\n",
+                "type": "Config msg -> ID -> Cmd msg"
+            },
+            {
+                "name": "receiveFileAsDataURL",
+                "comment": " Decoder for the file reader `readAsDataURL` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+                "type": "(ID -> String -> String -> msg) -> Decoder msg"
+            },
+            {
+                "name": "receiveFileAsText",
+                "comment": " Decoder for the file reader `readAsText` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+                "type": "(ID -> String -> String -> msg) -> Decoder msg"
+            },
+            {
+                "name": "send",
+                "comment": " Generic function for sending messages to JavaScript.\n",
+                "type": "Config msg -> String -> Value -> Cmd msg"
+            },
+            {
+                "name": "setTitle",
+                "comment": " Sets the provided `String` as the title of the page.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " The main subscription. Receives a list of decoders for the messages received\nfrom the input port.\n",
+                "type": "Config msg -> List (Decoder msg) -> Sub msg"
+            },
+            {
+                "name": "updateCss",
+                "comment": " Updates the head node with a style node containing the value provided as a\n`String`.\n",
+                "type": "Config msg -> String -> Cmd msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,330 @@
+[
+    {
+        "name": "Vectual",
+        "comment": " Contains methods that are relevant for all chart types\n@docs defaultBaseConfig\n@docs viewChart\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "defaultBaseConfig",
+                "comment": " ",
+                "type": "BaseConfigAnd {}"
+            },
+            {
+                "name": "viewChart",
+                "comment": " ",
+                "type": "Chart -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.BarChartStacked",
+        "comment": " This module creates an SVG element of a stacked bar chart.\n\n![Bar Chart Stacked](../images/barChartStacked.png)\n\n@docs viewBarChartStacked\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "viewBarChartStacked",
+                "comment": " Create SVG from bar chart config and several data sets.\n\n    svgElement =\n        viewBarChartStacked config dataSets\n\n",
+                "type": "BarChartConfig -> Datas -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.BarChart",
+        "comment": " This module creates a simple SVG bar chart.\n\n![Bar Chart](../images/barChart.png)\n\n@docs defaultBarChartConfig\n\n@docs viewBarChart\n\n@docs getBar\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "defaultBarChartConfig",
+                "comment": " The default configuration for the bar chart.\nCreate your own config by overwriting the fields you want to change.\n\n    barChart =\n        BarChart\n            { defaultBarChartConfig\n                | xLabelFormatter = utcWeek\n            }\n            timeData\n\n",
+                "type": "BarChartConfig"
+            },
+            {
+                "name": "getBar",
+                "comment": " Helper to get SVG element for a single bar.\n",
+                "type": "BarChartConfig -> Data -> MetaData -> Int -> Entry -> Svg msg"
+            },
+            {
+                "name": "viewBarChart",
+                "comment": " Create SVG from bar chart config and a data set.\n\n    svgElement =\n        viewBarChart config dataSet\n\n",
+                "type": "BarChartConfig -> Data -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.CoordinateSystem",
+        "comment": " Create ordinates, abscissas or a complete coordinate system.\n@docs getAbscissas\n@docs getCoordinateSystem\n@docs getOrdinates\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getAbscissas",
+                "comment": " ",
+                "type": "BaseConfigAnd a -> Data -> MetaData -> List (Svg msg)"
+            },
+            {
+                "name": "getCoordinateSystem",
+                "comment": " ",
+                "type": "BaseConfigAnd a -> Data -> MetaData -> Svg msg"
+            },
+            {
+                "name": "getOrdinates",
+                "comment": " ",
+                "type": "BaseConfigAnd a -> Data -> MetaData -> List (Svg msg)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.Helpers",
+        "comment": " Helpers for normalizing / sanitizing data and easier SVG creation.\n\n@docs getDataLabels\n@docs getDataLength\n@docs getDataRecords\n@docs getDataValues\n@docs getMetaData\n@docs toRotate\n@docs toTranslate\n@docs utcDate\n@docs utcDateTime\n@docs utcWeek\n@docs wrapChart\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getDataLabels",
+                "comment": " ",
+                "type": "BaseConfigAnd a -> Data -> List String"
+            },
+            {
+                "name": "getDataLength",
+                "comment": " ",
+                "type": "Data -> Int"
+            },
+            {
+                "name": "getDataRecords",
+                "comment": " ",
+                "type": "Data -> Entries"
+            },
+            {
+                "name": "getDataValues",
+                "comment": " ",
+                "type": "Data -> List Float"
+            },
+            {
+                "name": "getMetaData",
+                "comment": " ",
+                "type": "{ a | width : Int, height : Int, yStartAtZero : Bool } -> Data -> MetaData"
+            },
+            {
+                "name": "toRotate",
+                "comment": " ",
+                "type": "Int -> Point2d -> String"
+            },
+            {
+                "name": "toTranslate",
+                "comment": " ",
+                "type": "Vector2d -> String"
+            },
+            {
+                "name": "utcDate",
+                "comment": " ",
+                "type": "Date -> String"
+            },
+            {
+                "name": "utcDateTime",
+                "comment": " ",
+                "type": "Date -> String"
+            },
+            {
+                "name": "utcWeek",
+                "comment": " ",
+                "type": "Date -> String"
+            },
+            {
+                "name": "wrapChart",
+                "comment": " ",
+                "type": "BaseConfigAnd a -> Svg msg -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.PieChart",
+        "comment": " This module creates a simple pie chart.\n\n@docs viewPieChart\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "viewPieChart",
+                "comment": " ",
+                "type": "PieChartConfig -> Data -> Svg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vectual.Types",
+        "comment": " All types that are used in Vectual\n\n@docs Alignment\n@docs BarChartConfig\n@docs BaseConfigAnd\n@docs Chart\n@docs Data\n@docs Datas\n@docs Entries\n@docs Entry\n@docs Key\n@docs KeyRecord\n@docs MetaData\n@docs PieChartConfig\n@docs Radian\n@docs TimeRecord\n@docs Value\n\n",
+        "unions": [
+            {
+                "name": "Alignment",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Center",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Chart",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "PieChart",
+                        [
+                            "PieChartConfig",
+                            "Data"
+                        ]
+                    ],
+                    [
+                        "BarChart",
+                        [
+                            "BarChartConfig",
+                            "Data"
+                        ]
+                    ],
+                    [
+                        "BarChartStacked",
+                        [
+                            "BarChartConfig",
+                            "Datas"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Data",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "TimeData",
+                        [
+                            "List TimeRecord"
+                        ]
+                    ],
+                    [
+                        "KeyData",
+                        [
+                            "List KeyRecord"
+                        ]
+                    ],
+                    [
+                        "Values",
+                        [
+                            "List Float"
+                        ]
+                    ],
+                    [
+                        "InvalidData",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Value",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Int",
+                        []
+                    ],
+                    [
+                        "Float",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BarChartConfig",
+                "comment": " ",
+                "args": [],
+                "type": "BaseConfigAnd { labelAngle : Radian, yStartAtZero : Bool, alignBars : Alignment }"
+            },
+            {
+                "name": "BaseConfigAnd",
+                "comment": " ",
+                "args": [
+                    "extraFields"
+                ],
+                "type": "{ extraFields | title : String, inline : Bool, width : Int, height : Int, borderRadius : ( Int, Int ), xLabelFormatter : Date -> String }"
+            },
+            {
+                "name": "Datas",
+                "comment": " ",
+                "args": [],
+                "type": "List Data"
+            },
+            {
+                "name": "Entries",
+                "comment": " ",
+                "args": [],
+                "type": "List Entry"
+            },
+            {
+                "name": "Entry",
+                "comment": " ",
+                "args": [],
+                "type": "{ label : String, value : Float, offset : Float }"
+            },
+            {
+                "name": "Key",
+                "comment": " ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "KeyRecord",
+                "comment": " ",
+                "args": [],
+                "type": "{ key : Key, value : Float, offset : Float }"
+            },
+            {
+                "name": "MetaData",
+                "comment": " ",
+                "args": [],
+                "type": "{ graphWidth : Int, graphHeight : Int, coordSysWidth : Int, coordSysHeight : Int, translation : Vector2d, numberOfEntries : Int, yMinimum : Float, yMaximum : Float, yRange : Float }"
+            },
+            {
+                "name": "PieChartConfig",
+                "comment": " ",
+                "args": [],
+                "type": "BaseConfigAnd { radius : Int }"
+            },
+            {
+                "name": "Radian",
+                "comment": " ",
+                "args": [],
+                "type": "Float"
+            },
+            {
+                "name": "TimeRecord",
+                "comment": " ",
+                "args": [],
+                "type": "{ utc : Date, value : Float, offset : Float }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

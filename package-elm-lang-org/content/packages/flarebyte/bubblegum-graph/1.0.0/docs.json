@@ -1,0 +1,353 @@
+[
+    {
+        "name": "Bubblegum.Graph",
+        "comment": " Graph helps to represent a directed acyclic graph consisting of a set of nodes and a set of edges.\n\nThis is an **experimental** implementation which attempts to expose a graph as a list of paths, similar in concept to xpath.\nIn other words, the graph is converted to a flat list to make processing easier.\n\nThis library has been implemented with the idea of of been used for the Bubblegum UI library. However, it should be possible to use it for other purposes.\n\nIf you are looking for a general purpose Graph library, I would recommend [the elm-community/graph one](https://github.com/elm-community/graph) instead.\n\nLimits of Bubblegum.Graph:\n * No more than 1000 nodes or edges.\n * Only one edge with the same source and destination.\n * The graph should not have any cycles (loops).\n\n# Build\n@docs create, Graph\n\n# Query\n@docs findNode, findEdge, findEdgesBySource, findEdgesByDestination, findRelations, toPaths\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Graph",
+                "comment": " The representation of a graph.\n\n * nodes and edges hold the main data model and are implemented as dictionaries to facilitate quick direct access.\n * relations is special view of the graph to explore parent/child relationships (inbound/outbound).\n * paths is a special view of the graph to expose the graph as a list of paths. \n\n",
+                "args": [
+                    "nData",
+                    "eData"
+                ],
+                "type": "{ nodes : Dict String (Node nData), edges : Dict ( String, String ) (Edge eData), relations : Dict String Relations, paths : GraphPaths }"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Create graph providing a list of nodes and edges.\n",
+                "type": "List (Node nData) -> List (Edge eData) -> Graph nData eData"
+            },
+            {
+                "name": "findEdge",
+                "comment": " Find the edge by source and destination. There should be no more than one edge for same source and destination.\n\n    findEdge graph (\"Zeus\", \"Athena\")\n",
+                "type": "Graph nData eData -> ( String, String ) -> Maybe (Edge eData)"
+            },
+            {
+                "name": "findEdgesByDestination",
+                "comment": " Find edge models by destination.\n\n    findEdgesByDestination graph \"Athena\"\n",
+                "type": "Graph nData eData -> String -> List (Edge eData)"
+            },
+            {
+                "name": "findEdgesBySource",
+                "comment": " Find edge models by source.\n\n    findEdgesBySource graph \"Zeus\"\n",
+                "type": "Graph nData eData -> String -> List (Edge eData)"
+            },
+            {
+                "name": "findNode",
+                "comment": " Find a node from the graph.\n\n    findNode graph \"Zeus\"\n",
+                "type": "Graph nData eData -> String -> Maybe (Node nData)"
+            },
+            {
+                "name": "findRelations",
+                "comment": " Find the relations given the nodeId.\n\n    findRelations graph \"Athena\"\n",
+                "type": "Graph nData eData -> String -> Maybe Relations"
+            },
+            {
+                "name": "toPaths",
+                "comment": " Export the graph as a list of paths faciliting a xpath like approach.\n",
+                "type": "Graph nData eData -> GraphPaths"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.GraphPaths",
+        "comment": " GraphPaths represents a graph as a list of paths.\n\n# Build\n@docs create, GraphPaths\n\n#Query\n@docs byId, byNodeIds, parent, descendants, descendantsOrSelf, children\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "GraphPaths",
+                "comment": " Representation of graph as a list of paths.\n\n  * paths represent the list of paths.\n  * idToPath provides a quick conversion between pathId and its value.\n ",
+                "args": [],
+                "type": "{ paths : List Path, idToPath : Dict String Path }"
+            }
+        ],
+        "values": [
+            {
+                "name": "byId",
+                "comment": " Retrieve a path by id \n\n    byid graphPaths \"001/011/111\"\n",
+                "type": "GraphPaths -> String -> Maybe Path"
+            },
+            {
+                "name": "byNodeIds",
+                "comment": " Retrieve a path by providing a list of nodeIds \n\n    byNodeIds graphPaths [\"Athena\", \"Zeus\"]\n",
+                "type": "GraphPaths -> List String -> Maybe Path"
+            },
+            {
+                "name": "children",
+                "comment": " Selects all children ",
+                "type": "GraphPaths -> String -> List Path"
+            },
+            {
+                "name": "create",
+                "comment": " Creates an object representing an enumeration of paths in the graph ",
+                "type": "List Path -> GraphPaths"
+            },
+            {
+                "name": "descendants",
+                "comment": " Selects all descendants ",
+                "type": "GraphPaths -> String -> List Path"
+            },
+            {
+                "name": "descendantsOrSelf",
+                "comment": " Selects all descendants and itself ",
+                "type": "GraphPaths -> String -> List Path"
+            },
+            {
+                "name": "parent",
+                "comment": " Selects the parent if any ",
+                "type": "GraphPaths -> String -> Maybe Path"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.ValueKey",
+        "comment": " ValueKey helps to represent the key of value in a ValueAccess object.\n\n# Format\n\nA value key has a format like \"004/006/007/009:006/007/008/009\". \nThe values on left of the colon represents the path (list of nodeIds), sorted from ancestors to children.\nThe values on right of the colon represents the indices.\nInternally, the ValueKey object store these values in reverse order, to make it easier to find the parent by applying List.tail.\n\n\n# Assumptions\n \nIndices and nodeIds should not exceed 1000 (3 digits). In practice, this should not be an issue.\nThis means the graph should not exceed 1000 nodes, otherwise some of the functions may return unexpected values.\nThe benefit of this approach is that the length of the key is therefore determined by the number of nodes in the path.\n\n# Conversion\n@docs fromStr, toStr\n\n# Operations on indices\n@docs childIndice, incrementKey\n\n# Predicates\n@docs isDescendantOrSelf, isDescendant, isAncestor\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "childIndice",
+                "comment": " Return the indice of the child node.\n  \n    childIndice  \"004/006/007/011:006/007/008/009\" == 9\n\n",
+                "type": "String -> Int"
+            },
+            {
+                "name": "fromStr",
+                "comment": " Convert a string to value key.\n  \n    fromStr \"004/006/007/009:006/007/008/009\" == {path = [9,7,6,4], indices = [9,8,7,6]}\n\n",
+                "type": "String -> ValueKey"
+            },
+            {
+                "name": "incrementKey",
+                "comment": " Increment or decrement a key.\n  \n    incrementKey 1 \"004/006/007/011:006/007/008/009\" == \"004/006/007/011:006/007/008/010\"\n\n",
+                "type": "Int -> String -> String"
+            },
+            {
+                "name": "isAncestor",
+                "comment": " Check if a key is a ancestor of another key.\n  \n    isAncestor \"004/006/007/011:006/007/008/009\" \"004/006/007/011:006/007/008/009\"\n\n",
+                "type": "String -> String -> Bool"
+            },
+            {
+                "name": "isDescendant",
+                "comment": " Check if a key is a descendant of another key.\n  \n    isDescendant \"004/006/007/011:006/007/008/009\" \"004/006/007/011:006/007/008/009\"\n\n",
+                "type": "String -> String -> Bool"
+            },
+            {
+                "name": "isDescendantOrSelf",
+                "comment": " Check if a key is a descendant or self of another key.\n  \n    isDescendantOrSelf \"004/006/007/011:006/007/008/009\" \"004/006/007/011:006/007/008/009\"\n\n",
+                "type": "String -> String -> Bool"
+            },
+            {
+                "name": "toStr",
+                "comment": " Convert a string to value key.\n  \n    toStr {path = [9,7,6,4], indices = [9,8,7,6]} ==  \"004/006/007/009:006/007/008/009\"\n\n",
+                "type": "ValueKey -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.Node",
+        "comment": " Node helps to represent the data about a node or vertex.\n\n# Build\n@docs create, Node\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Node",
+                "comment": " The core representation of a node or vertex.\n\n    {id = \"London\", value = \"8,787,892 inhabitants\"}\n",
+                "args": [
+                    "nData"
+                ],
+                "type": "{ id : String, value : nData }"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Creates a node or vertex providing the id and value.\n\n    create \"London\" \"8,787,892 inhabitants\"\n",
+                "type": "String -> nData -> Node nData"
+            },
+            {
+                "name": "fromTuple",
+                "comment": " Convert a tuple to a node.\n\n    fromTuple (\"London\", \"8,787,892 inhabitants\") == {id = \"London\", value = \"8,787,892 inhabitants\"}\n\n",
+                "type": "( String, Node nData ) -> Node nData"
+            },
+            {
+                "name": "toTuple",
+                "comment": " Convert a node to a tuple.\n\n    toTuple {id = \"London\", value = \"8,787,892 inhabitants\"} == (\"London\", \"8,787,892 inhabitants\")\n\n",
+                "type": "Node nData -> ( String, Node nData )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.Path",
+        "comment": " Path helps to represent a path between two nodes.\n\n# Build\n@docs create, Path\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Path",
+                "comment": " Representation of path in the Graph.\n\n    { id = \"002/001\", nodeIds = [\"Athena\", \"Zeus\"] }\n\n * id is a unique id representing this path in the graph. The expected format is a list of integers seperated by slashes. Each integer represents a nodeIds sorted from parents to children.\n * nodeIds represent a list of nodeIds, sorted from children to parent.\n\n ",
+                "args": [],
+                "type": "{ id : String, nodeIds : List String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Create a path providing an unique id and a list of node ids, children first. \n\n    create (Dict.fromList [(\"Athena\", 1), (\"Zeus\", 2)]  [\"Athena\", \"Zeus\"]\n",
+                "type": "Dict String Int -> List String -> Path"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.ValueDict",
+        "comment": " A specialized dictionary mapping unique keys to values.\n\n# Build\n@docs insert, update, remove\n\n# Query\n@docs isEmpty, member, get, size\n\n# Lists\n@docs keys, toList, fromList\n\n# Transform\nMost transformations could be done after exporting with toList.\n\n# Combine\n@docs union\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromList",
+                "comment": " Convert an association list into values . ",
+                "type": "List ( String, m ) -> Values m"
+            },
+            {
+                "name": "get",
+                "comment": " Get the value associated with a value-key. If the key is not found, return\n`Nothing`.\n\n    get values \"004/006/007/011:006/007/008/009\" == (\"004/006/007/011:006/007/008/009\", \"some value\")\n",
+                "type": "Values m -> String -> Maybe ( String, m )"
+            },
+            {
+                "name": "insert",
+                "comment": " Insert a value into values. Replaces value when there is\na collision. This will take *O(log n)* time.\n\n    insert values (\"004/006/007/011:006/007/008/009\", \"some value\")\n\n",
+                "type": "Values m -> ( String, m ) -> Values m"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Determine if the dictionary is empty.\n\n    isEmpty empty == True\n",
+                "type": "Values m -> Bool"
+            },
+            {
+                "name": "keys",
+                "comment": " Get all of the keys in values, sorted from lowest to highest.\n\n    keys values\n",
+                "type": "Values m -> List String"
+            },
+            {
+                "name": "member",
+                "comment": " Check whether there is value-key in values.\n\n    member values \"004/006/007/011:006/007/008/009\" == True\n",
+                "type": "Values m -> String -> Bool"
+            },
+            {
+                "name": "remove",
+                "comment": " Remove a key-value pair from values. If the key is not found,\nno changes are made. This will take *O(log n)* time.\n\n    remove values (\"004/006/007/011:006/007/008/009\", \"some value\")\n\n",
+                "type": "Values m -> String -> Values m"
+            },
+            {
+                "name": "size",
+                "comment": " Determine the number of key-value pairs in the dictionary. ",
+                "type": "Values m -> Int"
+            },
+            {
+                "name": "toList",
+                "comment": " Convert values into an association list of key-value pairs, sorted by keys. ",
+                "type": "Values m -> List ( String, m )"
+            },
+            {
+                "name": "union",
+                "comment": " Combine two values objects. If there is a collision, preference is given\nto the first values object.\n",
+                "type": "Values m -> Values m -> Values m"
+            },
+            {
+                "name": "update",
+                "comment": " Update the value of a values object for a specific key with a given function. ",
+                "type": "Values m -> String -> (Maybe ( String, m ) -> Maybe ( String, m )) -> Values m"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.Edge",
+        "comment": " Edge helps to represent the relationship between two nodes.\n\n# Build\n@docs create, Edge\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Edge",
+                "comment": " The representation of an edge between two nodes.\n  \n    {\n      source = \"London\"\n      , destination= \"Paris\"\n      , value = \"344 km\"\n    }\n\n",
+                "args": [
+                    "eData"
+                ],
+                "type": "{ source : String, destination : String, value : eData }"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Create an edge providing the source, the destination and the value.\n\n    ldnParis = create \"London\" \"Paris\" \"344 km\"\n\n",
+                "type": "String -> String -> eData -> Edge eData"
+            },
+            {
+                "name": "fromTuple",
+                "comment": " Convert a tuple to an edge.\n\n    fromTuple ((\"London\", \"Paris\"), \"344 km\") == { source = \"London\", destination = \"Paris\", value = \"344 km\"}\n\n",
+                "type": "( ( String, String ), Edge eData ) -> Edge eData"
+            },
+            {
+                "name": "toTuple",
+                "comment": " Convert an edge to a tuple.\n\n    toTuple ldnParis == ((\"London\", \"Paris\"), \"344 km\")\n\n",
+                "type": "Edge eData -> ( ( String, String ), Edge eData )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.Irrelevant",
+        "comment": " Irrelevant is type to be used as value when the value is not relevant.\n\n# Build\n@docs Irrelevant\n\n",
+        "unions": [
+            {
+                "name": "Irrelevant",
+                "comment": " Data which is not relevant or applicable in this given situation ",
+                "args": [],
+                "cases": [
+                    [
+                        "Irrelevant",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Bubblegum.Relations",
+        "comment": " Relations helps to describe the inbound and outbound relationships to a node.\n\n# Build\n@docs create, Relations\n\n# Test\n@docs isLeaf, isRoot\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Relations",
+                "comment": " The representation of the inbound and outbound relationships to a node.\n  \n    { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [(\"Paris\", \"New York\")] }\n\n",
+                "args": [],
+                "type": "{ inbound : List ( String, String ), outbound : List ( String, String ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "create",
+                "comment": " Create the relations against a node providing the inbound and outbound values.\n\n    create [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")] [(\"Paris\", \"New York\")]\n \n",
+                "type": "List ( String, String ) -> List ( String, String ) -> Relations"
+            },
+            {
+                "name": "isLeaf",
+                "comment": " Test whether the relations represents a leaf in the graph. No more children.\n\n    isLeaf { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [] } == True\n\n",
+                "type": "Relations -> Bool"
+            },
+            {
+                "name": "isRoot",
+                "comment": " Test whether the relations represents a root in the graph. No more parents.\n\n    isRoot { inbound = [], outbound = [(\"Paris\", \"New York\")] } == True\n\n",
+                "type": "Relations -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

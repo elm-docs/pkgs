@@ -1,0 +1,167 @@
+[
+    {
+        "name": "Framework.Button",
+        "comment": " Buttons generator\n\nSee the [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs button, buttonAttr, introspection\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "button",
+                "comment": " Generate an Input.button element\n\n    button [ Medium, Success, Outlined ] Nothing \"Button\"\n\n",
+                "type": "List Modifier -> Maybe msg -> String -> Element msg"
+            },
+            {
+                "name": "buttonAttr",
+                "comment": " Generate a list of attributes that can be attached to any element\n\n    row (buttonAttr [ Info ] ++ [ spacing 10 ]) [ text \"Col 1\", text \"Col 2\" ]\n\n",
+                "type": "List Modifier -> List (Attribute msg)"
+            },
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "Data msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Framework",
+        "comment": " This is an incomplete Style Framework that leverage the [experimental version of style-elements](http://package.elm-lang.org/packages/mdgriffith/stylish-elephants/4.0.0). Major changes may happen at any time to this Repo.\n\nSee the [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Types\n\n@docs Modifier\n\n",
+        "unions": [
+            {
+                "name": "Modifier",
+                "comment": " This is the main list of modifier that can be used with all elements\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Primary",
+                        []
+                    ],
+                    [
+                        "Link",
+                        []
+                    ],
+                    [
+                        "Info",
+                        []
+                    ],
+                    [
+                        "Success",
+                        []
+                    ],
+                    [
+                        "Warning",
+                        []
+                    ],
+                    [
+                        "Danger",
+                        []
+                    ],
+                    [
+                        "Small",
+                        []
+                    ],
+                    [
+                        "Medium",
+                        []
+                    ],
+                    [
+                        "Large",
+                        []
+                    ],
+                    [
+                        "Outlined",
+                        []
+                    ],
+                    [
+                        "Loading",
+                        []
+                    ],
+                    [
+                        "Disabled",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Framework.Color",
+        "comment": " Colors generator\n\nSee the [Style Guide](https://lucamug.github.io/elm-style-framework/) to see usage examples.\n\n\n# Functions\n\n@docs Color, colorToHex, hexToColor, introspection, toColor\n\n",
+        "unions": [
+            {
+                "name": "Color",
+                "comment": " List of colors\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ColorDefault",
+                        []
+                    ],
+                    [
+                        "ColorPrimary",
+                        []
+                    ],
+                    [
+                        "ColorLink",
+                        []
+                    ],
+                    [
+                        "ColorInfo",
+                        []
+                    ],
+                    [
+                        "ColorSuccess",
+                        []
+                    ],
+                    [
+                        "ColorWarning",
+                        []
+                    ],
+                    [
+                        "ColorDanger",
+                        []
+                    ],
+                    [
+                        "ColorFontBright",
+                        []
+                    ],
+                    [
+                        "ColorFontDark",
+                        []
+                    ],
+                    [
+                        "ColorBorderDefault",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "colorToHex",
+                "comment": " Convert a Color to a String\n\n    colorToHex Color.black == \"#000000\"\n\n",
+                "type": "Color -> String"
+            },
+            {
+                "name": "hexToColor",
+                "comment": " Convert a String to a Color\n\n    hexToColor \"#000000\" == Color.Black\n\n",
+                "type": "String -> Color"
+            },
+            {
+                "name": "introspection",
+                "comment": " Used to generate the [Style Guide](https://lucamug.github.io/elm-style-framework/)\n",
+                "type": "Data msg"
+            },
+            {
+                "name": "toColor",
+                "comment": " Convert a type of color to a Color\n\n    toColor ColorPrimary == hexToColor \"#00D1B2\"\n\n",
+                "type": "Color -> Color"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,21 @@
+[
+    {
+        "name": "AspectRatio",
+        "comment": " Small HTML helper to display content within a fixed aspect ratio frame\n\n\n# Images\n\n@docs img\n\n\n# Regular Content\n\n@docs view\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "img",
+                "comment": " Display an image that maintains its aspect ratio\n\n    AspectRatio.img (Ratio.over 9 16) \"star-wars.png\"\n\n",
+                "type": "Rational -> String -> Html a"
+            },
+            {
+                "name": "view",
+                "comment": " Wrap some HTML in the DOM machinery necessary to preserve its aspect ratio\n\n    AspectRatio.view (Ratio.over 1 1) (div [ class \"red-background\" ] [])\n\n",
+                "type": "Rational -> Html a -> Html a"
+            }
+        ],
+        "binops": []
+    }
+]

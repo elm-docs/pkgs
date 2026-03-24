@@ -1,0 +1,76 @@
+[
+    {
+        "name": "GitHubRibbon",
+        "comment": " Show the \"Fork me on GitHub\" ribbon in your Elm app.\n\n\n# Element\n\n@docs ribbon\n\n\n# Configurations\n\n@docs Repository, Style, Position, Color\n\n",
+        "unions": [
+            {
+                "name": "Color",
+                "comment": " Color of the ribbon. Six colors are provided by GitHub.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Red",
+                        []
+                    ],
+                    [
+                        "Green",
+                        []
+                    ],
+                    [
+                        "DarkBlue",
+                        []
+                    ],
+                    [
+                        "Orange",
+                        []
+                    ],
+                    [
+                        "Gray",
+                        []
+                    ],
+                    [
+                        "White",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Position",
+                "comment": " Position of the ribbon. The left-top or right-top corner of a page.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Repository",
+                "comment": " Repository on GitHub for linking to.\n",
+                "args": [],
+                "type": "{ owner : String, repo : String }"
+            },
+            {
+                "name": "Style",
+                "comment": " Sytle of the ribbon.\n",
+                "args": [],
+                "type": "{ position : Position, color : Color }"
+            }
+        ],
+        "values": [
+            {
+                "name": "ribbon",
+                "comment": " A ribbon as a piece of HTML.\n\n    view : Model -> Html Msg\n    view m =\n        div []\n            [ ribbon\n                { owner = \"y-taka-23\", repo = \"elm-github-ribbon\" }\n                { position = Right, color = Red }\n            , ...\n            ]\n\n",
+                "type": "Repository -> Style -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

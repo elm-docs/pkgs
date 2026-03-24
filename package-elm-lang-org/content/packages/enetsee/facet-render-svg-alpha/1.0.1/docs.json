@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Facet.Render.Svg",
+        "comment": "\n@docs render\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "render",
+                "comment": " ",
+                "type": "Maybe Float -> Maybe Float -> ( ViewBox, Scenegraph ) -> Svg msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,342 @@
+[
+    {
+        "name": "QueryBuilder.Update",
+        "comment": "\n\n\n# Update\n\n@docs update, initState\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "initState",
+                "comment": " initState\n",
+                "type": "Config -> Predicate -> List ( String, OperandType ) -> State"
+            },
+            {
+                "name": "update",
+                "comment": " update\n",
+                "type": "Msg -> State -> ( State, Cmd Msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.View",
+        "comment": "\n\n\n# Update\n\n@docs queryBuilder, dropdownCss\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dropdownCss",
+                "comment": " dropdownCss\n",
+                "type": "Attribute Msg"
+            },
+            {
+                "name": "queryBuilder",
+                "comment": " queryBuilder\n",
+                "type": "State -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.Json",
+        "comment": "\n\n\n# PredicateOperator\n\n@docs decodePredicateOperator, encodePredicateOperator\n\n\n# Predicate\n\n@docs decodePredicate, encodePredicate\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decodePredicate",
+                "comment": " Decode json to a Predicate\n",
+                "type": "Decoder Predicate"
+            },
+            {
+                "name": "decodePredicateOperator",
+                "comment": " Decode json to a PredicateOperator\n",
+                "type": "Decoder PredicateOperator"
+            },
+            {
+                "name": "encodePredicate",
+                "comment": " Encode a Predicate to json\n",
+                "type": "Predicate -> Value"
+            },
+            {
+                "name": "encodePredicateOperator",
+                "comment": " Encode a PredicateOperator to json\n",
+                "type": "PredicateOperator -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "QueryBuilder.State",
+        "comment": "\n\n\n# State\n\n@docs State, OperandType, PredicateOperator, Predicate, Operand, StringOperand, StringOperator, OptionOperand, NumberOperand, NumberOperator, BooleanOperand, Selector, Selection, Config, Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Msg\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AddOp",
+                        []
+                    ],
+                    [
+                        "RemoveOp",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Negated",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "UpdateValue",
+                        [
+                            "Int",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "OnSelect",
+                        [
+                            "Int",
+                            "Maybe Selection"
+                        ]
+                    ],
+                    [
+                        "DropdownMsg",
+                        [
+                            "Int",
+                            "Msg Selection"
+                        ]
+                    ],
+                    [
+                        "UpdatePredicateOperator",
+                        [
+                            "PredicateOperator"
+                        ]
+                    ],
+                    [
+                        "RandomId",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "NumberOperator",
+                "comment": " NumberOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "EqualTo",
+                        []
+                    ],
+                    [
+                        "GreaterThan",
+                        []
+                    ],
+                    [
+                        "GreaterThanOrEqualTo",
+                        []
+                    ],
+                    [
+                        "LessThan",
+                        []
+                    ],
+                    [
+                        "LessThanOrEqualTo",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Operand",
+                "comment": " Operand\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "StringOp",
+                        [
+                            "StringOperand"
+                        ]
+                    ],
+                    [
+                        "OptionOp",
+                        [
+                            "List String",
+                            "OptionOperand"
+                        ]
+                    ],
+                    [
+                        "NumOp",
+                        [
+                            "NumberOperand"
+                        ]
+                    ],
+                    [
+                        "BoolOp",
+                        [
+                            "BooleanOperand"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "OperandType",
+                "comment": " OperandType\n",
+                "args": [],
+                "cases": [
+                    [
+                        "IsString",
+                        []
+                    ],
+                    [
+                        "IsOption",
+                        [
+                            "List String"
+                        ]
+                    ],
+                    [
+                        "IsNumber",
+                        []
+                    ],
+                    [
+                        "IsBoolean",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "PredicateOperator",
+                "comment": " PredicateOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "And",
+                        []
+                    ],
+                    [
+                        "Or",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Selection",
+                "comment": " Operator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SelectOperand",
+                        [
+                            "( String, OperandType )"
+                        ]
+                    ],
+                    [
+                        "SelectStrOperator",
+                        [
+                            "StringOperator"
+                        ]
+                    ],
+                    [
+                        "SelectOptionValue",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "SelectNumOperator",
+                        [
+                            "NumberOperator"
+                        ]
+                    ],
+                    [
+                        "SelectBoolValue",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "StringOperator",
+                "comment": " StringOperator\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ExactMatch",
+                        []
+                    ],
+                    [
+                        "Contains",
+                        []
+                    ],
+                    [
+                        "DoesNotContain",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "BooleanOperand",
+                "comment": " BooleanOperand\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, value : Bool }"
+            },
+            {
+                "name": "Config",
+                "comment": " Config\n",
+                "args": [],
+                "type": "{ dropdownCss : Maybe (Attribute Msg), removeClass : Maybe String, addClass : Maybe String, allowNegation : Bool }"
+            },
+            {
+                "name": "NumberOperand",
+                "comment": " NumberOperand\n",
+                "args": [],
+                "type": "{ attribute : String, operator : NumberOperator, negated : Bool, value : String }"
+            },
+            {
+                "name": "OptionOperand",
+                "comment": " OptionOperand\n",
+                "args": [],
+                "type": "{ attribute : String, negated : Bool, value : String }"
+            },
+            {
+                "name": "Predicate",
+                "comment": " Predicate\n",
+                "args": [],
+                "type": "List Operand"
+            },
+            {
+                "name": "Selector",
+                "comment": " Selector\n",
+                "args": [],
+                "type": "{ dropdown : State, dropdownId : String, options : List Selection }"
+            },
+            {
+                "name": "State",
+                "comment": " State\n",
+                "args": [],
+                "type": "{ predicate : Predicate, predicateOperator : PredicateOperator, selectorState : List Selector, allAttributes : List ( String, OperandType ), dropdownConfig : Int -> Config Msg Selection, config : Config, nextId : String }"
+            },
+            {
+                "name": "StringOperand",
+                "comment": " StringOperand\n",
+                "args": [],
+                "type": "{ attribute : String, operator : StringOperator, value : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

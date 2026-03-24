@@ -1,0 +1,33 @@
+[
+    {
+        "name": "BeautifulExample",
+        "comment": " Create beautiful examples to show off your Elm packages and projects.\n\n@docs Config, beginnerProgram, program, view\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configuration for `BeautifulExample.view`\n\n  - title: The title of the example\n  - details: An optional explanatory paragraph about the example\n  - color: The the color to use to theme the example (grey will be used if you give `Nothing`)\n  - maxWidth: The maximum width of the container for the example\n    (This allows the example to be nicely centered.)\n  - githubUrl: If given, show a github icon with a link to this URL\n  - documentationUrl: If given, show an Elm icon with a link to this URL\n\n",
+                "args": [],
+                "type": "{ title : String, details : Maybe String, color : Maybe Color, maxWidth : Int, githubUrl : Maybe String, documentationUrl : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "beginnerProgram",
+                "comment": " Turn an `Html.beginnerProgram` into a beautiful example\n",
+                "type": "Config -> { model : model, update : msg -> model -> model, view : model -> Html msg } -> Program Never model msg"
+            },
+            {
+                "name": "program",
+                "comment": " Turn an `Html.program` into a beautiful example\n",
+                "type": "Config -> { init : ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), subscriptions : model -> Sub msg, view : model -> Html msg } -> Program Never model msg"
+            },
+            {
+                "name": "view",
+                "comment": " Turn arbitrary Html into a beautiful example.\n\nTypically, you will want to use [`program`](#program) or [`beginnerProgram`](#beginnerProgram) instead.\n\n",
+                "type": "Config -> Html msg -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

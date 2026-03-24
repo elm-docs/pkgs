@@ -1,0 +1,45 @@
+[
+    {
+        "name": "DatePicker",
+        "comment": "\n\n@docs init, Model, Msg, update, view, selectedDate\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " ",
+                "args": [],
+                "type": "{ date : Date, selectingYear : Bool, mainColor : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Get initial time picker model by passing date and a main color (in hex format)\n",
+                "type": "Date -> String -> Model"
+            },
+            {
+                "name": "selectedDate",
+                "comment": " Returns currently selected date\n",
+                "type": "Model -> Date"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> Model"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

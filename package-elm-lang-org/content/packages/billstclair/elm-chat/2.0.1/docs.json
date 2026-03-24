@@ -1,0 +1,240 @@
+[
+    {
+        "name": "ElmChat",
+        "comment": " This module contains a simple chat component that you can easily add to your Elm user interface.\n\n\n# Types\n\n@docs Settings, ExtraAttributes, Updater, Sender, LineSpec\n\n\n# Less used types\n\n@docs TheUpdater, CustomSettings\n\n\n# Functions\n\n@docs makeSettings, chat, addChat, addLineSpec, inputBox, makeLineSpec\n@docs encodeSettings, settingsEncoder, decodeSettings, settingsDecoder\n@docs restoreScroll\n\n\n# Utilities\n\n@docs timeString, timestampString, parseOutUrl\n\n\n# Custom rendering\n\n@docs CustomRenderers, Overrider, StateRenderer\n@docs encodeCustomSettings, customSettingsEncoder\n@docs decodeCustomSettings, customSettingsDecoder\n\n\n# Variables\n\n@docs defaultExtraAttributes\n\n",
+        "unions": [
+            {
+                "name": "CustomRenderers",
+                "comment": " Used to customize rendering.\n\nSet the `customRenderers` field of your settings record to one of these, if you want to override the default rendering, or render your own CustomLineSpec.\n\nThe `overrider` can provide an alternate to the default renderers for `StringLineSpec`, `UserLineSpec`, and `TimeLineSpec`.\n\nThe `renderer` will be called on `CustomLineSpec`s.\n\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "CustomRenderers",
+                        [
+                            "{ overrider : Maybe (Overrider state msg), renderer : Maybe (StateRenderer state msg) }"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "LineSpec",
+                "comment": " Represents a single line in a chat.\n",
+                "args": [
+                    "state"
+                ],
+                "cases": [
+                    [
+                        "StringLineSpec",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "UrlLineSpec",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "UserLineSpec",
+                        [
+                            "{ user : String, linespec : LineSpec state }"
+                        ]
+                    ],
+                    [
+                        "TimeLineSpec",
+                        [
+                            "{ time : Time, linespec : LineSpec state }"
+                        ]
+                    ],
+                    [
+                        "CustomLineSpec",
+                        [
+                            "state"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "TheUpdater",
+                "comment": " A wrapper around Updater to prevent type recursion.\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "TheUpdater",
+                        [
+                            "Updater state msg"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CustomSettings",
+                "comment": " Customizable Settings.\n\nMake one of these with `makeSettings`, optionally customize the `customRenderers` field, and store it in your model.\n\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "type": "{ fontSize : Int, lines : List (LineSpec state), customRenderers : Maybe (CustomRenderers state msg), input : String, scroll : Float, attributes : ExtraAttributes msg, id : String, defaultFontSize : Int, showSizeControls : Bool, updater : TheUpdater state msg }"
+            },
+            {
+                "name": "ExtraAttributes",
+                "comment": " Extra attributes for the UI components.\n\nThis is the initial value of `Settings.attributes`.\n\nYou'll usually create one by changing `defaultExtraAttributes`.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ chatTable : List (Attribute msg), sizeButtons : List (Attribute msg), sizeColumn : List (Attribute msg), textColumn : List (Attribute msg), textArea : List (Attribute msg) }"
+            },
+            {
+                "name": "Overrider",
+                "comment": " User function to override rendering of standard `LineSpec` options.\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "type": "CustomSettings state msg -> LineSpec state -> Maybe (Html msg)"
+            },
+            {
+                "name": "Sender",
+                "comment": " A function to turn an input string and a `Settings` record into a `Msg`.\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "type": "String -> CustomSettings state msg -> msg"
+            },
+            {
+                "name": "Settings",
+                "comment": " Old, uncustomizable Settings for the chat component.\n\nMake one of these with `makeSettings`, and store it in your model.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "CustomSettings () msg"
+            },
+            {
+                "name": "StateRenderer",
+                "comment": " User function to render `CustomLineSpec` state.\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "type": "state -> CustomSettings state msg -> Html msg"
+            },
+            {
+                "name": "Updater",
+                "comment": " A function to turn a `Settings` record and a `Cmd` into a `Msg`.\n",
+                "args": [
+                    "state",
+                    "msg"
+                ],
+                "type": "CustomSettings state msg -> Cmd msg -> msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "addChat",
+                "comment": " Add a string to the chat box.\n",
+                "type": "CustomSettings state msg -> String -> ( CustomSettings state msg, Cmd msg )"
+            },
+            {
+                "name": "addLineSpec",
+                "comment": " Add a line to the chat box.\n",
+                "type": "CustomSettings state msg -> LineSpec state -> ( CustomSettings state msg, Cmd msg )"
+            },
+            {
+                "name": "chat",
+                "comment": " Create a chat component.\n",
+                "type": "CustomSettings state msg -> Html msg"
+            },
+            {
+                "name": "customSettingsDecoder",
+                "comment": " The JSON Decoder for `decodeCustomSettings`.\n",
+                "type": "Updater state msg -> Decoder state -> Decoder (CustomSettings state msg)"
+            },
+            {
+                "name": "customSettingsEncoder",
+                "comment": " The JSON encoder for `encodeSettings`.\n",
+                "type": "CustomSettings state msg -> (state -> Value) -> Value"
+            },
+            {
+                "name": "decodeCustomSettings",
+                "comment": " Turn a JSON string that may contain `CustomLineSpec`s back into a `CustomSettings` record.\n\n`Updater` is as to `makeSettings`.\n\nThe `state` decoder turns a `Value` into your state.\n\nRestores with default `attributes`, so you'll need to change those\nafter decoding, if you customize them.\n\n",
+                "type": "Updater state msg -> Decoder state -> String -> Result String (CustomSettings state msg)"
+            },
+            {
+                "name": "decodeSettings",
+                "comment": " Turn a JSON string back into a `CustomSettings` record.\n\n`Updater` is as to `makeSettings`.\n\nRestores with default `attributes`, so you'll need to change those\nafter decoding, if you customize them.\n\n",
+                "type": "Updater state msg -> String -> Result String (CustomSettings state msg)"
+            },
+            {
+                "name": "defaultExtraAttributes",
+                "comment": " The default value of the `Settings.attributes` property.\n",
+                "type": "ExtraAttributes msg"
+            },
+            {
+                "name": "encodeCustomSettings",
+                "comment": " Turn `CustomSettings` into a JSON string.\n\nUse the `(state -> Value)` function to encode `CustomLineSpec`s.\n\nDoes not encode the `attributes` or `updater` properties.\n\n",
+                "type": "CustomSettings state msg -> (state -> Value) -> String"
+            },
+            {
+                "name": "encodeSettings",
+                "comment": " Turn chat `Settings` into a JSON string.\n\nDoes not encode the `attributes` or `updater` properties.\n\n",
+                "type": "CustomSettings state msg -> String"
+            },
+            {
+                "name": "inputBox",
+                "comment": " Create a text input control.\n\nArgs are `textSize buttonText sender settings`.\n\n`textSize` is the width in characters of the input control.\n\n`buttonText` is the text for the button that sends the input.\n\n`sender` is a function to turn an input string and `settings into a`Msg`.\n\n`settings` is your `Settings` record.\n\n",
+                "type": "Int -> String -> Sender state msg -> CustomSettings state msg -> Html msg"
+            },
+            {
+                "name": "makeLineSpec",
+                "comment": " Make a `LineSpec` including a message and an optional user and time.\n",
+                "type": "String -> Maybe String -> Maybe Time -> LineSpec state"
+            },
+            {
+                "name": "makeSettings",
+                "comment": " Make a settings record to add to your Model.\n\nArgs are `id initialFontSize showSizeControls updater`.\n\n`id` is the Html id for the div showing the chat.\n\n`initialFontSize` is the initial font size of the div in `pt`.\n\n`showSizeControls` is `True` to show the font size controls to the left of the text area.\n\n`updater` will be called to generate messages to update the settings in your Model.\n\n",
+                "type": "String -> Int -> Bool -> Updater state msg -> CustomSettings state msg"
+            },
+            {
+                "name": "parseOutUrl",
+                "comment": " Parse the first URL out of a string.\n\nThe result is `Just (prefix, url, suffix)`, if there is a URL, or `Nothing` otherwise.\n\n\"foo.com\" is interpreted as a URL, but is returned as just \"foo.com\". You have to prepend the <http://> yourself, if that's what you need.\n\n",
+                "type": "String -> Maybe ( String, String, String )"
+            },
+            {
+                "name": "restoreScroll",
+                "comment": " Restore the scroll position after restoring from a JSON string.\n",
+                "type": "CustomSettings state msg -> Cmd msg"
+            },
+            {
+                "name": "settingsDecoder",
+                "comment": " The JSON Decoder for `decodeSettings`.\n",
+                "type": "Updater state msg -> Decoder (CustomSettings state msg)"
+            },
+            {
+                "name": "settingsEncoder",
+                "comment": " The JSON encoder for `encodeSettings`.\n",
+                "type": "CustomSettings state msg -> Value"
+            },
+            {
+                "name": "timeString",
+                "comment": " Convert a `Time` to a string in the format \"HH:MM\"\n",
+                "type": "Time -> String"
+            },
+            {
+                "name": "timestampString",
+                "comment": " Convert a `Time` to a string in the format \"HH:MM:SS\"\n",
+                "type": "Time -> String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,383 @@
+[
+    {
+        "name": "Composer.Text",
+        "comment": " A set of utilities to layout text\n\n\n# Layout Options\n\n@docs LayoutOptions, defaultOptions, LineHeight, LineHeightMode, HorizontalAlign, VerticalAlign\n\n\n# Text Layout\n\n@docs layout, shrink, trim, wrap\n\n",
+        "unions": [
+            {
+                "name": "HorizontalAlign",
+                "comment": " Specifies the horizontal alignment of a paragraph.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Center",
+                        []
+                    ],
+                    [
+                        "Justify",
+                        []
+                    ],
+                    [
+                        "Left",
+                        []
+                    ],
+                    [
+                        "Right",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "LineHeight",
+                "comment": " The value used to set the line height of a text. It can be relative to the\ndefault font line height or an absolute value.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Absolute",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Relative",
+                        [
+                            "Float"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "LineHeightMode",
+                "comment": " The line height mode is used when computing the line height of a paragraph.\nWhen odd, each line can have different line height from the other lines. When\neven, all lines of a paragraph share the same line height.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Even",
+                        []
+                    ],
+                    [
+                        "Odd",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "VerticalAlign",
+                "comment": " Specifies the vertical alignment of a paragraph or the vertical alignment of\na line. Note that when used to align the whole paragraph, Baseline is ignored.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Baseline",
+                        []
+                    ],
+                    [
+                        "Bottom",
+                        []
+                    ],
+                    [
+                        "Middle",
+                        []
+                    ],
+                    [
+                        "Top",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "LayoutOptions",
+                "comment": " Options used by text layout algorithm:\n\n  - `horizontalAlign` the horizontal alignment of all paragraphs inside the\n    bounding box made by the origin and the size.\n  - `lineAlign` the vertical alignment of each line.\n  - `lineHeight` the height used by each line.\n  - `lineHeightMode` the behaviour to follow when choosing a line height for a\n    paragraph.\n  - `maxSteps` the number of steps that the shrink algorithm can do at most. See\n    shrink function for more info.\n  - `scaleFactor` the scale applied on each step when shrinking text. See shrink\n    function for more info.\n  - `size` the size of the bounding box where the text is layout.\n  - `verticalAlign` the vertical alignment of all paragraphs inside the\n    bounding box made by the origin and the size.\n\n",
+                "args": [],
+                "type": "{ horizontalAlign : HorizontalAlign, lineAlign : VerticalAlign, lineHeight : LineHeight, lineHeightMode : LineHeightMode, maxSteps : Int, scaleFactor : Float, size : Size, verticalAlign : VerticalAlign }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Creates a layout options set given a bounding size with sensible defaults.\n",
+                "type": "Size -> LayoutOptions"
+            },
+            {
+                "name": "layout",
+                "comment": " Layout a paragraph (a list of units) filling the available space and\nfollowing the provided layout options. Usually this involves wrapping the text\ninto the available width and shrink the units scale until it fits the available\nheight.\n",
+                "type": "LayoutOptions -> List (Unit inline) -> List ( Point, Unit inline )"
+            },
+            {
+                "name": "shrink",
+                "comment": " Wrap text withing a given width and reduce the scale until it fits in the\nprovided height. Uses the provided scale factor to reduce unit sizes between\nsteps, for example a 0.05 value means that the content will be reduce by steps\nof 5% until the content fits the required size.\n\nIn order to guarantee completeness a maxSteps value is required. Higher values\nincrease the accuracy of the shrinking. For a 0.05 scaleFactor, 16-32 steps are\nenough to layout text with common sizes (from 8 to 120 points).\n\n",
+                "type": "LayoutOptions -> List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "trim",
+                "comment": " Removes spaces at the beginning and the end of each line.\n",
+                "type": "List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "wrap",
+                "comment": " Wrap text withing a given width.\n",
+                "type": "Float -> List (Unit inline) -> List (Unit inline)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Unit",
+        "comment": " A text unit, the basic element for the layout algorithm.\n\n@docs Unit\n\n\n# Creating Units\n\n@docs fromString, embed\n\n\n# Transforming Units\n\n@docs join, joinWords, lines, scale\n\n\n# Querying Units\n\n@docs Metrics\n@docs isSingleSpace, isWhitespace, metrics, offset, size, text, toParagraph, toString\n\n",
+        "unions": [
+            {
+                "name": "Unit",
+                "comment": " A basic unit for the text layout algorithm. Usually this a non divisible\nword, but it can also be in-line objects like, for example, images or a line\nbreak.\n",
+                "args": [
+                    "inline"
+                ],
+                "cases": [
+                    [
+                        "Inline",
+                        [
+                            "{ content : inline, scale : Float, size : Size, offset : Offset }"
+                        ]
+                    ],
+                    [
+                        "LineBreak",
+                        []
+                    ],
+                    [
+                        "Word",
+                        [
+                            "{ codePage : CodePage, font : Font, fontSize : Float, text : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Metrics",
+                "comment": " Layout information of a unit or a bunch of units. See metrics function for\nmore information.\n",
+                "args": [],
+                "type": "{ size : Size, offset : Offset }"
+            }
+        ],
+        "values": [
+            {
+                "name": "embed",
+                "comment": " Embed any content into a unit, creating an Inline unit. The size, scale and\nan offset is also needed.\n",
+                "type": "Float -> Size -> Offset -> content -> Unit content"
+            },
+            {
+                "name": "fromString",
+                "comment": " Converts a string into a bunch of units. A Font, CodePage and FontSize are\nalso needed.\n",
+                "type": "CodePage -> Font -> Float -> String -> List (Unit any)"
+            },
+            {
+                "name": "isSingleSpace",
+                "comment": " Returns True if and only if an unit is a Word Unit which text is a single\nspace character. See `isWhitespace` for a more useful function.\n",
+                "type": "Unit inline -> Bool"
+            },
+            {
+                "name": "isWhitespace",
+                "comment": " Returns true if the unit is a whitespace. One of the following conditions\nmust be true if a Unit is a whitespace:\n\n  - A word unit with no characters (There is no way to create these kind of\n    units).\n  - All characters the text of a Word Unit are white spaces.\n  - The fontSize of a Word Unit is less than zero.\n  - A Inline Unit with scale equal to zero.\n  - A Inline Unit with height or width equal to zero.\n  - Is a line break.\n\n",
+                "type": "Unit inline -> Bool"
+            },
+            {
+                "name": "join",
+                "comment": " Join a list of unit list into a single unit list, interspersing line breaks\nbetween lists.\n",
+                "type": "List (List (Unit inline)) -> List (Unit inline)"
+            },
+            {
+                "name": "joinWords",
+                "comment": " Given a list of units, join all compatible adjacent words together. By\ncompatible words we mean word units that have the same properties (codePage,\nfont and fontSize).\n\nFor example, given the following pseudo code,\n`[ Word \"The\", Word \" \", Word \"Moon\", LineBreak, Word \"Wow\" ]` this function\nreturns `[ Word \"The Moon\", LineBreak, Word \"Wow\" ]`.\n\nWhitespace units that are not single spaces are never joined with other words.\nFor example, `[Word \"The\", Word \"  \", Word \"Moon\"]` is not joined as\n`[Word \"The  Moon\"]`.\n\n",
+                "type": "List (Unit inline) -> List (Unit inline)"
+            },
+            {
+                "name": "lines",
+                "comment": " Remove LineBreak units and return a list unit lines.\n",
+                "type": "List (Unit inline) -> List (List (Unit inline))"
+            },
+            {
+                "name": "metrics",
+                "comment": " Returns the metrics of list of units. Metrics are composed by the size of\nthe bounding box that contains all units, and the offset of the dominant unit.\n\nThe dominant unit is the most highest and its offset are useful for aligning\nunits around the baseline.\n\n",
+                "type": "List (Unit inline) -> Metrics"
+            },
+            {
+                "name": "offset",
+                "comment": " Returns the unit spacing offsets. For word units, all dimensions of the\noffset are set to zero but the top, which is equal to the font descent. For\ninline units, offset is the same that the unit provides.\n",
+                "type": "Unit inline -> Offset"
+            },
+            {
+                "name": "scale",
+                "comment": " Applies a factor to its size.\n",
+                "type": "Float -> Unit inline -> Unit inline"
+            },
+            {
+                "name": "size",
+                "comment": " Returns the size of a unit.\n",
+                "type": "Unit inline -> Size"
+            },
+            {
+                "name": "text",
+                "comment": " Returns the text of an Unit, if any.\n",
+                "type": "Unit inline -> Maybe String"
+            },
+            {
+                "name": "toParagraph",
+                "comment": " Returns a textual representation of a list of units. Useful for testing.\n",
+                "type": "List (Unit any) -> List (List String)"
+            },
+            {
+                "name": "toString",
+                "comment": " Returns a textual representation of a unit. Useful for testing.\n",
+                "type": "Unit any -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Font",
+        "comment": " A module for reading [font](https://en.wikipedia.org/wiki/Computer_font)\ndescriptions.\n\nComposer only need to known about some font properties in order to layout text.\n\nThis module cannot open standard font files, like TrueType (ttf), OpenType\n(otf), etc. Instead a JSON definition should be provided. The format of this\ndefinition is the same used by the\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nproject. Use the `makefont` utility provided by *gofpdf* to create this\ndefinitions.\n\n@docs Description, Font, Type\n\n\n# Loading Fonts\n\n@docs decoder, empty\n\n\n# Querying Fonts\n\n@docs glyphWidth, kerning, stringWidth\n\n",
+        "unions": [
+            {
+                "name": "Type",
+                "comment": " The format type of type.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TrueType",
+                        []
+                    ],
+                    [
+                        "OpenType",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Description",
+                "comment": " A description containing information common to all font glyphs.\n\n  - `ascent`: the distance above the baseline for singled spaced text.\n  - `boundingBox`: a bounding box that can contains any glyph.\n  - `capHeight`: the height of a capital letter above the baseline\n  - `descent`: the distance below the baseline for singled spaced text.\n  - `italicAngle`: the angle of the italic version of the font.\n  - `missingWidth`: the width we should assume for a glyph not found in the\n    font.\n\n",
+                "args": [],
+                "type": "{ ascent : Float, boundingBox : BoundingBox, capHeight : Float, descent : Float, italicAngle : Float, missingWidth : Float }"
+            },
+            {
+                "name": "Font",
+                "comment": " A font record.\n\n  - `description`: common information for all glyphs.\n  - `kernings`: distance between character pairs.\n  - `name`: the font name, in English.\n  - `type_`: the underlying font type.\n  - `widths`: the width of each glyph, use a [CodePage] to resolve a character\n    index.\n\n",
+                "args": [],
+                "type": "{ description : Description, kernings : Dict ( Int, Int ) Float, name : String, type_ : Type, widths : Array Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " The JSON decoder for a Font. The\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nformat is used.\n",
+                "type": "Decoder Font"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty Font. Useful for testing.\n",
+                "type": "Font"
+            },
+            {
+                "name": "glyphWidth",
+                "comment": " Returns the glyph with give an character. A CodePage is also needed to\nresolve the character codepoint.\n",
+                "type": "CodePage -> Font -> Char -> Float"
+            },
+            {
+                "name": "kerning",
+                "comment": " Returns the [kerning](https://en.wikipedia.org/wiki/Kerning) given a pair of\nchars. A CodePage is also needed to resolve the character codepoint.\n",
+                "type": "CodePage -> Font -> Char -> Char -> Float"
+            },
+            {
+                "name": "stringWidth",
+                "comment": " Returns the with of a given string. This function is similar to glyphWidth\nbut also takes into account the glyphs kerning.\n",
+                "type": "CodePage -> Font -> String -> Float"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Text.Font.CodePage",
+        "comment": " A [CodePage](https://en.wikipedia.org/wiki/Character_encoding) is an\nassociation between a set of characters to encoding system.\n\nUsually Fonts have glyph information in tables, for example, the table of\nglyph widths. To obtain to the width of a glyph we have to use a CodePage to\nget the index that contains the width in a font table.\n\n@docs CodePage\n\n\n# Quering\n\n@docs char, index\n\n\n# Creating encodings\n\n@docs empty, fromString\n\n",
+        "unions": [
+            {
+                "name": "CodePage",
+                "comment": " An opaque type (or a private type) that contains the mapping between a\ncharacter set and code points (values of an encoding).\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "char",
+                "comment": " Given an index value returns the character associated to that value, if\nexists.\n",
+                "type": "Int -> CodePage -> Maybe Char"
+            },
+            {
+                "name": "empty",
+                "comment": " An empty CodePage. Useful for testing.\n",
+                "type": "CodePage"
+            },
+            {
+                "name": "fromString",
+                "comment": " Parses a string containing a code page. The format used to represent\nCodePages is a textual representation used by\n[gofpdf](https://github.com/jung-kurt/gofpdf). Here is a\n[CodePage Example](https://github.com/jung-kurt/gofpdf/blob/master/font/cp1250.map)\nfile.\n",
+                "type": "String -> Result String CodePage"
+            },
+            {
+                "name": "index",
+                "comment": " Given a character, return the encoding value of that character, if exists.\n",
+                "type": "Char -> CodePage -> Maybe Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Composer.Geometry",
+        "comment": " Some geometry basics.\n\n@docs BoundingBox, zeroBoundingBox, Offset, zeroOffset, Point, Size\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BoundingBox",
+                "comment": " An axis-aligned bounding box (also known as AABB). A box aligned with\ncoordinate axes and enclosing some object.\n",
+                "args": [],
+                "type": "{ xMax : Float, xMin : Float, yMax : Float, yMin : Float }"
+            },
+            {
+                "name": "Offset",
+                "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n",
+                "args": [],
+                "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+            },
+            {
+                "name": "Point",
+                "comment": " A position in the Cartesian coordinate system.\n",
+                "args": [],
+                "type": "{ x : Float, y : Float }"
+            },
+            {
+                "name": "Size",
+                "comment": " A width and height pair.\n",
+                "args": [],
+                "type": "{ width : Float, height : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "zeroBoundingBox",
+                "comment": " An BoundingBox with all the dimensions set to zero.\n",
+                "type": "BoundingBox"
+            },
+            {
+                "name": "zeroOffset",
+                "comment": " An offset with all the dimensions set to zero.\n",
+                "type": "Offset"
+            }
+        ],
+        "binops": []
+    }
+]

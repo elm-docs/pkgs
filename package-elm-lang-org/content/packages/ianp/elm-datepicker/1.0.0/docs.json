@@ -1,0 +1,50 @@
+[
+    {
+        "name": "DatePicker",
+        "comment": " A date range picker.\n\n# View\n@docs view\n\n# Update\n@docs init, initWithConfig, getNow, update\n\n# State\n@docs Model\n\n# Definitions\n@docs Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " A message type for the date picker.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " A model to track the state of the date picker.\n",
+                "args": [],
+                "type": "{ focused : Date, choice : Choice, selected : Maybe Date, selectedEnd : Maybe Date, config : Config }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getNow",
+                "comment": " Set the focus to the current date.\n\nThis can be used to initialize the date picker.\n\n    init : Config -> ( Model, Cmd Msg )\n    init config =\n        ( (DatePicker.initWithConfig config), DatePicker.getNow Msg )\n",
+                "type": "(Msg -> msg) -> Cmd msg"
+            },
+            {
+                "name": "init",
+                "comment": " An initial state with nothing selected and a default configuration.\n",
+                "type": "Model"
+            },
+            {
+                "name": "initWithConfig",
+                "comment": " Initialize the data picker with nothing selected and a custom configuration.\n\nCustom configurations can be used to override the styling, placeholder strings,\nand whether the picker selects a single date or a range.\n",
+                "type": "Config -> Model"
+            },
+            {
+                "name": "update",
+                "comment": " Update the date picker.\n",
+                "type": "Msg -> Model -> Model"
+            },
+            {
+                "name": "view",
+                "comment": " Render a date picker.\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,57 @@
+[
+    {
+        "name": "JsonApi.Decode",
+        "comment": " Provides functions to decode json api resources and their relationships\n\n*Example json:*\n\n```json\n{\n    \"data\": [\n        {\n            \"type\": \"posts\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"links\": {\n                \"self\": \"http://link-to-post/2\"\n            },\n            \"attributes\": {\n                \"title\": \"First post\",\n                \"content\": \"First post content\"\n            },\n            \"relationships\": {\n                \"creator\": {\n                    \"data\": {\n                        \"type\": \"creators\",\n                        \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\"\n                    },\n                    \"links\": {\n                        \"related\": \"http://link-to-creator/1\"\n                    }\n                },\n                \"comments\": {\n                    \"links\": {},\n                    \"data\": [\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ab\"\n                        },\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"cb0759b0-03ab-4291-b067-84a9017fea6f\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"type\": \"posts\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ae\",\n            \"links\": {\n                \"self\": \"http://link-to-post/2\"\n            },\n            \"attributes\": {\n                \"title\": \"Second post\",\n                \"content\": \"Second post content\"\n            },\n            \"relationships\": {\n                \"creator\": {\n                    \"data\": {\n                        \"type\": \"creators\",\n                        \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\"\n                    },\n                    \"links\": {\n                        \"related\": \"http://lnk-to-creator/1\"\n                    }\n                },\n                \"comments\": {\n                    \"links\": {},\n                    \"data\": [\n                        {\n                            \"type\": \"comment\",\n                            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ac\"\n                        }\n                    ]\n                }\n            }\n        }\n    ],\n    \"included\": [\n        {\n            \"type\": \"creators\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"attributes\": {\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-creator/1\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ac\",\n            \"attributes\": {\n                \"content\": \"Comment 1 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/1\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"22208770-76dd-47e5-a1c4-4d0d9c2483ab\",\n            \"attributes\": {\n                \"content\": \"Comment 2 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/2\"\n            },\n            \"relationships\": {}\n        },\n        {\n            \"type\": \"comment\",\n            \"id\": \"cb0759b0-03ab-4291-b067-84a9017fea6f\",\n            \"attributes\": {\n                \"content\": \"Comment 3 content\",\n                \"email\": \"john@doe.com\"\n            },\n            \"links\": {\n                \"self\": \"http://link-to-comment/3\"\n            },\n            \"relationships\": {}\n        }\n    ]\n}\n```\n\n\n# Decoders\n\n@docs resources, resource, relationship, relationships\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "relationship",
+                "comment": " Decode a relationship from your json api resources.\n\nYou pass it the type of the relationship resource (`\"creator\"` in our example above), the `ResourceInfo`\npassed to your resources `Decoder` and the relationship decoder. It will return a\nnew `Decoder` representing the relationship.\n\nHere is an example of resource `Decoder` with a relationship:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        , creator : Creator\n        }\n\n    type alias Creator =\n        { id : String\n        , firstname : String\n        , lastname : String\n        }\n\n    creatorDecoder : ResourceInfo -> Decoder Creator\n    creatorDecoder resourceInfo =\n        map3 Creator\n            (succeed (JsonApi.id resourceInfo))\n            (field \"firstname\" string)\n            (field \"lastname\" string)\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map4 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n            (relationship \"creator\" resourceInfo creatorDecoder)\n\n    -- Decoder for our posts and its creator from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> ResourceInfo -> (ResourceInfo -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "relationships",
+                "comment": " Decode a list of relationships from your json api resources.\n\nYou pass it the type of the relationship resource (`\"comments\"` in our example above), the `ResourceInfo`\npassed to your resources `Decoder` and the relationship decoder. It will return a\nnew `Decoder` representing the `List` of relationships.\n\nHere is an example of resource `Decoder` with a list of relationships:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        , comments : List Comment\n        }\n\n    type alias Comment =\n        { id : String\n        , content : String\n        , email : String\n        }\n\n    commentDecoder : ResourceInfo -> Decoder Comment\n    commentDecoder resourceInfo =\n        map3 Comment\n            (succeed (JsonApi.id resourceInfo))\n            (field \"content\" string)\n            (field \"email\" string)\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map4 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n            (relationships \"comments\" resourceInfo commentDecoder)\n\n    -- Decoder for our posts and its creator from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> ResourceInfo -> (ResourceInfo -> Decoder a) -> Decoder (List a)"
+            },
+            {
+                "name": "resource",
+                "comment": " Decode only one resource from the json api content.\n\nYou pass it the type of the resource (`\"posts\"` in our example above) and the resource decoder and it will return a\nnew `Decoder` representing your resource.\n\n**(The json `data` attribute is an object and not a list)**\n\nHere is an example of resource `Decoder`:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        }\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map3 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n\n    -- Decoder for our post from json api\n    resource \"posts\" postDecoder\n\n",
+                "type": "String -> (ResourceInfo -> Decoder a) -> Decoder a"
+            },
+            {
+                "name": "resources",
+                "comment": " Decode resources from the json api content.\n\nYou pass it the type of the resources (`\"posts\"` in our example above) and the resource decoder and it will return a\nnew `Decoder` representing a `List` of your resources.\n\nHere is an example of resource `Decoder`:\n\n    type alias Post =\n        { id : String\n        , title : String\n        , content : String\n        }\n\n    postDecoder : ResourceInfo -> Decoder Post\n    postDecoder resourceInfo =\n        map3 Post\n            (succeed (JsonApi.id resourceInfo))\n            (field \"title\" string)\n            (field \"content\" string)\n\n    -- Decoder for our posts from json api\n    resources \"posts\" postDecoder\n\n",
+                "type": "String -> (ResourceInfo -> Decoder a) -> Decoder (List a)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "JsonApi",
+        "comment": " JsonApi exposes the `ResourceInfo` type and functions to get useful information\nfor your resource decoders.\n\n\n# Type\n\n@docs ResourceInfo\n\n\n# Getter functions\n\n@docs id, links\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ResourceInfo",
+                "comment": " The `ResourceInfo` is passed to your resource decoders. It contains useful information\nfor decoding and for your resource, like your resource `id` and `links`\n\n_Example of json api <resource:_>\n\n```json\n{\n    \"data\": [\n        {\n            \"type\": \"users\",\n            \"id\": \"13608770-76dd-47e5-a1c4-4d0d9c2483ad\",\n            \"links\": {\n                \"self\": \"http://link-to-user\",\n                \"profile\": \"http://link-to-user-profile\"\n            },\n            \"attributes\": {\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\",\n                \"gender\": \"male\"\n            },\n            \"relationships\": {}\n        }\n    ]\n}\n```\n\n",
+                "args": [],
+                "type": "ResourceInfo"
+            }
+        ],
+        "values": [
+            {
+                "name": "id",
+                "comment": " Returns the `id` of your resource.\n\nFrom the json example above, `id` will return `13608770-76dd-47e5-a1c4-4d0d9c2483ad`\n\n",
+                "type": "ResourceInfo -> String"
+            },
+            {
+                "name": "links",
+                "comment": " Returns the `links` of your resource.\n\nFrom the json example above, `links` will return a `Dict` with this value:\n\n    [ (\"self\", \"http://link-to-user\")\n    , (\"profile\", \"http://link-to-user-profile\")\n    ]\n\n",
+                "type": "ResourceInfo -> Dict String String"
+            }
+        ],
+        "binops": []
+    }
+]

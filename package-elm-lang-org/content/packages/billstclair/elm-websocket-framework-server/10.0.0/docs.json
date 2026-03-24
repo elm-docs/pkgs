@@ -1,0 +1,174 @@
+[
+    {
+        "name": "WebSocketFramework.Server",
+        "comment": " Support for a Node.js server for WebSocketFramework messages.\n\n\n# Types\n\n@docs Model, Msg, WrappedModel, Socket\n\n\n# Callbacks\n\n@docs UserFunctions, ServerMessageSender, ServerGamesDeleter, ServerPlayersDeleter\n\n\n# Top-level program\n\n@docs program, init\n\n\n# Message sending\n\n@docs sendToOne, sendToMany, sendToOthers, sendToAll\n\n\n# Utilities\n\n@docs otherSockets\n\n\n# Model accessors\n\n@docs verbose\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The messages processed by our `update` function.\n\n`Connection`, `Disconnection`, and `SocketMessage` from through the `inputPort` from the Node.JS code. `FirstTick` and `Tick` are used to track time. `Noop` does nothing.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Connection",
+                        [
+                            "Socket"
+                        ]
+                    ],
+                    [
+                        "Disconnection",
+                        [
+                            "Socket"
+                        ]
+                    ],
+                    [
+                        "SocketMessage",
+                        [
+                            "Socket",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "FirstTick",
+                        [
+                            "Time"
+                        ]
+                    ],
+                    [
+                        "Tick",
+                        [
+                            "Time"
+                        ]
+                    ],
+                    [
+                        "Noop",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "WrappedModel",
+                "comment": " A type wrapper to prevent recursive types in `Model`.\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "cases": [
+                    [
+                        "WrappedModel",
+                        [
+                            "Model servermodel message gamestate player"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The server application model.\n\n`program` creates one of these, via a call to `init`.\n\nThe four `Dict`s, mapping games, players, and sockets to each other, are used to give some time for a lost connection to come back. You must call the functions that maintain them, if you want those features.\n\n`deathRowDuration` is the time that a socket must remain disconnected before its games and players will be auto-removed. It defaults to 30 seconds.\n\n`verbose` is true to enable console logging of messages received and sent and auto-deletions. It is usually inititalized by the VERBOSE environment variable at server start time.\n\nThe `deathWatch` variables are used for the auto-removal process. You shouldn't need to deal with them, other than providing `messageToGameid` and `messageToPlayerid` values for `userFunctions`.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "{ servermodel : servermodel, userFunctions : UserFunctions servermodel message gamestate player, state : ServerState gamestate player, verbose : Bool, gamePlayersDict : Dict GameId (List PlayerId), gameSocketsDict : Dict GameId (List Socket), socketGamesDict : Dict Socket (List GameId), playerSocketDict : Dict PlayerId Socket, socketPlayersDict : Dict Socket (List ( GameId, PlayerId )), deathRowDuration : Time, deathWatch : List ( Time, GameId ), deathWatchGameids : Dict GameId Bool, deathWatchPlayers : List ( Time, GameId, PlayerId ), deathWatchPlayerids : Dict PlayerId Bool, time : Time }"
+            },
+            {
+                "name": "ServerGamesDeleter",
+                "comment": " Called when games are auto-deleted due to socket connections being lost.\n\nThis will only happen if your server code tracks the association between sockets, games and players in the `xxxDict` properties of the Model. When tracked games are dropped, this function, stored in the `gamesDeleter` property of `UserFunctions`, is called, so that you can clean up any reference to those games in your `gamestate`.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "WrappedModel servermodel message gamestate player -> List GameId -> ServerState gamestate player -> ( WrappedModel servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "ServerMessageSender",
+                "comment": " User function that is called to send the response(s) to a request.\n\nThis will usually call `sendToOne` and/or `sendToMany` with the `message` emitted by the `ServiceMessageProcessor` in the `UserFunctions` passed to `program`.\n\nThe first `message` is the request that came from client to server. The second `message` is the response. If no response is returned by the `ServiceMessageProcessor`, this function is not called.\n\nThe `ServerState` arg is the value of the `state` property of the `WrappedModel` arg, pulled out for your convenience. If you change it, you must put it back in the model you return.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "WrappedModel servermodel message gamestate player -> Socket -> ServerState gamestate player -> message -> message -> ( WrappedModel servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "ServerPlayersDeleter",
+                "comment": " Called when players are auto-deleted due to socket connections being lost.\n\nThis will only happen if your server code tracks the association between sockets, games and players in the `xxxDict` properties of the Model. When tracked players are dropped, this function, stored in the `playersDelete` property of `UserFunctions`, is called, so that you can clean up any reference to those players in your `gamestate`.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "WrappedModel servermodel message gamestate player -> List PlayerId -> ServerState gamestate player -> ( WrappedModel servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "Socket",
+                "comment": " An alias of WebSocketServer.Socket.\n",
+                "args": [],
+                "type": "Socket"
+            },
+            {
+                "name": "UserFunctions",
+                "comment": " User functions that get called by the generic server code.\n\n`encodeDecode` is used to translate messages to and from strings.\n\n`messageProcessor` processes a client request into state changes and a response message.\n\n`messageSender` decides what to do with the response message.\n\n`messageToGameid` extracts a GameId from a message, if there is one.\n\n`messageToPlayerid` extracts a PlayerId from a message, if there is one.\n\n`autoDeleteGame` is called when all sockets referencing a `GameId` have disconnected. If it returns True, then the game will be put on deathwatch, meaning it will be removed from the tables after a delay. Usually used to keep public games from being auto-deleted.\n\n`gamesDeleter` is called when games are deleted due to their sockets being disconnected. See the `ServerGamesDeleter` description for more details.\n\n`playersDeleter` is called when players are deleted due to their sockets being disconnected. See the `ServerPlayersDeleter` description for more details.\n\n`inputPort` and `outputPort` are the ports used to communicate with the Node.js code.\n\n",
+                "args": [
+                    "servermodel",
+                    "message",
+                    "gamestate",
+                    "player"
+                ],
+                "type": "{ encodeDecode : EncodeDecode message, messageProcessor : ServerMessageProcessor gamestate player message, messageSender : ServerMessageSender servermodel message gamestate player, messageToGameid : Maybe (message -> Maybe GameId), messageToPlayerid : Maybe (message -> Maybe PlayerId), autoDeleteGame : Maybe (GameId -> ServerState gamestate player -> Bool), gamesDeleter : Maybe (ServerGamesDeleter servermodel message gamestate player), playersDeleter : Maybe (ServerPlayersDeleter servermodel message gamestate player), inputPort : InputPort Msg, outputPort : OutputPort Msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Return the initial `Model` and a `Cmd` to get the current time.\n\nUsually called for you by `program`.\n\n",
+                "type": "servermodel -> UserFunctions servermodel message gamestate player -> Maybe gamestate -> Maybe String -> ( Model servermodel message gamestate player, Cmd Msg )"
+            },
+            {
+                "name": "otherSockets",
+                "comment": " Return sockets associated with a game.\n\nRemoves the passed socket from the list.\n\nOften useful in `ServerMessageSender` functions to send responses to all players.\n\n",
+                "type": "GameId -> Socket -> WrappedModel servermodel message gamestate player -> List Socket"
+            },
+            {
+                "name": "program",
+                "comment": " Create the top-level application program.\n\nYou will usually use the result of this function as the value of `main` in your top-level module.\n\nMost servers will not need to use the `servermodel`, but it's a place to stash extra server-wide state that doesn't make sense in the game-specific `gamestate`.\n\n",
+                "type": "servermodel -> UserFunctions servermodel message gamestate player -> Maybe gamestate -> Program (Maybe String) (Model servermodel message gamestate player) Msg"
+            },
+            {
+                "name": "sendToAll",
+                "comment": " Encode a message to all the sockets for a GameId.\n\nIf `(verbose model)` is true, log the operation on the console.\n\n",
+                "type": "GameId -> WrappedModel servermodel message gamestate player -> MessageEncoder message -> message -> Cmd Msg"
+            },
+            {
+                "name": "sendToMany",
+                "comment": " Encode a message to multiple sockets via an output port.\n\nIf the first arg is True, log the operation on the console.\n\n",
+                "type": "Bool -> MessageEncoder message -> message -> OutputPort Msg -> List Socket -> Cmd Msg"
+            },
+            {
+                "name": "sendToOne",
+                "comment": " Encode a message to a single socket via an output port.\n\nIf the first arg is True, log the operation on the console.\n\n",
+                "type": "Bool -> MessageEncoder message -> message -> OutputPort Msg -> Socket -> Cmd Msg"
+            },
+            {
+                "name": "sendToOthers",
+                "comment": " Encode a message to all the sockets for a GameId except the passed one.\n\nIf `(verbose model)` is true, log the operation on the console.\n\n",
+                "type": "GameId -> Socket -> WrappedModel servermodel message gamestate player -> MessageEncoder message -> message -> Cmd Msg"
+            },
+            {
+                "name": "verbose",
+                "comment": " Return whether VERBOSE is set in the server's environment\n",
+                "type": "WrappedModel servermodel message gamestate player -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,417 @@
+[
+    {
+        "name": "Ast",
+        "comment": " This module exposes functions for parsing Elm code.\n\n\n# Parsers\n\n@docs parseExpression, parseStatement, parseOpTable, parseModule, parse\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parse",
+                "comment": " Parse an Elm module, scanning for infix declarations first.\n",
+                "type": "String -> Result (ParseErr ()) (ParseOk () (List Statement))"
+            },
+            {
+                "name": "parseExpression",
+                "comment": " Parse an Elm expression.\n",
+                "type": "OpTable -> String -> Result (ParseErr ()) (ParseOk () Expression)"
+            },
+            {
+                "name": "parseModule",
+                "comment": " Parse an Elm module.\n",
+                "type": "OpTable -> String -> Result (ParseErr ()) (ParseOk () (List Statement))"
+            },
+            {
+                "name": "parseOpTable",
+                "comment": " Parse an OpTable from a module.\n",
+                "type": "OpTable -> String -> Result (ParseErr ()) (ParseOk () OpTable)"
+            },
+            {
+                "name": "parseStatement",
+                "comment": " Parse an Elm statement.\n",
+                "type": "OpTable -> String -> Result (ParseErr ()) (ParseOk () Statement)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ast.Statement",
+        "comment": " This module exposes parsers for Elm statements.\n\n\n# Types\n\n@docs ExportSet, Type, Statement\n\n\n# Parsers\n\n@docs statement, statements, infixStatements, opTable\n\n",
+        "unions": [
+            {
+                "name": "ExportSet",
+                "comment": " Representations for modules' exports.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AllExport",
+                        []
+                    ],
+                    [
+                        "SubsetExport",
+                        [
+                            "List ExportSet"
+                        ]
+                    ],
+                    [
+                        "FunctionExport",
+                        [
+                            "Name"
+                        ]
+                    ],
+                    [
+                        "TypeExport",
+                        [
+                            "Name",
+                            "Maybe ExportSet"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Statement",
+                "comment": " Representations for Elm's statements.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ModuleDeclaration",
+                        [
+                            "ModuleName",
+                            "ExportSet"
+                        ]
+                    ],
+                    [
+                        "PortModuleDeclaration",
+                        [
+                            "ModuleName",
+                            "ExportSet"
+                        ]
+                    ],
+                    [
+                        "EffectModuleDeclaration",
+                        [
+                            "ModuleName",
+                            "List ( Name, Name )",
+                            "ExportSet"
+                        ]
+                    ],
+                    [
+                        "ImportStatement",
+                        [
+                            "ModuleName",
+                            "Maybe Alias",
+                            "Maybe ExportSet"
+                        ]
+                    ],
+                    [
+                        "TypeAliasDeclaration",
+                        [
+                            "Type",
+                            "Type"
+                        ]
+                    ],
+                    [
+                        "TypeDeclaration",
+                        [
+                            "Type",
+                            "List Type"
+                        ]
+                    ],
+                    [
+                        "PortTypeDeclaration",
+                        [
+                            "Name",
+                            "Type"
+                        ]
+                    ],
+                    [
+                        "PortDeclaration",
+                        [
+                            "Name",
+                            "List Name",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "FunctionTypeDeclaration",
+                        [
+                            "Name",
+                            "Type"
+                        ]
+                    ],
+                    [
+                        "FunctionDeclaration",
+                        [
+                            "Name",
+                            "List Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "InfixDeclaration",
+                        [
+                            "Assoc",
+                            "Int",
+                            "Name"
+                        ]
+                    ],
+                    [
+                        "Comment",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Type",
+                "comment": " Representations for Elm's type syntax.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TypeConstructor",
+                        [
+                            "QualifiedType",
+                            "List Type"
+                        ]
+                    ],
+                    [
+                        "TypeVariable",
+                        [
+                            "Name"
+                        ]
+                    ],
+                    [
+                        "TypeRecordConstructor",
+                        [
+                            "Type",
+                            "List ( Name, Type )"
+                        ]
+                    ],
+                    [
+                        "TypeRecord",
+                        [
+                            "List ( Name, Type )"
+                        ]
+                    ],
+                    [
+                        "TypeTuple",
+                        [
+                            "List Type"
+                        ]
+                    ],
+                    [
+                        "TypeApplication",
+                        [
+                            "Type",
+                            "Type"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "infixStatements",
+                "comment": " A scanner for infix statements. This is useful for performing a\nfirst pass over a module to find all of the infix declarations in it.\n",
+                "type": "Parser s (List Statement)"
+            },
+            {
+                "name": "opTable",
+                "comment": " A scanner that returns an updated OpTable based on the infix\ndeclarations in the input.\n",
+                "type": "OpTable -> Parser s OpTable"
+            },
+            {
+                "name": "statement",
+                "comment": " A parser for stand-alone Elm statements.\n",
+                "type": "OpTable -> Parser s Statement"
+            },
+            {
+                "name": "statements",
+                "comment": " A parser for a series of Elm statements.\n",
+                "type": "OpTable -> Parser s (List Statement)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ast.Expression",
+        "comment": " This module exposes parsers for Elm expressions.\n\n\n# Types\n\n@docs Expression\n\n\n# Parsers\n\n@docs expression\n\n\n# Expression\n\n@docs term\n\n",
+        "unions": [
+            {
+                "name": "Expression",
+                "comment": " Representations for Elm's expressions.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Character",
+                        [
+                            "Char"
+                        ]
+                    ],
+                    [
+                        "String",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Integer",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Float",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "Variable",
+                        [
+                            "List Name"
+                        ]
+                    ],
+                    [
+                        "List",
+                        [
+                            "List Expression"
+                        ]
+                    ],
+                    [
+                        "Tuple",
+                        [
+                            "List Expression"
+                        ]
+                    ],
+                    [
+                        "Access",
+                        [
+                            "Expression",
+                            "List Name"
+                        ]
+                    ],
+                    [
+                        "AccessFunction",
+                        [
+                            "Name"
+                        ]
+                    ],
+                    [
+                        "Record",
+                        [
+                            "List ( Name, Expression )"
+                        ]
+                    ],
+                    [
+                        "RecordUpdate",
+                        [
+                            "Name",
+                            "List ( Name, Expression )"
+                        ]
+                    ],
+                    [
+                        "If",
+                        [
+                            "Expression",
+                            "Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "Let",
+                        [
+                            "List ( Expression, Expression )",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "Case",
+                        [
+                            "Expression",
+                            "List ( Expression, Expression )"
+                        ]
+                    ],
+                    [
+                        "Lambda",
+                        [
+                            "List Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "Application",
+                        [
+                            "Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "BinOp",
+                        [
+                            "Expression",
+                            "Expression",
+                            "Expression"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "expression",
+                "comment": " A parser for Elm expressions.\n",
+                "type": "OpTable -> Parser s Expression"
+            },
+            {
+                "name": "term",
+                "comment": " A parses for term\n",
+                "type": "OpTable -> Parser s Expression"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Ast.BinOp",
+        "comment": " This module exposes functions and types for working with operator\nprecedence tables.\n\n\n# Types\n\n@docs Assoc, OpTable\n\n\n# Misc\n\n@docs operators\n\n",
+        "unions": [
+            {
+                "name": "Assoc",
+                "comment": " FIXME\n",
+                "args": [],
+                "cases": [
+                    [
+                        "N",
+                        []
+                    ],
+                    [
+                        "L",
+                        []
+                    ],
+                    [
+                        "R",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "OpTable",
+                "comment": " FIXME\n",
+                "args": [],
+                "type": "Dict Name ( Assoc, Int )"
+            }
+        ],
+        "values": [
+            {
+                "name": "operators",
+                "comment": " The default operator precedence table.\n",
+                "type": "OpTable"
+            }
+        ],
+        "binops": []
+    }
+]

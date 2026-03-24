@@ -1,0 +1,310 @@
+[
+    {
+        "name": "Infer",
+        "comment": " This is the module implementing type inference. You'll also need at least `Infer.Expression`.\n@docs typeOf\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "typeOf",
+                "comment": " Returns a computation that yields the type of the input expression\nwith the specified environment.\n",
+                "type": "Environment -> Expression -> Monad Type"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Infer.Scheme",
+        "comment": "\n@docs Scheme, substitute, freeVariables\n@docs Environment\n@docs freshTypevar, instantiate, generalize\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Environment",
+                "comment": " Holds all names defined in outer scopes.\n",
+                "args": [],
+                "type": "Dict String Scheme"
+            },
+            {
+                "name": "Scheme",
+                "comment": " A type scheme represents a variable definition, for example a named function.\nWhen the variable is used, the scheme must be converted into a concrete type.\nThe listed type variables are the ones that the type is generic over. It may\ncontain others that represent for example types of things defined higher up.\n",
+                "args": [],
+                "type": "( List Int, Type )"
+            }
+        ],
+        "values": [
+            {
+                "name": "freeVariables",
+                "comment": " Variables that are not bound by the type scheme.\n",
+                "type": "Scheme -> Set Int"
+            },
+            {
+                "name": "freshTypevar",
+                "comment": " Generates a type variable with the identifier one greater than the last.\n",
+                "type": "Monad Type"
+            },
+            {
+                "name": "generalize",
+                "comment": " Converts a type into a type scheme that is generic over all the type variables\nin the type not coming from the environment.\n",
+                "type": "Environment -> Type -> Scheme"
+            },
+            {
+                "name": "instantiate",
+                "comment": " Converts a scheme into a concrete type by swapping the generic type\nvariables for fresh ones.\n",
+                "type": "Scheme -> Monad Type"
+            },
+            {
+                "name": "substitute",
+                "comment": " Applies a substitution on a type scheme without touching the generic type vars\n",
+                "type": "Substitution -> Scheme -> Scheme"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Infer.Expression",
+        "comment": "\n@docs Expression\n",
+        "unions": [
+            {
+                "name": "Expression",
+                "comment": " Translate your expressions to this type in order to be able to perform type inference on them.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Lambda",
+                        [
+                            "String",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "Call",
+                        [
+                            "Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "Name",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Literal",
+                        [
+                            "Type"
+                        ]
+                    ],
+                    [
+                        "Let",
+                        [
+                            "String",
+                            "Expression",
+                            "Expression"
+                        ]
+                    ],
+                    [
+                        "If",
+                        [
+                            "Expression",
+                            "Expression",
+                            "Expression"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Infer.Monad",
+        "comment": "\n# Construction\n@docs pure, Monad, fromResult\n\n# Mapping\n@docs andThen, map, map2, map3, map4, andMap\n\n# Combining\n@docs combine, finalValue\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Monad",
+                "comment": " Represents a stateful computation that can fail.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "State Int (Result String a)"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " map over one more value. Arguments are reversed in order to work\nwell with `<|`.\n",
+                "type": "Monad y -> Monad (y -> z) -> Monad z"
+            },
+            {
+                "name": "andThen",
+                "comment": " `andThen` for this particular monad.\n",
+                "type": "(a -> Monad b) -> Monad a -> Monad b"
+            },
+            {
+                "name": "combine",
+                "comment": " Lifts the monads out of a list.\n",
+                "type": "List (Monad a) -> Monad (List a)"
+            },
+            {
+                "name": "finalValue",
+                "comment": " Computes the value of a computation.\n",
+                "type": "Int -> Monad a -> Result String a"
+            },
+            {
+                "name": "fromResult",
+                "comment": " Un-specialize a Result.\n",
+                "type": "Result String a -> Monad a"
+            },
+            {
+                "name": "map",
+                "comment": " `map` for this particular monad.\n",
+                "type": "(a -> value) -> Monad a -> Monad value"
+            },
+            {
+                "name": "map2",
+                "comment": " `map2` for this particular monad.\n",
+                "type": "(a -> b -> c) -> Monad a -> Monad b -> Monad c"
+            },
+            {
+                "name": "map3",
+                "comment": " `map3` for this particular monad.\n",
+                "type": "(a -> b -> c -> d) -> Monad a -> Monad b -> Monad c -> Monad d"
+            },
+            {
+                "name": "map4",
+                "comment": " `map4` for this particular monad.\n",
+                "type": "(a -> b -> c -> d -> e) -> Monad a -> Monad b -> Monad c -> Monad d -> Monad e"
+            },
+            {
+                "name": "pure",
+                "comment": " Put a value into the monad. Will not advance the fresh name supply nor cause an error.\n",
+                "type": "a -> Monad a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Infer.Type",
+        "comment": "\n@docs Type\n\n# Constructors for common primitive types\n@docs string, char, bool, int, float\n\n@docs toString\n\n@docs Substitution, substitute, ($)\n\n@docs unify, union\n\n@docs variables\n",
+        "unions": [
+            {
+                "name": "Type",
+                "comment": " Represents Elm types. TAny is for type variables.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "TArrow",
+                        [
+                            "Type",
+                            "Type"
+                        ]
+                    ],
+                    [
+                        "TRecord",
+                        [
+                            "Dict String Type"
+                        ]
+                    ],
+                    [
+                        "TUnion",
+                        [
+                            "String",
+                            "Dict String (List Type)"
+                        ]
+                    ],
+                    [
+                        "TTuple",
+                        [
+                            "List Type"
+                        ]
+                    ],
+                    [
+                        "TOpaque",
+                        [
+                            "String",
+                            "List Type"
+                        ]
+                    ],
+                    [
+                        "TAny",
+                        [
+                            "Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Substitution",
+                "comment": "Tells what values type variables get.",
+                "args": [],
+                "type": "Dict Int Type"
+            }
+        ],
+        "values": [
+            {
+                "name": "bool",
+                "comment": "Bool",
+                "type": "Type"
+            },
+            {
+                "name": "char",
+                "comment": "Char",
+                "type": "Type"
+            },
+            {
+                "name": "float",
+                "comment": "Float",
+                "type": "Type"
+            },
+            {
+                "name": "int",
+                "comment": "Int",
+                "type": "Type"
+            },
+            {
+                "name": "string",
+                "comment": "String",
+                "type": "Type"
+            },
+            {
+                "name": "substitute",
+                "comment": "Swap out type variables according to substitution",
+                "type": "Substitution -> Type -> Type"
+            },
+            {
+                "name": "toString",
+                "comment": "Textual representation of a type",
+                "type": "Type -> String"
+            },
+            {
+                "name": "unify",
+                "comment": "\n  Returns the substitutions necessary to transform either type\n  into their lowest common denominator.\n  Returns an error if not possible.\n",
+                "type": "Type -> Type -> Result String Substitution"
+            },
+            {
+                "name": "union",
+                "comment": "Returns a type that conforms to both supplied types",
+                "type": "Type -> Type -> Result String Type"
+            },
+            {
+                "name": "variables",
+                "comment": "Returns the (free) type variables of the type.",
+                "type": "Type -> Set Int"
+            }
+        ],
+        "binops": [
+            {
+                "name": "$",
+                "comment": "Applies one substitution to another",
+                "type": "Substitution -> Substitution -> Substitution",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

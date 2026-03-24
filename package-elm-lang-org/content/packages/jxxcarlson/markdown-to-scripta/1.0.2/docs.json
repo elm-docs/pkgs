@@ -1,0 +1,1 @@
+[{"name":"MarkdownToScripta","comment":" Convert Markdown to Scripta markup language.\n\n# Conversion\n@docs convert\n\n","unions":[],"aliases":[],"values":[{"name":"convert","comment":" Convert Markdown source text to Scripta markup\n","type":"String.String -> String.String"}],"binops":[]}]

@@ -1,0 +1,137 @@
+[
+    {
+        "name": "ECurve.Curve",
+        "comment": " Contains curve definitions,\nutility functions for retrieving said definitions,\nand a function for determining if point is on the curve\n\n@docs CurveType, getCurve, new, isOnCurve\n\n",
+        "unions": [
+            {
+                "name": "CurveType",
+                "comment": " Standard definitions of elliptic curves\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Secp128r1",
+                        []
+                    ],
+                    [
+                        "Secp160k1",
+                        []
+                    ],
+                    [
+                        "Secp160r1",
+                        []
+                    ],
+                    [
+                        "Secp192k1",
+                        []
+                    ],
+                    [
+                        "Secp192r1",
+                        []
+                    ],
+                    [
+                        "Secp256k1",
+                        []
+                    ],
+                    [
+                        "Secp256r1",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "getCurve",
+                "comment": " Gets a curve for a given curve type\n",
+                "type": "CurveType -> Curve"
+            },
+            {
+                "name": "isOnCurve",
+                "comment": " Checks if point is on a curve\n",
+                "type": "Curve -> Point -> Bool"
+            },
+            {
+                "name": "new",
+                "comment": " Returns a new elliptic curve from points\n",
+                "type": "BigInt -> BigInt -> BigInt -> BigInt -> BigInt -> BigInt -> BigInt -> Curve"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ECurve.Point",
+        "comment": " Handles point calculations\n\n@docs new, affineX, affineY, fromAffine, negate, equal, multiply, twice, add\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Adds two points\n",
+                "type": "Point -> Point -> Point"
+            },
+            {
+                "name": "affineX",
+                "comment": " Returns the affine of x\n",
+                "type": "Point -> BigInt"
+            },
+            {
+                "name": "affineY",
+                "comment": " Returns the affine of y\n",
+                "type": "Point -> BigInt"
+            },
+            {
+                "name": "equal",
+                "comment": " Checks if two points are equal\n",
+                "type": "Point -> Point -> Bool"
+            },
+            {
+                "name": "fromAffine",
+                "comment": " Returns a point from affine parameters\n",
+                "type": "BigInt -> BigInt -> BigInt -> BigInt -> Point"
+            },
+            {
+                "name": "multiply",
+                "comment": " Multiplies two points\n",
+                "type": "Point -> BigInt -> Point"
+            },
+            {
+                "name": "negate",
+                "comment": " Returns the negation of a point\n",
+                "type": "Point -> Point"
+            },
+            {
+                "name": "new",
+                "comment": " Returns a new point from big ints\n",
+                "type": "BigInt -> BigInt -> BigInt -> BigInt -> BigInt -> Point"
+            },
+            {
+                "name": "twice",
+                "comment": " Multiplies two points twice\n",
+                "type": "Point -> Point"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ECurve.Models",
+        "comment": " Model definitions for point and curves\n\n@docs Point, Curve\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Curve",
+                "comment": " Defines the entire elliptic curve\n",
+                "args": [],
+                "type": "{ p : BigInt, a : BigInt, b : BigInt, g : Point, n : BigInt, h : BigInt, pLength : Int }"
+            },
+            {
+                "name": "Point",
+                "comment": " Defines a single point on the curve\n",
+                "args": [],
+                "type": "{ x : BigInt, y : BigInt, z : BigInt, p : BigInt, a : BigInt, zInv : BigInt, compressed : Bool }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

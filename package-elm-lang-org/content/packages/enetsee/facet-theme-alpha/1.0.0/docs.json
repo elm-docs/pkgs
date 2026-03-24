@@ -1,0 +1,137 @@
+[
+    {
+        "name": "Facet.Theme",
+        "comment": "\n@docs Theme, default\n\n@docs Axis\n\n@docs Label\n\n@docs Legend\n\n@docs Margin\n\n@docs Mark ,Arc, Area , Line ,Path,Polygon, Rect , Rule , Symbol ,Text, Trail\n\n@docs Padding\n\n@docs Plot\n\n@docs Tick\n\n@docs Title\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Arc",
+                "comment": " ",
+                "args": [],
+                "type": "Arc"
+            },
+            {
+                "name": "Area",
+                "comment": " ",
+                "args": [],
+                "type": "Area"
+            },
+            {
+                "name": "Axis",
+                "comment": "\n",
+                "args": [],
+                "type": "Axis"
+            },
+            {
+                "name": "Label",
+                "comment": " ",
+                "args": [],
+                "type": "Label"
+            },
+            {
+                "name": "Legend",
+                "comment": " ",
+                "args": [],
+                "type": "Legend"
+            },
+            {
+                "name": "Line",
+                "comment": " ",
+                "args": [],
+                "type": "Line"
+            },
+            {
+                "name": "Margin",
+                "comment": " ",
+                "args": [],
+                "type": "Margin"
+            },
+            {
+                "name": "Mark",
+                "comment": " ",
+                "args": [],
+                "type": "Mark"
+            },
+            {
+                "name": "Padding",
+                "comment": " ",
+                "args": [],
+                "type": "Padding"
+            },
+            {
+                "name": "Path",
+                "comment": " ",
+                "args": [],
+                "type": "Path"
+            },
+            {
+                "name": "Plot",
+                "comment": " ",
+                "args": [],
+                "type": "Plot"
+            },
+            {
+                "name": "Polygon",
+                "comment": " ",
+                "args": [],
+                "type": "Polygon"
+            },
+            {
+                "name": "Rect",
+                "comment": " ",
+                "args": [],
+                "type": "Rect"
+            },
+            {
+                "name": "Rule",
+                "comment": " ",
+                "args": [],
+                "type": "Rule"
+            },
+            {
+                "name": "Symbol",
+                "comment": " ",
+                "args": [],
+                "type": "Symbol"
+            },
+            {
+                "name": "Text",
+                "comment": " ",
+                "args": [],
+                "type": "Text"
+            },
+            {
+                "name": "Theme",
+                "comment": " A set of styles to be applied when rendering a `Plot`.\n    A `Theme` controls the appearance of _non-data_ components of the plot.\n",
+                "args": [],
+                "type": "{ margin : Margin, fill : Fill, title : Title, plot : Plot, mark : Mark, legend : Legend, legendGroupMargin : Margin }"
+            },
+            {
+                "name": "Tick",
+                "comment": " ",
+                "args": [],
+                "type": "Tick"
+            },
+            {
+                "name": "Title",
+                "comment": " ",
+                "args": [],
+                "type": "Title"
+            },
+            {
+                "name": "Trail",
+                "comment": " ",
+                "args": [],
+                "type": "Trail"
+            }
+        ],
+        "values": [
+            {
+                "name": "default",
+                "comment": " Default `Theme`\n",
+                "type": "Theme"
+            }
+        ],
+        "binops": []
+    }
+]

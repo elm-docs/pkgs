@@ -1,0 +1,397 @@
+[
+    {
+        "name": "FormValidator",
+        "comment": "\n\nA customizable form validation component.\n\n# Models\n\n@docs Form\n\n# Init\n\n@docs init\n\n# Accessors\n\n@docs fieldValues, fieldValue, fieldErrors\n\n# Updaters\n\n@docs updateValues, updateValue, updateAndValidateValues, updateAndValidateValue\n\n# Validators\n\n@docs validateForm, validateField, isFormInvalid, isFieldInvalid, isBlank, isEmpty, isInteger, isFloat, isIncluded, isExcluded, isGreaterThan, isLessThan, isBetween, isLengthGreaterThanEqualTo, isLengthLessThanEqualTo, isEmail\n\n# Views\n\n@docs viewField, viewErrors, viewError\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Form",
+                "comment": " Models module wrapper. See Models module for details. ",
+                "args": [
+                    "key"
+                ],
+                "type": "Form key"
+            }
+        ],
+        "values": [
+            {
+                "name": "fieldErrors",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Errors"
+            },
+            {
+                "name": "fieldValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> String"
+            },
+            {
+                "name": "fieldValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> List String"
+            },
+            {
+                "name": "init",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Validators -> Field key"
+            },
+            {
+                "name": "isBetween",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Int -> Value -> Error"
+            },
+            {
+                "name": "isBlank",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmail",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isExcluded",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isFieldInvalid",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Bool"
+            },
+            {
+                "name": "isFloat",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isFormInvalid",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "Form key -> Bool"
+            },
+            {
+                "name": "isGreaterThan",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isIncluded",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isInteger",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isLengthGreaterThanEqualTo",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLengthLessThanEqualTo",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLessThan",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "updateAndValidateValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateAndValidateValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "updateValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "validateField",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Form key"
+            },
+            {
+                "name": "validateForm",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "Form key -> Form key"
+            },
+            {
+                "name": "viewError",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "Error -> Html message"
+            },
+            {
+                "name": "viewErrors",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "Errors -> Html message"
+            },
+            {
+                "name": "viewField",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "key -> Form key -> List String -> List (Html message) -> Html message"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FormValidator.Views",
+        "comment": "\n\nThe Form Validator views which are convenience methods for rendering fields within your form and\npage views.\n\n@docs field, errors, error\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "error",
+                "comment": " View field error (if any) as a list item. ",
+                "type": "Error -> Html message"
+            },
+            {
+                "name": "errors",
+                "comment": " View field errors (if any) as a unordered list. ",
+                "type": "Errors -> Html message"
+            },
+            {
+                "name": "field",
+                "comment": " View field with errors (if any). To be used as a wrapper to field input field(s). ",
+                "type": "key -> Form key -> List String -> List (Html message) -> Html message"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FormValidator.Validator",
+        "comment": "\n\nThe Form Validator validator which is main module used to manage forms and fields.\n\n@docs init, fieldValues, fieldValue, fieldErrors, updateValues, updateValue, updateAndValidateValues\n@docs updateAndValidateValue, validateForm, validateField, isFormInvalid, isFieldInvalid\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fieldErrors",
+                "comment": " Answer all errors for a field. ",
+                "type": "key -> Form key -> Errors"
+            },
+            {
+                "name": "fieldValue",
+                "comment": " Answer single field value. ",
+                "type": "key -> Form key -> String"
+            },
+            {
+                "name": "fieldValues",
+                "comment": " Answer multiple field values. ",
+                "type": "key -> Form key -> List String"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize a new form field. ",
+                "type": "key -> Validators -> Field key"
+            },
+            {
+                "name": "isFieldInvalid",
+                "comment": " Answer if field is invalid. ",
+                "type": "key -> Form key -> Bool"
+            },
+            {
+                "name": "isFormInvalid",
+                "comment": " Answer if form is invalid. ",
+                "type": "Form key -> Bool"
+            },
+            {
+                "name": "updateAndValidateValue",
+                "comment": " Answer single field value and validate it. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateAndValidateValues",
+                "comment": " Answer multiple field values and validate each. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "updateValue",
+                "comment": " Update single field value without validation. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateValues",
+                "comment": " Update multiple field values without validation. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "validateField",
+                "comment": " Validate field. ",
+                "type": "key -> Form key -> Form key"
+            },
+            {
+                "name": "validateForm",
+                "comment": " Validate form (including all fields). ",
+                "type": "Form key -> Form key"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FormValidator.Validators",
+        "comment": "\n\nThe Form Validator validators provide the functionality needed for validating a form field. These\ncan be mixed and matched as desired.\n\n@docs isBlank, isEmpty, isInteger, isFloat, isIncluded, isExcluded, isGreaterThan, isLessThan\n@docs isBetween, isLengthGreaterThanEqualTo, isLengthLessThanEqualTo, isEmail\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isBetween",
+                "comment": " Check if value is minimum and maximum. ",
+                "type": "Int -> Int -> Value -> Error"
+            },
+            {
+                "name": "isBlank",
+                "comment": " Check if value is blank. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmail",
+                "comment": " Check if value is an email address. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Check if value is empty. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isExcluded",
+                "comment": " Check if value is excluded from list. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isFloat",
+                "comment": " Check if value is a float. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isGreaterThan",
+                "comment": " Check if value is greater than minimum. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isIncluded",
+                "comment": " Check if value is included in list. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isInteger",
+                "comment": " Check if value is an integer. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isLengthGreaterThanEqualTo",
+                "comment": " Check if value length is greater than or equal to minimum. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLengthLessThanEqualTo",
+                "comment": " Check if value length is less than or equal to maximum. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLessThan",
+                "comment": " Check if value is less than maximum. ",
+                "type": "Int -> Value -> Error"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FormValidator.Models",
+        "comment": "\n\nForm Validator component models.\n\n@docs Form, Field, Validators, Validator, Values, Value, Errors, Error\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Error",
+                "comment": " The error message of an invalid value. ",
+                "args": [],
+                "type": "Maybe String"
+            },
+            {
+                "name": "Errors",
+                "comment": " The error messages of invalid values. ",
+                "args": [],
+                "type": "List Error"
+            },
+            {
+                "name": "Field",
+                "comment": "\nThe form field, identified by unique key, which stores a value, validators of that value,\nand validation errors (if any).\n",
+                "args": [
+                    "key"
+                ],
+                "type": "{ key : key, value : String, validators : Validators, errors : Errors }"
+            },
+            {
+                "name": "Form",
+                "comment": " The form model which stores a list of fields for input and validation. ",
+                "args": [
+                    "key"
+                ],
+                "type": "List (Field key)"
+            },
+            {
+                "name": "Validator",
+                "comment": " Validates value as either an error string (invalid) or nothing at all (valid). ",
+                "args": [],
+                "type": "String -> Maybe String"
+            },
+            {
+                "name": "Validators",
+                "comment": " Convenience model for list of validators. ",
+                "args": [],
+                "type": "List Validator"
+            },
+            {
+                "name": "Value",
+                "comment": " A value to be validated. ",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Values",
+                "comment": " A list of values to be validated. ",
+                "args": [],
+                "type": "List Value"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "FormValidator.Patterns",
+        "comment": "\n\nForm Validator regular expression patterns.\n\n@docs blank, email\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "blank",
+                "comment": " Answer regular expression for blank string. ",
+                "type": "Regex"
+            },
+            {
+                "name": "email",
+                "comment": " Answer regular expression for email address. ",
+                "type": "Regex"
+            }
+        ],
+        "binops": []
+    }
+]

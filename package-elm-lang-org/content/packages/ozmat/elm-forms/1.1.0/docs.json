@@ -1,0 +1,476 @@
+[
+    {
+        "name": "Forms.Update",
+        "comment": " This module provides helpers for your update function. Please refer to the\n[examples](https://github.com/ozmat/elm-forms/tree/master/examples) for a better understanding\n\n\n# Message\n\n@docs Msg\n\n\n# Update\n\n@docs updateForm\n\n\n# Side effects\n\n@docs effects, effectsS, effectsB\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Predifined messages to help updating a `Field`. `UpdateStringField` is for\n`String` `Value` `Field` and `UpdateBoolField` is for `Bool` `Value` `Field`\n",
+                "args": [
+                    "comparable"
+                ],
+                "cases": [
+                    [
+                        "UpdateStringField",
+                        [
+                            "comparable",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "UpdateBoolField",
+                        [
+                            "comparable",
+                            "Bool"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "effects",
+                "comment": " Helps defining some extra effects on a `Field` event. You can use this\nfunction to add your effects when a specific event is triggered on a `Field`.\n\n    effects model formMsg stringEffects boolEffects -- Cmd YourMsg\n\n",
+                "type": "a -> Msg comparable -> (a -> comparable -> String -> Cmd msg) -> (a -> comparable -> Bool -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "effectsB",
+                "comment": " This version only defines effects for the `UpdateBoolField` message\n",
+                "type": "a -> Msg comparable -> (a -> comparable -> Bool -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "effectsS",
+                "comment": " This version only defines effects for the `UpdateStringField` message\n",
+                "type": "a -> Msg comparable -> (a -> comparable -> String -> Cmd msg) -> Cmd msg"
+            },
+            {
+                "name": "updateForm",
+                "comment": " This function will update a `Form` for you. Here is how to use it :\n\n    type YourMsg\n        = Form (Form.Update.Msg comparable)\n        | ....\n\n    yourUpdate : YourMsg -> Model -> Model\n    yourUpdate msg model =\n        case msg of\n            Form formMsg ->\n                { model | yourForm = Form.Update.updateForm formMsg model.yourForm }\n\n    yourView : Model -> Html YourMsg\n    yourView model =\n        ...\n            onEvent (Form << Form.Update.UpdateStringField fieldKey)\n            onEvent (Form << Form.Update.UpdateBoolField fieldKey)\n        ...\n\n",
+                "type": "Msg comparable -> Form comparable err a -> Form comparable err a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Forms.Form",
+        "comment": " `Form` is the top level type of the library. It is built with a [`Group`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Field#Group)\nof `Field`s and a [`Validate`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Validation#Validate) function.\nPlease refer to the [examples](https://github.com/ozmat/elm-forms/tree/master/examples) for a better understanding\n\n\n# Definition\n\n@docs Form\n\n\n# Common Helpers\n\n@docs form, validate, validateD\n\n",
+        "unions": [
+            {
+                "name": "Form",
+                "comment": " A `Form` is a `Group` of `Field`s and a `Validate` function\n",
+                "args": [
+                    "comparable",
+                    "err",
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Form",
+                        [
+                            "Group comparable",
+                            "Validate comparable err a"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "form",
+                "comment": " Helps creating a `Form`\n",
+                "type": "Group comparable -> Validate comparable err a -> Form comparable err a"
+            },
+            {
+                "name": "validate",
+                "comment": " Helps validating a `Form`. This will use the internal `Validate` function\nand `Field`s to run the validation process, then it will convert the\n`FormValidation` into a [`Result`](http://package.elm-lang.org/packages/elm-lang/core/latest/Result#Result).\n",
+                "type": "Form comparable err a -> Result (List ( comparable, FieldError err )) a"
+            },
+            {
+                "name": "validateD",
+                "comment": " Equivalent to the previous one but returns a `Dict` of errors, in case of\nfailure, instead of a `List`.\n",
+                "type": "Form comparable err a -> Result (Dict comparable (FieldError err)) a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Forms.Validation",
+        "comment": " This module provides the validation logic for the library. Please refer to\nthe [examples](https://github.com/ozmat/elm-forms/tree/master/examples) for a better understanding\n\n\n# Field Validation\n\n@docs FieldError, FieldValidation\n\n\n### Common Helpers\n\n@docs failure, customFailure, success, validation\n\n\n### Type validation\n\n@docs stringValid, boolValid\n\n\n### Basic Validation\n\n@docs int, float, notEmpty, length, email, passwordMatch\n\n\n# Form Validation\n\n@docs FormError, FormValidation\n\n\n### Common Helpers\n\n@docs valid, toTuple, toResult\n\n\n# Validate\n\n@docs Validate\n\n\n### Validate Helpers (accumulate)\n\nThose functions help building a `Validate` function and aim to ease the\n`FormValidation`. They will accumulate the different `FormError`s during the\nvalidation process.\n\n@docs required, hardcoded, optional, optionalMaybe, twoFields, fieldGroup\n\n\n### Validate Helpers (bind)\n\nThose functions are the \"binding\" equivalent of the previous ones. This means\nthat the `FormValidation` will fail at the first `FormError` encountered and\nwon't accumulate the errors. Don't mix those functions with the previous ones\n\n@docs required1, hardcoded1, optional1, optionalMaybe1, twoFields1, fieldGroup1\n\n",
+        "unions": [
+            {
+                "name": "FieldError",
+                "comment": " A `FieldError` represents an error that happened during a `FieldValidation`.\nHere are the main ones :\n\n    MissingField          -- When the `Field` cannot be found\n    WrongType             -- When the `Value` has a different type\n    CustomError yourError -- Your type of error\n\n",
+                "args": [
+                    "err"
+                ],
+                "cases": [
+                    [
+                        "CustomError",
+                        [
+                            "err"
+                        ]
+                    ],
+                    [
+                        "MissingField",
+                        []
+                    ],
+                    [
+                        "WrongType",
+                        []
+                    ],
+                    [
+                        "NotInt",
+                        []
+                    ],
+                    [
+                        "NotFloat",
+                        []
+                    ],
+                    [
+                        "EmptyString",
+                        []
+                    ],
+                    [
+                        "WrongLength",
+                        []
+                    ],
+                    [
+                        "NotEmail",
+                        []
+                    ],
+                    [
+                        "PasswordNotEqual",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "FormError",
+                "comment": " A `FormError` represents an error that happened during a `FormValidation`.\nIt's basically a wrapper around the `FieldError` with the key associated\nto the `Field`\n",
+                "args": [
+                    "comparable",
+                    "err"
+                ],
+                "cases": [
+                    [
+                        "FormError",
+                        [
+                            "comparable",
+                            "FieldError err"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "FieldValidation",
+                "comment": " A `FieldValidation` represents the [`Validation`](http://package.elm-lang.org/packages/ozmat/elm-validation/latest/Validation#Validation) of a `Field`\n",
+                "args": [
+                    "err",
+                    "a"
+                ],
+                "type": "Validation (FieldError err) a"
+            },
+            {
+                "name": "FormValidation",
+                "comment": " A `FormValidation` represents the [`Validation`](http://package.elm-lang.org/packages/ozmat/elm-validation/latest/Validation#Validation) of a `Form`\n",
+                "args": [
+                    "comparable",
+                    "err",
+                    "a"
+                ],
+                "type": "Validation (FormError comparable err) a"
+            },
+            {
+                "name": "Validate",
+                "comment": " `Validate` represents a function that validates a `Form`.\nIt takes a `Group` of `Field`s and returns a `FormValidation`\n",
+                "args": [
+                    "comparable",
+                    "err",
+                    "a"
+                ],
+                "type": "Group comparable -> FormValidation comparable err a"
+            }
+        ],
+        "values": [
+            {
+                "name": "boolValid",
+                "comment": " Helps validating a `Bool` `Value`. If the `Value` has a different type,\nfails with a `WrongType` `FieldError`.\n\n    type YourError\n        = MustBeChecked\n\n    validateCheckedField : Value -> FieldValidation YourError Bool\n    validateCheckedField =\n        boolValid (validation MustBeChecked ((==) True))\n\n",
+                "type": "(Bool -> FieldValidation err a) -> Value -> FieldValidation err a"
+            },
+            {
+                "name": "customFailure",
+                "comment": " Returns a failed `FieldValidation` using a `CustomError`\n",
+                "type": "err -> FieldValidation err a"
+            },
+            {
+                "name": "email",
+                "comment": " Helps validating a `String` that is an email. If the `String`is not an email,\nfails with a `NotEmail` `FieldError`.\n\n    doYourValidation : String -> FieldValidation err a\n\n    validateField : Value -> FieldValidation err a\n    validateField =\n        stringValid (email (doYourValidation))\n\n",
+                "type": "(String -> FieldValidation err a) -> String -> FieldValidation err a"
+            },
+            {
+                "name": "failure",
+                "comment": " Returns a failed `FieldValidation`\n",
+                "type": "FieldError err -> FieldValidation err a"
+            },
+            {
+                "name": "fieldGroup",
+                "comment": " Validates a `Group` of `Field`s. This can be useful in many different cases\nbut mainly when you need to nest a validation process\n\n     ...\n        |> fieldGroup fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (Group comparable -> FormValidation comparable err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "fieldGroup1",
+                "comment": " Validates a `Group` of `Field`s (binding)\n\n     ...\n        |> fieldGroup fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (Group comparable -> FormValidation comparable err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "float",
+                "comment": " Helps validating a `String` that can be cast into a `Float`. If the `String`\ncannot be cast, fails with a `NotFloat` `FieldError`.\n\n    doYourValidation : Float -> FieldValidation err a\n\n    validateField : Value -> FieldValidation err a\n    validateField =\n        stringValid (float (doYourValidation))\n\n",
+                "type": "(Float -> FieldValidation err a) -> String -> FieldValidation err a"
+            },
+            {
+                "name": "hardcoded",
+                "comment": " Hardcodes a value. This is useful when you need to harcode\na specific value during the validation process\n\n    ...\n        |> hardcoded yourHardcodedValue\n        ...\n\n",
+                "type": "a -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "hardcoded1",
+                "comment": " Hardcodes a value for a `Field` (binding)\n\n    ...\n        |> hardcoded1 yourHardcodedValue\n        ...\n\n",
+                "type": "a -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "int",
+                "comment": " Helps validating a `String` that can be cast into an `Int`. If the `String`\ncannot be cast, fails with a `NotInt` `FieldError`.\n\n    doYourValidation : Int -> FieldValidation err a\n\n    validateField : Value -> FieldValidation err a\n    validateField =\n        stringValid (int (doYourValidation))\n\n",
+                "type": "(Int -> FieldValidation err a) -> String -> FieldValidation err a"
+            },
+            {
+                "name": "length",
+                "comment": " Helps validating a `String` that has a specific length (> low && < high).\nIf the `String` has a different length, fails with a `WrongLength` `FieldError`.\n\n    doYourValidation : String -> FieldValidation err a\n\n    validateField : Value -> FieldValidation err a\n    validateField =\n        stringValid (length low high (doYourValidation))\n\n",
+                "type": "Int -> Int -> (String -> FieldValidation err a) -> String -> FieldValidation err a"
+            },
+            {
+                "name": "notEmpty",
+                "comment": " Helps validating a `String` that is not empty. If the `String`is empty,\nfails with an `EmptyString` `FieldError`.\n\n    doYourValidation : String -> FieldValidation err a\n\n    validateField : Value -> FieldValidation err a\n    validateField =\n        stringValid (notEmpty (doYourValidation))\n\n",
+                "type": "(String -> FieldValidation err a) -> String -> FieldValidation err a"
+            },
+            {
+                "name": "optional",
+                "comment": " Validates an optional `Field`. This will use the validation function if\nthe `Field` is not empty or use the default value otherwise. Only works\non `String` `Value`\n\n    ...\n        |> optional fields comparable doYourValidation yourDefaultValue\n        ...\n\n`optional` is equivalent to a specific `required`:\n\n    ...\n        |> required\n            fields\n            comparable\n            (stringValid <|\n                \\str ->\n                    if String.isEmpty str then\n                        success yourDefaultValue\n                    else\n                        doYourValidation str\n            )\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (String -> FieldValidation err a) -> a -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "optional1",
+                "comment": " Validates an optional `Field` (binding)\n\n    ...\n        |> optional1 fields comparable doYourValidation yourDefaultValue\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (String -> FieldValidation err a) -> a -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "optionalMaybe",
+                "comment": " Validates an optional `Field` with a Maybe. Same logic than with `optional`\nbut the default value is `Nothing` and the validated value is `Just`\n\n    ...\n        |> optionalMaybe fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (String -> FieldValidation err a) -> FormValidation comparable err (Maybe a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "optionalMaybe1",
+                "comment": " Validates an optional `Field` with a Maybe (binding)\n\n    ...\n        |> optionalMaybe1 fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (String -> FieldValidation err a) -> FormValidation comparable err (Maybe a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "passwordMatch",
+                "comment": " Helps validating two `String` `Value`s that match. If the `String`s\ndon't match, fails with a `PasswordNotEqual` `FieldError`.\n\n    doYourValidation : String -> FieldValidation err a\n\n    validateField : Value -> Value -> FieldValidation err a\n    validateField =\n        passwordMatch (doYourValidation)\n\n",
+                "type": "(String -> FieldValidation err a) -> Value -> Value -> FieldValidation err a"
+            },
+            {
+                "name": "required",
+                "comment": " Validates a required `Field`. This is the basic use case and will always\nvalidate the `Field`\n\n    ...\n        |> required fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (Value -> FieldValidation err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "required1",
+                "comment": " Validates a required `Field` (binding)\n\n    ...\n        |> required1 fields comparable doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> (Value -> FieldValidation err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "stringValid",
+                "comment": " Helps validating a `String` `Value`. If the `Value` has a different type,\nfails with a `WrongType` `FieldError`.\n\n    type YourError\n        = MustBeEmpty\n\n    validateEmptyField : Value -> FieldValidation YourError String\n    validateEmptyField =\n        stringValid (validation MustBeEmpty String.isEmpty)\n\n",
+                "type": "(String -> FieldValidation err a) -> Value -> FieldValidation err a"
+            },
+            {
+                "name": "success",
+                "comment": " Returns a successful `FieldValidation`\n",
+                "type": "a -> FieldValidation err a"
+            },
+            {
+                "name": "toResult",
+                "comment": " Converts a `FormValidation` into a Result\n",
+                "type": "FormValidation comparable err a -> Result (List ( comparable, FieldError err )) a"
+            },
+            {
+                "name": "toTuple",
+                "comment": " Converts a `FormError` into a Tuple\n",
+                "type": "FormError comparable err -> ( comparable, FieldError err )"
+            },
+            {
+                "name": "twoFields",
+                "comment": " Validates two `Field`s together. The validation function takes two `Field`\n`Value`s and returns one result. It is useful when you need to validate one\n`Field` that depends on another, but you only need to store one result\n\n    ...\n        |> twoFields fields comparable1 comparable2 doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> comparable -> (Value -> Value -> FieldValidation err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "twoFields1",
+                "comment": " Validates two `Field`s together (binding)\n\n    ...\n        |> twoFields1 fields comparable1 comparable2 doYourValidation\n        ...\n\n",
+                "type": "Group comparable -> comparable -> comparable -> (Value -> Value -> FieldValidation err a) -> FormValidation comparable err (a -> b) -> FormValidation comparable err b"
+            },
+            {
+                "name": "valid",
+                "comment": " Returns a successful `FormValidation`\n",
+                "type": "a -> FormValidation comparable err a"
+            },
+            {
+                "name": "validation",
+                "comment": " Helps creating a basic `FieldValidation` function\n\n    type YourError\n        = MustBeEmpty\n\n    emptyValidation : String -> FieldValidation YourError String\n    emptyValidation =\n        validation MustBeEmpty String.isEmpty\n\n",
+                "type": "err -> (a -> Bool) -> a -> FieldValidation err a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Forms.Field",
+        "comment": " A `Field` represents a [`Form`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Form#Form) field.\nPlease refer to the [examples](https://github.com/ozmat/elm-forms/tree/master/examples) for a better understanding\n\n\n# Definition\n\n@docs Field, Group\n\n\n# Common Helpers\n\n@docs string, bool, group, fields, stringWithValue, boolWithValue\n\n\n# Search\n\n@docs getValue, getGroup, setValue\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " A `Field` can be a simple field with a `Value` (= `FieldValue`) or a\ngroup of fields (= `FieldGroup`)\n\n    FieldValue (String \"some input value\")\n\n    FieldGroup (Dict.fromList [ ... ])\n\n",
+                "args": [
+                    "comparable"
+                ],
+                "cases": [
+                    [
+                        "FieldGroup",
+                        [
+                            "Group comparable"
+                        ]
+                    ],
+                    [
+                        "FieldValue",
+                        [
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Group",
+                "comment": " A `Group` is a group of `Field`s. The underlying data structure is a [`Dict`](http://package.elm-lang.org/packages/elm-lang/core/latest/Dict#Dict)\n",
+                "args": [
+                    "comparable"
+                ],
+                "type": "Dict comparable (Field comparable)"
+            }
+        ],
+        "values": [
+            {
+                "name": "bool",
+                "comment": " Is a shortcut to create a `Field` with the [default `Bool` `Value`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Value#defaultBool)\n\n    bool -- FieldValue (Forms.Value.defaultBool)\n\n",
+                "type": "Field comparable"
+            },
+            {
+                "name": "boolWithValue",
+                "comment": " Is a shortcut to create a `Field` with an initial `Bool` `Value`\n\n    boolWithValue True -- FieldValue (Bool True)\n\n",
+                "type": "Bool -> Field comparable"
+            },
+            {
+                "name": "fields",
+                "comment": " Is a shortcut to create a `Group` of `Field`s. The function takes a\n`List` of `Tuple`\n\n    someFormFields : Group comparable\n    someFormFields =\n        fields\n            [ ( comparable1, string )\n            , ( comparable2, bool )\n            , ( comparable3\n              , group\n                    [ ( comparable4, string )\n                    , ( comparable5, string )\n                    , ( comparable6, string )\n                    ]\n              )\n            ]\n\n",
+                "type": "List ( comparable, Field comparable ) -> Group comparable"
+            },
+            {
+                "name": "getGroup",
+                "comment": " Retrieves the `Group` associated with a key. If the key is not found or\nthe `Field` is not a `FieldGroup` returns `Nothing`\n\n    someFormFields : Group comparable\n    someFormFields =\n        fields\n            [ ( comparable1, string )\n            , ( comparable2, bool )\n            , ( comparable3, group [] )\n            ]\n\n    getGroup comparable1 someFormFields -- Nothing\n    getGroup comparable2 someFormFields -- Nothing\n    getGroup comparable3 someFormFields -- Just (Dict.fromList [ ... ])\n    getGroup notfound someFormFields    -- Nothing\n\n",
+                "type": "comparable -> Group comparable -> Maybe (Group comparable)"
+            },
+            {
+                "name": "getValue",
+                "comment": " Retrieves the `Value` associated with a key. If the key is not found or\nthe `Field` is not a `FieldValue` returns `Nothing`\n\n    someFormFields : Group comparable\n    someFormFields =\n        fields\n            [ ( comparable1, string )\n            , ( comparable2, bool )\n            , ( comparable3, group [] )\n            ]\n\n    getValue comparable1 someFormFields -- Just (String ...)\n    getValue comparable2 someFormFields -- Just (Bool ...)\n    getValue comparable3 someFormFields -- Nothing\n    getValue notfound someFormFields    -- Nothing\n\n",
+                "type": "comparable -> Group comparable -> Maybe Value"
+            },
+            {
+                "name": "group",
+                "comment": " Is a shortcut to create a `Field` with a `Group` of fields. The function\ntakes a `List` of `Tuple` and creates the `Group` for you :\n\n    tupleExample : ( comparable, Field comparable )\n    tupleExample =\n        (comparable, string)\n\n    group [tupleExample, ...] -- FieldGroup (Dict.fromList [ ... ])\n\n",
+                "type": "List ( comparable, Field comparable ) -> Field comparable"
+            },
+            {
+                "name": "setValue",
+                "comment": " Updates the `Value` associated with a key. It will only update the `Value`\nif the key is found, the `Field` is a `FieldValue` and the `Value`s have the\nsame type\n\n    someFormFields : Group comparable\n    someFormFields =\n        fields\n            [ ( comparable1, string )\n            , ( comparable2, group [] )\n            ]\n\n    setValue comparable1 (String ...) someFormFields -- updates\n    setValue comparable1 (Bool ...) someFormFields   -- doesn't update\n    setValue comparable2 (...) someFormFields        -- doesn't update\n    setValue notfound (...) someFormFields           -- doesn't update\n\n",
+                "type": "comparable -> Value -> Group comparable -> Group comparable"
+            },
+            {
+                "name": "string",
+                "comment": " Is a shortcut to create a `Field` with the [default `String` `Value`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Value#defaultString)\n\n    string -- FieldValue (Forms.Value.defaultString)\n\n",
+                "type": "Field comparable"
+            },
+            {
+                "name": "stringWithValue",
+                "comment": " Is a shortcut to create a `Field` with an initial `String` `Value`\n\n    stringWithValue \"initial\" -- FieldValue (String \"initial\")\n\n",
+                "type": "String -> Field comparable"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Forms.Value",
+        "comment": " A `Value` represents the value inside a [`Field`](http://package.elm-lang.org/packages/ozmat/elm-forms/latest/Forms-Field#Field).\nPlease refer to the [examples](https://github.com/ozmat/elm-forms/tree/master/examples) for a better understanding\n\n\n# Definition\n\n@docs Value\n\n\n# Common Helpers\n\n@docs string, bool, defaultString, defaultBool\n\n\n# Update\n\n@docs safeUpdate\n\n",
+        "unions": [
+            {
+                "name": "Value",
+                "comment": " A `Value` can be a `String` (form input) or a `Bool` (form checkbox)\n\n    String \"some input value\"\n\n    Bool True\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "String",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Bool",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "bool",
+                "comment": " Helps creating a `Bool` `Value`\n\n    bool True -- Bool True\n\n",
+                "type": "Bool -> Value"
+            },
+            {
+                "name": "defaultBool",
+                "comment": " Is the default `Bool` `Value` (false)\n\n    Bool False\n\n",
+                "type": "Value"
+            },
+            {
+                "name": "defaultString",
+                "comment": " Is the default `String` `Value` (empty string)\n\n    String \"\"\n\n",
+                "type": "Value"
+            },
+            {
+                "name": "safeUpdate",
+                "comment": " Only updates `Value`s of same type\n\n    safeUpdate (String \"new one\") (String \"old one\") -- String \"new one\"\n    safeUpdate (String \"new one\") (Bool False)       -- Bool False\n\n",
+                "type": "Value -> Value -> Value"
+            },
+            {
+                "name": "string",
+                "comment": " Helps creating a `String` `Value`\n\n    string \"some input value\" -- String \"some input value\"\n\n",
+                "type": "String -> Value"
+            }
+        ],
+        "binops": []
+    }
+]

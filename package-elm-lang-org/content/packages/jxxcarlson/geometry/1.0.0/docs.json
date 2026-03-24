@@ -1,0 +1,223 @@
+[
+    {
+        "name": "LineSegment",
+        "comment": " This module exposes the lineSegment type. Values of this type\ncan be manipulated mathematically and rendered in to SVG.\n\n\n# API\n\n@docs LineSegment, affineTransform, draw, moveTo, moveBy, scaleBy\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "LineSegment",
+                "comment": " A record which models a line segment with\nendpoints a and b.\n",
+                "args": [],
+                "type": "{ a : Vector, b : Vector, width : Float, strokeColor : ColorRecord, fillColor : ColorRecord }"
+            }
+        ],
+        "values": [
+            {
+                "name": "affineTransform",
+                "comment": " Apply an affine transform to a lineSegment.\n",
+                "type": "Coefficients -> LineSegment -> LineSegment"
+            },
+            {
+                "name": "draw",
+                "comment": " Produce an SVG representation of a lineSegment.\n",
+                "type": "LineSegment -> Svg msg"
+            },
+            {
+                "name": "moveBy",
+                "comment": " Translate a lineSegment.\n",
+                "type": "Vector -> LineSegment -> LineSegment"
+            },
+            {
+                "name": "moveTo",
+                "comment": " Move a lineSegment to a new position: translante\nit so that its first endpoint is at the given position.\n",
+                "type": "Vector -> LineSegment -> LineSegment"
+            },
+            {
+                "name": "scaleBy",
+                "comment": " Scale a line segment by a factor. That is,\ndilate with center at the origin.\n",
+                "type": "Float -> LineSegment -> LineSegment"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Shape",
+        "comment": " This module exposes the Shape type. Values of this type\ncan be manipulated mathematically and rendered in to SVG.\n\n\n# API\n\n@docs Shape, ShapeData, affineTransform, draw, moveBy, moveTo, scaleBy\n\n",
+        "unions": [
+            {
+                "name": "Shape",
+                "comment": " A type for representing shapes: rectangles or ellipses\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Rect",
+                        [
+                            "ShapeData"
+                        ]
+                    ],
+                    [
+                        "Ellipse",
+                        [
+                            "ShapeData"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ShapeData",
+                "comment": " A type for representing the data needed\nto define a shape.\n",
+                "args": [],
+                "type": "{ center : Vector, dimensions : Vector, strokeColor : ColorRecord, fillColor : ColorRecord }"
+            }
+        ],
+        "values": [
+            {
+                "name": "affineTransform",
+                "comment": " Transformm a shape by an affine function.\n",
+                "type": "Coefficients -> Shape -> Shape"
+            },
+            {
+                "name": "draw",
+                "comment": " Produce an SVG representation of a shape.\n",
+                "type": "Shape -> Svg msg"
+            },
+            {
+                "name": "moveBy",
+                "comment": " Translate the center of a shape.\n",
+                "type": "Vector -> Shape -> Shape"
+            },
+            {
+                "name": "moveTo",
+                "comment": " Move the center of a shape.\n",
+                "type": "Vector -> Shape -> Shape"
+            },
+            {
+                "name": "scaleBy",
+                "comment": " Rescale a shape.\n",
+                "type": "Float -> Shape -> Shape"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Affine",
+        "comment": " This module exposes two functions, affineTransform and linearTransorm, for mapping\n2D vecors to 2D vectors.\n\n\n# API\n\n@docs Coefficients, affineTransform, linearTransform, coefficients\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Coefficients",
+                "comment": " Coefficients is a data structure for the\ncoefficients of an affine transformation\n\nxx = ax + b\nyy= cy + d\n\n",
+                "args": [],
+                "type": "{ a : Float, b : Float, c : Float, d : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "affineTransform",
+                "comment": " affineTransform coefficients is an affine\ntransformations mapping vectors to vectors.\n",
+                "type": "Coefficients -> Vector -> Vector"
+            },
+            {
+                "name": "coefficients",
+                "comment": " The coefficients function maps a pair\nof rectangles, sourceRect and targetRect,\nto a record of coeffients for an affine\ntransformation. The resulting transformation\nmaps sourceRect to targetRect.\n",
+                "type": "Rect -> Rect -> Coefficients"
+            },
+            {
+                "name": "linearTransform",
+                "comment": " linearTransform coefficients is an affine\ntransformations mapping vectors to vectors.\n",
+                "type": "Coefficients -> Vector -> Vector"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ColorRecord",
+        "comment": " This module exposes the ColorRecord type. Color records\ncan be manipulated mathemaitcall, e.g., if x and y are\ncolor records, then so is mix x y -- it is a kind of average\nof x and y .\n\nThe function rgba x y converts a color record to a string compatible\nwith SVG.\n\n\n# API\n\n@docs ColorRecord, rgba, mix\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ColorRecord",
+                "comment": " A record which represents a color.\n",
+                "args": [],
+                "type": "{ r : Int, g : Int, b : Int, a : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "mix",
+                "comment": " Take the average of two ColorRecords\n",
+                "type": "ColorRecord -> ColorRecord -> ColorRecord"
+            },
+            {
+                "name": "rgba",
+                "comment": " Convert a ColorRecord into a string compatible with SVG\n",
+                "type": "ColorRecord -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Vector",
+        "comment": " This module exposes the Vector type.\n\n\n# API\n\n@docs Vector,DirectedSegment, dot, normSquared, add, sub, mul, rotate, angle, distance\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "DirectedSegment",
+                "comment": " A directed line segment with endponts a and b.\n",
+                "args": [],
+                "type": "{ a : Vector, b : Vector }"
+            },
+            {
+                "name": "Vector",
+                "comment": " A record representing a 2D vector\n",
+                "args": [],
+                "type": "{ x : Float, y : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "add",
+                "comment": " The sum of two vectors.\n",
+                "type": "Vector -> Vector -> Vector"
+            },
+            {
+                "name": "angle",
+                "comment": " the angle in radians between vectors\n",
+                "type": "Vector -> Vector -> Float"
+            },
+            {
+                "name": "distance",
+                "comment": " The the distance between points represented by vectors\n",
+                "type": "Vector -> Vector -> Float"
+            },
+            {
+                "name": "dot",
+                "comment": " The dot product of vectors.\n",
+                "type": "Vector -> Vector -> Float"
+            },
+            {
+                "name": "mul",
+                "comment": " The scalar product of a vector and a number.\n",
+                "type": "Float -> Vector -> Vector"
+            },
+            {
+                "name": "normSquared",
+                "comment": " The square of the norm of a vector.\n",
+                "type": "Vector -> Float"
+            },
+            {
+                "name": "rotate",
+                "comment": " Rotate a vector counterclockwise by the\ngiven angle (in radians).\n",
+                "type": "Float -> Vector -> Vector"
+            },
+            {
+                "name": "sub",
+                "comment": " The difference of two vectors.\n",
+                "type": "Vector -> Vector -> Vector"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Recovered",
+        "comment": " This module tracks the package version. See README.md for details.\n\n@docs Recovery, recoveredPackages, version\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Recovery",
+                "comment": " A description of one recovered package.\n",
+                "args": [],
+                "type": "{ old : String, new : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "recoveredPackages",
+                "comment": " A machine-readable list of recovered packages\n\n    [(old-name, new-name), ...]\n\n",
+                "type": "List Recovery"
+            },
+            {
+                "name": "version",
+                "comment": " Updated to match the package version.\n",
+                "type": "String"
+            }
+        ],
+        "binops": []
+    }
+]

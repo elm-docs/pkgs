@@ -1,0 +1,128 @@
+[
+    {
+        "name": "DatePicker",
+        "comment": " A customizable date picker component.\n\n\n# Tea ☕\n\n@docs Msg, DateEvent, DatePicker\n@docs init, initFromDate, initFromDates, update, view, isOpen, focusedDate\n\n\n# Settings\n\n@docs Settings, defaultSettings, pick, between, moreOrLess, from, to, off, open, close\n\n",
+        "unions": [
+            {
+                "name": "DateEvent",
+                "comment": " A sugaring of `Maybe` to explicitly tell you how to interpret `Changed Nothing`, because `Just Nothing` seems somehow wrong.\nUsed to represent a request, by the datepicker, to change the selected date.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoChange",
+                        []
+                    ],
+                    [
+                        "Changed",
+                        [
+                            "Maybe Date"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "DatePicker",
+                "comment": " The DatePicker model. Opaque, hence no field docs.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " An opaque type representing messages that are passed inside the DatePicker.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Settings",
+                "comment": " The type of date picker settings.\n",
+                "args": [],
+                "type": "{ placeholder : String, classNamespace : String, containerClassList : List ( String, Bool ), inputClassList : List ( String, Bool ), inputName : Maybe String, inputId : Maybe String, inputAttributes : List (Attribute Msg), isDisabled : Date -> Bool, parser : String -> Result String Date, dateFormatter : Date -> String, dayFormatter : Day -> String, monthFormatter : Month -> String, yearFormatter : Int -> String, cellFormatter : String -> Html Msg, firstDayOfWeek : Day, changeYear : YearRange }"
+            }
+        ],
+        "values": [
+            {
+                "name": "between",
+                "comment": " Select a range of date to display\n\n    DatePicker.init { defaultSettings | changeYear = between 1555 2018 }\n\n",
+                "type": "Int -> Int -> YearRange"
+            },
+            {
+                "name": "close",
+                "comment": " Generate a message that will act as if the user has removed focus from the input element.\nThis will close the datePicker\n\n    update datepickerSettings close datepicker\n\n",
+                "type": "Msg"
+            },
+            {
+                "name": "defaultSettings",
+                "comment": " A record of default settings for the date picker. Extend this if\nyou want to customize your date picker.\n\n    import DatePicker exposing (defaultSettings)\n\n    DatePicker.init { defaultSettings | placeholder = \"Pick a date\" }\n\nTo disable certain dates:\n\n    import Date exposing (Day(..), dayOfWeek)\n    import DatePicker exposing (defaultSettings)\n\n    DatePicker.init { defaultSettings | isDisabled = \\d -> dayOfWeek d `List.member` [ Sat, Sun ] }\n\n",
+                "type": "Settings"
+            },
+            {
+                "name": "focusedDate",
+                "comment": " Expose the currently focused date\n",
+                "type": "DatePicker -> Maybe Date"
+            },
+            {
+                "name": "from",
+                "comment": " Select a range from a given year to this year\n\n    DatePicker.init { defaultSettings | changeYear = from 1995 }\n\n",
+                "type": "Int -> YearRange"
+            },
+            {
+                "name": "init",
+                "comment": " The default initial state of the Datepicker. You must execute\nthe returned command (which, for the curious, sets the current date)\nfor the date picker to behave correctly.\n\n    init =\n        let\n            ( datePicker, datePickerFx ) =\n                DatePicker.init\n        in\n            { picker = datePicker } ! [ Cmd.map ToDatePicker datePickerfx ]\n\n",
+                "type": "( DatePicker, Cmd Msg )"
+            },
+            {
+                "name": "initFromDate",
+                "comment": " Initialize a DatePicker with a given Date\n\n    init date =\n        { picker = DatePicker.initFromDate date } ! []\n\n",
+                "type": "Date -> DatePicker"
+            },
+            {
+                "name": "initFromDates",
+                "comment": " Initialize a DatePicker with a date for today and Maybe a date picked\n\n    init today date =\n        { picker = DatePicker.initFromDates today date } ! []\n\n",
+                "type": "Date -> Maybe Date -> DatePicker"
+            },
+            {
+                "name": "isOpen",
+                "comment": " Expose if the datepicker is open\n",
+                "type": "DatePicker -> Bool"
+            },
+            {
+                "name": "moreOrLess",
+                "comment": " Select a symmetric range of date to display\n\n    DatePicker.init { defaultSettings | changeYear = moreOrLess 10 }\n\n",
+                "type": "Int -> YearRange"
+            },
+            {
+                "name": "off",
+                "comment": " Turn off the date range\n\n    DatePicker.init { defaultSettings | changeYear = off }\n\n",
+                "type": "YearRange"
+            },
+            {
+                "name": "open",
+                "comment": " Generate a message that will act as if the user has focused on the input element.\nThis will open the datePicker\n\n    update datepickerSettings open datepicker\n\n",
+                "type": "Msg"
+            },
+            {
+                "name": "pick",
+                "comment": " Generate a message that will act as if the user has chosen a certain date,\nso you can call `update` on the model yourself.\nNote that this is different from just changing the \"current chosen\" date,\nsince the picker doesn't actually have internal state for that.\nRather, it will:\n\n  - change the calendar focus\n\n  - replace the input text with the new value\n\n  - close the picker\n\n    update datepickerSettings (pick (Just someDate)) datepicker\n\n",
+                "type": "Maybe Date -> Msg"
+            },
+            {
+                "name": "to",
+                "comment": " Select a range from this year to a given year\n\n    DatePicker.init { defaultSettings | changeYear = to 2020 }\n\n",
+                "type": "Int -> YearRange"
+            },
+            {
+                "name": "update",
+                "comment": " The date picker update function. The third tuple member represents a user action to change the\ndate.\n",
+                "type": "Settings -> Msg -> DatePicker -> ( DatePicker, Cmd Msg, DateEvent )"
+            },
+            {
+                "name": "view",
+                "comment": " The date picker view. The Date passed is whatever date it should treat as selected.\n",
+                "type": "Maybe Date -> Settings -> DatePicker -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

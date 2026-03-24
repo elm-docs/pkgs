@@ -1,0 +1,49 @@
+[
+    {
+        "name": "App",
+        "comment": "\n\n\n# Create an app\n\n@docs Config, Application, application\n\n\n# Link helpers\n\n@docs link, button\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Application",
+                "comment": " ",
+                "args": [
+                    "app",
+                    "route",
+                    "page",
+                    "msg"
+                ],
+                "type": "Program Never (Model route app page) (Msg route msg)"
+            },
+            {
+                "name": "Config",
+                "comment": " The configuration. In this world, your model will\ncontain data which is shared across all pages, as well as past\nmodel of each page if you wish to keep them. These past models\ncan then be used to reinitialize your page when re-visiting it.\n\n    - init: The initial state of all your data and pages.\n    - parser: The parser for your routes.\n    - load: Get the past model of your page, if any, and initialize a page.\n    - save: Save the model once you're leaving the page.\n    - update: Update your current page.\n    - view: View your current page.\n\n",
+                "args": [
+                    "app",
+                    "route",
+                    "page",
+                    "msg"
+                ],
+                "type": "{ init : app, parser : Parser (route -> route) route, composer : route -> String, load : Result Location route -> app -> ( page, Cmd msg ), save : page -> app -> app, update : msg -> page -> ( page, Cmd msg ), view : page -> Html msg, subscriptions : page -> Sub msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "application",
+                "comment": " Create a single page app.\n",
+                "type": "Config app route page msg -> Application app route page msg"
+            },
+            {
+                "name": "button",
+                "comment": " A button link which prevents default.\n",
+                "type": "(route -> String) -> (route -> msg) -> route -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            },
+            {
+                "name": "link",
+                "comment": " A link which prevents default.\n",
+                "type": "(route -> String) -> (route -> msg) -> route -> List (Attribute msg) -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

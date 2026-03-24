@@ -1,0 +1,210 @@
+[
+    {
+        "name": "Phoenix",
+        "comment": "\n# Basic Usage\n\n@docs listen, update, join, push, initPushWithChannelName, pushWithPayload\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "initPushWithChannelName",
+                "comment": " initPushWithChannelName\n",
+                "type": "String -> String -> Socket msg -> Maybe (Push msg)"
+            },
+            {
+                "name": "join",
+                "comment": "\njoin\n",
+                "type": "(Msg msg -> msg) -> Channel msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "listen",
+                "comment": "\nWhat t?\n",
+                "type": "(Msg msg -> msg) -> Socket msg -> Sub msg"
+            },
+            {
+                "name": "push",
+                "comment": " push\n",
+                "type": "(Msg msg -> msg) -> Push msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "pushWithPayload",
+                "comment": " pushWithPayload\n",
+                "type": "(Msg msg -> msg) -> Push msg -> Value -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "update",
+                "comment": "\nupdate\n",
+                "type": "(Msg msg -> msg) -> Msg msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Socket",
+        "comment": "\n# Basic Usage\n\n@docs init, withLongPoll, Socket, listen, join, update, push\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Socket",
+                "comment": " Socket options\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ endPoint : String, transport : Transport, channels : Dict String (Channel msg), pushedEvents : Dict Int Event, readyState : State, ref : Int, longPollToken : Maybe String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " initialize a Socket\n\n",
+                "type": "String -> Socket msg"
+            },
+            {
+                "name": "join",
+                "comment": " join\n",
+                "type": "Channel msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "listen",
+                "comment": " What ever\n",
+                "type": "Socket msg -> (Msg msg -> msg) -> Sub msg"
+            },
+            {
+                "name": "push",
+                "comment": " push\n",
+                "type": "Push msg -> Socket msg -> ( Socket msg, Cmd (Msg msg) )"
+            },
+            {
+                "name": "update",
+                "comment": " update\n",
+                "type": "(Msg msg -> msg) -> Msg msg -> Socket msg -> ( Socket msg, Cmd msg )"
+            },
+            {
+                "name": "withLongPoll",
+                "comment": " withLongPoll\n",
+                "type": "Socket msg -> Socket msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Message",
+        "comment": "\n# This module provides Msg that the package handles\n\n@docs Msg, mapAll, none, toInternalMsg, toExternalMsg, extractInternalMsg\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " This Msg should be used in user's main app\n\n    import Phoenix.Message as PhxMsg\n\n    type MyAppMsg =\n        ..\n        | PhoenixMsg (PhxMsg.Msg MyAppMsg)\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "extractInternalMsg",
+                "comment": "\n",
+                "type": "Msg msg -> InternalMessage msg"
+            },
+            {
+                "name": "mapAll",
+                "comment": "\n",
+                "type": "(Msg msg -> msg) -> Msg msg -> msg"
+            },
+            {
+                "name": "none",
+                "comment": "\n",
+                "type": "Msg msg"
+            },
+            {
+                "name": "toExternalMsg",
+                "comment": "\n",
+                "type": "msg -> Msg msg"
+            },
+            {
+                "name": "toInternalMsg",
+                "comment": "\n",
+                "type": "InternalMessage msg -> Msg msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Phoenix.Channel",
+        "comment": "\n#\n\n@docs init, on, isOngoing, setJoiningState, findChannel, Channel, findChannelWithRef, onClose, onError, onJoin, onJoinError, setJoinedState, updateChannelDict\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Channel",
+                "comment": "\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ topic : String, on : Dict String (Value -> msg), state : State, joinRef : Maybe Int, receive : Dict String (Value -> msg), payload : Value }"
+            }
+        ],
+        "values": [
+            {
+                "name": "findChannel",
+                "comment": "\n",
+                "type": "String -> Dict String (Channel msg) -> Maybe (Channel msg)"
+            },
+            {
+                "name": "findChannelWithRef",
+                "comment": "\n",
+                "type": "String -> Maybe Int -> Dict String (Channel msg) -> Maybe (Channel msg)"
+            },
+            {
+                "name": "init",
+                "comment": "\n",
+                "type": "String -> Channel msg"
+            },
+            {
+                "name": "isOngoing",
+                "comment": "\nReturn true if connection has joined the channel or is joining\n",
+                "type": "Channel msg -> Bool"
+            },
+            {
+                "name": "on",
+                "comment": "\n",
+                "type": "String -> (Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onClose",
+                "comment": "\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onError",
+                "comment": "\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoin",
+                "comment": "\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "onJoinError",
+                "comment": "\n",
+                "type": "(Value -> msg) -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "setJoinedState",
+                "comment": "\n",
+                "type": "Channel msg -> Channel msg"
+            },
+            {
+                "name": "setJoiningState",
+                "comment": "\n",
+                "type": "Int -> Channel msg -> Channel msg"
+            },
+            {
+                "name": "updateChannelDict",
+                "comment": "\n",
+                "type": "Channel msg -> Dict String (Channel msg) -> Dict String (Channel msg)"
+            }
+        ],
+        "binops": []
+    }
+]

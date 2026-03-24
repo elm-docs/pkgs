@@ -1,0 +1,69 @@
+[
+    {
+        "name": "Genetic",
+        "comment": " An implementation of a [genetic algorithm](https://www.infoq.com/presentations/genetic-algorithms?utm_source=infoq&utm_medium=videos_homepage&utm_campaign=videos_row1). A single function `solutionGenerator` is exposed which will\nproduce a generator that can be used to evolve a \"good enough\" solution.\n\nNote - This generator has a recursive structure and will block the thread until `isDoneEvolving` returns\n`True`.\n\nAlternatively, if you don't want to block the thread you can use `executeInitialStep` and `executeStep` and control when the next iteration of the algorithm executes.\n\nSee the `examples` directory for an example of each.\n\n@docs IntermediateValue, Method, Options, dnaFromValue, executeInitialStep, executeStep, numGenerationsFromValue, solutionGenerator\n\n",
+        "unions": [
+            {
+                "name": "IntermediateValue",
+                "comment": " An intermediate value provided between each execution step of the genetic algorithm. This type is necessary when using `executeInitialStep` and `executeStep`, but not `solutionGenerator`.\n",
+                "args": [
+                    "dna"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Method",
+                "comment": " For simple use cases the genetic algorithm will be doing one of two things:\n\n  - Maximizing a score\n  - Minimizing a penalty or cost\n\nYour `evaluateSolution` function is used to assign a value to an entire generation of possible solutions. `Method` tells the algorithm whether to keep and \"breed\" the solutions with a higher value or a lower value.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "MaximizeScore",
+                        []
+                    ],
+                    [
+                        "MinimizePenalty",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " There are a handful of functions required because the algorithm needs the following information:\n\n  - How to generate a random solution\n  - Given a potential solution, how should it be evaluated?\n  - How to breed two solutions\n  - Is the current best solution good enough?\n  - Are we maximizing a score or minimizing a penalty?\n\nThese details are captured in the following record:\n\n    { randomDnaGenerator : Generator dna\n    , evaluateSolution : dna -> Float\n    , crossoverDnas : dna -> dna -> dna\n    , mutateDna : dna -> Generator dna\n    , isDoneEvolving : dna -> Float -> Int -> Bool\n    , method : Method\n    }\n\n",
+                "args": [
+                    "dna"
+                ],
+                "type": "{ randomDnaGenerator : Generator dna, evaluateSolution : dna -> Float, crossoverDnas : dna -> dna -> dna, mutateDna : dna -> Generator dna, isDoneEvolving : dna -> Float -> Int -> Bool, method : Method }"
+            }
+        ],
+        "values": [
+            {
+                "name": "dnaFromValue",
+                "comment": " Returns a `dna` for a given `IntermediateValue`\n",
+                "type": "IntermediateValue dna -> dna"
+            },
+            {
+                "name": "executeInitialStep",
+                "comment": " Executes the first iteration of the genetic algorithm. See `Options` for more information.\n",
+                "type": "Options dna -> Generator (IntermediateValue dna)"
+            },
+            {
+                "name": "executeStep",
+                "comment": " Executes subsequent iterations of the genetic algorithm. See `Options` for more information.\n",
+                "type": "Options dna -> IntermediateValue dna -> Generator (IntermediateValue dna)"
+            },
+            {
+                "name": "numGenerationsFromValue",
+                "comment": " Returns the generation number for a given `IntermediateValue`\n",
+                "type": "IntermediateValue dna -> Int"
+            },
+            {
+                "name": "solutionGenerator",
+                "comment": " Produces a generator that runs the entire genetic algorithm. Note: This can be very slow! Put a max iterations in your `isDoneEvolving` function!\n\nThe [Hello world](https://github.com/ckoster22/elm-genetic/tree/master/examples/helloworld) example is a good starting point for better understanding these functions.\n\nWhen the algorithm is finished it'll return the best solution (dna) it could find and the value associated with that solution from `evaluateSolution`.\n\n",
+                "type": "Options dna -> Generator ( dna, Float )"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Particle",
+        "comment": " A `Particle` has mass, position, velocity, and shape.\n\n  - Construct a particle using `make mass position velociy shape`.\n\n  - Use `draw particle` to obtain an Svg representation of a particle.\n\n  - Use `update t force particle` to return an updated version of the\n    particle under the influence of the given force acting for time t.\n\n  - Use `orbit n stepper initiaValue` to obtain the \"orbit\" of a particle\n    consisting of n updates using the `stepper` function.\n\nA `stepper` function is of type `Particle -> Particle`. As an example,\nconsider the function\n\n      sf = Particle.update 0.75 force,\n\nwhere `force = Vector 0 -5` is force vector and 0.75 is an interval of time. Then\n`sf`, which is a partial application of `Particle.update`, is a stepper\nfunction.\n\n@docs Particle, Field, constantField, draw, make, orbit, affineTransform, update\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A field assigns to each position vector another vector representing the field at\nthat location.\n",
+                "args": [],
+                "type": "Vector -> Vector"
+            },
+            {
+                "name": "Particle",
+                "comment": " A record type which models a massive particle\n",
+                "args": [],
+                "type": "{ position : Vector, velocity : Vector, mass : Float, shape : Shape }"
+            }
+        ],
+        "values": [
+            {
+                "name": "affineTransform",
+                "comment": " Apply an affine transformation to a particle.\n",
+                "type": "Coefficients -> Particle -> Particle"
+            },
+            {
+                "name": "constantField",
+                "comment": " Construct a constant field.\n",
+                "type": "Vector -> Field"
+            },
+            {
+                "name": "draw",
+                "comment": " Return an SVG representation of a particle\n",
+                "type": "Particle -> Svg msg"
+            },
+            {
+                "name": "make",
+                "comment": " Make a particle of given mass, position, velocity and shape.\n",
+                "type": "Float -> Vector -> Vector -> Shape -> Particle"
+            },
+            {
+                "name": "orbit",
+                "comment": " Compute [a, f a, f^2 a, ..., f^n a]\n",
+                "type": "Int -> Stepper -> Particle -> List Particle"
+            },
+            {
+                "name": "update",
+                "comment": " Given a field and an initial particle, find the particle obtained\nby evolving the initial particle under the influence of the field for\na time `t`.\n",
+                "type": "Float -> Field -> Particle -> Particle"
+            }
+        ],
+        "binops": []
+    }
+]

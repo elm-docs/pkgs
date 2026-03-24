@@ -1,0 +1,173 @@
+[
+    {
+        "name": "PostgRest",
+        "comment": " A query builder library for PostgREST.\n\nI recommend looking at the [examples](https://github.com/john-kelly/elm-postgrest/blob/master/examples/Main.elm) before diving into the API or source code.\n\n# Define a Resource\n@docs Resource, resource, Field, field\n\n# Build a Query\n@docs Query, query\n\n### Selecting and Nesting\n@docs select, include, includeMany\n\n### Filtering\n@docs Filter, filter, like, ilike, eq, gte, gt, lte, lt, in', is, not'\n\n### Ordering\n@docs OrderBy, order, asc, desc\n\n# Send a Query\n@docs list, first\n\n### Pagination\n@docs Page, paginate\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Filter",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "OrderBy",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Query",
+                "comment": " ",
+                "args": [
+                    "schema",
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Resource",
+                "comment": " ",
+                "args": [
+                    "schema"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Page",
+                "comment": " ",
+                "args": [
+                    "a"
+                ],
+                "type": "{ data : List a, count : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "asc",
+                "comment": " Ascending\n",
+                "type": "(schema -> Field a) -> schema -> OrderBy"
+            },
+            {
+                "name": "desc",
+                "comment": " Descending\n",
+                "type": "(schema -> Field a) -> schema -> OrderBy"
+            },
+            {
+                "name": "eq",
+                "comment": " Equals\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "field",
+                "comment": " ",
+                "type": "String -> Decoder a -> Field a"
+            },
+            {
+                "name": "filter",
+                "comment": " Apply filters to a query\n",
+                "type": "List (schema -> Filter) -> Query schema a -> Query schema a"
+            },
+            {
+                "name": "first",
+                "comment": " Takes `url` and a `query`, returning the first object from database on success and Http.Error otherwise\n",
+                "type": "String -> Query schema a -> Task Error a"
+            },
+            {
+                "name": "gt",
+                "comment": " Greater than\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "gte",
+                "comment": " Greater than or equal to\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "ilike",
+                "comment": " Case-insensitive `like`\n",
+                "type": "String -> (schema -> Field String) -> schema -> Filter"
+            },
+            {
+                "name": "in'",
+                "comment": " In List\n",
+                "type": "List a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "include",
+                "comment": " ",
+                "type": "Query schema2 a -> Query schema1 (a -> b) -> Query schema1 b"
+            },
+            {
+                "name": "includeMany",
+                "comment": " ",
+                "type": "Maybe Int -> Query schema2 a -> Query schema1 (List a -> b) -> Query schema1 b"
+            },
+            {
+                "name": "is",
+                "comment": " Is comparison\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "like",
+                "comment": "\nSimple [pattern matching](https://www.postgresql.org/docs/9.5/static/functions-matching.html#FUNCTIONS-LIKE)\n",
+                "type": "String -> (schema -> Field String) -> schema -> Filter"
+            },
+            {
+                "name": "list",
+                "comment": " Takes `limit`, `url` and a `query`, returning a list of objects from database on success and Http.Error otherwise\n",
+                "type": "Maybe Int -> String -> Query schema a -> Task Error (List a)"
+            },
+            {
+                "name": "lt",
+                "comment": " Less than\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "lte",
+                "comment": " Less than or equal to\n",
+                "type": "a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "not'",
+                "comment": " Negate a Filter\n",
+                "type": "(a -> (schema -> Field a) -> schema -> Filter) -> a -> (schema -> Field a) -> schema -> Filter"
+            },
+            {
+                "name": "order",
+                "comment": " ",
+                "type": "List (schema -> OrderBy) -> Query schema a -> Query schema a"
+            },
+            {
+                "name": "paginate",
+                "comment": " ",
+                "type": "{ pageNumber : Int, pageSize : Int } -> String -> Query schema a -> Task Error (Page a)"
+            },
+            {
+                "name": "query",
+                "comment": " ",
+                "type": "Resource schema -> (a -> b) -> Query schema (a -> b)"
+            },
+            {
+                "name": "resource",
+                "comment": " ",
+                "type": "String -> schema -> Resource schema"
+            },
+            {
+                "name": "select",
+                "comment": " ",
+                "type": "(schema -> Field a) -> Query schema (a -> b) -> Query schema b"
+            }
+        ],
+        "binops": []
+    }
+]

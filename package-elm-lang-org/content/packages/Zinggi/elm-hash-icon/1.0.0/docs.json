@@ -1,0 +1,69 @@
+[
+    {
+        "name": "HashIcon",
+        "comment": "\n\n\n# Icons\n\n@docs Ratio, Size\n\n@docs iconFromString, iconsFromString, iconWithColor\n\n\n## Explore\n\n@docs estimateNumberOfPossibleIcons, estimateEntropy, allColorCombinations\n\n\n## Other\n\n@docs randomIcon, iconFromStringWithSeed, iconsFromStringWithSeed\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Ratio",
+                "comment": " The ratio controls which color contrast is acceptable for us.\nA smaller ratio allows for more combinations, but many of them might be ugly.\nThese values seem to provide a quite good trade-off between good icons and still pretty high collision resistance:\n\n  - 1.4 -> An ok chance of getting a good icon, but there are quite a few ugly ones as well.\n    We get about 21 bits of entropy with this.\n\n  - 2.1 -> Mostly good looking icons. Ca 20 bits.\n\n  - 3.4 -> Very good looking icons. Ca. 19 bits.\n\n  - 9.5 -> Almost no bad one. Ca. 16 bits\n\n",
+                "args": [],
+                "type": "Float"
+            },
+            {
+                "name": "Size",
+                "comment": " ",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "allColorCombinations",
+                "comment": " Gives you all possible colors combinations that can occur for a given ratio, sorted by contrast ratio,\ne.g from worst combination to best.\nPeeking at the top values of this list allows you to find a nice value for the ratio.\nCombine this with `iconWithColor` to look at the resulting icons.\n",
+                "type": "Ratio -> List ( Color, Color, Color )"
+            },
+            {
+                "name": "estimateEntropy",
+                "comment": " The same as `estimateNumberOfPossibleIcons`, but in bits.\n",
+                "type": "Ratio -> Float"
+            },
+            {
+                "name": "estimateNumberOfPossibleIcons",
+                "comment": " Shows you the number of possible icons for a given ratio.\nThe higher the more collision resistant.\n\nNote: Since I wasn't sure if I got the combinatorics right,\nI called it estimate, but it might also be the correct number 🤷\n\n",
+                "type": "Ratio -> Int"
+            },
+            {
+                "name": "iconFromString",
+                "comment": " Turns some text into an icon.\nGiven the same string, the icon will always be the same.\n\n    iconFromString 120 1.8 \"hash icon\"\n\n![](https://github.com/Zinggi/elm-hash-icon/raw/master/examples/imgs/hashIcon.svg?sanitize=true)\n\n",
+                "type": "Size -> Ratio -> String -> Html msg"
+            },
+            {
+                "name": "iconFromStringWithSeed",
+                "comment": " Same as `iconFromString`, but allows you to adjust the seed used in the internal Murmur3 hash function.\nYou probably don't need this.\n",
+                "type": "Int -> Size -> Ratio -> String -> Html msg"
+            },
+            {
+                "name": "iconWithColor",
+                "comment": " Display an icon with a fixed color scheme. Very useful in combination with allColorCombinations.\n",
+                "type": "Size -> ( Color, Color, Color ) -> String -> Html msg"
+            },
+            {
+                "name": "iconsFromString",
+                "comment": " Same as `iconFromString`, but gives you a list of icons.\nUseful to get more entropy if you need higher collision resistance.\n\n    iconsFromString 120 9.5 6 \"hash icon\"\n\n![](https://github.com/Zinggi/elm-hash-icon/raw/master/examples/imgs/hashIcons.svg?sanitize=true)\n\n",
+                "type": "Size -> Ratio -> Int -> String -> List (Html msg)"
+            },
+            {
+                "name": "iconsFromStringWithSeed",
+                "comment": " Same as `iconsFromString`, but allows you to specify an offset to the seed used\nin the internal Murmur3 hash function. You probably don't need this.\n",
+                "type": "Int -> Size -> Ratio -> Int -> String -> List (Html msg)"
+            },
+            {
+                "name": "randomIcon",
+                "comment": " Can be used to generate random icons\n",
+                "type": "Size -> Ratio -> Generator (Html msg)"
+            }
+        ],
+        "binops": []
+    }
+]

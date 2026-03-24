@@ -1,0 +1,130 @@
+[
+    {
+        "name": "DatePicker",
+        "comment": " A customisable DatePicker that easily allows you to select a range of dates\n\n@docs DatePicker, Msg, Config, defaultConfig, initCalendar, showCalendar, update, Selection\n\n\n# Getter Functions\n\nThese functions allow you to access data from the DatePicker model.\n\n@docs getFrom, getTo, getMonth, getNextMonth, isOpen\n\n",
+        "unions": [
+            {
+                "name": "DatePicker",
+                "comment": " The DatePicker model\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " DatePicker Messages. These messages can be called manually with the update function as follows:\n\n    goToNextMonth : DatePicker -> ( DatePicker, Cmd Msg )\n    goToNextMonth datepicker =\n        DatePicker.update NextMonth datepicker\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ReceiveDate",
+                        [
+                            "Date"
+                        ]
+                    ],
+                    [
+                        "ToggleCalendar",
+                        []
+                    ],
+                    [
+                        "PreviousMonth",
+                        []
+                    ],
+                    [
+                        "NextMonth",
+                        []
+                    ],
+                    [
+                        "SelectDate",
+                        [
+                            "Maybe Date"
+                        ]
+                    ],
+                    [
+                        "OverDate",
+                        [
+                            "Maybe Date"
+                        ]
+                    ],
+                    [
+                        "CancelDates",
+                        []
+                    ],
+                    [
+                        "ClearDates",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Selection",
+                "comment": " Type to pass to [`initCalendar`](#initCalendar) that will determine if your datepicker will\nbe used to select a single date or a range of dates\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Single",
+                        []
+                    ],
+                    [
+                        "Range",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " The Config that is passed to [`showCalendar`](#showCalendar) to control html classes and valid dates.\n\n  - **rangeClass**: The html class to apply to the selected date range.\n\n  - **rangeHoverClass**: The html class to apply to the selected date range on hover.\n\n  - **selectedClass**: The html class to apply to a single selected date.\n\n  - **disabledClass**: The html class to apply to a disabled/invalid dates.\n\n  - **validClass**: The html class to apply to a valid/selectable dates.\n\n  - **dayClass**: The html class to apply to all dates.\n\n  - **calendarClass**: The html class to apply to the calendar container.\n\n  - **titleClass**: THe html class to apply to the calendar title.\n\n  - **weekdayFormat**: The format of the Weekday labels (Mon, Tue etc.). options:\n      - **\"d\"**: M, T, W, T, F, S, S\n      - **\"dd\"**: M, Tu, W, Th, F, Sa, Su\n      - **\"ddd\"**: Mon, Tue, Wed, Thu, Fri, Sat, Sun\n      - **\"D\"**: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday\n\n  - **validDate**: A function that takes a single date, and the current date, and returns true if that date is available to select,\n    or false if not.\n\n",
+                "args": [],
+                "type": "{ rangeClass : String, rangeHoverClass : String, selectedClass : String, disabledClass : String, validClass : String, dayClass : String, calendarClass : String, titleClass : String, weekdayFormat : String, validDate : Maybe Date -> Maybe Date -> Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultConfig",
+                "comment": " The default config options that will be applied if not overwritten with a config argument to [`showCalendar`](#showCalendar)\n\n    defaultConfig : Config\n    defaultConfig =\n        { rangeClass = \"bg-dark-blue white\"\n        , rangeHoverClass = \"bg-dark-blue moon-gray\"\n        , selectedClass = \"bg-dark-blue white\"\n        , dayClass = \"pa1\"\n        , disabledClass = \"moon-gray\"\n        , validClass = \"pointer\"\n        , calendarClass = \"pa3 dib gray\"\n        , titleClass = \"tc\"\n        , weekdayFormat = \"ddd\"\n        , validDate = validDate\n        }\n\n    validDate : Maybe Date -> Maybe Date -> Bool\n    validDate date currentDate =\n        DateCore.greaterOrEqual date currentDate\n\nNote: We use [`tachyons`](https://github.com/tachyons-css/tachyons) in our default classes, but you don't have to.\nWe don't provide any css, so it's up to you to define these styles, or include [`tachyons from the cdn`](https://cdnjs.com/libraries/tachyons),\nor override them by passing a [`custom config`](#Config) to [`showCalendar`](#showCalendar)\n\n",
+                "type": "Config"
+            },
+            {
+                "name": "getFrom",
+                "comment": " Get the `from` date in a selected range\n",
+                "type": "DatePicker -> Maybe Date"
+            },
+            {
+                "name": "getMonth",
+                "comment": " Get the current month\n",
+                "type": "DatePicker -> MonthData"
+            },
+            {
+                "name": "getNextMonth",
+                "comment": " Get the next month\n",
+                "type": "DatePicker -> MonthData"
+            },
+            {
+                "name": "getTo",
+                "comment": " Get the `to` date in a selected range\n",
+                "type": "DatePicker -> Maybe Date"
+            },
+            {
+                "name": "initCalendar",
+                "comment": " The function called to initialise the Calendar. Returns the initial model.\nPass it a [`Selection`](#Selection) type to determine whether it will be used\nto select a single date, or a range of dates.\n\n    init : ( Model, Cmd Msg )\n    init =\n        { calendar = DatePicker.initCalendar DatePicker.Single } ! []\n\n",
+                "type": "Selection -> DatePicker"
+            },
+            {
+                "name": "isOpen",
+                "comment": " Returns whether the calendar is open or not\n",
+                "type": "DatePicker -> Bool"
+            },
+            {
+                "name": "showCalendar",
+                "comment": " The function called to show the calendar. Pass it a config record to customise the DatePicker:\n\n    view : Model -> Html Msg\n    view =\n        model\n            div\n            []\n            [ (DatePicker.showCalendar model.calendar (DatePicker.getMonth model.calendar) config) |> Html.map DatePickerMsg ]\n\n    config : DatePicker.Config\n    config =\n        let\n            config =\n                DatePicker.defaultConfig\n        in\n            { config\n                | weekdayFormat = \"ddd\"\n                , validDate = validDate\n            }\n\n    type Msg\n        = DatePickerMsg DatePicker.Msg\n\n",
+                "type": "DatePicker -> MonthData -> Config -> Html Msg"
+            },
+            {
+                "name": "update",
+                "comment": " The DatePicker update function\n",
+                "type": "Msg -> DatePicker -> DatePicker"
+            }
+        ],
+        "binops": []
+    }
+]

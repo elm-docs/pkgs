@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Check.Runner.Browser",
+        "comment": " Browser test runner for elm-check. This module provides functions to\nrun and visualize tests in the browser.\n\n# Display Test Results\n@docs display, displayVerbose\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "display",
+                "comment": " Display test results in the browser.\n",
+                "type": "Evidence -> Html"
+            },
+            {
+                "name": "displayVerbose",
+                "comment": " Verbose version of `display`. Contains additional information\nabout the test results.\n",
+                "type": "Evidence -> Html"
+            }
+        ],
+        "binops": []
+    }
+]

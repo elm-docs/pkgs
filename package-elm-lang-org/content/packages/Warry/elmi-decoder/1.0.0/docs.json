@@ -1,0 +1,114 @@
+[
+    {
+        "name": "Elmi.Interface",
+        "comment": "\n\n@docs Interface, Version, PackageName, Imports, Types, Unions, Aliases, UnionInfo, CanonicalVar, CanonicalModuleName, Exports, Export, Canonical, AliasedCanonical, Home,  Infix, parseInterface\n\nprivate :\n\nparseVersion, parsePackageName, parseImports, parseTypes, parseUnions, parseAliases, parseUnionInfo, parseCanonicalVar, parseCanonicalModuleName, parseHome, parseExports, parseCanonical, parseLambda, parseVar, parseType, parseApp, parseRecord, parseAliased, parseAliasedCanonical\n\n",
+        "unions": [
+            {
+                "name": "AliasedCanonical",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Canonical",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Export",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Home",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Aliases",
+                "comment": " ",
+                "args": [],
+                "type": "List ( String, ( List String, Canonical ) )"
+            },
+            {
+                "name": "CanonicalModuleName",
+                "comment": " ",
+                "args": [],
+                "type": "{ pkg : PackageName, modul : List String }"
+            },
+            {
+                "name": "CanonicalVar",
+                "comment": " ",
+                "args": [],
+                "type": "{ home : Home, name : String }"
+            },
+            {
+                "name": "Exports",
+                "comment": " ",
+                "args": [],
+                "type": "List Export"
+            },
+            {
+                "name": "Imports",
+                "comment": " ",
+                "args": [],
+                "type": "List (List String)"
+            },
+            {
+                "name": "Infix",
+                "comment": " ",
+                "args": [],
+                "type": "{ op : String, associativity : Assoc, precedence : Int }"
+            },
+            {
+                "name": "Interface",
+                "comment": " ",
+                "args": [],
+                "type": "{ version : Version, pkg : PackageName, exports : Exports, imports : Imports, types : Types, unions : Unions, aliases : Aliases, fixities : Infixes }"
+            },
+            {
+                "name": "PackageName",
+                "comment": " ",
+                "args": [],
+                "type": "{ user : String, project : String }"
+            },
+            {
+                "name": "Types",
+                "comment": " ",
+                "args": [],
+                "type": "List ( String, Canonical )"
+            },
+            {
+                "name": "UnionInfo",
+                "comment": " ",
+                "args": [],
+                "type": "( List String, List ( String, List Canonical ) )"
+            },
+            {
+                "name": "Unions",
+                "comment": " ",
+                "args": [],
+                "type": "List ( String, UnionInfo )"
+            },
+            {
+                "name": "Version",
+                "comment": " ",
+                "args": [],
+                "type": "{ major : Int, minor : Int, patch : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "parseInterface",
+                "comment": " ",
+                "type": "Parser Interface"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,108 @@
+[
+    {
+        "name": "Source",
+        "comment": " API for creating better source elements. Includes support for easily generating mime type and\ncodec attributes, and also for generating Media Fragment URIs.\n\n@docs source\n\n\n# Mime Types & Codecs\n\n@docs mediaType, MediaType, audioCodec, videoCodec\n\n\n# Media Fragment API\n\n** Note: If you check the code, there's commented out support for spatial fragments. However, so far as I can\ntell, no browser has ever implemented this part of the spec for video. **\n\n@docs timeFragment, idFragment, trackFragment\n\n",
+        "unions": [
+            {
+                "name": "MediaType",
+                "comment": " Represents different audio and video formats. Some also include codec information.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "MP3",
+                        []
+                    ],
+                    [
+                        "AAC",
+                        []
+                    ],
+                    [
+                        "MP4",
+                        []
+                    ],
+                    [
+                        "HLS",
+                        []
+                    ],
+                    [
+                        "Ogg",
+                        []
+                    ],
+                    [
+                        "OggAudio",
+                        []
+                    ],
+                    [
+                        "OggVideo",
+                        []
+                    ],
+                    [
+                        "OggOpus",
+                        []
+                    ],
+                    [
+                        "WebMAudio",
+                        []
+                    ],
+                    [
+                        "WebMVideo",
+                        []
+                    ],
+                    [
+                        "Wave",
+                        []
+                    ],
+                    [
+                        "FLAC",
+                        []
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "audioCodec",
+                "comment": " For adding a custom audio codec:\n\n`source \"media.webm\" [ mediaType WebMAudio, audioCodec \"opus\"]` becomes `<source type=\"audio/WebM; codecs=\"opus\"\">`\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "idFragment",
+                "comment": " Allows you to specify a source where you jump to a specific time based on an id string\nembedded in the source.\n\n`source \"media.mp4\" [mediaType MP4, idFragment \"#Chapter1\"]` will start playing at #Chapter1.\n\n** Note: Honestly, I produce mp4's all day, every day for a living, and I've never seen this used on the web.\nI've only seen it implemented differently.\n\nIn theory, MP4 is a subset of the MOV container format, and I believe WebM is a subset of MKV, both of which\nsupport chapters, but I've never seen either with ids.\n\nI'm going to do some work with FFMPEG, Apple Compressor, Adobe Media Encoder and MP4Box to find out, but until then,\nthis is built the HTML5 spec, but untested. **\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "mediaType",
+                "comment": " Used to set a type (and possibly a codec) with pre-built settings, using the union type MediaType.\n\n`source [mediaType OggOpus]` becomes `<source type=\"audio/ogg; codecs=\"opus\"\">`\n\n",
+                "type": "MediaType -> Source msg"
+            },
+            {
+                "name": "source",
+                "comment": " A better source function. This function lets you generate a media source. It requires a Url and\na list of Source msgs, which represent either Mime types (such as WebM or MP4), codecs (such as vp9 or hevc),\nor media fragments(such as #t=(0,10).\n\nI really want to encourage the use of Mime types and codecs, as they let us to offer multiple sources with different\nlevels of encoding efficiency, while allowing a fallback for compatibility.\n\nFor instance, you might want to offer an h265 MP4 (most efficient) for Edge and recent safari users, a VP9\nWebM (more efficient than h264) for Firefox and Chrome users, a high-variant h264 MP4 (very compatible) for\nolder browsers, and a baseline-variant h264 MP4 (extremely compatible) for older mobile browsers. We can achieve\nthat, like so:\n\n```video\n        [   source \"media-h265.mp4\" [mediaType MP4, videoCodec \"hevc\"]\n        ,   source \"media-vp9.webm\" [mediaType WebMVideo, videoCodec \"vp9\"]\n        ,   source \"media-high.mp4\" [mediaType MP4, videoCodec \"avc1.64001E\"]\n        ,   source \"media-baseline.mp4\" [mediaType MP4, videoCodec \"avc1.42E01E\"]\n        ]\n```\n\n",
+                "type": "String -> List (Source msg) -> Html msg"
+            },
+            {
+                "name": "timeFragment",
+                "comment": " Allows you to specify a start and end time for a media file:\n\n`source \"media.mp4\" [mediaType MP4, timeFragment (2,15)]` will specify the video media.mp4\nfrom 2 seconds in until 15 seconds in.\n\n** Note: This is the most cross-browser compatible part of the Media Fragments I've seen. I haven't tested\nWindows at all yet, but this seems to work on the latest versions of Safari, Chrome, and Firefox.\n\nAlso note, this doesn't appear to work on any of the browsers with the `loop` attribute. It will merely\nplay as normal, with the time-fragment, but without looping **\n\n",
+                "type": "( Float, Float ) -> Source msg"
+            },
+            {
+                "name": "trackFragment",
+                "comment": " Allows you to specify a specific track in a multi-track file.\n\n`source \"media.mp4\" [mediaType MP4, trackFragment \"spanish-audio\"]` becomes\n`<source src=\"media.mp4\" type=\"video/mp4#track=spanish-audio>\"`\n\n** Note: Multi-track files are a rarity on the internet. Players like YouTube tend to implement\nthis functionality in a different way. That said, I definitely can create multi-track files and test\nthis cross-browser, and will do so ASAP. **\n\n",
+                "type": "String -> Source msg"
+            },
+            {
+                "name": "videoCodec",
+                "comment": " {-| For adding a custom audio codec:\n\n`source \"media.webm\" [ mediaType WebMVideo, videoCodec \"vp9\"]` becomes `<source type=\"video/WebM; codecs=\"vp9\"\">`\n\n-}\n\n",
+                "type": "String -> Source msg"
+            }
+        ],
+        "binops": []
+    }
+]

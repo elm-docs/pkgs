@@ -1,0 +1,330 @@
+[
+    {
+        "name": "Convert",
+        "comment": "\nThere are some assumptions that can be made about these types.\n\nOdds can be Even and Even can be Odd if we add or remove 1\n@docs addOneEven, addOneOdd, subtraceOneEven, subtraceOneOdd\n\nNatural numbers are always Whole, Positive, and not Zero\n@docs naturalToWhole, naturalToPositive, naturalToNonZero\n\nWhole numbers are always Positive\n@docs wholeToPositive\n\nPrime numbers are always Positive, Whole, Natural and not Zero\n@docs primeToWhole, primeToPositive, primeToNatural, primeToNonZero\n\nPositive, Negative and Odd numbers are never Zero\n@docs positiveToNonZero, negativeToNonZero, oddToNonZero\n\nPositive and Negative numbers are the negation of each other\n@docs positiveToNegativeInt, positiveToNegativeFloat, negativeToPositiveInt, negativeToPositiveFloat\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "addOneEven",
+                "comment": " ",
+                "type": "Even -> Odd"
+            },
+            {
+                "name": "addOneOdd",
+                "comment": " ",
+                "type": "Odd -> Even"
+            },
+            {
+                "name": "naturalToNonZero",
+                "comment": " ",
+                "type": "Natural -> NonZero Int"
+            },
+            {
+                "name": "naturalToPositive",
+                "comment": " ",
+                "type": "Natural -> Positive Int"
+            },
+            {
+                "name": "naturalToWhole",
+                "comment": " ",
+                "type": "Natural -> Whole"
+            },
+            {
+                "name": "negativeToNonZero",
+                "comment": " ",
+                "type": "Negative number -> NonZero number"
+            },
+            {
+                "name": "negativeToPositiveFloat",
+                "comment": " ",
+                "type": "Negative Float -> Positive Float"
+            },
+            {
+                "name": "negativeToPositiveInt",
+                "comment": " ",
+                "type": "Negative Int -> Positive Int"
+            },
+            {
+                "name": "oddToNonZero",
+                "comment": " ",
+                "type": "Odd -> NonZero Int"
+            },
+            {
+                "name": "positiveToNegativeFloat",
+                "comment": " ",
+                "type": "Positive Float -> Negative Float"
+            },
+            {
+                "name": "positiveToNegativeInt",
+                "comment": " ",
+                "type": "Positive Int -> Negative Int"
+            },
+            {
+                "name": "positiveToNonZero",
+                "comment": " ",
+                "type": "Positive number -> NonZero number"
+            },
+            {
+                "name": "primeToNatural",
+                "comment": " ",
+                "type": "Prime -> Natural"
+            },
+            {
+                "name": "primeToNonZero",
+                "comment": " ",
+                "type": "Prime -> NonZero Int"
+            },
+            {
+                "name": "primeToPositive",
+                "comment": " ",
+                "type": "Prime -> Positive Int"
+            },
+            {
+                "name": "primeToWhole",
+                "comment": " ",
+                "type": "Prime -> Whole"
+            },
+            {
+                "name": "subtraceOneEven",
+                "comment": " ",
+                "type": "Even -> Odd"
+            },
+            {
+                "name": "subtraceOneOdd",
+                "comment": " ",
+                "type": "Odd -> Even"
+            },
+            {
+                "name": "wholeToPositive",
+                "comment": " ",
+                "type": "Whole -> Positive Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Positive",
+        "comment": "\nPositive numbers exclude zero.\nBecause the constructor for `Positive` is not exported, you can be\nconfident that if you are using a `Positive`, then its `Positive`.\n\n@docs Positive, fromInt, fromFloat, toNum\n",
+        "unions": [
+            {
+                "name": "Positive",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromFloat",
+                "comment": " ",
+                "type": "Float -> Maybe (Positive Float)"
+            },
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe (Positive Int)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "Positive number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "NonZero",
+        "comment": "\nNonZero numbers are numbers excluding zero.\nBecause the constructor for `NonZero` is not exported, you can be\nconfident that if you are using a `NonZero`, then its `NonZero`.\n\n@docs NonZero, fromNum, toNum\n",
+        "unions": [
+            {
+                "name": "NonZero",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromNum",
+                "comment": " ",
+                "type": "number -> Maybe (NonZero number)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "NonZero number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Odd",
+        "comment": "\nBecause the constructor for `Odd` is not exported, you can be\nconfident that if you are using a `Odd`, then its `Odd`.\n\n@docs Odd, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Odd",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Odd"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Odd -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Negative",
+        "comment": "\nNegative numbers exclude zero.\nBecause the constructor for `Negative` is not exported, you can be\nconfident that if you are using a `Negative`, then its `Negative`.\n\n@docs Negative, fromInt, fromFloat, toNum\n",
+        "unions": [
+            {
+                "name": "Negative",
+                "comment": " ",
+                "args": [
+                    "number"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromFloat",
+                "comment": " ",
+                "type": "Float -> Maybe (Negative Float)"
+            },
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe (Negative Int)"
+            },
+            {
+                "name": "toNum",
+                "comment": " ",
+                "type": "Negative number -> number"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Prime",
+        "comment": "\nPrime numbers are divisble by themselves and 1.\nBecause the constructor for `Prime` is not exported, you can be\nconfident that if you are using a `Prime`, then its `Prime`.\n\n@docs Prime, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Prime",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Prime"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Prime -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Whole",
+        "comment": "\nWhole numbers are positive numbers including zero.\nBecause the constructor for `Whole` is not exported, you can be\nconfident that if you are using a `Whole`, then its `Whole`.\n\n@docs Whole, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Whole",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Whole"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Whole -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Even",
+        "comment": "\nBecause the constructor for `Even` is not exported, you can be\nconfident that if you are using a `Even`, then its `Even`.\n\n@docs Even, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Even",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Even"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Even -> Int"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Natural",
+        "comment": "\nNatural numbers are positive whole numbers excluding zero.\nBecause the constructor for `Natural` is not exported, you can be\nconfident that if you are using a `Natural`, then its `Natural`.\n\n@docs Natural, fromInt, toInt\n",
+        "unions": [
+            {
+                "name": "Natural",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromInt",
+                "comment": " ",
+                "type": "Int -> Maybe Natural"
+            },
+            {
+                "name": "toInt",
+                "comment": " ",
+                "type": "Natural -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

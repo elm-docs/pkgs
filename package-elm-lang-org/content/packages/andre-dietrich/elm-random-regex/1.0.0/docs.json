@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Random.Regex",
+        "comment": " This library helps you generate random strings from regular expressions.\n\nIt is not tested yet, but in most cases it works. What is missing so far, is\n\n@docs ascii, generate, unicode\n\n@docs Encoding\n\n",
+        "unions": [
+            {
+                "name": "Encoding",
+                "comment": " Encoding defines the type of random characters to generate, for example for\nthe `.` dot operator.\n\n    - `ASCII` : will generate values between 0 and 255\n    - `UNICODE` : will generate 16 bit values\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ASCII",
+                        []
+                    ],
+                    [
+                        "UNICODE",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "ascii",
+                "comment": " Create a generator that produces ASCII strings based on a regular\nexpression. Infinty is set to max 100, if you are using modifiers such as\n`*` or `+`. It is a shortcut for function `generate`.\n",
+                "type": "String -> Result String (Generator String)"
+            },
+            {
+                "name": "generate",
+                "comment": " Create a generator that produces strings based on regular expressions.\n\n    generate ASCII 200 \"a-z*\" of\n        Ok result ->\n            ( model, Random.generate GenResult result )\n\n        Err msg ->\n            ( { model | result = msg }, Cmd.none )\n\n",
+                "type": "Encoding -> Int -> String -> Result String (Generator String)"
+            },
+            {
+                "name": "unicode",
+                "comment": " Create a generator that produces UNICODE strings based on a regular\nexpression. Infinty is set to max 100, if you are using modifiers such as\n`*` or `+`. It is a shortcut for function `generate`.\n",
+                "type": "String -> Result String (Generator String)"
+            }
+        ],
+        "binops": []
+    }
+]

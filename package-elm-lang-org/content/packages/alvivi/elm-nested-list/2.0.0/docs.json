@@ -1,0 +1,70 @@
+[
+    {
+        "name": "NestedList",
+        "comment": " A list of values of any type, which can also be lists.\n\nThe main use case of this library is managing list of optional and nested\nvalues, for example, like `Html` nodes or `Html.Attribute`s. Usually, we can\nsolve this issue using `List (List any)` or `List (Maybe any)`, like this:\n\n    myView : Bool -> Html msg\n    myView isHidden =\n        Html.div []\n            (List.concat\n                [ [ Html.text \"Always visible\"\n                  , Html.text \"Also always visible\"\n                  ]\n                , if isHidden then\n                    []\n                  else\n                    [ Html.text \"Maybe visible\" ]\n                , if not isHidden then\n                    [ Html.text \"Maybe not visible\" ]\n                  else\n                    []\n                ]\n            )\n\nUsing `NestedList`, the above code will look like this:\n\n    myView : Bool -> Html msg\n    myView isHidden =\n        Html.div []\n            (NestedList.fromMany\n                [ NestedList.one (Html.text \"Always visible\")\n                , NestedList.one (Html.text \"Always visible\")\n                , NestedList.ifTrue isHidden (Html.text \"Maybe visible\")\n                , NestedList.ifFalse isHidden (Html.text \"Maybe not visible\")\n                , NestedList many\n                    [ Html.text \"Even nested list, without calling again fromMany\"\n                    ]\n                ]\n            )\n\n\n## A Note About Performance\n\nThis library optimizes converting `NestedList` back to a list in linear\ntime. Here is a benchmark comparing using `NestedList` against using `List` and\n`List.concat`.\n\n![Benchmark](https://raw.githubusercontent.com/alvivi/elm-nested-list/master/assets/elm-nested-list-benchmark.png)\n\n\n# Creating Nested Lists\n\n@docs NestedList, zero, one, many, group\n\n\n# Conversion to Lists\n\n@docs fromMany, toList\n\n\n# Helpful Functions\n\n@docs ifTrue, ifFalse, maybe, maybeMap\n\n",
+        "unions": [
+            {
+                "name": "NestedList",
+                "comment": " A list of values or nested values.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromMany",
+                "comment": " Converts a `List` of `NestedList` into a `List`, **O(n)**. Same than\n`NestedList.many >> NestedList.toList`.\n",
+                "type": "List (NestedList a) -> List a"
+            },
+            {
+                "name": "group",
+                "comment": " Groups a `List (NestedList a)` of values into `NestedList a` value,\n**O(1)**.\n",
+                "type": "List (NestedList a) -> NestedList a"
+            },
+            {
+                "name": "ifFalse",
+                "comment": " Given a predicate, return an empty `NestedList` if the predicates is false,\nor singleton `NestedList` if it is true. **O(1)**.\n",
+                "type": "Bool -> a -> NestedList a"
+            },
+            {
+                "name": "ifTrue",
+                "comment": " Given a predicate, return an empty `NestedList` if the predicates is true,\nor singleton `NestedList` otherwise. **O(1)**.\n",
+                "type": "Bool -> a -> NestedList a"
+            },
+            {
+                "name": "many",
+                "comment": " Transform a `List a` of values into `NestedList a` value, **O(1)**.\n",
+                "type": "List a -> NestedList a"
+            },
+            {
+                "name": "maybe",
+                "comment": " Converts a `Maybe a` into a singleton `NestedList`, **O(1)**.\n",
+                "type": "Maybe a -> NestedList a"
+            },
+            {
+                "name": "maybeMap",
+                "comment": " Transform a `Maybe` value given a function and then transforms that `Maybe`\ninto a `NestedList`, **O(1)**. Like `Maybe.map fn >> maybe`.\n",
+                "type": "(b -> a) -> Maybe b -> NestedList a"
+            },
+            {
+                "name": "one",
+                "comment": " Returns a singleton `NestedList a`, i.e. a list with only one element,\n**O(1)**.\n",
+                "type": "a -> NestedList a"
+            },
+            {
+                "name": "toList",
+                "comment": " Converts a `NestedList` into a `List a`, **O(n)**.\n",
+                "type": "NestedList a -> List a"
+            },
+            {
+                "name": "zero",
+                "comment": " Returns an empty `NestedList a`, **O(1)**. The implementation uses a special\ncase for empty list in order to have similar performance than a\n`List (Maybe a)`.\n",
+                "type": "NestedList a"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,76 @@
+[
+    {
+        "name": "JsonApi",
+        "comment": " Helpers for encoding and decoding JSON Api payloads in elm. This is a convenience\npackage, loaded into elm-package for convenience reasons (i.e. to make them\navailable in several of my programs). Not all aspects of JSON Api are implemented.\n\n@docs root, attribute, decodeId, relationship, listDecoder\n\n@docs encodePost, encodePatch, dataEncoder, jsonApiType, attributes, relationships, encodeId, requiredHeaders\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "attribute",
+                "comment": " Decode an atribute\n",
+                "type": "String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "attributes",
+                "comment": " Encodes the \"attribute\" node of a JSON API conformant payload\n",
+                "type": "List ( String, Value ) -> ( String, Value )"
+            },
+            {
+                "name": "dataEncoder",
+                "comment": " Encodes the root \"data\" node of a JSON API conformant payload\n",
+                "type": "List ( String, Value ) -> Value"
+            },
+            {
+                "name": "decodeId",
+                "comment": " Decode an id\n",
+                "type": "Decoder (Maybe String)"
+            },
+            {
+                "name": "encodeId",
+                "comment": " Encodes the \"id\" attribute of a JSON API conformant payload\n",
+                "type": "String -> ( String, Value )"
+            },
+            {
+                "name": "encodePatch",
+                "comment": " Creates the correct payload for PATCH requests to a JSON API endpoint\n",
+                "type": "String -> String -> List ( String, Value ) -> List ( String, Value ) -> Value"
+            },
+            {
+                "name": "encodePost",
+                "comment": " Creates the correct payload for POST requests to a JSON API endpoint\n",
+                "type": "String -> List ( String, Value ) -> List ( String, Value ) -> Value"
+            },
+            {
+                "name": "jsonApiType",
+                "comment": " Encodes the \"type\" attribute of a JSON API conformant payload\n",
+                "type": "String -> ( String, Value )"
+            },
+            {
+                "name": "listDecoder",
+                "comment": " Decode a payload where objects are delivered in a list\n",
+                "type": "Decoder a -> Decoder (List a)"
+            },
+            {
+                "name": "relationship",
+                "comment": " Specify a relationship attribute that is expected in the incoming payload\n",
+                "type": "String -> Decoder a -> Decoder a"
+            },
+            {
+                "name": "relationships",
+                "comment": " Encodes the \"relationships\" node of a JSON API conformant payload\n",
+                "type": "List ( String, Value ) -> ( String, Value )"
+            },
+            {
+                "name": "requiredHeaders",
+                "comment": " Adds the correct headers for JSON API conformant request to a RequestBuilder object\n",
+                "type": "RequestBuilder a -> RequestBuilder a"
+            },
+            {
+                "name": "root",
+                "comment": " Access the root \"data\" object of a JsonApi payload\n",
+                "type": "Decoder a -> Decoder a"
+            }
+        ],
+        "binops": []
+    }
+]

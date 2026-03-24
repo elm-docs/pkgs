@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Quiz",
+        "comment": " A customizable quiz powered by Elm and Polymer\n\nSee the example on github.\n\n\n# Quiz\n\n@docs Msg, Quiz\n@docs init, update, view\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " An opaque type representing messages that are passed inside the Quiz.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Quiz",
+                "comment": " The Quiz model.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initialize a Quiz given a config as Json.Decode.Value record.\nYou must always execute the returned commands.\n\n\n# Example of the config\n\n    {\n      \"providedQuestions\": [\n        {\n          \"question\": \"Which nephew has a red hat?\",\n          \"answers\": [\n            { \"type\": \"correct\", \"value\": \"Huey\"},\n            { \"type\": \"invalid\", \"value\": \"Dewey\"},\n            { \"type\": \"invalid\", \"value\": \"Louie\"},\n            { \"type\": \"invalid\", \"value\": \"Donald\"}\n          ]\n        },\n        {\n          \"question\": \"Who is the richest of them all?\",\n          \"answers\": [\n            { \"type\": \"correct\", \"value\": \"Scrooge McDuck\"},\n            { \"type\": \"invalid\", \"value\": \"Jeff Bezos\"},\n            { \"type\": \"invalid\", \"value\": \"Bill Gates\"},\n            { \"type\": \"invalid\", \"value\": \"Warren Buffett\"}\n          ]\n        }\n      ],\n      \"shuffleQuestions\": false,\n      \"title\": \"Super epic title!\"\n    }\n\n\n# Example init call\n\n    init\n        let\n            (quizModel, quizCmd) = Quiz.init config\n        in\n            { quiz = quizModel } ! [ Cmd.map ToQuiz quizCmd ]\n\nFor a detailed example see\n@see example/src/elm/Main.elm\n\n",
+                "type": "Value -> ( Quiz, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " The quiz update function\n\nDo not forget to execute the returned command (same as for init)\n\n",
+                "type": "Msg -> Quiz -> ( Quiz, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " view\n",
+                "type": "Quiz -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

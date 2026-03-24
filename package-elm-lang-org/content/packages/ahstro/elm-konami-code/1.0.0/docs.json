@@ -1,0 +1,39 @@
+[
+    {
+        "name": "KonamiCode",
+        "comment": " This amazingly necessary library allows you to see if the Konami\nCode has been entered on your website.\n\n    import KonamiCode exposing (KonamiCode)\n\n    type alias Model =\n        { konamiCode : KonamiCode\n        }\n\n    type Msg\n        = KonamiCodeMsg KonamiCode.Msg\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { konamiCode = KonamiCode.init }\n        , Cmd.none\n        )\n\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update msg model =\n        case msg of\n            KonamiCodeMsg msg ->\n                let\n                    ( newModel, konamiCodeEntered ) =\n                        KonamiCode.update msg model\n                in\n                ( { newModel\n                    | showEasterEgg =\n                        model.showEasterEgg || konamiCodeEntered\n                  }\n                , Cmd.none\n                )\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        KonamiCode.subscribe KonamiCodeMsg\n\n@docs KonamiCode, Msg, init, update, subscribe\n\n",
+        "unions": [
+            {
+                "name": "KonamiCode",
+                "comment": " An opaque type used to model the Konami Code.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " KonamiCode Msg type. Create a `Msg` to handle these.\n\n    type Msg\n        = KonamiCodeMsg KonamiCode.Msg\n\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Create an initial KonamiCode. To be used to set `konamiCode` when\ninitializing your `Model`.\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { konamiCode = KonamiCode.init }\n        , Cmd.none\n        )\n\n",
+                "type": "KonamiCode"
+            },
+            {
+                "name": "subscribe",
+                "comment": " KonamiCode `subscribe`-function. To be used to subscribe to\nhook up a handler for `Msg`s and when the code has been entered\ncorrectly.\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        KonamiCode.subscribe KonamiCodeMsg\n\n",
+                "type": "(Msg -> msg) -> Sub msg"
+            },
+            {
+                "name": "update",
+                "comment": " KonamiCode update function. To be used with in your\n`update`-function when matching against `KonamiCodeMsg`.\n\n    update : Msg -> Model -> ( Model, Cmd Msg )\n    update msg model =\n        case msg of\n            KonamiCodeMsg msg ->\n                let\n                    ( newModel, konamiCodeEntered ) =\n                        KonamiCode.update msg model\n                in\n                ( { newModel\n                    | showEasterEgg =\n                        model.showEasterEgg || konamiCodeEntered\n                  }\n                , Cmd.none\n                )\n\n",
+                "type": "Msg -> Model r -> ( Model r, Bool )"
+            }
+        ],
+        "binops": []
+    }
+]

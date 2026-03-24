@@ -1,0 +1,113 @@
+[
+    {
+        "name": "CommentView",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs commentMainView\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "commentMainView",
+                "comment": " Main comment view function. Use mapAll from style-elements\n\n    Element.mapAll MyCommentMessageWrapper Comment identity (commentMainView isSignedIn userCommentModel myAppComments)\n\n",
+                "type": "Bool -> UserCommentModel -> Maybe (Zipper CommentModel) -> Element Class variation CommentMsg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentUpdate",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs commentUpdate, getParentComment\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "commentUpdate",
+                "comment": " Update function. A seed is necessary\n\n    ( ( newZipper, newSeed ), newCommentCmd ) =\n        commentUpdate isSignedIn seed commentMsg myAppComments\n\n",
+                "type": "Bool -> Seed -> CommentMsg -> Maybe (Zipper CommentModel) -> ( ( Maybe (Zipper CommentModel), Seed ), Cmd CommentMsg )"
+            },
+            {
+                "name": "getParentComment",
+                "comment": " Function to get the parent comment\n",
+                "type": "Maybe (Zipper CommentModel) -> CommentIdModel -> Maybe CommentModel"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentStyles",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n@docs Class, stylesheet\n\n",
+        "unions": [
+            {
+                "name": "Class",
+                "comment": " Comments style classes\n",
+                "args": [],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "Paragraph",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "stylesheet",
+                "comment": " Comments stylesheet\n",
+                "type": "String -> StyleSheet Class variation"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "CommentModel",
+        "comment": " This library is a comments library similar to that found on social media sites.\n\n\n# Types\n\n@docs CommentIdModel, CommentModel, UserCommentModel, UserIdModel\n\n",
+        "unions": [
+            {
+                "name": "CommentIdModel",
+                "comment": " Union Wrapped CommentId\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CommentIdModel",
+                        [
+                            "CommentId"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "UserIdModel",
+                "comment": " Union Wrapped UserId\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UserIdModel",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CommentModel",
+                "comment": " CommentModel\n",
+                "args": [],
+                "type": "{ commentId : CommentIdModel, user : UserCommentModel, message : String, showReplyInput : Bool, protoMessage : String, autoexpand : State }"
+            },
+            {
+                "name": "UserCommentModel",
+                "comment": " UserModel for comments\n",
+                "args": [],
+                "type": "{ userId : UserIdModel, userFullName : String, picture : String }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,1 @@
+[{"name":"Extract.API","comment":"\n\n@docs rule\n\n","unions":[],"aliases":[],"values":[{"name":"rule","comment":" Discover all entrypoints, record the ports and flags they use, and collect their types.\n\nTo actually get to the information, `elm-review` must be used with `--report=json --extract`.\n\n","type":"Review.Rule.Rule"}],"binops":[]}]

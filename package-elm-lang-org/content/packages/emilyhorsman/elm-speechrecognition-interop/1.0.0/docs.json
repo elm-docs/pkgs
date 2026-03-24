@@ -1,0 +1,29 @@
+[
+    {
+        "name": "SpeechRecognitionInterop",
+        "comment": " Types for an interop between Elm and the HTML5 SpeechRecognition API.\n\n# Definition\n@docs Alternative, Result, Event\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Alternative",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognitionAlternative\n",
+                "args": [],
+                "type": "{ transcript : String, confidence : Float }"
+            },
+            {
+                "name": "Event",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognitionEvent\n",
+                "args": [],
+                "type": "{ resultIndex : Int, results : List Result }"
+            },
+            {
+                "name": "Result",
+                "comment": " https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognitionResult\n",
+                "args": [],
+                "type": "{ isFinal : Bool, items : List Alternative }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

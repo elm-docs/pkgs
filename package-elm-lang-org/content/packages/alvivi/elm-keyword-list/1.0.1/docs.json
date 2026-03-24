@@ -1,0 +1,70 @@
+[
+    {
+        "name": "KeywordList",
+        "comment": " A list of values of any type, which can also be lists.\n\nThe main use case of this library is managing list of optional and nested\nvalues, for example, like `Html` nodes or `Html.Attribute`s. Usually, we can\nsolve this issue using `List (List any)` or `List (Maybe any)`, like this:\n\n    myView : Bool -> Html msg\n    myView isHidden =\n        Html.div []\n            (List.concat\n                [ [ Html.text \"Always visible\"\n                  , Html.text \"Also always visible\"\n                  ]\n                , if isHidden then\n                    []\n                  else\n                    [ Html.text \"Maybe visible\" ]\n                , if not isHidden then\n                    [ Html.text \"Maybe not visible\" ]\n                  else\n                    []\n                ]\n            )\n\nUsing `KeywordList`, the above code will look like this:\n\n    myView : Bool -> Html msg\n    myView isHidden =\n        Html.div []\n            (KeywordList.fromMany\n                [ KeywordList.one (Html.text \"Always visible\")\n                , KeywordList.one (Html.text \"Always visible\")\n                , KeywordList.ifTrue isHidden (Html.text \"Maybe visible\")\n                , KeywordList.ifFalse isHidden (Html.text \"Maybe not visible\")\n                , KeywordList many\n                    [ Html.text \"Even nested list, without calling again fromMany\"\n                    ]\n                ]\n            )\n\n\n## A Note About Performance\n\nThis library optimizes converting `KeywordList` back to a list in linear\ntime. Here is a benchmark comparing using `KeywordList` against using `List` and\n`List.concat`.\n\n![Benchmark](https://raw.githubusercontent.com/alvivi/elm-keyword-list/master/assets/elm-keyword-list-benchmark.png)\n\n\n# Creating Keyword Lists\n\n@docs KeywordList, zero, one, many, group\n\n\n# Conversion to Lists\n\n@docs fromMany, toList\n\n\n# Helpful Functions\n\n@docs ifTrue, ifFalse, maybe, maybeMap\n\n",
+        "unions": [
+            {
+                "name": "KeywordList",
+                "comment": " A list of values or nested values.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromMany",
+                "comment": " Converts a `List` of [`KeywordList`](#KeywordList) into a `List`, **O(n)**.\nSame than `KeywordList.many >> KeywordList.toList`.\n",
+                "type": "List (KeywordList a) -> List a"
+            },
+            {
+                "name": "group",
+                "comment": " Groups a `List` of [`KeywordList`](#KeywordList) of values into\n[`KeywordList`](#KeywordList) value, **O(1)**.\n",
+                "type": "List (KeywordList a) -> KeywordList a"
+            },
+            {
+                "name": "ifFalse",
+                "comment": " Given a predicate, return an empty [`KeywordList`](#KeywordList) if the\npredicates is false, or singleton [`KeywordList`](#KeywordList) if it is true.\n**O(1)**.\n",
+                "type": "Bool -> a -> KeywordList a"
+            },
+            {
+                "name": "ifTrue",
+                "comment": " Given a predicate, return an empty [`KeywordList`](#KeywordList) if the\npredicates is true, or singleton [`KeywordList`](#KeywordList) otherwise.\n**O(1)**.\n",
+                "type": "Bool -> a -> KeywordList a"
+            },
+            {
+                "name": "many",
+                "comment": " Transform a `List` of values into [`KeywordList`](#KeywordList) value,\n**O(1)**.\n",
+                "type": "List a -> KeywordList a"
+            },
+            {
+                "name": "maybe",
+                "comment": " Converts a `Maybe` into a singleton [`KeywordList`](#KeywordList),\n**O(1)**.\n",
+                "type": "Maybe a -> KeywordList a"
+            },
+            {
+                "name": "maybeMap",
+                "comment": " Transforms a `Maybe` value given a function and then transforms that `Maybe`\ninto a [`KeywordList`](#KeywordList), **O(1)**. Like `Maybe.map fn >> maybe`.\n",
+                "type": "(b -> a) -> Maybe b -> KeywordList a"
+            },
+            {
+                "name": "one",
+                "comment": " Returns a singleton [`KeywordList`](#KeywordList), i.e. a list with only\none element, **O(1)**.\n",
+                "type": "a -> KeywordList a"
+            },
+            {
+                "name": "toList",
+                "comment": " Converts a [`KeywordList`](#KeywordList) into a `List`, **O(n)**.\n",
+                "type": "KeywordList a -> List a"
+            },
+            {
+                "name": "zero",
+                "comment": " Returns an empty [`KeywordList`](#KeywordList), **O(1)**.\n",
+                "type": "KeywordList a"
+            }
+        ],
+        "binops": []
+    }
+]

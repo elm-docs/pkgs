@@ -1,0 +1,300 @@
+[
+    {
+        "name": "Keyboard.Combo",
+        "comment": " Provides helpers to call messages on the given key combinations\n\n## Types\n\n@docs Model, Msg, KeyCombo\n\n## Setup\n\n    import Keyboard.Combo\n\n    type alias Model =\n        { combos : Keyboard.Combo.Model Msg }\n\n    type Msg\n        = Save\n        | SaveAll\n        | RandomThing\n        | ComboMsg Keyboard.Combo.Msg\n\n    keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)\n    keyboardCombos =\n        [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save\n        , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll\n        , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing\n        ]\n\n    init : ( Model, Cmd Msg )\n    init =\n        { combos = Keyboard.Combo.init ComboMsg keyboardCombos } ! []\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Keyboard.Combo.subscriptions model.combos\n\n@docs init, subscriptions, update\n\n## Combo Helpers\n\n    import Keyboard.Combo\n\n    type Msg\n        = Save\n        | SaveAll\n        | RandomThing\n\n    keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)\n    keyboardCombos =\n        [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save\n        , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll\n        , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing\n        ]\n\n@docs combo1, combo2, combo3, combo4\n\n## Modifiers\n\n@docs super, command, shift, control, alt, option, enter, tab, escape, space\n\n\n## Letters\n\n@docs a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z\n\n## Number Helpers\n\n@docs zero, one, two, three, four, five, six, seven, eight, nine\n",
+        "unions": [
+            {
+                "name": "KeyCombo",
+                "comment": " Combo length types\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " Internal update messages\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Internal state that keeps track of keys currently pressed and key combos\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ keys : Model, combos : List (KeyCombo msg), toMsg : Msg -> msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "a",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "alt",
+                "comment": " Helper for alt key\n",
+                "type": "Key"
+            },
+            {
+                "name": "b",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "c",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "combo1",
+                "comment": " Helper to define a key combo of one key\n",
+                "type": "Key -> msg -> KeyCombo msg"
+            },
+            {
+                "name": "combo2",
+                "comment": " Helper to define a key combo of two keys\n",
+                "type": "( Key, Key ) -> msg -> KeyCombo msg"
+            },
+            {
+                "name": "combo3",
+                "comment": " Helper to define a key combo of three keys\n",
+                "type": "( Key, Key, Key ) -> msg -> KeyCombo msg"
+            },
+            {
+                "name": "combo4",
+                "comment": " Helper to define a key combo of four keys\n",
+                "type": "( Key, Key, Key, Key ) -> msg -> KeyCombo msg"
+            },
+            {
+                "name": "command",
+                "comment": " Helper for macOS command key\n",
+                "type": "Key"
+            },
+            {
+                "name": "control",
+                "comment": " Helper for control key\n",
+                "type": "Key"
+            },
+            {
+                "name": "d",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "e",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "eight",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "enter",
+                "comment": " Helper for enter key\n",
+                "type": "Key"
+            },
+            {
+                "name": "escape",
+                "comment": " Helper for escape key\n",
+                "type": "Key"
+            },
+            {
+                "name": "f",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "five",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "four",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "g",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "h",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "i",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize the module\n",
+                "type": "(Msg -> msg) -> List (KeyCombo msg) -> Model msg"
+            },
+            {
+                "name": "j",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "k",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "l",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "m",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "n",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "nine",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "o",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "one",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "option",
+                "comment": " Helper for macOS option key\n",
+                "type": "Key"
+            },
+            {
+                "name": "p",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "q",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "r",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "s",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "seven",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "shift",
+                "comment": " Helper for shift key\n",
+                "type": "Key"
+            },
+            {
+                "name": "six",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "space",
+                "comment": " Helper for space key\n",
+                "type": "Key"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Subscribe to module key events\n",
+                "type": "Model parentMsg -> Sub parentMsg"
+            },
+            {
+                "name": "super",
+                "comment": " Helper for super key\n",
+                "type": "Key"
+            },
+            {
+                "name": "t",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "tab",
+                "comment": " Helper for tab key\n",
+                "type": "Key"
+            },
+            {
+                "name": "three",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "two",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "u",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "update",
+                "comment": " Update the internal model\n",
+                "type": "Msg -> Model msg -> Model msg"
+            },
+            {
+                "name": "v",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "w",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "x",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "y",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "z",
+                "comment": " ",
+                "type": "Key"
+            },
+            {
+                "name": "zero",
+                "comment": " ",
+                "type": "Key"
+            }
+        ],
+        "binops": []
+    }
+]

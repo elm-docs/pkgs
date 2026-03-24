@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Quiz",
+        "comment": " A customizable quiz powered by Elm and Polymer\n\nSee the example on github.\n\n\n# Quiz\n\n@docs Msg, Quiz\n@docs initFromJson, initFromConfigBuilder, update, view, subscriptions\n@docs Difficulty\n@docs ConfigBuilder, configBuilder, setShuffleQuestions, setDifficulty, setMaxQuestions\n\n",
+        "unions": [
+            {
+                "name": "ConfigBuilder",
+                "comment": " ConfigBuilder type allows you to make changes to the config.\n\n@see configBuilder\n@see setShuffleQuestions, setDifficulty, setMaxQuestions\n\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Difficulty",
+                "comment": " Difficulty settings\n\nThe difficulties are:\n`Easy`\n`Normal`\n`Hard`\n`Speedy`\n`Impossible`\n\nDifficulties can be set in the json config.\nThe values are then the lower cased representation.\n\n        Easy -- \"easy\"\n        Normal -- \"normal\"\n        -- etc\n\nWith setDifficulty you can set those difficulties:\n\n        Quiz.setDifficulty Quiz.Easy configBuilder\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Easy",
+                        []
+                    ],
+                    [
+                        "Normal",
+                        []
+                    ],
+                    [
+                        "Hard",
+                        []
+                    ],
+                    [
+                        "Speedy",
+                        []
+                    ],
+                    [
+                        "Impossible",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " An opaque type representing messages that are passed inside the Quiz.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Quiz",
+                "comment": " The Quiz model.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "configBuilder",
+                "comment": " Converts a valid quiz config from Json.Decode.Value to a ConfigBuilder.\nWhich allows you to make changed to the config.\n\n@see initFromJson for an example Json.Decode.Value\n\n",
+                "type": "Value -> ConfigBuilder"
+            },
+            {
+                "name": "initFromConfigBuilder",
+                "comment": " Same as the initFromJson but now via a ConfigBuilder\n\nYou must always execute the returned commands.\n\n@see ConfigBuilder\n\n",
+                "type": "ConfigBuilder -> ( Quiz, Cmd Msg )"
+            },
+            {
+                "name": "initFromJson",
+                "comment": " Initialize a Quiz given a config as Json.Decode.Value record.\nYou must always execute the returned commands.\n\n\n# Example of the config\n\nOnly the \"providedQuestions\" is required.\n\n    {\n      \"providedQuestions\": [\n        {\n          \"question\": \"Which nephew has a red hat?\",\n          \"answers\": [\n            { \"type\": \"correct\", \"value\": \"Huey\"},\n            { \"type\": \"invalid\", \"value\": \"Dewey\"},\n            { \"type\": \"invalid\", \"value\": \"Louie\"},\n            { \"type\": \"invalid\", \"value\": \"Donald\"}\n          ]\n        },\n        {\n          \"question\": \"Who is the richest of them all?\",\n          \"answers\": [\n            { \"type\": \"correct\", \"value\": \"Scrooge McDuck\"},\n            { \"type\": \"invalid\", \"value\": \"Jeff Bezos\"},\n            { \"type\": \"invalid\", \"value\": \"Bill Gates\"},\n            { \"type\": \"invalid\", \"value\": \"Warren Buffett\"}\n          ]\n        }\n      ],\n      \"shuffleQuestions\": false,\n      \"title\": \"Elm Quiz!\",\n      \"difficulty\": \"normal\",\n      \"maxQuestions: 10\n    }\n\n\n# Example init call\n\n    init\n        let\n            (quizModel, quizCmd) = Quiz.init config\n        in\n            { quiz = quizModel } ! [ Cmd.map ToQuiz quizCmd ]\n\nFor a detailed example see\n@see example/src/elm/Main.elm\n\n",
+                "type": "Value -> ( Quiz, Cmd Msg )"
+            },
+            {
+                "name": "setDifficulty",
+                "comment": " Overwrite the difficulty configuration\n",
+                "type": "Difficulty -> ConfigBuilder -> ConfigBuilder"
+            },
+            {
+                "name": "setMaxQuestions",
+                "comment": " Overwrite the max questions configuration\n",
+                "type": "Int -> ConfigBuilder -> ConfigBuilder"
+            },
+            {
+                "name": "setShuffleQuestions",
+                "comment": " Overwrite the shuffle questions configuration\n",
+                "type": "Bool -> ConfigBuilder -> ConfigBuilder"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " subscriptions\n\nMust always be connected else the countdown will not work.\n\n",
+                "type": "Quiz -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " The quiz update function\n\nDo not forget to execute the returned command (same as for init)\n\n",
+                "type": "Msg -> Quiz -> ( Quiz, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " view\n",
+                "type": "Quiz -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

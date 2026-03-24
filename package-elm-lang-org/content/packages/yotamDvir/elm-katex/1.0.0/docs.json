@@ -1,0 +1,204 @@
+[
+    {
+        "name": "Katex.Lang",
+        "comment": " If you want to write in different languages simultaneously, you should use `lang`. _Understand `Katex.Simple` before reading on._\n\nFor example, let's say you want your notes in both English and Hebrew. In this case, you can write both and show whichever you want, depending on the state of your app. See _§Lang_ in the README for this example in action.\n\n# Types\n@docs Latex, Passage\nNote that `lang` is a type variable, you may use whichever type fits your needs.\n\n# Create LaTeX instance\n@docs human, inline, display\n\n# Process LaTeX instances\n@docs view, compile\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Latex",
+                "comment": " A LaTeX instance.\n",
+                "args": [
+                    "lang"
+                ],
+                "type": "Latex String lang"
+            },
+            {
+                "name": "Passage",
+                "comment": " A list of LaTeX instances.\n",
+                "args": [
+                    "lang"
+                ],
+                "type": "Passage String lang"
+            }
+        ],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " Like `Katex.Simple.compile`, but depends on the `lang`uage.\n",
+                "type": "lang -> Latex lang -> String"
+            },
+            {
+                "name": "display",
+                "comment": " Like `Katex.Simple.display`.\n",
+                "type": "String -> Latex lang"
+            },
+            {
+                "name": "human",
+                "comment": " Like `Katex.Simple.human`, but instead of feeding it a string, you must feed it a `lang`uage-dependent string.\n",
+                "type": "(lang -> String) -> Latex lang"
+            },
+            {
+                "name": "inline",
+                "comment": " Like `Katex.Simple.inline`.\n",
+                "type": "String -> Latex lang"
+            },
+            {
+                "name": "view",
+                "comment": " Like `Katex.Simple.view`, but depends on the `lang`uage.\n",
+                "type": "lang -> Passage lang -> Html a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Katex.Complex",
+        "comment": " If you need both `config`urations and `lang`uage dependencies, you should use `complex`. _Understand `Katex.Config` and `Katex.Lang` before reading on._\n\n# Types\n@docs Latex, Passage\n\n# Create LaTeX instance\n@docs human, inline, display\n\n# Process LaTeX instances\n@docs view, compile\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Latex",
+                "comment": " A LaTeX instance.\n",
+                "args": [
+                    "config",
+                    "lang"
+                ],
+                "type": "Latex config lang"
+            },
+            {
+                "name": "Passage",
+                "comment": " A list of LaTeX instances.\n",
+                "args": [
+                    "config",
+                    "lang"
+                ],
+                "type": "Passage config lang"
+            }
+        ],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " Like `Katex.Simple.compile`, but depends on the `config`uration and `lang`uage.\n",
+                "type": "config -> lang -> Latex config lang -> String"
+            },
+            {
+                "name": "display",
+                "comment": " Like `Katex.Config.display`.\n",
+                "type": "(config -> String) -> Latex config lang"
+            },
+            {
+                "name": "human",
+                "comment": " Like `Katex.Lang.human`.\n",
+                "type": "(lang -> String) -> Latex config lang"
+            },
+            {
+                "name": "inline",
+                "comment": " Like `Katex.Config.inline`.\n",
+                "type": "(config -> String) -> Latex config lang"
+            },
+            {
+                "name": "view",
+                "comment": " Like `Katex.Simple.view`, but depends on the `config`uration and `lang`uage.\n",
+                "type": "config -> lang -> Passage config lang -> Html a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Katex.Simple",
+        "comment": " Create strings or HTML elements with math using `Katex.Simple`.\n\n# Types\n@docs Latex, Passage\n\n# Create LaTeX instance\n@docs human, inline, display\n\n# Process LaTeX instances\n@docs view, compile\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Latex",
+                "comment": " A LaTeX instance.\n",
+                "args": [],
+                "type": "Latex String String"
+            },
+            {
+                "name": "Passage",
+                "comment": " A list of LaTeX instances.\n",
+                "args": [],
+                "type": "Passage String String"
+            }
+        ],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " For other scenarios, LaTeX instance can be `compile`d to a string.\n",
+                "type": "Latex -> String"
+            },
+            {
+                "name": "display",
+                "comment": " Use `display` when writing LaTeX code for display math environment.\n",
+                "type": "String -> Latex"
+            },
+            {
+                "name": "human",
+                "comment": " Use `human` when writing regular text.\n",
+                "type": "String -> Latex"
+            },
+            {
+                "name": "inline",
+                "comment": " Use `inline` when writing LaTeX code for inline math environment.\n",
+                "type": "String -> Latex"
+            },
+            {
+                "name": "view",
+                "comment": " Processes a LaTeX passage (list of LaTeX instances) into a text node (parsable by the KaTeX library).\n",
+                "type": "Passage -> Html a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Katex.Config",
+        "comment": " If you want to apply macros to all math instances, you should use `Katex.Config`. _Understand `Katex.Simple` before reading on._\n\nFor example, let's say you are not sure which of `\\phi` and `\\varphi` you prefer.\nIn this case, you can write code with `\\phi` which may be replaced depending on your configuration. See _§Config_ in the README for this example in action.\n\n# Types\n@docs Latex, Passage\nNote that `config` is a type variable, you may use whichever type fits your needs.\n\n# Create LaTeX instance\n@docs human, inline, display\n\n# Process LaTeX instances\n@docs view, compile\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Latex",
+                "comment": " A LaTeX instance.\n",
+                "args": [
+                    "config"
+                ],
+                "type": "Latex config String"
+            },
+            {
+                "name": "Passage",
+                "comment": " A list of LaTeX instances.\n",
+                "args": [
+                    "config"
+                ],
+                "type": "Passage config String"
+            }
+        ],
+        "values": [
+            {
+                "name": "compile",
+                "comment": " Like `Katex.Simple.compile`, but depends on the `config`uration.\n",
+                "type": "config -> Latex config -> String"
+            },
+            {
+                "name": "display",
+                "comment": " Like `Katex.Simple.display`, but instead of feeding it a string, you must feed it a `config`uration-dependent string.\n",
+                "type": "(config -> String) -> Latex config"
+            },
+            {
+                "name": "human",
+                "comment": " Like `Katex.Simple.human`.\n",
+                "type": "String -> Latex config"
+            },
+            {
+                "name": "inline",
+                "comment": " Like `Katex.Simple.inline`, but instead of feeding it a string, you must feed it a `config`uration-dependent string.\n",
+                "type": "(config -> String) -> Latex config"
+            },
+            {
+                "name": "view",
+                "comment": " Like `Katex.Simple.view`, but depends on the `config`uration.\n",
+                "type": "config -> Passage config -> Html a"
+            }
+        ],
+        "binops": []
+    }
+]

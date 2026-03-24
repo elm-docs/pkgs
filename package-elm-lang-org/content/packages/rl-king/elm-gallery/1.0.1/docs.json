@@ -1,0 +1,161 @@
+[
+    {
+        "name": "Gallery.Image",
+        "comment": "\n\n\n# Image slide\n\n@docs slide\n\n\n## Definitions\n\n@docs Size\n@docs Url\n\n",
+        "unions": [
+            {
+                "name": "Size",
+                "comment": " How the image is displayed within it's container, same as CSS background-size\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Cover",
+                        []
+                    ],
+                    [
+                        "Contain",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Url",
+                "comment": " Image url\n",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "slide",
+                "comment": " Create an image slide that either fits or covers the gallery container\n",
+                "type": "Url -> Size -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Gallery",
+        "comment": "\n\n\n# View\n\n@docs view\n\n\n# Configuration\n\n@docs Config\n@docs config\n\n\n## Dimensions\n\n@docs Length\n@docs px\n@docs pct\n@docs rem\n@docs em\n@docs vw\n@docs vh\n\n\n# State\n\n@docs init\n@docs update\n\n\n## Definitions\n\n@docs State\n@docs Msg\n@docs SlideCount\n\n\n# Controls\n\n@docs Controls\n\n\n# Navigation\n\n@docs index\n@docs next\n@docs previous\n@docs current\n\n",
+        "unions": [
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Controls",
+                "comment": " ",
+                "args": [],
+                "cases": [
+                    [
+                        "Arrows",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Length",
+                "comment": " ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " A message type for the gallery to update.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "State",
+                "comment": " Tracks index, mouse and touch movements\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "SlideCount",
+                "comment": " Total number of slides\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "config",
+                "comment": "\n\n     Gallery.config\n        { id = \"image-gallery\"\n        , transition = Time.second * 0.5\n        , width = Gallery.px 800\n        , height = Gallery.px 400\n        }\n\n",
+                "type": "{ id : String, transition : Time, width : Length, height : Length } -> Config"
+            },
+            {
+                "name": "current",
+                "comment": " Get current index\n",
+                "type": "State -> Int"
+            },
+            {
+                "name": "em",
+                "comment": " ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "index",
+                "comment": " Go to slide at index\n\n    { model | gallery = Gallery.index 10 model.gallery }\n\n",
+                "type": "Int -> State -> State"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize a gallery state\n",
+                "type": "SlideCount -> State"
+            },
+            {
+                "name": "next",
+                "comment": " Go to next slide\n\n    { model | gallery = Gallery.next model.gallery }\n\n",
+                "type": "State -> State"
+            },
+            {
+                "name": "pct",
+                "comment": " ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "previous",
+                "comment": " Go to previous slide\n\n    { model | gallery = Gallery.previous model.gallery }\n\n",
+                "type": "State -> State"
+            },
+            {
+                "name": "px",
+                "comment": " ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "rem",
+                "comment": " ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> State -> State"
+            },
+            {
+                "name": "vh",
+                "comment": " ",
+                "type": "Float -> Length"
+            },
+            {
+                "name": "view",
+                "comment": "\n\n    Gallery.view config model.gallery [] slides\n\n",
+                "type": "Config -> State -> List Controls -> List ( String, Html Msg ) -> Html Msg"
+            },
+            {
+                "name": "vw",
+                "comment": " ",
+                "type": "Float -> Length"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,100 @@
+[
+    {
+        "name": "Devcard",
+        "comment": "\n\n\n# Devcard\n\n@docs BasicConfig, Config, Devcard, basicDevcard, devcard, staticDevcard\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "BasicConfig",
+                "comment": " ",
+                "args": [
+                    "model",
+                    "msg",
+                    "context"
+                ],
+                "type": "{ model : model, update : msg -> model -> model, view : context -> model -> Html msg }"
+            },
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "model",
+                    "msg",
+                    "context"
+                ],
+                "type": "{ model : context -> ( model, Cmd msg ), update : msg -> model -> ( model, Cmd msg ), view : context -> model -> Html msg, subscriptions : model -> Sub msg }"
+            },
+            {
+                "name": "Devcard",
+                "comment": " ",
+                "args": [
+                    "model",
+                    "msg",
+                    "context"
+                ],
+                "type": "Program Flags (Model model msg context) (Msg msg context)"
+            }
+        ],
+        "values": [
+            {
+                "name": "basicDevcard",
+                "comment": " ",
+                "type": "CardContext context -> BasicConfig model msg context -> Devcard model msg context"
+            },
+            {
+                "name": "devcard",
+                "comment": " ",
+                "type": "CardContext context -> Config model msg context -> Devcard model msg context"
+            },
+            {
+                "name": "staticDevcard",
+                "comment": " ",
+                "type": "CardContext context -> (context -> Html Never) -> Devcard () Never context"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Devcard.Context",
+        "comment": "\n\n\n# Devcard.Context\n\n@docs CardContext, initialize, view, none, static, dynamic\n\n",
+        "unions": [
+            {
+                "name": "CardContext",
+                "comment": " ",
+                "args": [
+                    "c"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dynamic",
+                "comment": " ",
+                "type": "(Seed -> c) -> (c -> Html c) -> CardContext c"
+            },
+            {
+                "name": "initialize",
+                "comment": " ",
+                "type": "CardContext c -> Seed -> c"
+            },
+            {
+                "name": "none",
+                "comment": " ",
+                "type": "CardContext ()"
+            },
+            {
+                "name": "static",
+                "comment": " ",
+                "type": "c -> CardContext c"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "CardContext c -> c -> Html c"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,92 @@
+[
+    {
+        "name": "Dropdown",
+        "comment": " Dropdown\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs dropdown\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Item",
+                "comment": " Item is the individual content of the dropdown.\n\n * `value` is the item value or `id`\n * `text` is the display text of the dropdown item.\n * `enabled` is a flag to indicate whether the item is enabled or disabled.\n",
+                "args": [],
+                "type": "{ value : String, text : String, enabled : Bool }"
+            },
+            {
+                "name": "Options",
+                "comment": " Options for the dropdown.\n\n * `items` is content of the dropdown.\n * `emptyItem` is the item for when the nothing is selected. Set to `Nothing` for no empty item.\n * `onChange` is the message for when the selected value in the dropdown is changed.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ items : List Item, emptyItem : Maybe Item, onChange : Maybe String -> msg }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Default Options, will give you empty dropdown with no empty item\n",
+                "type": "(Maybe String -> msg) -> Options msg"
+            },
+            {
+                "name": "dropdown",
+                "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    Html.div []\n        [ Dropdown.dropdown\n            (Dropdown.defaultOptions DropdownChanged)\n            [ class \"my-dropdown\" ]\n            model.selectedDropdownValue\n        ]\n",
+                "type": "Options msg -> List (Attribute msg) -> Maybe String -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Input.Number",
+        "comment": " Number input\n\n# View\n@docs input, Options, defaultOptions\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " Options of the input component.\n\n * `id` is the id of the HTML element.\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `maxValue` is the maximum number value allowed in this input. Set to `Nothing` for no limit.\n * `minValue` is the minimum number value allowed in this input. Set to `Nothing` for no limit.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ maxLength : Maybe Int, maxValue : Maybe Int, minValue : Maybe Int, onInput : Maybe Int -> msg, hasFocus : Maybe (Bool -> msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Default value for `Options`.\nParams:\n * `id` (type: `String`) : The `id` of the number input element.\n\nValue:\n\n    { id = id\n    , maxLength = Nothing\n    , maxValue = Nothing\n    , minValue = Nothing\n    }\n\n",
+                "type": "(Maybe Int -> msg) -> Options msg"
+            },
+            {
+                "name": "input",
+                "comment": " (TEA) View function\n\nExample:\n\n    Input.Number.input\n        { id = \"NumberInput\"\n        , maxLength = Just 4\n        , maxValue = Nothing\n        , minValue = Nothing\n        }\n        [ class \"numberInput\"\n        ...\n        ]\n        model.numberModel\n\n",
+                "type": "Options msg -> List (Attribute msg) -> Maybe Int -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Input.Text",
+        "comment": " Text input\n\n# View\n@docs input, Options, defaultOptions\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " Options of the input component.\n\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `onInput` is the Msg tagger for the onInput event.\n * `hasFocus` is an optional Msg tagger for onFocus/onBlur event.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ maxLength : Maybe Int, onInput : String -> msg, hasFocus : Maybe (Bool -> msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Default value for `Options`.\n * `onInput` (type: `String -> msg`) : The onInput Msg tagger\n\nValue:\n\n    { maxLength = Nothing\n    , onInput = onInput\n    , hasFocus = Nothing\n    }\n\n",
+                "type": "(String -> msg) -> Options msg"
+            },
+            {
+                "name": "input",
+                "comment": " Text input element\n\nExample:\n\n    Input.Text.input\n        { id = \"TextInput\"\n        , maxLength = Just 4\n        }\n        [ class \"textInput\"\n        ...\n        ]\n        model.textModel\n\n",
+                "type": "Options msg -> List (Attribute msg) -> String -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

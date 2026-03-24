@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Sifter",
+        "comment": " This library is intended to be used with autocompete. A user can supply a list\nof arbitrary Elm structs and a config describing what criteria to use to sift the data.\n\n@docs sifter, computeScore\n\n@docs Config, Extractor, SortField, SortOrder, ConjunctionType\n\n",
+        "unions": [
+            {
+                "name": "ConjunctionType",
+                "comment": " Conjunction type used when multiple words are provided as a search term.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "And",
+                        []
+                    ],
+                    [
+                        "Or",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "SortOrder",
+                "comment": " Define sort order types\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Ascending",
+                        []
+                    ],
+                    [
+                        "Descending",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Config",
+                "comment": " Configuation definition for a config used by sifter to define sifting properties.\n\nextractors: List of functions used to etract string fields from the element to be sifted\n\nlimit: Integer representing maximum number ofifted results to return\n\nsort: Structure representing sort properties for sifted data\n\nfilter: Boolean denoting whether to sift or not\n\nconjunction: Should multi-word search terms require all or one to match? (And, Or)\n\nrespectWordBoundaries: Boolean indicating whether matches only \"count\" at beginning of words\n\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ extractors : List (Extractor a), limit : Int, sort : Maybe (SortField a), filter : Bool, conjunction : ConjunctionType, respectWordBoundaries : Bool }"
+            },
+            {
+                "name": "Extractor",
+                "comment": " Extractors are how we describe how we access field information for our specific data type.\nThese are functions that take in that data type and return a string.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "a -> String"
+            },
+            {
+                "name": "SortField",
+                "comment": " This is how we define sort characteristics when records have equal scores. We can define\na search field and an order (Ascending or Descending).\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ field : Extractor a, order : SortOrder }"
+            }
+        ],
+        "values": [
+            {
+                "name": "computeScore",
+                "comment": " Needs documentation.\n",
+                "type": "String -> List Match -> Float"
+            },
+            {
+                "name": "sifter",
+                "comment": " Needs documentation.\n",
+                "type": "Config a -> String -> List a -> List a"
+            }
+        ],
+        "binops": []
+    }
+]

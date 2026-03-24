@@ -1,0 +1,16 @@
+[
+    {
+        "name": "TypedStyles",
+        "comment": "\n@docs deprecated",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "deprecated",
+                "comment": "",
+                "type": "()"
+            }
+        ],
+        "binops": []
+    }
+]

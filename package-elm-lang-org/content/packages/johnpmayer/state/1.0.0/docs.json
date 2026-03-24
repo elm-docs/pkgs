@@ -1,0 +1,71 @@
+[
+    {
+        "name": "Control.State",
+        "comment": "",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "State",
+                "comment": "",
+                "args": [
+                    "s",
+                    "a"
+                ],
+                "type": "{ runState : s -> ( a, s ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "bindS",
+                "comment": "",
+                "type": "State s a -> (a -> State s b) -> State s b"
+            },
+            {
+                "name": "evalState",
+                "comment": "",
+                "type": "State s a -> s -> a"
+            },
+            {
+                "name": "execState",
+                "comment": "",
+                "type": "State s a -> s -> s"
+            },
+            {
+                "name": "fmapS",
+                "comment": "",
+                "type": "(a -> b) -> State s a -> State s b"
+            },
+            {
+                "name": "get",
+                "comment": "",
+                "type": "State s s"
+            },
+            {
+                "name": "mapMS",
+                "comment": "",
+                "type": "(a -> State s b) -> List a -> State s (List b)"
+            },
+            {
+                "name": "put",
+                "comment": "",
+                "type": "s -> State s ()"
+            },
+            {
+                "name": "returnS",
+                "comment": "",
+                "type": "a -> State s a"
+            },
+            {
+                "name": "sequenceS",
+                "comment": "",
+                "type": "List (State s a) -> State s (List a)"
+            },
+            {
+                "name": "updateS",
+                "comment": "",
+                "type": "(a -> a) -> State a ()"
+            }
+        ],
+        "binops": []
+    }
+]

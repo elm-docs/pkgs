@@ -1,0 +1,398 @@
+[
+    {
+        "name": "Animate.Css",
+        "comment": "\n@docs animated, Preset, bounce, flash, pulse, rubberBand, shake, headShake, swing, tada, wobble, jello, bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, bounceOut, bounceOutDown, bounceOutLeft, bounceOutRight, bounceOutUp, fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, fadeOut, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, fadeOutUp, fadeOutUpBig, flipInX, flipInY, flipOutX, flipOutY, lightSpeedIn, lightSpeedOut, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rotateOut, rotateOutDownLeft, rotateOutDownRight, rotateOutUpLeft, rotateOutUpRight, hinge, rollIn, rollOut, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp, zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp, slideInDown, slideInLeft, slideInRight, slideInUp, slideOutDown, slideOutLeft, slideOutUp, slideOutRight\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Preset",
+                "comment": " An animate.css class ",
+                "args": [],
+                "type": "String"
+            }
+        ],
+        "values": [
+            {
+                "name": "animated",
+                "comment": " this class must be present for an animation to occur ",
+                "type": "String"
+            },
+            {
+                "name": "bounce",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceInDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceInLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceInRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceInUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceOutDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceOutLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceOutRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "bounceOutUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInDownBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInLeftBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInRightBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeInUpBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutDownBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutLeftBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutRightBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "fadeOutUpBig",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "flash",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "flipInX",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "flipInY",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "flipOutX",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "flipOutY",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "headShake",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "hinge",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "jello",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "lightSpeedIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "lightSpeedOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "pulse",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rollIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rollOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateInDownLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateInDownRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateInUpLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateInUpRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateOutDownLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateOutDownRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateOutUpLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rotateOutUpRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "rubberBand",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "shake",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideInDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideInLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideInRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideInUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideOutDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideOutLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideOutRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "slideOutUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "swing",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "tada",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "wobble",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomIn",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomInDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomInLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomInRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomInUp",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomOut",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomOutDown",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomOutLeft",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomOutRight",
+                "comment": "",
+                "type": "Preset"
+            },
+            {
+                "name": "zoomOutUp",
+                "comment": "",
+                "type": "Preset"
+            }
+        ],
+        "binops": []
+    }
+]

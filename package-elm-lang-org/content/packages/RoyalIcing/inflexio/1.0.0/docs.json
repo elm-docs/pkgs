@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Inflexio.Pluralize",
+        "comment": " Pluralize\n\n## Functions\n\n@docs singularize, pluralize\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "pluralize",
+                "comment": " Converts a word into its pluralized form\ne.g. bird -> birds; radius -> radii; sheep -> sheep\n",
+                "type": "String -> String"
+            },
+            {
+                "name": "singularize",
+                "comment": " Converts a word into its singular form\ne.g. birds -> bird; radii -> radius; sheep -> sheep\n",
+                "type": "String -> String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,79 @@
+[
+    {
+        "name": "SweetPoll",
+        "comment": "\n\n# Configuration\n@docs Config, defaultConfig\n\n# Elm Artchitecture\n@docs Model, Action, init, update\n\n# Record Extension Component\n@docs ComponentModel, componentUpdate\n",
+        "unions": [
+            {
+                "name": "Action",
+                "comment": " ",
+                "args": [
+                    "data"
+                ],
+                "cases": [
+                    [
+                        "PollSuccess",
+                        [
+                            "data"
+                        ]
+                    ],
+                    [
+                        "PollFailure",
+                        [
+                            "Error"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Model",
+                "comment": " Private state of the SweetPoll component\n",
+                "args": [
+                    "data"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "ComponentModel",
+                "comment": " Model type for using the NoRedInk/elm-api-components pattern\n",
+                "args": [
+                    "base",
+                    "data"
+                ],
+                "type": "{ base | sweetPoll : Model data }"
+            },
+            {
+                "name": "Config",
+                "comment": " ",
+                "args": [
+                    "data"
+                ],
+                "type": "{ url : String, decoder : Decoder data, delay : Time, samesBeforeDelay : Int, delayMultiplier : Float, maxDelay : Time }"
+            }
+        ],
+        "values": [
+            {
+                "name": "componentUpdate",
+                "comment": " Update function for using the NoRedInk/elm-api-components pattern\n",
+                "type": "Action data -> ComponentModel base data -> ( ComponentModel base data, Cmd (Action data) )"
+            },
+            {
+                "name": "defaultConfig",
+                "comment": " Default configuration for SweetPoll\n",
+                "type": "Decoder data -> String -> Config data"
+            },
+            {
+                "name": "init",
+                "comment": " ",
+                "type": "Config data -> ( Model data, Cmd (Action data) )"
+            },
+            {
+                "name": "update",
+                "comment": " The SweetPoll StartApp-style update function\n",
+                "type": "Action data -> Model data -> ( Model data, Cmd (Action data) )"
+            }
+        ],
+        "binops": []
+    }
+]

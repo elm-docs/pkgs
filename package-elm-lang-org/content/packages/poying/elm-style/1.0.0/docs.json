@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Style",
+        "comment": " A tiny library for generating CSS.\n@docs rules\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "rules",
+                "comment": "\n    style : String\n    style =\n      Style.rules\n        [ ( \"body,html\", [(\"color\", \"#333\")]) ]\n",
+                "type": "List RuleSet -> String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,1 @@
+[{"name":"Codepage.Codepage437","comment":" A module containing a string that gives unicode codepoints for\n    the 256 characters of the ibm extended character set, or\n    codepage 437.\n\n    @docs cp437\n ","unions":[],"aliases":[],"values":[{"name":"cp437","comment":" The codepage content string.  Pick out characters by position. ","type":"String.String"}],"binops":[]}]

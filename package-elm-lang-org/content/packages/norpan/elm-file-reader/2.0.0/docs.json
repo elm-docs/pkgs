@@ -1,0 +1,61 @@
+[
+    {
+        "name": "FileReader",
+        "comment": " This module exposes attributes that you can use to read\nfiles into Elm.\n\n@docs File, DataFormat, Error\n@docs fileInput, filesInput, dropZone\n\n",
+        "unions": [
+            {
+                "name": "DataFormat",
+                "comment": " The format you want your data in.\n`DataURL` - a data URL as specified by RFC 2397.\n`Base64` - Base64 encoded as specified by RFC 4648\n`Text encoding` - Text, encoded using the specified encoding (See <https://www.w3.org/TR/encoding/#concept-encoding-get>)\n",
+                "args": [],
+                "cases": [
+                    [
+                        "DataURL",
+                        []
+                    ],
+                    [
+                        "Base64",
+                        []
+                    ],
+                    [
+                        "Text",
+                        [
+                            "String"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Error",
+                "comment": " An error returned from file reading. This corresponds to a\n`DomException` (name and message) or a `FileError` (code)\ngotten when trying to read the file.\n",
+                "args": [],
+                "type": "{ code : Int, name : String, message : String }"
+            },
+            {
+                "name": "File",
+                "comment": " The result of a file reading operation\n",
+                "args": [],
+                "type": "{ lastModified : Time, name : String, size : Int, mimeType : String, dataFormat : DataFormat, data : Result Error String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "dropZone",
+                "comment": " Add these attributes to any node to create a \"drop zone\" for files\nand get the contents of the dropped files. The `enterMsg` and `leaveMsg`\nmessages could be used to visually indicate the drop zone.\n\nYou will either get a `leaveMsg` or a `filesMsg`, so make sure the `filesMsg`\nalso clears any visual indication started by the `enterMsg`.\n\n    type Msg\n        = EnterDropZone\n        | LeaveDropZone\n        | FilesDropped (List File)\n\n    view =\n        Html.div\n            (dropZone\n                { dataFormat = Base64\n                , enterMsg = EnterDropZone\n                , leaveMsg = LeaveDropZone\n                , filesMsg = FilesDropped\n                }\n            )\n            [ Html.text \"Drop files here\" ]\n\n",
+                "type": "{ dataFormat : DataFormat, enterMsg : msg, leaveMsg : msg, filesMsg : List File -> msg } -> List (Attribute msg)"
+            },
+            {
+                "name": "fileInput",
+                "comment": " Add these attributes to an input node to get the contents of the selected file.\n\n    type Msg\n        = FileSelected File\n\n    view =\n        Html.input (fileInput DataURL FileSelected) []\n\n",
+                "type": "DataFormat -> (File -> msg) -> List (Attribute msg)"
+            },
+            {
+                "name": "filesInput",
+                "comment": " Add these attributes to an input node to get the contents of the selected files.\n\n    type Msg\n        = FilesSelected (List File)\n\n    view =\n        Html.input (filesInput DataURL FilesSelected) []\n\n",
+                "type": "DataFormat -> (List File -> msg) -> List (Attribute msg)"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,89 @@
+[
+    {
+        "name": "Erl",
+        "comment": " Library for parsing and constructing URLs\n\n\n# Types\n\n@docs Url\n\n# Parse\n\n@docs parse\n\n# Construct\n\n@docs new\n\n# Serialize\n\n@docs toString, toAbsoluteString\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Url",
+                "comment": " Record that holds url attributes\n",
+                "args": [],
+                "type": "{ protocol : String, host : String, port_ : Maybe Int, pathname : String, query : Query, hash : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "new",
+                "comment": " Generate an empty Url record\n\n    Erl.new ==\n\n    { protocol = \"\"\n    , host = \"\"\n    , port_ = Nothing\n    , pathname = \"\"\n    , query = []\n    , hash = \"\"\n    }\n\n",
+                "type": "Url"
+            },
+            {
+                "name": "parse",
+                "comment": " Parse an url into a Url record\n\n    Erl.parse \"http://hello.com/users/1?k=1&q=2#a/b\"\n\n    Ok\n        { protocol = \"http\",\n        , host = \"hello.com\",\n        , port_ = Just 2000,\n        , pathname = \"/users/1\",\n        , query = [ (\"k\", \"1\"), (\"q\", \"2\") ]\n        , hash = \"a/b\",\n        }\n\n",
+                "type": "String -> Result Error Url"
+            },
+            {
+                "name": "toAbsoluteString",
+                "comment": " Generate a url that starts at the path\n\n    url = { protocol = \"http\",\n          , host = \"www.hello.com\",\n          , port_ = Just 2000,\n          , pathname = \"/users/1\",\n          , query = [ (\"k\", \"1\"), (\"q\", \"2\") ]\n          , hash = \"a/b\",\n          }\n\n    Erl.toAbsoluteString url == \"/users/1?k=1&q=2#a/b\"\n\n",
+                "type": "Url -> String"
+            },
+            {
+                "name": "toString",
+                "comment": " Generate a url string from an Url record\n\n    url = { protocol = \"http\",\n          , host = \"www.hello.com\",\n          , port_ = Just 2000,\n          , pathname = \"/users/1\",\n          , query = [ (\"k\", \"1\"), (\"q\", \"2\") ]\n          , hash = \"a/b\",\n          }\n\n    Erl.toString url == \"http://www.hello.com:2000/users/1?k=1&q=2#a/b\"\n\n",
+                "type": "Url -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Erl.Query",
+        "comment": " Functions to work with a Query record\n\n# Types\n\n@docs Query\n\n# Parse\n\n@docs parse, parser\n\n\n# Mutation helpers\n\n@docs add, set, remove\n\n\n# Serialize\n\n@docs toString\n\n\n# Other helpers\n\n@docs getValuesForKey\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Query",
+                "comment": " List holding query string values\n",
+                "args": [],
+                "type": "List ( String, String )"
+            }
+        ],
+        "values": [
+            {
+                "name": "add",
+                "comment": " Adds key/value in query string\n\n    Erl.Query.add key value query\n\nThis doesn't replace existing keys, so if this is a duplicated this key is just added.\n\n",
+                "type": "String -> String -> Query -> Query"
+            },
+            {
+                "name": "getValuesForKey",
+                "comment": " Gets values for a key in the query\n\n    url = Erl.parse \"?a=1&b=2&a=3\"\n\n    Erl.Query.getQueryValuesForKey \"a\" url.query\n\n    == [\"1\", \"3\"]\n\n",
+                "type": "String -> Query -> List String"
+            },
+            {
+                "name": "parse",
+                "comment": " Parse a query string\n\n    Erl.Query.parse \"?a=1&b=2&a=3\" == [(\"a\", \"1\"), (\"b\", \"2\"), (\"a\", \"1\")]\n\n",
+                "type": "String -> Result Error Query"
+            },
+            {
+                "name": "parser",
+                "comment": " Query Parser\n\n",
+                "type": "Parser Query"
+            },
+            {
+                "name": "remove",
+                "comment": " Removes key from query string\n\n    Erl.Query.remove key query\n\n",
+                "type": "String -> Query -> Query"
+            },
+            {
+                "name": "set",
+                "comment": " Set key/value in query string, removes any existing one if necessary.\n\n    Erl.Query.set key value query\n\n",
+                "type": "String -> String -> Query -> Query"
+            },
+            {
+                "name": "toString",
+                "comment": " Convert to a string, this includes '?'\n\n    Erl.Query.toString query == \"?a=1&b=2\"\n\n",
+                "type": "Query -> String"
+            }
+        ],
+        "binops": []
+    }
+]

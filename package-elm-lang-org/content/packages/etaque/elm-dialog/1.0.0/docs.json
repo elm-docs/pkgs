@@ -1,0 +1,144 @@
+[
+    {
+        "name": "Dialog",
+        "comment": "\nA modal component for Elm. See README for usage instructions.\n\n# Types\n@docs Dialog, WithDialog, Action, Options\n\n# Init and update\n@docs initial, update, wrappedUpdate, actions\n\n# Send actions\n@docs address, open, openWithOptions, updateContent, closeThenSend, closeThenDo\n\n# View helpers\n@docs openOnClick, openWithOptionsOnClick, closeOnClick, closeThenSendOnClick, opacity, display\n\n# State querying\n@docs getContent, getOptions, getTransition, isOpen, isVisible\n",
+        "unions": [
+            {
+                "name": "Action",
+                "comment": " Dialog actions. ",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Dialog",
+                "comment": " Dialog state (opaque type). ",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Options",
+                "comment": " Display and behaviour options (see showWithOptions):\n* `duration` of the fade transition,\n* `onClose`: what should be done when closing the modal. Set it to Nothing to prevent closing.\n ",
+                "args": [],
+                "type": "{ duration : Float, onClose : Maybe (Task Never ()) }"
+            },
+            {
+                "name": "WithDialog",
+                "comment": " Record extension that puts state in `dialog` field (see also [wrappedUpdate](#wrappedUpdate)). ",
+                "args": [
+                    "model"
+                ],
+                "type": "{ model | dialog : Dialog }"
+            }
+        ],
+        "values": [
+            {
+                "name": "actions",
+                "comment": " Dialog actions signal: consumption required! ",
+                "type": "Signal Action"
+            },
+            {
+                "name": "address",
+                "comment": " Where to send your actions ",
+                "type": "Address Action"
+            },
+            {
+                "name": "closeOnClick",
+                "comment": " On click, hide dialog. ",
+                "type": "Attribute"
+            },
+            {
+                "name": "closeThenDo",
+                "comment": " Action builder for closing dialog send performing a task. ",
+                "type": "Task Never () -> Action"
+            },
+            {
+                "name": "closeThenSend",
+                "comment": " Action builder for closing dialog then sending an action to an address. ",
+                "type": "Address a -> a -> Action"
+            },
+            {
+                "name": "closeThenSendOnClick",
+                "comment": " On click, hide dialog then send action. ",
+                "type": "Address a -> a -> Attribute"
+            },
+            {
+                "name": "display",
+                "comment": " CSS display helper. ",
+                "type": "Dialog -> String"
+            },
+            {
+                "name": "getContent",
+                "comment": " Get current dialog content. ",
+                "type": "Dialog -> List Html"
+            },
+            {
+                "name": "getOptions",
+                "comment": " Get current dialog options ",
+                "type": "Dialog -> Options"
+            },
+            {
+                "name": "getTransition",
+                "comment": " Get current transition state. ",
+                "type": "Dialog -> Transition"
+            },
+            {
+                "name": "initial",
+                "comment": " Empty, hidden state for model init. ",
+                "type": "Dialog"
+            },
+            {
+                "name": "isOpen",
+                "comment": " Is the dialog currently open? ",
+                "type": "Dialog -> Bool"
+            },
+            {
+                "name": "isVisible",
+                "comment": " Visibility helper: either open, or transitionning to closed ",
+                "type": "Dialog -> Bool"
+            },
+            {
+                "name": "opacity",
+                "comment": " CSS opacity helper for fading effect. ",
+                "type": "Dialog -> Float"
+            },
+            {
+                "name": "open",
+                "comment": " Action builder for opening dialog with default options and content. ",
+                "type": "(Options -> List Html) -> Action"
+            },
+            {
+                "name": "openOnClick",
+                "comment": " On click, fill and show up dialog with the provided content. ",
+                "type": "(Options -> List Html) -> Attribute"
+            },
+            {
+                "name": "openWithOptions",
+                "comment": " Action builder for open dialog with custom options and content. ",
+                "type": "Options -> (Options -> List Html) -> Action"
+            },
+            {
+                "name": "openWithOptionsOnClick",
+                "comment": " On click, fill and show up dialog with the provided options and content. ",
+                "type": "Options -> (Options -> List Html) -> Attribute"
+            },
+            {
+                "name": "update",
+                "comment": " Update dialog state. Takes effect duration in ms as first parameter. ",
+                "type": "Action -> Dialog -> Response Dialog Action"
+            },
+            {
+                "name": "updateContent",
+                "comment": " Action builder for content update ",
+                "type": "(Options -> List Html) -> Action"
+            },
+            {
+                "name": "wrappedUpdate",
+                "comment": " Wrapped update for `WithDialog`, saves you a model field update and an Effects map. ",
+                "type": "(Action -> action) -> Action -> WithDialog model -> Response (WithDialog model) action"
+            }
+        ],
+        "binops": []
+    }
+]

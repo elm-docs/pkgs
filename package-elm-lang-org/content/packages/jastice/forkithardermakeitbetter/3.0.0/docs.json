@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Forkit",
+        "comment": "\nFork it harder make it better\n\n@docs harder\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "harder",
+                "comment": " harder! ",
+                "type": "Int -> Int"
+            }
+        ],
+        "binops": []
+    }
+]

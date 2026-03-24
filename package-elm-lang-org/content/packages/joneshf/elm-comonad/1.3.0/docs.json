@@ -1,0 +1,174 @@
+[
+    {
+        "name": "Env",
+        "comment": "\n\n\n# Data type\n\n@docs Env\n\n\n# Useful functions\n\n@docs duplicate\n@docs extract\n@docs map\n@docs move\n@docs set\n\n\n# Using with `Html a`\n\n@docs toBeginnerProgram\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Env",
+                "comment": " Pack together the current value along with a computed view of said value.\n\nWe can specialize the `a` to be `Html a`\nand get something that works for top level programs.\n\nWe can also not do that.\nWe can describe many UIs and they don't have to be `Html a`.\n\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "type": "{ here : e, view : a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "duplicate",
+                "comment": " Create a new env where the view is another env.\n\nGives us the lazy unfolding of all future states of a given env.\n\n",
+                "type": "Env e a -> Env e (Env e a)"
+            },
+            {
+                "name": "extract",
+                "comment": " View the current value.\n",
+                "type": "Env e a -> a"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the view.\n\nUseful when you want to change the view of an already defined env.\n\n",
+                "type": "(a -> b) -> Env e a -> Env e b"
+            },
+            {
+                "name": "move",
+                "comment": " Move to the new given value.\n\nThis is how we make progress in the UI.\n\n",
+                "type": "e -> Env e a -> Env e a"
+            },
+            {
+                "name": "set",
+                "comment": " Replace the view.\n\nA common pattern is to just replace the old view without depending on it:\n`set x = map (\\_ -> x)`\n\n",
+                "type": "b -> Env s a -> Env s b"
+            },
+            {
+                "name": "toBeginnerProgram",
+                "comment": " Convert to a \"beginner program\" for use in a `main` function.\n\n    import Env exposing (Env)\n    import Html exposing (Html)\n    import Html.Events\n    import String.Extra\n\n    main : Program Never (Env Int (Int -> Html Int)) Int\n    main =\n        Html.beginnerProgram\n            (Env.toBeginnerProgram { here = 0, view = view })\n\n    view : Int -> Html Int\n    view n =\n        Html.div\n            []\n            [ Html.button\n                [ Html.Events.onClick (n - 1) ]\n                [ Html.text \"-\" ]\n            , Html.div\n                []\n                [ Html.text (String.Extra.fromInt n) ]\n            , Html.button\n                [ Html.Events.onClick (n + 1) ]\n                [ Html.text \"+\" ]\n            ]\n\n",
+                "type": "Env e (Html a) -> { model : Env e (Html a), update : e -> Env e (Html a) -> Env e (Html a), view : Env e (Html a) -> Html a }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Store",
+        "comment": "\n\n\n# Data type\n\n@docs Store\n\n\n# Useful functions\n\n@docs duplicate\n@docs extract\n@docs map\n@docs move\n@docs set\n\n\n# Using with `Html a`\n\n@docs toBeginnerProgram\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Store",
+                "comment": " Pack together the current value along with a function to view said value.\n\nWe can specialize the `a` to be `Html a`\nand get something that works for top level programs.\n\nWe can also not do that.\nWe can describe many UIs and they don't have to be `Html a`.\n\n",
+                "args": [
+                    "s",
+                    "a"
+                ],
+                "type": "{ here : s, view : s -> a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "duplicate",
+                "comment": " Create a new store where the view is another store.\n\nGives us the lazy unfolding of all future states of a given store.\n\n",
+                "type": "Store s a -> Store s (Store s a)"
+            },
+            {
+                "name": "extract",
+                "comment": " View the current value.\n",
+                "type": "Store s a -> a"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the view.\n\nUseful when you want to change the view of an already defined store.\n\n",
+                "type": "(a -> b) -> Store s a -> Store s b"
+            },
+            {
+                "name": "move",
+                "comment": " Move to the new given value.\n\nThis is how we make progress in the UI.\n\n",
+                "type": "s -> Store s a -> Store s a"
+            },
+            {
+                "name": "set",
+                "comment": " Replace the view.\n\nA common pattern is to just replace the old view without depending on it:\n`set x = map (\\_ -> x)`\n\n",
+                "type": "b -> Store m a -> Store m b"
+            },
+            {
+                "name": "toBeginnerProgram",
+                "comment": " Convert to a \"beginner program\" for use in a `main` function.\n\n    import Html exposing (Html)\n    import Html.Events\n    import Store exposing (Store)\n    import String.Extra\n\n    main : Program Never (Store Int (Html Int)) Int\n    main =\n        Html.beginnerProgram\n            (Store.toBeginnerProgram { here = 0, view = view })\n\n    view : Int -> Html Int\n    view n =\n        Html.div\n            []\n            [ Html.button\n                [ Html.Events.onClick (n - 1) ]\n                [ Html.text \"-\" ]\n            , Html.div\n                []\n                [ Html.text (String.Extra.fromInt n) ]\n            , Html.button\n                [ Html.Events.onClick (n + 1) ]\n                [ Html.text \"+\" ]\n            ]\n\nView this example on Ellie: <https://ellie-app.com/cDGbmY8Ca1/0>\n\n",
+                "type": "Store s (Html a) -> { model : Store s (Html a), update : s -> Store s (Html a) -> Store s (Html a), view : Store s (Html a) -> Html a }"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Traced",
+        "comment": "\n\n\n# Data type\n\n@docs Traced\n\n\n# Useful functions\n\n@docs duplicate\n@docs extract\n@docs map\n@docs move\n@docs set\n@docs view\n\n\n# Defined traces\n\n@docs addition\n@docs list\n@docs multiplication\n@docs string\n\n\n# Using with `Html a`\n\n@docs toBeginnerProgram\n\n",
+        "unions": [
+            {
+                "name": "Traced",
+                "comment": " Pack together an accumulator, a unique value,\nand a function to view the value.\n\nAccumulates new values together in most operations.\n\nThis is very similar to `Store a b`.\nThe difference being that a `Traced a b` accumulates the `a`\nas it unfolds all future states,\nwhereas a `Store a b` replaces all `a`s as it unfolds all future states.\n\n",
+                "args": [
+                    "m",
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "addition",
+                "comment": " Creates a traced that accumulates with addition.\n\nThe unique value is 0.\n\n",
+                "type": "Traced number number"
+            },
+            {
+                "name": "duplicate",
+                "comment": " Create a new traced where the view is another traced.\n\nGives us the lazy unfolding of all future states of a given traced.\n\n",
+                "type": "Traced m a -> Traced m (Traced m a)"
+            },
+            {
+                "name": "extract",
+                "comment": " View the current value.\n",
+                "type": "Traced m a -> a"
+            },
+            {
+                "name": "list",
+                "comment": " Creates a traced that accumulates lists.\n\nThe unique value is the empty list.\n\n",
+                "type": "Traced (List a) (List a)"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the view.\n\nUseful when you want to change the view of an already defined traced.\n\n",
+                "type": "(a -> b) -> Traced m a -> Traced m b"
+            },
+            {
+                "name": "move",
+                "comment": " Move to the new given value.\n\nThis is how we make progress in the UI.\n\n",
+                "type": "m -> Traced m a -> Traced m a"
+            },
+            {
+                "name": "multiplication",
+                "comment": " Creates a traced that accumulates with multiplication.\n\nThe unique value is 1.\n\n",
+                "type": "Traced number number"
+            },
+            {
+                "name": "set",
+                "comment": " Replace the view.\n\nA common pattern is to just replace the old view without depending on it:\n`set x = map (\\_ -> x)`\n\n",
+                "type": "b -> Traced m a -> Traced m b"
+            },
+            {
+                "name": "string",
+                "comment": " Creates a traced that accumulates strings.\n\nThe unique value is the empty string.\n\n",
+                "type": "Traced String String"
+            },
+            {
+                "name": "toBeginnerProgram",
+                "comment": " Convert to a \"beginner program\" for use in a `main` function\n\n    import Html exposing (Html)\n    import Html.Events\n    import String.Extra\n    import Traced exposing (Traced)\n\n    main : Program Never (Traced Int (Html Int)) Int\n    main =\n        Html.beginnerProgram\n            (Traced.toBeginnerProgram (Traced.map view Traced.addition))\n\n    view : Int -> Html Int\n    view n =\n        Html.div\n            []\n            [ Html.button\n                [ Html.Events.onClick -1 ]\n                [ Html.text \"-\" ]\n            , Html.div\n                []\n                [ Html.text (String.Extra.fromInt n) ]\n            , Html.button\n                [ Html.Events.onClick 1 ]\n                [ Html.text \"+\" ]\n            ]\n\nView this example on Ellie: <https://ellie-app.com/Mx3LhD8Fa1/0>\n\n",
+                "type": "Traced m (Html a) -> { model : Traced m (Html a), update : m -> Traced m (Html a) -> Traced m (Html a), view : Traced m (Html a) -> Html a }"
+            },
+            {
+                "name": "view",
+                "comment": " Returns the view of a traced.\n\nUseful when you want to view the value,\nwith something other than the unique value of the traced.\n\n",
+                "type": "Traced m a -> m -> a"
+            }
+        ],
+        "binops": []
+    }
+]

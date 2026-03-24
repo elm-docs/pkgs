@@ -1,0 +1,147 @@
+[
+    {
+        "name": "Nri.FeatureInterest",
+        "comment": "\n@docs NoContent, deleteFeaturesByFeatureIdInterview, deleteFeaturesByFeatureIdUpvote, getFeatures, getFeaturesByFeatureId, postFeaturesByFeatureIdInterview, postFeaturesByFeatureIdUpvote\n",
+        "unions": [
+            {
+                "name": "NoContent",
+                "comment": "",
+                "args": [],
+                "cases": [
+                    [
+                        "NoContent",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "deleteFeaturesByFeatureIdInterview",
+                "comment": "",
+                "type": "String -> String -> Int -> Request NoContent"
+            },
+            {
+                "name": "deleteFeaturesByFeatureIdUpvote",
+                "comment": "",
+                "type": "String -> String -> Int -> Request NoContent"
+            },
+            {
+                "name": "getFeatures",
+                "comment": "",
+                "type": "String -> String -> Request Page"
+            },
+            {
+                "name": "getFeaturesByFeatureId",
+                "comment": "",
+                "type": "String -> String -> Int -> Request Feature"
+            },
+            {
+                "name": "postFeaturesByFeatureIdInterview",
+                "comment": "",
+                "type": "String -> String -> Int -> Request NoContent"
+            },
+            {
+                "name": "postFeaturesByFeatureIdUpvote",
+                "comment": "",
+                "type": "String -> String -> Int -> Request NoContent"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.FeatureInterest.Admin",
+        "comment": "\n@docs Admin, AdminFeature, decodeAdmin, encodeAdmin, encodeAdminFeature, getFeaturesAdmin, postFeatures, putFeaturesByFeatureId\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Admin",
+                "comment": "",
+                "args": [],
+                "type": "{ id : Int, header : String, body : String, image : Maybe String, visible : Bool, interviews : Int, upVotes : Int }"
+            },
+            {
+                "name": "AdminFeature",
+                "comment": "",
+                "args": [],
+                "type": "{ header : String, body : String, image : Maybe String, visible : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeAdmin",
+                "comment": "",
+                "type": "Decoder Admin"
+            },
+            {
+                "name": "encodeAdmin",
+                "comment": "",
+                "type": "Admin -> Value"
+            },
+            {
+                "name": "encodeAdminFeature",
+                "comment": "",
+                "type": "AdminFeature -> Value"
+            },
+            {
+                "name": "getFeaturesAdmin",
+                "comment": "",
+                "type": "String -> String -> Request (List Admin)"
+            },
+            {
+                "name": "postFeatures",
+                "comment": "",
+                "type": "String -> String -> AdminFeature -> Request Feature"
+            },
+            {
+                "name": "putFeaturesByFeatureId",
+                "comment": "",
+                "type": "String -> String -> Int -> AdminFeature -> Request Feature"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.FeatureInterest.Page",
+        "comment": "\n@docs Page, decodePage\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Page",
+                "comment": "",
+                "args": [],
+                "type": "{ instructions : String, features : List Feature }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodePage",
+                "comment": "",
+                "type": "Decoder Page"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Nri.FeatureInterest.Feature",
+        "comment": "\n@docs Feature, decodeFeature\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Feature",
+                "comment": "",
+                "args": [],
+                "type": "{ id : Int, header : String, body : String, image : Maybe String, upVotes : Int, upVoted : Bool, interview : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeFeature",
+                "comment": "",
+                "type": "Decoder Feature"
+            }
+        ],
+        "binops": []
+    }
+]

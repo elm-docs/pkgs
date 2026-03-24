@@ -1,0 +1,289 @@
+[
+    {
+        "name": "Toml.Decode",
+        "comment": " Decode a TOML string into an Elm datastructure.\n\n\n# Running\n\n@docs Decoder, decodeString\n\n\n# Primitive decoders\n\n@docs int, float, string, bool, localTime, localDate, localDateTime, dateTime\n\n\n# Navigating structure\n\n@docs field, at, dict, index, list\n\n\n# Building more complex decoders\n\n@docs succeed, fail, map, oneOf, andThen, mapError, map2, andMap, map3, map4, map5, map6, map7, map8, lazy\n\n\n# Errors\n\n@docs Error, Errors, DecodeError\n\n",
+        "unions": [
+            {
+                "name": "DecodeError",
+                "comment": " While decoding, these errors may be produced.\n\nType mismatches, missing field, missing indices and custom errors (from `fail`)\ncan occur. If those errors occur in the context of a field (through `field`,\n`at`, or `dict`) they are wrapped in `InField`. If the error occurs at a certain\nindex in a list (through `list` or `index`), it will be wrapped in `AtIndex`.\n\nType mismatches also carry the original value, for inspection.\n\n",
+                "args": [
+                    "e"
+                ],
+                "cases": [
+                    [
+                        "Expected",
+                        [
+                            "String",
+                            "Value"
+                        ]
+                    ],
+                    [
+                        "MissingIndex",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "MissingField",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "AtIndex",
+                        [
+                            "Int",
+                            "Errors e"
+                        ]
+                    ],
+                    [
+                        "InField",
+                        [
+                            "String",
+                            "Errors e"
+                        ]
+                    ],
+                    [
+                        "OneOf",
+                        [
+                            "List (Errors e)"
+                        ]
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "e"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "Decoder",
+                "comment": " Represents a decoder, constructed from the functions in this module, that\ncan be executed against a string representing a TOML document using\n`decodeString`.\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Error",
+                "comment": " Decoding a string representing a TOML document may produce errors. Those\nwill either be parse errors (represented by a `Parser.Error`) or error that\noccurred during the actual decoding process (represented by `DecodeErrors`).\n",
+                "args": [
+                    "e"
+                ],
+                "cases": [
+                    [
+                        "ParseError",
+                        [
+                            "Error"
+                        ]
+                    ],
+                    [
+                        "DecodeErrors",
+                        [
+                            "Errors e"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Errors",
+                "comment": " One or more `DecodeError`s.\n",
+                "args": [
+                    "e"
+                ],
+                "type": "( DecodeError e, List (DecodeError e) )"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " Useful to make pipelines of decoders, by decoding to a function and applying\nit to values produced by other pieces of the pipeline.\n\n    type alias Person =\n        { name : String\n        , age : Int\n        }\n\n    person : Decoder e Person\n    person =\n        -- `Decoder e (String -> Int -> Person)`\n        succeed Person\n            -- adding a string, so `Decoder e (Int -> Person)`\n            |> andMap (field \"name\" string)\n            -- And with the int added, we get a `Decoder e Person`\n            |> andMap (field \"age\" int)\n\n\n    people : Decoder e (List Person)\n    people =\n        list person\n\n\n    \"\"\"\n    [[people]]\n    name = \"Alice\"\n    age = 43\n    [[people]]\n    name = \"Bob\"\n    age = 34\n    \"\"\"\n        |> decodeString (field \"people\" people)\n    --> Ok [ { name = \"Alice\", age = 43 }\n    -->    , { name = \"Bob\", age = 34 }\n    -->    ]\n\n",
+                "type": "Decoder e a -> Decoder e (a -> b) -> Decoder e b"
+            },
+            {
+                "name": "andThen",
+                "comment": " Create a decoder based on the value produced by a different decoders.\n\nThis can be especially useful when decoding based on some sort of discriminating\nvalue.\n\n    type Utensil\n        = Spoon\n        | Knife { serrated : Bool }\n        | Fork { prongs : Int }\n\n\n    type MyError\n        = UnknownUtensilType String\n\n\n    knifeInfo : Decoder e { serrated : Bool }\n    knifeInfo =\n        map (\\serrated -> { serrated = serrated })\n            (field \"serrated\" bool)\n\n\n    forkInfo : Decoder e { prongs : Int }\n    forkInfo =\n        map (\\prongs -> { prongs = prongs })\n            (field \"prongs\" int)\n\n\n    utensilFromString : String -> Decoder String Utensil\n    utensilFromString utensilType =\n        case utensilType of\n            \"spoon\" ->\n                succeed Spoon\n            \"knife\" ->\n                map Knife knifeInfo\n            \"fork\" ->\n                map Fork forkInfo\n            _ ->\n                fail utensilType\n\n\n    utensil : Decoder MyError Utensil\n    utensil =\n        field \"variety\" string\n            |> andThen utensilFromString\n            |> mapError UnknownUtensilType\n\n\n    input : String\n    input =\n        \"\"\"\n    [[utensils]]\n    variety = 'spoon'\n    [[utensils]]\n    variety = 'knife'\n    serrated = false\n    [[utensils]]\n    variety = 'fork'\n    prongs = 3\n        \"\"\"\n\n    decodeString (field \"utensils\" (list utensil)) input\n    --> Ok [ Spoon\n    -->    , Knife { serrated = False }\n    -->    , Fork { prongs = 3 }\n    -->    ]\n\n",
+                "type": "(a -> Decoder e b) -> Decoder e a -> Decoder e b"
+            },
+            {
+                "name": "at",
+                "comment": " Decode a value \"at\" a given path with the provided decoder.\n\n    \"\"\"\n    [foo.bar]\n    baz.wow = true\n    \"\"\"\n        |> decodeString (at [\"foo\", \"bar\", \"baz\", \"wow\"] bool)\n    --> Ok True\n\n",
+                "type": "List String -> Decoder e a -> Decoder e a"
+            },
+            {
+                "name": "bool",
+                "comment": " Decode a boolean value.\n\n    \"my-key = true\"\n        |> decodeString (field \"my-key\" bool)\n    --> Ok True\n\n",
+                "type": "Decoder e Bool"
+            },
+            {
+                "name": "dateTime",
+                "comment": " Decode an absolute time with UTF offset.\n\n    \"now = 2018-08-11T14:10:23.70Z\"\n        |> decodeString (field \"now\" dateTime)\n    --> Ok\n    -->   { date = { year = 2018, month = 8, day = 11 }\n    -->   , time = { hours = 14, minutes = 10, seconds = 23.70 }\n    -->   , offset = { hours = 0, minutes = 0 }\n    -->   }\n\n",
+                "type": "Decoder e DateTime"
+            },
+            {
+                "name": "decodeString",
+                "comment": " Run a `Decoder` against a string representing a TOML document.\n\n    decodeString (field \"foo\" string) \"foo = 'bar'\"\n    --> Ok \"bar\"\n\n",
+                "type": "Decoder e a -> String -> Result (Error e) a"
+            },
+            {
+                "name": "dict",
+                "comment": " Decode a TOML table into a `Dict`.\n\n    import Dict\n\n\n    \"\"\"\n    key1 = \"value1\"\n    key2 = \"value2\"\n    key3 = \"value3\"\n    \"\"\"\n        |> decodeString (dict string)\n    --> Ok (Dict.fromList\n    -->      [ ( \"key1\", \"value1\" )\n    -->      , ( \"key2\", \"value2\" )\n    -->      , ( \"key3\", \"value3\" )\n    -->      ]\n    -->    )\n\n",
+                "type": "Decoder e a -> Decoder e (Dict String a)"
+            },
+            {
+                "name": "fail",
+                "comment": " Construct a `Decoder` that will always fail (provided a valid TOML document)\nwith the given value.\n\nNote that this needn't be a string: custom types are allowed, too!\n\n    type MyError\n        = MyError\n\n\n    \"ok = true\"\n        |> decodeString (fail MyError)\n    --> Err (DecodeErrors (Custom MyError, []))\n\n",
+                "type": "e -> Decoder e v"
+            },
+            {
+                "name": "field",
+                "comment": " Reads the value of a field using the provided decoder.\n\n    \"key = 'value'\"\n        |> decodeString (field \"key\" string)\n    --> Ok \"value\"\n\nIf the specified field does not exist, this can result in a `MissingField`\nerror:\n\n    \"\"\n        |> decodeString (field \"key\" string)\n    --> Err (DecodeErrors (MissingField \"key\", []))\n\nErrors in the provided decoder are wrapped in `InField`:\n\n    \"key = 'value'\"\n        |> decodeString (field \"key\" (fail \"noooo\"))\n    --> Err (DecodeErrors (InField \"key\" (Custom \"noooo\", []), []))\n\n",
+                "type": "String -> Decoder e a -> Decoder e a"
+            },
+            {
+                "name": "float",
+                "comment": " Decode a floating point value.\n\n    \"my-key = 123.456\"\n        |> decodeString (field \"my-key\" float)\n    --> Ok 123.456\n\n",
+                "type": "Decoder e Float"
+            },
+            {
+                "name": "index",
+                "comment": " Decode a certain index of a TOML array using the provided decoder.\n\n    \"\"\"\n    names = [ \"Brian\", \"Carol\", \"Derek\", \"Elisa\" ]\n    \"\"\"\n        |> decodeString (field \"names\" (index 2 string))\n    --> Ok \"Derek\"\n\n",
+                "type": "Int -> Decoder e a -> Decoder e a"
+            },
+            {
+                "name": "int",
+                "comment": " Decode an integer value.\n\n    \"my-key = -703\"\n        |> decodeString (field \"my-key\" int)\n    --> Ok -703\n\n",
+                "type": "Decoder e Int"
+            },
+            {
+                "name": "lazy",
+                "comment": " Required for constructing recursive decoders.\n\n    type Tree\n        = Node String\n        | Branch String (List Tree)\n\n\n    branch : Decoder e Tree\n    branch =\n        map2 Branch\n            (field \"label\" string)\n            (field \"children\" (lazy (\\_ -> list tree)))\n\n\n    node : Decoder e Tree\n    node =\n        map Node (field \"label\" string)\n\n\n    tree : Decoder e Tree\n    tree =\n        oneOf\n            [ lazy (\\_ -> branch)\n            , node\n            ]\n\n\n    \"\"\"\n    label = 'root'\n    [[children]]\n    label = 'first child'\n    [[children]]\n    label = 'a branch'\n    [[children.children]]\n    label = 'a nested child'\n    [[children.children]]\n    label = 'another nested child'\n    \"\"\"\n        |> decodeString tree\n    --> Ok ( Branch \"root\"\n    -->        [ Node \"first child\"\n    -->        , Branch \"a branch\"\n    -->            [ Node \"a nested child\"\n    -->            , Node \"another nested child\"\n    -->            ]\n    -->        ]\n    -->    )\n\n",
+                "type": "(() -> Decoder e a) -> Decoder e a"
+            },
+            {
+                "name": "list",
+                "comment": " Decode a TOML array using the provided decoder to decode the values.\n\n    \"\"\"\n    items = [true, false, false, true, false]\n    \"\"\"\n        |> decodeString (field \"items\" (list bool))\n    --> Ok [ True, False, False, True, False ]\n\n",
+                "type": "Decoder e a -> Decoder e (List a)"
+            },
+            {
+                "name": "localDate",
+                "comment": " Decode a local date.\n\n    \"today = 2018-08-11\"\n        |> decodeString (field \"today\" localDate)\n    --> Ok { year = 2018, month = 8, day = 11 }\n\n",
+                "type": "Decoder e Date"
+            },
+            {
+                "name": "localDateTime",
+                "comment": " Decode a local date-time.\n\n    \"now = 2018-08-11T14:10:23.70\"\n        |> decodeString (field \"now\" localDateTime)\n    --> Ok\n    -->   { date = { year = 2018, month = 8, day = 11 }\n    -->   , time = { hours = 14, minutes = 10, seconds = 23.70 }\n    -->   }\n\n",
+                "type": "Decoder e LocalDateTime"
+            },
+            {
+                "name": "localTime",
+                "comment": " Decode a local time.\n\n    \"now = 14:08:49.02\"\n        |> decodeString (field \"now\" localTime)\n    --> Ok { hours = 14, minutes = 8, seconds = 49.02 }\n\n",
+                "type": "Decoder e Time"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the value a decoder will produce.\n\n    shout : Decoder e String\n    shout =\n        map String.toUpper string\n\n\n    \"message = 'hello there'\"\n        |> decodeString (field \"message\" shout)\n    --> Ok \"HELLO THERE\"\n\n",
+                "type": "(a -> b) -> Decoder e a -> Decoder e b"
+            },
+            {
+                "name": "map2",
+                "comment": " Combine the values produced by 2 decoders using a function.\n\n    type alias Person =\n        { name : String\n        , age : Int\n        }\n\n    person : Decoder e Person\n    person =\n        map2 Person\n            (field \"name\" string)\n            (field \"age\" int)\n\n\n    people : Decoder e (List Person)\n    people =\n        list person\n\n\n    \"\"\"\n    [[people]]\n    name = \"Alice\"\n    age = 43\n    [[people]]\n    name = \"Bob\"\n    age = 34\n    \"\"\"\n        |> decodeString (field \"people\" people)\n    --> Ok [ { name = \"Alice\", age = 43 }\n    -->    , { name = \"Bob\", age = 34 }\n    -->    ]\n\n",
+                "type": "(a -> b -> c) -> Decoder e a -> Decoder e b -> Decoder e c"
+            },
+            {
+                "name": "map3",
+                "comment": " Combine 3 decoders.\n",
+                "type": "(a -> b -> c -> d) -> Decoder e a -> Decoder e b -> Decoder e c -> Decoder e d"
+            },
+            {
+                "name": "map4",
+                "comment": " Combine 4 decoders.\n",
+                "type": "(a -> b -> c -> d -> e) -> Decoder x a -> Decoder x b -> Decoder x c -> Decoder x d -> Decoder x e"
+            },
+            {
+                "name": "map5",
+                "comment": " Combine 5 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f) -> Decoder x a -> Decoder x b -> Decoder x c -> Decoder x d -> Decoder x e -> Decoder x f"
+            },
+            {
+                "name": "map6",
+                "comment": " Combine 6 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g) -> Decoder x a -> Decoder x b -> Decoder x c -> Decoder x d -> Decoder x e -> Decoder x f -> Decoder x g"
+            },
+            {
+                "name": "map7",
+                "comment": " Combine 7 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h) -> Decoder x a -> Decoder x b -> Decoder x c -> Decoder x d -> Decoder x e -> Decoder x f -> Decoder x g -> Decoder x h"
+            },
+            {
+                "name": "map8",
+                "comment": " Combine 8 decoders.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h -> i) -> Decoder x a -> Decoder x b -> Decoder x c -> Decoder x d -> Decoder x e -> Decoder x f -> Decoder x g -> Decoder x h -> Decoder x i"
+            },
+            {
+                "name": "mapError",
+                "comment": " Transform the error value produced by your custom error type.\n\nPerhaps you want to reuse decoders across multiple modules, each producing a\ncertain type of errors? Either way, this allows transforming them.\n\n    type BaseError = BaseError\n    type Wrapped = Wrapped BaseError\n\n\n    baseDecoder : Decoder BaseError a\n    baseDecoder =\n        fail BaseError\n\n\n    wrappedDecoder : Decoder Wrapped a\n    wrappedDecoder =\n        mapError Wrapped baseDecoder\n\n\n    \"message = 'hi'\"\n        |> decodeString (field \"message\" wrappedDecoder)\n    --> Err (DecodeErrors (InField \"message\" (Custom (Wrapped BaseError), []), []))\n\n",
+                "type": "(e1 -> e2) -> Decoder e1 a -> Decoder e2 a"
+            },
+            {
+                "name": "oneOf",
+                "comment": " Try a bunch of decoders and succeed with the result of the first decoder to\nsucceed.\n\nIf none of the decoders succeed, the errors are collected and returned using the\n`OneOf` constructor.\n\n    type StringOrInt = AString String | AnInt Int\n\n\n    stringOrInt : Decoder e StringOrInt\n    stringOrInt =\n        oneOf\n            [ map AString string\n            , map AnInt int\n            ]\n\n\n    input : String\n    input =\n        \"\"\"\n    item1 = \"foo\"\n    item2 = 123\n    item3 = \"bar\"\n        \"\"\"\n\n\n    decodeString (field \"item1\" stringOrInt) input\n    --> Ok (AString \"foo\")\n\n    decodeString (field \"item2\" stringOrInt) input\n    --> Ok (AnInt 123)\n\n    decodeString (field \"item3\" stringOrInt) input\n    --> Ok (AString \"bar\")\n\n",
+                "type": "List (Decoder e a) -> Decoder e a"
+            },
+            {
+                "name": "string",
+                "comment": " Decode a string value.\n\n    \"my-key = 'my value'\"\n        |> decodeString (field \"my-key\" string)\n    --> Ok \"my value\"\n\n",
+                "type": "Decoder e String"
+            },
+            {
+                "name": "succeed",
+                "comment": " Construct a `Decoder` that will always succeed (provided the TOML is valid)\nwith the given value.\n\n    decodeString (succeed \"hello world!\") \"foo = 'bar'\"\n    --> Ok \"hello world!\"\n\n\n    \"invalid document\"\n        |> decodeString (succeed \"nope\")\n        |> Result.mapError (always \"failure\")\n    --> Err \"failure\"\n\n",
+                "type": "a -> Decoder e a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Toml.Calendar",
+        "comment": " Basic data-structures to model dates, times, datetimes and datetimes with an\noffset.\n\nThe plan is to (eventually) turn these into opaque structures and validate their\nformat before being able to construct them. For now, they hold no guarantees of\ncorrectness.\n\n@docs Date, Time, LocalDateTime, Offset, DateTime\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Date",
+                "comment": " Represent a date.\n",
+                "args": [],
+                "type": "{ year : Int, month : Int, day : Int }"
+            },
+            {
+                "name": "DateTime",
+                "comment": " Represent a datetime, with a known UTC offset.\n",
+                "args": [],
+                "type": "{ date : Date, time : Time, offset : Offset }"
+            },
+            {
+                "name": "LocalDateTime",
+                "comment": " Represent a floating datetime, with unknown offset.\n",
+                "args": [],
+                "type": "{ date : Date, time : Time }"
+            },
+            {
+                "name": "Offset",
+                "comment": " Represent an UTC offset.\n",
+                "args": [],
+                "type": "{ hours : Int, minutes : Int }"
+            },
+            {
+                "name": "Time",
+                "comment": " Represent a time.\n",
+                "args": [],
+                "type": "{ hours : Int, minutes : Int, seconds : Float }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,44 @@
+[
+    {
+        "name": "UuidStream",
+        "comment": " This module provides an easy way to generate infinite unique identifiers without\nhaving to keep track of random seeds. Each time you consume a UUID from the stream,\nthe next UUID will be automatically generated.\n\nThe actual UUID generation is handled by [Zinggi's Uuid library](http://package.elm-lang.org/packages/Zinggi/elm-uuid/1.0.0/Uuid). I suggest you take a\nlook at the documentation for that as it explains how to properly seed the generator so\nyou don't end up with duplicate UUIDs!\n\n\n## Stream Generators\n\n@docs uuidStream, uuidStringStream\n\n\n## Stream Types\n\n@docs UuidStream, UuidStringStream\n\n\n## Stream Consumers\n\n@docs consume, consumeMany\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "UuidStream",
+                "comment": " An infinite stream of [Uuids](http://package.elm-lang.org/packages/Zinggi/elm-uuid/1.0.0/Uuid#Uuid).\n",
+                "args": [],
+                "type": "Stream Uuid"
+            },
+            {
+                "name": "UuidStringStream",
+                "comment": " An infinite stream of UUID Strings in the canonical 8-4-4-4-12 form (e.g. \"8e1c60e6-8860-48d6-82ee-cc894810490d\").\n",
+                "args": [],
+                "type": "Stream String"
+            }
+        ],
+        "values": [
+            {
+                "name": "consume",
+                "comment": " Consume an element of a stream, producing a tuple with the next value and a new stream.\n",
+                "type": "Stream uuid -> ( uuid, Stream uuid )"
+            },
+            {
+                "name": "consumeMany",
+                "comment": " Consume multiple elements of a stream, producing a tuple with a list of values and a new stream.\n",
+                "type": "Int -> Stream uuid -> ( List uuid, Stream uuid )"
+            },
+            {
+                "name": "uuidStream",
+                "comment": " Create an infinite stream of [Uuids](http://package.elm-lang.org/packages/Zinggi/elm-uuid/1.0.0/Uuid#Uuid) from integer seeds. It's best to\ngenerate these integers via JavaScript with `window.crypto.getRandomValues(..)`. More on that [here](http://package.elm-lang.org/packages/Zinggi/elm-random-pcg-extended/2.1.0/Random-Pcg-Extended#initialSeed).\n",
+                "type": "Int -> List Int -> UuidStream"
+            },
+            {
+                "name": "uuidStringStream",
+                "comment": " The same as `uuidStream` but returns a `UuidStringStream`.\n",
+                "type": "Int -> List Int -> UuidStringStream"
+            }
+        ],
+        "binops": []
+    }
+]

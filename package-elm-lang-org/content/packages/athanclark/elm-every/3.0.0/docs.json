@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Every",
+        "comment": "\n\nThis component will continually issue / poll an action / message\nfor some given amount of time, determined by a function you provide\nthe system.\n\n\n## Polling State\n\n@docs Model, init\n\n\n## Polling Invocation\n\n@docs Msg, ModifyData, Modify\n\n\n## Polling Enactment\n\n@docs update\n\n",
+        "unions": [
+            {
+                "name": "ModifyData",
+                "comment": " Either adjust the potentially stored data, or just assign some. ",
+                "args": [
+                    "b"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Msg",
+                "comment": " The type of messages you can send to the poller -\n    either initialization (or new input data for the action\n    to be dispatched), or a cease-and-desist call.\n",
+                "args": [
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Start",
+                        [
+                            "Modify b"
+                        ]
+                    ],
+                    [
+                        "Stop",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The state of the poller\n",
+                "args": [
+                    "b"
+                ],
+                "type": "{ elapsed : Maybe (Elapsed b) }"
+            },
+            {
+                "name": "Modify",
+                "comment": " We can modify the stored data, and also reset the accrued time so far. ",
+                "args": [
+                    "b"
+                ],
+                "type": "{ resetSoFar : Bool, modifyData : Maybe (ModifyData b) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initial state of the poller, where `b` is the type of message\n    to send on completion.\n",
+                "type": "Model b"
+            },
+            {
+                "name": "update",
+                "comment": " Given a method to compute the duration to wait until the next action is issued\n    (calculated from the total time elapsed `total -> delay`), and the main action to\n    issue, build an updating component.\n",
+                "type": "(Maybe b -> Time -> Time) -> (Maybe b -> Cmd a) -> Msg b -> Model b -> ( Model b, Cmd (Result a (Msg b)) )"
+            }
+        ],
+        "binops": []
+    }
+]

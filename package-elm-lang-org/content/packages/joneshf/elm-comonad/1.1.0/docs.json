@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Store",
+        "comment": "\n\n\n# Data type\n\n@docs Store\n\n\n# Useful functions\n\n@docs duplicate\n@docs extract\n@docs map\n@docs move\n@docs set\n\n\n# Using with `Html a`\n\n@docs toBeginnerProgram\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Store",
+                "comment": " Pack together the current value along with a function to view said value.\n\nWe can specialize the `a` to be `Html a`\nand get something that works for top level programs.\n\nWe can also not do that.\nWe can describe many UIs and they don't have to be `Html a`.\n\n",
+                "args": [
+                    "s",
+                    "a"
+                ],
+                "type": "{ here : s, view : s -> a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "duplicate",
+                "comment": " Create a new store where the view is another store.\n\nGives us the lazy unfolding of all future states of a given store.\n\n",
+                "type": "Store s a -> Store s (Store s a)"
+            },
+            {
+                "name": "extract",
+                "comment": " View the current value.\n",
+                "type": "Store s a -> a"
+            },
+            {
+                "name": "map",
+                "comment": " Transform the view.\n\nUseful when you want to change the view of an already defined store.\n\n",
+                "type": "(a -> b) -> Store s a -> Store s b"
+            },
+            {
+                "name": "move",
+                "comment": " Move to the new given value.\n\nThis is how we make progress in the UI.\n\n",
+                "type": "s -> Store s a -> Store s a"
+            },
+            {
+                "name": "set",
+                "comment": " Replace the view.\n\nA common pattern is to just replace the old view without depending on it:\n`set x = map (\\_ -> x)`\n\n",
+                "type": "b -> Store m a -> Store m b"
+            },
+            {
+                "name": "toBeginnerProgram",
+                "comment": " Convert to a \"beginner program\" for use in a `main` function.\n\n    import Html exposing (Html)\n    import Html.Events\n    import Store exposing (Store)\n    import String.Extra\n\n    main : Program Never (Store Int (Html Int)) Int\n    main =\n        Html.beginnerProgram\n            (Store.toBeginnerProgram { here = 0, view = view })\n\n    view : Int -> Html Int\n    view n =\n        Html.div\n            []\n            [ Html.button\n                [ Html.Events.onClick (n - 1) ]\n                [ Html.text \"-\" ]\n            , Html.div\n                []\n                [ Html.text (String.Extra.fromInt n) ]\n            , Html.button\n                [ Html.Events.onClick (n + 1) ]\n                [ Html.text \"+\" ]\n            ]\n\nView this example on Ellie: <https://ellie-app.com/cDGbmY8Ca1/0>\n\n",
+                "type": "Store s (Html a) -> { model : Store s (Html a), update : s -> Store s (Html a) -> Store s (Html a), view : Store s (Html a) -> Html a }"
+            }
+        ],
+        "binops": []
+    }
+]

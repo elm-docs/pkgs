@@ -1,0 +1,31 @@
+[
+    {
+        "name": "DjangoChannels",
+        "comment": "\n\nDecoders and such to ease communication with django channels.\n\n# Definition\n@docs ModelBindingPayload\n\n# Decoders\n@docs modelBindingDecoder, streamDecoder\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ModelBindingPayload",
+                "comment": " ModelBindingPayload has the shape of what is sent by channels when a\n    WebsocketBinding is triggered.\n\n",
+                "args": [
+                    "dataType",
+                    "pkType"
+                ],
+                "type": "{ model : String, data : dataType, pk : pkType, action : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "modelBindingDecoder",
+                "comment": " Decode data sent from a channels WebsocketBinding.\n\n    import Json.Decode exposing (Decoder, string, bool)\n    import Json.Decode.Pipeline exposing (decode, required)\n\n    type alias TodoItem =\n        { pk : String\n        , description : String\n        , isDone : Bool\n        }\n\n    postBindingDecoder : Decoder (ModelBindingPayload Post String)\n    postBindingDecoder =\n        let\n            todoItemDecoder : Decoder TodoItem\n            todoItemDecoder =\n                decode TodoItem\n                |> required \"pk\" string\n                |> required \"description\" string\n                |> required \"is_done\" bool\n        in\n            modelBindingDecoder todoItemDecoder string\n\n",
+                "type": "Decoder a -> Decoder b -> Decoder (ModelBindingPayload a b)"
+            },
+            {
+                "name": "streamDecoder",
+                "comment": " Deal with streams from a WebsocketDemultiplexer.\n",
+                "type": "String -> (String -> model) -> model -> model"
+            }
+        ],
+        "binops": []
+    }
+]

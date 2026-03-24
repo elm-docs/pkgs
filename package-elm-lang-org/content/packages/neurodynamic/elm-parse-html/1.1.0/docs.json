@@ -1,0 +1,120 @@
+[
+    {
+        "name": "ParseHtml",
+        "comment": " This library is for parsing HTML documents. It uses the [elm-tools/parser](http://package.elm-lang.org/packages/elm-tools/parser/2.0.1) library to produce parsing results or appropriate types of errors, so you'll probably want to be familiar with that library as well to use this one. ParseHtml.Node.Model has the type you'll get from a successful parse.\n\n# Functions\n@docs document, parseDocument\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "document",
+                "comment": " Parser for an HTML document. Requires a DOCTYPE declaration and at least one HTML element to succeed.\n\n    Parser.run document \"<!DOCTYPE html><html></html>\" == Ok (Element \"html\" [] [])\n    Parser.run document \"<!DOCTYPE html><html><head></head><body><h1>I am a document!</h1></body></html>\" = Element \"html\" [] [ Element \"head\" [] [], Element \"body\" [] [ Element \"h1\" [] [ TextNode \"I am a document!\" ]] ]\n",
+                "type": "Parser Node"
+            },
+            {
+                "name": "parseDocument",
+                "comment": " Runs the document parser.\n\n    parseDocument \"<!DOCTYPE html><html></html>\" == Ok (Element \"html\" [] [])\n",
+                "type": "String -> Result Error Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ParseHtml.Node.Element",
+        "comment": " Parsing for HTML elements.\n# Functions\n@docs element\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "element",
+                "comment": " Parses an HTML element.\n\n    Parser.run element \"<p></p>\" == Ok (Element \"p\" [] [])\n    Parser.run element \"<p class=\"myclass\"></p>\" == Ok (Element \"p\" [(\"class\", \"myclass\")] [])\n    Parser.run element \"<p>Hi!</p>\" == Ok (Element \"p\" [] [ TextNode \"Hi!\" ])\n",
+                "type": "Parser Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ParseHtml.Node.Text",
+        "comment": " Parsing for HTML text nodes.\n\n# Functions\n@docs textNode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "textNode",
+                "comment": " Parses an HTML text node (this will succeed on any string not starting with a \"<\" character, so make sure you run other parsers first).\n\n    Parser.run textNode \"some text\" == Ok (textNode \"some text\")\n    Parser.run textNode \"<some text\" == Err BadRepeat\n",
+                "type": "Parser Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ParseHtml.Node.Comment",
+        "comment": " Parsing for HTML comments.\n# Functions\n@docs comment\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "comment",
+                "comment": " Parses an HTML comment\n\n    Parser.run comment \"<!--Comment!-->\" == Ok (Comment \"Comment!\")\n",
+                "type": "Parser Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ParseHtml.Node.Model",
+        "comment": " This data model represents an HTML node. In most common use, it will probably represent a complete tree of HTML elements parsed from an HTML document.\n# Definition\n@docs Node\n",
+        "unions": [
+            {
+                "name": "Node",
+                "comment": " Represents an HTML node. In most common use, will probably represent a complete tree of HTML elements parsed from an HTML document.\n\n    rootNode = Element \"html\" [] [ Element \"head\" [] [], Element \"body\" [] [ Element \"h1\" [] [ TextNode \"I am a document!\" ]] ]\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Element",
+                        [
+                            "Name",
+                            "List Attribute",
+                            "List Node"
+                        ]
+                    ],
+                    [
+                        "TextNode",
+                        [
+                            "Content"
+                        ]
+                    ],
+                    [
+                        "Comment",
+                        [
+                            "Content"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "ParseHtml.Errors",
+        "comment": " Tools for producing useful error messages.\n# Functions\n@docs translateError\n# Data\n@docs ErrorLineParts\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ErrorLineParts",
+                "comment": " Holds the line an error occurred on in three parts: the part before the issue that caused the error, the part that caused the error, and the part after the issue that caused the error.\n",
+                "args": [],
+                "type": "{ beforeIssue : String, issue : String, afterIssue : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "translateError",
+                "comment": " Converts a Parser.Error record into a human-readable description of the error, and the line on which the error occurs, broken into the columns before the error, at the error, and past the error.\n\n    case parseDocument \"some stuff\" of\n        {- ...other cases... -}\n        Err error ->\n            translateError error\n    == ( \"Your HTML is missing a DOCTYPE declaration. Put \\\"<!DOCTYPE html>\\\" at the very beginning of the HTML.\"\n    , ErrorLineParts \"\" \"s\" \"ome stuff\"\n    )\n",
+                "type": "Error -> ( String, ErrorLineParts )"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,91 @@
+[
+    {
+        "name": "Datadown.Process",
+        "comment": " Content\n\n\n# Types\n\n@docs processDocument\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "processDocument",
+                "comment": " Process a document and return a result\n",
+                "type": "Document -> Dict String (Result Error Content)"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Datadown.Parse",
+        "comment": " Parse Datadown documents\n\n\n# Run Parsers\n\n@docs parseDocument, parseSection\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "parseDocument",
+                "comment": " Parses a Datadown document\n\n    parseDocument \"\"\"\n\n\n# Title\n\n\"\"\"\n\n",
+                "type": "String -> Document"
+            },
+            {
+                "name": "parseSection",
+                "comment": " Parses a Datadown section\n\n    parseSection \"\"\"\n\n\n## Section\n\n  - first\n  - second\n  - third\n    \"\"\"\n\n",
+                "type": "List (Block b i) -> Section"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Datadown",
+        "comment": " A library for Datadown parsing\n\n\n# Types\n\n@docs Document, Section\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Document",
+                "comment": " A full document, with many sections\n",
+                "args": [],
+                "type": "{ title : String, sections : List Section }"
+            },
+            {
+                "name": "Section",
+                "comment": " A section of data\n",
+                "args": [],
+                "type": "{ title : String, mainContent : Maybe Content, secondaryContent : Dict String Content }"
+            }
+        ],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Datadown.Content",
+        "comment": " Content\n\n\n# Types\n\n@docs Content\n\n",
+        "unions": [
+            {
+                "name": "Content",
+                "comment": " Content, such as plain text, code, lists, etc\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Text",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Code",
+                        [
+                            "Maybe String",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "List",
+                        [
+                            "List Content"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

@@ -1,0 +1,329 @@
+[
+    {
+        "name": "Graph.Json",
+        "comment": " JSON encoding and decoding of the graph is close to the JSON representation\nin sigmajs.org to allow easier intergration.\n\n@docs decode, encode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " A decoder for `Graph Node`.\n",
+                "type": "Decoder (Graph Node)"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode `Graph Node`.\n",
+                "type": "Graph Node -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Colored.Graph",
+        "comment": " A Graph generally allows different types of Nodes to be used. This module\nprovides a type alias for Graphs of Colored Nodes.\n\n@docs ColoredGraph\n\n## JSON\n\n@docs encode, decode\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "ColoredGraph",
+                "comment": " Describes a graph consisting of Colored Nodes.\n\nSee Graph.Colored.Node.\n",
+                "args": [],
+                "type": "Graph (Colored Node)"
+            }
+        ],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decode a ColoredGraph from JSON.\n",
+                "type": "Decoder ColoredGraph"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode a ColoredGraph to JSON.\n",
+                "type": "ColoredGraph -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.GraphViz",
+        "comment": " Exports a Graph in [GraphViz](http://www.graphviz.org) format.\n\n@docs string\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "string",
+                "comment": " A GraphViz representation of the Graph.\n",
+                "type": "Graph Node -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Colored.Decorator",
+        "comment": " This decorator helps you annotate a graph with colors.\n\n@docs coloredGraph\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "coloredGraph",
+                "comment": " Create a Graph with colored nodes from a graph of simple nodes. The colors\nwill be determined based on the node names (each being a list of strings). The\nfirst parameter (depth) determines how many name components will form a group.\n\nLet assume a graph with the following nodes:\n\n    Node A\n    Node B\n    Node B.1\n    Node B.2\n\nFor depth 1 every top level node name will get its own color: B, B.1 and B.2\nwill have the same color, A will have a different color. For depth 2 all nodes\nwill have different colors.\n\nThis function returns the ColorDict along with the new graph. The color dict is\na look up table for the identifying parts of a name that determine a color.\n\nIn our example above for depth 1 that will be: `{ A: \"color1\", B: \"color2\" }`.\nThis can be used to create legends.\n",
+                "type": "Int -> Graph Node -> ( ColorDict, Graph (Colored Node) )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Degree",
+        "comment": " This module provides functions to calculate the degrees of nodes in a graph.\n\n* outdegree: number of outgoing edges\n* indegree: number of incoming edges\n\n## Types\n\n@docs Degree, InOut\n\n## Functions\n\n@docs allDegrees, incoming, outgoing, topDegrees\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Degree",
+                "comment": " The degree of a node in a graph is the number of edges incident to it.\n\nSee https://en.wikipedia.org/wiki/Vertex_(graph_theory)\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "InOut",
+                "comment": " Encapsulates information about incoming and outgoing degrees.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ incoming : a, outgoing : a }"
+            }
+        ],
+        "values": [
+            {
+                "name": "allDegrees",
+                "comment": " Get a dictionary of all degrees (incoming and outgoing) for all nodes in a\n graph.\n",
+                "type": "Graph node -> Dict Identifier (InOut Degree)"
+            },
+            {
+                "name": "incoming",
+                "comment": " Get the incoming degree of a node in a graph.\n",
+                "type": "Graph node -> Identifier -> Degree"
+            },
+            {
+                "name": "outgoing",
+                "comment": " Get the outgoing degree of a node in a graph.\n",
+                "type": "Graph node -> Identifier -> Degree"
+            },
+            {
+                "name": "topDegrees",
+                "comment": " Get a list of all top inbound and outbound nodes with their respective\nInOut Degrees. The lists are sorting descending by the degree (fallback\nalphabetically by identifier).\n",
+                "type": "Graph node -> InOut (List ( Identifier, InOut Degree ))"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Edge.Json",
+        "comment": " JSON encoding and decoding of edges is a subset of the JSON representation\nin sigmajs.org to allow easier intergration.\n\n@docs decode, encode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decodes JSON into an Edge record.\n",
+                "type": "Decoder Edge"
+            },
+            {
+                "name": "encode",
+                "comment": " Encodes an Edge record as JSON.\n",
+                "type": "Edge -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph",
+        "comment": " A network graph consists of a list of nodes connected by edges.\n\n## Types\n\n@docs Graph\n\n## Constructors\n\n@docs init, empty\n\n## Filtering\n\n@docs filter, filterByName\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Graph",
+                "comment": " A network graph consists of a list of nodes connected by edges.\n\nThe node type of the Graph is abstract to allow you to use records extending the\ntype Node. Most functions provided by this work with `Graph Node`.\n",
+                "args": [
+                    "node"
+                ],
+                "type": "{ edges : List Edge, nodes : List node }"
+            }
+        ],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " Creates an empty graph without edges or nodes.\n",
+                "type": "Graph Node"
+            },
+            {
+                "name": "filter",
+                "comment": " Filters a graph such that only nodes passing the test are included.\n",
+                "type": "(Node -> Bool) -> Graph Node -> Graph Node"
+            },
+            {
+                "name": "filterByName",
+                "comment": " Filter by name to include only nodes that start with the\nspecified name prefix.\n",
+                "type": "Name -> Graph Node -> Graph Node"
+            },
+            {
+                "name": "init",
+                "comment": " Initialize a node from a list of edges (see Edge) and nodes (see Node).\n",
+                "type": "List Edge -> List Node -> Graph Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Colored.Node",
+        "comment": " An extensible record that we use to add color to other record types\n(see Graph.Node).\n\n@docs Colored, fromNode\n\n## JSON\n\n@docs encode, decode\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Colored",
+                "comment": " Describes a record that is extended by a color field.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "{ a | color : Color }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decode a Colored Node from JSON.\n",
+                "type": "Decoder (Colored Node)"
+            },
+            {
+                "name": "encode",
+                "comment": " Encode a Colored Node to JSON.\n",
+                "type": "Colored Node -> Value"
+            },
+            {
+                "name": "fromNode",
+                "comment": " Create a colored node from an uncolored node using a color.\n",
+                "type": "Node -> Color -> Colored Node"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Node.Json",
+        "comment": " JSON encoding and decoding of nodes is close to the JSON representation in\nsigmajs.org to allow easier intergration.\n\n@docs decode, encode\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decode",
+                "comment": " Decodes JSON into a Node record.\n",
+                "type": "Decoder Node"
+            },
+            {
+                "name": "encode",
+                "comment": " Encodes a Node record as JSON.\n",
+                "type": "Node -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Edge",
+        "comment": " An edge connects two nodes in a graph. Edges are designed to work with the\ntype Node. You may however use an extensible record to add fields to Node\nwithout breaking the Edge implementation.\n\n@docs Edge, filterForIdentifiers\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Edge",
+                "comment": " Describes the link between two nodes in a Graph.\n",
+                "args": [],
+                "type": "{ from : Identifier, to : Identifier }"
+            }
+        ],
+        "values": [
+            {
+                "name": "filterForIdentifiers",
+                "comment": " Filter list of edges to only include edges referencing a node in the\ngiven list. This is useful to exclude external nodes that might have been\naccidentally referenced.\n",
+                "type": "Set Identifier -> List Edge -> List Edge"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Colored.Color",
+        "comment": " Color can be used to better visualize a graph.\n\n@docs Color, ColorDict, fallback, list\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Color",
+                "comment": " Color is a type alias for String to improve function signatures.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "ColorDict",
+                "comment": " ColorDict is a look-up table for colors.\n",
+                "args": [],
+                "type": "Dict Name Color"
+            }
+        ],
+        "values": [
+            {
+                "name": "fallback",
+                "comment": " A fallback color in case you cannot find a color in your ColorDict.\n",
+                "type": "Color"
+            },
+            {
+                "name": "list",
+                "comment": " List of decent colors.\n\nsee https://material.io/guidelines/style/color.html#color-color-palette\n",
+                "type": "List Color"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Graph.Node",
+        "comment": " Node describes a node in a network graph. A Node is identified\nby `.identifier` which is used by Edge to reference two connected nodes.\n\nThe node's name is a list of strings to allow you to represent paths\n(e.g. for modules).\n\n## Types\n\n@docs Node, Identifier, Name\n\n## Constructor\n\n@docs fromName\n\n## Other\n@docs namePrefix, identifierFromName, dictFromList\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Identifier",
+                "comment": " A simple type alias for String to make function signatures easier readable.\n",
+                "args": [],
+                "type": "String"
+            },
+            {
+                "name": "Name",
+                "comment": " A node's name is a list of strings to allow\nyou to represent paths (e.g. for modules).\n",
+                "args": [],
+                "type": "List String"
+            },
+            {
+                "name": "Node",
+                "comment": " Describes a node in a graph.\n",
+                "args": [],
+                "type": "{ identifier : Identifier, name : Name }"
+            }
+        ],
+        "values": [
+            {
+                "name": "dictFromList",
+                "comment": "\nGet a dictionary to look up nodes for identifiers.\n",
+                "type": "List Node -> Dict Identifier Node"
+            },
+            {
+                "name": "fromName",
+                "comment": " Create a node from a name using. An identifier will be created\nautomatically. Use this function if all nodes in your graph have unique names.\n",
+                "type": "Name -> Node"
+            },
+            {
+                "name": "identifierFromName",
+                "comment": " Create an identifier from a name. This is only useful if you expect names to\nbe unique in your graph.\n",
+                "type": "Name -> Identifier"
+            },
+            {
+                "name": "namePrefix",
+                "comment": " Returns the first *n* members of a name.\n",
+                "type": "Int -> Name -> Name"
+            }
+        ],
+        "binops": []
+    }
+]

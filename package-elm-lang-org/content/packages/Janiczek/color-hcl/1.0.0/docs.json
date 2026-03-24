@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Color.Hcl",
+        "comment": " Functions for conversion from and to HCL.\n\nReference for the conversion algorithms: <https://github.com/gka/chroma.js>\n\n\n# Conversion HCL <-> RGB\n\n@docs hclToRgb, rgbToHcl\n\n\n# Color\n\n@docs fromColor, toColor\n\n\n# Types\n\n@docs HCL, RGB\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "HCL",
+                "comment": " HCL record.\n\nRanges:\n\n  - h: 0..360\n  - c: 0..100\n  - l: 0..150\n  - a: 0..1\n\nSee this color picker: <https://bl.ocks.org/mbostock/3e115519a1b495e0bd95>\n\n",
+                "args": [],
+                "type": "{ hue : Float, chroma : Float, luminance : Float, alpha : Float }"
+            },
+            {
+                "name": "RGB",
+                "comment": " RGB record.\n\nRanges:\n\n  - r: 0..255\n  - g: 0..255\n  - b: 0..255\n  - a: 0..1\n\nSee this color picker: <https://bl.ocks.org/mbostock/3e115519a1b495e0bd95>\n\n",
+                "args": [],
+                "type": "{ red : Int, green : Int, blue : Int, alpha : Float }"
+            }
+        ],
+        "values": [
+            {
+                "name": "fromColor",
+                "comment": " Constructs a HCL record from a `Color`.\n",
+                "type": "Color -> HCL"
+            },
+            {
+                "name": "hclToRgb",
+                "comment": " Converts RGB to HCL.\n",
+                "type": "HCL -> RGB"
+            },
+            {
+                "name": "rgbToHcl",
+                "comment": " Converts RGB to HCL.\n\nReference: <https://en.wikipedia.org/wiki/HCL_color_space#Transformation_from_RGB_to_HCL>\n\n",
+                "type": "RGB -> HCL"
+            },
+            {
+                "name": "toColor",
+                "comment": " Constructs a `Color` from a HCL record.\n",
+                "type": "HCL -> Color"
+            }
+        ],
+        "binops": []
+    }
+]

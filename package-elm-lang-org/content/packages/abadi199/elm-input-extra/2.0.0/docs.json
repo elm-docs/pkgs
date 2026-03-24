@@ -1,0 +1,100 @@
+[
+    {
+        "name": "Input.Text",
+        "comment": " Text input\n\n# Model\n@docs Model, init\n\n# View\n@docs input, Options, defaultOptions\n\n# Update\n@docs update\n\n# Msg\n@docs Msg\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " (TEA) Opaque Msg types\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " (TEA) Model record\nFields:\n * `value` : current value of the input element.\n * `hasFocus` : flag whether the input element has focus or not.\n",
+                "args": [],
+                "type": "{ value : String, hasFocus : Bool }"
+            },
+            {
+                "name": "Options",
+                "comment": " Options of the input component.\n\n * `id` is the id of the HTML element.\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `maxValue` is the maximum number value allowed in this input. Set to `Nothing` for no limit.\n * `minValue` is the minimum number value allowed in this input. Set to `Nothing` for no limit.\n",
+                "args": [],
+                "type": "{ id : String, maxLength : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Default value for `Options`.\nParams:\n * `id` (type: `String`) : The `id` of the number input element.\n",
+                "type": "String -> Options"
+            },
+            {
+                "name": "init",
+                "comment": " (TEA) Initial model constant\n",
+                "type": "Model"
+            },
+            {
+                "name": "input",
+                "comment": " (TEA) View function\n",
+                "type": "Options -> List (Attribute Msg) -> Model -> Html Msg"
+            },
+            {
+                "name": "update",
+                "comment": " (TEA) Update function\n",
+                "type": "Msg -> Model -> Model"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Input.Number",
+        "comment": " Number input\n\n# Model\n@docs Model, init\n\n# View\n@docs input, Options, defaultOptions\n\n# Update\n@docs update\n\n# Msg\n@docs Msg\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " (TEA) Opaque Msg types\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " (TEA) Model record\nFields:\n * `value` : current value of the input element.\n * `hasFocus` : flag whether the input element has focus or not.\n",
+                "args": [],
+                "type": "{ value : String, hasFocus : Bool }"
+            },
+            {
+                "name": "Options",
+                "comment": " Options of the input component.\n\n * `id` is the id of the HTML element.\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `maxValue` is the maximum number value allowed in this input. Set to `Nothing` for no limit.\n * `minValue` is the minimum number value allowed in this input. Set to `Nothing` for no limit.\n",
+                "args": [],
+                "type": "{ id : String, maxLength : Maybe Int, maxValue : Maybe Int, minValue : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultOptions",
+                "comment": " Default value for `Options`.\nParams:\n * `id` (type: `String`) : The `id` of the number input element.\n",
+                "type": "String -> Options"
+            },
+            {
+                "name": "init",
+                "comment": " (TEA) Initial model constant\n",
+                "type": "Model"
+            },
+            {
+                "name": "input",
+                "comment": " (TEA) View function\n",
+                "type": "Options -> List (Attribute Msg) -> Model -> Html Msg"
+            },
+            {
+                "name": "update",
+                "comment": " (TEA) Update function\n",
+                "type": "Msg -> Model -> Model"
+            }
+        ],
+        "binops": []
+    }
+]

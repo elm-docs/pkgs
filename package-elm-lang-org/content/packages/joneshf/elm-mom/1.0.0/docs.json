@@ -1,0 +1,285 @@
+[
+    {
+        "name": "Mom.Option",
+        "comment": "\n@docs Option\n@docs none, run, some\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Option",
+                "comment": "\nA computation that may fail with no information about the failure.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "Mom (Maybe a) a"
+            }
+        ],
+        "values": [
+            {
+                "name": "none",
+                "comment": "\nA failed computation.\n",
+                "type": "Option a"
+            },
+            {
+                "name": "run",
+                "comment": "\nRun the computation extracting the value to `Maybe a`.\n",
+                "type": "Option a -> Maybe a"
+            },
+            {
+                "name": "some",
+                "comment": "\nA successful computation.\n",
+                "type": "a -> Option a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Mom.Identity",
+        "comment": "\n@docs Identity\n@docs identity, run\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Identity",
+                "comment": "\nA computation with no effects.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "Mom a a"
+            }
+        ],
+        "values": [
+            {
+                "name": "identity",
+                "comment": "\nAlias for `pure`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "a -> Identity a"
+            },
+            {
+                "name": "run",
+                "comment": "\nRemove the value the computation.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Identity a -> a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Mom.Either",
+        "comment": "\n@docs Either\n@docs left, right, run\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Either",
+                "comment": "\nA computation that may fail with additional information about the failure.\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Mom (Result a b) b"
+            }
+        ],
+        "values": [
+            {
+                "name": "left",
+                "comment": "\nA failed computation.\n",
+                "type": "a -> Either a b"
+            },
+            {
+                "name": "right",
+                "comment": "\nA successful computation.\n",
+                "type": "b -> Either a b"
+            },
+            {
+                "name": "run",
+                "comment": "\nRun the computation extracting the value to `Result a b`.\n",
+                "type": "Either a b -> Result a b"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Mom.Always",
+        "comment": "\n@docs Always\n@docs always, run\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Always",
+                "comment": "\nA computation that never changes its value.\n",
+                "args": [
+                    "a",
+                    "b"
+                ],
+                "type": "Mom a b"
+            }
+        ],
+        "values": [
+            {
+                "name": "always",
+                "comment": "\nA value that never changes in the computation.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "a -> Always a b"
+            },
+            {
+                "name": "run",
+                "comment": "\nRemove the value the computation.\n",
+                "type": "Always a b -> a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Mom",
+        "comment": "\n@docs Mom\n@docs (#>), (*>), (<#>), (<$), (<$>), (<*), (<*>), (<=<), (=<<), (>=>), (>>=)\n@docs ap, bind, callCC, forever, join, map, pure, run, unless, when, with\n",
+        "unions": [
+            {
+                "name": "Mom",
+                "comment": "\nGeneralizes most computational effects.\n\nBased on ideas from http://blog.sigfpe.com/2008/12/mother-of-all-monads.html and http://fplab.bitbucket.org/posts/2007-12-09-continuations-and-classic.html\n",
+                "args": [
+                    "r",
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Mom",
+                        [
+                            "(a -> r) -> r"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "ap",
+                "comment": "\nTransforms values of a computational effect by the given function in the computational effect.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r (a -> b) -> Mom r a -> Mom r b"
+            },
+            {
+                "name": "bind",
+                "comment": "\nSubstitues a value in an effectful computation.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> Mom r b) -> Mom r a -> Mom r b"
+            },
+            {
+                "name": "callCC",
+                "comment": "\nControl flow primitive for effectful computations.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "((a -> Mom r b) -> Mom r a) -> Mom r a"
+            },
+            {
+                "name": "forever",
+                "comment": "\nExecutes the effectful computation forever.\n",
+                "type": "Mom r a -> Mom r b"
+            },
+            {
+                "name": "join",
+                "comment": "\nRemoves a layer of computational effects.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r (Mom r a) -> Mom r a"
+            },
+            {
+                "name": "map",
+                "comment": "\nTransforms values of a computational effect by the given function.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> b) -> Mom r a -> Mom r b"
+            },
+            {
+                "name": "pure",
+                "comment": "\nEmbeds a pure value into an effectful computation.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "a -> Mom r a"
+            },
+            {
+                "name": "run",
+                "comment": "\nExtracts the computational effects to the elm level.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r a -> (a -> r) -> r"
+            },
+            {
+                "name": "unless",
+                "comment": "\nExecutes the effectful computation only when the `Bool` is false.\n",
+                "type": "Bool -> Mom r () -> Mom r ()"
+            },
+            {
+                "name": "when",
+                "comment": "\nExecutes the effectful computation only when the `Bool` is true.\n",
+                "type": "Bool -> Mom r () -> Mom r ()"
+            },
+            {
+                "name": "with",
+                "comment": "\nFlipped version of `run`\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> r) -> Mom r a -> r"
+            }
+        ],
+        "binops": [
+            {
+                "name": "#>",
+                "comment": "\nFlipped version of `(<$)`.\nPun with \"dollar\" and \"pound\".\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r a -> b -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "*>",
+                "comment": "\nExecutes both computational effects ignoring the value of the first.\n",
+                "type": "Mom r a -> Mom r b -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<#>",
+                "comment": "\nFlipped version of `(<$>)`.\nPun with \"dollar\" and \"pound\".\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r a -> (a -> b) -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<$",
+                "comment": "\nReplaces values of a computational effect by the given function.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "b -> Mom r a -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<$>",
+                "comment": "\nAn operator alias for `map`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> b) -> Mom r a -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<*",
+                "comment": "\nExecutes both computational effects ignoring the value of the second.\n",
+                "type": "Mom r a -> Mom r b -> Mom r a",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<*>",
+                "comment": "\nAn operator alias for `ap`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r (a -> b) -> Mom r a -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "<=<",
+                "comment": "\nFlipped version of `(>=>)`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(b -> Mom r c) -> (a -> Mom r b) -> a -> Mom r c",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": "=<<",
+                "comment": "\nAn operator alias for `bind`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> Mom r b) -> Mom r a -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": ">=>",
+                "comment": "\nSequences two computational effect substitutions.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "(a -> Mom r b) -> (b -> Mom r c) -> a -> Mom r c",
+                "associativity": "left",
+                "precedence": 9
+            },
+            {
+                "name": ">>=",
+                "comment": "\nFlipped version of `(=<<)`.\n\nDue to parametricity, this documentation is worthless,\nas there is exactly one implementation of this function.\n",
+                "type": "Mom r a -> (a -> Mom r b) -> Mom r b",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

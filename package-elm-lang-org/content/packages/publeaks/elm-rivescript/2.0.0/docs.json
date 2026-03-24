@@ -1,0 +1,175 @@
+[
+    {
+        "name": "Bot",
+        "comment": " **An Elm RiveScript library** This library provides an Elm interface for RiveScript built on top of the [rivescript-js](https://github.com/aichaos/rivescript-js) public API.\n\n  The library depends on [ports](https://guide.elm-lang.org/interop/javascript.html#ports) for interop with the rivescript-js library. See the [readme](http://package.elm-lang.org/packages/publeaks/elm-rivescript/latest#javascript-interop) for instructions on how to wire up these ports in your Elm app, and [elm-rivescript.js](https://github.com/Publeaks/elm-rivescript/blob/master/src/elm-rivescript.js) for a template and instructions on how to wire up these ports on the javascript side.\n\n  Use [`bot name`](#bot) to create a named bot of type [`Bot`](#Bot). Receive replies from your bot by subscribing to [`listen msg`](#listen). You can subsequenty query the bot for a reply with [`reply message bot`](#reply).\n\n  The library supports multiple bots. See the documentation of [`Farm`](#Farm) to learn more about managing conversation state when there's more than one bot in your bot farm.\n\n# State\n\nCreate bots and manage the state of those bots.\n\n@docs Bot\n\n@docs Farm\n\n@docs bot\n\n@docs name\n\n# Requesting replies\n\nQuery bots for replies.\n\n@docs Request\n\n@docs To\n\n@docs reply\n\n# Subscribing to bot responses\n\n@docs Response\n\n@docs With\n\n@docs listen\n",
+        "unions": [
+            {
+                "name": "Bot",
+                "comment": " A record of type `Bot` encapsulsates the internal state of a bot. Use [`bot : String -> Bot`](#bot) to create a new bot.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Farm",
+                "comment": " A `Farm` is a collection of zero or more `Bot`. Bots come in farms, not in armies. I'm no believer of the bot apocalyse.\n\n  The `Farm` type is provided for convenience. The library has no facilities for managing the state of a farm of bots. The [`List`](http://package.elm-lang.org/packages/elm-lang/core/latest/List) module provides all the functionality you need to manage a bot farm.\n\n  Bots are identified by name; the `name` field is used as a unique identifier. **In order for a farm to remain internally consistent, you must avoid duplicate names.**\n\n  Both [`reply`](#reply) and [`listen`](#listen) return a bot as part of the return value. This bot is always newly created internally with [`bot`](#bot). The name of this bot corresponds to the name of the bot that was queried ([`reply`](#reply)), or that submits a reply ([`listen`](#listen)). Use this bot to update (*insert-or-replace*) your bot farm.\n",
+                "args": [],
+                "type": "List Bot"
+            },
+            {
+                "name": "Request",
+                "comment": "  Type alias `Request` wraps a request for [`reply`](#reply) from your bot. A `Request` captures both a bot (`Bot`) and a command (`Cmd a`).\n\n  If you maintain a bot [`Farm`](#Farm), the bot **must** replace any bot in your bot farm with the same, unique name. The command **must** be passed of the the Elm runtime for its payload to be executed.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "( Bot, Cmd a )"
+            },
+            {
+                "name": "Response",
+                "comment": " Type alias `Response` wraps a bot response in answer to a request for [`reply`](#reply) from your bot. A `Response` captures [errors](Rivescript#errors) in the underlying bot brain (RiveScript code) in addition to a bot reply (`Maybe String`), bot (`Bot`) and command (`Cmd a`).\n\n  If you maintain a bot [`Farm`](#Farm), the bot **must** replace any bot in your bot farm with the same, unique name. The command **must** be passed of the the Elm runtime for its payload to be executed.\n",
+                "args": [
+                    "a"
+                ],
+                "type": "( { reply : Maybe String, bot : Bot }, Cmd a )"
+            },
+            {
+                "name": "To",
+                "comment": " Type alias `To` is a convenience type for wiring up your bots to the appropriate ports in Elm. To define your port, use:\n\n    port to : To a\n",
+                "args": [
+                    "a"
+                ],
+                "type": "List String -> Cmd a"
+            },
+            {
+                "name": "With",
+                "comment": " Type alias `With` is a convenience type for wiring up your bots to the appropriate ports in Elm. To define your port, use:\n\n    port with : With a\n",
+                "args": [
+                    "a"
+                ],
+                "type": "(Array String -> a) -> Sub a"
+            }
+        ],
+        "values": [
+            {
+                "name": "bot",
+                "comment": " Create a new named bot. See also [`name`](#name).\n\n    bot \"Marvin\" == Bot\n    name (bot \"Marvin\") == \"Marvin\"\n",
+                "type": "String -> Bot"
+            },
+            {
+                "name": "listen",
+                "comment": " Subscribe to replies from your bot.\n\n  Returns `Ok (Response a)` when a reply arrives from the RiveScript interpreter. You must update your application state to replace your bot with the bot returned to you in the response.\n\n  Returns `Err String` if the RiveScript interpreter either returns no bot name or returns no reply. If elm-rivescript is wired up correctly on the javascript side this **should** never occur.\n\n    listen with (\\Result (Response a) -> a) pipeline == Sub a\n\n  Where `pipeline` is a processor pipeline of type [`Pipeline`](Rivescript-Types#Pipeline) and where `with` is an incoming port of type:\n\n    port with : With a\n\n  See also [`Response`](#Response) and [`With`](#With).\n",
+                "type": "With ( Maybe String, Maybe String ) -> (Result String (Response a) -> a) -> Pipeline -> Sub a"
+            },
+            {
+                "name": "name",
+                "comment": " Query the name of your bot.\n\n    name (bot \"Marvin\") == \"Marvin\"\n",
+                "type": "Bot -> String"
+            },
+            {
+                "name": "reply",
+                "comment": " Request replies from your bot.\n\n  You must update your application state to replace your bot with the bot returned to you. You must also pass the command returned to you to the Elm runtime for your query to be submitted to the RiveScript interpreter.\n\n    reply \"Hello, Bot!\" to (bot \"Marvin\") == Request a\n\n  Where `To` is an outgoing port of type:\n\n    port to : To a\n\n  See also [`Request`](#Request) and [`To`](#To).\n",
+                "type": "String -> To a -> Bot -> Request a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rivescript",
+        "comment": " The Rivescript modules provide functions and supporting types that implement additional functionality on top of the [rivescript-js](https://github.com/aichaos/rivescript-js) RiveScript library. These functions are implemented as parser that may be run on Bot responses.\n\n# Running processor pipelines\n\n@docs apply\n\n@docs extensions\n\n# Utilities\n\n@docs directions\n\n@docs errors\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " Apply a `Pipeline` to a `String` (typically a bot reponse). This function is best explained by looking at some example runs, documented under [directions](#directions) and [errors](#errors).\n",
+                "type": "Pipeline -> String -> ( Maybe String, Maybe (Task Never String) )"
+            },
+            {
+                "name": "directions",
+                "comment": " Utility pipeline that appends all [directions](Rivescript-Extensions-Directions) into a single pipeline.\n\n    apply directions \"Hello, World!\" == ( Just \"Hello, World!\", Nothing )\n    apply directions \"Hello<send>World!\" == ( Just \"Hello\", Just sendTask \"World!\" )\n    apply directions \"Hello<delay seconds=1.0>How do you do?\" == ( Just \"Hello\", Just delayTask \"How Do you do?\" )\n    apply directions \"<noreply>\" == ( Nothing, Nothing )\n",
+                "type": "Pipeline"
+            },
+            {
+                "name": "errors",
+                "comment": " Utility pipeline that appends all [errors](Rivescript-Extensions-Errors) into a single pipeline. The errors pipeline silenty supresses errors that occur in rivescript-js and logs these to the console rather than returning them as bot responses.\n\n    apply errors \"Hello, World!\" == ( Just \"Hello, World!\", Nothing )\n    apply errors \"ERR: No Reply Matched\" == ( Nothing, Nothing )\n    apply errors \"ERR: Deep Recursion Detected\" == ( Nothing, Nothing )\n",
+                "type": "Pipeline"
+            },
+            {
+                "name": "extensions",
+                "comment": " Convenience function that appends all utility pipelines into a single pipeline.\n",
+                "type": "Pipeline"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rivescript.Extensions.Errors",
+        "comment": " Processors for all errors described in the [rivescript-js  docs](https://github.com/aichaos/rivescript-js/blob/master/docs/rivescript.md#custom-error-messages)\n\n@docs deeprecursion\n\n@docs nomatch\n\n@docs noreply\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "deeprecursion",
+                "comment": " Processor that catches `ERR: Deep Recursion Detected` in bot responses.\n",
+                "type": "Processor"
+            },
+            {
+                "name": "nomatch",
+                "comment": " Processor that catches `ERR: No Reply Matched` errors in bot responses.\n",
+                "type": "Processor"
+            },
+            {
+                "name": "noreply",
+                "comment": " Processor that catches `ERR: No Reply Found` errors in bot responses.\n",
+                "type": "Processor"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rivescript.Extensions.Directions",
+        "comment": " Processors for all directions described in the [Dexter documentation](http://docs.rundexter.com/writing/bot/directions/). These directions extend the behaviour and implement additional funcionality on top of the [RiveScript standard library](https://www.rivescript.com/docs/tutorial). Note that `<get>`, `<set>` and `<star>` are supported by RiveScript by default.\n\n@docs delay\n\n@docs noreply\n\n@docs send\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "delay",
+                "comment": " Processor that parses `delay` directions as follows:\n\n    - Hello, world!<delay seconds=2.0>My name is Marvin.\n\n  This response results in a messages sent to your subscription that wraps both the \"Hello, World!\" response and a command that sends a second message after two seconds, which contains the \"My name is Marvin.\" response.\n",
+                "type": "Processor"
+            },
+            {
+                "name": "noreply",
+                "comment": " Processor that parses `noreply` directions as follows:\n\n    - <noreply>\n\n  This response results in a message sent to your subscription that contains no response and no command – i.e. `Ok (Nothing, Nothing)`. This ensures that your bot can refuse to reply to messages without throwing `ERR: No Reply Found` errors.\n",
+                "type": "Processor"
+            },
+            {
+                "name": "send",
+                "comment": " Processor that parses `noreply` directions as follows:\n\n    - Hello, world!<send>My name is Marvin.\n\n  This response results in a messages sent to your subscription that wraps both the \"Hello, World!\" response and a command that sends a second message immediately, which contains the \"My name is Marvin.\" response. In behaviour, this is identical to:\n\n    - Hello, world!<delay seconds=0.0>My name is Marvin.\n",
+                "type": "Processor"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Rivescript.Types",
+        "comment": " Supporting types for the Rivescript libraries.\n\n@docs Processor\n\n@docs Pipeline\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Pipeline",
+                "comment": " A `Pipeline` is a list of [`Processor`](#Processor). Use [`apply`](Rivescript#apply) to run a string through a list of processors.\n",
+                "args": [],
+                "type": "List Processor"
+            },
+            {
+                "name": "Processor",
+                "comment": " `Processor` is a type alias for a function that parses bot responses.\n",
+                "args": [],
+                "type": "String -> Result Error ( Maybe String, Maybe (Task Never String) )"
+            }
+        ],
+        "values": [],
+        "binops": []
+    }
+]

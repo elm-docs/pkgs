@@ -1,0 +1,120 @@
+[
+    {
+        "name": "SlidingList",
+        "comment": " A data type that holds an upper bounded sliding list.\n\nWhen you create a `SlidingList` you specify the maximum number of items that it can hold.\n\n⚠ Keep in mind that zero or negative size lists do not really make sense so the minimum size of a sliding list is 1.\n\nThe public interface of module is heavily inspired by the [elm-lang/core/List](http://package.elm-lang.org/packages/elm-lang/core/latest/List) module.\n\nWhen you create a sliding list, you can `cons` items into it, and it will slide after the maximum size:\n\n    new 2\n        |> cons \"A\"\n        |> cons \"B\"\n        |> cons \"C\"\n        |> items\n        == [ \"C\", \"B\" ]\n\n    [ \"A\", \"B\", \"C\" ]\n        |> fromList 2\n        |> items\n        == [ \"B\", \"C\" ]\n\n\n# Creating a sliding list\n\n@docs new, fromList, resize\n\n\n# Obtaining information about a sliding list\n\n@docs availableSpace, maximumSize, items\n\n\n# Basics\n\n@docs cons, isEmpty, length, reverse, member\n\n\n# Sub-lists\n\n@docs head, tail, filter, take, drop\n\n\n# Putting lists together\n\n@docs append\n\n\n# Mapping\n\n@docs map\n\n\n# Folding\n\n@docs foldr, foldl\n\n\n# Opaque data types\n\n@docs SlidingList\n\n",
+        "unions": [
+            {
+                "name": "SlidingList",
+                "comment": " The opaque data type that holds the `List a`.\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "append",
+                "comment": " Append a list of elements to this sliding list.\n\nEach element will be treated as if it had been cons'd by their order in the incoming list.\n\n",
+                "type": "List a -> SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "availableSpace",
+                "comment": " Obtain how much available space there is left, before this list starts to slide.\n",
+                "type": "SlidingList a -> Int"
+            },
+            {
+                "name": "cons",
+                "comment": " Add an element to the front of the sliding list, sliding if it exceeds the maximum size of the sliding list.\n",
+                "type": "a -> SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "drop",
+                "comment": " Drop the first _n_ items of this list.\n\nThe new sliding list will have the same maximum items as the previous one.\n\n",
+                "type": "Int -> SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "filter",
+                "comment": " Filter this sliding list in place, keeping only the items that satisfy the predicate.\n\nThe new sliding list will have the same maximum items as the previous one.\n\n",
+                "type": "(a -> Bool) -> SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "foldl",
+                "comment": " Reduce the items of this sliding list from the left.\n",
+                "type": "(a -> b -> b) -> b -> SlidingList a -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " Reduce the items of this sliding list from the right.\n",
+                "type": "(a -> b -> b) -> b -> SlidingList a -> b"
+            },
+            {
+                "name": "fromList",
+                "comment": " Create a new sliding list from an existing list, with the specified maximum size.\n\nKeep in mind that zero or negative size lists do not really make sense so the minimum size of a sliding list is 1.\n\nIf the size of the initial list is greater than the maximum size of the sliding list, the sliding list will slide, as expected.\n\n",
+                "type": "Int -> List a -> SlidingList a"
+            },
+            {
+                "name": "head",
+                "comment": " Extract the head of this sliding list.\n",
+                "type": "SlidingList a -> Maybe a"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Determine if this sliding list is empty.\n",
+                "type": "SlidingList a -> Bool"
+            },
+            {
+                "name": "items",
+                "comment": " Obtain the current items held by this sliding list.\n",
+                "type": "SlidingList a -> List a"
+            },
+            {
+                "name": "length",
+                "comment": " Obtain the count of items help by this sliding list.\n",
+                "type": "SlidingList a -> Int"
+            },
+            {
+                "name": "map",
+                "comment": " Apply a function to every element of this sliding list.\n",
+                "type": "(a -> b) -> SlidingList a -> SlidingList b"
+            },
+            {
+                "name": "maximumSize",
+                "comment": " Obtain the current maximum size allowed for this sliding list.\n",
+                "type": "SlidingList a -> Int"
+            },
+            {
+                "name": "member",
+                "comment": " Determine if an item is a member of this current sliding list.\n",
+                "type": "a -> SlidingList a -> Bool"
+            },
+            {
+                "name": "new",
+                "comment": " Create a new empty sliding list with the specified maximum size.\n\nKeep in mind that zero or negative size lists do not really make sense so the minimum size of a sliding list is 1.\n\n",
+                "type": "Int -> SlidingList a"
+            },
+            {
+                "name": "resize",
+                "comment": " Resize this sliding list. If the new size is smaller than the current held number of items in the list, it will slide, as expected.\n\nKeep in mind that zero or negative size lists do not really make sense so the minimum size of a sliding list is 1.\n\nAdditionally, if you resize the list to zero or a negative number, it will be cleared.\n\n",
+                "type": "Int -> SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "reverse",
+                "comment": " Reverse this sliding list in place, returning a new sliding list with the same maximum size.\n",
+                "type": "SlidingList a -> SlidingList a"
+            },
+            {
+                "name": "tail",
+                "comment": " Extract the tail of this list.\n",
+                "type": "SlidingList a -> Maybe (List a)"
+            },
+            {
+                "name": "take",
+                "comment": " Take the first _n_ items of this list into a new sliding list.\n\nThe new sliding list will have the same maximum items as the previous one.\n\n",
+                "type": "Int -> SlidingList a -> SlidingList a"
+            }
+        ],
+        "binops": []
+    }
+]

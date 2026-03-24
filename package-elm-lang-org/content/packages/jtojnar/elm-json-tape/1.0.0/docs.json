@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Codec.JsonTape.Encode",
+        "comment": " This module provides JSON encoder of a directory tree.\n\n@docs dirTree\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dirTree",
+                "comment": " JSON encoder to json-tape format.\n",
+                "type": "DirTree -> Value"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Codec.JsonTape.Decode",
+        "comment": " This module provides JSON decoder of a directory tree.\n\n@docs dirTree\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dirTree",
+                "comment": " JSON decoder of json-tape format.\n",
+                "type": "Decoder DirTree"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Codec.JsonTape",
+        "comment": " This module describes data structures representing files and directories.\n\n@docs DirTree\n",
+        "unions": [
+            {
+                "name": "DirTree",
+                "comment": " Data structure representing a directory tree.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Dir",
+                        [
+                            "{ name : FileName, contents : List DirTree }"
+                        ]
+                    ],
+                    [
+                        "File",
+                        [
+                            "{ name : FileName, file : String }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    }
+]

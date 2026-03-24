@@ -1,0 +1,16 @@
+[
+    {
+        "name": "BootstrapGrid",
+        "comment": " Splits a list into sub lists containing a given number of children.\n\n@docs renderBootstrapGrid\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "renderBootstrapGrid",
+                "comment": " Renders rows to a given number of columns. Gives the ability to wrap a list\nof Html msg with columns and rows:\nrenderBootstrapGrid 3 [div [], div [], div []][div [][], div [][], div [][]]\nThis will give classes for mobile and tablet, mobile will allways have one\nelement per row and tablet will have half (or close to it with odd numbers) the\nnumber of elements given for desktop.\n",
+                "type": "Int -> List (Html msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

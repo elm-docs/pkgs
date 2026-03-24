@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Validate.SSN.Swedish",
+        "comment": " This library allows you to validate Swedish social security\nnumbers (\"personnummer\").\n\nIt supports the following formats:\n\n  - `\"8112189876\"`\n  - `\"811218-9876\"`\n  - `\"811218+9876\"`\n  - `\"198112189876\"`\n  - `\"19811218-9876\"`\n  - `\"19811218+9876\"`\n\n\n# Validation\n\n@docs validate, isValid, normalize\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isValid",
+                "comment": " Same as `validate` but returns a `Bool` instead, for easy use in\n`if`-expressions.\n\n    isValid \"811218-9876\" == True\n    isValid \"811218\" == False\n\n",
+                "type": "String -> Bool"
+            },
+            {
+                "name": "normalize",
+                "comment": " Accepts a date and a string and returns a returns a either an `Ok`\nwith a normalized string (with the \"YYYYMMDDXXXX\" format) or an `Err`.\n\nThe supplied date is used when calculating the full year for 10-digit\nSSNs and should therefore probably be the current date.\n\n    january4th2018 =\n        Date.fromTime 1515083518766\n\n    normalize january4th2018 \"811218-9876\" == Ok \"198112189876\"\n    normalize january4th2018 \"811218+9876\" == Ok \"188112189876\"\n    normalize january4th2018 \"811218\" == Err \"Invalid Swedish SSN\"\n\n",
+                "type": "Date -> String -> Result String String"
+            },
+            {
+                "name": "validate",
+                "comment": " Accepts a string and returns a `Result String String` indicating\nwhether the string was a valid Swedish SSN (\"personnummer\").\n\n    validate \"811218-9876\" == Ok \"811218-9876\"\n    validate \"811218\" == Err \"Invalid Swedish SSN\"\n\n",
+                "type": "String -> Result String String"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,240 @@
+[
+    {
+        "name": "Avl.Dict",
+        "comment": " A dictionary mapping unique keys to values. The keys can have\nany type, since the user is required to provide an explicit comparison\nfunction with type `key -> key -> Order`.\n\nThe interface is otherwise very similar to the core `Dict` type.\n\n\n# Dictionaries\n@docs Dict\n\n# Build\n@docs empty, singleton, insert, update, remove\n\n# Query\n@docs isEmpty, member, get, size, eq\n\n# Lists\n@docs keys, values, toList, fromList\n\n# Transform\n@docs foldl, foldr, filter\n\n",
+        "unions": [
+            {
+                "name": "Dict",
+                "comment": " A dictionary from keys to values ",
+                "args": [
+                    "k",
+                    "v"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "empty",
+                "comment": " The empty dictionary. ",
+                "type": "Dict k v"
+            },
+            {
+                "name": "eq",
+                "comment": " Tests if two dictionaries contain the same key-value pairs. ",
+                "type": "Eq k -> Eq v -> Dict k v -> Dict k v -> Bool"
+            },
+            {
+                "name": "filter",
+                "comment": " Creates a new Dict containing only the elements that satisfy a predicate. ",
+                "type": "Cmp k -> (k -> v -> Bool) -> Dict k v -> Dict k v"
+            },
+            {
+                "name": "foldl",
+                "comment": " Folds the given function over the dictionary's key-value pairs,\nstarting with the lowest-valued key and ending with the highest-valued one. ",
+                "type": "(k -> v -> b -> b) -> b -> Dict k v -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " Folds the given function over the dictionary's key-value pairs,\nstarting with the highest-valued key and ending with the lowest-valued one. ",
+                "type": "(k -> v -> b -> b) -> b -> Dict k v -> b"
+            },
+            {
+                "name": "fromList",
+                "comment": " Constructs a new dictionary from a list of key-value pairs. ",
+                "type": "Cmp k -> List ( k, v ) -> Dict k v"
+            },
+            {
+                "name": "get",
+                "comment": " Returns the value associated with the key. If the key isn't in\nthe dictionary, `Nothing` is returned. ",
+                "type": "Cmp k -> k -> Dict k v -> Maybe v"
+            },
+            {
+                "name": "insert",
+                "comment": " Inserts a key-value mapping. If the key is already in the\ndictionary, the mapping is updated with the given value. ",
+                "type": "Cmp k -> k -> v -> Dict k v -> Dict k v"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " `True` if the dictionary is empty (i.e., maps no keys),\nFalse` otherwise. ",
+                "type": "Dict k v -> Bool"
+            },
+            {
+                "name": "keys",
+                "comment": " Returns a list of all the keys in the dictionary, in order from lowest\nto highest. ",
+                "type": "Dict k v -> List k"
+            },
+            {
+                "name": "member",
+                "comment": " `True` if the key is in the dictionary, `False` otherwise. ",
+                "type": "Cmp k -> k -> Dict k v -> Bool"
+            },
+            {
+                "name": "remove",
+                "comment": " Removes a key-value mapping. If the key is not in the dictionary,\nthen the dictionary is unchanged. ",
+                "type": "Cmp k -> k -> Dict k v -> Dict k v"
+            },
+            {
+                "name": "singleton",
+                "comment": " Creates a dictionary with one key-value mapping. ",
+                "type": "k -> v -> Dict k v"
+            },
+            {
+                "name": "size",
+                "comment": " The number of keys mapped by the dictionary. ",
+                "type": "Dict k v -> Int"
+            },
+            {
+                "name": "toList",
+                "comment": " Returns a list of all the key-value pairs in the dictionary, in order\nfrom lowest to highest by key. ",
+                "type": "Dict k v -> List ( k, v )"
+            },
+            {
+                "name": "update",
+                "comment": " Updates a key-value mapping using the given function. If the function\nreturns `Nothing`, then any existing mapping for the given key will be removed. ",
+                "type": "Cmp k -> k -> (Maybe v -> Maybe v) -> Dict k v -> Dict k v"
+            },
+            {
+                "name": "values",
+                "comment": " Returns a list of all the values in the dictionary, in order of their\ncorresponding keys, from lowest to highest. ",
+                "type": "Dict k v -> List v"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Avl.Set",
+        "comment": " A set of elements. The elements can have any type,\nsince the user is required to provide an explicit comparison\nfunction with type `k -> k -> Order`.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove, union, intersect, difference\n\n# Query\n@docs isEmpty, member, size, subset, eq\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs foldl, foldr, filter\n\n",
+        "unions": [
+            {
+                "name": "Set",
+                "comment": " A set of elements. ",
+                "args": [
+                    "k"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "difference",
+                "comment": " Constructs the set difference of the given sets. ",
+                "type": "Cmp k -> Set k -> Set k -> Set k"
+            },
+            {
+                "name": "empty",
+                "comment": " The empty set. ",
+                "type": "Set k"
+            },
+            {
+                "name": "eq",
+                "comment": " Tests if two sets contain the same elements. ",
+                "type": "Eq k -> Set k -> Set k -> Bool"
+            },
+            {
+                "name": "filter",
+                "comment": " Creates a new Set containing only the elements that satisfy a predicate. ",
+                "type": "Cmp k -> (k -> Bool) -> Set k -> Set k"
+            },
+            {
+                "name": "foldl",
+                "comment": " Folds the given function over the elements of the set, in order from\nthe least element to the greatest. ",
+                "type": "(k -> b -> b) -> b -> Set k -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " Folds the given function over the elements of the set, in order from\nthe greatest element to the least. ",
+                "type": "(k -> b -> b) -> b -> Set k -> b"
+            },
+            {
+                "name": "fromList",
+                "comment": " Constructs a set from a list of elements. ",
+                "type": "Cmp k -> List k -> Set k"
+            },
+            {
+                "name": "insert",
+                "comment": " Inserts an element into the set. ",
+                "type": "Cmp k -> k -> Set k -> Set k"
+            },
+            {
+                "name": "intersect",
+                "comment": " Constructs the intersection of the given sets. ",
+                "type": "Cmp k -> Set k -> Set k -> Set k"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " `True` if the set is empty, `False` otherwise. ",
+                "type": "Set k -> Bool"
+            },
+            {
+                "name": "member",
+                "comment": " `True` if the given element is in the set, `False` otherwise. ",
+                "type": "Cmp k -> k -> Set k -> Bool"
+            },
+            {
+                "name": "remove",
+                "comment": " Removes an element from the set. ",
+                "type": "Cmp k -> k -> Set k -> Set k"
+            },
+            {
+                "name": "singleton",
+                "comment": " Constructs a set with a single element. ",
+                "type": "k -> Set k"
+            },
+            {
+                "name": "size",
+                "comment": " The size (or cardinality) of the set. ",
+                "type": "Set k -> Int"
+            },
+            {
+                "name": "subset",
+                "comment": " `True` if the first set is a subset of the second,\n`False` otherwise. ",
+                "type": "Cmp k -> Set k -> Set k -> Bool"
+            },
+            {
+                "name": "toList",
+                "comment": " Returns a list containing all of the set's elements, in order from\nleast to greatest. ",
+                "type": "Set k -> List k"
+            },
+            {
+                "name": "union",
+                "comment": " Constructs the union of the given sets. ",
+                "type": "Cmp k -> Set k -> Set k -> Set k"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Avl",
+        "comment": " AVL tree-based collections.\n\nUnlike the elm-core `Dict` and `Set` types, the collections\ndefined in this package can be used with any type of key,\nsince they require the user to provide an explicit comparison\nfunction.\n\nThe obvious downside of this approach is that the user must be\nvigilant to always use the *same* comparison function on the same\ndata structure.\n\nThe upside, of course, is that you are not limited to using\n`comparable` types as keys.\n\n(The implementation is based on Blelloch, Ferizovic, and Sun:\n\"[Just Join for Parallel Ordered Sets](https://www.cs.cmu.edu/~guyb/papers/BFS16.pdf),\" SPAA 2016.)\n\n# Comparison\n@docs Cmp\n\n# Equality\n@docs Eq\n\n# Utilities\n@docs cmpToEq\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Cmp",
+                "comment": " The type of comparison functions over arbitrary key types. ",
+                "args": [
+                    "k"
+                ],
+                "type": "k -> k -> Order"
+            },
+            {
+                "name": "Eq",
+                "comment": " The type of equality predicates over arbitrary value types (only\nused for equality tests over dictionaries and sets). ",
+                "args": [
+                    "k"
+                ],
+                "type": "k -> k -> Bool"
+            }
+        ],
+        "values": [
+            {
+                "name": "cmpToEq",
+                "comment": " Utility that weakens a comparison function into an equality\npredicate. ",
+                "type": "Cmp k -> Eq k"
+            }
+        ],
+        "binops": []
+    }
+]

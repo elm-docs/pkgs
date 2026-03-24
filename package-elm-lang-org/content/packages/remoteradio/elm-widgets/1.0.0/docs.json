@@ -1,0 +1,136 @@
+[
+    {
+        "name": "Html.Widgets",
+        "comment": "Svg Widgets using Elm-html\n\n\n# Seven Segment Widget\n@docs sevenSegment,defaultSevenSegmentProperties,defaultSevenSegmentStyle, SevenSegmentProperties, SevenSegmentStyle\n\n# Segmented Bar Graph Widget\n@docs segmentedBarGraph, defaultSegmentedBarGraphProperties, defaultSegmentBarGraphStyle, SegmentedBarGraphProperties, SegmentedBarGraphStyle\n\n# Simulated Analog Meter Widget\n@docs simulatedAnalogMeter,defaultSimulatedAnalogMeterProperties,defaultSimulatedAnalogMeterStyle,SimulatedAnalogMeterProperties,SimulatedAnalogMeterStyle\n\n# Knob Widget\n@docs knob,defaultKnobProperties,defaultKnobStyle,KnobProperties,KnobStyle\n\n# Widget Variables\n@docs MeterRange, defaultMeterRangeOk, defaultMeterRangeAlert",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "KnobProperties",
+                "comment": "Properties alias for Knob",
+                "args": [],
+                "type": "{ value : Int, maxValue : Int, segments : Int, smallSegments : Int, rangeAngleMin : Float, rangeAngleMax : Float }"
+            },
+            {
+                "name": "KnobStyle",
+                "comment": "Style alias for Knob",
+                "args": [],
+                "type": "{ segmentColor : String, knobColor : String, knobPointerColor : String }"
+            },
+            {
+                "name": "MeterRange",
+                "comment": "Range alias for widgets",
+                "args": [],
+                "type": "{ color : String, minValue : Float, maxValue : Float }"
+            },
+            {
+                "name": "SegmentedBarGraphProperties",
+                "comment": "Property alias for Segmented Bar Graph Widget",
+                "args": [],
+                "type": "{ currentValue : Int, maxValue : Int, segments : Int, ranges : List MeterRange }"
+            },
+            {
+                "name": "SegmentedBarGraphStyle",
+                "comment": "Style alias for Segmented Bar Graph Widget",
+                "args": [],
+                "type": "{ emptyColor : String, backgroundColor : String }"
+            },
+            {
+                "name": "SevenSegmentProperties",
+                "comment": "Properties alias for Seven Segment Widget",
+                "args": [],
+                "type": "{ digits : String, pointIndexes : List Int, colonIndexes : List Int, isSlant : Bool, isDimmedWhenOff : Bool }"
+            },
+            {
+                "name": "SevenSegmentStyle",
+                "comment": "Style alias for Seven Segment Widget",
+                "args": [],
+                "type": "{ backgroundColor : String, textColor : String }"
+            },
+            {
+                "name": "SimulatedAnalogMeterProperties",
+                "comment": "Property alias for Simulated Analog Meter",
+                "args": [],
+                "type": "{ currentValue : Int, maxValue : Int, ranges : List MeterRange }"
+            },
+            {
+                "name": "SimulatedAnalogMeterStyle",
+                "comment": "Style alias for Simulated Analog Meter",
+                "args": [],
+                "type": "{ foreColor : String, backgroundColor : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultKnobProperties",
+                "comment": "Default properties for Knob",
+                "type": "KnobProperties"
+            },
+            {
+                "name": "defaultKnobStyle",
+                "comment": "Default style for Knob",
+                "type": "KnobStyle"
+            },
+            {
+                "name": "defaultMeterRangeAlert",
+                "comment": "Default meter range 'alert'",
+                "type": "MeterRange"
+            },
+            {
+                "name": "defaultMeterRangeOk",
+                "comment": "Default meter range 'Ok'",
+                "type": "MeterRange"
+            },
+            {
+                "name": "defaultSegmentBarGraphStyle",
+                "comment": "Default style for SegmentedBarGraph",
+                "type": "SegmentedBarGraphStyle"
+            },
+            {
+                "name": "defaultSegmentedBarGraphProperties",
+                "comment": "Default properties for SegmentedBarGraph",
+                "type": "SegmentedBarGraphProperties"
+            },
+            {
+                "name": "defaultSevenSegmentProperties",
+                "comment": "Default properties for SevenSegmentProperties",
+                "type": "SevenSegmentProperties"
+            },
+            {
+                "name": "defaultSevenSegmentStyle",
+                "comment": "Default style for SevenSegmentStyle",
+                "type": "SevenSegmentStyle"
+            },
+            {
+                "name": "defaultSimulatedAnalogMeterProperties",
+                "comment": "Default properties for SimulatedAnalogMeter",
+                "type": "SimulatedAnalogMeterProperties"
+            },
+            {
+                "name": "defaultSimulatedAnalogMeterStyle",
+                "comment": "Default style for SimulatedAnalogMeter",
+                "type": "SimulatedAnalogMeterStyle"
+            },
+            {
+                "name": "knob",
+                "comment": "Creates knob widget",
+                "type": "KnobProperties -> KnobStyle -> Svg"
+            },
+            {
+                "name": "segmentedBarGraph",
+                "comment": "Creates Segmented Bar Graph",
+                "type": "SegmentedBarGraphProperties -> SegmentedBarGraphStyle -> Svg"
+            },
+            {
+                "name": "sevenSegment",
+                "comment": "Creates Seven Segment Widget",
+                "type": "SevenSegmentProperties -> SevenSegmentStyle -> Svg"
+            },
+            {
+                "name": "simulatedAnalogMeter",
+                "comment": "Creates Simulated Analog Meter Widget",
+                "type": "SimulatedAnalogMeterProperties -> SimulatedAnalogMeterStyle -> Svg"
+            }
+        ],
+        "binops": []
+    }
+]

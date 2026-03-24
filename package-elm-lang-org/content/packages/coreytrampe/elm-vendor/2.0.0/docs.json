@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Vendor",
+        "comment": " A tiny module that detects the browser vendor prefix\n\n```elm\ndisplayValue : String\ndisplayValue =\n    if Vendor.prefix == Vendor.Webkit\n    then \"-webkit-flex\"\n    else \"flex\"\n```\n\n@docs Prefix, prefix\n",
+        "unions": [
+            {
+                "name": "Prefix",
+                "comment": " A union of prefix tags\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Moz",
+                        []
+                    ],
+                    [
+                        "Webkit",
+                        []
+                    ],
+                    [
+                        "MS",
+                        []
+                    ],
+                    [
+                        "O",
+                        []
+                    ],
+                    [
+                        "Unknown",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "prefix",
+                "comment": " The detected vendor\n",
+                "type": "Prefix"
+            }
+        ],
+        "binops": []
+    }
+]

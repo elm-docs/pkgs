@@ -1,0 +1,1131 @@
+[
+    {
+        "name": "Money",
+        "comment": " All the worlds currencies as records and union types, with helper functions too.\n\n\n# Types\n\n@docs Currency, Code\n\n\n# Values\n\n@docs allCurrencies, allCodes\n\n\n# Helpers\n\n@docs currencyFromString, currencyFromCode, codeFromString\n\n\n# Currencies\n\n@docs usd, cad, eur, btc, aed, afn, all, amd, ars, aud, azn, bam, bdt, bgn, bhd, bif, bnd, bob, brl, bwp, byr, bzd, cdf, chf, clp, cny, cop, crc, cve, czk, djf, dkk, dop, dzd, eek, egp, ern, etb, gbp, gel, ghs, gnf, gtq, hkd, hnl, hrk, huf, idr, ils, inr, iqd, irr, isk, jmd, jod, jpy, kes, khr, kmf, krw, kwd, kzt, lak, lbp, lkr, ltl, lvl, lyd, mad, mdl, mga, mkd, mmk, mop, mur, mxn, myr, mzn, nad, ngn, nio, nok, npr, nzd, omr, pab, pen, php, pkr, pln, pyg, qar, ron, rsd, rub, rwf, sar, sdg, sek, sgd, sos, syp, thb, tnd, top, try, ttd, twd, tzs, uah, ugx, uyu, uzs, vef, vnd, xaf, xof, yer, zar, zmk\n\n",
+        "unions": [
+            {
+                "name": "Code",
+                "comment": " This type represents all the possible currency codes\n",
+                "args": [],
+                "cases": [
+                    [
+                        "USD",
+                        []
+                    ],
+                    [
+                        "CAD",
+                        []
+                    ],
+                    [
+                        "EUR",
+                        []
+                    ],
+                    [
+                        "BTC",
+                        []
+                    ],
+                    [
+                        "AED",
+                        []
+                    ],
+                    [
+                        "AFN",
+                        []
+                    ],
+                    [
+                        "ALL",
+                        []
+                    ],
+                    [
+                        "AMD",
+                        []
+                    ],
+                    [
+                        "ARS",
+                        []
+                    ],
+                    [
+                        "AUD",
+                        []
+                    ],
+                    [
+                        "AZN",
+                        []
+                    ],
+                    [
+                        "BAM",
+                        []
+                    ],
+                    [
+                        "BDT",
+                        []
+                    ],
+                    [
+                        "BGN",
+                        []
+                    ],
+                    [
+                        "BHD",
+                        []
+                    ],
+                    [
+                        "BIF",
+                        []
+                    ],
+                    [
+                        "BND",
+                        []
+                    ],
+                    [
+                        "BOB",
+                        []
+                    ],
+                    [
+                        "BRL",
+                        []
+                    ],
+                    [
+                        "BWP",
+                        []
+                    ],
+                    [
+                        "BYR",
+                        []
+                    ],
+                    [
+                        "BZD",
+                        []
+                    ],
+                    [
+                        "CDF",
+                        []
+                    ],
+                    [
+                        "CHF",
+                        []
+                    ],
+                    [
+                        "CLP",
+                        []
+                    ],
+                    [
+                        "CNY",
+                        []
+                    ],
+                    [
+                        "COP",
+                        []
+                    ],
+                    [
+                        "CRC",
+                        []
+                    ],
+                    [
+                        "CVE",
+                        []
+                    ],
+                    [
+                        "CZK",
+                        []
+                    ],
+                    [
+                        "DJF",
+                        []
+                    ],
+                    [
+                        "DKK",
+                        []
+                    ],
+                    [
+                        "DOP",
+                        []
+                    ],
+                    [
+                        "DZD",
+                        []
+                    ],
+                    [
+                        "EEK",
+                        []
+                    ],
+                    [
+                        "EGP",
+                        []
+                    ],
+                    [
+                        "ERN",
+                        []
+                    ],
+                    [
+                        "ETB",
+                        []
+                    ],
+                    [
+                        "GBP",
+                        []
+                    ],
+                    [
+                        "GEL",
+                        []
+                    ],
+                    [
+                        "GHS",
+                        []
+                    ],
+                    [
+                        "GNF",
+                        []
+                    ],
+                    [
+                        "GTQ",
+                        []
+                    ],
+                    [
+                        "HKD",
+                        []
+                    ],
+                    [
+                        "HNL",
+                        []
+                    ],
+                    [
+                        "HRK",
+                        []
+                    ],
+                    [
+                        "HUF",
+                        []
+                    ],
+                    [
+                        "IDR",
+                        []
+                    ],
+                    [
+                        "ILS",
+                        []
+                    ],
+                    [
+                        "INR",
+                        []
+                    ],
+                    [
+                        "IQD",
+                        []
+                    ],
+                    [
+                        "IRR",
+                        []
+                    ],
+                    [
+                        "ISK",
+                        []
+                    ],
+                    [
+                        "JMD",
+                        []
+                    ],
+                    [
+                        "JOD",
+                        []
+                    ],
+                    [
+                        "JPY",
+                        []
+                    ],
+                    [
+                        "KES",
+                        []
+                    ],
+                    [
+                        "KHR",
+                        []
+                    ],
+                    [
+                        "KMF",
+                        []
+                    ],
+                    [
+                        "KRW",
+                        []
+                    ],
+                    [
+                        "KWD",
+                        []
+                    ],
+                    [
+                        "KZT",
+                        []
+                    ],
+                    [
+                        "LAK",
+                        []
+                    ],
+                    [
+                        "LBP",
+                        []
+                    ],
+                    [
+                        "LKR",
+                        []
+                    ],
+                    [
+                        "LTL",
+                        []
+                    ],
+                    [
+                        "LVL",
+                        []
+                    ],
+                    [
+                        "LYD",
+                        []
+                    ],
+                    [
+                        "MAD",
+                        []
+                    ],
+                    [
+                        "MDL",
+                        []
+                    ],
+                    [
+                        "MGA",
+                        []
+                    ],
+                    [
+                        "MKD",
+                        []
+                    ],
+                    [
+                        "MMK",
+                        []
+                    ],
+                    [
+                        "MOP",
+                        []
+                    ],
+                    [
+                        "MUR",
+                        []
+                    ],
+                    [
+                        "MXN",
+                        []
+                    ],
+                    [
+                        "MYR",
+                        []
+                    ],
+                    [
+                        "MZN",
+                        []
+                    ],
+                    [
+                        "NAD",
+                        []
+                    ],
+                    [
+                        "NGN",
+                        []
+                    ],
+                    [
+                        "NIO",
+                        []
+                    ],
+                    [
+                        "NOK",
+                        []
+                    ],
+                    [
+                        "NPR",
+                        []
+                    ],
+                    [
+                        "NZD",
+                        []
+                    ],
+                    [
+                        "OMR",
+                        []
+                    ],
+                    [
+                        "PAB",
+                        []
+                    ],
+                    [
+                        "PEN",
+                        []
+                    ],
+                    [
+                        "PHP",
+                        []
+                    ],
+                    [
+                        "PKR",
+                        []
+                    ],
+                    [
+                        "PLN",
+                        []
+                    ],
+                    [
+                        "PYG",
+                        []
+                    ],
+                    [
+                        "QAR",
+                        []
+                    ],
+                    [
+                        "RON",
+                        []
+                    ],
+                    [
+                        "RSD",
+                        []
+                    ],
+                    [
+                        "RUB",
+                        []
+                    ],
+                    [
+                        "RWF",
+                        []
+                    ],
+                    [
+                        "SAR",
+                        []
+                    ],
+                    [
+                        "SDG",
+                        []
+                    ],
+                    [
+                        "SEK",
+                        []
+                    ],
+                    [
+                        "SGD",
+                        []
+                    ],
+                    [
+                        "SOS",
+                        []
+                    ],
+                    [
+                        "SYP",
+                        []
+                    ],
+                    [
+                        "THB",
+                        []
+                    ],
+                    [
+                        "TND",
+                        []
+                    ],
+                    [
+                        "TOP",
+                        []
+                    ],
+                    [
+                        "TRY",
+                        []
+                    ],
+                    [
+                        "TTD",
+                        []
+                    ],
+                    [
+                        "TWD",
+                        []
+                    ],
+                    [
+                        "TZS",
+                        []
+                    ],
+                    [
+                        "UAH",
+                        []
+                    ],
+                    [
+                        "UGX",
+                        []
+                    ],
+                    [
+                        "UYU",
+                        []
+                    ],
+                    [
+                        "UZS",
+                        []
+                    ],
+                    [
+                        "VEF",
+                        []
+                    ],
+                    [
+                        "VND",
+                        []
+                    ],
+                    [
+                        "XAF",
+                        []
+                    ],
+                    [
+                        "XOF",
+                        []
+                    ],
+                    [
+                        "YER",
+                        []
+                    ],
+                    [
+                        "ZAR",
+                        []
+                    ],
+                    [
+                        "ZMK",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Currency",
+                "comment": " ",
+                "args": [],
+                "type": "{ symbol : String, name : String, namePlural : String, symbolNative : String, decimalDigits : Int, rounding : Float, code : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "aed",
+                "comment": " United Arab Emirates Dirham\n",
+                "type": "Currency"
+            },
+            {
+                "name": "afn",
+                "comment": " Afghan Afghani\n",
+                "type": "Currency"
+            },
+            {
+                "name": "all",
+                "comment": " Albanian Lek\n",
+                "type": "Currency"
+            },
+            {
+                "name": "allCodes",
+                "comment": " A list of all the currency codes\n",
+                "type": "List Code"
+            },
+            {
+                "name": "allCurrencies",
+                "comment": " A list of all the currencies\n",
+                "type": "List Currency"
+            },
+            {
+                "name": "amd",
+                "comment": " Armenian Dram\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ars",
+                "comment": " Argentine Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "aud",
+                "comment": " Australian Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "azn",
+                "comment": " Azerbaijani Manat\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bam",
+                "comment": " Bosnia-Herzegovina Convertible Mark\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bdt",
+                "comment": " Bangladeshi Taka\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bgn",
+                "comment": " Bulgarian Lev\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bhd",
+                "comment": " Bahraini Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bif",
+                "comment": " Burundian Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bnd",
+                "comment": " Brunei Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bob",
+                "comment": " Bolivian Boliviano\n",
+                "type": "Currency"
+            },
+            {
+                "name": "brl",
+                "comment": " Brazilian Real\n",
+                "type": "Currency"
+            },
+            {
+                "name": "btc",
+                "comment": " Bitcoin\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bwp",
+                "comment": " Botswanan Pula\n",
+                "type": "Currency"
+            },
+            {
+                "name": "byr",
+                "comment": " Belarusian Ruble\n",
+                "type": "Currency"
+            },
+            {
+                "name": "bzd",
+                "comment": " Belize Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "cad",
+                "comment": " Canadian Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "cdf",
+                "comment": " Congolese Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "chf",
+                "comment": " Swiss Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "clp",
+                "comment": " Chilean Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "cny",
+                "comment": " Chinese Yuan\n",
+                "type": "Currency"
+            },
+            {
+                "name": "codeFromString",
+                "comment": " Get the currency code from a string\n",
+                "type": "String -> Maybe Code"
+            },
+            {
+                "name": "cop",
+                "comment": " Colombian Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "crc",
+                "comment": " Costa Rican Colón\n",
+                "type": "Currency"
+            },
+            {
+                "name": "currencyFromCode",
+                "comment": " Get the currency from a code, with no Maybes involved\n",
+                "type": "Code -> Currency"
+            },
+            {
+                "name": "currencyFromString",
+                "comment": " Get the currency from a string\n",
+                "type": "String -> Maybe Currency"
+            },
+            {
+                "name": "cve",
+                "comment": " Cape Verdean Escudo\n",
+                "type": "Currency"
+            },
+            {
+                "name": "czk",
+                "comment": " Czech Republic Koruna\n",
+                "type": "Currency"
+            },
+            {
+                "name": "djf",
+                "comment": " Djiboutian Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "dkk",
+                "comment": " Danish Krone\n",
+                "type": "Currency"
+            },
+            {
+                "name": "dop",
+                "comment": " Dominican Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "dzd",
+                "comment": " Algerian Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "eek",
+                "comment": " Estonian Kroon\n",
+                "type": "Currency"
+            },
+            {
+                "name": "egp",
+                "comment": " Egyptian Pound\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ern",
+                "comment": " Eritrean Nakfa\n",
+                "type": "Currency"
+            },
+            {
+                "name": "etb",
+                "comment": " Ethiopian Birr\n",
+                "type": "Currency"
+            },
+            {
+                "name": "eur",
+                "comment": " Euro\n",
+                "type": "Currency"
+            },
+            {
+                "name": "gbp",
+                "comment": " British Pound Sterling\n",
+                "type": "Currency"
+            },
+            {
+                "name": "gel",
+                "comment": " Georgian Lari\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ghs",
+                "comment": " Ghanaian Cedi\n",
+                "type": "Currency"
+            },
+            {
+                "name": "gnf",
+                "comment": " Guinean Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "gtq",
+                "comment": " Guatemalan Quetzal\n",
+                "type": "Currency"
+            },
+            {
+                "name": "hkd",
+                "comment": " Hong Kong Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "hnl",
+                "comment": " Honduran Lempira\n",
+                "type": "Currency"
+            },
+            {
+                "name": "hrk",
+                "comment": " Croatian Kuna\n",
+                "type": "Currency"
+            },
+            {
+                "name": "huf",
+                "comment": " Hungarian Forint\n",
+                "type": "Currency"
+            },
+            {
+                "name": "idr",
+                "comment": " Indonesian Rupiah\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ils",
+                "comment": " Israeli New Sheqel\n",
+                "type": "Currency"
+            },
+            {
+                "name": "inr",
+                "comment": " Indian Rupee\n",
+                "type": "Currency"
+            },
+            {
+                "name": "iqd",
+                "comment": " Iraqi Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "irr",
+                "comment": " Iranian Rial\n",
+                "type": "Currency"
+            },
+            {
+                "name": "isk",
+                "comment": " Icelandic Króna\n",
+                "type": "Currency"
+            },
+            {
+                "name": "jmd",
+                "comment": " Jamaican Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "jod",
+                "comment": " Jordanian Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "jpy",
+                "comment": " Japanese Yen\n",
+                "type": "Currency"
+            },
+            {
+                "name": "kes",
+                "comment": " Kenyan Shilling\n",
+                "type": "Currency"
+            },
+            {
+                "name": "khr",
+                "comment": " Cambodian Riel\n",
+                "type": "Currency"
+            },
+            {
+                "name": "kmf",
+                "comment": " Comorian Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "krw",
+                "comment": " South Korean Won\n",
+                "type": "Currency"
+            },
+            {
+                "name": "kwd",
+                "comment": " Kuwaiti Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "kzt",
+                "comment": " Kazakhstani Tenge\n",
+                "type": "Currency"
+            },
+            {
+                "name": "lak",
+                "comment": " Lao kip\n",
+                "type": "Currency"
+            },
+            {
+                "name": "lbp",
+                "comment": " Lebanese Pound\n",
+                "type": "Currency"
+            },
+            {
+                "name": "lkr",
+                "comment": " Sri Lankan Rupee\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ltl",
+                "comment": " Lithuanian Litas\n",
+                "type": "Currency"
+            },
+            {
+                "name": "lvl",
+                "comment": " Latvian Lats\n",
+                "type": "Currency"
+            },
+            {
+                "name": "lyd",
+                "comment": " Libyan Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mad",
+                "comment": " Moroccan Dirham\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mdl",
+                "comment": " Moldovan Leu\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mga",
+                "comment": " Malagasy Ariary\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mkd",
+                "comment": " Macedonian Denar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mmk",
+                "comment": " Myanma Kyat\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mop",
+                "comment": " Macanese Pataca\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mur",
+                "comment": " Mauritian Rupee\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mxn",
+                "comment": " Mexican Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "myr",
+                "comment": " Malaysian Ringgit\n",
+                "type": "Currency"
+            },
+            {
+                "name": "mzn",
+                "comment": " Mozambican Metical\n",
+                "type": "Currency"
+            },
+            {
+                "name": "nad",
+                "comment": " Namibian Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ngn",
+                "comment": " Nigerian Naira\n",
+                "type": "Currency"
+            },
+            {
+                "name": "nio",
+                "comment": " Nicaraguan Córdoba\n",
+                "type": "Currency"
+            },
+            {
+                "name": "nok",
+                "comment": " Norwegian Krone\n",
+                "type": "Currency"
+            },
+            {
+                "name": "npr",
+                "comment": " Nepalese Rupee\n",
+                "type": "Currency"
+            },
+            {
+                "name": "nzd",
+                "comment": " New Zealand Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "omr",
+                "comment": " Omani Rial\n",
+                "type": "Currency"
+            },
+            {
+                "name": "pab",
+                "comment": " Panamanian Balboa\n",
+                "type": "Currency"
+            },
+            {
+                "name": "pen",
+                "comment": " Peruvian Nuevo Sol\n",
+                "type": "Currency"
+            },
+            {
+                "name": "php",
+                "comment": " Philippine Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "pkr",
+                "comment": " Pakistani Rupee\n",
+                "type": "Currency"
+            },
+            {
+                "name": "pln",
+                "comment": " Polish Zloty\n",
+                "type": "Currency"
+            },
+            {
+                "name": "pyg",
+                "comment": " Paraguayan Guarani\n",
+                "type": "Currency"
+            },
+            {
+                "name": "qar",
+                "comment": " Qatari Rial\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ron",
+                "comment": " Romanian Leu\n",
+                "type": "Currency"
+            },
+            {
+                "name": "rsd",
+                "comment": " Serbian Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "rub",
+                "comment": " Russian Ruble\n",
+                "type": "Currency"
+            },
+            {
+                "name": "rwf",
+                "comment": " Rwandan Franc\n",
+                "type": "Currency"
+            },
+            {
+                "name": "sar",
+                "comment": " Saudi Riyal\n",
+                "type": "Currency"
+            },
+            {
+                "name": "sdg",
+                "comment": " Sudanese Pound\n",
+                "type": "Currency"
+            },
+            {
+                "name": "sek",
+                "comment": " Swedish Krona\n",
+                "type": "Currency"
+            },
+            {
+                "name": "sgd",
+                "comment": " Singapore Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "sos",
+                "comment": " Somali Shilling\n",
+                "type": "Currency"
+            },
+            {
+                "name": "syp",
+                "comment": " Syrian Pound\n",
+                "type": "Currency"
+            },
+            {
+                "name": "thb",
+                "comment": " Thai Baht\n",
+                "type": "Currency"
+            },
+            {
+                "name": "tnd",
+                "comment": " Tunisian Dinar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "top",
+                "comment": " Tongan Paʻanga\n",
+                "type": "Currency"
+            },
+            {
+                "name": "try",
+                "comment": " Turkish Lira\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ttd",
+                "comment": " Trinidad and Tobago Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "twd",
+                "comment": " New Taiwan Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "tzs",
+                "comment": " Tanzanian Shilling\n",
+                "type": "Currency"
+            },
+            {
+                "name": "uah",
+                "comment": " Ukrainian Hryvnia\n",
+                "type": "Currency"
+            },
+            {
+                "name": "ugx",
+                "comment": " Ugandan Shilling\n",
+                "type": "Currency"
+            },
+            {
+                "name": "usd",
+                "comment": " US Dollar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "uyu",
+                "comment": " Uruguayan Peso\n",
+                "type": "Currency"
+            },
+            {
+                "name": "uzs",
+                "comment": " Uzbekistan Som\n",
+                "type": "Currency"
+            },
+            {
+                "name": "vef",
+                "comment": " Venezuelan Bolívar\n",
+                "type": "Currency"
+            },
+            {
+                "name": "vnd",
+                "comment": " Vietnamese Dong\n",
+                "type": "Currency"
+            },
+            {
+                "name": "xaf",
+                "comment": " CFA Franc BEAC\n",
+                "type": "Currency"
+            },
+            {
+                "name": "xof",
+                "comment": " CFA Franc BCEAO\n",
+                "type": "Currency"
+            },
+            {
+                "name": "yer",
+                "comment": " Yemeni Rial\n",
+                "type": "Currency"
+            },
+            {
+                "name": "zar",
+                "comment": " South African Rand\n",
+                "type": "Currency"
+            },
+            {
+                "name": "zmk",
+                "comment": " Zambian Kwacha\n",
+                "type": "Currency"
+            }
+        ],
+        "binops": []
+    }
+]

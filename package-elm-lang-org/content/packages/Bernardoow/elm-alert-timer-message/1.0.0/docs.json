@@ -1,0 +1,54 @@
+[
+    {
+        "name": "AlertTimerMessage",
+        "comment": " Simple message alert library.\nIts functionality is to hide and show alerts.\nThe module is given a time and an HTML structure then does the job.\nYou can create css and pass the msg to display.\n\n# The model\n@docs Model\n\n# The initial state\n@docs modelInit\n\n# View\n@docs view\n\n# Msg\n@docs Msg\n\n# Update\n@docs update\n\n# The initial state\n@docs modelInit\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The type representing messages that are passed inside the Rating.\n    Notice: AddNewMessage receive two params: Float will be time to display and Html Msg will be a html struture.\n        Tip: Use Css to improve Html Msg.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "AddNewMessage",
+                        [
+                            "Float",
+                            "Html Msg"
+                        ]
+                    ],
+                    [
+                        "RemoveAlert",
+                        [
+                            "Int"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " The model is simple. It's have a dict with msg and counter of displayed msg.\n",
+                "args": [],
+                "type": "{ messages : Dict Int Message, count : Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "modelInit",
+                "comment": " Empty model with counter 1\n",
+                "type": "Model"
+            },
+            {
+                "name": "update",
+                "comment": " ",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " ",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

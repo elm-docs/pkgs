@@ -1,0 +1,30 @@
+[
+    {
+        "name": "AutoGrid",
+        "comment": " This library extends the [`mdgriffith/style-elements`](https://github.com/mdgriffith/style-elements) library with a grid that will include as many rows as there are rows in your data. It is excellent for displaying tables of data, where the amount of data to display is dynamic.\n\n\n# Grid of text\n\n@docs simple\n\n\n# Grid of custom data\n\n@docs grid\n\n\n# Configuration\n\n@docs AutoGrid\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "AutoGrid",
+                "comment": " A datatype representing a configuration for an autogrid layout.\n\n  - `row` is a singular `Length` that represents the height of each row.\n  - `columns` is a list of `Length`s that represents the widths of each column (applied left-to-right).\n  - `matrix` is the table of data to be displayed, in the form of a nested `List`.\n\n",
+                "args": [
+                    "element"
+                ],
+                "type": "{ columns : List Length, row : Length, matrix : List (List element) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "grid",
+                "comment": " Create a grid of custom elements. It allows much more customization of the individual cells by allowing you to pass in a matrix of any kind of data to display.\n\n`grid` accepts a style and an attributes-list to apply to the entire grid; a `transformer` function which will take in a single element of the matrix and produce its corresponding `Element` view; and finally, an `AutoGrid` configuration. (*Note*: the `matrix` passed in through the configuration object can be of any size, and rows can even be of disparate lengths.)\n\n    let\n        makeEl anInt =\n            el CellStyle\n                [ padding 10 ]\n                (text (toString anInt))\n    in\n        grid GridStyle\n            [ padding 10\n            , spacing 10\n            ]\n            { columns = List.repeat 5 fill\n            , row = fill\n            , matrix =\n                List.range 1 10\n                    |> List.map (\\x -> List.range x (x+10))\n            }\n            makeEl\n\n",
+                "type": "style -> List (Attribute variation msg) -> AutoGrid a -> (a -> Element style variation msg) -> Element style variation msg"
+            },
+            {
+                "name": "simple",
+                "comment": " Create a grid of cells containing only text. This eliminates a lot of the boilerplate that you would need to write if you chose to use `grid`, but still covers a lot of use cases.\n\n`simple` accepts a style and attributes-list to apply to the entire grid; a style and attribute-list to apply to each cell in the grid; and finally, an `AutoGrid` configuration. (*Note*: the `matrix` passed in through the configuration object can be of any size, and rows can even be of disparate lengths.)\n\n    simple GridStyle\n        [ padding 10\n        , spacing 10\n        ]\n        CellStyle\n        [ padding 10 ]\n        { columns = [ fill, fillPortion 3, fill ]\n        , row = fill\n        , matrix =\n            [ [ \"ID\", \"Name\", \"Level\"]\n            , [ \"1\", \"Angelina\", \"2\"]\n            , [ \"2\", \"Evan\", \"3\"]\n            ]\n        }\n\n",
+                "type": "style -> List (Attribute variation msg) -> style -> List (Attribute variation msg) -> AutoGrid String -> Element style variation msg"
+            }
+        ],
+        "binops": []
+    }
+]

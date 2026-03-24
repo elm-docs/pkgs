@@ -1,0 +1,44 @@
+[
+    {
+        "name": "FormBuilder.Photo",
+        "comment": " Create a photo selector field in FormBuilder.\n\n@docs default\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "default",
+                "comment": " Generates a default photo selector field.\n",
+                "type": "List (AttributesModifier (PhotoAttributes msg) msg) -> Html msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "FormBuilder.Photo.Attributes",
+        "comment": " Attributes of the photo selector.\n\n# Type\n@docs PhotoAttributes\n\n# Attributes\n@docs defaultAttributes\n@docs selection\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "PhotoAttributes",
+                "comment": " Attributes of the photo field. Expand FormBuilder.\n",
+                "args": [
+                    "msg"
+                ],
+                "type": "{ photosAlbums : Maybe PhotosAlbums, selectedPhotoId : Maybe String, onPhotoClick : Maybe (Event msg) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "defaultAttributes",
+                "comment": " Default Attributes of the photo field.\n",
+                "type": "FieldAttributes (PhotoAttributes msg) msg"
+            },
+            {
+                "name": "selection",
+                "comment": " Set the different parameters for the photos selection.\n- photos is list of labelled lists (List (String, List String)) of URLs.\n- selectedPhotoId is a Maybe String, containing the selected photo if any.\n- onPhotoClick represent the message to send when a photo is clicked.\n- fieldAttributes are the attributes of the field.\n",
+                "type": "Maybe PhotosAlbums -> Maybe String -> (String -> msg) -> FieldAttributes (PhotoAttributes msg) msg -> FieldAttributes (PhotoAttributes msg) msg"
+            }
+        ],
+        "binops": []
+    }
+]

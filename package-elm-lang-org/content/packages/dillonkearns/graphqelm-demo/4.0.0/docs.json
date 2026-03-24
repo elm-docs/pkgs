@@ -1,0 +1,297 @@
+[
+    {
+        "name": "Swapi.Union.CharacterUnion",
+        "comment": " Code for retrieving fields from a CharacterUnion in a type-safe way.\n@docs selection, onHuman, onDroid\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "onDroid",
+                "comment": " Select fields to use when the type is Droid.\n",
+                "type": "SelectionSet selection Droid -> FragmentSelectionSet selection CharacterUnion"
+            },
+            {
+                "name": "onHuman",
+                "comment": " Select the fields to use when the type is Human.\n",
+                "type": "SelectionSet selection Human -> FragmentSelectionSet selection CharacterUnion"
+            },
+            {
+                "name": "selection",
+                "comment": " Specify fields to use for the object.\n",
+                "type": "(Maybe typeSpecific -> constructor) -> List (FragmentSelectionSet typeSpecific CharacterUnion) -> SelectionSet constructor CharacterUnion"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Query",
+        "comment": " The top-level query for the GraphQL endoint which you can explore at\n[graphqelm.herokuapp.com](https://graphqelm.herokuapp.com)\n\n@docs selection, droid, hero, heroUnion, human\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "droid",
+                "comment": "\n\n  - id - ID of the droid.\n\n",
+                "type": "{ id : String } -> SelectionSet selection Droid -> FieldDecoder (Maybe selection) RootQuery"
+            },
+            {
+                "name": "hero",
+                "comment": "\n\n  - episode - If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode.\n\n",
+                "type": "({ episode : OptionalArgument Episode } -> { episode : OptionalArgument Episode }) -> SelectionSet selection Character -> FieldDecoder selection RootQuery"
+            },
+            {
+                "name": "heroUnion",
+                "comment": "\n\n  - episode - If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode.\n\n",
+                "type": "({ episode : OptionalArgument Episode } -> { episode : OptionalArgument Episode }) -> SelectionSet selection CharacterUnion -> FieldDecoder (Maybe selection) RootQuery"
+            },
+            {
+                "name": "human",
+                "comment": "\n\n  - id - ID of the human.\n\n",
+                "type": "{ id : String } -> SelectionSet selection Human -> FieldDecoder (Maybe selection) RootQuery"
+            },
+            {
+                "name": "selection",
+                "comment": " Select fields to build up a top-level query. The request can be sent with\nfunctions from `Graphqelm.Http`.\n",
+                "type": "(a -> constructor) -> SelectionSet (a -> constructor) RootQuery"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Interface.Character",
+        "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs selection, commonSelection, onDroid, onHuman, appearsIn, friends, id, name\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Which movies they appear in.\n",
+                "type": "FieldDecoder (List Episode) Character"
+            },
+            {
+                "name": "commonSelection",
+                "comment": " Select only common fields from the interface.\n",
+                "type": "(a -> constructor) -> SelectionSet (a -> constructor) Character"
+            },
+            {
+                "name": "friends",
+                "comment": " The friends of the character, or an empty list if they have none.\n",
+                "type": "SelectionSet selection Character -> FieldDecoder (List selection) Character"
+            },
+            {
+                "name": "id",
+                "comment": " The ID of the character.\n",
+                "type": "FieldDecoder String Character"
+            },
+            {
+                "name": "name",
+                "comment": " The name of the character.\n",
+                "type": "FieldDecoder String Character"
+            },
+            {
+                "name": "onDroid",
+                "comment": " Select the fields to use when the type is Droid.\n",
+                "type": "SelectionSet selection Droid -> FragmentSelectionSet selection Character"
+            },
+            {
+                "name": "onHuman",
+                "comment": " Select the fields to use when the type is Human.\n",
+                "type": "SelectionSet selection Human -> FragmentSelectionSet selection Character"
+            },
+            {
+                "name": "selection",
+                "comment": " Select both common and type-specific fields from the interface.\n",
+                "type": "(Maybe typeSpecific -> a -> constructor) -> List (FragmentSelectionSet typeSpecific Character) -> SelectionSet (a -> constructor) Character"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Object.Human",
+        "comment": " Code for retrieving fields from a Human in a type-safe way.\n@docs selection, appearsIn, friends, id, name, homePlanet\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Which movies they appear in.\n",
+                "type": "FieldDecoder (List Episode) Human"
+            },
+            {
+                "name": "friends",
+                "comment": " The friends of the human, or an empty list if they have none.\n",
+                "type": "SelectionSet selection Character -> FieldDecoder (List selection) Human"
+            },
+            {
+                "name": "homePlanet",
+                "comment": " The home planet of the human, or null if unknown.\n",
+                "type": "FieldDecoder (Maybe String) Human"
+            },
+            {
+                "name": "id",
+                "comment": " The ID of the human.\n",
+                "type": "FieldDecoder String Human"
+            },
+            {
+                "name": "name",
+                "comment": " The name of the human.\n",
+                "type": "FieldDecoder String Human"
+            },
+            {
+                "name": "selection",
+                "comment": " Select fields to build up a SelectionSet for this object.\n",
+                "type": "(a -> constructor) -> SelectionSet (a -> constructor) Human"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Object.Droid",
+        "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs selection, appearsIn, friends, id, name, primaryFunction\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "appearsIn",
+                "comment": " Which movies they appear in.\n",
+                "type": "FieldDecoder (List Episode) Droid"
+            },
+            {
+                "name": "friends",
+                "comment": " The friends of the droid, or an empty list if they have none.\n",
+                "type": "SelectionSet selection Character -> FieldDecoder (List selection) Droid"
+            },
+            {
+                "name": "id",
+                "comment": " The ID of the droid.\n",
+                "type": "FieldDecoder String Droid"
+            },
+            {
+                "name": "name",
+                "comment": " The name of the droid.\n",
+                "type": "FieldDecoder String Droid"
+            },
+            {
+                "name": "primaryFunction",
+                "comment": " The primary function of the droid.\n",
+                "type": "FieldDecoder (Maybe String) Droid"
+            },
+            {
+                "name": "selection",
+                "comment": " Select fields to build up a SelectionSet for this object.\n",
+                "type": "(a -> constructor) -> SelectionSet (a -> constructor) Droid"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Interface",
+        "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate interface.\n@docs Character\n",
+        "unions": [
+            {
+                "name": "Character",
+                "comment": " Character\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Character",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Object",
+        "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate object.\n@docs Droid, Human\n",
+        "unions": [
+            {
+                "name": "Droid",
+                "comment": " Droid\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Droid",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Human",
+                "comment": " Human\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Human",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Union",
+        "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate union.\n@docs CharacterUnion\n",
+        "unions": [
+            {
+                "name": "CharacterUnion",
+                "comment": " CharacterUnion\n",
+                "args": [],
+                "cases": [
+                    [
+                        "CharacterUnion",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Swapi.Enum.Episode",
+        "comment": " Enum for all episodes that the API has in its system.\n@docs Episode, decoder, toString\n",
+        "unions": [
+            {
+                "name": "Episode",
+                "comment": " One of the films in the Star Wars Trilogy\n\n  - Empire - Released in 1980.\n  - Jedi - Released in 1983.\n  - Newhope - Released in 1977.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Empire",
+                        []
+                    ],
+                    [
+                        "Jedi",
+                        []
+                    ],
+                    [
+                        "Newhope",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "decoder",
+                "comment": " Decode an Episode from the GraphQL endpoint.\n",
+                "type": "Decoder Episode"
+            },
+            {
+                "name": "toString",
+                "comment": " Convert from the union type representating the Enum to a string that the GraphQL server will recognize.\n",
+                "type": "Episode -> String"
+            }
+        ],
+        "binops": []
+    }
+]

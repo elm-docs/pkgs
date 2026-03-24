@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Random.Cpf",
+        "comment": " Generate a random CPF\n@docs cpf\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "cpf",
+                "comment": " Generate a random CPF\n",
+                "type": "Generator CPF"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Cpf",
+        "comment": " Manipulate and generate brazilian CPFs\n@docs CPF, Error, fromList, fromText, toString, show\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "CPF",
+                "comment": " A brazilian CPF\n",
+                "args": [],
+                "type": "CPF"
+            },
+            {
+                "name": "Error",
+                "comment": " Possible errors when dealing with CPFs\n",
+                "args": [],
+                "type": "Error"
+            }
+        ],
+        "values": [
+            {
+                "name": "fromList",
+                "comment": " Turn a valid list of integers into a CPF.\n\n    (fromList [1,2,3,4,5,6,7,8,9,0,9] |> Result.map show) == Ok \"123.456.789-09\"\n\n",
+                "type": "List Int -> Result Error CPF"
+            },
+            {
+                "name": "fromText",
+                "comment": " Turn a valid string into a CPF.\n\n    (fromText \"12345678909\" |> Result.map show) == Ok \"123.456.789-09\"\n    (fromText \"123.456.789-09\" |> Result.map show) == Ok \"123.456.789-09\"\n\n",
+                "type": "String -> Result Error CPF"
+            },
+            {
+                "name": "show",
+                "comment": " Pretty print a given CPF\n",
+                "type": "CPF -> String"
+            },
+            {
+                "name": "toString",
+                "comment": " Turn a CPF into a string.\n",
+                "type": "CPF -> String"
+            }
+        ],
+        "binops": []
+    }
+]

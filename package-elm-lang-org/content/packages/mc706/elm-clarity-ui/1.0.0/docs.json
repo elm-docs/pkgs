@@ -1,0 +1,76 @@
+[
+    {
+        "name": "ClarityUI.Alert",
+        "comment": " Clarity UI's Alerts.\n\n\n# Alerts\n\n@docs alert\n\n\n# Shorthand Inline Alerts\n\n@docs alertDanger, alertWarning, alertInfo, alertSuccess\n\n\n# App Alerts\n\n@docs alertAppDanger, alertAppWarning, alertAppInfo, alertAppSuccess\n\n\n# Options\n\n@docs AlertType\n\n\n# Data\n\n@docs AlertItem, AlertAction\n\n",
+        "unions": [
+            {
+                "name": "AlertType",
+                "comment": " Alert Type. Either Danger, Warning, Info or Success\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "AlertAction",
+                "comment": " Actions for an alert\n",
+                "args": [],
+                "type": "{ text : String, link : String }"
+            },
+            {
+                "name": "AlertItem",
+                "comment": " Item to pass to an alert\n",
+                "args": [],
+                "type": "{ text : String, actions : List AlertAction }"
+            }
+        ],
+        "values": [
+            {
+                "name": "alert",
+                "comment": " Main Alert Entry Point. Creates a clarity alert.\n\nDocumentation about Clarity Alerts: <https://vmware.github.io/clarity/documentation/alerts#top>\n\n",
+                "type": "AlertType -> Bool -> Bool -> Bool -> AlertItem -> Html msg"
+            },
+            {
+                "name": "alertAppDanger",
+                "comment": " Alert App Danger.\nCurried Shortcut for a dismissible danger app alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertAppInfo",
+                "comment": " Alert App Info.\nCurried Shortcut for a dismissible Info app alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertAppSuccess",
+                "comment": " Alert App Success.\nCurried Shortcut for a dismissible Success app alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertAppWarning",
+                "comment": " Alert App Warning.\nCurried Shortcut for a dismissible warning app alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertDanger",
+                "comment": " Alert Danger.\nCurried Shortcut for a dismissible danger alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertInfo",
+                "comment": " Alert Info.\nCurried Shortcut for a dismissible Info alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertSuccess",
+                "comment": " Alert Success.\nCurried Shortcut for a dismissible Success alert.\n",
+                "type": "AlertItem -> Html msg"
+            },
+            {
+                "name": "alertWarning",
+                "comment": " Alert Warning.\nCurried Shortcut for a dismissible warning alert.\n",
+                "type": "AlertItem -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

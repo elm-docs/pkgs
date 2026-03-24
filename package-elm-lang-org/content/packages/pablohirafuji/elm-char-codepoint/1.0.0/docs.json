@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Char.CodePoint",
+        "comment": " Code point operations.\n\n\n@docs fromChar, toString, listToString\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "fromChar",
+                "comment": " Convert from char.\n",
+                "type": "Char -> CodePoint"
+            },
+            {
+                "name": "listToString",
+                "comment": " Convert a list of code points to string.\n",
+                "type": "List CodePoint -> String"
+            },
+            {
+                "name": "toString",
+                "comment": " Convert to string.\n",
+                "type": "CodePoint -> String"
+            }
+        ],
+        "binops": []
+    }
+]

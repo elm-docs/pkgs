@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Mouse",
+        "comment": " Handling detailed mouse events.\n\n@docs Event, Keys, Coordinates, Movement\n\n@docs onDown, onMove, onUp, onWithOptions\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Coordinates",
+                "comment": " Coordinates of a mouse event.\n",
+                "args": [],
+                "type": "( Float, Float )"
+            },
+            {
+                "name": "Event",
+                "comment": " Type that get returned by a mouse event.\n",
+                "args": [],
+                "type": "{ key : Keys, clientPos : Coordinates, offsetPos : Coordinates, movement : Movement }"
+            },
+            {
+                "name": "Keys",
+                "comment": " The keys that might have been pressed during mouse event.\n",
+                "args": [],
+                "type": "{ alt : Bool, ctrl : Bool, shift : Bool }"
+            },
+            {
+                "name": "Movement",
+                "comment": " Motion of a mouse movement.\n",
+                "args": [],
+                "type": "( Float, Float )"
+            }
+        ],
+        "values": [
+            {
+                "name": "onDown",
+                "comment": " Listen to `mousedown` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onMove",
+                "comment": " Listen to `mousemove` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onUp",
+                "comment": " Listen to `mouseup` events.\n",
+                "type": "(Event -> msg) -> Attribute msg"
+            },
+            {
+                "name": "onWithOptions",
+                "comment": " Choose the mouse event to listen to, and specify the event options.\n",
+                "type": "String -> Options -> (Event -> msg) -> Attribute msg"
+            }
+        ],
+        "binops": []
+    }
+]

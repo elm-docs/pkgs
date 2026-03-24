@@ -1,0 +1,131 @@
+[
+    {
+        "name": "CreditCard",
+        "comment": "\n\n@docs CreditCard\n@docs Field\n@docs YearFormat\n@docs Issuer\n@docs Valid\n@docs Msg\n@docs initCreditCard\n@docs initCreditCardDefault\n@docs displayField\n@docs update\n@docs fieldValue\n@docs isValid\n\n",
+        "unions": [
+            {
+                "name": "Field",
+                "comment": " Union type of all creditcard fields.\n",
+                "args": [],
+                "cases": []
+            },
+            {
+                "name": "Issuer",
+                "comment": " The list of identified credit card issuers. If not identifies, the issuer is set to Other.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Visa",
+                        []
+                    ],
+                    [
+                        "Mastercard",
+                        []
+                    ],
+                    [
+                        "AmericanExpress",
+                        []
+                    ],
+                    [
+                        "DinersClub",
+                        []
+                    ],
+                    [
+                        "Discover",
+                        []
+                    ],
+                    [
+                        "JCB",
+                        []
+                    ],
+                    [
+                        "Other",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " Updating messages.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SetValue",
+                        [
+                            "Field",
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Validate",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Valid",
+                "comment": " Usually set to NotTested. When testing a field it's set to Tested True or Tested False, depending on the result of the test.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NotTested",
+                        []
+                    ],
+                    [
+                        "Tested",
+                        [
+                            "Bool"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "YearFormat",
+                "comment": " Year formatting fot the expiration. It can be set to:\n    - 2 digits: mm/yy\n    - 4 digits: mm/yyyy\n    - 2 or 4 digits: both values are accepted, but not mm/yyy (it doesn't mean anything)\nUpdate, and validation functions use this to control expiration value.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "CreditCard",
+                "comment": " The main model for this package.\n",
+                "args": [],
+                "type": "{ holderName : Field, holderEmail : Field, number : Field, expiration : Field, cvc : Field, issuer : Maybe Issuer }"
+            }
+        ],
+        "values": [
+            {
+                "name": "displayField",
+                "comment": " The function to display the card number with a space every 4 numbers.\n",
+                "type": "Field -> String"
+            },
+            {
+                "name": "fieldValue",
+                "comment": " A helper to return the raw string value of a given field.\n",
+                "type": "Field -> String"
+            },
+            {
+                "name": "initCreditCard",
+                "comment": " The function to initialize a new credit card model.\n",
+                "type": "YearFormat -> Bool -> CreditCard"
+            },
+            {
+                "name": "initCreditCardDefault",
+                "comment": " Initialiaze a new credit card with default values\n",
+                "type": "CreditCard"
+            },
+            {
+                "name": "isValid",
+                "comment": " A helper to render the validation state of a field.\n",
+                "type": "Field -> Valid"
+            },
+            {
+                "name": "update",
+                "comment": " The updating function for this package.\n",
+                "type": "Msg -> CreditCard -> CreditCard"
+            }
+        ],
+        "binops": []
+    }
+]

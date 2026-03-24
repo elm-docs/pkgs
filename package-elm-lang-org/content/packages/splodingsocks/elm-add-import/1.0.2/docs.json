@@ -1,0 +1,16 @@
+[
+    {
+        "name": "AddImport",
+        "comment": " Add an import to an Elm module.\n\nWrite an example here:\n\n``` elm\n```\n\n@docs addImport\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "addImport",
+                "comment": " ",
+                "type": "String -> Maybe String -> String -> Result String String"
+            }
+        ],
+        "binops": []
+    }
+]

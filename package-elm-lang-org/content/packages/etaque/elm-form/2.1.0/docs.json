@@ -1,0 +1,718 @@
+[
+    {
+        "name": "Form.Test",
+        "comment": " Helpers to test your validations. See\n[an example validation test suite here](https://github.com/etaque/elm-form/tree/master/example/tests).\n\n@docs describeValidation, testValidation\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "describeValidation",
+                "comment": " Test your `Validation`s with a List of test input String, ValidationExpectation pairs.\n\n    import Form.Error\n    import Form.Test exposing (..)\n    import Form.Test.ValidationExpectation exposing (ValidationExpectation(..))\n    import Form.Validate\n\n    describeValidation \"email\"\n       Form.Validate.email\n       [ ( \"valid@email.com\", Valid )\n       , ( \"This is definitely not an email address\"\n         , Invalid Form.Error.InvalidEmail\n         )\n       ]\n\n",
+                "type": "String -> Validation e a -> List ( String, ValidationExpectation e a ) -> Test"
+            },
+            {
+                "name": "testValidation",
+                "comment": " Create a single test case for a `Validation`.\n\n    import Form.Error\n    import Form.Test exposing (..)\n    import Form.Test.ValidationExpectation exposing (ValidationExpectation(..))\n    import Form.Validate\n\n    testValidation Form.Validate.email ( \"valid@email.com\", Valid )\n\n",
+                "type": "Validation e a -> ( String, ValidationExpectation e a ) -> Test"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form.Input",
+        "comment": "\n@docs Input\n\n@docs baseInput, textInput, passwordInput, textArea, checkboxInput, selectInput, radioInput\n\n@docs dumpErrors\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Input",
+                "comment": " An input renders Html from a field state and list of additional attributes.\nAll input functions using this type alias are pre-wired with event handlers.\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "type": "FieldState e a -> List (Attribute Msg) -> Html Msg"
+            }
+        ],
+        "values": [
+            {
+                "name": "baseInput",
+                "comment": " Untyped input, first param is `type` attribute.\n",
+                "type": "String -> (String -> FieldValue) -> InputType -> Input e String"
+            },
+            {
+                "name": "checkboxInput",
+                "comment": " Checkbox input.\n",
+                "type": "Input e Bool"
+            },
+            {
+                "name": "dumpErrors",
+                "comment": " Dump all form errors in a `<pre>` tag. Useful for debugging.\n",
+                "type": "Form e o -> Html msg"
+            },
+            {
+                "name": "passwordInput",
+                "comment": " Password input.\n",
+                "type": "Input e String"
+            },
+            {
+                "name": "radioInput",
+                "comment": " Radio input.\n",
+                "type": "String -> Input e String"
+            },
+            {
+                "name": "selectInput",
+                "comment": " Select input.\n",
+                "type": "List ( String, String ) -> Input e String"
+            },
+            {
+                "name": "textArea",
+                "comment": " Textarea.\n",
+                "type": "Input e String"
+            },
+            {
+                "name": "textInput",
+                "comment": " Text input.\n",
+                "type": "Input e String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form",
+        "comment": " Simple forms made easy: A Dict implementation of the core `Json.Decode` API,\nwith state lifecycle and input helpers for the views.\n\n# Types\n@docs Msg, InputType, Form, FieldState\n\n# Init/update lifecyle\n@docs initial, update\n\n# Field state accessors\n@docs getFieldAsString, getFieldAsBool, getListIndexes\n\n# Global state accessors\n@docs getFocus, isSubmitted, getErrors, getOutput, getChangedFields\n",
+        "unions": [
+            {
+                "name": "Form",
+                "comment": " Form to embed in your model. Type parameters are:\n\n * `customError` - a custom error type to extend built-in errors (set to `()` if you don't need it)\n * `output` - the type of the validation output.\n",
+                "args": [
+                    "customError",
+                    "output"
+                ],
+                "cases": []
+            },
+            {
+                "name": "InputType",
+                "comment": " Input types to determine live validation behaviour.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Text",
+                        []
+                    ],
+                    [
+                        "Textarea",
+                        []
+                    ],
+                    [
+                        "Select",
+                        []
+                    ],
+                    [
+                        "Radio",
+                        []
+                    ],
+                    [
+                        "Checkbox",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "Msg",
+                "comment": " Form messages for `update`.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NoOp",
+                        []
+                    ],
+                    [
+                        "Focus",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Blur",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Input",
+                        [
+                            "String",
+                            "InputType",
+                            "FieldValue"
+                        ]
+                    ],
+                    [
+                        "Append",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "RemoveItem",
+                        [
+                            "String",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Submit",
+                        []
+                    ],
+                    [
+                        "Validate",
+                        []
+                    ],
+                    [
+                        "Reset",
+                        [
+                            "List ( String, Field )"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "FieldState",
+                "comment": " Field state containing all necessary data for view and update,\ncan be retrived with `Form.getFieldAsString` or `Form.getFieldAsBool`.\n\n * `path` - qualified path of the field in the form, with dots for nested fields (`field.subfield`)\n * `value` - a `Maybe` of the requested type\n * `error` - a `Maybe` of the field error\n * `liveError` - same but with added logic for live validation\n    (see [`getLiveErrorAt`](https://github.com/etaque/elm-form/blob/master/src/Form.elm) impl)\n * `isDirty` - if the field content has been changed since last validation\n * `isChanged` - if the field value has changed since last init/reset\n * `hasFocus` - if the field is currently focused\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "type": "{ path : String, value : Maybe a, error : Maybe (ErrorValue e), liveError : Maybe (ErrorValue e), isDirty : Bool, isChanged : Bool, hasFocus : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "getChangedFields",
+                "comment": " Get set of changed fields.\n",
+                "type": "Form e o -> Set String"
+            },
+            {
+                "name": "getErrors",
+                "comment": " Get list of errors on qualified paths.\n",
+                "type": "Form e o -> List ( String, ErrorValue e )"
+            },
+            {
+                "name": "getFieldAsBool",
+                "comment": " Get field state at path, with value as a `Bool`.\n",
+                "type": "String -> Form e o -> FieldState e Bool"
+            },
+            {
+                "name": "getFieldAsString",
+                "comment": " Get field state at path, with value as a `String`.\n",
+                "type": "String -> Form e o -> FieldState e String"
+            },
+            {
+                "name": "getFocus",
+                "comment": " Return currently focused field, if any.\n",
+                "type": "Form e o -> Maybe String"
+            },
+            {
+                "name": "getListIndexes",
+                "comment": " return a list of indexes so one can build qualified names of fields in list.\n",
+                "type": "String -> Form e o -> List Int"
+            },
+            {
+                "name": "getOutput",
+                "comment": " Get form output, in case of validation success.\n",
+                "type": "Form e o -> Maybe o"
+            },
+            {
+                "name": "initial",
+                "comment": " Initial form state. See `Form.Field` for initial fields, and `Form.Validate` for validation.\n",
+                "type": "List ( String, Field ) -> Validation e output -> Form e output"
+            },
+            {
+                "name": "isSubmitted",
+                "comment": " Get form submission state. Useful to show errors on unchanged fields.\n",
+                "type": "Form e o -> Bool"
+            },
+            {
+                "name": "update",
+                "comment": " Update form state with the given message\n",
+                "type": "Validation e output -> Msg -> Form e output -> Form e output"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form.Init",
+        "comment": " Helpers for initial fields values\n\n@docs setBool, setString, setGroup, setList\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "setBool",
+                "comment": " Builds a tuple of field name and boolean value\n",
+                "type": "String -> Bool -> ( String, Field )"
+            },
+            {
+                "name": "setGroup",
+                "comment": " Build a group of values, for nested forms.\n",
+                "type": "String -> List ( String, Field ) -> ( String, Field )"
+            },
+            {
+                "name": "setList",
+                "comment": " Build a list of values, for dynamic fields setList\n",
+                "type": "String -> List Field -> ( String, Field )"
+            },
+            {
+                "name": "setString",
+                "comment": " Builds a tuple of field name and string value\n",
+                "type": "String -> String -> ( String, Field )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form.Validate",
+        "comment": " Form validation.\n\n# Combinators\n@docs Validation, field, map, succeed, andThen, andMap, customError, defaultValue, mapError, withCustomError, sequence\n\n# Fixed-size forms\n@docs map2, map3, map4, map5, map6, map7, map8\n\n# Type extractors\n@docs list, string, int, float, bool, date, maybe, email, url, emptyString\n\n# Common filters\n@docs minInt, maxInt, minFloat, maxFloat, minLength, maxLength, nonEmpty, format, includedIn\n\n# Custom validations\n@docs fail, succeed, customValidation, oneOf\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Validation",
+                "comment": " A validation is a function that takes a form field and returns a result\nbeing either a validation error or the expected object.\n",
+                "args": [
+                    "customError",
+                    "output"
+                ],
+                "type": "Field -> Result (Error customError) output"
+            }
+        ],
+        "values": [
+            {
+                "name": "andMap",
+                "comment": " Incremental form validation for records with more that 8 fields.\n\n    Form.Validate.succeed SomeRecord\n      |> andMap (field \"foo\" string)\n      |> andMap (field \"bar\" string)\n",
+                "type": "Validation e a -> Validation e (a -> b) -> Validation e b"
+            },
+            {
+                "name": "andThen",
+                "comment": " Apply a new validation to the result of the validation.\n\n    field \"myfield\" (int |> andThen (minInt 10))\n",
+                "type": "(a -> Validation e b) -> Validation e a -> Validation e b"
+            },
+            {
+                "name": "bool",
+                "comment": " Validation a Bool.\n",
+                "type": "Validation e Bool"
+            },
+            {
+                "name": "customError",
+                "comment": " Helper to create a CustomError.\n",
+                "type": "e -> Error e"
+            },
+            {
+                "name": "customValidation",
+                "comment": " Custom validation for your special cases.\n",
+                "type": "Validation e a -> (a -> Result (Error e) b) -> Validation e b"
+            },
+            {
+                "name": "date",
+                "comment": " Validation a Date using `Date.fromString`.\n",
+                "type": "Validation e Date"
+            },
+            {
+                "name": "defaultValue",
+                "comment": " Rescue a failed validation with the supplied value.\n",
+                "type": "a -> Validation e a -> Validation e a"
+            },
+            {
+                "name": "email",
+                "comment": " Check if the string is a valid email address.\n",
+                "type": "Validation e String"
+            },
+            {
+                "name": "emptyString",
+                "comment": " Validate an empty string, otherwise failing with InvalidString.\nUseful with `oneOf` for optional fields with format validation.\n",
+                "type": "Validation e String"
+            },
+            {
+                "name": "fail",
+                "comment": " A validation that always fails. Useful for contextual validation.\n",
+                "type": "Error e -> Validation e a"
+            },
+            {
+                "name": "field",
+                "comment": " Access the given field in the group.\n\n    field \"name\" string\n",
+                "type": "String -> Validation e a -> Validation e a"
+            },
+            {
+                "name": "float",
+                "comment": " Validation a float using `String.toFloat`.\n",
+                "type": "Validation e Float"
+            },
+            {
+                "name": "format",
+                "comment": " Validates format of the string.\n",
+                "type": "Regex -> String -> Validation e String"
+            },
+            {
+                "name": "includedIn",
+                "comment": " Check if the string is included in the given list.\n",
+                "type": "List String -> String -> Validation e String"
+            },
+            {
+                "name": "int",
+                "comment": " Validation an integer using `String.toInt`.\n",
+                "type": "Validation e Int"
+            },
+            {
+                "name": "list",
+                "comment": " Validate a list of fields.\n",
+                "type": "Validation e a -> Validation e (List a)"
+            },
+            {
+                "name": "map",
+                "comment": " Map over the result of the validation.\n\n    field \"myfield\" (string |> map String.trim)\n",
+                "type": "(a -> b) -> Validation e a -> Validation e b"
+            },
+            {
+                "name": "map2",
+                "comment": " Validation a form with two fields.\n",
+                "type": "(a -> b -> m) -> Validation e a -> Validation e b -> Validation e m"
+            },
+            {
+                "name": "map3",
+                "comment": " Validation a form with three fields.\n",
+                "type": "(a -> b -> c -> m) -> Validation e a -> Validation e b -> Validation e c -> Validation e m"
+            },
+            {
+                "name": "map4",
+                "comment": " Validation a form with four fields.\n",
+                "type": "(a -> b -> c -> d -> m) -> Validation e a -> Validation e b -> Validation e c -> Validation e d -> Validation e m"
+            },
+            {
+                "name": "map5",
+                "comment": " Validation a form with five fields.\n",
+                "type": "(a -> b -> c -> d -> e -> m) -> Validation err a -> Validation err b -> Validation err c -> Validation err d -> Validation err e -> Validation err m"
+            },
+            {
+                "name": "map6",
+                "comment": " Validation a form with six fields.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> m) -> Validation err a -> Validation err b -> Validation err c -> Validation err d -> Validation err e -> Validation err f -> Validation err m"
+            },
+            {
+                "name": "map7",
+                "comment": " Validation a form with seven fields.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> m) -> Validation err a -> Validation err b -> Validation err c -> Validation err d -> Validation err e -> Validation err f -> Validation err g -> Validation err m"
+            },
+            {
+                "name": "map8",
+                "comment": " Validation a form with eight fields.\n",
+                "type": "(a -> b -> c -> d -> e -> f -> g -> h -> m) -> Validation err a -> Validation err b -> Validation err c -> Validation err d -> Validation err e -> Validation err f -> Validation err g -> Validation err h -> Validation err m"
+            },
+            {
+                "name": "mapError",
+                "comment": " Call Result.mapError on validation result.\n",
+                "type": "(Error e1 -> Error e2) -> Validation e1 a -> Validation e2 a"
+            },
+            {
+                "name": "maxFloat",
+                "comment": " Max value for Float.\n",
+                "type": "Float -> Float -> Validation e Float"
+            },
+            {
+                "name": "maxInt",
+                "comment": " Max value for Int.\n",
+                "type": "Int -> Int -> Validation e Int"
+            },
+            {
+                "name": "maxLength",
+                "comment": " Max length for String.\n",
+                "type": "Int -> String -> Validation e String"
+            },
+            {
+                "name": "maybe",
+                "comment": " Transform validation result to `Maybe`, using `Result.toMaybe`.\n",
+                "type": "Validation e a -> Validation e (Maybe a)"
+            },
+            {
+                "name": "minFloat",
+                "comment": " Min value for Float.\n",
+                "type": "Float -> Float -> Validation e Float"
+            },
+            {
+                "name": "minInt",
+                "comment": " Min value for Int.\n",
+                "type": "Int -> Int -> Validation e Int"
+            },
+            {
+                "name": "minLength",
+                "comment": " Min length for String.\n",
+                "type": "Int -> String -> Validation e String"
+            },
+            {
+                "name": "nonEmpty",
+                "comment": " Fails if `String.isEmpty`.\n",
+                "type": "String -> Validation e String"
+            },
+            {
+                "name": "oneOf",
+                "comment": " First successful validation wins, from left to right.\n",
+                "type": "List (Validation e a) -> Validation e a"
+            },
+            {
+                "name": "sequence",
+                "comment": " Combine a list of validations into a validation producing a list of all\nresults.\n",
+                "type": "List (Validation e a) -> Validation e (List a)"
+            },
+            {
+                "name": "string",
+                "comment": " Validation a String.\n",
+                "type": "Validation e String"
+            },
+            {
+                "name": "succeed",
+                "comment": " A validation that always succeeds. Useful for contextual validation.\n",
+                "type": "a -> Validation e a"
+            },
+            {
+                "name": "url",
+                "comment": " Check if the string is a valid URL.\n",
+                "type": "Validation e String"
+            },
+            {
+                "name": "withCustomError",
+                "comment": " Arrange that if a validation fails, it has the given custom error.\n\n    field \"customerId\" (V.int\n          |> andThen (minInt 1)\n          |> andThen (maxInt 9999)\n          |> withCustomError InvalidIdentity)\n",
+                "type": "customErr -> Validation e a -> Validation customErr a"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form.Test.ValidationExpectation",
+        "comment": " Test expectations for use with functions from `Form.Test`.\n\n@docs ValidationExpectation\n\n",
+        "unions": [
+            {
+                "name": "ValidationExpectation",
+                "comment": " Use with `Form.Test.describeValidation` or `Form.Test.testValidation` to express the result you expect.\n",
+                "args": [
+                    "e",
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Valid",
+                        []
+                    ],
+                    [
+                        "ValidDecodesTo",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "Invalid",
+                        [
+                            "ErrorValue e"
+                        ]
+                    ],
+                    [
+                        "InvalidCustomError",
+                        [
+                            "e"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "Form.Field",
+        "comment": " Read and write field values.\n\n# Constructors\n@docs Field, FieldValue, value, string, bool, group, list\n\n\n# Value readers\n@docs  asString, asBool\n",
+        "unions": [
+            {
+                "name": "FieldValue",
+                "comment": " Form field. Can either be a group of named fields, or a final field.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "String",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Bool",
+                        [
+                            "Bool"
+                        ]
+                    ],
+                    [
+                        "EmptyField",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Field",
+                "comment": " A field is a tree node.\n",
+                "args": [],
+                "type": "Tree FieldValue"
+            }
+        ],
+        "values": [
+            {
+                "name": "asBool",
+                "comment": " Get field value as boolean.\n",
+                "type": "Field -> Maybe Bool"
+            },
+            {
+                "name": "asString",
+                "comment": " Get field value as string.\n",
+                "type": "Field -> Maybe String"
+            },
+            {
+                "name": "bool",
+                "comment": " Build a boolean field, for checkboxes.\n",
+                "type": "Bool -> Field"
+            },
+            {
+                "name": "group",
+                "comment": " Gather named fields as a group field.\n",
+                "type": "List ( String, Field ) -> Field"
+            },
+            {
+                "name": "list",
+                "comment": " Gather fields as a list field.\n",
+                "type": "List Field -> Field"
+            },
+            {
+                "name": "string",
+                "comment": " Build a string field, for text inputs, selects, etc.\n",
+                "type": "String -> Field"
+            },
+            {
+                "name": "value",
+                "comment": " Build a field from its value.\n",
+                "type": "FieldValue -> Field"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Form.Error",
+        "comment": " Validation errors.\n\n@docs Error, ErrorValue, value\n",
+        "unions": [
+            {
+                "name": "ErrorValue",
+                "comment": " A validation error. See `Form.Validate.customError` for `CustomError` building.\n",
+                "args": [
+                    "e"
+                ],
+                "cases": [
+                    [
+                        "Empty",
+                        []
+                    ],
+                    [
+                        "InvalidString",
+                        []
+                    ],
+                    [
+                        "InvalidEmail",
+                        []
+                    ],
+                    [
+                        "InvalidUrl",
+                        []
+                    ],
+                    [
+                        "InvalidFormat",
+                        []
+                    ],
+                    [
+                        "InvalidInt",
+                        []
+                    ],
+                    [
+                        "InvalidFloat",
+                        []
+                    ],
+                    [
+                        "InvalidBool",
+                        []
+                    ],
+                    [
+                        "InvalidDate",
+                        []
+                    ],
+                    [
+                        "SmallerIntThan",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "GreaterIntThan",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "SmallerFloatThan",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "GreaterFloatThan",
+                        [
+                            "Float"
+                        ]
+                    ],
+                    [
+                        "ShorterStringThan",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "LongerStringThan",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "NotIncludedIn",
+                        []
+                    ],
+                    [
+                        "CustomError",
+                        [
+                            "e"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Error",
+                "comment": " Tree of errors.\n",
+                "args": [
+                    "e"
+                ],
+                "type": "Tree (ErrorValue e)"
+            }
+        ],
+        "values": [
+            {
+                "name": "value",
+                "comment": " Build a tree node (a leaf) for this error\n",
+                "type": "ErrorValue a -> Error a"
+            }
+        ],
+        "binops": []
+    }
+]

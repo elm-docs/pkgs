@@ -1,0 +1,326 @@
+[
+    {
+        "name": "Midi.Parse",
+        "comment": " Module for parsing MIDI files\n\n\n# API Reference\n\n@docs normalise, file, event\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "event",
+                "comment": " Parse a MIDI event\n",
+                "type": "String -> Result String MidiEvent"
+            },
+            {
+                "name": "file",
+                "comment": " entry point - Parse a normalised MIDI file image\n",
+                "type": "String -> Result String MidiRecording"
+            },
+            {
+                "name": "normalise",
+                "comment": " Normalise the input before we parse by masking off all but the least\nsignificant 8 bits. We assume the string contains only bytes so this\nshould be a no-op.\n",
+                "type": "String -> String"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Midi.Generate",
+        "comment": " Module for encoding MIDI types as \"binary\"\n\n\n# API Reference\n\n@docs event, recording\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "event",
+                "comment": " Generate a MIDI event\n",
+                "type": "MidiEvent -> List Byte"
+            },
+            {
+                "name": "recording",
+                "comment": " Generate a MIDI recording\n",
+                "type": "MidiRecording -> List Byte"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Midi.Types",
+        "comment": " Type Definition of a MIDI recording\n\n\n# Data Types\n\n@docs Track, MidiEvent, MidiMessage, TracksType, MidiRecording, Byte, Channel\n\n@docs Note, Velocity, SysExFlavour, Ticks\n\n\n# Functions\n\n@docs eox, validRecording\n\n",
+        "unions": [
+            {
+                "name": "MidiEvent",
+                "comment": " Midi Event\n\nNote that RunningStatus messages are not included within MidiEvent\nbecause the parser translates them to the underlying channel messages\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SequenceNumber",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Text",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Copyright",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "TrackName",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "InstrumentName",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Lyrics",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "Marker",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "CuePoint",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "ChannelPrefix",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "Tempo",
+                        [
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "SMPTEOffset",
+                        [
+                            "Int",
+                            "Int",
+                            "Int",
+                            "Int",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "TimeSignature",
+                        [
+                            "Int",
+                            "Int",
+                            "Int",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "KeySignature",
+                        [
+                            "Int",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "SequencerSpecific",
+                        [
+                            "List Byte"
+                        ]
+                    ],
+                    [
+                        "SysEx",
+                        [
+                            "SysExFlavour",
+                            "List Byte"
+                        ]
+                    ],
+                    [
+                        "Unspecified",
+                        [
+                            "Int",
+                            "List Byte"
+                        ]
+                    ],
+                    [
+                        "NoteOn",
+                        [
+                            "Channel",
+                            "Note",
+                            "Velocity"
+                        ]
+                    ],
+                    [
+                        "NoteOff",
+                        [
+                            "Channel",
+                            "Note",
+                            "Velocity"
+                        ]
+                    ],
+                    [
+                        "NoteAfterTouch",
+                        [
+                            "Channel",
+                            "Note",
+                            "Velocity"
+                        ]
+                    ],
+                    [
+                        "ControlChange",
+                        [
+                            "Channel",
+                            "Int",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "ProgramChange",
+                        [
+                            "Channel",
+                            "Int"
+                        ]
+                    ],
+                    [
+                        "ChannelAfterTouch",
+                        [
+                            "Channel",
+                            "Velocity"
+                        ]
+                    ],
+                    [
+                        "PitchBend",
+                        [
+                            "Channel",
+                            "Int"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "MidiRecording",
+                "comment": " Midi Recording\n",
+                "args": [],
+                "cases": [
+                    [
+                        "SingleTrack",
+                        [
+                            "Int",
+                            "Track"
+                        ]
+                    ],
+                    [
+                        "MultipleTracks",
+                        [
+                            "TracksType",
+                            "Int",
+                            "List Track"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "SysExFlavour",
+                "comment": " SysExFlavour\n\nDiscriminate between two different forms of SysExEvrnt as characterised by the\nlead-in byte, See <https://www.csie.ntu.edu.tw/~r92092/ref/midi/#sysex_event>.\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "F0",
+                        []
+                    ],
+                    [
+                        "F7",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "TracksType",
+                "comment": " Discriminate between the types of tracks in a recording.\nAre they played simultaneously or independently.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Simultaneous",
+                        []
+                    ],
+                    [
+                        "Independent",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Byte",
+                "comment": " just a hint that we're really interested in the bytes\nin some MidiEvent constructors that return Lists\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "Channel",
+                "comment": " Midi Channel\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "MidiMessage",
+                "comment": " Midi Message\n",
+                "args": [],
+                "type": "( Ticks, MidiEvent )"
+            },
+            {
+                "name": "Note",
+                "comment": " Midi Note\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "Ticks",
+                "comment": " Midi Tick\n\nelapsed time\n\n",
+                "args": [],
+                "type": "Int"
+            },
+            {
+                "name": "Track",
+                "comment": " Midi Track\n",
+                "args": [],
+                "type": "List MidiMessage"
+            },
+            {
+                "name": "Velocity",
+                "comment": " Midi Velocity (\nvolume\n",
+                "args": [],
+                "type": "Int"
+            }
+        ],
+        "values": [
+            {
+                "name": "eox",
+                "comment": " Constants\n",
+                "type": "Int"
+            },
+            {
+                "name": "validRecording",
+                "comment": " Helpers\n",
+                "type": "MidiRecording -> Bool"
+            }
+        ],
+        "binops": []
+    }
+]

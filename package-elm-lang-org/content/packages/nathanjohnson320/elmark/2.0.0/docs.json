@@ -1,0 +1,262 @@
+[
+    {
+        "name": "ElmArk.Msgs",
+        "comment": " A Msg type for dealing with API responses\n\n@docs Msg\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " A Msg representing one of the various HTTP response types.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "ReceiveAccountBalance",
+                        [
+                            "Result Error Balance"
+                        ]
+                    ],
+                    [
+                        "ReceiveAccountPublicKey",
+                        [
+                            "Result Error PublicKey"
+                        ]
+                    ],
+                    [
+                        "ReceiveAccountDelegateFee",
+                        [
+                            "Result Error DelegateFee"
+                        ]
+                    ],
+                    [
+                        "ReceiveAccountGetDelegates",
+                        [
+                            "Result Error Delegates"
+                        ]
+                    ],
+                    [
+                        "ReceiveAccount",
+                        [
+                            "Result Error Accounts"
+                        ]
+                    ],
+                    [
+                        "ReceiveTopAccounts",
+                        [
+                            "Result Error TopAccounts"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [],
+        "binops": []
+    },
+    {
+        "name": "ElmArk.Account",
+        "comment": " Handles building requests for the account endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs Balance, PublicKey, DelegateFee, Delegates, Delegate, Accounts, Account, TopAccounts, TopAccount\n\n\n# Requests\n\n@docs getBalance, getPublicKey, getDelegateFee, getDelegates, getAccount, getTopAccounts\n\n\n# JSON\n\n@docs encodeBalance, decodeBalance, encodePublicKey, decodePublicKey, encodeDelegateFee, decodeDelegateFee, encodeDelegate, decodeDelegate, encodeDelegates, decodeDelegates, encodeAccounts, decodeAccounts, encodeAccount, decodeAccount, encodeTopAccounts, decodeTopAccounts, encodeTopAccount, decodeTopAccount\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Account",
+                "comment": " A single account\n",
+                "args": [],
+                "type": "{ address : String, unconfirmedBalance : String, balance : String, publicKey : String, unconfirmedSignature : Int, secondSignature : Int, secondPublicKey : String, multisignatures : List String, u_multisignatures : List String }"
+            },
+            {
+                "name": "Accounts",
+                "comment": " Represents the result of running the getAccount\n",
+                "args": [],
+                "type": "{ success : Bool, account : Account }"
+            },
+            {
+                "name": "Balance",
+                "comment": " The balance record returned by ark.\n\nSample JSON:\n\n    {\n        \"success\": true,\n        \"balance\": \"21231062440\",\n        \"unconfirmedBalance\": \"21231062440\"\n    }\n\n",
+                "args": [],
+                "type": "{ success : Bool, balance : String, unconfirmedBalance : String }"
+            },
+            {
+                "name": "Delegate",
+                "comment": " A single delegate.\n\nSample JSON:\n\n    {\n        \"username\": \"bioly\",\n        \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n        \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n        \"vote\": \"179820519458568\",\n        \"producedblocks\": 57624,\n        \"missedblocks\": 254,\n        \"rate\": 2,\n        \"approval\": 1.37,\n        \"productivity\": 99.56\n    }\n\n",
+                "args": [],
+                "type": "{ username : String, address : String, publicKey : String, vote : String, producedblocks : Int, missedblocks : Int, rate : Int, approval : Float, productivity : Float }"
+            },
+            {
+                "name": "DelegateFee",
+                "comment": " The delegate fee object\n\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fee\": 2500000000\n    }\n\n",
+                "args": [],
+                "type": "{ success : Bool, fee : Int }"
+            },
+            {
+                "name": "Delegates",
+                "comment": " A list of delegates.\n\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegates\": [\n            {\n                \"username\": \"bioly\",\n                \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n                \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n                \"vote\": \"179820519458568\",\n                \"producedblocks\": 57624,\n                \"missedblocks\": 254,\n                \"rate\": 2,\n                \"approval\": 1.37,\n                \"productivity\": 99.56\n            }\n        ]\n    }\n\n",
+                "args": [],
+                "type": "{ success : Bool, delegates : List Delegate }"
+            },
+            {
+                "name": "PublicKey",
+                "comment": " The public key object\n\nSample JSON:\n\n        {\n            \"success\": true,\n            \"publicKey\": \"03f01aca02d5f229081b0a538d42461d1860804111fe8008c671a8854222d9b2cc\"\n        }\n\n",
+                "args": [],
+                "type": "{ success : Bool, publicKey : String }"
+            },
+            {
+                "name": "TopAccount",
+                "comment": " Record representing a top account.\nSample JSON:\n```\n{\n    \"address\": \"AUDud8tvyVZa67p3QY7XPRUTjRGnWQQ9Xv\",\n    \"balance\": \"2125000000000000\",\n    \"publicKey\": \"021d03bace0687a1a5e797f884b13fb46f817ec32de1374a7f223f24404401d220\"\n}\n```\n",
+                "args": [],
+                "type": "{ address : String, balance : String, publicKey : String }"
+            },
+            {
+                "name": "TopAccounts",
+                "comment": " Record representing the list of top accounts\nSample JSON\n```\n{\n    \"success\": true,\n    \"accounts\": [\n        {\n            \"address\": \"AUDud8tvyVZa67p3QY7XPRUTjRGnWQQ9Xv\",\n            \"balance\": \"2125000000000000\",\n            \"publicKey\": \"021d03bace0687a1a5e797f884b13fb46f817ec32de1374a7f223f24404401d220\"\n        },\n        {\n            \"address\": \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\",\n            \"balance\": \"1520990429100614\",\n            \"publicKey\": \"02ff171adaef486b7db9fc160b28433d20cf43163d56fd28fee72145f0d5219a4b\"\n        },\n        {\n            \"address\": \"ALgvTAoz5Vi9easHqBK6aEMKatHb4beCXm\",\n            \"balance\": \"875001500000000\",\n            \"publicKey\": \"03aa4863c93d170d89675a6e381d08a451c1067fc0f6fed479571d9ecb178963b3\"\n        }\n    ]\n}\n```\n",
+                "args": [],
+                "type": "{ success : Bool, accounts : List TopAccount }"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeAccount",
+                "comment": " Turns account JSON into Account record\n",
+                "type": "Decoder Account"
+            },
+            {
+                "name": "decodeAccounts",
+                "comment": " Parses getAccoutns JSON into an Accounts record\n",
+                "type": "Decoder Accounts"
+            },
+            {
+                "name": "decodeBalance",
+                "comment": " decodeBalance parses JSON and turns it into a Balance record\n",
+                "type": "Decoder Balance"
+            },
+            {
+                "name": "decodeDelegate",
+                "comment": " decodeDelegate turns a JSON string into a Delegate\n",
+                "type": "Decoder Delegate"
+            },
+            {
+                "name": "decodeDelegateFee",
+                "comment": " decodeDelegateFee turns a JSON into a DelegateFee record\n",
+                "type": "Decoder DelegateFee"
+            },
+            {
+                "name": "decodeDelegates",
+                "comment": " Turns JSON into a list of delegates\n",
+                "type": "Decoder Delegates"
+            },
+            {
+                "name": "decodePublicKey",
+                "comment": " decodePublicKey parses JSON and turns it into a PublicKey record\n",
+                "type": "Decoder PublicKey"
+            },
+            {
+                "name": "decodeTopAccount",
+                "comment": " Parses JSON string into TopAccount record\n",
+                "type": "Decoder TopAccount"
+            },
+            {
+                "name": "decodeTopAccounts",
+                "comment": " Parses JSON into TopAccounts record\n",
+                "type": "Decoder TopAccounts"
+            },
+            {
+                "name": "encodeAccount",
+                "comment": " encodeAccount turns account record into JSON string\n",
+                "type": "Account -> Value"
+            },
+            {
+                "name": "encodeAccounts",
+                "comment": " encodeAccounts turns accounts record into JSON string\n",
+                "type": "Accounts -> Value"
+            },
+            {
+                "name": "encodeBalance",
+                "comment": " encodeBalance turns a Balance record into a JSON string\n",
+                "type": "Balance -> Value"
+            },
+            {
+                "name": "encodeDelegate",
+                "comment": " encodeDelegate turns a Delegate Record into a JSON\n",
+                "type": "Delegate -> Value"
+            },
+            {
+                "name": "encodeDelegateFee",
+                "comment": " encodeDelegateFee turns a DelegateFee record into a JSON string\n",
+                "type": "DelegateFee -> Value"
+            },
+            {
+                "name": "encodeDelegates",
+                "comment": " Turns a list of delegates into JSON\n",
+                "type": "Delegates -> Value"
+            },
+            {
+                "name": "encodePublicKey",
+                "comment": " encodePublicKey turns JSON into a PublicKey record\n",
+                "type": "PublicKey -> Value"
+            },
+            {
+                "name": "encodeTopAccount",
+                "comment": " Turns TopAccount record into JSON\n",
+                "type": "TopAccount -> Value"
+            },
+            {
+                "name": "encodeTopAccounts",
+                "comment": " Turns TopAccounts record into JSON string\n",
+                "type": "TopAccounts -> Value"
+            },
+            {
+                "name": "getAccount",
+                "comment": " Get an account's info\n\n    mainNet\n        |> getAccount \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n\n",
+                "type": "String -> RequestHead -> ( RequestHead, RequestBody )"
+            },
+            {
+                "name": "getBalance",
+                "comment": " Get an account's balance\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n\n",
+                "type": "String -> RequestHead -> ( RequestHead, RequestBody )"
+            },
+            {
+                "name": "getDelegateFee",
+                "comment": " Get the current delegate fee\n\n    mainNet\n        |> getDelegateFee\n\n",
+                "type": "RequestHead -> ( RequestHead, RequestBody )"
+            },
+            {
+                "name": "getDelegates",
+                "comment": " Get the current delegate fee\n\n    mainNet\n        |> getDelegates \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\"\n\n",
+                "type": "String -> RequestHead -> ( RequestHead, RequestBody )"
+            },
+            {
+                "name": "getPublicKey",
+                "comment": " Get an account's public key\n\n    mainNet\n        |> getPublicKey \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n\n",
+                "type": "String -> RequestHead -> ( RequestHead, RequestBody )"
+            },
+            {
+                "name": "getTopAccounts",
+                "comment": " Get a list of top accounts\n\n    mainNet\n        |> getTopAccounts\n\n",
+                "type": "RequestHead -> ( RequestHead, RequestBody )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "ElmArk.Api",
+        "comment": " Sends API calls to the ark network\n\n# Environments\n@docs mainNet, devNet\n\n# Requests\n@docs send\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "devNet",
+                "comment": " Contains the URL and required headers for making\na request to the Ark dev/test network\n\n    devNet == { url = \"http://167.114.29.52:4002/\"\n    , headers =\n        [ (header \"nethash\" \"578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23\")\n        , (header \"version\" \"1.1.1\")\n        , (header \"port\" \"4002\")\n        ]\n    }\n",
+                "type": "RequestHead"
+            },
+            {
+                "name": "mainNet",
+                "comment": " Contains the URL and required headers for making\na request to the Ark mainnet\n\nArk main net, refers to this IP\n\"http://37.59.129.164:4001/\"\n\n    mainNet == { url = \"https://api.arknode.net/\"\n    , headers =\n        [ (header \"nethash\" \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\")\n        , (header \"version\" \"1.0.1\")\n        , (header \"port\" \"4001\")\n        ]\n    }\n",
+                "type": "RequestHead"
+            },
+            {
+                "name": "send",
+                "comment": " Sends the HTTP request\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n        |> send ReceiveAccountBalance decodeBalance\n",
+                "type": "(Result Error a -> msg) -> Decoder a -> ( RequestHead, RequestBody ) -> Cmd msg"
+            }
+        ],
+        "binops": []
+    }
+]

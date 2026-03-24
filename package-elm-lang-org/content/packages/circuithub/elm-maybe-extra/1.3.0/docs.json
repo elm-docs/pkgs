@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Maybe.Extra",
+        "comment": "Convenience functions for Maybe.\n\n@docs (?), join, isNothing, isJust",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isJust",
+                "comment": "Conveniently check if a `Maybe` matches `Just _`.\n\n    isJust (Just 42) == True\n    isJust (Just []) == True\n    isJust Nothing   == False",
+                "type": "Maybe a -> Bool"
+            },
+            {
+                "name": "isNothing",
+                "comment": "Conveniently check if a `Maybe` matches `Nothing`.\n\n    isNothing (Just 42) == False\n    isNothing (Just []) == False\n    isNothing Nothing   == True",
+                "type": "Maybe a -> Bool"
+            },
+            {
+                "name": "join",
+                "comment": "Flattens nested Maybes\n\n    join (Just (Just 1)) == Just 1\n    join (Just Nothing)  == Nothing\n    join Nothing         == Nothing",
+                "type": "Maybe (Maybe a) -> Maybe a"
+            }
+        ],
+        "binops": [
+            {
+                "name": "?",
+                "comment": "Flipped, infix version of `withDefault`.\n\n    head [] ? 0 == 0",
+                "type": "Maybe a -> a -> a",
+                "associativity": "left",
+                "precedence": 9
+            }
+        ]
+    }
+]

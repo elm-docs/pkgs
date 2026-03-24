@@ -1,0 +1,114 @@
+[
+    {
+        "name": "Core.NotificationMenu",
+        "comment": " Displays notification alerts\n\n\n# Exported\n\n@docs view, Model, update, Msg, init\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " Placeholder\n",
+                "args": [],
+                "cases": [
+                    [
+                        "UpdateBadge",
+                        [
+                            "Value"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Model",
+                "comment": " Placeholder\n",
+                "args": [],
+                "type": "{ unseenCount : Maybe Int }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Placeholder\n",
+                "type": "( Model, Cmd Msg )"
+            },
+            {
+                "name": "update",
+                "comment": " Placeholder\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " Placeholder\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Core.NotificationDrawer",
+        "comment": " Displays latest notifications\n\n\n# Exported\n\n@docs Msg, Model, Flags, subscriptions, view, update, init, isDrawerOpen\n\n",
+        "unions": [
+            {
+                "name": "Msg",
+                "comment": " The different messages the Notification Drawer accepts\n\nNewNotification — A new notification has occured\nNotificationsResponse — A response has been received from the external notifications API\nDrawerMsg — An action has occured on the drawer element\nLoadMoreNotifications — The user has requested more notifications\n\n",
+                "args": [],
+                "cases": [
+                    [
+                        "NewNotification",
+                        [
+                            "String"
+                        ]
+                    ],
+                    [
+                        "DrawerMsg",
+                        [
+                            "Msg"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Flags",
+                "comment": " A flag to represent the API endpoint to retreive notifications\n",
+                "args": [],
+                "type": "{ notifierApiEndpoint : String }"
+            },
+            {
+                "name": "Model",
+                "comment": " A representation of the NotificationDrawer\n",
+                "args": [],
+                "type": "{ flags : Flags, notifications : PaginatedResponse, currentPage : Int, drawer : Model, loadMoreDisabled : Bool }"
+            }
+        ],
+        "values": [
+            {
+                "name": "init",
+                "comment": " Initialise the model\n",
+                "type": "Flags -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "isDrawerOpen",
+                "comment": " The current state of the drawer.\n\nReturns true if the drawer is opened, false if it isn't\n\n",
+                "type": "Model -> Bool"
+            },
+            {
+                "name": "subscriptions",
+                "comment": " Placeholder\n",
+                "type": "Model -> Sub Msg"
+            },
+            {
+                "name": "update",
+                "comment": " Update the model based on the message received\n",
+                "type": "Msg -> Model -> ( Model, Cmd Msg )"
+            },
+            {
+                "name": "view",
+                "comment": " The view for the notification drawer component\n",
+                "type": "Model -> Html Msg"
+            }
+        ],
+        "binops": []
+    }
+]

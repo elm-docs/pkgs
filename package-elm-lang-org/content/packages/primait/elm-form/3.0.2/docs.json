@@ -1,0 +1,95 @@
+[
+    {
+        "name": "Prima.Form",
+        "comment": " Components for building a form.\n@docs FormField\n@docs FormFieldConfig\n@docs Validation\n@docs autocompleteConfig\n@docs checkboxConfig\n@docs datepickerConfig\n@docs radioConfig\n@docs selectConfig\n@docs textConfig\n@docs isValid\n@docs render\n",
+        "unions": [
+            {
+                "name": "FormField",
+                "comment": " Defines a Field component for a generic form.\nOpaque implementation.\n",
+                "args": [
+                    "model",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "FormFieldConfig",
+                "comment": " Defines a configuration for a Field component.\nOpaque implementation.\n",
+                "args": [
+                    "model",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Validation",
+                "comment": " Validation rules for a FormField.\n",
+                "args": [
+                    "model"
+                ],
+                "cases": [
+                    [
+                        "NotEmpty",
+                        []
+                    ],
+                    [
+                        "Expression",
+                        [
+                            "Regex"
+                        ]
+                    ],
+                    [
+                        "Custom",
+                        [
+                            "model -> Bool"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "autocompleteConfig",
+                "comment": " Autocomplete configuration method.\n",
+                "type": "String -> String -> Bool -> Bool -> Maybe String -> List (Attribute msg) -> (model -> Maybe String) -> (model -> Maybe String) -> (Maybe String -> msg) -> (Maybe String -> msg) -> List ( String, String ) -> List (Validation model) -> FormField model msg"
+            },
+            {
+                "name": "checkboxConfig",
+                "comment": " Checkbox configuration method.\n",
+                "type": "String -> String -> Bool -> List (Attribute msg) -> (model -> Bool) -> (Bool -> msg) -> List (Validation model) -> FormField model msg"
+            },
+            {
+                "name": "datepickerConfig",
+                "comment": " Datepicker configuration method. Uses Bogdanp/elm-datepicker under the hood.\n",
+                "type": "String -> String -> Bool -> (model -> Maybe Date) -> (Msg -> msg) -> DatePicker -> Settings -> List (Validation model) -> FormField model msg"
+            },
+            {
+                "name": "isValid",
+                "comment": " Validate a FormField.\n",
+                "type": "model -> FormFieldConfig model msg -> Bool"
+            },
+            {
+                "name": "radioConfig",
+                "comment": " Input Radio configuration method.\n",
+                "type": "String -> String -> Bool -> List (Attribute msg) -> (model -> Maybe String) -> (Maybe String -> msg) -> List ( String, String ) -> List (Validation model) -> FormField model msg"
+            },
+            {
+                "name": "render",
+                "comment": " The only available method to Render a component.\n",
+                "type": "model -> FormField model msg -> Html msg"
+            },
+            {
+                "name": "selectConfig",
+                "comment": " Select configuration method.\n",
+                "type": "String -> String -> Bool -> Bool -> List (Attribute msg) -> (model -> Maybe String) -> (Bool -> msg) -> (Maybe String -> msg) -> List ( String, String ) -> Bool -> List (Validation model) -> FormField model msg"
+            },
+            {
+                "name": "textConfig",
+                "comment": " Input Text configuration method.\n",
+                "type": "String -> String -> Bool -> List (Attribute msg) -> (model -> Maybe String) -> (Maybe String -> msg) -> List (Validation model) -> FormField model msg"
+            }
+        ],
+        "binops": []
+    }
+]

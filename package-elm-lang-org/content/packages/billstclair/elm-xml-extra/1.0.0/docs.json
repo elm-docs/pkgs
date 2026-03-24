@@ -1,0 +1,67 @@
+[
+    {
+        "name": "Xml.Extra",
+        "comment": "\n\nSimplify creating Decoders for XML input.\n\n# Types\n@docs TagSpec, Required\n\n# Decoders\n@docs tagDecoder, optionalTag\n\n# Functions\n@docs decodeXml, stringToJson, xmlToJson\n\n",
+        "unions": [
+            {
+                "name": "Required",
+                "comment": " For `tagDecoder`. How to handle a tag.\n\nRequired tags error if not there.\nRequiredIgnore tags must be in the XML, but are not returned.\nOptional tags will become null if not in the XML.\nMultiple tags become a list.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Required",
+                        []
+                    ],
+                    [
+                        "RequiredIgnore",
+                        []
+                    ],
+                    [
+                        "Optional",
+                        []
+                    ],
+                    [
+                        "Multiple",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [
+            {
+                "name": "TagSpec",
+                "comment": " A description of one tag to decode: (<tag name>, Required, <tag decoder>)\n",
+                "args": [],
+                "type": "( String, Required )"
+            }
+        ],
+        "values": [
+            {
+                "name": "decodeXml",
+                "comment": " Decode an XML string containing a single tag into an Elm value.\n",
+                "type": "String -> String -> Decoder value -> List TagSpec -> Result String value"
+            },
+            {
+                "name": "optionalTag",
+                "comment": " A decoder for `Optional` XML tags\n",
+                "type": "String -> Decoder value -> List TagSpec -> Decoder (Maybe value)"
+            },
+            {
+                "name": "stringToJson",
+                "comment": " Decode an XML string into a simplified `Json.Encode.Value`.\n",
+                "type": "String -> Result String Value"
+            },
+            {
+                "name": "tagDecoder",
+                "comment": " Decode the contents of an XML tag with subtags.\n\nEach TagSpec pulls one or more matching tags from the list.\n\nUnspecified tags in the parsed `Value` are skipped.\n\nYou end up with a single JSON object, with the tags as keys,\nto which you can apply a standard JSON decoder.\n",
+                "type": "Decoder value -> List TagSpec -> Decoder value"
+            },
+            {
+                "name": "xmlToJson",
+                "comment": "\nConvert the `Xml.Value` returned by `Xml.Decode.decode` to a `Json.Encode.Value`,\nremoving all the attributes.\n",
+                "type": "Value -> Value"
+            }
+        ],
+        "binops": []
+    }
+]

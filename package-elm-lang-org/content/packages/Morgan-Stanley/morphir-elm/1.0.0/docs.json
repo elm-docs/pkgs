@@ -1,0 +1,1 @@
+[{"name":"Morphir.SDK.StatefulApp","comment":" Utilities for modeling stateful applications.\n\n@docs StatefulApp\n\n","unions":[],"aliases":[{"name":"StatefulApp","comment":" Type that represents a stateful application.\n","args":["k","c","s","e"],"type":"{ businessLogic : k -> Maybe.Maybe s -> c -> ( k, Maybe.Maybe s, e ) }"}],"values":[],"binops":[]}]

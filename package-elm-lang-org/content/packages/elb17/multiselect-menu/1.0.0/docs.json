@@ -1,0 +1,103 @@
+[
+    {
+        "name": "MultiselectMenu",
+        "comment": " This package helps you create a simple dropdown with a checklist that allows\nyou to select multiple options at once.\n\n\n# View\n\n@docs view\n\n\n# State\n\n@docs State, init\n\n\n# Configuration\n\n@docs Config, config, customConfig, GroupOperations, Direction, Colors, defaultColors\n\n\n# Helper Functions\n\n@docs toggleItem, selectAll\n\n",
+        "unions": [
+            {
+                "name": "Config",
+                "comment": " Configuration for your dropdown.\n\nNote: Your configuration should only appear in your `view` code, not your `Model`.\n\n",
+                "args": [
+                    "itemType",
+                    "msg"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Direction",
+                "comment": " The direction that the checklist will be displayed.\n",
+                "args": [],
+                "cases": [
+                    [
+                        "Up",
+                        []
+                    ],
+                    [
+                        "Down",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "GroupOperations",
+                "comment": " If you want to display the Check All/Uncheck All buttons, the `(Bool -> msg)` is a message to check or uncheck all dropdown items.\n\nIf you don't want to use the Check All/Uncheck All buttons, set this to `None`.\n\n",
+                "args": [
+                    "msg"
+                ],
+                "cases": [
+                    [
+                        "None",
+                        []
+                    ],
+                    [
+                        "SelectAll",
+                        [
+                            "Bool -> msg"
+                        ]
+                    ]
+                ]
+            },
+            {
+                "name": "State",
+                "comment": " Tracks whether the dropdown checklist is displayed.\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Colors",
+                "comment": " Custom colors may be set for the dropdown.\n",
+                "args": [],
+                "type": "{ backgroundColor : String, backgroundBorder : String, buttonColor : String, buttonBorder : String, textColor : String }"
+            }
+        ],
+        "values": [
+            {
+                "name": "config",
+                "comment": " Create the `Config` for your `view` code.\n\nFor example:\n\n    import MultiselectMenu\n\n    type Msg = ToggleDropdownItem (String, Bool)\n             | SetDropdownState MultiselectMenu.State\n             | ...\n\n    config : MultiselectMenu.Config (String, Bool) Msg\n    config =\n        MultiselectMenu.config\n            { toggleItem = ToggleDropdownItem\n            , stateToMsg = SetDropdownState\n            , displayText = \"Example Dropdown\"\n            }\n\nYou provide the following information for your dropdown configuration:\n\n  - `toggleItem` &mdash; a message to toggle whether an item is checked\n  - `stateToMsg` &mdash; a way to send new dropdown states to your app as messages\n  - `displayText` &mdash; text that will be displayed on the dropdown button\n\nUsing `config` requires that you store your list of dropdown options in the format: `List (String, Bool)`.\nIn this case, the first value of each pair is what is displayed in the menu, and the second is whether\nor not the option is checked.\n\nFor example: `itemsList = [(\"Option 1\", False), (\"Option 2\", True), (\"Option 3\", True)]`\n\n",
+                "type": "{ displayText : String, stateToMsg : State -> msg, toggleItem : ( String, Bool ) -> msg } -> Config ( String, Bool ) msg"
+            },
+            {
+                "name": "customConfig",
+                "comment": " This is just like `config`, but you can specify more fields for the dropdown and use items of any type.\n\nIn addition to the information needed for `config`, you also provide:\n\n  - `groupOperations` a message to check or uncheck all dropdown items. If you do not want to use the Check All/Uncheck All buttons, set this to `None`.\n  - `displayDirection` &mdash; the direction that the checklist will be displayed (`Up` or `Down`)\n  - `colors` &mdash; the colors and borders for your dropdown\n  - `itemToString` &mdash; a function to convert an item in your list to a string for display purposes.\n    If you are storing your items in a list like this: `[ (\"Option 1\", True), (\"Option 2\", False) ]`,\n    then `itemToString = (\\item -> Tuple.first item)`\n  - `itemToBool` &mdash; a function to convert an item in your list to the `Bool` representing whether it is checked.\n    If your items look like this: `(\"Option 1\", False)`, then `itemToBool = (\\item -> Tuple.second item)`\n\nIn the type declaration of `customConfig`, the items in your `itemsList` may be of any type, not just `(String, Bool)`.\nFor example, if the items in your list are `(Int, Bool)`, your `customConfig` type would be: `Config (Int, Bool) Msg`.\n\n",
+                "type": "{ displayText : String, stateToMsg : State -> msg, toggleItem : itemType -> msg, groupOperations : GroupOperations msg, displayDirection : Direction, colors : Colors, itemToString : itemType -> String, itemToBool : itemType -> Bool } -> Config itemType msg"
+            },
+            {
+                "name": "defaultColors",
+                "comment": " The colors used in config by default.\n",
+                "type": "Colors"
+            },
+            {
+                "name": "init",
+                "comment": " Create a dropdown `State`.\n",
+                "type": "State"
+            },
+            {
+                "name": "selectAll",
+                "comment": " A function to check or uncheck all items in your item list. This may be useful to call in your update.\n\n`selectAll` requires the inputted item list to have type: `List (anyType, Bool)` where the `Bool` represents\nwhether the item is checked.\n\nIf you model stores data in a different format, you can write your own version of `selectAll` in your `update`.\n\n",
+                "type": "Bool -> List ( nameType, Bool ) -> List ( nameType, Bool )"
+            },
+            {
+                "name": "toggleItem",
+                "comment": " A function to toggle whether an item is checked. This may be useful to call in your update.\n\n`toggleItem` requires the inputted item list to have type: `List (anyType, Bool)` where the `Bool`\nrepresents whether the item is checked.\n\nIf your model stores data in a different format, you can write your own version of `toggleItem` in your `update`.\n\n",
+                "type": "( nameType, Bool ) -> List ( nameType, Bool ) -> List ( nameType, Bool )"
+            },
+            {
+                "name": "view",
+                "comment": " Take a list of options and turn it into a multi-select dropdown. The `Config` argument\nis the configuration for the dropdown. The `State` argument describes whether the dropdown\nmenu is displayed or not. `itemType` is the type of each dropdown option in your list. So\nif you store your options in a `List (String, Bool)` format, `itemType` would be `(String, Bool)`.\n\nNote: The `State` should be in your `Model`. The `Config` and list of options for the dropdown\nshould live in your `view` code.\n\n",
+                "type": "Config itemType msg -> State -> List itemType -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

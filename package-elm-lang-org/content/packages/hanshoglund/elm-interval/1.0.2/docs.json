@@ -1,0 +1,125 @@
+[
+    {
+        "name": "Interval",
+        "comment": "\nA representation of numeric intervals (also known as *ranges*.)\n\nThese can be thoughts of as a pair of number, or as the set of all numbers that fall between them.\n\nSee also [Wikipedia on intervals][WP].\n[WP]: https://en.wikipedia.org/wiki/Interval_(mathematics)\n\n@docs Interval\n@docs empty, full, isFull, isEmpty\n@docs orderToInterval, ordersToIntervals, intervalToOrders\n@docs map\n@docs intersection, hull",
+        "unions": [
+            {
+                "name": "Interval",
+                "comment": "An open interval.",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "Interval",
+                        [
+                            "{ min : EndPoint a, max : EndPoint a }"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "empty",
+                "comment": "The interval containing no numbers (the empty set).",
+                "type": "Interval a"
+            },
+            {
+                "name": "full",
+                "comment": "The interval containing all numbers (the set of extended reals).\n-- Identity for `intersection`.",
+                "type": "Interval a"
+            },
+            {
+                "name": "hull",
+                "comment": "The convex hull of two intervals. This is similar to union in that it includes all the points of the component intervals,\n    and for non-overlapping intervals, the points inbetween them.",
+                "type": "Interval comparable -> Interval comparable -> Interval comparable"
+            },
+            {
+                "name": "intersection",
+                "comment": "The intersection of two intervals. If the intervals overlap, this is the common part. If not, this is the empty interval.",
+                "type": "Interval comparable -> Interval comparable -> Interval comparable"
+            },
+            {
+                "name": "intervalToOrders",
+                "comment": "Convert an interval to a list of restrictions.",
+                "type": "Interval a -> List ( Order, a )"
+            },
+            {
+                "name": "isEmpty",
+                "comment": "Is this the empty interval?",
+                "type": "Interval a -> Bool"
+            },
+            {
+                "name": "isFull",
+                "comment": "Is this the full interval?",
+                "type": "Interval a -> Bool"
+            },
+            {
+                "name": "map",
+                "comment": "Map over the endpoints of the interval.",
+                "type": "(a -> b) -> Interval a -> Interval b"
+            },
+            {
+                "name": "orderToInterval",
+                "comment": "Convert a restriction to an interval.",
+                "type": "Order -> a -> Interval a"
+            },
+            {
+                "name": "ordersToIntervals",
+                "comment": "Convert a list of restrictions to an interval.",
+                "type": "List ( Order, comparable ) -> Interval comparable"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Interval.EndPoint",
+        "comment": "Defines endpoints for intervals.\n\n    This is an [extended real number line](https://en.wikipedia.org/wiki/Extended_real_number_line).\n\n@docs EndPoint\n@docs maxEndPoint, minEndPoint, mapEndpoint",
+        "unions": [
+            {
+                "name": "EndPoint",
+                "comment": "An endpoint, representing positive or negative infinity, or a finite value.",
+                "args": [
+                    "a"
+                ],
+                "cases": [
+                    [
+                        "NegInf",
+                        []
+                    ],
+                    [
+                        "Fin",
+                        [
+                            "a"
+                        ]
+                    ],
+                    [
+                        "PosInf",
+                        []
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "mapEndpoint",
+                "comment": "Map over an endpoint.",
+                "type": "(a -> b) -> EndPoint a -> EndPoint b"
+            },
+            {
+                "name": "maxEndPoint",
+                "comment": "The maximum of two endpoints.",
+                "type": "EndPoint comparable -> EndPoint comparable -> EndPoint comparable"
+            },
+            {
+                "name": "minEndPoint",
+                "comment": "The minimum of two endpoints.",
+                "type": "EndPoint comparable -> EndPoint comparable -> EndPoint comparable"
+            }
+        ],
+        "binops": []
+    }
+]

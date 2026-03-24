@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Validate.SSN.Swedish",
+        "comment": " This library allows you to validate Swedish social security\nnumbers (\"personnummer\").\n\nIt supports the following formats:\n\n  - `\"8112189876\"`\n  - `\"811218-9876\"`\n  - `\"811218+9876\"`\n  - `\"198112189876\"`\n  - `\"19811218-9876\"`\n  - `\"19811218+9876\"`\n\n\n# Validation\n\n@docs validate, isValid\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "isValid",
+                "comment": " Same as `validate` but returns a `Bool` instead, for easy use in\n`if`-expressions.\n\n    isValid \"811218-9876\" == True\n    isValid \"811218\" == False\n\n",
+                "type": "String -> Bool"
+            },
+            {
+                "name": "validate",
+                "comment": " Accepts a string and returns a `Result String String` indicating\nwhether the string was a valid Swedish SSN (\"personnummer\").\n\n    validate \"811218-9876\" == Ok \"811218-9876\"\n    validate \"811218\" == Err \"Invalid Swedish SSN\"\n\n",
+                "type": "String -> Result String String"
+            }
+        ],
+        "binops": []
+    }
+]

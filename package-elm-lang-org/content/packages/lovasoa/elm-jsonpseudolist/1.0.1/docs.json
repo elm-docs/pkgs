@@ -1,0 +1,16 @@
+[
+    {
+        "name": "JsonPseudoList",
+        "comment": "\nElm Json.Decoder for javascript Array-like objects, of the form:\n\n    {length:2, 0:value0, 1:value1}\n\n@docs jsonPseudoList\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "jsonPseudoList",
+                "comment": " Read an object of the form\n\n    >>> Json.Decode.decodeString\n    ...     (jsonPseudoList Json.Decode.string)\n    ...     \"\"\"{\n    ...           \"length\": 2,\n    ...           \"0\": \"hello\"\n    ...           \"1\": \"world\"\n    ...         }\"\"\"\n    [\"hello\", \"world\"]\n",
+                "type": "Decoder a -> Decoder (List a)"
+            }
+        ],
+        "binops": []
+    }
+]

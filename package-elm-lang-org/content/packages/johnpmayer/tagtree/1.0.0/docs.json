@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Data.TagTree",
+        "comment": "\n\nData.TagTree\n============",
+        "unions": [
+            {
+                "name": "TagTree",
+                "comment": "",
+                "args": [
+                    "leaf",
+                    "node",
+                    "edge"
+                ],
+                "cases": [
+                    [
+                        "Leaf",
+                        [
+                            "leaf"
+                        ]
+                    ],
+                    [
+                        "Node",
+                        [
+                            "node",
+                            "List ( edge, TagTree leaf node edge )"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "aliases": [],
+        "values": [
+            {
+                "name": "foldTagTree",
+                "comment": "",
+                "type": "(leaf -> a) -> (node -> List a -> a) -> (edge -> a -> a) -> TagTree leaf node edge -> a"
+            },
+            {
+                "name": "foldTagTree'",
+                "comment": "",
+                "type": "(leaf -> a) -> (node -> List ( edge, a ) -> a) -> TagTree leaf node edge -> a"
+            },
+            {
+                "name": "walkModify",
+                "comment": "",
+                "type": "(leaf -> State a leaf') -> (node -> State a node') -> (edge -> State a edge') -> TagTree leaf node edge -> State a (TagTree leaf' node' edge')"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Data.Dumper",
+        "comment": " Provides facilities to dump data structures in HTML.\n\n# Data Structures\n@docs dumpRecord\n@docs dumpNestedRecord\n@docs dumpUnion\n\n# Primitives\n@docs dumpString\n@docs dumpInt\n@docs dumpFloat\n@docs dumpBool\n@docs dumpMaybe\n@docs dumpColor\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "dumpBool",
+                "comment": " Dump a Boolean in HTML. ",
+                "type": "Bool -> Html msg"
+            },
+            {
+                "name": "dumpColor",
+                "comment": " Dump a Color.Color in HTML. ",
+                "type": "Color -> Html msg"
+            },
+            {
+                "name": "dumpFloat",
+                "comment": " Dump a Float in HTML. ",
+                "type": "Float -> Html msg"
+            },
+            {
+                "name": "dumpInt",
+                "comment": " Dump an Int in HTML. ",
+                "type": "Int -> Html msg"
+            },
+            {
+                "name": "dumpMaybe",
+                "comment": " Dump a Maybe a in HTML. ",
+                "type": "(a -> Html msg) -> Maybe a -> Html msg"
+            },
+            {
+                "name": "dumpNestedRecord",
+                "comment": " Dump a nested record in HTML. It is a hack: you have to provide the depth of the record. ",
+                "type": "Int -> List ( String, a -> Html msg ) -> a -> Html msg"
+            },
+            {
+                "name": "dumpRecord",
+                "comment": " Dump a record in HTML. ",
+                "type": "String -> List ( String, a -> Html msg ) -> a -> Html msg"
+            },
+            {
+                "name": "dumpString",
+                "comment": " Dump a String in HTML. ",
+                "type": "String -> Html msg"
+            },
+            {
+                "name": "dumpUnion",
+                "comment": " Dump a union in HTML. ",
+                "type": "String -> ( String, Html msg ) -> Html msg"
+            }
+        ],
+        "binops": []
+    }
+]

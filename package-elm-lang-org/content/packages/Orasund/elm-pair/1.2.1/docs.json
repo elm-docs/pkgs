@@ -1,0 +1,84 @@
+[
+    {
+        "name": "Tuple.Extra",
+        "comment": " useful functions for tuples\n\n\n## Functions\n\n@docs apply,mapEach,swap\n\n",
+        "unions": [],
+        "aliases": [],
+        "values": [
+            {
+                "name": "apply",
+                "comment": " transforms a tuple into two arguments\n\n     apply (+) (1,2) == 3\n\n",
+                "type": "(a -> b -> c) -> ( a, b ) -> c"
+            },
+            {
+                "name": "mapEach",
+                "comment": " mapFirst and mapSecond combined\n\n    mapEach funA funB (a,b) == (Tuple.mapFirst funA << Tuple.mapSecond funB) (a,b)\n\n",
+                "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
+            },
+            {
+                "name": "swap",
+                "comment": " swaps the values of a tuple\n\n    swap (a,b) == (b,a)\n\n    swap (swap(a,b)) == (a,b)\n\n",
+                "type": "( a, b ) -> ( b, a )"
+            }
+        ],
+        "binops": []
+    },
+    {
+        "name": "Pair",
+        "comment": " These functions where created for Tuples where both values have the same type, for example 2D-coordinates.\n\n\n## Definition\n\n@docs Pair\n\n\n## Functions\n\n@docs foldl, foldr, map, map2, toList, unzip, all,any\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Pair",
+                "comment": " a Pair of two values of the same type\n",
+                "args": [
+                    "a"
+                ],
+                "type": "( a, a )"
+            }
+        ],
+        "values": [
+            {
+                "name": "all",
+                "comment": " true if the function is true for both arguments\n\n    all ((==) 0) (0,0) == True\n\n    all ((==) 0) (1,0) == False\n\n",
+                "type": "(a -> Bool) -> Pair a -> Bool"
+            },
+            {
+                "name": "any",
+                "comment": " true if the function is true for both arguments\n\n    any ((==) 0) (1,2) == False\n\n    any ((==) 0) (1,0) == True\n\n",
+                "type": "(a -> Bool) -> Pair a -> Bool"
+            },
+            {
+                "name": "foldl",
+                "comment": " folds from the left over both values\n\n    foldl (//) 1 (1,2) == 2\n\n    foldl (::) [] (1,2) == [2,1]\n\n",
+                "type": "(a -> b -> b) -> b -> Pair a -> b"
+            },
+            {
+                "name": "foldr",
+                "comment": " folds from the right over both values\n\n    foldr (//) 1 (1,2) == 0\n\n    foldr (::) [] (1,2) == [1,2]\n\n",
+                "type": "(a -> b -> b) -> b -> Pair a -> b"
+            },
+            {
+                "name": "map",
+                "comment": " applies a function to both values\n\n    map ((+) 2) (1,2) == (3,4)\n\n",
+                "type": "(a -> b) -> Pair a -> Pair b"
+            },
+            {
+                "name": "map2",
+                "comment": " applies a function for two pairs\n\n    map2 (-) (1,2) (3,4) == (-2,-2)\n\n",
+                "type": "(a -> b -> c) -> Pair a -> Pair b -> Pair c"
+            },
+            {
+                "name": "toList",
+                "comment": " returns a list with both elements\n\n    toList(1,2) == foldr (::) [] (1,2)\n\n",
+                "type": "Pair a -> List a"
+            },
+            {
+                "name": "unzip",
+                "comment": " unzips a pair. Useless until you need it ;)\n\n    unzip ((1,Nothing),(2,Just 1)) == ((1,2),(Nothing,Just 1))\n\n",
+                "type": "Pair ( a, b ) -> ( Pair a, Pair b )"
+            }
+        ],
+        "binops": []
+    }
+]

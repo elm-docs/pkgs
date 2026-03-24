@@ -1,0 +1,113 @@
+[
+    {
+        "name": "GraphQL",
+        "comment": " A library for parsing GraphQL query document and creating requests. The document can be local or remote.\n\nThe main point of this library is to write GraphQL queries in GraphQL language instead of custom DSLs\n\n# Usage\n@docs Payload, send, Variable, variable\n\n# Customisation\n\nFollowing functions allows easy way to customise `initialPayload` using pipeline operator `|>`\n\n     initialPayload\n       |> withName \"user\"\n       |> withDecoder userDecoder\n       |> withVariables\n           [ variable \"id\" \"323\" ]\n       |> withAuthorisation \"secretToken\"\n       |> send OnFetchedUser\n\n@docs withName, withVariables, withDecoder, withAuthorisation\n\n# Local and Remote queries\n@docs Location, local, remote\n\n# Requests\n@docs Fetch, queries, endpoint, authorisedEndpoint, addHeaders\n\n# Parsing\n@docs parseLocalQueries, parseRemoteQueries\n\n",
+        "unions": [
+            {
+                "name": "Location",
+                "comment": " Represents location of the queries document. It can be local or remote.\n\n",
+                "args": [
+                    "a"
+                ],
+                "cases": []
+            },
+            {
+                "name": "Variable",
+                "comment": " Represents variable for the GraphQL query.\n\n",
+                "args": [],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Fetch",
+                "comment": " Represents request object. Think of `Fetch` as a\n    [Http.Request](http://package.elm-lang.org/packages/elm-lang/http/1.0.0/Http). It has exact the same fields. Using\n    `Fetch` you can build custom requests. For example, this is how `queries` request is defined\n\n    queries: String -> Fetch Queries\n    queries url =\n      { method = \"GET\"\n      , headers = []\n      , url = url\n      , body = Http.emptyBody\n      , expect = Http.expectStringResponse parseRemoteQueries\n      , timeout = Nothing\n      , withCredentials = False\n      }\n\n",
+                "args": [
+                    "dec"
+                ],
+                "type": "{ method : String, headers : List Header, url : String, body : Body, expect : Expect dec, timeout : Maybe Time, withCredentials : Bool }"
+            },
+            {
+                "name": "Payload",
+                "comment": " Represents a payload for the request. Every request needs:\n\n* `queries` - the location of the document\n* `endpoint` - a GraphQL endpoint to which request will be sent to\n* `name` - of the query which must be present in the document\n* `variables` - for the query\n\nThis is how `initialPayload` may look.\n\n    initialPayload: Payload dec\n    initialPayload =\n      { queries = remote (queries \"http://localhost:3000/queries.graphql\")\n      , endpoint = endpoint \"http://endpoint\" (Json.Decode.fail \"missing decoder\")\n      , name = \"\"\n      , variables = []\n      }\n",
+                "args": [
+                    "dec"
+                ],
+                "type": "{ queries : Location Queries, endpoint : Fetch dec, name : String, variables : List Variable }"
+            }
+        ],
+        "values": [
+            {
+                "name": "addHeaders",
+                "comment": " Convenience function to add headers to the request. This is how `authorisedEndpoint` is defined\n\n    authorisedEndpoint: String -> String ->  Decoder a  ->  Fetch a\n    authorisedEndpoint url token decoder =\n      endpoint url decoder\n        |> addHeaders [ Http.header \"Authorization\" <| \"Bearer \" ++ token ]\n\n",
+                "type": "List Header -> Fetch dec -> Fetch dec"
+            },
+            {
+                "name": "authorisedEndpoint",
+                "comment": " Creates an authorised request with `Bearer` token to query an endpoint.\n    First parameter is the endpoint, second - token, third - Json decoder.\n\n    authorisedEndpoint \"http://endpoint\" \"secretToken\" (Json.Decode.fail \"missing decoder\")\n\n",
+                "type": "String -> String -> Decoder a -> Fetch a"
+            },
+            {
+                "name": "endpoint",
+                "comment": " Creates a simple request to query an endpoint. First parameter is the endpoint and the second Json decoder.\n\n    endpoint \"http://endpoint\" (Json.Decode.fail \"missing decoder\")\n\n",
+                "type": "String -> Decoder a -> Fetch a"
+            },
+            {
+                "name": "local",
+                "comment": " Creates local `Location` for the request. It is used to define local queries document in the `Payload`\n\n    queries =  local (parseLocalQueries \"query user {User { id }}\" |> Result.withDefault [])\n\n",
+                "type": "a -> Location a"
+            },
+            {
+                "name": "parseLocalQueries",
+                "comment": " Parses given string and returns Either `Queries` or `String` error. This function should be used\nto create `Local Queries`.\n\n",
+                "type": "String -> Result String Queries"
+            },
+            {
+                "name": "parseRemoteQueries",
+                "comment": " Parses remote queries document response and returns Either `Queries` or `String` error.\n    This function should be used when building custom request `Fetch Queries`.\n\n",
+                "type": "Response String -> Result String Queries"
+            },
+            {
+                "name": "queries",
+                "comment": " Creates a simple request for remote queries document. First parameter is an URL of the document.\n\n",
+                "type": "String -> Fetch Queries"
+            },
+            {
+                "name": "remote",
+                "comment": " Creates remote `Location` for the request. Main usage of it is to define remote queries document in the `Payload`.\n\n    queries = remote (queries \"http://localhost:3000/queries.graphql\")\n\n",
+                "type": "Fetch a -> Location a"
+            },
+            {
+                "name": "send",
+                "comment": " Sends a request and maps response to the `msg`. This function is almost identical to\n    [Http.send](http://package.elm-lang.org/packages/elm-lang/http/1.0.0/Http). It takes a message\n    which can accept `Result Http.Error a` and a `Payload`. This is how you could use previously defined\n    `initialPayload` to send request for `allPublications`.\n\n    type Msg\n      = GetPublications\n      | OnFetchedPublications (Result Http.Error (List Publication))\n\n    update: Msg -> Model -> (Model, Cmd Msg)\n    update msg model =\n      case msg of\n        GetPublications ->\n          initialPayload\n            |> GraphQL.withName \"allPublications\"\n            |> GraphQL.withDecoder publicationsDecoder\n            |> GraphQL.send OnFetchedPublications\n            |> (,) model\n\n        OnFetchedPublications result ->\n            ...\n",
+                "type": "(Result Error a -> msg) -> Payload a -> Cmd msg"
+            },
+            {
+                "name": "variable",
+                "comment": " Main way to create a variable. First parameter is the name and the second value of the variable.\n\n    variable \"id\" \"32\"\n    variable \"type\" \"Post\"\n\n",
+                "type": "String -> String -> Variable"
+            },
+            {
+                "name": "withAuthorisation",
+                "comment": " Adds `Authorisation` header to the `Payload` endpoint with provided token.\n\n",
+                "type": "String -> Payload dec -> Payload dec"
+            },
+            {
+                "name": "withDecoder",
+                "comment": " Changes decoder of the `Payload`.\n\n",
+                "type": "Decoder dec -> Payload dec -> Payload dec"
+            },
+            {
+                "name": "withName",
+                "comment": " Changes the name of the `Payload`.\n\n",
+                "type": "String -> Payload dec -> Payload dec"
+            },
+            {
+                "name": "withVariables",
+                "comment": " Changes list of variables of the `Payload`. Enum variables can only be encoded as a plain `String`.\n    **Do not** use `toString` function. Following example,\n\n    type Visibility = Public | Private\n\n    visibility: Visibility -> String\n    visibility vis =\n      case vis of\n        Public -> \"PUBLIC\"\n        Private -> \"PRIVATE\"\n\n    -- this will work\n    var = variable \"visibility\" <| visibility Public\n\n    -- this will not work\n    var = variable \"visibility\" <| toString Public\n\n",
+                "type": "List Variable -> Payload dec -> Payload dec"
+            }
+        ],
+        "binops": []
+    }
+]

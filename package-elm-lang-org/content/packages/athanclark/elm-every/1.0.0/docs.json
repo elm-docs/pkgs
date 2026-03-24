@@ -1,0 +1,64 @@
+[
+    {
+        "name": "Every",
+        "comment": "\n\nThis component will continually issue / poll an action / message\nfor some given amount of time, determined by a function you provide\nthe system.\n\n\n## Polling State\n\n@docs Every\n\n@docs initEvery\n\n\n## Polling Invocation\n\n@docs EveryMsg\n\n\n## Polling Enactment\n\n@docs updateEvery\n\n@docs EveryResults\n\n@docs handleEveryResults\n\n",
+        "unions": [
+            {
+                "name": "EveryMsg",
+                "comment": " The type of messages you can send to the poller -\n    either initialization (or new input data for the action\n    to be dispatched), or a cease-and-desist call.\n",
+                "args": [
+                    "b"
+                ],
+                "cases": [
+                    [
+                        "Start",
+                        [
+                            "b"
+                        ]
+                    ],
+                    [
+                        "Stop",
+                        []
+                    ]
+                ]
+            },
+            {
+                "name": "EveryResults",
+                "comment": " The type of results during update - either another `EveryMsg`,\n    or an actual action to be dispatched. This is all handled under-the-hood\n    with `handleEveryResults`.\n",
+                "args": [
+                    "b",
+                    "a"
+                ],
+                "cases": []
+            }
+        ],
+        "aliases": [
+            {
+                "name": "Every",
+                "comment": " The state of the poller\n",
+                "args": [
+                    "b"
+                ],
+                "type": "{ elapsed : Maybe ( Elapsed, b ) }"
+            }
+        ],
+        "values": [
+            {
+                "name": "handleEveryResults",
+                "comment": " Given a way to integrate an `EveryMsg` into your action type,\n    you can turn a `EveryResults` into your action type.\n",
+                "type": "(EveryMsg b -> a) -> EveryResults b a -> a"
+            },
+            {
+                "name": "initEvery",
+                "comment": " Initial state of the poller\n",
+                "type": "Every b"
+            },
+            {
+                "name": "updateEvery",
+                "comment": " Given a method to compute the duration to wait until the next action is issued\n    (calculated from the total time elapsed `total -> delay`), and the main action to\n    issue, build an updating component.\n",
+                "type": "(Time -> Time) -> (b -> a) -> EveryMsg b -> Every b -> ( Every b, Cmd (EveryResults b a) )"
+            }
+        ],
+        "binops": []
+    }
+]

@@ -1,0 +1,155 @@
+[
+    {
+        "name": "FormValidator",
+        "comment": "\n\nA customizable form validation component.\n\n# Models\n\n@docs Form\n\n# Init\n\n@docs init\n\n# Accessors\n\n@docs fieldValues, fieldValue, fieldErrors\n\n# Updaters\n\n@docs updateValues, updateValue, updateAndValidateValues, updateAndValidateValue\n\n# Validators\n\n@docs validateForm, validateField, isFormInvalid, isFieldInvalid, isBlank, isEmpty, isInteger, isFloat, isIncluded, isExcluded, isGreaterThan, isLessThan, isBetween, isLengthGreaterThanEqualTo, isLengthLessThanEqualTo, isEmail\n\n# Views\n\n@docs viewField, viewErrors, viewError\n\n",
+        "unions": [],
+        "aliases": [
+            {
+                "name": "Form",
+                "comment": " Models module wrapper. See Models module for details. ",
+                "args": [
+                    "key"
+                ],
+                "type": "Form key"
+            }
+        ],
+        "values": [
+            {
+                "name": "fieldErrors",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Errors"
+            },
+            {
+                "name": "fieldValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> String"
+            },
+            {
+                "name": "fieldValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> List String"
+            },
+            {
+                "name": "init",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Validators -> Field key"
+            },
+            {
+                "name": "isBetween",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Int -> Value -> Error"
+            },
+            {
+                "name": "isBlank",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmail",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isEmpty",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isExcluded",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isFieldInvalid",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Bool"
+            },
+            {
+                "name": "isFloat",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isFormInvalid",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "Form key -> Bool"
+            },
+            {
+                "name": "isGreaterThan",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isIncluded",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "List String -> Value -> Error"
+            },
+            {
+                "name": "isInteger",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Value -> Error"
+            },
+            {
+                "name": "isLengthGreaterThanEqualTo",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLengthLessThanEqualTo",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "isLessThan",
+                "comment": " Validators module wrapper. See Validators module for details. ",
+                "type": "Int -> Value -> Error"
+            },
+            {
+                "name": "updateAndValidateValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateAndValidateValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "updateValue",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Value -> Form key -> Form key"
+            },
+            {
+                "name": "updateValues",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Values -> Form key -> Form key"
+            },
+            {
+                "name": "validateField",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "key -> Form key -> Form key"
+            },
+            {
+                "name": "validateForm",
+                "comment": " Validator module wrapper. See Validator module for details. ",
+                "type": "Form key -> Form key"
+            },
+            {
+                "name": "viewError",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "Error -> Html message"
+            },
+            {
+                "name": "viewErrors",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "Errors -> Html message"
+            },
+            {
+                "name": "viewField",
+                "comment": " Views module wrapper. See Views module for details. ",
+                "type": "key -> Form key -> List String -> List (Html message) -> Html message"
+            }
+        ],
+        "binops": []
+    }
+]
