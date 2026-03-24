@@ -1,0 +1,93 @@
+{
+  "fetched_at": "2026-03-24T18:34:01.301Z",
+  "stargazers_count": 85,
+  "last_commit_at": "2019-02-11T20:23:09Z",
+  "open_issues": {
+    "count": 10,
+    "min_days": 886,
+    "max_days": 2666,
+    "avg_days": 2143,
+    "items": [
+      {
+        "number": 24,
+        "created_at": "2023-10-20T08:38:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 23,
+        "created_at": "2021-04-22T19:11:30Z",
+        "last_comment_at": "2023-05-22T13:46:29Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 22,
+        "created_at": "2020-11-09T10:45:12Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 20,
+        "created_at": "2020-08-27T19:29:07Z",
+        "last_comment_at": "2020-09-02T17:13:24Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 19,
+        "created_at": "2020-05-26T17:39:07Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 17,
+        "created_at": "2019-08-24T14:45:38Z",
+        "last_comment_at": "2019-09-08T13:44:33Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 16,
+        "created_at": "2019-06-12T12:45:55Z",
+        "last_comment_at": "2019-07-03T19:03:28Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 15,
+        "created_at": "2019-05-26T13:04:46Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 13,
+        "created_at": "2019-02-23T20:35:11Z",
+        "last_comment_at": "2021-08-05T23:16:26Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 9,
+        "created_at": "2018-12-05T15:46:19Z",
+        "last_comment_at": "2018-12-06T17:45:58Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 2,
+    "min_days": 177,
+    "max_days": 214,
+    "avg_days": 196,
+    "items": [
+      {
+        "number": 26,
+        "created_at": "2025-09-28T15:31:49Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 25,
+        "created_at": "2025-08-22T09:45:55Z",
+        "last_comment_at": "2025-08-22T11:28:04Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  }
+}

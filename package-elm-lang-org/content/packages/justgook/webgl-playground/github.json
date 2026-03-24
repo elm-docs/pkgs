@@ -1,0 +1,153 @@
+{
+  "fetched_at": "2026-03-24T18:38:32.451Z",
+  "stargazers_count": 18,
+  "last_commit_at": "2021-05-04T16:29:09Z",
+  "open_issues": {
+    "count": 1,
+    "min_days": 1102,
+    "max_days": 1102,
+    "avg_days": 1102,
+    "items": [
+      {
+        "number": 29,
+        "created_at": "2023-03-18T20:17:23Z",
+        "last_comment_at": "2023-03-18T20:18:39Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 21,
+    "min_days": 1175,
+    "max_days": 2029,
+    "avg_days": 1653,
+    "items": [
+      {
+        "number": 28,
+        "created_at": "2023-01-05T02:40:07Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 27,
+        "created_at": "2022-12-10T12:20:10Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 26,
+        "created_at": "2022-12-05T02:26:04Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 25,
+        "created_at": "2022-08-18T19:19:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 24,
+        "created_at": "2022-07-20T18:55:06Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 23,
+        "created_at": "2022-02-12T20:47:19Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 22,
+        "created_at": "2021-08-31T17:50:23Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 21,
+        "created_at": "2021-08-11T19:01:04Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 19,
+        "created_at": "2021-06-16T16:44:02Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 18,
+        "created_at": "2021-06-10T20:34:02Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 17,
+        "created_at": "2021-06-09T15:26:41Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 16,
+        "created_at": "2021-06-05T17:40:07Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 15,
+        "created_at": "2021-05-25T22:20:20Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 14,
+        "created_at": "2021-05-11T09:27:48Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 13,
+        "created_at": "2021-05-10T21:09:56Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 12,
+        "created_at": "2021-05-09T08:41:19Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 11,
+        "created_at": "2021-05-07T19:21:03Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 10,
+        "created_at": "2021-03-31T09:12:02Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 9,
+        "created_at": "2020-12-12T03:13:30Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 8,
+        "created_at": "2020-11-03T09:32:13Z",
+        "last_comment_at": "2021-05-04T16:33:27Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 6,
+        "created_at": "2020-09-02T16:24:03Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

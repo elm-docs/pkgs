@@ -1,0 +1,87 @@
+{
+  "fetched_at": "2026-03-24T18:35:11.732Z",
+  "stargazers_count": 8,
+  "last_commit_at": "2023-02-01T17:38:38Z",
+  "open_issues": {
+    "count": 3,
+    "min_days": 1675,
+    "max_days": 2249,
+    "avg_days": 1883,
+    "items": [
+      {
+        "number": 5,
+        "created_at": "2021-08-22T20:10:35Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 3,
+        "created_at": "2021-07-02T19:42:24Z",
+        "last_comment_at": "2021-07-03T15:07:01Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1,
+        "created_at": "2020-01-26T22:24:04Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 8,
+    "min_days": 890,
+    "max_days": 965,
+    "avg_days": 939,
+    "items": [
+      {
+        "number": 13,
+        "created_at": "2023-10-17T06:00:44Z",
+        "last_comment_at": "2023-10-17T06:01:49Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 12,
+        "created_at": "2023-10-06T14:30:42Z",
+        "last_comment_at": "2023-10-06T14:31:44Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 11,
+        "created_at": "2023-10-06T13:10:10Z",
+        "last_comment_at": "2023-10-06T13:14:15Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 10,
+        "created_at": "2023-08-03T06:23:36Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 9,
+        "created_at": "2023-08-03T06:23:07Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 8,
+        "created_at": "2023-08-03T06:22:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 7,
+        "created_at": "2023-08-03T06:22:36Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 6,
+        "created_at": "2023-08-03T06:22:11Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

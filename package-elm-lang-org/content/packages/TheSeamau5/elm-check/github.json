@@ -1,0 +1,93 @@
+{
+  "fetched_at": "2026-03-24T15:08:00.009Z",
+  "stargazers_count": 70,
+  "last_commit_at": "2015-09-09T10:33:13Z",
+  "open_issues": {
+    "count": 9,
+    "min_days": 3723,
+    "max_days": 3978,
+    "avg_days": 3872,
+    "items": [
+      {
+        "number": 31,
+        "created_at": "2016-01-13T18:58:28Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 28,
+        "created_at": "2015-10-31T08:58:03Z",
+        "last_comment_at": "2015-11-12T01:33:34Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 26,
+        "created_at": "2015-09-07T22:07:30Z",
+        "last_comment_at": "2015-09-09T10:34:15Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 24,
+        "created_at": "2015-08-26T10:22:56Z",
+        "last_comment_at": "2015-08-28T20:03:37Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 23,
+        "created_at": "2015-08-25T18:05:01Z",
+        "last_comment_at": "2015-08-30T20:26:35Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 22,
+        "created_at": "2015-08-25T17:53:56Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 19,
+        "created_at": "2015-06-17T13:10:38Z",
+        "last_comment_at": "2015-06-19T02:24:56Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 10,
+        "created_at": "2015-05-08T14:36:11Z",
+        "last_comment_at": "2015-08-03T20:05:29Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 6,
+        "created_at": "2015-05-03T14:21:22Z",
+        "last_comment_at": "2015-05-28T23:03:53Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 3,
+    "min_days": 3863,
+    "max_days": 3945,
+    "avg_days": 3904,
+    "items": [
+      {
+        "number": 25,
+        "created_at": "2015-08-26T18:03:22Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 20,
+        "created_at": "2015-07-17T02:58:14Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 16,
+        "created_at": "2015-06-05T18:26:21Z",
+        "last_comment_at": "2015-06-05T19:01:29Z",
+        "last_comment_by_maintainer": true
+      }
+    ]
+  }
+}

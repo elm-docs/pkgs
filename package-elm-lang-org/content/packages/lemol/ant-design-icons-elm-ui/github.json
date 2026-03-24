@@ -1,0 +1,75 @@
+{
+  "fetched_at": "2026-03-24T18:39:32.080Z",
+  "stargazers_count": 5,
+  "last_commit_at": "2023-02-14T02:37:56Z",
+  "open_issues": {
+    "count": 1,
+    "min_days": 1891,
+    "max_days": 1891,
+    "avg_days": 1891,
+    "items": [
+      {
+        "number": 2,
+        "created_at": "2021-01-18T20:35:41Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 8,
+    "min_days": 980,
+    "max_days": 1840,
+    "avg_days": 1488,
+    "items": [
+      {
+        "number": 16,
+        "created_at": "2023-07-18T23:07:39Z",
+        "last_comment_at": "2023-07-18T23:07:42Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 15,
+        "created_at": "2023-07-11T21:20:44Z",
+        "last_comment_at": "2023-07-11T21:20:46Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 10,
+        "created_at": "2022-12-06T18:37:39Z",
+        "last_comment_at": "2022-12-06T18:37:43Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 8,
+        "created_at": "2021-09-02T14:56:14Z",
+        "last_comment_at": "2021-09-02T14:56:18Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 7,
+        "created_at": "2021-08-12T20:21:06Z",
+        "last_comment_at": "2021-08-12T20:21:08Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 5,
+        "created_at": "2021-05-26T17:40:49Z",
+        "last_comment_at": "2021-05-26T17:40:52Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 4,
+        "created_at": "2021-05-11T21:38:06Z",
+        "last_comment_at": "2021-05-11T21:38:09Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 3,
+        "created_at": "2021-03-11T04:04:08Z",
+        "last_comment_at": "2021-03-11T04:04:11Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  }
+}

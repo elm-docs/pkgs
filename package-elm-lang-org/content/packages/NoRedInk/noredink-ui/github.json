@@ -1,0 +1,189 @@
+{
+  "fetched_at": "2026-03-24T15:07:09.095Z",
+  "stargazers_count": 145,
+  "last_commit_at": "2026-01-21T02:59:16Z",
+  "open_issues": {
+    "count": 21,
+    "min_days": 706,
+    "max_days": 2835,
+    "avg_days": 1306,
+    "items": [
+      {
+        "number": 1667,
+        "created_at": "2024-04-17T10:32:50Z",
+        "last_comment_at": "2024-04-17T10:33:09Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1647,
+        "created_at": "2024-02-16T14:10:24Z",
+        "last_comment_at": "2024-02-16T14:10:28Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1646,
+        "created_at": "2024-02-15T20:12:09Z",
+        "last_comment_at": "2024-02-15T20:12:13Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1638,
+        "created_at": "2024-02-12T19:00:05Z",
+        "last_comment_at": "2024-02-12T19:00:10Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1490,
+        "created_at": "2023-08-24T21:04:34Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1379,
+        "created_at": "2023-05-02T13:39:33Z",
+        "last_comment_at": "2023-05-02T13:39:43Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1335,
+        "created_at": "2023-03-28T18:15:16Z",
+        "last_comment_at": "2024-01-17T23:43:11Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1304,
+        "created_at": "2023-02-28T21:15:10Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1290,
+        "created_at": "2023-02-22T23:17:21Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1241,
+        "created_at": "2023-01-20T22:57:55Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1223,
+        "created_at": "2023-01-06T20:45:50Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1128,
+        "created_at": "2022-10-11T22:18:14Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1113,
+        "created_at": "2022-10-05T15:39:26Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1046,
+        "created_at": "2022-08-25T17:40:09Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1044,
+        "created_at": "2022-08-25T01:04:06Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1020,
+        "created_at": "2022-08-08T12:31:37Z",
+        "last_comment_at": "2023-04-20T16:22:50Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 870,
+        "created_at": "2022-03-21T15:37:17Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 798,
+        "created_at": "2021-12-09T19:02:58Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 706,
+        "created_at": "2021-06-07T23:23:20Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 191,
+        "created_at": "2018-12-14T02:48:31Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 76,
+        "created_at": "2018-06-19T22:47:51Z",
+        "last_comment_at": "2018-06-20T10:05:05Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 7,
+    "min_days": 4,
+    "max_days": 1487,
+    "avg_days": 915,
+    "items": [
+      {
+        "number": 1805,
+        "created_at": "2026-03-21T02:55:51Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1700,
+        "created_at": "2024-10-16T20:54:15Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1649,
+        "created_at": "2024-02-19T15:07:50Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1579,
+        "created_at": "2023-12-11T15:18:28Z",
+        "last_comment_at": "2023-12-11T15:22:51Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1028,
+        "created_at": "2022-08-15T15:17:20Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 861,
+        "created_at": "2022-03-12T16:17:34Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 845,
+        "created_at": "2022-02-26T16:19:35Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

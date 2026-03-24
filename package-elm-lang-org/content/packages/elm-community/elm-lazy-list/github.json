@@ -1,0 +1,32 @@
+{
+  "fetched_at": "2026-03-24T18:34:11.413Z",
+  "stargazers_count": 4,
+  "last_commit_at": "2016-10-15T07:10:14Z",
+  "open_issues": {
+    "count": 2,
+    "min_days": 3127,
+    "max_days": 3447,
+    "avg_days": 3287,
+    "items": [
+      {
+        "number": 2,
+        "created_at": "2017-09-01T06:19:29Z",
+        "last_comment_at": "2018-06-20T14:04:00Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1,
+        "created_at": "2016-10-15T07:14:54Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 0,
+    "min_days": 0,
+    "max_days": 0,
+    "avg_days": 0,
+    "items": []
+  }
+}

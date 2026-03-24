@@ -1,0 +1,45 @@
+{
+  "fetched_at": "2026-03-24T15:06:10.818Z",
+  "stargazers_count": 0,
+  "last_commit_at": "2020-12-03T21:15:29Z",
+  "open_issues": {
+    "count": 3,
+    "min_days": 1219,
+    "max_days": 1963,
+    "avg_days": 1553,
+    "items": [
+      {
+        "number": 5,
+        "created_at": "2022-11-21T13:51:26Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 3,
+        "created_at": "2022-03-09T09:31:57Z",
+        "last_comment_at": "2023-06-13T08:43:18Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 1,
+        "created_at": "2020-11-07T17:08:20Z",
+        "last_comment_at": "2020-12-03T21:28:29Z",
+        "last_comment_by_maintainer": true
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 1,
+    "min_days": 1219,
+    "max_days": 1219,
+    "avg_days": 1219,
+    "items": [
+      {
+        "number": 6,
+        "created_at": "2022-11-21T15:15:01Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

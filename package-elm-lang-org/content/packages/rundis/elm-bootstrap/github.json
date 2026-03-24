@@ -1,0 +1,285 @@
+{
+  "fetched_at": "2026-03-24T20:04:33.105Z",
+  "stargazers_count": 398,
+  "last_commit_at": "2020-03-01T21:36:59Z",
+  "open_issues": {
+    "count": 33,
+    "min_days": 397,
+    "max_days": 3344,
+    "avg_days": 2523,
+    "items": [
+      {
+        "number": 193,
+        "created_at": "2025-02-20T14:33:20Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 190,
+        "created_at": "2022-06-02T12:30:23Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 189,
+        "created_at": "2021-06-15T15:03:47Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 188,
+        "created_at": "2021-02-16T18:37:32Z",
+        "last_comment_at": "2021-08-19T11:29:21Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 187,
+        "created_at": "2021-02-09T16:09:44Z",
+        "last_comment_at": "2025-09-01T06:23:44Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 185,
+        "created_at": "2020-10-22T02:05:33Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 183,
+        "created_at": "2020-06-24T07:05:33Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 180,
+        "created_at": "2020-06-03T13:14:19Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 179,
+        "created_at": "2020-05-25T08:50:48Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 176,
+        "created_at": "2020-04-29T09:42:37Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 175,
+        "created_at": "2020-03-18T14:54:20Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 173,
+        "created_at": "2020-03-01T22:32:58Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 172,
+        "created_at": "2020-01-18T03:00:22Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 168,
+        "created_at": "2019-11-18T23:01:40Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 166,
+        "created_at": "2019-10-16T03:11:39Z",
+        "last_comment_at": "2020-01-21T12:51:11Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 164,
+        "created_at": "2019-09-03T08:11:59Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 163,
+        "created_at": "2019-08-19T12:50:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 159,
+        "created_at": "2019-04-29T16:03:29Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 142,
+        "created_at": "2018-12-18T02:09:56Z",
+        "last_comment_at": "2019-08-06T17:22:47Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 141,
+        "created_at": "2018-12-12T13:27:37Z",
+        "last_comment_at": "2018-12-12T13:52:42Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 120,
+        "created_at": "2018-07-14T15:29:21Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 119,
+        "created_at": "2018-07-11T20:33:53Z",
+        "last_comment_at": "2018-07-13T14:51:59Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 95,
+        "created_at": "2018-03-13T05:06:24Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 65,
+        "created_at": "2017-07-04T07:04:47Z",
+        "last_comment_at": "2017-07-27T17:48:31Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 48,
+        "created_at": "2017-04-17T17:25:37Z",
+        "last_comment_at": "2017-04-17T17:43:07Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 20,
+        "created_at": "2017-03-09T20:43:37Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 19,
+        "created_at": "2017-03-09T20:43:24Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 17,
+        "created_at": "2017-03-09T20:42:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 16,
+        "created_at": "2017-03-09T20:41:49Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 15,
+        "created_at": "2017-03-09T20:41:07Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 5,
+        "created_at": "2017-01-26T23:08:29Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 4,
+        "created_at": "2017-01-26T22:51:44Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 1,
+        "created_at": "2017-01-26T22:10:58Z",
+        "last_comment_at": "2017-08-19T09:40:33Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 11,
+    "min_days": 481,
+    "max_days": 2664,
+    "avg_days": 1996,
+    "items": [
+      {
+        "number": 192,
+        "created_at": "2024-11-28T11:13:05Z",
+        "last_comment_at": "2025-02-20T14:35:57Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 191,
+        "created_at": "2024-04-05T05:02:19Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 184,
+        "created_at": "2020-07-11T05:18:26Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 182,
+        "created_at": "2020-06-08T10:10:30Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 178,
+        "created_at": "2020-05-12T03:31:12Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 177,
+        "created_at": "2020-04-29T09:48:57Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 170,
+        "created_at": "2019-11-29T19:36:41Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 167,
+        "created_at": "2019-10-16T03:16:38Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 165,
+        "created_at": "2019-09-03T13:49:52Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 153,
+        "created_at": "2019-04-11T06:56:41Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 140,
+        "created_at": "2018-12-07T20:46:28Z",
+        "last_comment_at": "2018-12-10T11:57:41Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "fetched_at": "2026-03-24T20:12:34.439Z",
+  "stargazers_count": 44,
+  "last_commit_at": "2016-03-10T11:18:40Z",
+  "open_issues": {
+    "count": 17,
+    "min_days": 3029,
+    "max_days": 4083,
+    "avg_days": 3977,
+    "items": [
+      {
+        "number": 42,
+        "created_at": "2017-12-07T12:40:41Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 40,
+        "created_at": "2015-10-20T22:16:55Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 37,
+        "created_at": "2015-04-21T03:47:45Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 36,
+        "created_at": "2015-04-21T03:30:26Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 31,
+        "created_at": "2015-03-31T03:43:42Z",
+        "last_comment_at": "2015-04-21T03:15:07Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 29,
+        "created_at": "2015-03-26T23:03:38Z",
+        "last_comment_at": "2015-03-27T04:27:17Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 27,
+        "created_at": "2015-03-17T08:57:53Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 22,
+        "created_at": "2015-02-12T06:23:51Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 20,
+        "created_at": "2015-02-12T01:59:07Z",
+        "last_comment_at": "2015-03-16T22:09:16Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 18,
+        "created_at": "2015-02-10T20:07:37Z",
+        "last_comment_at": "2015-02-13T23:16:02Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 15,
+        "created_at": "2015-01-26T21:09:49Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 14,
+        "created_at": "2015-01-22T18:22:54Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 13,
+        "created_at": "2015-01-21T10:13:34Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 12,
+        "created_at": "2015-01-21T10:07:05Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 8,
+        "created_at": "2015-01-21T09:58:48Z",
+        "last_comment_at": "2015-01-29T06:14:59Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 5,
+        "created_at": "2015-01-19T19:33:54Z",
+        "last_comment_at": "2015-02-04T09:51:23Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 1,
+        "created_at": "2015-01-18T22:40:22Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 0,
+    "min_days": 0,
+    "max_days": 0,
+    "avg_days": 0,
+    "items": []
+  }
+}

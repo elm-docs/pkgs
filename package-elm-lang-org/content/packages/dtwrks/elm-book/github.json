@@ -1,0 +1,104 @@
+{
+  "fetched_at": "2026-03-24T15:11:49.489Z",
+  "stargazers_count": 108,
+  "last_commit_at": "2025-09-16T13:18:03Z",
+  "open_issues": {
+    "count": 14,
+    "min_days": 354,
+    "max_days": 1661,
+    "avg_days": 1279,
+    "items": [
+      {
+        "number": 50,
+        "created_at": "2025-04-04T09:34:53Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 44,
+        "created_at": "2022-11-17T14:18:17Z",
+        "last_comment_at": "2023-01-09T21:05:59Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 43,
+        "created_at": "2022-11-14T11:18:56Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 42,
+        "created_at": "2022-11-14T11:16:06Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 41,
+        "created_at": "2022-11-07T02:03:46Z",
+        "last_comment_at": "2023-01-09T21:02:54Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 40,
+        "created_at": "2022-11-07T01:57:23Z",
+        "last_comment_at": "2022-11-15T20:35:20Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 39,
+        "created_at": "2022-10-26T18:57:36Z",
+        "last_comment_at": "2022-11-15T20:28:40Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 38,
+        "created_at": "2022-10-19T04:44:55Z",
+        "last_comment_at": "2022-10-21T18:44:57Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 37,
+        "created_at": "2022-09-29T00:55:42Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 36,
+        "created_at": "2022-09-12T15:01:40Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 30,
+        "created_at": "2022-01-28T00:54:25Z",
+        "last_comment_at": "2022-01-28T00:56:36Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 29,
+        "created_at": "2022-01-28T00:50:56Z",
+        "last_comment_at": "2022-01-28T01:19:38Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 10,
+        "created_at": "2021-09-09T03:33:51Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 8,
+        "created_at": "2021-09-05T10:29:12Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 0,
+    "min_days": 0,
+    "max_days": 0,
+    "avg_days": 0,
+    "items": []
+  }
+}

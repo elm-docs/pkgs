@@ -1,0 +1,93 @@
+{
+  "fetched_at": "2026-03-24T15:11:35.635Z",
+  "stargazers_count": 22,
+  "last_commit_at": "2025-10-06T14:09:22Z",
+  "open_issues": {
+    "count": 9,
+    "min_days": 446,
+    "max_days": 1040,
+    "avg_days": 821,
+    "items": [
+      {
+        "number": 18,
+        "created_at": "2025-01-02T03:15:32Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 15,
+        "created_at": "2024-08-12T19:55:30Z",
+        "last_comment_at": "2024-08-12T20:19:23Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 14,
+        "created_at": "2024-06-26T22:23:33Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 12,
+        "created_at": "2024-01-25T17:25:40Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 11,
+        "created_at": "2023-12-04T14:56:15Z",
+        "last_comment_at": "2023-12-04T17:09:16Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 6,
+        "created_at": "2023-06-25T07:47:57Z",
+        "last_comment_at": "2023-06-26T09:21:30Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 5,
+        "created_at": "2023-06-12T18:05:01Z",
+        "last_comment_at": "2023-06-13T03:38:17Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 4,
+        "created_at": "2023-05-30T04:39:35Z",
+        "last_comment_at": "2023-07-05T22:53:14Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 3,
+        "created_at": "2023-05-19T07:22:24Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 3,
+    "min_days": 141,
+    "max_days": 238,
+    "avg_days": 181,
+    "items": [
+      {
+        "number": 25,
+        "created_at": "2025-11-03T15:34:26Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 24,
+        "created_at": "2025-10-11T03:53:41Z",
+        "last_comment_at": "2025-10-11T04:00:21Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 20,
+        "created_at": "2025-07-29T20:54:58Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

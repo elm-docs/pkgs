@@ -1,0 +1,87 @@
+{
+  "fetched_at": "2026-03-24T20:02:38.822Z",
+  "stargazers_count": 196,
+  "last_commit_at": "2017-09-14T19:58:56Z",
+  "open_issues": {
+    "count": 9,
+    "min_days": 2625,
+    "max_days": 3529,
+    "avg_days": 3114,
+    "items": [
+      {
+        "number": 39,
+        "created_at": "2019-01-15T13:07:21Z",
+        "last_comment_at": "2019-01-15T13:25:22Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 37,
+        "created_at": "2018-08-25T20:05:25Z",
+        "last_comment_at": "2018-10-07T02:48:15Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 36,
+        "created_at": "2018-01-22T09:28:13Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 34,
+        "created_at": "2017-10-19T03:37:40Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 33,
+        "created_at": "2017-10-09T23:35:10Z",
+        "last_comment_at": "2017-10-10T01:16:21Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 29,
+        "created_at": "2017-06-10T18:30:46Z",
+        "last_comment_at": "2017-09-11T19:45:18Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 26,
+        "created_at": "2017-01-06T19:05:59Z",
+        "last_comment_at": "2017-01-30T22:00:09Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 24,
+        "created_at": "2016-12-18T16:07:15Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 18,
+        "created_at": "2016-07-25T15:00:15Z",
+        "last_comment_at": "2016-07-26T14:49:40Z",
+        "last_comment_by_maintainer": true
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 2,
+    "min_days": 2653,
+    "max_days": 3383,
+    "avg_days": 3018,
+    "items": [
+      {
+        "number": 38,
+        "created_at": "2018-12-19T01:59:30Z",
+        "last_comment_at": "2019-01-16T02:52:59Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 25,
+        "created_at": "2016-12-18T19:49:06Z",
+        "last_comment_at": "2017-09-11T17:29:56Z",
+        "last_comment_by_maintainer": true
+      }
+    ]
+  }
+}

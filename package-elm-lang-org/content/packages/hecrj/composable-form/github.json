@@ -1,0 +1,81 @@
+{
+  "fetched_at": "2026-03-24T18:36:37.859Z",
+  "stargazers_count": 199,
+  "last_commit_at": "2019-11-20T09:03:45Z",
+  "open_issues": {
+    "count": 9,
+    "min_days": 1344,
+    "max_days": 2708,
+    "avg_days": 2204,
+    "items": [
+      {
+        "number": 44,
+        "created_at": "2022-07-19T12:56:26Z",
+        "last_comment_at": "2022-07-29T07:44:32Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 41,
+        "created_at": "2021-03-19T13:51:41Z",
+        "last_comment_at": "2021-03-19T17:45:45Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 40,
+        "created_at": "2020-10-17T23:53:32Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 38,
+        "created_at": "2020-01-28T15:01:59Z",
+        "last_comment_at": "2020-01-28T16:51:21Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 33,
+        "created_at": "2019-10-24T12:28:11Z",
+        "last_comment_at": "2019-10-28T22:27:04Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 32,
+        "created_at": "2019-09-30T17:29:34Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 31,
+        "created_at": "2019-09-30T17:21:33Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 17,
+        "created_at": "2018-12-24T09:02:27Z",
+        "last_comment_at": "2019-01-07T21:51:12Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 10,
+        "created_at": "2018-10-24T20:25:20Z",
+        "last_comment_at": "2018-10-24T21:44:57Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 1,
+    "min_days": 2247,
+    "max_days": 2247,
+    "avg_days": 2247,
+    "items": [
+      {
+        "number": 39,
+        "created_at": "2020-01-28T16:40:11Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      }
+    ]
+  }
+}

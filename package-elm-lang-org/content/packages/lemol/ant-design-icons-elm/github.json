@@ -1,0 +1,81 @@
+{
+  "fetched_at": "2026-03-24T18:39:27.338Z",
+  "stargazers_count": 5,
+  "last_commit_at": "2023-02-14T02:39:09Z",
+  "open_issues": {
+    "count": 2,
+    "min_days": 1888,
+    "max_days": 2038,
+    "avg_days": 1963,
+    "items": [
+      {
+        "number": 2,
+        "created_at": "2021-01-21T19:29:48Z",
+        "last_comment_at": "2021-04-14T22:24:33Z",
+        "last_comment_by_maintainer": true
+      },
+      {
+        "number": 1,
+        "created_at": "2020-08-24T21:54:55Z",
+        "last_comment_at": "2020-09-15T19:19:06Z",
+        "last_comment_by_maintainer": true
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 8,
+    "min_days": 980,
+    "max_days": 1840,
+    "avg_days": 1488,
+    "items": [
+      {
+        "number": 16,
+        "created_at": "2023-07-18T23:07:50Z",
+        "last_comment_at": "2023-07-18T23:07:52Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 15,
+        "created_at": "2023-07-11T21:20:45Z",
+        "last_comment_at": "2023-07-11T21:20:47Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 10,
+        "created_at": "2022-12-06T18:26:57Z",
+        "last_comment_at": "2022-12-06T18:27:00Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 8,
+        "created_at": "2021-09-02T14:51:40Z",
+        "last_comment_at": "2021-09-02T14:51:45Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 7,
+        "created_at": "2021-08-12T20:08:26Z",
+        "last_comment_at": "2021-08-12T20:08:29Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 5,
+        "created_at": "2021-05-26T17:34:11Z",
+        "last_comment_at": "2021-05-26T17:34:16Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 4,
+        "created_at": "2021-05-11T21:28:18Z",
+        "last_comment_at": "2021-05-11T21:28:21Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 3,
+        "created_at": "2021-03-11T04:02:10Z",
+        "last_comment_at": "2021-03-11T04:02:13Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  }
+}

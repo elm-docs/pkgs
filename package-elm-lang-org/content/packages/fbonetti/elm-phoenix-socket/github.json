@@ -1,0 +1,86 @@
+{
+  "fetched_at": "2026-03-24T18:35:12.565Z",
+  "stargazers_count": 217,
+  "last_commit_at": "2017-04-10T03:41:01Z",
+  "open_issues": {
+    "count": 11,
+    "min_days": 2842,
+    "max_days": 3584,
+    "avg_days": 3395,
+    "items": [
+      {
+        "number": 31,
+        "created_at": "2018-06-12T15:26:01Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 28,
+        "created_at": "2017-06-14T00:46:26Z",
+        "last_comment_at": "2017-06-16T00:03:03Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 26,
+        "created_at": "2017-03-20T07:49:23Z",
+        "last_comment_at": "2017-03-21T05:19:07Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 23,
+        "created_at": "2017-01-28T23:00:20Z",
+        "last_comment_at": "2017-05-03T03:47:33Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 22,
+        "created_at": "2016-12-30T09:12:45Z",
+        "last_comment_at": "2017-03-20T06:48:41Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 19,
+        "created_at": "2016-08-05T08:02:02Z",
+        "last_comment_at": null,
+        "last_comment_by_maintainer": null
+      },
+      {
+        "number": 18,
+        "created_at": "2016-07-26T16:36:36Z",
+        "last_comment_at": "2017-03-20T07:16:25Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 17,
+        "created_at": "2016-07-18T22:50:29Z",
+        "last_comment_at": "2017-07-25T15:13:51Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 9,
+        "created_at": "2016-06-27T09:14:38Z",
+        "last_comment_at": "2016-06-30T06:06:52Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 6,
+        "created_at": "2016-06-09T09:34:23Z",
+        "last_comment_at": "2016-06-23T13:03:28Z",
+        "last_comment_by_maintainer": false
+      },
+      {
+        "number": 4,
+        "created_at": "2016-06-01T01:43:27Z",
+        "last_comment_at": "2017-03-23T12:28:19Z",
+        "last_comment_by_maintainer": false
+      }
+    ]
+  },
+  "open_prs": {
+    "count": 0,
+    "min_days": 0,
+    "max_days": 0,
+    "avg_days": 0,
+    "items": []
+  }
+}
