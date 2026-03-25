@@ -34,9 +34,10 @@ CREATE TABLE IF NOT EXISTS package_tags (
 );
 
 CREATE TABLE IF NOT EXISTS package_versions (
-    id         INTEGER PRIMARY KEY,
-    package_id INTEGER NOT NULL REFERENCES packages(id),
-    version    TEXT NOT NULL,
+    id           INTEGER PRIMARY KEY,
+    package_id   INTEGER NOT NULL REFERENCES packages(id),
+    version      TEXT NOT NULL,
+    version_sort INTEGER NOT NULL DEFAULT 0,
     UNIQUE(package_id, version)
 );
 
@@ -103,6 +104,25 @@ CREATE INDEX IF NOT EXISTS idx_unions_name ON unions(name);
 CREATE INDEX IF NOT EXISTS idx_aliases_name ON aliases(name);
 `;
 
+const TYPE_INDEX_DDL = `
+CREATE TABLE IF NOT EXISTS type_index (
+    id          INTEGER PRIMARY KEY,
+    package_id  INTEGER NOT NULL REFERENCES packages(id),
+    version_id  INTEGER NOT NULL REFERENCES package_versions(id),
+    module_name TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    kind        TEXT NOT NULL,
+    type_raw    TEXT NOT NULL,
+    type_ast    TEXT NOT NULL,
+    fingerprint TEXT NOT NULL,
+    arg_count   INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_type_index_fingerprint ON type_index(fingerprint);
+CREATE INDEX IF NOT EXISTS idx_type_index_arg_count ON type_index(arg_count);
+CREATE INDEX IF NOT EXISTS idx_type_index_package ON type_index(package_id);
+`;
+
 const SEARCH_INDEX_DDL = `
 CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
     package,
@@ -117,6 +137,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
 
 const ALL_TABLES = [
   "search_index",
+  "type_index",
   "binops",
   "values",
   "aliases",
@@ -142,6 +163,7 @@ export function openDb(path: string, full: boolean): Database.Database {
   }
 
   db.exec(SCHEMA);
+  db.exec(TYPE_INDEX_DDL);
   db.exec(SEARCH_INDEX_DDL);
 
   return db;

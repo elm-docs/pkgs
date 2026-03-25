@@ -64,9 +64,10 @@ export function ingestDocsJson(
   const packageId = row.id;
 
   // Insert version
+  const versionSort = computeVersionSort(version);
   db.prepare(
-    "INSERT OR IGNORE INTO package_versions (package_id, version) VALUES (?, ?)",
-  ).run(packageId, version);
+    "INSERT OR IGNORE INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?)",
+  ).run(packageId, version, versionSort);
   const versionRow = db.prepare(
     "SELECT id FROM package_versions WHERE package_id = ? AND version = ?",
   ).get(packageId, version) as { id: number };
@@ -209,6 +210,18 @@ export function ingestGithubFile(
       gh.open_prs.count, gh.open_prs.min_days, gh.open_prs.max_days, gh.open_prs.avg_days,
     );
   }
+}
+
+// ---------------------------------------------------------------------------
+// Version sort
+// ---------------------------------------------------------------------------
+
+function computeVersionSort(version: string): number {
+  const parts = version.split(".").map(Number);
+  const major = parts[0] || 0;
+  const minor = parts[1] || 0;
+  const patch = parts[2] || 0;
+  return major * 1_000_000 + minor * 1_000 + patch;
 }
 
 // ---------------------------------------------------------------------------

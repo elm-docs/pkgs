@@ -8,7 +8,8 @@
     "sync": "tsx package-elm-lang-org/sync.ts",
     "status": "tsx package-elm-lang-org/status.ts",
     "sync-github": "tsx package-elm-lang-org/syncGithub.ts",
-    "build-db": "tsx db/buildDb.ts"
+    "build-db": "tsx db/buildDb.ts",
+    "type-search": "tsx type-search/search.ts"
   },
   "repository": {
     "type": "git",
