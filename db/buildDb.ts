@@ -9,6 +9,7 @@ import {
   ingestGithubFile,
   rebuildSearchIndex,
 } from "./lib/ingest.ts";
+import { buildTypeIndex } from "./lib/typeIndex.ts";
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -109,7 +110,13 @@ const searchCount = rebuildSearchIndex(db);
 writeLine("");
 console.log(green(`  ${searchCount} search index entries`));
 
-// 5. Summary
+// 5. Build type index
+writeLine("Building type index...");
+const typeIndexCount = buildTypeIndex(db, full);
+writeLine("");
+console.log(green(`  ${typeIndexCount} type index entries`));
+
+// 6. Summary
 db.close();
 console.log();
 console.log(green("Done."));
