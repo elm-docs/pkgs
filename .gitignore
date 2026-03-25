@@ -1,2 +1,5 @@
 .direnv
+.helix
 node_modules
+db/elm-packages.db
+/.claude
