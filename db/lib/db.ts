@@ -133,9 +133,16 @@ CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
     kind,
     tokenize='porter unicode61'
 );
+
+CREATE TABLE IF NOT EXISTS _search_index_versions (
+    package_id INTEGER NOT NULL,
+    version_id INTEGER NOT NULL,
+    PRIMARY KEY(package_id)
+);
 `;
 
 const ALL_TABLES = [
+  "_search_index_versions",
   "search_index",
   "type_index",
   "binops",

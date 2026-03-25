@@ -106,7 +106,7 @@ if (githubFiles.length > 0) {
 
 // 4. Rebuild search index
 writeLine("Rebuilding search index...");
-const searchCount = rebuildSearchIndex(db);
+const searchCount = rebuildSearchIndex(db, full);
 writeLine("");
 console.log(green(`  ${searchCount} search index entries`));
 
