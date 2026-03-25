@@ -228,8 +228,38 @@ function computeVersionSort(version: string): number {
 // FTS5 search index
 // ---------------------------------------------------------------------------
 
-export function rebuildSearchIndex(db: Database.Database): number {
+export function rebuildSearchIndex(db: Database.Database, full: boolean): number {
+  // Check which packages have a newer latest version than what's indexed
+  const changed = db.prepare(`
+    SELECT p.id AS package_id, pv.id AS version_id
+    FROM packages p
+    JOIN package_versions pv ON pv.package_id = p.id
+    WHERE pv.version_sort = (
+      SELECT MAX(pv2.version_sort)
+      FROM package_versions pv2
+      WHERE pv2.package_id = p.id
+    )
+    AND pv.id NOT IN (
+      SELECT siv.version_id
+      FROM _search_index_versions siv
+      WHERE siv.package_id = p.id
+    )
+  `).all() as { package_id: number; version_id: number }[];
+
+  if (!full && changed.length === 0) {
+    return (db.prepare("SELECT count(*) as n FROM search_index").get() as { n: number }).n;
+  }
+
+  // FTS5 doesn't support efficient per-package deletes, so rebuild fully
   db.exec("DELETE FROM search_index");
+  db.exec("DELETE FROM _search_index_versions");
+
+  const LATEST = `
+    WHERE pv.version_sort = (
+      SELECT MAX(pv2.version_sort)
+      FROM package_versions pv2
+      WHERE pv2.package_id = pv.package_id
+    )`;
 
   // Modules
   db.exec(`
@@ -238,6 +268,7 @@ export function rebuildSearchIndex(db: Database.Database): number {
     FROM modules m
     JOIN package_versions pv ON m.version_id = pv.id
     JOIN packages p ON pv.package_id = p.id
+    ${LATEST}
   `);
 
   // Values
@@ -248,6 +279,7 @@ export function rebuildSearchIndex(db: Database.Database): number {
     JOIN modules m ON v.module_id = m.id
     JOIN package_versions pv ON m.version_id = pv.id
     JOIN packages p ON pv.package_id = p.id
+    ${LATEST}
   `);
 
   // Unions
@@ -258,6 +290,7 @@ export function rebuildSearchIndex(db: Database.Database): number {
     JOIN modules m ON u.module_id = m.id
     JOIN package_versions pv ON m.version_id = pv.id
     JOIN packages p ON pv.package_id = p.id
+    ${LATEST}
   `);
 
   // Aliases
@@ -268,6 +301,7 @@ export function rebuildSearchIndex(db: Database.Database): number {
     JOIN modules m ON a.module_id = m.id
     JOIN package_versions pv ON m.version_id = pv.id
     JOIN packages p ON pv.package_id = p.id
+    ${LATEST}
   `);
 
   // Binops
@@ -278,6 +312,20 @@ export function rebuildSearchIndex(db: Database.Database): number {
     JOIN modules m ON b.module_id = m.id
     JOIN package_versions pv ON m.version_id = pv.id
     JOIN packages p ON pv.package_id = p.id
+    ${LATEST}
+  `);
+
+  // Record which versions are now indexed
+  db.exec(`
+    INSERT INTO _search_index_versions (package_id, version_id)
+    SELECT p.id, pv.id
+    FROM packages p
+    JOIN package_versions pv ON pv.package_id = p.id
+    WHERE pv.version_sort = (
+      SELECT MAX(pv2.version_sort)
+      FROM package_versions pv2
+      WHERE pv2.package_id = p.id
+    )
   `);
 
   const count = (db.prepare("SELECT count(*) as n FROM search_index").get() as { n: number }).n;
