@@ -9,7 +9,9 @@
     "status": "tsx package-elm-lang-org/status.ts",
     "sync-github": "tsx package-elm-lang-org/syncGithub.ts",
     "build-db": "tsx db/buildDb.ts",
-    "type-search": "tsx type-search/search.ts"
+    "type-search": "tsx type-search/search.ts",
+    "elm:status": "cd scripts && npx elm-pages run src/Status.elm",
+    "elm:test": "cd scripts && nix develop --command elm-test-rs"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^25.5.0",
     "better-sqlite3": "^11.8.1",
+    "elm-pages": "^3.3.0",
     "tsx": "^4.21.0"
   }
 }
