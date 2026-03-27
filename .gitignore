@@ -4,3 +4,4 @@ node_modules
 elm-stuff
 db/elm-packages.db
 /.claude
+CLAUDE.md
