@@ -3,6 +3,5 @@
 node_modules
 elm-stuff
 db/elm-packages.db
-scripts/dist
 /.claude
 CLAUDE.md
