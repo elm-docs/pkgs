@@ -11,9 +11,11 @@
     "build-db": "tsx db/buildDb.ts",
     "type-search": "tsx type-search/search.ts",
     "elm:status": "cd scripts && npx elm-pages run src/Status.elm",
+    "elm:status:build": "cd scripts && npx elm-pages bundle-script src/Status.elm --output ../bin/status.mjs",
+    "elm:status:run": "cd scripts && node ../bin/status.mjs",
     "elm:sync": "cd scripts && npx elm-pages run src/Sync.elm",
-    "elm:sync:build": "cd scripts && npx elm-pages bundle-script src/Sync.elm --output dist/sync.mjs",
-    "elm:sync:run": "cd scripts && node dist/sync.mjs",
+    "elm:sync:build": "cd scripts && npx elm-pages bundle-script src/Sync.elm --output ../bin/sync.mjs",
+    "elm:sync:run": "cd scripts && node ../bin/sync.mjs",
     "elm:test": "cd scripts && nix develop --command elm-test-rs"
   },
   "repository": {
