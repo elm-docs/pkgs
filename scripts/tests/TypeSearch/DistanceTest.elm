@@ -161,6 +161,67 @@ suite =
                         (Var "c")
                         |> Expect.within (Absolute 0.001) 0.25
             ]
+        , describe "binding consistency"
+            [ test "a -> a vs Int -> Int => 0.5 (both bindings consistent)" <|
+                \() ->
+                    -- a binds to Int (0.5), second a resolves to Int, Int vs Int = 0.0
+                    -- args avg = (0.5 + 0.0) / 2 = 0.25, result = 0.0
+                    -- fn = (0.25 + 0.0) / 2 = 0.125
+                    Distance.distance
+                        (Fn [ Var "a", Var "a" ] (App { home = "Basics", name = "Int" } []))
+                        (Fn [ App { home = "Basics", name = "Int" } [], App { home = "Basics", name = "Int" } [] ] (App { home = "Basics", name = "Int" } []))
+                        |> Expect.within (Absolute 0.001) 0.125
+            , test "a -> a vs Int -> String penalizes inconsistency" <|
+                \() ->
+                    -- a binds to Int (0.5) on first arg, second a resolves to Int,
+                    -- Int vs String = 1.0. Inconsistent binding is penalized.
+                    -- This should score worse than Int -> Int above.
+                    let
+                        consistent =
+                            Distance.distance
+                                (Fn [ Var "a", Var "a" ] (App { home = "Basics", name = "Int" } []))
+                                (Fn [ App { home = "Basics", name = "Int" } [], App { home = "Basics", name = "Int" } [] ] (App { home = "Basics", name = "Int" } []))
+
+                        inconsistent =
+                            Distance.distance
+                                (Fn [ Var "a", Var "a" ] (App { home = "Basics", name = "Int" } []))
+                                (Fn [ App { home = "Basics", name = "Int" } [], App { home = "String", name = "String" } [] ] (App { home = "Basics", name = "Int" } []))
+                    in
+                    inconsistent
+                        |> Expect.greaterThan consistent
+            ]
+        , describe "permutation penalty"
+            [ test "reordered args score worse than ordered args" <|
+                \() ->
+                    -- Query: Int -> String -> Bool
+                    -- Candidate A: Int -> String -> Bool (same order)
+                    -- Candidate B: String -> Int -> Bool (swapped args)
+                    -- B should score slightly worse due to permutation penalty
+                    let
+                        int =
+                            App { home = "Basics", name = "Int" } []
+
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+
+                        query =
+                            Fn [ int, str ] bool
+
+                        ordered =
+                            Distance.distance query (Fn [ int, str ] bool)
+
+                        reordered =
+                            Distance.distance query (Fn [ str, int ] bool)
+                    in
+                    Expect.all
+                        [ \() -> ordered |> Expect.within (Absolute 0.001) 0.0
+                        , \() -> reordered |> Expect.greaterThan ordered
+                        ]
+                        ()
+            ]
         , describe "substring name matching"
             [ test "substring match => name distance 0.5" <|
                 \() ->
