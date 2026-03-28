@@ -1,5 +1,5 @@
 {
-  description = "TypeScript + Elm development environment";
+  description = "Elm development environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -14,7 +14,7 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            # TypeScript (python3 needed to compile better-sqlite3)
+            # Node.js (python3 needed to compile better-sqlite3)
             nodejs_22
             python3
             nodePackages.typescript
