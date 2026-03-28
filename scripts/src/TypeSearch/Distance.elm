@@ -35,6 +35,16 @@ permutationPenalty =
     0.05
 
 
+partialApplicationPenalty : Float
+partialApplicationPenalty =
+    0.12
+
+
+maxSkippableArgs : Int
+maxSkippableArgs =
+    3
+
+
 reservedMatches : Dict String (Set String)
 reservedMatches =
     Dict.fromList
@@ -118,15 +128,35 @@ fnDistance qArgs qResult cArgs cResult bindings =
             let
                 ( argDist, bindings2 ) =
                     listDistance qArgs cArgs bindings1
+
+                linearScore =
+                    (argDist + resultDist) / 2
+
+                ( partialScore, partialBindings ) =
+                    trailingSubsequenceDistance qArgs qResult cArgs cResult bindings
             in
-            ( (argDist + resultDist) / 2, bindings2 )
+            if partialScore < linearScore then
+                ( partialScore, partialBindings )
+
+            else
+                ( linearScore, bindings2 )
 
         else
             let
                 ( bestArgDist, bindings2 ) =
                     bestPermutationDistance shorter longer bindings1
+
+                permScore =
+                    (bestArgDist + resultDist) / 2
+
+                ( partialScore, partialBindings ) =
+                    trailingSubsequenceDistance qArgs qResult cArgs cResult bindings
             in
-            ( (bestArgDist + resultDist) / 2, bindings2 )
+            if partialScore < permScore then
+                ( partialScore, partialBindings )
+
+            else
+                ( permScore, bindings2 )
 
 
 bestPermutationDistance : List Type -> List Type -> Dict String Type -> ( Float, Dict String Type )
@@ -198,6 +228,29 @@ scorePermutation shorter longer perm identity bindings =
                 0.0
     in
     ( avg * (shorterLen / longerLen) + unmatchedPenalty + reorderPenalty, finalBindings )
+
+
+trailingSubsequenceDistance : List Type -> Type -> List Type -> Type -> Dict String Type -> ( Float, Dict String Type )
+trailingSubsequenceDistance qArgs qResult cArgs cResult bindings =
+    let
+        skipped =
+            List.length cArgs - List.length qArgs
+    in
+    if skipped <= 0 || skipped > maxSkippableArgs then
+        ( maxPenalty, bindings )
+
+    else
+        let
+            trailingCArgs =
+                List.drop skipped cArgs
+
+            ( argDist, bindings1 ) =
+                listDistance qArgs trailingCArgs bindings
+
+            ( resultDist, bindings2 ) =
+                typeDistance qResult cResult bindings1
+        in
+        ( (argDist + resultDist) / 2 + toFloat skipped * partialApplicationPenalty, bindings2 )
 
 
 listGet : Int -> List a -> Maybe a

@@ -222,6 +222,102 @@ suite =
                         ]
                         ()
             ]
+        , describe "partial application matching"
+            [ test "String -> Bool vs String -> String -> Bool scores < 0.25" <|
+                \() ->
+                    let
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+                    in
+                    Distance.distance
+                        (Fn [ str ] bool)
+                        (Fn [ str, str ] bool)
+                        |> Expect.lessThan 0.25
+            , test "exact match beats partial application" <|
+                \() ->
+                    let
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+
+                        query =
+                            Fn [ str ] bool
+
+                        exact =
+                            Distance.distance query (Fn [ str ] bool)
+
+                        partial =
+                            Distance.distance query (Fn [ str, str ] bool)
+                    in
+                    exact |> Expect.lessThan partial
+            , test "skipping 2 args costs more than skipping 1" <|
+                \() ->
+                    let
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+
+                        query =
+                            Fn [ str ] bool
+
+                        skip1 =
+                            Distance.distance query (Fn [ str, str ] bool)
+
+                        skip2 =
+                            Distance.distance query (Fn [ str, str, str ] bool)
+                    in
+                    skip2 |> Expect.greaterThan skip1
+            , test "result type mismatch penalized in partial path" <|
+                \() ->
+                    let
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        int =
+                            App { home = "Basics", name = "Int" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+
+                        goodResult =
+                            Distance.distance (Fn [ str ] bool) (Fn [ str, str ] bool)
+
+                        badResult =
+                            Distance.distance (Fn [ str ] bool) (Fn [ str, str ] int)
+                    in
+                    badResult |> Expect.greaterThan goodResult
+            , test "trailing mismatch: permutation path wins" <|
+                \() ->
+                    let
+                        int =
+                            App { home = "Basics", name = "Int" } []
+
+                        str =
+                            App { home = "String", name = "String" } []
+
+                        bool =
+                            App { home = "Basics", name = "Bool" } []
+                    in
+                    -- Query: Int -> Bool, Candidate: Int -> String -> Bool
+                    -- Trailing: String vs Int = bad, but permutation can pick Int
+                    Distance.distance
+                        (Fn [ int ] bool)
+                        (Fn [ int, str ] bool)
+                        |> Expect.lessThan 0.5
+            , test "multi-arg partial: a -> b -> c vs x -> a -> b -> c scores < 0.5" <|
+                \() ->
+                    Distance.distance
+                        (Fn [ Var "a", Var "b" ] (Var "c"))
+                        (Fn [ Var "x", Var "a", Var "b" ] (Var "c"))
+                        |> Expect.lessThan 0.5
+            ]
         , describe "substring name matching"
             [ test "substring match => name distance 0.5" <|
                 \() ->
