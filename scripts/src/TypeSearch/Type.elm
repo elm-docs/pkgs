@@ -2,9 +2,11 @@ module TypeSearch.Type exposing
     ( QualifiedName
     , Type(..)
     , decoder
+    , encoder
     )
 
 import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Encode
 
 
 type Type
@@ -17,6 +19,68 @@ type Type
 
 type alias QualifiedName =
     { home : String, name : String }
+
+
+
+-- JSON ENCODER (for type_ast column to DB)
+
+
+encoder : Type -> Encode.Value
+encoder tipe =
+    case tipe of
+        Fn args result ->
+            Encode.object
+                [ ( "tag", Encode.string "fn" )
+                , ( "args", Encode.list encoder args )
+                , ( "result", encoder result )
+                ]
+
+        Var name ->
+            Encode.object
+                [ ( "tag", Encode.string "var" )
+                , ( "name", Encode.string name )
+                ]
+
+        App qname args ->
+            Encode.object
+                [ ( "tag", Encode.string "app" )
+                , ( "name"
+                  , Encode.object
+                        [ ( "home", Encode.string qname.home )
+                        , ( "name", Encode.string qname.name )
+                        ]
+                  )
+                , ( "args", Encode.list encoder args )
+                ]
+
+        Tuple args ->
+            Encode.object
+                [ ( "tag", Encode.string "tuple" )
+                , ( "args", Encode.list encoder args )
+                ]
+
+        Record fields ext ->
+            Encode.object
+                [ ( "tag", Encode.string "record" )
+                , ( "fields"
+                  , Encode.list
+                        (\( name, t ) ->
+                            Encode.list identity
+                                [ Encode.string name
+                                , encoder t
+                                ]
+                        )
+                        fields
+                  )
+                , ( "ext"
+                  , case ext of
+                        Just e ->
+                            Encode.string e
+
+                        Nothing ->
+                            Encode.null
+                  )
+                ]
 
 
 
