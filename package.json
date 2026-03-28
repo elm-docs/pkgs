@@ -19,6 +19,9 @@
     "elm:sync-github": "cd scripts && npx elm-pages run src/SyncGithub.elm",
     "elm:sync-github:build": "cd scripts && npx elm-pages bundle-script src/SyncGithub.elm --output ../bin/sync-github.mjs",
     "elm:sync-github:run": "cd scripts && node ../bin/sync-github.mjs",
+    "elm:type-search": "cd scripts && npx elm-pages run src/TypeSearch.elm --",
+    "elm:type-search:build": "cd scripts && npx elm-pages bundle-script src/TypeSearch.elm --output ../bin/type-search.mjs",
+    "elm:type-search:run": "cd scripts && node ../bin/type-search.mjs",
     "elm:test": "cd scripts && nix develop --command elm-test-rs"
   },
   "repository": {
