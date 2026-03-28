@@ -65,3 +65,7 @@ Contains `README.md` documenting the type search algorithm. No source code.
 ### `bin/` — Pre-built Bundles
 
 Version-controlled `.mjs` bundles compiled from Elm sources. These are what the unprefixed `npm run` scripts execute.
+
+## Commit Guidelines
+
+- Do **not** add `Co-Authored-By` trailers to commit messages. Commits should be authored solely by the human user.
