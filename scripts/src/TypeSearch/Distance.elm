@@ -30,6 +30,11 @@ maxPermutationArgs =
     6
 
 
+permutationPenalty : Float
+permutationPenalty =
+    0.05
+
+
 reservedMatches : Dict String (Set String)
 reservedMatches =
     Dict.fromList
@@ -77,15 +82,6 @@ typeDistance q c bindings =
 
 
 
--- Wrapper that discards bindings for the public API
-
-
-distance_ : Type -> Type -> Float
-distance_ query candidate =
-    typeDistance query candidate Dict.empty |> Tuple.first
-
-
-
 -- FUNCTION DISTANCE
 
 
@@ -127,13 +123,13 @@ fnDistance qArgs qResult cArgs cResult bindings =
 
         else
             let
-                bestArgDist =
+                ( bestArgDist, bindings2 ) =
                     bestPermutationDistance shorter longer bindings1
             in
-            ( (bestArgDist + resultDist) / 2, bindings1 )
+            ( (bestArgDist + resultDist) / 2, bindings2 )
 
 
-bestPermutationDistance : List Type -> List Type -> Dict String Type -> Float
+bestPermutationDistance : List Type -> List Type -> Dict String Type -> ( Float, Dict String Type )
 bestPermutationDistance shorter longer bindings =
     let
         indices =
@@ -141,21 +137,28 @@ bestPermutationDistance shorter longer bindings =
 
         perms =
             permutations indices (List.length shorter)
+
+        identity =
+            List.range 0 (List.length shorter - 1)
     in
     List.foldl
-        (\perm best ->
+        (\perm ( bestDist, bestBindings ) ->
             let
-                dist =
-                    scorePermutation shorter longer perm bindings
+                ( dist, permBindings ) =
+                    scorePermutation shorter longer perm identity bindings
             in
-            min dist best
+            if dist < bestDist then
+                ( dist, permBindings )
+
+            else
+                ( bestDist, bestBindings )
         )
-        maxPenalty
+        ( maxPenalty, bindings )
         perms
 
 
-scorePermutation : List Type -> List Type -> List Int -> Dict String Type -> Float
-scorePermutation shorter longer perm bindings =
+scorePermutation : List Type -> List Type -> List Int -> List Int -> Dict String Type -> ( Float, Dict String Type )
+scorePermutation shorter longer perm identity bindings =
     let
         shorterLen =
             List.length shorter |> toFloat
@@ -163,26 +166,38 @@ scorePermutation shorter longer perm bindings =
         longerLen =
             List.length longer |> toFloat
 
-        sum =
-            List.map2
-                (\s idx ->
+        ( sum, finalBindings ) =
+            List.foldl
+                (\( s, idx ) ( accSum, accBindings ) ->
                     let
                         c =
                             listGet idx longer |> Maybe.withDefault (Var "_")
+
+                        ( d, newBindings ) =
+                            typeDistance s c accBindings
                     in
-                    typeDistance s c (Dict.empty |> Dict.union bindings) |> Tuple.first
+                    ( accSum + d, newBindings )
                 )
-                shorter
-                perm
-                |> List.sum
+                ( 0.0, bindings )
+                (List.map2 Tuple.pair shorter perm)
 
         unmatchedPenalty =
             ((longerLen - shorterLen) * mediumPenalty) / longerLen
 
         avg =
             sum / shorterLen
+
+        isReordered =
+            perm /= List.take (List.length perm) identity
+
+        reorderPenalty =
+            if isReordered then
+                permutationPenalty
+
+            else
+                0.0
     in
-    avg * (shorterLen / longerLen) + unmatchedPenalty
+    ( avg * (shorterLen / longerLen) + unmatchedPenalty + reorderPenalty, finalBindings )
 
 
 listGet : Int -> List a -> Maybe a
