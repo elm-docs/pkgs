@@ -526,7 +526,10 @@ recordDistance qFields cFields bindings =
 
 packageBoost : String -> String -> Float
 packageBoost org name =
-    if org == "elm" && name == "core" then
+    if org == "local" then
+        -0.25
+
+    else if org == "elm" && name == "core" then
         -0.125
 
     else if org == "elm" then

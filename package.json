@@ -9,7 +9,7 @@
   "scripts": {
     "test": "cd scripts && elm-test-rs",
     "review": "cd scripts && elm-review",
-    "review:fix": "cd scripts && elm-review --fix",
+    "review:fix": "cd scripts && elm-review --fix-all-without-prompt",
     "review:suppress": "cd scripts && elm-review suppress",
     "status": "cd scripts && elm-pages run src/Status.elm",
     "sync": "cd scripts && elm-pages run src/Sync.elm",
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^25.5.0",
+    "elm-doc-preview": "^6.0.1",
     "elm-optimize-level-2": "^0.3.5",
     "elm-review": "^2.13.5",
     "elm-pages": "^3.3.0"

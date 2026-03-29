@@ -2,6 +2,7 @@ module TypeSearch.SearchTest exposing (suite)
 
 import Expect exposing (FloatingPointTolerance(..))
 import Test exposing (Test, describe, test)
+import TypeSearch.Distance as Distance
 import TypeSearch.Search as Search exposing (Candidate, SearchResult)
 import TypeSearch.Type exposing (Type(..))
 
@@ -254,4 +255,12 @@ suite =
 
                     _ ->
                         Expect.fail "Expected one result"
+        , test "packageBoost local/myapp returns -0.25" <|
+            \() ->
+                Distance.packageBoost "local" "myapp"
+                    |> Expect.within (Absolute 0.001) -0.25
+        , test "packageBoost local/anything returns -0.25 regardless of name" <|
+            \() ->
+                Distance.packageBoost "local" "anything"
+                    |> Expect.within (Absolute 0.001) -0.25
         ]
