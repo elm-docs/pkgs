@@ -23,9 +23,11 @@ run =
     Script.withCliOptions programConfig
         (\options ->
             let
+                contentDir : String
                 contentDir =
                     "../package-elm-lang-org/content"
 
+                searchJsonPath : String
                 searchJsonPath =
                     contentDir ++ "/search.json"
             in
@@ -315,6 +317,7 @@ encodeTypeIndexRow row =
 typeIndexLoop : String -> Bool -> Int -> Int -> Int -> BackendTask FatalError Int
 typeIndexLoop dbPath full offset parseErrors totalInserted =
     let
+        pageSize : Int
         pageSize =
             50
     in
@@ -322,10 +325,12 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
         |> BackendTask.andThen
             (\result ->
                 let
+                    allRows : List TypeIndex.TypeIndexRow
                     allRows =
                         List.concatMap
                             (\pkg ->
                                 let
+                                    processed : TypeIndex.ProcessResult
                                     processed =
                                         TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries
                                 in
@@ -333,6 +338,7 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                             )
                             result.packages
 
+                    batchParseErrors : Int
                     batchParseErrors =
                         List.foldl
                             (\pkg acc ->
@@ -341,6 +347,7 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                             0
                             result.packages
 
+                    deleteIds : List Int
                     deleteIds =
                         List.map .packageId result.packages
                 in
@@ -348,9 +355,11 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                     |> BackendTask.andThen
                         (\inserted ->
                             let
+                                newTotal : Int
                                 newTotal =
                                     totalInserted + inserted
 
+                                newErrors : Int
                                 newErrors =
                                     parseErrors + batchParseErrors
                             in

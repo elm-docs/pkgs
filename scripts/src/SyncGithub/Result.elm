@@ -16,15 +16,19 @@ type GithubResult
 onResult : String -> String -> GithubResult -> List WriteAction
 onResult org pkg result =
     let
+        infoPath : String
         infoPath =
             Path.toGithubInfoPath org pkg
 
+        redirectPath : String
         redirectPath =
             Path.toGithubRedirectPath org pkg
 
+        missingPath : String
         missingPath =
             Path.toGithubMissingPath org pkg
 
+        errorsPath : String
         errorsPath =
             Path.toGithubErrorsPath org pkg
     in
@@ -58,9 +62,11 @@ onError :
     -> List WriteAction
 onError org pkg { reason, status, error, failedAt } =
     let
+        errorsPath : String
         errorsPath =
             Path.toGithubErrorsPath org pkg
 
+        body : String
         body =
             Encode.encode 2
                 (Encode.object

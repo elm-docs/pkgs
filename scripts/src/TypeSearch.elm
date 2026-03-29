@@ -36,18 +36,23 @@ run =
 
                 Ok parsed ->
                     let
+                        queryAst : Type
                         queryAst =
                             Normalize.normalize parsed
 
+                        queryFp : String
                         queryFp =
                             Fingerprint.fingerprint queryAst
 
+                        queryArgCount : Int
                         queryArgCount =
                             Fingerprint.countArgs queryAst
 
+                        minArgs : Int
                         minArgs =
                             max 0 (queryArgCount - 1)
 
+                        maxArgs : Int
                         maxArgs =
                             queryArgCount + 1
                     in
@@ -55,6 +60,7 @@ run =
                         |> BackendTask.andThen
                             (\candidates ->
                                 let
+                                    results : List SearchResult
                                     results =
                                         Search.search
                                             { limit = options.limit
@@ -176,14 +182,17 @@ formatResults query results =
 
     else
         let
+            header : String
             header =
                 bold ("Results for: " ++ query) ++ "\n"
 
+            body : String
             body =
                 results
                     |> List.map formatResult
                     |> String.join "\n"
 
+            footer : String
             footer =
                 "\n" ++ dim (String.fromInt (List.length results) ++ " result(s)")
         in
@@ -193,6 +202,7 @@ formatResults query results =
 formatResult : SearchResult -> String
 formatResult r =
     let
+        dist : String
         dist =
             formatFloat 3 r.distance
     in
@@ -209,15 +219,19 @@ formatResult r =
 formatFloat : Int -> Float -> String
 formatFloat decimals f =
     let
+        multiplier : Float
         multiplier =
             toFloat (10 ^ decimals)
 
+        rounded : Float
         rounded =
             toFloat (round (f * multiplier)) / multiplier
 
+        str : String
         str =
             String.fromFloat rounded
 
+        parts : List String
         parts =
             String.split "." str
     in

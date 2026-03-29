@@ -48,19 +48,24 @@ processEntry packageId versionId entry acc =
 
         Ok parsed ->
             let
+                normalized : Type.Type
                 normalized =
                     Normalize.normalize parsed
 
+                fp : String
                 fp =
                     Fingerprint.fingerprint normalized
 
+                argCount : Int
                 argCount =
                     Fingerprint.countArgs normalized
 
+                astJson : String
                 astJson =
                     Type.encoder normalized
                         |> Encode.encode 0
 
+                row : TypeIndexRow
                 row =
                     { packageId = packageId
                     , versionId = versionId

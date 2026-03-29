@@ -2,8 +2,8 @@ module Status.ClassificationTest exposing (suite)
 
 import Expect
 import Set
-import Shared.PackageVersion as PackageVersion
-import Status.Classification as Classification exposing (Status(..))
+import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
+import Status.Classification as Classification exposing (Classified, FileIndex, Status(..), Summary)
 import Test exposing (Test, describe, test)
 
 
@@ -22,6 +22,7 @@ suite =
             [ test "pending takes priority over docs" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { emptyIndex
                                 | docsFiles = Set.singleton "elm/core@1.0.5"
@@ -33,6 +34,7 @@ suite =
             , test "pending takes priority over errors" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { emptyIndex
                                 | errorsFiles = Set.singleton "elm/core@1.0.5"
@@ -44,6 +46,7 @@ suite =
             , test "errors takes priority over docs" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { emptyIndex
                                 | docsFiles = Set.singleton "elm/core@1.0.5"
@@ -55,6 +58,7 @@ suite =
             , test "success when only in docs" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { emptyIndex | docsFiles = Set.singleton "elm/core@1.0.5" }
                     in
@@ -69,12 +73,14 @@ suite =
             [ test "places packages in correct buckets" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { docsFiles = Set.fromList [ "elm/core@1.0.5", "elm/json@1.1.3" ]
                             , errorsFiles = Set.singleton "elm/json@1.1.3"
                             , pendingFiles = Set.singleton "elm/html@1.0.0"
                             }
 
+                        packages : List PackageVersion
                         packages =
                             List.filterMap PackageVersion.fromString
                                 [ "elm/core@1.0.5"
@@ -83,9 +89,11 @@ suite =
                                 , "elm/url@1.0.0"
                                 ]
 
+                        result : Classified
                         result =
                             Classification.classifyAll index packages
 
+                        toKeys : List PackageVersion -> List String
                         toKeys =
                             List.map PackageVersion.toKey
                     in
@@ -101,9 +109,11 @@ suite =
             [ test "counts correctly for empty list" <|
                 \() ->
                     let
+                        result : Classified
                         result =
                             Classification.classifyAll emptyIndex []
 
+                        summary : Summary
                         summary =
                             Classification.summarize result
                     in
@@ -118,12 +128,14 @@ suite =
             , test "counts correctly for mixed list" <|
                 \() ->
                     let
+                        index : FileIndex
                         index =
                             { docsFiles = Set.fromList [ "a/b@1.0.0", "c/d@1.0.0" ]
                             , errorsFiles = Set.singleton "c/d@1.0.0"
                             , pendingFiles = Set.singleton "e/f@1.0.0"
                             }
 
+                        packages : List PackageVersion
                         packages =
                             List.filterMap PackageVersion.fromString
                                 [ "a/b@1.0.0"
@@ -132,6 +144,7 @@ suite =
                                 , "g/h@1.0.0"
                                 ]
 
+                        summary : Summary
                         summary =
                             Classification.classifyAll index packages
                                 |> Classification.summarize

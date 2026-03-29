@@ -28,6 +28,7 @@ suite =
             [ test "writes empty docs, writes errors json, deletes pending" <|
                 \() ->
                     let
+                        actions : List WriteAction
                         actions =
                             Fetch.onFailure
                                 { docsPath = "packages/elm/core/1.0.5/docs.json"
@@ -66,6 +67,7 @@ suite =
             [ test "produces valid JSON with url and error fields" <|
                 \() ->
                     let
+                        json : String
                         json =
                             Fetch.toErrorJson "https://example.com/docs.json" "connection timeout"
                     in

@@ -177,11 +177,13 @@ suite =
                     -- Int vs String = 1.0. Inconsistent binding is penalized.
                     -- This should score worse than Int -> Int above.
                     let
+                        consistent : Float
                         consistent =
                             Distance.distance
                                 (Fn [ Var "a", Var "a" ] (App { home = "Basics", name = "Int" } []))
                                 (Fn [ App { home = "Basics", name = "Int" } [], App { home = "Basics", name = "Int" } [] ] (App { home = "Basics", name = "Int" } []))
 
+                        inconsistent : Float
                         inconsistent =
                             Distance.distance
                                 (Fn [ Var "a", Var "a" ] (App { home = "Basics", name = "Int" } []))
@@ -198,21 +200,27 @@ suite =
                     -- Candidate B: String -> Int -> Bool (swapped args)
                     -- B should score slightly worse due to permutation penalty
                     let
+                        int : Type
                         int =
                             App { home = "Basics", name = "Int" } []
 
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
 
+                        query : Type
                         query =
                             Fn [ int, str ] bool
 
+                        ordered : Float
                         ordered =
                             Distance.distance query (Fn [ int, str ] bool)
 
+                        reordered : Float
                         reordered =
                             Distance.distance query (Fn [ str, int ] bool)
                     in
@@ -226,9 +234,11 @@ suite =
             [ test "String -> Bool vs String -> String -> Bool scores < 0.25" <|
                 \() ->
                     let
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
                     in
@@ -239,18 +249,23 @@ suite =
             , test "exact match beats partial application" <|
                 \() ->
                     let
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
 
+                        query : Type
                         query =
                             Fn [ str ] bool
 
+                        exact : Float
                         exact =
                             Distance.distance query (Fn [ str ] bool)
 
+                        partial : Float
                         partial =
                             Distance.distance query (Fn [ str, str ] bool)
                     in
@@ -258,18 +273,23 @@ suite =
             , test "skipping 2 args costs more than skipping 1" <|
                 \() ->
                     let
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
 
+                        query : Type
                         query =
                             Fn [ str ] bool
 
+                        skip1 : Float
                         skip1 =
                             Distance.distance query (Fn [ str, str ] bool)
 
+                        skip2 : Float
                         skip2 =
                             Distance.distance query (Fn [ str, str, str ] bool)
                     in
@@ -277,18 +297,23 @@ suite =
             , test "result type mismatch penalized in partial path" <|
                 \() ->
                     let
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        int : Type
                         int =
                             App { home = "Basics", name = "Int" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
 
+                        goodResult : Float
                         goodResult =
                             Distance.distance (Fn [ str ] bool) (Fn [ str, str ] bool)
 
+                        badResult : Float
                         badResult =
                             Distance.distance (Fn [ str ] bool) (Fn [ str, str ] int)
                     in
@@ -296,12 +321,15 @@ suite =
             , test "trailing mismatch: permutation path wins" <|
                 \() ->
                     let
+                        int : Type
                         int =
                             App { home = "Basics", name = "Int" } []
 
+                        str : Type
                         str =
                             App { home = "String", name = "String" } []
 
+                        bool : Type
                         bool =
                             App { home = "Basics", name = "Bool" } []
                     in

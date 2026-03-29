@@ -51,7 +51,7 @@ reservedMatches =
         [ ( "number", Set.fromList [ "Float", "Int" ] )
         , ( "comparable", Set.fromList [ "Float", "Int", "Char", "String" ] )
         , ( "appendable", Set.fromList [ "String", "List" ] )
-        , ( "compappend", Set.fromList [ "String" ] )
+        , ( "compappend", Set.singleton "String" )
         ]
 
 
@@ -115,6 +115,7 @@ fnDistance qArgs qResult cArgs cResult bindings =
         in
         if List.isEmpty shorter then
             let
+                argPenalty : Float
                 argPenalty =
                     if not (List.isEmpty longer) then
                         mediumPenalty
@@ -129,6 +130,7 @@ fnDistance qArgs qResult cArgs cResult bindings =
                 ( argDist, bindings2 ) =
                     listDistance qArgs cArgs bindings1
 
+                linearScore : Float
                 linearScore =
                     (argDist + resultDist) / 2
 
@@ -146,6 +148,7 @@ fnDistance qArgs qResult cArgs cResult bindings =
                 ( bestArgDist, bindings2 ) =
                     bestPermutationDistance shorter longer bindings1
 
+                permScore : Float
                 permScore =
                     (bestArgDist + resultDist) / 2
 
@@ -162,12 +165,15 @@ fnDistance qArgs qResult cArgs cResult bindings =
 bestPermutationDistance : List Type -> List Type -> Dict String Type -> ( Float, Dict String Type )
 bestPermutationDistance shorter longer bindings =
     let
+        indices : List Int
         indices =
             List.range 0 (List.length longer - 1)
 
+        perms : List (List Int)
         perms =
             permutations indices (List.length shorter)
 
+        identity : List Int
         identity =
             List.range 0 (List.length shorter - 1)
     in
@@ -190,9 +196,11 @@ bestPermutationDistance shorter longer bindings =
 scorePermutation : List Type -> List Type -> List Int -> List Int -> Dict String Type -> ( Float, Dict String Type )
 scorePermutation shorter longer perm identity bindings =
     let
+        shorterLen : Float
         shorterLen =
             List.length shorter |> toFloat
 
+        longerLen : Float
         longerLen =
             List.length longer |> toFloat
 
@@ -200,6 +208,7 @@ scorePermutation shorter longer perm identity bindings =
             List.foldl
                 (\( s, idx ) ( accSum, accBindings ) ->
                     let
+                        c : Type
                         c =
                             listGet idx longer |> Maybe.withDefault (Var "_")
 
@@ -211,15 +220,19 @@ scorePermutation shorter longer perm identity bindings =
                 ( 0.0, bindings )
                 (List.map2 Tuple.pair shorter perm)
 
+        unmatchedPenalty : Float
         unmatchedPenalty =
             ((longerLen - shorterLen) * mediumPenalty) / longerLen
 
+        avg : Float
         avg =
             sum / shorterLen
 
+        isReordered : Bool
         isReordered =
             perm /= List.take (List.length perm) identity
 
+        reorderPenalty : Float
         reorderPenalty =
             if isReordered then
                 permutationPenalty
@@ -233,6 +246,7 @@ scorePermutation shorter longer perm identity bindings =
 trailingSubsequenceDistance : List Type -> Type -> List Type -> Type -> Dict String Type -> ( Float, Dict String Type )
 trailingSubsequenceDistance qArgs qResult cArgs cResult bindings =
     let
+        skipped : Int
         skipped =
             List.length cArgs - List.length qArgs
     in
@@ -241,6 +255,7 @@ trailingSubsequenceDistance qArgs qResult cArgs cResult bindings =
 
     else
         let
+            trailingCArgs : List Type
             trailingCArgs =
                 List.drop skipped cArgs
 
@@ -267,6 +282,7 @@ permutations arr k =
         List.concatMap
             (\i ->
                 let
+                    rest : List Int
                     rest =
                         List.filter (\x -> x /= i) arr
                 in
@@ -304,6 +320,7 @@ resolveVarHelper name bindings seen =
 varDistance : String -> Type -> Dict String Type -> ( Float, Dict String Type )
 varDistance varName other bindings =
     let
+        resolved : Maybe Type
         resolved =
             resolveVar varName bindings
     in
@@ -335,6 +352,7 @@ varDistance varName other bindings =
 bindAndScore : String -> Type -> Dict String Type -> ( Float, Dict String Type )
 bindAndScore varName other bindings =
     let
+        newBindings : Dict String Type
         newBindings =
             Dict.insert varName other bindings
     in
@@ -367,6 +385,7 @@ bindAndScore varName other bindings =
 appDistance : QualifiedName -> List Type -> QualifiedName -> List Type -> Dict String Type -> ( Float, Dict String Type )
 appDistance qName qArgs cName cArgs bindings =
     let
+        nameDist : Float
         nameDist =
             nameDistance qName cName
     in
@@ -398,9 +417,11 @@ nameDistance q c =
 
     else
         let
+            qLower : String
             qLower =
                 String.toLower q.name
 
+            cLower : String
             cLower =
                 String.toLower c.name
         in
@@ -422,33 +443,34 @@ listDistance qs cs bindings =
 
     else
         let
+            maxLen : Int
             maxLen =
                 max (List.length qs) (List.length cs)
 
             ( sum, finalBindings ) =
-                listDistanceHelper qs cs 0 0.0 bindings
+                listDistanceHelper qs cs 0.0 bindings
         in
         ( (sum + toFloat (maxLen - max (List.length qs) (List.length cs)) * maxPenalty) / toFloat maxLen, finalBindings )
 
 
-listDistanceHelper : List Type -> List Type -> Int -> Float -> Dict String Type -> ( Float, Dict String Type )
-listDistanceHelper qs cs idx sum bindings =
+listDistanceHelper : List Type -> List Type -> Float -> Dict String Type -> ( Float, Dict String Type )
+listDistanceHelper qs cs sum bindings =
     case ( qs, cs ) of
         ( q :: qRest, c :: cRest ) ->
             let
                 ( d, b ) =
                     typeDistance q c bindings
             in
-            listDistanceHelper qRest cRest (idx + 1) (sum + d) b
+            listDistanceHelper qRest cRest (sum + d) b
 
         ( [], [] ) ->
             ( sum, bindings )
 
         ( _ :: qRest, [] ) ->
-            listDistanceHelper qRest [] (idx + 1) (sum + maxPenalty) bindings
+            listDistanceHelper qRest [] (sum + maxPenalty) bindings
 
         ( [], _ :: cRest ) ->
-            listDistanceHelper [] cRest (idx + 1) (sum + maxPenalty) bindings
+            listDistanceHelper [] cRest (sum + maxPenalty) bindings
 
 
 
@@ -462,6 +484,7 @@ recordDistance qFields cFields bindings =
 
     else
         let
+            cDict : Dict String Type
             cDict =
                 Dict.fromList cFields
 
@@ -482,12 +505,15 @@ recordDistance qFields cFields bindings =
                     ( 0.0, 0, bindings )
                     qFields
 
+            total : Int
             total =
                 max (List.length qFields) (List.length cFields)
 
+            unmatched : Int
             unmatched =
                 total - matchedCount
 
+            finalSum : Float
             finalSum =
                 matchedSum + toFloat unmatched * maxPenalty
         in

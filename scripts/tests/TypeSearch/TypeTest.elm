@@ -2,7 +2,6 @@ module TypeSearch.TypeTest exposing (suite)
 
 import Expect
 import Json.Decode as Decode
-import Json.Encode as Encode
 import Test exposing (Test, describe, test)
 import TypeSearch.Type as Type exposing (Type(..))
 
@@ -61,6 +60,7 @@ decoderSuite =
         , test "decodes nested fn" <|
             \() ->
                 let
+                    json : String
                     json =
                         """{"tag":"fn","args":[{"tag":"fn","args":[{"tag":"var","name":"a"}],"result":{"tag":"var","name":"b"}}],"result":{"tag":"app","name":{"home":"List","name":"List"},"args":[{"tag":"var","name":"b"}]}}"""
                 in

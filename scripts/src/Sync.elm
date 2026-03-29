@@ -33,6 +33,7 @@ run =
 runSyncElmPackages : CliOptions -> BackendTask FatalError ()
 runSyncElmPackages options =
     let
+        args : List String
         args =
             [ "--concurrency", String.fromInt options.concurrency
             , "--delay", String.fromInt options.delay
@@ -55,6 +56,7 @@ runSyncGithub options =
         |> BackendTask.andThen
             (\maybeToken ->
                 let
+                    args : List String
                     args =
                         [ "--concurrency", String.fromInt options.githubConcurrency
                         , "--delay", String.fromInt options.githubDelay

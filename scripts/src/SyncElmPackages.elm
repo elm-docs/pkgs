@@ -106,6 +106,7 @@ discoverNewPackages options =
                     |> BackendTask.andThen
                         (\() ->
                             let
+                                url : String
                                 url =
                                     "https://package.elm-lang.org/all-packages/since/" ++ String.fromInt index
                             in
@@ -118,6 +119,7 @@ discoverNewPackages options =
                                             |> BackendTask.andThen
                                                 (\existingKeys ->
                                                     let
+                                                        newPackages : List PackageVersion
                                                         newPackages =
                                                             Discovery.filterNew existingKeys rawPackages
                                                     in
@@ -177,6 +179,7 @@ queuePackages packages =
                 |> BackendTask.andThen
                     (\count ->
                         let
+                            dir : String
                             dir =
                                 Path.toVersionDir pv
                         in
@@ -212,12 +215,15 @@ fetchPending options =
         |> BackendTask.andThen
             (\pendingPaths ->
                 let
+                    total : Int
                     total =
                         List.length pendingPaths
 
+                    packages : List PackageVersion
                     packages =
                         List.filterMap parsePendingPath pendingPaths
 
+                    batches : List (List PackageVersion)
                     batches =
                         chunk options.concurrency packages
                 in
@@ -254,6 +260,7 @@ processBatches options batches progress =
 
         batch :: rest ->
             let
+                fetchTasks : List (BackendTask FatalError FetchResult)
                 fetchTasks =
                     List.map fetchOnePackage batch
             in
@@ -261,6 +268,7 @@ processBatches options batches progress =
                 |> BackendTask.andThen
                     (\results ->
                         let
+                            newProgress : FetchProgress
                             newProgress =
                                 List.foldl
                                     (\result acc ->
@@ -273,9 +281,11 @@ processBatches options batches progress =
                                     progress
                                     results
 
+                            done : Int
                             done =
                                 newProgress.completed + newProgress.failed
 
+                            pct : String
                             pct =
                                 if newProgress.total > 0 then
                                     String.fromInt (done * 100 // newProgress.total)
@@ -305,18 +315,23 @@ type alias FetchResult =
 fetchOnePackage : PackageVersion -> BackendTask FatalError FetchResult
 fetchOnePackage pv =
     let
+        url : String
         url =
             Path.toDocsUrl pv
 
+        docsPath : String
         docsPath =
             Path.toDocsPath pv
 
+        errorsPath : String
         errorsPath =
             Path.toErrorsPath pv
 
+        pendingPath : String
         pendingPath =
             Path.toPendingPath pv
 
+        paths : { docsPath : String, pendingPath : String, errorsPath : String }
         paths =
             { docsPath = docsPath, pendingPath = pendingPath, errorsPath = errorsPath }
     in
@@ -325,6 +340,7 @@ fetchOnePackage pv =
         |> BackendTask.onError
             (\{ recoverable } ->
                 let
+                    errorMessage : String
                     errorMessage =
                         case recoverable of
                             BackendTask.Http.BadUrl badUrl ->
@@ -381,13 +397,16 @@ executeActions actions =
 formatFailures : List PackageVersion -> String
 formatFailures failures =
     let
+        header : String
         header =
             "\n" ++ red "Packages with errors:"
 
+        items : List String
         items =
             List.take 5 failures
                 |> List.map (\pv -> "  • " ++ PackageVersion.toLabel pv)
 
+        remaining : Int
         remaining =
             List.length failures - 5
     in

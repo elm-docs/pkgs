@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "automatically created by": "elm-review suppress",
+  "learn more": "elm-review suppress --help",
+  "suppressions": [
+    { "count": 1, "filePath": "src/BuildDb.elm" },
+    { "count": 1, "filePath": "src/Status.elm" },
+    { "count": 1, "filePath": "src/Sync.elm" },
+    { "count": 1, "filePath": "src/SyncElmPackages.elm" },
+    { "count": 1, "filePath": "src/SyncGithub.elm" },
+    { "count": 1, "filePath": "src/TypeSearch.elm" }
+  ]
+}

@@ -20,7 +20,6 @@ import Sync.Path as SyncPath
 import SyncGithub.DateStats as DateStats exposing (DateStats, IssueInfo)
 import SyncGithub.Discovery as Discovery exposing (PackageId(..))
 import SyncGithub.ErrorClassification as ErrorClassification
-import SyncGithub.Path as Path
 import SyncGithub.Result as GhResult exposing (GithubResult(..))
 import Time
 
@@ -122,9 +121,11 @@ discoverAndFetch token options =
         |> BackendTask.andThen
             (\( allPackages, existingKeys ) ->
                 let
+                    toFetch : List PackageId
                     toFetch =
                         Discovery.filterNeedingGithub options.update existingKeys allPackages
 
+                    total : Int
                     total =
                         List.length allPackages
                 in
@@ -158,6 +159,7 @@ parsePackagePath : String -> Maybe PackageId
 parsePackagePath path =
     -- path looks like "../.../content/packages/org/pkg/"
     let
+        segments : List String
         segments =
             path |> String.split "/" |> List.filter ((/=) "")
     in
@@ -195,6 +197,7 @@ type alias FetchProgress =
 fetchAll : String -> CliOptions -> List PackageId -> BackendTask FatalError ()
 fetchAll token options packages =
     let
+        total : Int
         total =
             List.length packages
     in
@@ -206,6 +209,7 @@ fetchAll token options packages =
 
                 else
                     let
+                        batches : List (List PackageId)
                         batches =
                             chunk options.concurrency packages
                     in
@@ -236,6 +240,7 @@ processBatches token options batches progress =
                 |> BackendTask.andThen
                     (\results ->
                         let
+                            newProgress : FetchProgress
                             newProgress =
                                 List.foldl
                                     (\result acc ->
@@ -248,9 +253,11 @@ processBatches token options batches progress =
                                     progress
                                     results
 
+                            done : Int
                             done =
                                 newProgress.completed + newProgress.failed
 
+                            pct : String
                             pct =
                                 if newProgress.total > 0 then
                                     String.fromInt (done * 100 // newProgress.total)
@@ -288,6 +295,7 @@ fetchOne token ((PackageId org pkg) as packageId) =
             (\_ ->
                 -- On any fatal error during fetch, write an error file and continue
                 let
+                    errMsg : String
                     errMsg =
                         "Error fetching GitHub info"
                 in
@@ -295,11 +303,14 @@ fetchOne token ((PackageId org pkg) as packageId) =
                     |> BackendTask.andThen
                         (\now ->
                             let
+                                failedAt : String
                                 failedAt =
                                     Iso8601.fromTime now
 
+                                actions : List WriteAction
                                 actions =
-                                    GhResult.onError org pkg
+                                    GhResult.onError org
+                                        pkg
                                         { reason = "unknown"
                                         , status = Nothing
                                         , error = errMsg
@@ -371,6 +382,7 @@ fetchGithubInfo token now org pkg =
                                 |> BackendTask.map
                                     (\( userExists, userType ) ->
                                         let
+                                            data : String
                                             data =
                                                 Encode.encode 2
                                                     (Encode.object
@@ -393,10 +405,12 @@ fetchGithubInfo token now org pkg =
 
                         else
                             let
+                                reason : ErrorClassification.ErrorReason
                                 reason =
                                     ErrorClassification.classifyResponse metadata.statusCode
                                         (Dict.get "message" metadata.headers |> Maybe.withDefault "")
 
+                                errMsg : String
                                 errMsg =
                                     "HTTP " ++ String.fromInt metadata.statusCode ++ " " ++ metadata.statusText
                             in
@@ -423,12 +437,14 @@ fetchGithubInfo token now org pkg =
 
                     RepoData ( fullName, starsCount ) ->
                         let
+                            originalRepo : String
                             originalRepo =
                                 org ++ "/" ++ pkg
                         in
                         if String.toLower fullName /= String.toLower originalRepo then
                             -- Redirect detected
                             let
+                                parts : List String
                                 parts =
                                     String.split "/" fullName
 
@@ -440,6 +456,7 @@ fetchGithubInfo token now org pkg =
                                         _ ->
                                             ( fullName, "" )
 
+                                data : String
                                 data =
                                     Encode.encode 2
                                         (Encode.object
@@ -480,9 +497,11 @@ fetchRepoDetails token now org pkg starsCount =
         |> BackendTask.andThen
             (\( lastCommitAt, maintainers, allIssues ) ->
                 let
+                    rawIssues : List RawIssue
                     rawIssues =
                         List.filter (\i -> not i.hasPr) allIssues
 
+                    rawPrs : List RawIssue
                     rawPrs =
                         List.filter .hasPr allIssues
                 in
@@ -492,12 +511,15 @@ fetchRepoDetails token now org pkg starsCount =
                     |> BackendTask.map
                         (\( issues, prs ) ->
                             let
+                                openIssues : DateStats
                                 openIssues =
                                     DateStats.computeDateStats now issues
 
+                                openPrs : DateStats
                                 openPrs =
                                     DateStats.computeDateStats now prs
 
+                                data : String
                                 data =
                                     Encode.encode 2
                                         (Encode.object
@@ -557,7 +579,16 @@ fetchMaintainers token org pkg =
                 )
             )
         )
-        |> BackendTask.map (List.filterMap (\( login, hasPerm ) -> if hasPerm then Just login else Nothing))
+        |> BackendTask.map
+            (List.filterMap
+                (\( login, hasPerm ) ->
+                    if hasPerm then
+                        Just login
+
+                    else
+                        Nothing
+                )
+            )
         |> BackendTask.onError (\_ -> BackendTask.succeed [])
 
 
@@ -581,8 +612,16 @@ fetchAllPages :
     -> BackendTask { fatal : FatalError, recoverable : BackendTask.Http.Error } (List a)
 fetchAllPages token path decoder =
     let
+        url : String
         url =
-            githubApi ++ path ++ (if String.contains "?" path then "&" else "?") ++ "per_page=100"
+            githubApi ++ path
+                ++ (if String.contains "?" path then
+                        "&"
+
+                    else
+                        "?"
+                   )
+                ++ "per_page=100"
     in
     fetchPage token url decoder []
 
@@ -610,9 +649,11 @@ fetchPage token url decoder accumulated =
         |> BackendTask.andThen
             (\( metadata, items ) ->
                 let
+                    allItems : List a
                     allItems =
                         accumulated ++ items
 
+                    nextUrl : Maybe String
                     nextUrl =
                         parseNextLink (Dict.get "link" metadata.headers)
                 in
@@ -637,9 +678,11 @@ parseNextLink maybeLinkHeader =
                 |> List.filterMap
                     (\part ->
                         let
+                            trimmed : String
                             trimmed =
                                 String.trim part
 
+                            segments : List String
                             segments =
                                 String.split ";" trimmed
                         in
@@ -774,15 +817,19 @@ chunk size list =
 formatFailures : List PackageId -> String
 formatFailures failures =
     let
+        header : String
         header =
             "\n" ++ red "Packages with errors:"
 
+        shown : List PackageId
         shown =
             List.take 5 failures
 
+        items : List String
         items =
             List.map (\(PackageId o p) -> "  " ++ dim "•" ++ " " ++ o ++ "/" ++ p) shown
 
+        remaining : Int
         remaining =
             List.length failures - List.length shown
     in

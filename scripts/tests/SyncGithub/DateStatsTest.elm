@@ -1,7 +1,7 @@
 module SyncGithub.DateStatsTest exposing (suite)
 
 import Expect
-import SyncGithub.DateStats as DateStats exposing (IssueInfo)
+import SyncGithub.DateStats as DateStats exposing (DateStats, IssueInfo)
 import Test exposing (Test, describe, test)
 import Time
 
@@ -50,9 +50,11 @@ suite =
             , test "single item: min = max = avg" <|
                 \() ->
                     let
+                        items : List IssueInfo
                         items =
                             [ issueAt "2024-01-09T00:00:00Z" ]
 
+                        stats : DateStats
                         stats =
                             DateStats.computeDateStats referenceTime items
                     in
@@ -66,12 +68,14 @@ suite =
             , test "multiple items: correct min/max/avg" <|
                 \() ->
                     let
+                        items : List IssueInfo
                         items =
                             [ issueAt "2024-01-09T00:00:00Z" -- 1 day
                             , issueAt "2024-01-07T00:00:00Z" -- 3 days
                             , issueAt "2024-01-05T00:00:00Z" -- 5 days
                             ]
 
+                        stats : DateStats
                         stats =
                             DateStats.computeDateStats referenceTime items
                     in
@@ -85,6 +89,7 @@ suite =
             , test "preserves items list" <|
                 \() ->
                     let
+                        items : List IssueInfo
                         items =
                             [ issueAt "2024-01-09T00:00:00Z" ]
                     in

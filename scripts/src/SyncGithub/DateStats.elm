@@ -26,6 +26,7 @@ daysSince now dateStr =
     case Iso8601.toTime dateStr of
         Ok past ->
             let
+                ms : Int
                 ms =
                     Time.posixToMillis now - Time.posixToMillis past
             in
@@ -43,15 +44,19 @@ computeDateStats now items =
 
         _ ->
             let
+                ages : List Int
                 ages =
                     List.map (\item -> daysSince now item.createdAt) items
 
+                minAge : Int
                 minAge =
                     List.minimum ages |> Maybe.withDefault 0
 
+                maxAge : Int
                 maxAge =
                     List.maximum ages |> Maybe.withDefault 0
 
+                avgAge : Int
                 avgAge =
                     round (toFloat (List.sum ages) / toFloat (List.length ages))
             in

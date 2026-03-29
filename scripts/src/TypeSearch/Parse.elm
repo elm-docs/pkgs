@@ -69,6 +69,7 @@ arrowLoop lenient acc =
         , Parser.lazy
             (\() ->
                 let
+                    reversed : List Type
                     reversed =
                         List.reverse acc
                 in
@@ -78,9 +79,11 @@ arrowLoop lenient acc =
 
                     _ ->
                         let
+                            args : List Type
                             args =
                                 List.take (List.length reversed - 1) reversed
 
+                            result : Type
                             result =
                                 List.drop (List.length reversed - 1) reversed
                                     |> List.head
@@ -176,6 +179,7 @@ tupleRestParser lenient acc =
         |> Parser.andThen
             (\next ->
                 let
+                    newAcc : List Type
                     newAcc =
                         acc ++ [ next ]
                 in
@@ -281,13 +285,16 @@ qualifiedSegmentsLoop lenient segments =
         , Parser.lazy
             (\() ->
                 let
+                    typeName : String
                     typeName =
                         List.reverse segments |> List.head |> Maybe.withDefault ""
 
+                    home : String
                     home =
                         List.take (List.length segments - 1) segments
                             |> String.join "."
 
+                    qname : QualifiedName
                     qname =
                         if home == "" && lenient then
                             resolveName True typeName
