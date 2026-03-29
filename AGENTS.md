@@ -18,21 +18,18 @@ Claude is expected to be launched inside a `nix develop` shell, which provides a
 
 ```bash
 npm run test              # Run Elm tests
-npm run status            # Report sync status (pre-built bundle)
-npm run sync              # Sync packages from registry
+npm run status            # Report sync status
+npm run sync              # Orchestrated sync: SyncElmPackages then SyncGithub
+npm run sync-elm-packages # Sync packages from registry (docs.json)
 npm run sync-github       # Sync GitHub metadata
 npm run build-db          # Build SQLite database from synced data
 npm run type-search       # Search by type signature (e.g. "List a -> Maybe a")
 
-# Dev mode (runs via elm-pages run, slower but always up-to-date)
-npm run status:dev
-npm run sync:dev
-npm run type-search:dev -- "List a -> Int"
-
-# Build bundles (compiles Elm source into bin/*.mjs)
-npm run status:build
-npm run sync:build
-npm run type-search:build
+# CLI dispatcher (lazily builds DB, routes to Elm scripts)
+node bin/elm-docs.mjs help
+node bin/elm-docs.mjs type-search 'List a -> Maybe a'
+node bin/elm-docs.mjs build-db
+node bin/elm-docs.mjs status
 ```
 
 ## Architecture
@@ -42,7 +39,8 @@ All CLI tools are implemented in Elm using elm-pages scripts, located in `script
 ### `scripts/` — CLI Tools (Elm + elm-pages)
 
 All CLI tool source code lives here:
-- `src/Sync.elm` — Discovery and parallel download of docs.json from the Elm package registry
+- `src/Sync.elm` — Orchestrator: runs SyncElmPackages then SyncGithub sequentially
+- `src/SyncElmPackages.elm` — Discovery and parallel download of docs.json from the Elm package registry
 - `src/SyncGithub.elm` — GitHub API interaction with rate-limit handling, redirect detection
 - `src/Status.elm` — Reports package states: success / pending / error / missing
 - `src/BuildDb.elm` — Builds SQLite database from synced docs and GitHub data
@@ -62,9 +60,9 @@ Default location for `elm-packages.db` (SQLite). No source code.
 
 Contains `README.md` documenting the type search algorithm. No source code.
 
-### `bin/` — Pre-built Bundles
+### `bin/` — CLI Dispatcher
 
-Version-controlled `.mjs` bundles compiled from Elm sources. These are what the unprefixed `npm run` scripts execute.
+Contains `elm-docs.mjs`, a hand-written Node.js entry point that routes CLI actions to Elm scripts via `elm-pages run`. Handles lazy DB creation for `type-search`.
 
 ## Commit Guidelines
 

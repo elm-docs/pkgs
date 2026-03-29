@@ -1,28 +1,22 @@
 {
-  "name": "pkgs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@elm-docs/cli",
+  "version": "0.1.0",
+  "description": "Search and explore the Elm package ecosystem",
+  "type": "module",
+  "bin": {
+    "elm-docs": "./bin/elm-docs.mjs"
+  },
   "scripts": {
     "test": "cd scripts && elm-test-rs",
     "review": "cd scripts && elm-review",
     "review:fix": "cd scripts && elm-review --fix",
     "review:suppress": "cd scripts && elm-review suppress",
-    "status": "cd scripts && node ../bin/status.mjs",
-    "status:build": "cd scripts && elm-pages bundle-script src/Status.elm --output ../bin/status.mjs",
-    "status:dev": "cd scripts && elm-pages run src/Status.elm",
-    "sync": "cd scripts && node ../bin/sync.mjs",
-    "sync:build": "cd scripts && elm-pages bundle-script src/Sync.elm --output ../bin/sync.mjs",
-    "sync:dev": "cd scripts && elm-pages run src/Sync.elm",
-    "sync-github": "cd scripts && node ../bin/sync-github.mjs",
-    "sync-github:build": "cd scripts && elm-pages bundle-script src/SyncGithub.elm --output ../bin/sync-github.mjs",
-    "sync-github:dev": "cd scripts && elm-pages run src/SyncGithub.elm",
-    "type-search": "cd scripts && node ../bin/type-search.mjs",
-    "type-search:build": "cd scripts && elm-pages bundle-script src/TypeSearch.elm --output ../bin/type-search.mjs",
-    "type-search:dev": "cd scripts && elm-pages run src/TypeSearch.elm --",
-    "build-db": "cd scripts && node ../bin/build-db.mjs",
-    "build-db:build": "cd scripts && elm-pages bundle-script src/BuildDb.elm --output ../bin/build-db.mjs",
-    "build-db:dev": "cd scripts && elm-pages run src/BuildDb.elm --"
+    "status": "cd scripts && elm-pages run src/Status.elm",
+    "sync": "cd scripts && elm-pages run src/Sync.elm",
+    "sync-elm-packages": "cd scripts && elm-pages run src/SyncElmPackages.elm",
+    "sync-github": "cd scripts && elm-pages run src/SyncGithub.elm",
+    "type-search": "cd scripts && elm-pages run src/TypeSearch.elm --",
+    "build-db": "cd scripts && elm-pages run src/BuildDb.elm --"
   },
   "repository": {
     "type": "git",
@@ -31,15 +25,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/elm-docs/pkgs/issues"
   },
   "homepage": "https://github.com/elm-docs/pkgs#readme",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1"
+  },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^25.5.0",
-    "better-sqlite3": "^11.8.1",
     "elm-optimize-level-2": "^0.3.5",
     "elm-review": "^2.13.5",
     "elm-pages": "^3.3.0"
