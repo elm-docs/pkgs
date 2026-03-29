@@ -64,6 +64,18 @@ Contains `README.md` documenting the type search algorithm. No source code.
 
 Contains `elm-docs.mjs`, a hand-written Node.js entry point that routes CLI actions to Elm scripts via `elm-pages run`. Handles lazy DB creation for `type-search`.
 
+## Verification
+
+After making changes to Elm files, always run:
+
+1. `npm run review` — check for elm-review errors
+2. `npm run review:fix` — auto-fix what can be fixed, then manually fix the rest
+3. `npm run test` — ensure all tests pass
+
+## Elm Tooling
+
+- When using `elm-json`, always pass the `--yes` flag to avoid interactive prompts (e.g. `elm-json uninstall --yes elm/browser`).
+
 ## Commit Guidelines
 
 - Do **not** add `Co-Authored-By` trailers to commit messages. Commits should be authored solely by the human user.

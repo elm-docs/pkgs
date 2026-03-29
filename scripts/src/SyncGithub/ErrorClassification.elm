@@ -6,13 +6,13 @@ type ErrorReason
     | NotFound
     | Moved
     | Forbidden
-    | NetworkError
     | Unknown
 
 
 classifyResponse : Int -> String -> ErrorReason
 classifyResponse status message =
     let
+        lower : String
         lower =
             String.toLower message
     in
@@ -50,9 +50,6 @@ reasonToString reason =
 
         Forbidden ->
             "forbidden"
-
-        NetworkError ->
-            "network"
 
         Unknown ->
             "unknown"

@@ -1,20 +1,15 @@
 module Sync.PathTest exposing (suite)
 
 import Expect
-import Shared.PackageVersion as PackageVersion
+import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 import Sync.Path as Path
 import Test exposing (Test, describe, test)
-
-
-pv : String -> String -> String -> PackageVersion.PackageVersion
-pv o p v =
-    PackageVersion.fromString (o ++ "/" ++ p ++ "@" ++ v)
-        |> Maybe.withDefault (PackageVersion.fromString "x/x@0" |> Maybe.withDefault (PackageVersion.fromString "x/x@0" |> Maybe.withDefault (Debug.todo "impossible")))
 
 
 suite : Test
 suite =
     let
+        elmCore : PackageVersion
         elmCore =
             case PackageVersion.fromString "elm/core@1.0.5" of
                 Just p ->

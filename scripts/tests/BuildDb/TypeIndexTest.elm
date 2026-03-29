@@ -13,6 +13,7 @@ suite =
         [ test "simple function type produces correct fingerprint, argCount, typeAstJson" <|
             \() ->
                 let
+                    entries : List TypeEntry
                     entries =
                         [ { moduleName = "List"
                           , name = "head"
@@ -21,6 +22,7 @@ suite =
                           }
                         ]
 
+                    result : ProcessResult
                     result =
                         processEntries 1 10 entries
                 in
@@ -47,6 +49,7 @@ suite =
         , test "parse error is counted, not in rows" <|
             \() ->
                 let
+                    entries : List TypeEntry
                     entries =
                         [ { moduleName = "Bad"
                           , name = "broken"
@@ -55,6 +58,7 @@ suite =
                           }
                         ]
 
+                    result : ProcessResult
                     result =
                         processEntries 1 10 entries
                 in
@@ -66,6 +70,7 @@ suite =
         , test "empty input produces empty result" <|
             \() ->
                 let
+                    result : ProcessResult
                     result =
                         processEntries 1 10 []
                 in
@@ -73,6 +78,7 @@ suite =
         , test "typeAstJson round-trips back to parsed AST" <|
             \() ->
                 let
+                    entries : List TypeEntry
                     entries =
                         [ { moduleName = "Basics"
                           , name = "identity"
@@ -81,6 +87,7 @@ suite =
                           }
                         ]
 
+                    result : ProcessResult
                     result =
                         processEntries 1 10 entries
                 in

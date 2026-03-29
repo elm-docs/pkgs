@@ -30,9 +30,11 @@ suite =
         [ test "exact match appears in results" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Fn [ Var "a" ] (Var "b")
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "List"
                             "map"
@@ -43,6 +45,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search defaultConfig query "F1:" candidates
                 in
@@ -51,9 +54,11 @@ suite =
         , test "exact match has distance near 0 with boost" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Fn [ Var "a" ] (Var "b")
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "List"
                             "map"
@@ -64,6 +69,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search defaultConfig query "F1:" candidates
                 in
@@ -77,9 +83,11 @@ suite =
         , test "filters by fingerprint compatibility" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Fn [ App { home = "Basics", name = "Int" } [] ] (App { home = "String", name = "String" } [])
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "String"
                             "fromInt"
@@ -97,6 +105,7 @@ suite =
                             "pkg"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search defaultConfig query "F1:Int,String" candidates
                 in
@@ -105,9 +114,11 @@ suite =
         , test "respects threshold" <|
             \() ->
                 let
+                    query : Type
                     query =
                         App { home = "Basics", name = "Int" } []
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "Basics"
                             "toFloat"
@@ -118,6 +129,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search { limit = 20, threshold = 0.5 } query "F0:Int" candidates
                 in
@@ -127,9 +139,11 @@ suite =
         , test "respects limit" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Var "a"
 
+                    candidates : List Candidate
                     candidates =
                         List.range 1 10
                             |> List.map
@@ -143,6 +157,7 @@ suite =
                                         "core"
                                 )
 
+                    results : List SearchResult
                     results =
                         Search.search { limit = 3, threshold = 1.0 } query "F0:" candidates
                 in
@@ -151,9 +166,11 @@ suite =
         , test "sorts by distance ascending" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Fn [ Var "a" ] (App { home = "Basics", name = "Int" } [])
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "M"
                             "far"
@@ -171,6 +188,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search { limit = 20, threshold = 2.0 } query "F1:Int" candidates
                 in
@@ -179,9 +197,11 @@ suite =
         , test "package boost affects ranking" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Fn [ Var "a" ] (Var "b")
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "M"
                             "third_party"
@@ -199,6 +219,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search { limit = 20, threshold = 1.0 } query "F1:" candidates
                 in
@@ -207,9 +228,11 @@ suite =
         , test "result includes package name" <|
             \() ->
                 let
+                    query : Type
                     query =
                         Var "a"
 
+                    candidates : List Candidate
                     candidates =
                         [ mkCandidate "List"
                             "head"
@@ -220,6 +243,7 @@ suite =
                             "core"
                         ]
 
+                    results : List SearchResult
                     results =
                         Search.search { limit = 20, threshold = 1.0 } query "F0:" candidates
                 in

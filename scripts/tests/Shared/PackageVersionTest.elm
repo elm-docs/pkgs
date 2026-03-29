@@ -1,7 +1,7 @@
 module Shared.PackageVersionTest exposing (suite)
 
 import Expect
-import Shared.PackageVersion as PackageVersion
+import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 import Test exposing (Test, describe, test)
 
 
@@ -12,6 +12,7 @@ suite =
             [ test "parses elm/core@1.0.5" <|
                 \() ->
                     let
+                        result : Maybe PackageVersion
                         result =
                             PackageVersion.fromString "elm/core@1.0.5"
                     in
@@ -29,6 +30,7 @@ suite =
             , test "parses author/my-package@2.0.0" <|
                 \() ->
                     let
+                        result : Maybe PackageVersion
                         result =
                             PackageVersion.fromString "author/my-package@2.0.0"
                     in
@@ -68,6 +70,7 @@ suite =
             [ test "fromString >> toLabel equals original" <|
                 \() ->
                     let
+                        original : String
                         original =
                             "elm/core@1.0.5"
                     in

@@ -26,6 +26,7 @@ fetchAndReport =
         |> BackendTask.andThen
             (\allPackageStrings ->
                 let
+                    packages : List PackageVersion.PackageVersion
                     packages =
                         List.filterMap PackageVersion.fromString allPackageStrings
                 in
@@ -34,22 +35,21 @@ fetchAndReport =
                     |> BackendTask.map
                         (\index ->
                             let
+                                classified : Classification.Classified
                                 classified =
                                     Classification.classifyAll index packages
 
+                                summary : Classification.Summary
                                 summary =
                                     Classification.summarize classified
-
-                                output =
-                                    [ Report.formatSummary summary
-                                    , Report.formatDetailList "Pending packages" yellow classified.pending
-                                    , Report.formatDetailList "Packages with errors" red classified.failure
-                                    , Report.formatDetailList "Missing packages" dim classified.missing
-                                    ]
-                                        |> List.filter (not << String.isEmpty)
-                                        |> String.join "\n\n"
                             in
-                            output
+                            [ Report.formatSummary summary
+                            , Report.formatDetailList "Pending packages" yellow classified.pending
+                            , Report.formatDetailList "Packages with errors" red classified.failure
+                            , Report.formatDetailList "Missing packages" dim classified.missing
+                            ]
+                                |> List.filter (not << String.isEmpty)
+                                |> String.join "\n\n"
                         )
                     |> BackendTask.andThen Script.log
             )
@@ -80,6 +80,7 @@ buildIndex =
 extractKey : String -> String
 extractKey path =
     let
+        segments : List String
         segments =
             String.split "/" path
     in

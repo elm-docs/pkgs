@@ -51,6 +51,7 @@ suite =
                             , missing = 12
                             }
 
+                        result : String
                         result =
                             Report.formatSummary summary
                     in
@@ -76,6 +77,7 @@ suite =
                             , missing = 20
                             }
 
+                        result : String
                         result =
                             Report.formatSummary summary
                     in
@@ -96,12 +98,15 @@ suite =
                             , missing = 1
                             }
 
+                        result : String
                         result =
                             Report.formatSummary summary
 
+                        lines : List String
                         lines =
                             String.lines result
 
+                        syncedLine : String
                         syncedLine =
                             lines
                                 |> List.filter (\l -> String.contains "Synced" l)
@@ -122,9 +127,11 @@ suite =
             , test "includes title in output" <|
                 \() ->
                     let
+                        packages : List PackageVersion
                         packages =
                             [ makePv "elm/core@1.0.5" ]
 
+                        result : String
                         result =
                             Report.formatDetailList "My Title" identity packages
                     in
@@ -133,6 +140,7 @@ suite =
             , test "3 items contains all 3 labels" <|
                 \() ->
                     let
+                        packages : List PackageVersion
                         packages =
                             List.map makePv
                                 [ "elm/core@1.0.5"
@@ -140,6 +148,7 @@ suite =
                                 , "elm/html@1.0.0"
                                 ]
 
+                        result : String
                         result =
                             Report.formatDetailList "Title" identity packages
                     in
@@ -152,6 +161,7 @@ suite =
             , test "7 items shows 5 and mentions 2 more" <|
                 \() ->
                     let
+                        packages : List PackageVersion
                         packages =
                             List.map makePv
                                 [ "a/a@1.0.0"
@@ -163,6 +173,7 @@ suite =
                                 , "g/g@1.0.0"
                                 ]
 
+                        result : String
                         result =
                             Report.formatDetailList "Title" identity packages
                     in

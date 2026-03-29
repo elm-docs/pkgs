@@ -37,6 +37,7 @@ search config queryAst queryFp candidates =
 
                 else
                     let
+                        dist : Float
                         dist =
                             Distance.distance queryAst c.typeAst
                                 + Distance.packageBoost c.org c.pkgName

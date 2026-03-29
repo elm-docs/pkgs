@@ -13,9 +13,11 @@ reservedVars =
 normalize : Type -> Type
 normalize tipe =
     let
+        seen : List String
         seen =
             collectVars tipe []
 
+        mapping : Dict String String
         mapping =
             buildMapping seen 0 Dict.empty
     in
@@ -38,6 +40,7 @@ collectVars tipe seen =
 
         Fn args result ->
             let
+                afterArgs : List String
                 afterArgs =
                     List.foldl (\arg acc -> collectVars arg acc) seen args
             in
@@ -51,6 +54,7 @@ collectVars tipe seen =
 
         Record fields ext ->
             let
+                afterExt : List String
                 afterExt =
                     case ext of
                         Just name ->
@@ -94,6 +98,7 @@ buildMapping vars nextIdx mapping =
 nextCanonical : Int -> ( String, Int )
 nextCanonical idx =
     let
+        candidate : String
         candidate =
             canonicalName idx
     in
@@ -107,12 +112,15 @@ nextCanonical idx =
 canonicalName : Int -> String
 canonicalName idx =
     let
+        letters : String
         letters =
             "abcdefghijklmnopqrstuvwxyz"
 
+        letterIdx : Int
         letterIdx =
             modBy 26 idx
 
+        letter : String
         letter =
             String.slice letterIdx (letterIdx + 1) letters
     in

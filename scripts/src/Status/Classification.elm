@@ -1,5 +1,6 @@
 module Status.Classification exposing
-    ( FileIndex
+    ( Classified
+    , FileIndex
     , Status(..)
     , Summary
     , classify
@@ -53,6 +54,7 @@ classifyAll index packages =
     List.foldl
         (\pv acc ->
             let
+                key : String
                 key =
                     PackageVersion.toKey pv
             in
@@ -85,15 +87,19 @@ type alias Summary =
 summarize : Classified -> Summary
 summarize classified =
     let
+        s : Int
         s =
             List.length classified.success
 
+        f : Int
         f =
             List.length classified.failure
 
+        p : Int
         p =
             List.length classified.pending
 
+        m : Int
         m =
             List.length classified.missing
     in

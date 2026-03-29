@@ -43,6 +43,7 @@ suite =
             [ test "writes github-errors.json with valid JSON, deletes others" <|
                 \() ->
                     let
+                        actions : List WriteAction
                         actions =
                             GhResult.onError "elm" "core"
                                 { reason = "not_found"

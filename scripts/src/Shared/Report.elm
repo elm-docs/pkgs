@@ -49,12 +49,15 @@ formatPercent part total =
 
     else
         let
+            scaled : Int
             scaled =
                 (part * 1000) // total
 
+            whole : Int
             whole =
                 scaled // 10
 
+            frac : Int
             frac =
                 modBy 10 scaled
         in
@@ -64,9 +67,11 @@ formatPercent part total =
 formatSummary : Summary -> String
 formatSummary summary =
     let
+        pct : String
         pct =
             formatPercent summary.success summary.total
 
+        separator : String
         separator =
             String.repeat 40 "─"
     in
@@ -88,20 +93,25 @@ formatDetailList title color packages =
 
     else
         let
+            shown : List PackageVersion
             shown =
                 List.take maxDisplay packages
 
+            remaining : Int
             remaining =
                 List.length packages - List.length shown
 
+            header : String
             header =
                 color (bold title)
 
+            items : List String
             items =
                 List.map
                     (\pv -> "  " ++ dim "•" ++ " " ++ PackageVersion.toLabel pv)
                     shown
 
+            footer : List String
             footer =
                 if remaining > 0 then
                     [ dim ("  … and " ++ String.fromInt remaining ++ " more") ]

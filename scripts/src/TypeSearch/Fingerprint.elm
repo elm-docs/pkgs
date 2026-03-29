@@ -6,9 +6,11 @@ import TypeSearch.Type exposing (Type(..))
 fingerprint : Type -> String
 fingerprint tipe =
     let
+        args : Int
         args =
             countArgs tipe
 
+        concretes : List String
         concretes =
             collectConcretes tipe [] |> List.sort
     in
@@ -33,6 +35,7 @@ collectConcretes tipe acc =
 
         Fn args result ->
             let
+                afterArgs : List String
                 afterArgs =
                     List.foldl (\arg a -> collectConcretes arg a) acc args
             in
@@ -40,6 +43,7 @@ collectConcretes tipe acc =
 
         App qname args ->
             let
+                withName : List String
                 withName =
                     acc ++ [ qname.name ]
             in
@@ -55,9 +59,11 @@ collectConcretes tipe acc =
 fingerprintCompatible : String -> String -> Bool
 fingerprintCompatible queryFp candidateFp =
     let
+        q : ParsedFp
         q =
             parseFp queryFp
 
+        c : ParsedFp
         c =
             parseFp candidateFp
     in
@@ -78,18 +84,23 @@ type alias ParsedFp =
 parseFp : String -> ParsedFp
 parseFp fp =
     let
+        colonIdx : Int
         colonIdx =
             String.indexes ":" fp |> List.head |> Maybe.withDefault 0
 
+        argCountStr : String
         argCountStr =
             String.slice 1 colonIdx fp
 
+        argCount : Int
         argCount =
             String.toInt argCountStr |> Maybe.withDefault 0
 
+        rest : String
         rest =
             String.dropLeft (colonIdx + 1) fp
 
+        concretes : List String
         concretes =
             if rest == "" then
                 []
