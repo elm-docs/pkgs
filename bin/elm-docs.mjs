@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
-import { existsSync, statSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { existsSync, statSync, mkdirSync, readFileSync, globSync } from "node:fs";
+import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
+import { createHash } from "node:crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
@@ -37,13 +38,21 @@ Actions:
 Examples:
   elm-docs type-search 'List a -> Maybe a'
   elm-docs type-search 'String -> Int' --limit 10
+  elm-docs type-search 'Model -> Html Msg' --project
+  elm-docs type-search 'Model -> Html Msg' --project scripts/
   elm-docs build-db --full
   elm-docs status
 
 Database:
   Default location: ~/.elm-docs/elm-packages.db
   Override with --db <path>
-  Database is automatically created/updated for type-search.`);
+  Database is automatically created/updated for type-search.
+
+Project scope (--project):
+  Restricts results to direct dependencies from the nearest elm.json,
+  plus types defined in local source modules.
+  --project           Walk up from CWD to find elm.json
+  --project <path>    Use elm.json at the given directory`);
 }
 
 function parseDbFlag(args) {
@@ -103,6 +112,111 @@ function ensureDb(dbPath) {
   runElmPages("src/BuildDb.elm", buildArgs);
 }
 
+// ---------------------------------------------------------------------------
+// Project scope helpers
+// ---------------------------------------------------------------------------
+
+function findElmJsonDir(dir) {
+  const elmJsonPath = join(dir, "elm.json");
+  if (existsSync(elmJsonPath)) return dir;
+  const parent = dirname(dir);
+  if (parent === dir) {
+    console.error("Error: No elm.json found in current directory or any parent directory.");
+    process.exit(1);
+  }
+  return findElmJsonDir(parent);
+}
+
+function resolveProjectRoot(args) {
+  const idx = args.indexOf("--project");
+  if (idx === -1) return null;
+
+  const next = args[idx + 1];
+  if (next && !next.startsWith("--")) {
+    // --project <path>
+    const projectRoot = resolve(next);
+    if (!existsSync(join(projectRoot, "elm.json"))) {
+      console.error(`Error: No elm.json found at ${projectRoot}`);
+      process.exit(1);
+    }
+    return projectRoot;
+  } else {
+    // --project (walk up from CWD)
+    return findElmJsonDir(process.cwd());
+  }
+}
+
+function computeProjectDbPath(projectRoot) {
+  const hash = createHash("sha256").update(projectRoot).digest("hex").slice(0, 16);
+  return resolve(homedir(), ".elm-docs", "projects", hash, "context.db");
+}
+
+function getElmJsonSourceDirs(projectRoot) {
+  try {
+    const data = JSON.parse(readFileSync(join(projectRoot, "elm.json"), "utf-8"));
+    if (data.type === "application") {
+      return (data["source-directories"] || ["src"]).map((d) => resolve(projectRoot, d));
+    }
+    return [resolve(projectRoot, "src")];
+  } catch {
+    return [resolve(projectRoot, "src")];
+  }
+}
+
+function isProjectDbStale(projectDbPath, projectRoot) {
+  if (!existsSync(projectDbPath)) return true;
+  const dbMtime = statSync(projectDbPath).mtimeMs;
+
+  // Check elm.json
+  const elmJsonPath = join(projectRoot, "elm.json");
+  if (statSync(elmJsonPath).mtimeMs > dbMtime) return true;
+
+  // Check source files
+  const sourceDirs = getElmJsonSourceDirs(projectRoot);
+  for (const srcDir of sourceDirs) {
+    if (!existsSync(srcDir)) continue;
+    const files = globSync("**/*.elm", { cwd: srcDir });
+    for (const f of files) {
+      if (statSync(join(srcDir, f)).mtimeMs > dbMtime) return true;
+    }
+  }
+
+  return false;
+}
+
+function ensureProjectDb(projectDbPath, projectRoot) {
+  if (!isProjectDbStale(projectDbPath, projectRoot)) return;
+
+  const dbDir = dirname(projectDbPath);
+  if (!existsSync(dbDir)) {
+    mkdirSync(dbDir, { recursive: true });
+  }
+
+  const action = existsSync(projectDbPath) ? "Updating" : "Building";
+  console.log(`${action} project context database...`);
+
+  runElmPages("src/BuildProjectContext.elm", [
+    "--project-root", projectRoot,
+    "--db", projectDbPath,
+  ]);
+}
+
+function stripProjectFlag(args) {
+  const result = [...args];
+  const idx = result.indexOf("--project");
+  if (idx === -1) return result;
+  if (idx + 1 < result.length && !result[idx + 1].startsWith("--")) {
+    result.splice(idx, 2);
+  } else {
+    result.splice(idx, 1);
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+
 function main() {
   const args = process.argv.slice(2);
   const actionName = args[0];
@@ -134,6 +248,24 @@ function main() {
   const content = contentDir();
   if (content && !actionArgs.includes("--content-dir")) {
     extraArgs.push("--content-dir", content);
+  }
+
+  // Handle --project flag for type-search
+  if (actionName === "type-search") {
+    const projectRoot = resolveProjectRoot(actionArgs);
+    let cleanedArgs = stripProjectFlag(actionArgs);
+
+    if (projectRoot) {
+      const projectDbPath = computeProjectDbPath(projectRoot);
+      ensureProjectDb(projectDbPath, projectRoot);
+      cleanedArgs = cleanedArgs.concat([
+        "--project-root", projectRoot,
+        "--project-db", projectDbPath,
+      ]);
+    }
+
+    runElmPages(action.script, [...extraArgs, ...cleanedArgs]);
+    return;
   }
 
   runElmPages(action.script, [...extraArgs, ...actionArgs]);

@@ -1,5 +1,7 @@
 import { resolve, dirname, basename, join } from "node:path";
-import { readFileSync, statSync, globSync } from "node:fs";
+import { readFileSync, statSync, globSync, mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { execFileSync } from "node:child_process";
 import Database from "better-sqlite3";
 
 interface QueryTypeIndexInput {
@@ -778,6 +780,222 @@ export async function getTypeEntriesToIndex(
     }
 
     return { packages, hasMore };
+  } finally {
+    db.close();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Project context handlers
+// ---------------------------------------------------------------------------
+
+// Handler 9: readProjectInfo
+interface ProjectInfoResult {
+  projectType: string;
+  name: string;
+  version: string;
+  directDeps: string[];
+  sourceDirs: string[];
+}
+
+export async function readProjectInfo(
+  input: { projectRoot: string },
+  context: Context,
+): Promise<ProjectInfoResult> {
+  const projectRoot = resolve(context.cwd, input.projectRoot);
+  const elmJsonPath = join(projectRoot, "elm.json");
+  const elmJson = JSON.parse(readFileSync(elmJsonPath, "utf-8"));
+
+  if (elmJson.type === "application") {
+    const directDeps = Object.keys(elmJson.dependencies?.direct || {});
+    const sourceDirs = (elmJson["source-directories"] || ["src"]).map(
+      (d: string) => resolve(projectRoot, d),
+    );
+    return {
+      projectType: "application",
+      name: "local/app",
+      version: "1.0.0",
+      directDeps,
+      sourceDirs,
+    };
+  } else if (elmJson.type === "package") {
+    const directDeps = Object.keys(elmJson.dependencies || {});
+    return {
+      projectType: "package",
+      name: elmJson.name,
+      version: elmJson.version,
+      directDeps,
+      sourceDirs: [resolve(projectRoot, "src")],
+    };
+  } else {
+    throw new Error(`Unknown elm.json type: ${elmJson.type}`);
+  }
+}
+
+// Handler 10: generateLocalDocs
+export async function generateLocalDocs(
+  input: { projectRoot: string },
+  context: Context,
+): Promise<{ docsPath: string | null; error: string | null }> {
+  const projectRoot = resolve(context.cwd, input.projectRoot);
+  const elmJsonPath = join(projectRoot, "elm.json");
+  const elmJson = JSON.parse(readFileSync(elmJsonPath, "utf-8"));
+
+  const tmpDir = mkdtempSync(join(tmpdir(), "elm-docs-"));
+  const docsPath = join(tmpDir, "docs.json");
+
+  try {
+    if (elmJson.type === "package") {
+      execFileSync("elm", ["make", "--docs", docsPath], {
+        cwd: projectRoot,
+        stdio: "pipe",
+      });
+    } else {
+      // Use elm-doc-preview for applications
+      const edp = resolve(context.cwd, "..", "node_modules", ".bin", "elm-doc-preview");
+      execFileSync(edp, ["--output", tmpDir, "--no-server"], {
+        cwd: projectRoot,
+        stdio: "pipe",
+      });
+    }
+    return { docsPath, error: null };
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { docsPath: null, error: msg };
+  }
+}
+
+// Handler 11: ingestLocalDocsJson
+export async function ingestLocalDocsJson(
+  input: { dbPath: string; docsJsonPath: string; packageName: string; version: string },
+  context: Context,
+): Promise<{ modules: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const docsJsonPath = resolve(context.cwd, input.docsJsonPath);
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = ON");
+
+  const parts = input.packageName.split("/");
+  const org = parts[0] || "local";
+  const name = parts[1] || "app";
+
+  try {
+    const raw = readFileSync(docsJsonPath, "utf-8").trim();
+    const modules: any[] = JSON.parse(raw);
+
+    const upsertPkg = db.prepare(
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO NOTHING",
+    );
+    const getPkgId = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?");
+    const insertVersion = db.prepare(
+      "INSERT OR IGNORE INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?)",
+    );
+    const getVersionId = db.prepare(
+      "SELECT id FROM package_versions WHERE package_id = ? AND version = ?",
+    );
+    const insertModule = db.prepare(
+      "INSERT OR IGNORE INTO modules (version_id, name, comment) VALUES (?, ?, ?)",
+    );
+    const getModuleId = db.prepare(
+      "SELECT id FROM modules WHERE version_id = ? AND name = ?",
+    );
+    const insertUnion = db.prepare(
+      "INSERT OR IGNORE INTO unions (module_id, name, comment, args, cases) VALUES (?, ?, ?, ?, ?)",
+    );
+    const insertAlias = db.prepare(
+      "INSERT OR IGNORE INTO aliases (module_id, name, comment, args, type) VALUES (?, ?, ?, ?, ?)",
+    );
+    const insertValue = db.prepare(
+      'INSERT OR IGNORE INTO "values" (module_id, name, comment, type) VALUES (?, ?, ?, ?)',
+    );
+    const insertBinop = db.prepare(
+      "INSERT OR IGNORE INTO binops (module_id, name, comment, type, associativity, precedence) VALUES (?, ?, ?, ?, ?, ?)",
+    );
+
+    let moduleCount = 0;
+
+    const tx = db.transaction(() => {
+      upsertPkg.run(org, name);
+      const pkgRow = getPkgId.get(org, name) as { id: number };
+      const packageId = pkgRow.id;
+
+      const versionSort = computeVersionSort(input.version);
+      insertVersion.run(packageId, input.version, versionSort);
+      const versionRow = getVersionId.get(packageId, input.version) as { id: number };
+      const versionId = versionRow.id;
+
+      for (const mod of modules) {
+        insertModule.run(versionId, mod.name, mod.comment || "");
+        const modRow = getModuleId.get(versionId, mod.name) as { id: number };
+        const moduleId = modRow.id;
+
+        for (const u of mod.unions || []) {
+          insertUnion.run(
+            moduleId, u.name, u.comment || "",
+            JSON.stringify(u.args || []), JSON.stringify(u.cases || []),
+          );
+        }
+        for (const a of mod.aliases || []) {
+          insertAlias.run(moduleId, a.name, a.comment || "", JSON.stringify(a.args || []), a.type);
+        }
+        for (const v of mod.values || []) {
+          insertValue.run(moduleId, v.name, v.comment || "", v.type);
+        }
+        for (const b of mod.binops || []) {
+          insertBinop.run(moduleId, b.name, b.comment || "", b.type, b.associativity, b.precedence);
+        }
+        moduleCount++;
+      }
+    });
+    tx();
+
+    return { modules: moduleCount };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler 12: queryTypeIndexFiltered
+interface QueryTypeIndexFilteredInput {
+  dbPath: string;
+  minArgs: number;
+  maxArgs: number;
+  allowedPackages: string[] | null;
+}
+
+export async function queryTypeIndexFiltered(
+  input: QueryTypeIndexFilteredInput,
+  context: Context,
+): Promise<TypeIndexRow[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    if (!input.allowedPackages || input.allowedPackages.length === 0) {
+      return db
+        .prepare(
+          `SELECT ti.module_name, ti.name, ti.kind, ti.type_raw, ti.type_ast, ti.fingerprint,
+                  p.org, p.name AS pkg_name
+           FROM type_index ti
+           JOIN packages p ON ti.package_id = p.id
+           WHERE ti.arg_count BETWEEN ? AND ?`,
+        )
+        .all(input.minArgs, input.maxArgs) as TypeIndexRow[];
+    }
+
+    const placeholders = input.allowedPackages.map(() => "?").join(", ");
+    return db
+      .prepare(
+        `SELECT ti.module_name, ti.name, ti.kind, ti.type_raw, ti.type_ast, ti.fingerprint,
+                p.org, p.name AS pkg_name
+         FROM type_index ti
+         JOIN packages p ON ti.package_id = p.id
+         WHERE ti.arg_count BETWEEN ? AND ?
+           AND (p.org || '/' || p.name) IN (${placeholders})`,
+      )
+      .all(input.minArgs, input.maxArgs, ...input.allowedPackages) as TypeIndexRow[];
   } finally {
     db.close();
   }

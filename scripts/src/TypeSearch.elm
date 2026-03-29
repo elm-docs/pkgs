@@ -9,6 +9,7 @@ import FatalError exposing (FatalError)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
+import ProjectContext.ElmJson as ElmJson
 import TypeSearch.Fingerprint as Fingerprint
 import TypeSearch.Normalize as Normalize
 import TypeSearch.Parse as Parse
@@ -22,6 +23,8 @@ type alias CliOptions =
     , limit : Int
     , threshold : Float
     , json : Bool
+    , projectRoot : Maybe String
+    , projectDb : Maybe String
     }
 
 
@@ -56,7 +59,7 @@ run =
                         maxArgs =
                             queryArgCount + 1
                     in
-                    fetchCandidates options.db minArgs maxArgs
+                    fetchAllCandidates options minArgs maxArgs
                         |> BackendTask.andThen
                             (\candidates ->
                                 let
@@ -98,6 +101,8 @@ programConfig =
                         |> Option.validateMap (parseFloatOpt "threshold" 0.125)
                     )
                 |> with (Option.flag "json")
+                |> with (Option.optionalKeywordArg "project-root")
+                |> with (Option.optionalKeywordArg "project-db")
             )
 
 
@@ -135,6 +140,46 @@ parseFloatOpt name default_ maybeStr =
 -- DATABASE
 
 
+fetchAllCandidates : CliOptions -> Int -> Int -> BackendTask FatalError (List Candidate)
+fetchAllCandidates options minArgs maxArgs =
+    case options.projectRoot of
+        Nothing ->
+            fetchCandidates options.db minArgs maxArgs
+
+        Just projectRoot ->
+            readProjectInfo projectRoot
+                |> BackendTask.andThen
+                    (\projectInfo ->
+                        let
+                            directDeps : List String
+                            directDeps =
+                                ElmJson.directDeps projectInfo
+                        in
+                        fetchFilteredCandidates options.db minArgs maxArgs directDeps
+                            |> BackendTask.andThen
+                                (\globalCandidates ->
+                                    case options.projectDb of
+                                        Nothing ->
+                                            BackendTask.succeed globalCandidates
+
+                                        Just projectDb ->
+                                            fetchCandidates projectDb minArgs maxArgs
+                                                |> BackendTask.map
+                                                    (\localCandidates ->
+                                                        globalCandidates ++ localCandidates
+                                                    )
+                                )
+                    )
+
+
+readProjectInfo : String -> BackendTask FatalError ElmJson.ProjectInfo
+readProjectInfo projectRoot =
+    BackendTask.Custom.run "readProjectInfo"
+        (Encode.object [ ( "projectRoot", Encode.string projectRoot ) ])
+        ElmJson.decoder
+        |> BackendTask.allowFatal
+
+
 fetchCandidates : String -> Int -> Int -> BackendTask FatalError (List Candidate)
 fetchCandidates dbPath minArgs maxArgs =
     BackendTask.Custom.run "queryTypeIndex"
@@ -142,6 +187,20 @@ fetchCandidates dbPath minArgs maxArgs =
             [ ( "dbPath", Encode.string dbPath )
             , ( "minArgs", Encode.int minArgs )
             , ( "maxArgs", Encode.int maxArgs )
+            ]
+        )
+        (Decode.list candidateDecoder)
+        |> BackendTask.allowFatal
+
+
+fetchFilteredCandidates : String -> Int -> Int -> List String -> BackendTask FatalError (List Candidate)
+fetchFilteredCandidates dbPath minArgs maxArgs allowedPackages =
+    BackendTask.Custom.run "queryTypeIndexFiltered"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "minArgs", Encode.int minArgs )
+            , ( "maxArgs", Encode.int maxArgs )
+            , ( "allowedPackages", Encode.list Encode.string allowedPackages )
             ]
         )
         (Decode.list candidateDecoder)
