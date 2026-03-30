@@ -1000,3 +1000,147 @@ export async function queryTypeIndexFiltered(
     db.close();
   }
 }
+
+// ---------------------------------------------------------------------------
+// Text search handlers
+// ---------------------------------------------------------------------------
+
+function sanitizeFtsQuery(query: string): string {
+  return query
+    .trim()
+    .split(/\s+/)
+    .filter((term) => term.length > 0)
+    .map((term) => `"${term.replace(/"/g, '""')}"`)
+    .join(" ");
+}
+
+interface TextSearchRow {
+  package: string;
+  summary: string;
+  text_score: number;
+  match_count: number;
+  stars: number;
+  summary_match: boolean;
+}
+
+const TEXT_SEARCH_SQL = `
+WITH fts_matches AS (
+  SELECT si.package,
+         MIN(si.rank) AS text_score,
+         COUNT(*) AS match_count
+  FROM search_index si
+  WHERE search_index MATCH @ftsQuery
+  GROUP BY si.package
+),
+summary_matches AS (
+  SELECT p.org || '/' || p.name AS package
+  FROM packages p
+  WHERE LOWER(p.summary) LIKE '%' || LOWER(@rawQuery) || '%'
+),
+combined AS (
+  SELECT package FROM fts_matches
+  UNION
+  SELECT package FROM summary_matches
+)
+SELECT c.package,
+       COALESCE(p.summary, '') AS summary,
+       COALESCE(f.text_score, 0.0) AS text_score,
+       COALESCE(f.match_count, 0) AS match_count,
+       COALESCE(g.stargazers_count, 0) AS stars,
+       CASE WHEN sm.package IS NOT NULL THEN 1 ELSE 0 END AS summary_match
+FROM combined c
+JOIN packages p ON (p.org || '/' || p.name) = c.package
+LEFT JOIN github g ON g.package_id = p.id
+LEFT JOIN fts_matches f ON f.package = c.package
+LEFT JOIN summary_matches sm ON sm.package = c.package
+`;
+
+function runTextSearch(
+  db: InstanceType<typeof Database>,
+  query: string,
+): TextSearchRow[] {
+  const ftsQuery = sanitizeFtsQuery(query);
+  const rows = db.prepare(TEXT_SEARCH_SQL).all({ ftsQuery, rawQuery: query }) as any[];
+  return rows.map((r: any) => ({ ...r, summary_match: r.summary_match === 1 }));
+}
+
+function runTextSearchFiltered(
+  db: InstanceType<typeof Database>,
+  query: string,
+  allowedPackages: string[],
+): TextSearchRow[] {
+  const ftsQuery = sanitizeFtsQuery(query);
+  const placeholders = allowedPackages.map((_: string, i: number) => `@pkg${i}`).join(", ");
+  const sql = `
+WITH fts_matches AS (
+  SELECT si.package,
+         MIN(si.rank) AS text_score,
+         COUNT(*) AS match_count
+  FROM search_index si
+  WHERE search_index MATCH @ftsQuery
+    AND si.package IN (${placeholders})
+  GROUP BY si.package
+),
+summary_matches AS (
+  SELECT p.org || '/' || p.name AS package
+  FROM packages p
+  WHERE LOWER(p.summary) LIKE '%' || LOWER(@rawQuery) || '%'
+    AND (p.org || '/' || p.name) IN (${placeholders})
+),
+combined AS (
+  SELECT package FROM fts_matches
+  UNION
+  SELECT package FROM summary_matches
+)
+SELECT c.package,
+       COALESCE(p.summary, '') AS summary,
+       COALESCE(f.text_score, 0.0) AS text_score,
+       COALESCE(f.match_count, 0) AS match_count,
+       COALESCE(g.stargazers_count, 0) AS stars,
+       CASE WHEN sm.package IS NOT NULL THEN 1 ELSE 0 END AS summary_match
+FROM combined c
+JOIN packages p ON (p.org || '/' || p.name) = c.package
+LEFT JOIN github g ON g.package_id = p.id
+LEFT JOIN fts_matches f ON f.package = c.package
+LEFT JOIN summary_matches sm ON sm.package = c.package
+`;
+  const params: Record<string, string> = { ftsQuery, rawQuery: query };
+  allowedPackages.forEach((pkg: string, i: number) => { params[`pkg${i}`] = pkg; });
+  const rows = db.prepare(sql).all(params) as any[];
+  return rows.map((r: any) => ({ ...r, summary_match: r.summary_match === 1 }));
+}
+
+// Handler 13: queryTextSearch
+export async function queryTextSearch(
+  input: { dbPath: string; query: string },
+  context: Context,
+): Promise<TextSearchRow[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    return runTextSearch(db, input.query);
+  } finally {
+    db.close();
+  }
+}
+
+// Handler 14: queryTextSearchFiltered
+export async function queryTextSearchFiltered(
+  input: { dbPath: string; query: string; allowedPackages: string[] | null },
+  context: Context,
+): Promise<TextSearchRow[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    if (!input.allowedPackages || input.allowedPackages.length === 0) {
+      return runTextSearch(db, input.query);
+    }
+    return runTextSearchFiltered(db, input.query, input.allowedPackages);
+  } finally {
+    db.close();
+  }
+}
