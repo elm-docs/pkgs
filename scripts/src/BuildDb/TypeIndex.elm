@@ -1,7 +1,16 @@
 module BuildDb.TypeIndex exposing (ProcessResult, TypeEntry, TypeIndexRow, processEntries)
 
-{-| Processes raw type entries from docs.json into type index rows
-with parsed ASTs, normalized forms, and fingerprints.
+{-| Build-phase type indexing.
+
+For each package's latest version, processes every value, alias, and binop:
+
+1.  Parse the type string into an AST
+2.  Normalize type variables to canonical names (a, b, c, …)
+3.  Generate a structural fingerprint for pre-filtering
+4.  Store the AST, fingerprint, and metadata in the `type_index` table (~217K rows)
+
+The build is incremental — only packages with new versions are re-indexed.
+
 -}
 
 import Json.Encode as Encode

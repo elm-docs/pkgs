@@ -1,6 +1,28 @@
 module SyncElmPackages exposing (run)
 
-{-| Discovers and downloads docs.json for all published Elm packages.
+{-| Sync package documentation from package.elm-lang.org into the
+`content/packages/` directory. Runs in two phases:
+
+**Discover** — counts existing docs.json files to determine an index, then
+calls `/all-packages/since/{index}` to get newly published versions. For each
+new version creates a directory with an empty `docs.json` and a `pending`
+marker.
+
+**Fetch** — finds all directories with a `pending` file and downloads docs in
+parallel. On success, `docs.json` is written and `pending` removed. On failure,
+`pending` is removed and `errors.json` written.
+
+Re-running picks up any previously failed or incomplete downloads automatically.
+
+Each version directory is in one of four states:
+
+  - **Success** — `docs.json` contains full documentation
+  - **Failure** — `docs.json` is empty, `errors.json` has details
+  - **Pending** — `docs.json` is empty, `pending` marker present
+  - **Missing** — no directory exists yet
+
+Flags: `--concurrency` (default 6), `--delay` (default 100ms), `--since`.
+
 -}
 
 import BackendTask exposing (BackendTask)
