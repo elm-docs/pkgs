@@ -1,7 +1,16 @@
-.direnv
-.helix
+# Node
 node_modules
+
+# Elm
 elm-stuff
 .elm-pages
+
+# Editors
+.helix
+
+# Dev Environment
+.direnv
+
+# AI Environment
 /.claude
 CLAUDE.md
