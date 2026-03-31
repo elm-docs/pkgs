@@ -1,5 +1,8 @@
 module Sync.Path exposing (contentDir, toDocsPath, toDocsUrl, toErrorsPath, toPendingPath, toVersionDir)
 
+{-| File system paths for synced package content (docs, errors, pending markers).
+-}
+
 import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 
 

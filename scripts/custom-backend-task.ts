@@ -55,8 +55,6 @@ export async function queryTypeIndex(
 // ---------------------------------------------------------------------------
 
 const ALL_TABLES = [
-  "_search_index_versions",
-  "search_index",
   "type_index",
   "binops",
   "values",
@@ -79,6 +77,7 @@ CREATE TABLE IF NOT EXISTS packages (
     license     TEXT,
     redirect_to TEXT,
     missing     TEXT CHECK(missing IN ('user', 'package')),
+    rank REAL NOT NULL DEFAULT 0,
     UNIQUE(org, name)
 );
 
@@ -193,24 +192,6 @@ CREATE INDEX IF NOT EXISTS idx_type_index_arg_count ON type_index(arg_count);
 CREATE INDEX IF NOT EXISTS idx_type_index_package ON type_index(package_id);
 `;
 
-const SEARCH_INDEX_DDL = `
-CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
-    package,
-    module,
-    name,
-    comment,
-    type_sig,
-    kind,
-    tokenize='porter unicode61'
-);
-
-CREATE TABLE IF NOT EXISTS _search_index_versions (
-    package_id INTEGER NOT NULL,
-    version_id INTEGER NOT NULL,
-    PRIMARY KEY(package_id)
-);
-`;
-
 // Handler 1: initDb
 export async function initDb(
   input: { dbPath: string; full: boolean },
@@ -230,7 +211,6 @@ export async function initDb(
 
   db.exec(SCHEMA);
   db.exec(TYPE_INDEX_DDL);
-  db.exec(SEARCH_INDEX_DDL);
   db.close();
   return {};
 }
@@ -521,9 +501,9 @@ export async function ingestGithubBatch(
   }
 }
 
-// Handler 6: rebuildSearchIndex
-export async function rebuildSearchIndex(
-  input: { dbPath: string; full: boolean },
+// Handler 6: computePackageRanks
+export async function computePackageRanks(
+  input: { dbPath: string },
   context: Context,
 ): Promise<{ count: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
@@ -531,106 +511,52 @@ export async function rebuildSearchIndex(
   db.pragma("journal_mode = WAL");
 
   try {
-    const changed = db.prepare(`
-      SELECT p.id AS package_id, pv.id AS version_id
+    const rows = db.prepare(`
+      SELECT p.id, p.summary, p.missing,
+             COALESCE(g.stargazers_count, 0) AS stars,
+             g.last_commit_at,
+             COALESCE(g.open_issues_count, 0) AS open_issues
       FROM packages p
-      JOIN package_versions pv ON pv.package_id = p.id
-      WHERE pv.version_sort = (
-        SELECT MAX(pv2.version_sort)
-        FROM package_versions pv2
-        WHERE pv2.package_id = p.id
-      )
-      AND pv.id NOT IN (
-        SELECT siv.version_id
-        FROM _search_index_versions siv
-        WHERE siv.package_id = p.id
-      )
-    `).all();
+      LEFT JOIN github g ON g.package_id = p.id
+      WHERE p.redirect_to IS NULL
+    `).all() as {
+      id: number;
+      summary: string | null;
+      missing: string | null;
+      stars: number;
+      last_commit_at: string | null;
+      open_issues: number;
+    }[];
 
-    if (!input.full && changed.length === 0) {
-      const count = (db.prepare("SELECT count(*) as n FROM search_index").get() as { n: number }).n;
-      return { count };
-    }
+    const now = Date.now();
+    const ONE_YEAR = 365 * 24 * 60 * 60 * 1000;
+    const THREE_YEARS = 3 * ONE_YEAR;
 
-    db.exec("DELETE FROM search_index");
-    db.exec("DELETE FROM _search_index_versions");
+    const updateRank = db.prepare("UPDATE packages SET rank = ? WHERE id = ?");
 
-    const LATEST = `
-      WHERE pv.version_sort = (
-        SELECT MAX(pv2.version_sort)
-        FROM package_versions pv2
-        WHERE pv2.package_id = pv.package_id
-      )`;
+    const tx = db.transaction(() => {
+      for (const row of rows) {
+        let recencyScore = 0.0;
+        if (row.last_commit_at) {
+          const age = now - new Date(row.last_commit_at).getTime();
+          if (age < ONE_YEAR) recencyScore = 1.0;
+          else if (age < THREE_YEARS) recencyScore = 0.5;
+          else recencyScore = 0.2;
+        }
 
-    // Modules
-    db.exec(`
-      INSERT INTO search_index (package, module, name, comment, type_sig, kind)
-      SELECT p.org || '/' || p.name, m.name, m.name, m.comment, '', 'module'
-      FROM modules m
-      JOIN package_versions pv ON m.version_id = pv.id
-      JOIN packages p ON pv.package_id = p.id
-      ${LATEST}
-    `);
+        const rank =
+          Math.log10(row.stars + 1) * 50 +
+          recencyScore * 30 +
+          (row.summary ? 10 : 0) +
+          (row.missing === null ? 5 : 0) -
+          Math.log10(row.open_issues + 1) * 2;
 
-    // Values
-    db.exec(`
-      INSERT INTO search_index (package, module, name, comment, type_sig, kind)
-      SELECT p.org || '/' || p.name, m.name, v.name, v.comment, v.type, 'value'
-      FROM "values" v
-      JOIN modules m ON v.module_id = m.id
-      JOIN package_versions pv ON m.version_id = pv.id
-      JOIN packages p ON pv.package_id = p.id
-      ${LATEST}
-    `);
+        updateRank.run(rank, row.id);
+      }
+    });
+    tx();
 
-    // Unions
-    db.exec(`
-      INSERT INTO search_index (package, module, name, comment, type_sig, kind)
-      SELECT p.org || '/' || p.name, m.name, u.name, u.comment, '', 'union'
-      FROM unions u
-      JOIN modules m ON u.module_id = m.id
-      JOIN package_versions pv ON m.version_id = pv.id
-      JOIN packages p ON pv.package_id = p.id
-      ${LATEST}
-    `);
-
-    // Aliases
-    db.exec(`
-      INSERT INTO search_index (package, module, name, comment, type_sig, kind)
-      SELECT p.org || '/' || p.name, m.name, a.name, a.comment, a.type, 'alias'
-      FROM aliases a
-      JOIN modules m ON a.module_id = m.id
-      JOIN package_versions pv ON m.version_id = pv.id
-      JOIN packages p ON pv.package_id = p.id
-      ${LATEST}
-    `);
-
-    // Binops
-    db.exec(`
-      INSERT INTO search_index (package, module, name, comment, type_sig, kind)
-      SELECT p.org || '/' || p.name, m.name, b.name, b.comment, b.type, 'binop'
-      FROM binops b
-      JOIN modules m ON b.module_id = m.id
-      JOIN package_versions pv ON m.version_id = pv.id
-      JOIN packages p ON pv.package_id = p.id
-      ${LATEST}
-    `);
-
-    // Record which versions are now indexed
-    db.exec(`
-      INSERT INTO _search_index_versions (package_id, version_id)
-      SELECT p.id, pv.id
-      FROM packages p
-      JOIN package_versions pv ON pv.package_id = p.id
-      WHERE pv.version_sort = (
-        SELECT MAX(pv2.version_sort)
-        FROM package_versions pv2
-        WHERE pv2.package_id = p.id
-      )
-    `);
-
-    const count = (db.prepare("SELECT count(*) as n FROM search_index").get() as { n: number }).n;
-    return { count };
+    return { count: rows.length };
   } finally {
     db.close();
   }
@@ -996,6 +922,97 @@ export async function queryTypeIndexFiltered(
            AND (p.org || '/' || p.name) IN (${placeholders})`,
       )
       .all(input.minArgs, input.maxArgs, ...input.allowedPackages) as TypeIndexRow[];
+  } finally {
+    db.close();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Text search handlers
+// ---------------------------------------------------------------------------
+
+interface PackageSearchRow {
+  package: string;
+  summary: string;
+  rank: number;
+  stars: number;
+}
+
+function buildSearchQuery(
+  terms: string[],
+  extraWhere?: string,
+): { sql: string; params: Record<string, string | number> } {
+  const likeClauses = terms.map(
+    (_: string, i: number) =>
+      `LOWER(p.org || ' ' || p.name || ' ' || COALESCE(p.summary, '')) LIKE @term${i}`,
+  );
+  const params: Record<string, string | number> = {};
+  terms.forEach((t: string, i: number) => {
+    params[`term${i}`] = `%${t.toLowerCase()}%`;
+  });
+
+  const sql = `
+SELECT p.org || '/' || p.name AS package,
+       COALESCE(p.summary, '') AS summary,
+       p.rank,
+       COALESCE(g.stargazers_count, 0) AS stars
+FROM packages p
+LEFT JOIN github g ON g.package_id = p.id
+WHERE p.redirect_to IS NULL AND p.missing IS NULL
+  ${likeClauses.map((c) => `AND ${c}`).join("\n  ")}
+  ${extraWhere || ""}
+ORDER BY p.rank DESC
+LIMIT @limit
+`;
+  return { sql, params };
+}
+
+// Handler 13: searchPackages
+export async function searchPackages(
+  input: { dbPath: string; query: string; limit: number },
+  context: Context,
+): Promise<PackageSearchRow[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    const terms = input.query.trim().split(/\s+/).filter((t) => t.length > 0);
+    if (terms.length === 0) return [];
+    const { sql, params } = buildSearchQuery(terms);
+    params.limit = input.limit;
+    return db.prepare(sql).all(params) as PackageSearchRow[];
+  } finally {
+    db.close();
+  }
+}
+
+// Handler 14: searchPackagesFiltered
+export async function searchPackagesFiltered(
+  input: { dbPath: string; query: string; limit: number; allowedPackages: string[] | null },
+  context: Context,
+): Promise<PackageSearchRow[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    const terms = input.query.trim().split(/\s+/).filter((t) => t.length > 0);
+    if (terms.length === 0) return [];
+
+    let extraWhere: string | undefined;
+    if (input.allowedPackages && input.allowedPackages.length > 0) {
+      const placeholders = input.allowedPackages.map((_: string, i: number) => `@pkg${i}`).join(", ");
+      extraWhere = `AND (p.org || '/' || p.name) IN (${placeholders})`;
+      const { sql, params } = buildSearchQuery(terms, extraWhere);
+      params.limit = input.limit;
+      input.allowedPackages.forEach((pkg: string, i: number) => { params[`pkg${i}`] = pkg; });
+      return db.prepare(sql).all(params) as PackageSearchRow[];
+    }
+
+    const { sql, params } = buildSearchQuery(terms);
+    params.limit = input.limit;
+    return db.prepare(sql).all(params) as PackageSearchRow[];
   } finally {
     db.close();
   }

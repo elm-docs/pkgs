@@ -1,5 +1,8 @@
 module Sync exposing (run)
 
+{-| Orchestrator that runs SyncElmPackages then SyncGithub sequentially.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Env
 import BackendTask.Stream as Stream
@@ -8,6 +11,7 @@ import Cli.OptionsParser as OptionsParser exposing (with)
 import Cli.Program as Program
 import FatalError exposing (FatalError)
 import Pages.Script as Script exposing (Script)
+import Shared.CliHelpers exposing (parseIntOpt)
 
 
 type alias CliOptions =
@@ -133,16 +137,3 @@ programConfig =
             )
 
 
-parseIntOpt : String -> Int -> Maybe String -> Result String Int
-parseIntOpt name default_ maybeStr =
-    case maybeStr of
-        Nothing ->
-            Ok default_
-
-        Just str ->
-            case String.toInt str of
-                Just n ->
-                    Ok n
-
-                Nothing ->
-                    Err ("Invalid " ++ name ++ " value: " ++ str)

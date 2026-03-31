@@ -9,6 +9,7 @@
     { "count": 1, "filePath": "src/Sync.elm" },
     { "count": 1, "filePath": "src/SyncElmPackages.elm" },
     { "count": 1, "filePath": "src/SyncGithub.elm" },
+    { "count": 1, "filePath": "src/TextSearch.elm" },
     { "count": 1, "filePath": "src/TypeSearch.elm" }
   ]
 }

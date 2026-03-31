@@ -1,5 +1,11 @@
 module TypeSearch.Parse exposing (parseLenient, parseStrict)
 
+{-| Parses Elm type signature strings into a Type AST.
+
+parseLenient auto-resolves common unqualified names (e.g. List to List.List).
+parseStrict requires fully qualified names as they appear in docs.json.
+-}
+
 import Dict exposing (Dict)
 import Parser exposing ((|.), (|=), Parser)
 import Set

@@ -1,5 +1,8 @@
 module Status exposing (run)
 
+{-| Reports sync status: classifies packages as synced, pending, errored, or missing.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Glob as Glob
 import BackendTask.Http
@@ -7,6 +10,7 @@ import FatalError exposing (FatalError)
 import Json.Decode
 import Pages.Script as Script exposing (Script)
 import Set
+import Shared.Ansi exposing (dim, red, yellow)
 import Shared.PackageVersion as PackageVersion
 import Shared.Report as Report
 import Status.Classification as Classification
@@ -94,19 +98,3 @@ extractKey path =
 
 
 
--- ANSI helpers (matching term.ts)
-
-
-yellow : String -> String
-yellow s =
-    "\u{001B}[33m" ++ s ++ "\u{001B}[0m"
-
-
-red : String -> String
-red s =
-    "\u{001B}[31m" ++ s ++ "\u{001B}[0m"
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"

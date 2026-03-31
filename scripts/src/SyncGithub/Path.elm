@@ -7,6 +7,9 @@ module SyncGithub.Path exposing
     , toPackageKey
     )
 
+{-| File system paths for GitHub metadata files (info, redirect, missing, errors).
+-}
+
 import Sync.Path as SyncPath
 
 

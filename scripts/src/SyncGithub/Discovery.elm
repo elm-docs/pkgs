@@ -1,5 +1,8 @@
 module SyncGithub.Discovery exposing (PackageId(..), filterNeedingGithub, toKey)
 
+{-| Discovers packages that need GitHub metadata fetched or updated.
+-}
+
 import Set exposing (Set)
 
 

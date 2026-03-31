@@ -13,6 +13,7 @@ const scriptsDir = resolve(pkgRoot, "scripts");
 
 const ACTIONS = {
   "type-search": { script: "src/TypeSearch.elm", needsDb: true },
+  search: { script: "src/TextSearch.elm", needsDb: true },
   "build-db": { script: "src/BuildDb.elm", needsDb: false },
   status: { script: "src/Status.elm", needsDb: false },
   help: { script: null, needsDb: false },
@@ -31,6 +32,7 @@ Usage: elm-docs <action> [options]
 
 Actions:
   type-search <query>   Search for functions by type signature
+  search <query>        Search for packages by keyword
   build-db              Build or rebuild the package database
   status                Report sync status of all packages
   help                  Show this help message
@@ -39,7 +41,9 @@ Examples:
   elm-docs type-search 'List a -> Maybe a'
   elm-docs type-search 'String -> Int' --limit 10
   elm-docs type-search 'Model -> Html Msg' --project
-  elm-docs type-search 'Model -> Html Msg' --project scripts/
+  elm-docs search 'json parser'
+  elm-docs search 'http' --limit 5
+  elm-docs search 'animation' --project
   elm-docs build-db --full
   elm-docs status
 
@@ -67,14 +71,6 @@ function hasDbFlag(args) {
   return args.includes("--db");
 }
 
-function contentDir() {
-  const candidate = resolve(pkgRoot, "package-elm-lang-org", "content");
-  if (existsSync(candidate)) {
-    return candidate;
-  }
-  return null;
-}
-
 function isDbStale(dbPath) {
   if (!existsSync(dbPath)) {
     return true;
@@ -83,8 +79,14 @@ function isDbStale(dbPath) {
   return Date.now() - stats.mtimeMs > DB_MAX_AGE_MS;
 }
 
+function resolveElmPages() {
+  const local = resolve(pkgRoot, "node_modules", ".bin", "elm-pages");
+  if (existsSync(local)) return local;
+  return "elm-pages";
+}
+
 function runElmPages(script, args) {
-  execFileSync("elm-pages", ["run", script, "--", ...args], {
+  execFileSync(resolveElmPages(), ["run", script, "--", ...args], {
     cwd: scriptsDir,
     stdio: "inherit",
   });
@@ -104,11 +106,6 @@ function ensureDb(dbPath) {
   console.log(`${action} package database at ${dbPath}...`);
 
   const buildArgs = ["--db", dbPath];
-  const content = contentDir();
-  if (content) {
-    buildArgs.push("--content-dir", content);
-  }
-
   runElmPages("src/BuildDb.elm", buildArgs);
 }
 
@@ -245,9 +242,17 @@ function main() {
     extraArgs.push("--db", dbPath);
   }
 
-  const content = contentDir();
-  if (content && !actionArgs.includes("--content-dir")) {
-    extraArgs.push("--content-dir", content);
+  // Handle --project flag for search
+  if (actionName === "search") {
+    const projectRoot = resolveProjectRoot(actionArgs);
+    let cleanedArgs = stripProjectFlag(actionArgs);
+
+    if (projectRoot) {
+      cleanedArgs = cleanedArgs.concat(["--project-root", projectRoot]);
+    }
+
+    runElmPages(action.script, [...extraArgs, ...cleanedArgs]);
+    return;
   }
 
   // Handle --project flag for type-search

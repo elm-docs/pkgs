@@ -1,5 +1,8 @@
 module TypeSearch.Search exposing (Candidate, SearchResult, search)
 
+{-| Filters and ranks type index candidates by structural distance to the query.
+-}
+
 import TypeSearch.Distance as Distance
 import TypeSearch.Fingerprint as Fingerprint
 import TypeSearch.Type exposing (Type)
