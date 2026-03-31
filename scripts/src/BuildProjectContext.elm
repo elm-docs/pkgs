@@ -82,7 +82,7 @@ programConfig =
                 |> with (Option.requiredKeywordArg "project-root")
                 |> with
                     (Option.optionalKeywordArg "db"
-                        |> Option.withDefault "../db/elm-packages.db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
                 |> with (Option.flag "full")
             )

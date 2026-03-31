@@ -133,7 +133,7 @@ programConfig =
                 |> with (Option.flag "full")
                 |> with
                     (Option.optionalKeywordArg "db"
-                        |> Option.withDefault "../db/elm-packages.db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
             )
 

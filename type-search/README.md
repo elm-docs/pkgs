@@ -13,7 +13,7 @@ nix develop --command npm run type-search -- "a -> Maybe a"
 Options:
 
 ```
---db <path>     Path to database (default: db/elm-packages.db)
+--db <path>     Path to database (default: ~/.elm-docs/elm-packages.db)
 --limit <n>     Max results (default: 20)
 --threshold <f> Distance threshold (default: 0.125)
 --json          Output as JSON
