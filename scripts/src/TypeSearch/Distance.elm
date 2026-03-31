@@ -1,5 +1,11 @@
 module TypeSearch.Distance exposing (distance, packageBoost)
 
+{-| Computes structural distance between two Elm type signatures.
+
+Uses a recursive tree-matching algorithm with variable binding unification
+and a permutation search over function arguments to find the best alignment.
+-}
+
 import Dict exposing (Dict)
 import Set exposing (Set)
 import TypeSearch.Type exposing (QualifiedName, Type(..))

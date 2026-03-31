@@ -8,6 +8,8 @@ module Shared.PackageVersion exposing
     , version
     )
 
+{-| Opaque type representing an org/package@version triple.
+-}
 
 type PackageVersion
     = PackageVersion

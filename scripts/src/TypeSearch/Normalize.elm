@@ -1,5 +1,8 @@
 module TypeSearch.Normalize exposing (normalize)
 
+{-| Canonical renaming of type variables (a, b, c, ...) for consistent comparison.
+-}
+
 import Dict exposing (Dict)
 import Set exposing (Set)
 import TypeSearch.Type exposing (Type(..))

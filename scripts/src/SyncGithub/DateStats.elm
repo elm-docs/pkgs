@@ -1,5 +1,8 @@
 module SyncGithub.DateStats exposing (DateStats, IssueInfo, computeDateStats, daysSince)
 
+{-| Computes age statistics (min/max/avg days) for GitHub issues and PRs.
+-}
+
 import Iso8601
 import Time
 

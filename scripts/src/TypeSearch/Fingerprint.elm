@@ -1,5 +1,8 @@
 module TypeSearch.Fingerprint exposing (countArgs, fingerprint, fingerprintCompatible)
 
+{-| Compact string representation of a type's shape for fast pre-filtering.
+-}
+
 import TypeSearch.Type exposing (Type(..))
 
 

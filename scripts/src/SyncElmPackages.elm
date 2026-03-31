@@ -1,5 +1,8 @@
 module SyncElmPackages exposing (run)
 
+{-| Discovers and downloads docs.json for all published Elm packages.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Glob as Glob
 import BackendTask.Http
@@ -10,6 +13,7 @@ import FatalError exposing (FatalError)
 import Json.Decode
 import Pages.Script as Script exposing (Script)
 import Set exposing (Set)
+import Shared.Ansi exposing (dim, green, red)
 import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 import Sync.Discovery as Discovery
 import Sync.Fetch as Fetch exposing (WriteAction(..))
@@ -446,19 +450,3 @@ chunk size list =
 
 
 
--- ANSI helpers
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"
-
-
-green : String -> String
-green s =
-    "\u{001B}[32m" ++ s ++ "\u{001B}[0m"
-
-
-red : String -> String
-red s =
-    "\u{001B}[31m" ++ s ++ "\u{001B}[0m"

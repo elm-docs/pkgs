@@ -1,5 +1,9 @@
 module BuildDb.TypeIndex exposing (ProcessResult, TypeEntry, TypeIndexRow, processEntries)
 
+{-| Processes raw type entries from docs.json into type index rows
+with parsed ASTs, normalized forms, and fingerprints.
+-}
+
 import Json.Encode as Encode
 import TypeSearch.Fingerprint as Fingerprint
 import TypeSearch.Normalize as Normalize

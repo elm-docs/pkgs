@@ -8,6 +8,10 @@ module Status.Classification exposing
     , summarize
     )
 
+{-| Classifies packages into sync states (success, pending, failure, missing)
+based on which files exist on disk.
+-}
+
 import Set exposing (Set)
 import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 

@@ -1,5 +1,11 @@
 module BuildDb exposing (run)
 
+{-| Builds the SQLite database from synced package data.
+
+Pipeline: init DB -> ingest search.json -> ingest docs -> ingest github
+-> compute package ranks -> build type index.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Custom
 import BuildDb.TypeIndex as TypeIndex
@@ -10,6 +16,7 @@ import FatalError exposing (FatalError)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
+import Shared.Ansi exposing (dim, green)
 
 
 type alias CliOptions =
@@ -93,13 +100,13 @@ run =
                                             )
                                 )
                     )
-                -- 5. Rebuild search index
+                -- 5. Compute package ranks
                 |> BackendTask.andThen
                     (\() ->
-                        rebuildSearchIndex options.db options.full
+                        computePackageRanks options.db
                             |> BackendTask.andThen
                                 (\count ->
-                                    Script.log (green ("  " ++ String.fromInt count ++ " search index entries"))
+                                    Script.log (green ("  " ++ String.fromInt count ++ " package ranks computed"))
                                 )
                     )
                 -- 6. Type index
@@ -228,14 +235,10 @@ ingestGithubBatch dbPath files =
         |> BackendTask.allowFatal
 
 
-rebuildSearchIndex : String -> Bool -> BackendTask FatalError Int
-rebuildSearchIndex dbPath full =
-    BackendTask.Custom.run "rebuildSearchIndex"
-        (Encode.object
-            [ ( "dbPath", Encode.string dbPath )
-            , ( "full", Encode.bool full )
-            ]
-        )
+computePackageRanks : String -> BackendTask FatalError Int
+computePackageRanks dbPath =
+    BackendTask.Custom.run "computePackageRanks"
+        (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
         (Decode.field "count" Decode.int)
         |> BackendTask.allowFatal
 
@@ -325,27 +328,19 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
         |> BackendTask.andThen
             (\result ->
                 let
+                    processedPackages : List TypeIndex.ProcessResult
+                    processedPackages =
+                        List.map
+                            (\pkg -> TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries)
+                            result.packages
+
                     allRows : List TypeIndex.TypeIndexRow
                     allRows =
-                        List.concatMap
-                            (\pkg ->
-                                let
-                                    processed : TypeIndex.ProcessResult
-                                    processed =
-                                        TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries
-                                in
-                                processed.rows
-                            )
-                            result.packages
+                        List.concatMap .rows processedPackages
 
                     batchParseErrors : Int
                     batchParseErrors =
-                        List.foldl
-                            (\pkg acc ->
-                                acc + (TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries).parseErrors
-                            )
-                            0
-                            result.packages
+                        List.foldl (\p acc -> acc + p.parseErrors) 0 processedPackages
 
                     deleteIds : List Int
                     deleteIds =
@@ -375,19 +370,6 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                         )
             )
 
-
-
--- ANSI helpers
-
-
-green : String -> String
-green s =
-    "\u{001B}[32m" ++ s ++ "\u{001B}[0m"
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"
 
 
 modeLabel : Bool -> String

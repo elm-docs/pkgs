@@ -1,5 +1,8 @@
 module ProjectContext.ElmJson exposing (ProjectInfo, ProjectType(..), decoder, directDeps)
 
+{-| Decodes elm.json project metadata for project-scoped searches.
+-}
+
 import Json.Decode as Decode
 
 
