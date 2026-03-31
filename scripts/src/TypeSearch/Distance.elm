@@ -1,9 +1,19 @@
 module TypeSearch.Distance exposing (distance, packageBoost)
 
-{-| Computes structural distance between two Elm type signatures.
+{-| Structural distance between two Elm type signatures.
 
-Uses a recursive tree-matching algorithm with variable binding unification
-and a permutation search over function arguments to find the best alignment.
+Penalty-based metric ported from elm-search:
+
+    None   = 0.0   Exact match
+    Low    = 0.25  Reserved var matches concrete type
+    Medium = 0.5   Generic var matches concrete type
+    Max    = 1.0   No match
+
+Function matching tries all permutations of arguments (capped at 6) to find
+the best alignment. Reserved variables (`number`, `comparable`, `appendable`)
+match their associated concrete types at low penalty. Package boosts:
+elm/core −0.125, elm/\* −0.083, elm-community/\* −0.0625.
+
 -}
 
 import Dict exposing (Dict)

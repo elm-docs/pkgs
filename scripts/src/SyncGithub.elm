@@ -1,6 +1,27 @@
 module SyncGithub exposing (run)
 
-{-| Syncs GitHub metadata (stars, issues, PRs, last commit) for all known packages.
+{-| Fetch GitHub metadata for each package (not per version).
+
+Writes one result file at `content/packages/{org}/{package}/`:
+
+  - `github.json` — stars, last commit, open issues/PRs with age stats
+  - `github-redirect.json` — repo was renamed or moved
+  - `github-missing.json` — repo or user no longer exists (404)
+  - `github-errors.json` — transient error (rate limit, network, etc.)
+
+Only one file exists per package. On each run:
+
+1.  Skips packages that already have `github.json`, `github-redirect.json`,
+    or `github-missing.json`
+2.  Retries packages that only have `github-errors.json`
+3.  Cleans up stale files when status changes (e.g. on `--update`)
+
+Reads GitHub's `x-ratelimit-remaining` and `retry-after` headers. When
+remaining requests drop to ≤ 10, pauses until the rate-limit window resets.
+
+Requires a GitHub token via `GITHUB_TOKEN` or `--token`.
+Flags: `--concurrency` (default 2), `--delay` (default 500ms), `--update`.
+
 -}
 
 import BackendTask exposing (BackendTask)

@@ -1,6 +1,13 @@
 module TypeSearch.Fingerprint exposing (countArgs, fingerprint, fingerprintCompatible)
 
-{-| Compact string representation of a type's shape for fast pre-filtering.
+{-| Compact structural string for cheap pre-filtering of type index candidates.
+
+Format: `F{argCount}:{sorted concrete type names}`.
+
+    "(a -> Bool) -> List a -> List a"  →  "F2:Bool,List,List"
+    "Int -> String"                    →  "F1:Int,String"
+    "a -> b -> a"                      →  "F2:"
+
 -}
 
 import TypeSearch.Type exposing (Type(..))

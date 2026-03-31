@@ -1,9 +1,29 @@
 module TypeSearch exposing (run)
 
-{-| CLI entry point for searching Elm packages by type signature.
+{-| Search Elm packages by type signature.
 
-Parses a type query, normalizes it, then finds functions with similar
-type signatures using fingerprint pre-filtering and structural distance.
+Inspired by [elm-search](https://github.com/klaftertief/elm-search).
+
+    elm-docs type-search "(a -> b) -> List a -> List b"
+    elm-docs type-search "String -> Int" --limit 10
+    elm-docs type-search "Model -> Html Msg" --project
+
+Options: `--db <path>`, `--limit <n>` (default 20), `--threshold <f>`
+(default 0.125), `--json`, `--project`.
+
+
+## Query phase
+
+1.  Parse the user's query in lenient mode (unqualified names like `List`
+    auto-resolve to `List.List`)
+2.  Normalize type variables
+3.  Generate fingerprint
+4.  Pre-filter candidates by arg count (±1) and fingerprint overlap
+    (eliminates ~80–90%)
+5.  Compute distance between query and each remaining candidate
+6.  Apply package priority boosts (elm/core > elm/\* > elm-community/\*)
+7.  Return results sorted by distance
+
 -}
 
 import BackendTask exposing (BackendTask)

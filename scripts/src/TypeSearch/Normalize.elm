@@ -1,6 +1,12 @@
 module TypeSearch.Normalize exposing (normalize)
 
-{-| Canonical renaming of type variables (a, b, c, ...) for consistent comparison.
+{-| Canonical renaming of type variables for consistent comparison.
+
+    (x -> y -> x)       →  (a -> b -> a)
+    (foo -> bar -> foo)  →  (a -> b -> a)
+
+Reserved variables (`number`, `comparable`, `appendable`) keep their names.
+
 -}
 
 import Dict exposing (Dict)

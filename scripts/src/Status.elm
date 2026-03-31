@@ -1,6 +1,11 @@
 module Status exposing (run)
 
-{-| Reports sync status: classifies packages as synced, pending, errored, or missing.
+{-| Show sync status of all known packages.
+
+Fetches the full registry from `/all-packages/since/0`, classifies every
+version against the local `content/` directory, and prints a summary with
+counts and percentages for each state (success, pending, failure, missing).
+
 -}
 
 import BackendTask exposing (BackendTask)
