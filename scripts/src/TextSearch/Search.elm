@@ -1,29 +1,17 @@
 module TextSearch.Search exposing (SearchResult, search)
 
-import TextSearch.Rank as Rank exposing (RawCandidate, ScoredPackage)
-
+{-| Thin pass-through for text search results. SQL handles filtering
+and sorting; this module enforces the result limit as a safety measure.
+-}
 
 type alias SearchResult =
     { package : String
     , summary : String
-    , score : Float
+    , rank : Float
     , stars : Int
     }
 
 
-search : { limit : Int } -> List RawCandidate -> List SearchResult
-search config candidates =
-    candidates
-        |> List.map (Rank.scorePackage Rank.defaultWeights)
-        |> List.sortBy .score
-        |> List.take config.limit
-        |> List.map toResult
-
-
-toResult : ScoredPackage -> SearchResult
-toResult scored =
-    { package = scored.package
-    , summary = scored.summary
-    , score = scored.score
-    , stars = scored.stars
-    }
+search : { limit : Int } -> List SearchResult -> List SearchResult
+search config results =
+    List.take config.limit results

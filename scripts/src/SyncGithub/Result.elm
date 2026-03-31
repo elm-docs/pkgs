@@ -1,5 +1,8 @@
 module SyncGithub.Result exposing (GithubResult(..), onError, onResult)
 
+{-| Maps GitHub API responses to file write actions.
+-}
+
 import Json.Encode as Encode
 import Sync.Fetch exposing (WriteAction(..))
 import SyncGithub.Path as Path

@@ -5,6 +5,9 @@ module TypeSearch.Type exposing
     , encoder
     )
 
+{-| Core AST for Elm type signatures: Var, Lambda, Type (named), Record, Tuple, Unit.
+-}
+
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 

@@ -1,5 +1,8 @@
 module Sync.Discovery exposing (filterNew)
 
+{-| Filters package versions to find those not yet synced locally.
+-}
+
 import Set exposing (Set)
 import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
 

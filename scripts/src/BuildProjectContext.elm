@@ -1,5 +1,9 @@
 module BuildProjectContext exposing (run)
 
+{-| Builds a project-scoped database by ingesting local project docs
+for use with --project type searches.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Custom
 import BuildDb.TypeIndex as TypeIndex

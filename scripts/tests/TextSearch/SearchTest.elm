@@ -2,56 +2,65 @@ module TextSearch.SearchTest exposing (suite)
 
 import Expect
 import Test exposing (Test, describe, test)
-import TextSearch.Rank exposing (RawCandidate)
 import TextSearch.Search as Search exposing (SearchResult)
 
 
-mkCandidate : String -> Float -> Int -> Int -> Bool -> RawCandidate
-mkCandidate package textScore stars matchCount summaryMatch =
+mkResult : String -> Float -> Int -> SearchResult
+mkResult package rank stars =
     { package = package
     , summary = "A summary"
-    , textScore = textScore
-    , matchCount = matchCount
+    , rank = rank
     , stars = stars
-    , summaryMatch = summaryMatch
     }
 
 
 suite : Test
 suite =
     describe "TextSearch.Search"
-        [ test "results sorted by score ascending (best first)" <|
+        [ test "limit is respected" <|
             \() ->
                 let
-                    candidates : List RawCandidate
-                    candidates =
-                        [ mkCandidate "a/worst" -1.0 0 1 False
-                        , mkCandidate "a/best" -10.0 100 5 True
-                        , mkCandidate "a/mid" -5.0 10 2 False
-                        ]
-
                     results : List SearchResult
                     results =
-                        Search.search { limit = 10 } candidates
-                in
-                List.map .package results
-                    |> Expect.equal [ "a/best", "a/mid", "a/worst" ]
-        , test "limit is respected" <|
-            \() ->
-                let
-                    candidates : List RawCandidate
-                    candidates =
                         List.range 1 10
-                            |> List.map (\i -> mkCandidate ("a/pkg" ++ String.fromInt i) (toFloat -i) 0 1 False)
+                            |> List.map (\i -> mkResult ("a/pkg" ++ String.fromInt i) (toFloat i) 0)
 
-                    results : List SearchResult
-                    results =
-                        Search.search { limit = 3 } candidates
+                    limited : List SearchResult
+                    limited =
+                        Search.search { limit = 3 } results
                 in
-                List.length results
+                List.length limited
                     |> Expect.equal 3
-        , test "empty candidates → empty results" <|
+        , test "empty input returns empty list" <|
             \() ->
                 Search.search { limit = 10 } []
                     |> Expect.equal []
+        , test "result structure preserved" <|
+            \() ->
+                let
+                    input : List SearchResult
+                    input =
+                        [ { package = "elm/json"
+                          , summary = "JSON encoding/decoding"
+                          , rank = 85.5
+                          , stars = 200
+                          }
+                        ]
+
+                    output : List SearchResult
+                    output =
+                        Search.search { limit = 10 } input
+                in
+                case output of
+                    [ r ] ->
+                        Expect.all
+                            [ \_ -> Expect.equal "elm/json" r.package
+                            , \_ -> Expect.equal "JSON encoding/decoding" r.summary
+                            , \_ -> Expect.within (Expect.Absolute 0.01) 85.5 r.rank
+                            , \_ -> Expect.equal 200 r.stars
+                            ]
+                            ()
+
+                    _ ->
+                        Expect.fail "Expected exactly one result"
         ]

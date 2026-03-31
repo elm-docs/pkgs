@@ -1,5 +1,9 @@
 module SyncGithub.ErrorClassification exposing (ErrorReason(..), classifyResponse, reasonToString)
 
+{-| Classifies GitHub API error responses into actionable reasons
+(rate limit, not found, redirect, server error, etc.).
+-}
+
 
 type ErrorReason
     = RateLimit

@@ -1,5 +1,8 @@
 module Sync.Fetch exposing (WriteAction(..), onFailure, onSuccess, toErrorJson)
 
+{-| File write actions for package doc fetching (success and failure paths).
+-}
+
 import Json.Encode as Encode
 
 

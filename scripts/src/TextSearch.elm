@@ -1,5 +1,11 @@
 module TextSearch exposing (run)
 
+{-| CLI entry point for searching Elm packages by keyword.
+
+Searches package names, authors, and summaries using substring matching
+with pre-computed popularity ranks.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Custom
 import Cli.Option as Option
@@ -10,7 +16,9 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
 import ProjectContext.ElmJson as ElmJson
-import TextSearch.Rank exposing (RawCandidate)
+import Shared.Ansi exposing (bold, dim, green)
+import Shared.CliHelpers exposing (parseIntOpt)
+import Shared.Format exposing (formatFloat)
 import TextSearch.Search as Search exposing (SearchResult)
 
 
@@ -27,21 +35,21 @@ run : Script
 run =
     Script.withCliOptions programConfig
         (\options ->
-            fetchAllCandidates options
+            fetchAllResults options
                 |> BackendTask.andThen
-                    (\candidates ->
+                    (\results ->
                         let
-                            results : List SearchResult
-                            results =
+                            limited : List SearchResult
+                            limited =
                                 Search.search
                                     { limit = options.limit }
-                                    candidates
+                                    results
                         in
                         if options.json then
-                            Script.log (resultsToJson results)
+                            Script.log (resultsToJson limited)
 
                         else
-                            Script.log (formatResults options.query results)
+                            Script.log (formatResults options.query limited)
                     )
         )
 
@@ -65,30 +73,14 @@ programConfig =
             )
 
 
-parseIntOpt : String -> Int -> Maybe String -> Result String Int
-parseIntOpt name default_ maybeStr =
-    case maybeStr of
-        Nothing ->
-            Ok default_
-
-        Just str ->
-            case String.toInt str of
-                Just n ->
-                    Ok n
-
-                Nothing ->
-                    Err ("Invalid --" ++ name ++ " value: " ++ str)
-
-
-
 -- DATABASE
 
 
-fetchAllCandidates : CliOptions -> BackendTask FatalError (List RawCandidate)
-fetchAllCandidates options =
+fetchAllResults : CliOptions -> BackendTask FatalError (List SearchResult)
+fetchAllResults options =
     case options.projectRoot of
         Nothing ->
-            fetchCandidates options.db options.query
+            searchPackages options.db options.query options.limit
 
         Just projectRoot ->
             readProjectInfo projectRoot
@@ -99,7 +91,7 @@ fetchAllCandidates options =
                             directDeps =
                                 ElmJson.directDeps projectInfo
                         in
-                        fetchFilteredCandidates options.db options.query directDeps
+                        searchPackagesFiltered options.db options.query options.limit directDeps
                     )
 
 
@@ -111,40 +103,40 @@ readProjectInfo projectRoot =
         |> BackendTask.allowFatal
 
 
-fetchCandidates : String -> String -> BackendTask FatalError (List RawCandidate)
-fetchCandidates dbPath query =
-    BackendTask.Custom.run "queryTextSearch"
+searchPackages : String -> String -> Int -> BackendTask FatalError (List SearchResult)
+searchPackages dbPath query limit =
+    BackendTask.Custom.run "searchPackages"
         (Encode.object
             [ ( "dbPath", Encode.string dbPath )
             , ( "query", Encode.string query )
+            , ( "limit", Encode.int limit )
             ]
         )
-        (Decode.list candidateDecoder)
+        (Decode.list resultDecoder)
         |> BackendTask.allowFatal
 
 
-fetchFilteredCandidates : String -> String -> List String -> BackendTask FatalError (List RawCandidate)
-fetchFilteredCandidates dbPath query allowedPackages =
-    BackendTask.Custom.run "queryTextSearchFiltered"
+searchPackagesFiltered : String -> String -> Int -> List String -> BackendTask FatalError (List SearchResult)
+searchPackagesFiltered dbPath query limit allowedPackages =
+    BackendTask.Custom.run "searchPackagesFiltered"
         (Encode.object
             [ ( "dbPath", Encode.string dbPath )
             , ( "query", Encode.string query )
+            , ( "limit", Encode.int limit )
             , ( "allowedPackages", Encode.list Encode.string allowedPackages )
             ]
         )
-        (Decode.list candidateDecoder)
+        (Decode.list resultDecoder)
         |> BackendTask.allowFatal
 
 
-candidateDecoder : Decode.Decoder RawCandidate
-candidateDecoder =
-    Decode.map6 RawCandidate
+resultDecoder : Decode.Decoder SearchResult
+resultDecoder =
+    Decode.map4 SearchResult
         (Decode.field "package" Decode.string)
         (Decode.field "summary" Decode.string)
-        (Decode.field "text_score" Decode.float)
-        (Decode.field "match_count" Decode.int)
+        (Decode.field "rank" Decode.float)
         (Decode.field "stars" Decode.int)
-        (Decode.field "summary_match" Decode.bool)
 
 
 
@@ -178,9 +170,9 @@ formatResults query results =
 formatResult : SearchResult -> String
 formatResult r =
     let
-        score : String
-        score =
-            formatFloat 3 r.score
+        rankStr : String
+        rankStr =
+            formatFloat 1 r.rank
     in
     "  "
         ++ green r.package
@@ -189,37 +181,7 @@ formatResult r =
         ++ "\n    "
         ++ dim r.summary
         ++ "  "
-        ++ dim ("[" ++ score ++ "]")
-
-
-formatFloat : Int -> Float -> String
-formatFloat decimals f =
-    let
-        multiplier : Float
-        multiplier =
-            toFloat (10 ^ decimals)
-
-        rounded : Float
-        rounded =
-            toFloat (round (f * multiplier)) / multiplier
-
-        str : String
-        str =
-            String.fromFloat rounded
-
-        parts : List String
-        parts =
-            String.split "." str
-    in
-    case parts of
-        [ whole, frac ] ->
-            whole ++ "." ++ String.padRight decimals '0' frac
-
-        [ whole ] ->
-            whole ++ "." ++ String.repeat decimals "0"
-
-        _ ->
-            str
+        ++ dim ("[" ++ rankStr ++ "]")
 
 
 resultsToJson : List SearchResult -> String
@@ -233,25 +195,9 @@ resultToJson r =
     Encode.object
         [ ( "package", Encode.string r.package )
         , ( "summary", Encode.string r.summary )
-        , ( "score", Encode.float r.score )
+        , ( "rank", Encode.float r.rank )
         , ( "stars", Encode.int r.stars )
         ]
 
 
 
--- ANSI helpers
-
-
-bold : String -> String
-bold s =
-    "\u{001B}[1m" ++ s ++ "\u{001B}[0m"
-
-
-green : String -> String
-green s =
-    "\u{001B}[32m" ++ s ++ "\u{001B}[0m"
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"

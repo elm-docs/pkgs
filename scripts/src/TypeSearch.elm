@@ -1,5 +1,11 @@
 module TypeSearch exposing (run)
 
+{-| CLI entry point for searching Elm packages by type signature.
+
+Parses a type query, normalizes it, then finds functions with similar
+type signatures using fingerprint pre-filtering and structural distance.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Custom
 import Cli.Option as Option
@@ -10,6 +16,9 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
 import ProjectContext.ElmJson as ElmJson
+import Shared.Ansi exposing (bold, dim, green)
+import Shared.CliHelpers exposing (parseFloatOpt, parseIntOpt)
+import Shared.Format exposing (formatFloat)
 import TypeSearch.Fingerprint as Fingerprint
 import TypeSearch.Normalize as Normalize
 import TypeSearch.Parse as Parse
@@ -104,37 +113,6 @@ programConfig =
                 |> with (Option.optionalKeywordArg "project-root")
                 |> with (Option.optionalKeywordArg "project-db")
             )
-
-
-parseIntOpt : String -> Int -> Maybe String -> Result String Int
-parseIntOpt name default_ maybeStr =
-    case maybeStr of
-        Nothing ->
-            Ok default_
-
-        Just str ->
-            case String.toInt str of
-                Just n ->
-                    Ok n
-
-                Nothing ->
-                    Err ("Invalid --" ++ name ++ " value: " ++ str)
-
-
-parseFloatOpt : String -> Float -> Maybe String -> Result String Float
-parseFloatOpt name default_ maybeStr =
-    case maybeStr of
-        Nothing ->
-            Ok default_
-
-        Just str ->
-            case String.toFloat str of
-                Just f ->
-                    Ok f
-
-                Nothing ->
-                    Err ("Invalid --" ++ name ++ " value: " ++ str)
-
 
 
 -- DATABASE
@@ -275,36 +253,6 @@ formatResult r =
         ++ dim ("[" ++ dist ++ "]")
 
 
-formatFloat : Int -> Float -> String
-formatFloat decimals f =
-    let
-        multiplier : Float
-        multiplier =
-            toFloat (10 ^ decimals)
-
-        rounded : Float
-        rounded =
-            toFloat (round (f * multiplier)) / multiplier
-
-        str : String
-        str =
-            String.fromFloat rounded
-
-        parts : List String
-        parts =
-            String.split "." str
-    in
-    case parts of
-        [ whole, frac ] ->
-            whole ++ "." ++ String.padRight decimals '0' frac
-
-        [ whole ] ->
-            whole ++ "." ++ String.repeat decimals "0"
-
-        _ ->
-            str
-
-
 resultsToJson : List SearchResult -> String
 resultsToJson results =
     Encode.list resultToJson results
@@ -324,19 +272,3 @@ resultToJson r =
 
 
 
--- ANSI helpers
-
-
-bold : String -> String
-bold s =
-    "\u{001B}[1m" ++ s ++ "\u{001B}[0m"
-
-
-green : String -> String
-green s =
-    "\u{001B}[32m" ++ s ++ "\u{001B}[0m"
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"

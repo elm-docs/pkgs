@@ -1,5 +1,8 @@
 module SyncGithub exposing (run)
 
+{-| Syncs GitHub metadata (stars, issues, PRs, last commit) for all known packages.
+-}
+
 import BackendTask exposing (BackendTask)
 import BackendTask.Env
 import BackendTask.Glob as Glob
@@ -15,6 +18,8 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
 import Set exposing (Set)
+import Shared.Ansi exposing (dim, green, red)
+import Shared.CliHelpers exposing (parseIntOpt)
 import Sync.Fetch exposing (WriteAction(..))
 import Sync.Path as SyncPath
 import SyncGithub.DateStats as DateStats exposing (DateStats, IssueInfo)
@@ -70,21 +75,6 @@ programConfig =
                 |> with (Option.flag "update")
                 |> with (Option.optionalKeywordArg "token")
             )
-
-
-parseIntOpt : String -> Int -> Maybe String -> Result String Int
-parseIntOpt name default_ maybeStr =
-    case maybeStr of
-        Nothing ->
-            Ok default_
-
-        Just str ->
-            case String.toInt str of
-                Just n ->
-                    Ok n
-
-                Nothing ->
-                    Err ("Invalid " ++ name ++ " value: " ++ str)
 
 
 resolveToken : Maybe String -> BackendTask FatalError String
@@ -857,18 +847,3 @@ httpErrorToString err =
 
         BackendTask.Http.BadBody _ msg ->
             "Bad Body: " ++ msg
-
-
-dim : String -> String
-dim s =
-    "\u{001B}[2m" ++ s ++ "\u{001B}[0m"
-
-
-green : String -> String
-green s =
-    "\u{001B}[32m" ++ s ++ "\u{001B}[0m"
-
-
-red : String -> String
-red s =
-    "\u{001B}[31m" ++ s ++ "\u{001B}[0m"
