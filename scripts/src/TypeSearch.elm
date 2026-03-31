@@ -99,7 +99,7 @@ programConfig =
                 |> with (Option.requiredPositionalArg "query")
                 |> with
                     (Option.optionalKeywordArg "db"
-                        |> Option.withDefault "../db/elm-packages.db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
                 |> with
                     (Option.optionalKeywordArg "limit"
