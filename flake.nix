@@ -17,6 +17,7 @@
             # Node.js (python3 needed to compile better-sqlite3)
             nodejs_22
             python3
+            zstd
             nodePackages.typescript
             nodePackages.typescript-language-server
 

@@ -1,0 +1,58 @@
+name: Sync Elm Packages
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Install dependencies
+        run: nix develop --command npm ci
+
+      - name: Download current DB from release
+        run: |
+          mkdir -p artifacts
+          gh release download packages -D artifacts \
+            -p 'elm-packages.db.zst' \
+            -p 'manifest.json' 2>/dev/null || echo "No existing release"
+          if [ -f artifacts/elm-packages.db.zst ]; then
+            zstd -d artifacts/elm-packages.db.zst -o elm-packages.db
+            DELTA_FROM=$(node -e "console.log(JSON.parse(require('fs').readFileSync('artifacts/manifest.json','utf-8')).fullDbAt)")
+          else
+            DELTA_FROM=0
+          fi
+          echo "DELTA_FROM=$DELTA_FROM" >> "$GITHUB_ENV"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync packages
+        run: nix develop --command npm run sync-elm-packages -- --db ./elm-packages.db
+
+      - name: Generate release artifacts
+        run: |
+          nix develop --command node scripts/ci/generate-artifacts.mjs \
+            --db ./elm-packages.db \
+            --out ./artifacts \
+            --delta-from "$DELTA_FROM"
+
+      - name: Upload release artifacts
+        run: |
+          gh release upload packages \
+            artifacts/elm-packages.db.zst \
+            artifacts/elm-packages-delta.json.zst \
+            artifacts/manifest.json \
+            --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

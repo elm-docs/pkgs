@@ -1,0 +1,53 @@
+name: Build Full Database
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Install dependencies
+        run: nix develop --command npm ci
+
+      - name: Full sync from scratch
+        run: |
+          nix develop --command npm run sync-elm-packages -- --db ./elm-packages.db
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync GitHub metadata
+        run: |
+          nix develop --command npm run sync-github -- --db ./elm-packages.db --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release if needed
+        run: |
+          gh release create packages --title "Package Database" --notes "Pre-built Elm package database" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate and upload release artifacts
+        run: |
+          nix develop --command node scripts/ci/generate-artifacts.mjs \
+            --db ./elm-packages.db \
+            --out ./artifacts
+
+          gh release upload packages \
+            artifacts/elm-packages.db.zst \
+            artifacts/elm-packages-delta.json.zst \
+            artifacts/metadata.json \
+            artifacts/manifest.json \
+            --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

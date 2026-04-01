@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync, spawn } from "node:child_process";
-import { existsSync, statSync, mkdirSync, readFileSync, globSync } from "node:fs";
+import { existsSync, statSync, mkdirSync, readFileSync, writeFileSync, globSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
@@ -17,28 +17,18 @@ const scriptsDir = resolve(pkgRoot, "scripts");
 const ACTIONS = {
   "type-search": { script: "src/TypeSearch.elm", needsDb: true },
   search: { script: "src/TextSearch.elm", needsDb: true },
+  sync: { script: null, needsDb: false },
   "build-db": { script: "src/BuildDb.elm", needsDb: false },
   status: { script: "src/Status.elm", needsDb: false },
   help: { script: null, needsDb: false },
 };
 
-const REGISTRY_URL = "https://package.elm-lang.org/all-packages/since/";
+const RELEASE_BASE = "https://github.com/elm-docs/pkgs/releases/download/packages";
 const FRESHNESS_TIMEOUT_MS = 5000;
 
 // ---------------------------------------------------------------------------
-// Progress bar for database builds
+// Progress bar
 // ---------------------------------------------------------------------------
-
-const BUILD_STAGES = [
-  { pattern: /packages from search\.json/, label: "Indexing packages", pct: 10 },
-  { pattern: /new\/changed docs\.json/, label: "Scanning docs", pct: 15 },
-  { pattern: /versions ingested/, label: "Ingesting docs", pct: 50 },
-  { pattern: /new\/changed github/, label: "Scanning GitHub data", pct: 55 },
-  { pattern: /github files ingested/, label: "Ingesting GitHub data", pct: 65 },
-  { pattern: /package ranks computed/, label: "Computing rankings", pct: 75 },
-  { pattern: /Building type index/, label: "Building type index", pct: 80 },
-  { pattern: /type index entries/, label: "Finalizing", pct: 95 },
-];
 
 function renderProgressBar(pct, label) {
   if (!process.stderr.isTTY) return;
@@ -69,8 +59,9 @@ Usage: elm-docs <action> [options]
 Actions:
   type-search <query>   Search for functions by type signature
   search <query>        Search for packages by keyword
-  build-db              Build or rebuild the package database
-  status                Report sync status of all packages
+  sync                  Download or update the package database
+  build-db              Build or rebuild the package database locally
+  status                Report database status
   help                  Show this help message
 
 Examples:
@@ -80,13 +71,14 @@ Examples:
   elm-docs search 'json parser'
   elm-docs search 'http' --limit 5
   elm-docs search 'animation' --project
+  elm-docs sync
   elm-docs build-db --full
   elm-docs status
 
 Database:
   Default location: ~/.elm-docs/elm-packages.db
   Override with --db <path>
-  Database is automatically created for search commands.
+  Database is automatically downloaded for search commands.
 
 Project scope (--project):
   Restricts results to direct dependencies from the nearest elm.json,
@@ -130,8 +122,19 @@ function runElmPages(script, args) {
 }
 
 // ---------------------------------------------------------------------------
-// Database creation with progress bar
+// Database build (local, legacy)
 // ---------------------------------------------------------------------------
+
+const BUILD_STAGES = [
+  { pattern: /packages from search\.json/, label: "Indexing packages", pct: 10 },
+  { pattern: /new\/changed docs\.json/, label: "Scanning docs", pct: 15 },
+  { pattern: /versions ingested/, label: "Ingesting docs", pct: 50 },
+  { pattern: /new\/changed github/, label: "Scanning GitHub data", pct: 55 },
+  { pattern: /github files ingested/, label: "Ingesting GitHub data", pct: 65 },
+  { pattern: /package ranks computed/, label: "Computing rankings", pct: 75 },
+  { pattern: /Building type index/, label: "Building type index", pct: 80 },
+  { pattern: /type index entries/, label: "Finalizing", pct: 95 },
+];
 
 function runBuildWithProgress(args) {
   return new Promise((resolve, reject) => {
@@ -189,13 +192,8 @@ async function buildDb(dbPath, extraArgs = []) {
   console.error(`Database ready (${elapsed}s).`);
 }
 
-async function ensureDb(dbPath) {
-  if (existsSync(dbPath)) return;
-  await buildDb(dbPath);
-}
-
 // ---------------------------------------------------------------------------
-// Freshness check and DB metadata
+// Sync from GitHub Release
 // ---------------------------------------------------------------------------
 
 function getDbVersionCount(dbPath) {
@@ -210,6 +208,257 @@ function getDbVersionCount(dbPath) {
     return null;
   }
 }
+
+async function fetchManifest() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FRESHNESS_TIMEOUT_MS);
+  try {
+    const resp = await fetch(`${RELEASE_BASE}/manifest.json`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return await resp.json();
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
+}
+
+async function downloadWithProgress(url, label) {
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching ${url}`);
+
+  const contentLength = parseInt(resp.headers.get("content-length") || "0", 10);
+  const chunks = [];
+  let received = 0;
+
+  const reader = resp.body.getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    if (contentLength > 0) {
+      const pct = Math.round((received / contentLength) * 100);
+      renderProgressBar(pct, label);
+    }
+  }
+  clearProgressBar();
+
+  const result = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return Buffer.from(result);
+}
+
+function computeVersionSort(version) {
+  const parts = version.split(".").map(Number);
+  const major = parts[0] || 0;
+  const minor = parts[1] || 0;
+  const patch = parts[2] || 0;
+  return major * 1_000_000 + minor * 1_000 + patch;
+}
+
+function applyDelta(dbPath, deltaEntries) {
+  const Database = require("better-sqlite3");
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = OFF");
+
+  try {
+    const upsertPkg = db.prepare(
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
+    );
+    const insertVersion = db.prepare(
+      "INSERT INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?) ON CONFLICT(package_id, version) DO UPDATE SET package_id = package_id RETURNING id",
+    );
+    const insertModule = db.prepare(
+      "INSERT INTO modules (version_id, name, comment) VALUES (?, ?, ?) ON CONFLICT(version_id, name) DO UPDATE SET comment = excluded.comment RETURNING id",
+    );
+    const insertUnion = db.prepare(
+      "INSERT OR IGNORE INTO unions (module_id, name, comment, args, cases) VALUES (?, ?, ?, ?, ?)",
+    );
+    const insertAlias = db.prepare(
+      'INSERT OR IGNORE INTO aliases (module_id, name, comment, args, type) VALUES (?, ?, ?, ?, ?)',
+    );
+    const insertValue = db.prepare(
+      'INSERT OR IGNORE INTO "values" (module_id, name, comment, type) VALUES (?, ?, ?, ?)',
+    );
+    const insertBinop = db.prepare(
+      "INSERT OR IGNORE INTO binops (module_id, name, comment, type, associativity, precedence) VALUES (?, ?, ?, ?, ?, ?)",
+    );
+    const deleteTypeIndex = db.prepare("DELETE FROM type_index WHERE package_id = ?");
+    const insertTypeIndex = db.prepare(
+      "INSERT INTO type_index (package_id, version_id, module_name, name, kind, type_raw, type_ast, fingerprint, arg_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    );
+
+    const pkgIdCache = new Map();
+
+    const tx = db.transaction(() => {
+      for (const entry of deltaEntries) {
+        const pkgKey = `${entry.org}/${entry.name}`;
+        let packageId = pkgIdCache.get(pkgKey);
+        if (packageId === undefined) {
+          const row = upsertPkg.get(entry.org, entry.name);
+          packageId = row.id;
+          pkgIdCache.set(pkgKey, packageId);
+        }
+
+        const versionSort = computeVersionSort(entry.version);
+        const versionRow = insertVersion.get(packageId, entry.version, versionSort);
+        const versionId = versionRow.id;
+
+        for (const mod of entry.docs || []) {
+          const modRow = insertModule.get(versionId, mod.name, mod.comment || "");
+          const moduleId = modRow.id;
+
+          for (const u of mod.unions || []) {
+            insertUnion.run(moduleId, u.name, u.comment || "", JSON.stringify(u.args || []), JSON.stringify(u.cases || []));
+          }
+          for (const a of mod.aliases || []) {
+            insertAlias.run(moduleId, a.name, a.comment || "", JSON.stringify(a.args || []), a.type);
+          }
+          for (const v of mod.values || []) {
+            insertValue.run(moduleId, v.name, v.comment || "", v.type);
+          }
+          for (const b of mod.binops || []) {
+            insertBinop.run(moduleId, b.name, b.comment || "", b.type, b.associativity, b.precedence);
+          }
+        }
+
+        // Apply type index entries
+        if (entry.typeIndex && entry.typeIndex.length > 0) {
+          deleteTypeIndex.run(packageId);
+          for (const ti of entry.typeIndex) {
+            insertTypeIndex.run(
+              ti.packageId, ti.versionId, ti.moduleName, ti.name, ti.kind,
+              ti.typeRaw, ti.typeAst, ti.fingerprint, ti.argCount,
+            );
+          }
+        }
+      }
+    });
+    tx();
+  } finally {
+    db.close();
+  }
+}
+
+function applyMetadata(dbPath, metadataEntries) {
+  const Database = require("better-sqlite3");
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+
+  try {
+    const upsert = db.prepare(`
+      INSERT INTO packages (org, name, summary, license)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(org, name) DO UPDATE SET summary = excluded.summary, license = excluded.license
+    `);
+    const tx = db.transaction(() => {
+      for (const entry of metadataEntries) {
+        const [org, name] = entry.package.split("/");
+        upsert.run(org, name, entry.summary, entry.license);
+      }
+    });
+    tx();
+  } finally {
+    db.close();
+  }
+}
+
+async function syncFromRelease(dbPath) {
+  const dbDir = dirname(dbPath);
+  if (!existsSync(dbDir)) mkdirSync(dbDir, { recursive: true });
+
+  // 1. Fetch manifest
+  let manifest;
+  try {
+    manifest = await fetchManifest();
+  } catch (e) {
+    if (existsSync(dbPath)) {
+      console.error("\x1b[2mWorking offline \u2014 using existing database.\x1b[0m");
+      return;
+    }
+    console.error(`Cannot fetch release manifest: ${e.message}`);
+    process.exit(1);
+  }
+
+  // 2. Determine strategy
+  const localCount = existsSync(dbPath) ? getDbVersionCount(dbPath) : null;
+
+  if (localCount !== null && localCount >= manifest.fullDbAt) {
+    console.error("Database is up to date.");
+    return;
+  }
+
+  const start = Date.now();
+
+  if (localCount === null || localCount < manifest.deltaFrom) {
+    // Download full DB
+    console.error("Downloading package database...");
+    const dbZst = await downloadWithProgress(
+      `${RELEASE_BASE}/elm-packages.db.zst`,
+      "Downloading",
+    );
+    const tmpZst = dbPath + ".zst";
+    writeFileSync(tmpZst, dbZst);
+    execFileSync("zstd", ["-d", "-f", tmpZst, "-o", dbPath]);
+    try { execFileSync("rm", [tmpZst]); } catch { /* ignore */ }
+
+    // Also apply metadata
+    try {
+      console.error("Fetching metadata...");
+      const metaResp = await fetch(`${RELEASE_BASE}/metadata.json`);
+      if (metaResp.ok) {
+        const metadata = await metaResp.json();
+        applyMetadata(dbPath, metadata);
+      }
+    } catch { /* metadata is optional */ }
+  } else {
+    // Apply delta
+    console.error(`Updating database (${manifest.fullDbAt - localCount} new versions)...`);
+    const deltaZst = await downloadWithProgress(
+      `${RELEASE_BASE}/elm-packages-delta.json.zst`,
+      "Downloading delta",
+    );
+    const tmpDeltaZst = join(dbDir, "delta.json.zst");
+    const tmpDelta = join(dbDir, "delta.json");
+    writeFileSync(tmpDeltaZst, deltaZst);
+    execFileSync("zstd", ["-d", "-f", tmpDeltaZst, "-o", tmpDelta]);
+    try { execFileSync("rm", [tmpDeltaZst]); } catch { /* ignore */ }
+
+    const deltaEntries = JSON.parse(readFileSync(tmpDelta, "utf-8"));
+    applyDelta(dbPath, deltaEntries);
+    try { execFileSync("rm", [tmpDelta]); } catch { /* ignore */ }
+
+    // Apply metadata
+    try {
+      console.error("Fetching metadata...");
+      const metaResp = await fetch(`${RELEASE_BASE}/metadata.json`);
+      if (metaResp.ok) {
+        const metadata = await metaResp.json();
+        applyMetadata(dbPath, metadata);
+      }
+    } catch { /* metadata is optional */ }
+  }
+
+  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+  console.error(`Database ready (${elapsed}s).`);
+}
+
+async function ensureDb(dbPath) {
+  if (existsSync(dbPath)) return;
+  await syncFromRelease(dbPath);
+}
+
+// ---------------------------------------------------------------------------
+// Freshness check
+// ---------------------------------------------------------------------------
 
 function formatRelativeDate(date) {
   const diffMs = Date.now() - date.getTime();
@@ -242,22 +491,13 @@ function printDbLastUpdated(dbPath) {
 }
 
 async function checkFreshness(dbPath) {
-  const count = getDbVersionCount(dbPath);
-  if (count === null) return;
-
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), FRESHNESS_TIMEOUT_MS);
-    const response = await fetch(`${REGISTRY_URL}${count}`, {
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-
-    if (!response.ok) return;
-    const newPackages = await response.json();
-    if (newPackages.length > 0) {
+    const manifest = await fetchManifest();
+    const localCount = getDbVersionCount(dbPath);
+    if (localCount !== null && localCount < manifest.fullDbAt) {
+      const newCount = manifest.fullDbAt - localCount;
       console.error(
-        `\x1b[33m${newPackages.length} new package version(s) available. Run 'elm-docs build-db' to update.\x1b[0m`,
+        `\x1b[33m${newCount} new package version(s) available. Run 'elm-docs sync' to update.\x1b[0m`,
       );
     }
   } catch {
@@ -390,6 +630,12 @@ async function main() {
   }
 
   const dbPath = parseDbFlag(actionArgs) || defaultDbPath();
+
+  // Handle sync action
+  if (actionName === "sync") {
+    await syncFromRelease(dbPath);
+    return;
+  }
 
   if (action.needsDb) {
     await ensureDb(dbPath);
