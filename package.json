@@ -16,8 +16,7 @@
     "sync-elm-packages": "cd scripts && elm-pages run src/SyncElmPackages.elm --",
     "sync-github": "cd scripts && elm-pages run src/SyncGithub.elm --",
     "type-search": "cd scripts && elm-pages run src/TypeSearch.elm --",
-    "search": "cd scripts && elm-pages run src/TextSearch.elm --",
-    "build-db": "cd scripts && elm-pages run src/BuildDb.elm --"
+    "search": "cd scripts && elm-pages run src/TextSearch.elm --"
   },
   "repository": {
     "type": "git",

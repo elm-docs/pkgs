@@ -11,6 +11,9 @@ elm-stuff
 # Dev Environment
 .direnv
 
+# Synced content (now in SQLite)
+package-elm-lang-org
+
 # AI Environment
 /.claude
 CLAUDE.md

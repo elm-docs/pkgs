@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { existsSync, statSync, mkdirSync, readFileSync, writeFileSync, globSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,7 +18,6 @@ const ACTIONS = {
   "type-search": { script: "src/TypeSearch.elm", needsDb: true },
   search: { script: "src/TextSearch.elm", needsDb: true },
   sync: { script: null, needsDb: false },
-  "build-db": { script: "src/BuildDb.elm", needsDb: false },
   status: { script: "src/Status.elm", needsDb: false },
   help: { script: null, needsDb: false },
 };
@@ -60,7 +59,6 @@ Actions:
   type-search <query>   Search for functions by type signature
   search <query>        Search for packages by keyword
   sync                  Download or update the package database
-  build-db              Build or rebuild the package database locally
   status                Report database status
   help                  Show this help message
 
@@ -72,7 +70,6 @@ Examples:
   elm-docs search 'http' --limit 5
   elm-docs search 'animation' --project
   elm-docs sync
-  elm-docs build-db --full
   elm-docs status
 
 Database:
@@ -99,15 +96,6 @@ function hasDbFlag(args) {
   return args.includes("--db");
 }
 
-function stripDbFlag(args) {
-  const result = [...args];
-  const idx = result.indexOf("--db");
-  if (idx !== -1) {
-    result.splice(idx, idx + 1 < result.length ? 2 : 1);
-  }
-  return result;
-}
-
 function resolveElmPages() {
   const local = resolve(pkgRoot, "node_modules", ".bin", "elm-pages");
   if (existsSync(local)) return local;
@@ -119,77 +107,6 @@ function runElmPages(script, args) {
     cwd: scriptsDir,
     stdio: "inherit",
   });
-}
-
-// ---------------------------------------------------------------------------
-// Database build (local, legacy)
-// ---------------------------------------------------------------------------
-
-const BUILD_STAGES = [
-  { pattern: /packages from search\.json/, label: "Indexing packages", pct: 10 },
-  { pattern: /new\/changed docs\.json/, label: "Scanning docs", pct: 15 },
-  { pattern: /versions ingested/, label: "Ingesting docs", pct: 50 },
-  { pattern: /new\/changed github/, label: "Scanning GitHub data", pct: 55 },
-  { pattern: /github files ingested/, label: "Ingesting GitHub data", pct: 65 },
-  { pattern: /package ranks computed/, label: "Computing rankings", pct: 75 },
-  { pattern: /Building type index/, label: "Building type index", pct: 80 },
-  { pattern: /type index entries/, label: "Finalizing", pct: 95 },
-];
-
-function runBuildWithProgress(args) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(
-      resolveElmPages(),
-      ["run", "src/BuildDb.elm", "--", ...args],
-      { cwd: scriptsDir, stdio: ["inherit", "pipe", "pipe"] },
-    );
-
-    renderProgressBar(0, "Starting");
-
-    let stderrOutput = "";
-
-    const handleOutput = (data) => {
-      const text = data.toString();
-      for (const stage of BUILD_STAGES) {
-        if (stage.pattern.test(text)) {
-          renderProgressBar(stage.pct, stage.label);
-        }
-      }
-    };
-
-    child.stdout.on("data", handleOutput);
-    child.stderr.on("data", (data) => {
-      stderrOutput += data.toString();
-      handleOutput(data);
-    });
-
-    child.on("close", (code) => {
-      clearProgressBar();
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(
-          new Error(
-            `Database build failed (exit code ${code})${stderrOutput ? "\n" + stderrOutput : ""}`,
-          ),
-        );
-      }
-    });
-  });
-}
-
-async function buildDb(dbPath, extraArgs = []) {
-  const dbDir = dirname(dbPath);
-  if (!existsSync(dbDir)) {
-    mkdirSync(dbDir, { recursive: true });
-  }
-
-  const label = existsSync(dbPath) ? "Updating" : "Building";
-  console.error(`${label} package database...`);
-  const start = Date.now();
-  await runBuildWithProgress(["--db", dbPath, ...extraArgs]);
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.error(`Database ready (${elapsed}s).`);
 }
 
 // ---------------------------------------------------------------------------
@@ -675,8 +592,6 @@ async function main() {
     }
 
     runElmPages(action.script, [...extraArgs, ...cleanedArgs]);
-  } else if (actionName === "build-db") {
-    await buildDb(dbPath, stripDbFlag(actionArgs));
   } else {
     runElmPages(action.script, [...extraArgs, ...actionArgs]);
   }
