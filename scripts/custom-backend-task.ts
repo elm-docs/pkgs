@@ -1,5 +1,5 @@
 import { resolve, dirname, basename, join } from "node:path";
-import { readFileSync, statSync, globSync, mkdtempSync } from "node:fs";
+import { readFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import Database from "better-sqlite3";
@@ -65,7 +65,7 @@ const ALL_TABLES = [
   "package_tags",
   "github",
   "packages",
-  "_build_meta",
+  "sync_state",
 ];
 
 const SCHEMA = `
@@ -158,10 +158,9 @@ CREATE TABLE IF NOT EXISTS binops (
     UNIQUE(module_id, name)
 );
 
-CREATE TABLE IF NOT EXISTS _build_meta (
-    file_path  TEXT PRIMARY KEY,
-    mtime_ms   INTEGER NOT NULL,
-    size_bytes INTEGER NOT NULL
+CREATE TABLE IF NOT EXISTS sync_state (
+    key   TEXT PRIMARY KEY,
+    value TEXT NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_packages_org ON packages(org);
@@ -246,44 +245,6 @@ export async function ingestSearchJson(
   }
 }
 
-// Handler 3: findChangedFiles
-export async function findChangedFiles(
-  input: { dbPath: string; contentDir: string; glob: string },
-  context: Context,
-): Promise<{ relative: string; absolute: string; mtimeMs: number; size: number }[]> {
-  const dbPath = resolve(context.cwd, input.dbPath);
-  const contentDir = resolve(context.cwd, input.contentDir);
-  const db = new Database(dbPath);
-  db.pragma("journal_mode = WAL");
-
-  try {
-    const files = globSync(input.glob, { cwd: contentDir }) as string[];
-    const getMeta = db.prepare(
-      "SELECT mtime_ms, size_bytes FROM _build_meta WHERE file_path = ?",
-    );
-
-    const changed: { relative: string; absolute: string; mtimeMs: number; size: number }[] = [];
-    for (const rel of files) {
-      const abs = join(contentDir, rel);
-      const st = statSync(abs);
-      const row = getMeta.get(rel) as
-        | { mtime_ms: number; size_bytes: number }
-        | undefined;
-      if (!row || row.mtime_ms !== Math.floor(st.mtimeMs) || row.size_bytes !== st.size) {
-        changed.push({
-          relative: rel,
-          absolute: abs,
-          mtimeMs: Math.floor(st.mtimeMs),
-          size: st.size,
-        });
-      }
-    }
-    return changed;
-  } finally {
-    db.close();
-  }
-}
-
 // Handler 4: ingestDocsJsonBatch
 interface FileRef {
   absolute: string;
@@ -307,27 +268,51 @@ export async function ingestDocsJsonBatch(
   const dbPath = resolve(context.cwd, input.dbPath);
   const db = new Database(dbPath);
   db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
+  db.pragma("foreign_keys = OFF");
 
   let ingested = 0;
   let moduleCount = 0;
 
   try {
+    // Phase 1: Read and parse all files outside the transaction
+    interface ParsedFile {
+      ref: FileRef;
+      org: string;
+      name: string;
+      version: string;
+      modules: any[] | null;
+    }
+
+    const parsed: ParsedFile[] = [];
+    for (const f of input.files) {
+      const parts = f.relative.split("/");
+      if (parts.length < 4) continue;
+      const [, org, name, version] = parts;
+
+      let modules: any[] | null = null;
+      try {
+        const raw = readFileSync(f.absolute, "utf-8").trim();
+        if (raw && raw !== "[]") {
+          const data = JSON.parse(raw);
+          if (Array.isArray(data) && data.length > 0) {
+            modules = data;
+          }
+        }
+      } catch {
+        // skip malformed files
+      }
+      parsed.push({ ref: f, org, name, version, modules });
+    }
+
+    // Phase 2: All DB writes in a single transaction
     const upsertPkg = db.prepare(
-      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO NOTHING",
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
     );
-    const getPkgId = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?");
     const insertVersion = db.prepare(
-      "INSERT OR IGNORE INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?)",
-    );
-    const getVersionId = db.prepare(
-      "SELECT id FROM package_versions WHERE package_id = ? AND version = ?",
+      "INSERT INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?) ON CONFLICT(package_id, version) DO UPDATE SET package_id = package_id RETURNING id",
     );
     const insertModule = db.prepare(
-      "INSERT OR IGNORE INTO modules (version_id, name, comment) VALUES (?, ?, ?)",
-    );
-    const getModuleId = db.prepare(
-      "SELECT id FROM modules WHERE version_id = ? AND name = ?",
+      "INSERT INTO modules (version_id, name, comment) VALUES (?, ?, ?) ON CONFLICT(version_id, name) DO UPDATE SET comment = excluded.comment RETURNING id",
     );
     const insertUnion = db.prepare(
       "INSERT OR IGNORE INTO unions (module_id, name, comment, args, cases) VALUES (?, ?, ?, ?, ?)",
@@ -341,68 +326,45 @@ export async function ingestDocsJsonBatch(
     const insertBinop = db.prepare(
       "INSERT OR IGNORE INTO binops (module_id, name, comment, type, associativity, precedence) VALUES (?, ?, ?, ?, ?, ?)",
     );
-    const recordMeta = db.prepare(
-      `INSERT INTO _build_meta (file_path, mtime_ms, size_bytes)
-       VALUES (?, ?, ?)
-       ON CONFLICT(file_path) DO UPDATE SET mtime_ms = excluded.mtime_ms, size_bytes = excluded.size_bytes`,
-    );
+
+    // Cache package IDs to avoid repeated lookups across versions
+    const pkgIdCache = new Map<string, number>();
 
     const tx = db.transaction(() => {
-      for (const f of input.files) {
-        // Derive org/name/version from relative path: packages/<org>/<name>/<version>/docs.json
-        const parts = f.relative.split("/");
-        if (parts.length < 4) continue;
-        const [, org, name, version] = parts;
+      for (const pf of parsed) {
+        const pkgKey = `${pf.org}/${pf.name}`;
+        let packageId = pkgIdCache.get(pkgKey);
+        if (packageId === undefined) {
+          const row = upsertPkg.get(pf.org, pf.name) as { id: number };
+          packageId = row.id;
+          pkgIdCache.set(pkgKey, packageId);
+        }
 
-        upsertPkg.run(org, name);
-        const pkgRow = getPkgId.get(org, name) as { id: number };
-        const packageId = pkgRow.id;
-
-        const versionSort = computeVersionSort(version);
-        insertVersion.run(packageId, version, versionSort);
-        const versionRow = getVersionId.get(packageId, version) as { id: number };
+        const versionSort = computeVersionSort(pf.version);
+        const versionRow = insertVersion.get(packageId, pf.version, versionSort) as { id: number };
         const versionId = versionRow.id;
 
-        let modules: any[];
-        try {
-          const raw = readFileSync(f.absolute, "utf-8").trim();
-          if (!raw || raw === "[]") {
-            recordMeta.run(f.relative, f.mtimeMs, f.size);
-            continue;
+        if (pf.modules) {
+          for (const mod of pf.modules) {
+            const modRow = insertModule.get(versionId, mod.name, mod.comment || "") as { id: number };
+            const moduleId = modRow.id;
+
+            for (const u of mod.unions || []) {
+              insertUnion.run(moduleId, u.name, u.comment || "", JSON.stringify(u.args || []), JSON.stringify(u.cases || []));
+            }
+            for (const a of mod.aliases || []) {
+              insertAlias.run(moduleId, a.name, a.comment || "", JSON.stringify(a.args || []), a.type);
+            }
+            for (const v of mod.values || []) {
+              insertValue.run(moduleId, v.name, v.comment || "", v.type);
+            }
+            for (const b of mod.binops || []) {
+              insertBinop.run(moduleId, b.name, b.comment || "", b.type, b.associativity, b.precedence);
+            }
           }
-          modules = JSON.parse(raw);
-          if (!Array.isArray(modules) || modules.length === 0) {
-            recordMeta.run(f.relative, f.mtimeMs, f.size);
-            continue;
-          }
-        } catch {
-          recordMeta.run(f.relative, f.mtimeMs, f.size);
-          continue;
+          moduleCount += pf.modules.length;
+          ingested++;
         }
-
-        for (const mod of modules) {
-          insertModule.run(versionId, mod.name, mod.comment || "");
-          const modRow = getModuleId.get(versionId, mod.name) as { id: number };
-          const moduleId = modRow.id;
-
-          for (const u of mod.unions || []) {
-            insertUnion.run(moduleId, u.name, u.comment || "", JSON.stringify(u.args || []), JSON.stringify(u.cases || []));
-          }
-          for (const a of mod.aliases || []) {
-            insertAlias.run(moduleId, a.name, a.comment || "", JSON.stringify(a.args || []), a.type);
-          }
-          for (const v of mod.values || []) {
-            insertValue.run(moduleId, v.name, v.comment || "", v.type);
-          }
-          for (const b of mod.binops || []) {
-            insertBinop.run(moduleId, b.name, b.comment || "", b.type, b.associativity, b.precedence);
-          }
-        }
-
-        moduleCount += modules.length;
-
-        ingested++;
-        recordMeta.run(f.relative, f.mtimeMs, f.size);
       }
     });
     tx();
@@ -421,20 +383,37 @@ export async function ingestGithubBatch(
   const dbPath = resolve(context.cwd, input.dbPath);
   const db = new Database(dbPath);
   db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
+  db.pragma("foreign_keys = OFF");
 
   let ingested = 0;
 
   try {
     const upsertPkg = db.prepare(
-      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO NOTHING",
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
     );
-    const getPkgId = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?");
-    const recordMeta = db.prepare(
-      `INSERT INTO _build_meta (file_path, mtime_ms, size_bytes)
-       VALUES (?, ?, ?)
-       ON CONFLICT(file_path) DO UPDATE SET mtime_ms = excluded.mtime_ms, size_bytes = excluded.size_bytes`,
-    );
+    const setRedirect = db.prepare("UPDATE packages SET redirect_to = ? WHERE id = ?");
+    const setMissing = db.prepare("UPDATE packages SET missing = ? WHERE id = ?");
+    const clearRedirectMissing = db.prepare("UPDATE packages SET redirect_to = NULL, missing = NULL WHERE id = ?");
+    const deleteGithub = db.prepare("DELETE FROM github WHERE package_id = ?");
+    const upsertGithub = db.prepare(`
+      INSERT INTO github (package_id, fetched_at, stargazers_count, last_commit_at,
+        open_issues_count, open_issues_min_days, open_issues_max_days, open_issues_avg_days,
+        open_prs_count, open_prs_min_days, open_prs_max_days, open_prs_avg_days)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(package_id) DO UPDATE SET
+        fetched_at = excluded.fetched_at,
+        stargazers_count = excluded.stargazers_count,
+        last_commit_at = excluded.last_commit_at,
+        open_issues_count = excluded.open_issues_count,
+        open_issues_min_days = excluded.open_issues_min_days,
+        open_issues_max_days = excluded.open_issues_max_days,
+        open_issues_avg_days = excluded.open_issues_avg_days,
+        open_prs_count = excluded.open_prs_count,
+        open_prs_min_days = excluded.open_prs_min_days,
+        open_prs_max_days = excluded.open_prs_max_days,
+        open_prs_avg_days = excluded.open_prs_avg_days
+    `);
+    const pkgIdCache = new Map<string, number>();
 
     const tx = db.transaction(() => {
       for (const f of input.files) {
@@ -446,43 +425,29 @@ export async function ingestGithubBatch(
         const name = parts[2];
         const file = basename(f.relative);
 
-        upsertPkg.run(org, name);
-        const pkgRow = getPkgId.get(org, name) as { id: number };
-        const packageId = pkgRow.id;
+        const pkgKey = `${org}/${name}`;
+        let packageId = pkgIdCache.get(pkgKey);
+        if (packageId === undefined) {
+          const row = upsertPkg.get(org, name) as { id: number };
+          packageId = row.id;
+          pkgIdCache.set(pkgKey, packageId);
+        }
 
         const data = JSON.parse(readFileSync(f.absolute, "utf-8"));
 
         if (file === "github-redirect.json") {
-          db.prepare("UPDATE packages SET redirect_to = ? WHERE id = ?").run(data.redirected_to, packageId);
-          db.prepare("DELETE FROM github WHERE package_id = ?").run(packageId);
+          setRedirect.run(data.redirected_to, packageId);
+          deleteGithub.run(packageId);
         } else if (file === "github-missing.json") {
           const missingType = data.user_exists ? "package" : "user";
-          db.prepare("UPDATE packages SET missing = ? WHERE id = ?").run(missingType, packageId);
-          db.prepare("DELETE FROM github WHERE package_id = ?").run(packageId);
+          setMissing.run(missingType, packageId);
+          deleteGithub.run(packageId);
         } else if (file === "github.json") {
           if (data.last_commit_at == null) {
-            recordMeta.run(f.relative, f.mtimeMs, f.size);
             continue;
           }
-          db.prepare("UPDATE packages SET redirect_to = NULL, missing = NULL WHERE id = ?").run(packageId);
-          db.prepare(`
-            INSERT INTO github (package_id, fetched_at, stargazers_count, last_commit_at,
-              open_issues_count, open_issues_min_days, open_issues_max_days, open_issues_avg_days,
-              open_prs_count, open_prs_min_days, open_prs_max_days, open_prs_avg_days)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(package_id) DO UPDATE SET
-              fetched_at = excluded.fetched_at,
-              stargazers_count = excluded.stargazers_count,
-              last_commit_at = excluded.last_commit_at,
-              open_issues_count = excluded.open_issues_count,
-              open_issues_min_days = excluded.open_issues_min_days,
-              open_issues_max_days = excluded.open_issues_max_days,
-              open_issues_avg_days = excluded.open_issues_avg_days,
-              open_prs_count = excluded.open_prs_count,
-              open_prs_min_days = excluded.open_prs_min_days,
-              open_prs_max_days = excluded.open_prs_max_days,
-              open_prs_avg_days = excluded.open_prs_avg_days
-          `).run(
+          clearRedirectMissing.run(packageId);
+          upsertGithub.run(
             packageId, data.fetched_at, data.stargazers_count, data.last_commit_at,
             data.open_issues.count, data.open_issues.min_days, data.open_issues.max_days, data.open_issues.avg_days,
             data.open_prs.count, data.open_prs.min_days, data.open_prs.max_days, data.open_prs.avg_days,
@@ -490,7 +455,6 @@ export async function ingestGithubBatch(
         }
 
         ingested++;
-        recordMeta.run(f.relative, f.mtimeMs, f.size);
       }
     });
     tx();
@@ -706,6 +670,271 @@ export async function getTypeEntriesToIndex(
     }
 
     return { packages, hasMore };
+  } finally {
+    db.close();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Project context handlers
+// ---------------------------------------------------------------------------
+// Direct-to-DB sync handlers
+// ---------------------------------------------------------------------------
+
+// Handler: getHighWaterMark
+export async function getHighWaterMark(
+  input: { dbPath: string },
+  context: Context,
+): Promise<{ count: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+  try {
+    const row = db.prepare("SELECT COUNT(*) AS count FROM package_versions").get() as { count: number };
+    return { count: row.count };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: upsertDocs
+export async function upsertDocs(
+  input: { dbPath: string; org: string; name: string; version: string; docsJson: string },
+  context: Context,
+): Promise<{ modules: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = OFF");
+
+  try {
+    let modules: any[] | null = null;
+    try {
+      const raw = input.docsJson.trim();
+      if (raw && raw !== "[]") {
+        const data = JSON.parse(raw);
+        if (Array.isArray(data) && data.length > 0) {
+          modules = data;
+        }
+      }
+    } catch {
+      // malformed JSON
+    }
+
+    if (!modules) return { modules: 0 };
+
+    const upsertPkg = db.prepare(
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
+    );
+    const insertVersion = db.prepare(
+      "INSERT INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?) ON CONFLICT(package_id, version) DO UPDATE SET package_id = package_id RETURNING id",
+    );
+    const insertModule = db.prepare(
+      "INSERT INTO modules (version_id, name, comment) VALUES (?, ?, ?) ON CONFLICT(version_id, name) DO UPDATE SET comment = excluded.comment RETURNING id",
+    );
+    const insertUnion = db.prepare(
+      "INSERT OR IGNORE INTO unions (module_id, name, comment, args, cases) VALUES (?, ?, ?, ?, ?)",
+    );
+    const insertAlias = db.prepare(
+      'INSERT OR IGNORE INTO aliases (module_id, name, comment, args, type) VALUES (?, ?, ?, ?, ?)',
+    );
+    const insertValue = db.prepare(
+      'INSERT OR IGNORE INTO "values" (module_id, name, comment, type) VALUES (?, ?, ?, ?)',
+    );
+    const insertBinop = db.prepare(
+      "INSERT OR IGNORE INTO binops (module_id, name, comment, type, associativity, precedence) VALUES (?, ?, ?, ?, ?, ?)",
+    );
+
+    let moduleCount = 0;
+    const tx = db.transaction(() => {
+      const row = upsertPkg.get(input.org, input.name) as { id: number };
+      const packageId = row.id;
+
+      const versionSort = computeVersionSort(input.version);
+      const versionRow = insertVersion.get(packageId, input.version, versionSort) as { id: number };
+      const versionId = versionRow.id;
+
+      for (const mod of modules!) {
+        const modRow = insertModule.get(versionId, mod.name, mod.comment || "") as { id: number };
+        const moduleId = modRow.id;
+
+        for (const u of mod.unions || []) {
+          insertUnion.run(moduleId, u.name, u.comment || "", JSON.stringify(u.args || []), JSON.stringify(u.cases || []));
+        }
+        for (const a of mod.aliases || []) {
+          insertAlias.run(moduleId, a.name, a.comment || "", JSON.stringify(a.args || []), a.type);
+        }
+        for (const v of mod.values || []) {
+          insertValue.run(moduleId, v.name, v.comment || "", v.type);
+        }
+        for (const b of mod.binops || []) {
+          insertBinop.run(moduleId, b.name, b.comment || "", b.type, b.associativity, b.precedence);
+        }
+        moduleCount++;
+      }
+    });
+    tx();
+
+    return { modules: moduleCount };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: upsertGithubResult
+export async function upsertGithubResult(
+  input: { dbPath: string; org: string; name: string; resultType: string; data: string },
+  context: Context,
+): Promise<Record<string, never>> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = OFF");
+
+  try {
+    const upsertPkg = db.prepare(
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
+    );
+    const setRedirect = db.prepare("UPDATE packages SET redirect_to = ? WHERE id = ?");
+    const setMissing = db.prepare("UPDATE packages SET missing = ? WHERE id = ?");
+    const clearRedirectMissing = db.prepare("UPDATE packages SET redirect_to = NULL, missing = NULL WHERE id = ?");
+    const deleteGh = db.prepare("DELETE FROM github WHERE package_id = ?");
+    const upsertGh = db.prepare(`
+      INSERT INTO github (package_id, fetched_at, stargazers_count, last_commit_at,
+        open_issues_count, open_issues_min_days, open_issues_max_days, open_issues_avg_days,
+        open_prs_count, open_prs_min_days, open_prs_max_days, open_prs_avg_days)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(package_id) DO UPDATE SET
+        fetched_at = excluded.fetched_at,
+        stargazers_count = excluded.stargazers_count,
+        last_commit_at = excluded.last_commit_at,
+        open_issues_count = excluded.open_issues_count,
+        open_issues_min_days = excluded.open_issues_min_days,
+        open_issues_max_days = excluded.open_issues_max_days,
+        open_issues_avg_days = excluded.open_issues_avg_days,
+        open_prs_count = excluded.open_prs_count,
+        open_prs_min_days = excluded.open_prs_min_days,
+        open_prs_max_days = excluded.open_prs_max_days,
+        open_prs_avg_days = excluded.open_prs_avg_days
+    `);
+
+    const parsed = JSON.parse(input.data);
+
+    const tx = db.transaction(() => {
+      const row = upsertPkg.get(input.org, input.name) as { id: number };
+      const packageId = row.id;
+
+      if (input.resultType === "redirect") {
+        setRedirect.run(parsed.redirected_to, packageId);
+        deleteGh.run(packageId);
+      } else if (input.resultType === "missing") {
+        const missingType = parsed.user_exists ? "package" : "user";
+        setMissing.run(missingType, packageId);
+        deleteGh.run(packageId);
+      } else if (input.resultType === "info") {
+        if (parsed.last_commit_at == null) return;
+        clearRedirectMissing.run(packageId);
+        upsertGh.run(
+          packageId, parsed.fetched_at, parsed.stargazers_count, parsed.last_commit_at,
+          parsed.open_issues.count, parsed.open_issues.min_days, parsed.open_issues.max_days, parsed.open_issues.avg_days,
+          parsed.open_prs.count, parsed.open_prs.min_days, parsed.open_prs.max_days, parsed.open_prs.avg_days,
+        );
+      }
+    });
+    tx();
+
+    return {};
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: getPackagesForGithubSync
+export async function getPackagesForGithubSync(
+  input: { dbPath: string; force: boolean },
+  context: Context,
+): Promise<{ org: string; name: string }[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    if (input.force) {
+      return db.prepare(`
+        SELECT p.org, p.name
+        FROM packages p
+        WHERE p.redirect_to IS NULL AND p.missing IS NULL
+      `).all() as { org: string; name: string }[];
+    }
+
+    return db.prepare(`
+      SELECT p.org, p.name
+      FROM packages p LEFT JOIN github g ON g.package_id = p.id
+      WHERE p.redirect_to IS NULL AND p.missing IS NULL
+        AND (g.fetched_at IS NULL
+          OR (g.last_commit_at > date('now', '-6 months')
+              AND g.fetched_at < date('now', '-1 day'))
+          OR g.fetched_at < date('now', '-7 days'))
+    `).all() as { org: string; name: string }[];
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: ingestSearchJsonBody
+export async function ingestSearchJsonBody(
+  input: { dbPath: string; body: string },
+  context: Context,
+): Promise<{ count: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = ON");
+
+  try {
+    const entries = JSON.parse(input.body);
+    const upsert = db.prepare(`
+      INSERT INTO packages (org, name, summary, license)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(org, name) DO UPDATE SET summary = excluded.summary, license = excluded.license
+    `);
+    const tx = db.transaction(() => {
+      for (const entry of entries) {
+        const [org, name] = entry.name.split("/");
+        upsert.run(org, name, entry.summary, entry.license);
+      }
+    });
+    tx();
+    return { count: entries.length };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: getDbStatus
+export async function getDbStatus(
+  input: { dbPath: string },
+  context: Context,
+): Promise<{
+  totalPackages: number;
+  totalVersions: number;
+  withGithub: number;
+  redirected: number;
+  missing: number;
+  typeIndexed: number;
+}> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    const totalPackages = (db.prepare("SELECT COUNT(*) AS c FROM packages").get() as { c: number }).c;
+    const totalVersions = (db.prepare("SELECT COUNT(*) AS c FROM package_versions").get() as { c: number }).c;
+    const withGithub = (db.prepare("SELECT COUNT(*) AS c FROM github").get() as { c: number }).c;
+    const redirected = (db.prepare("SELECT COUNT(*) AS c FROM packages WHERE redirect_to IS NOT NULL").get() as { c: number }).c;
+    const missing = (db.prepare("SELECT COUNT(*) AS c FROM packages WHERE missing IS NOT NULL").get() as { c: number }).c;
+    const typeIndexed = (db.prepare("SELECT COUNT(DISTINCT package_id) AS c FROM type_index").get() as { c: number }).c;
+    return { totalPackages, totalVersions, withGithub, redirected, missing, typeIndexed };
   } finally {
     db.close();
   }

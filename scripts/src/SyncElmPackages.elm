@@ -1,51 +1,44 @@
 module SyncElmPackages exposing (run)
 
-{-| Sync package documentation from package.elm-lang.org into the
-`content/packages/` directory. Runs in two phases:
+{-| Sync package documentation from package.elm-lang.org directly into SQLite.
 
-**Discover** — counts existing docs.json files to determine an index, then
-calls `/all-packages/since/{index}` to get newly published versions. For each
-new version creates a directory with an empty `docs.json` and a `pending`
-marker.
+**Discover** — queries the DB for a version count (high water mark), then
+calls `/all-packages/since/{count}` to find newly published versions.
 
-**Fetch** — finds all directories with a `pending` file and downloads docs in
-parallel. On success, `docs.json` is written and `pending` removed. On failure,
-`pending` is removed and `errors.json` written.
+**Fetch** — downloads `docs.json` for each new version and upserts it into
+the database via the `upsertDocs` FFI handler.
 
-Re-running picks up any previously failed or incomplete downloads automatically.
+**Search metadata** — fetches `search.json` from the registry and upserts
+package summaries and licenses.
 
-Each version directory is in one of four states:
+**Type index** — builds the type index for any packages not yet indexed.
 
-  - **Success** — `docs.json` contains full documentation
-  - **Failure** — `docs.json` is empty, `errors.json` has details
-  - **Pending** — `docs.json` is empty, `pending` marker present
-  - **Missing** — no directory exists yet
-
-Flags: `--concurrency` (default 6), `--delay` (default 100ms), `--since`.
+Flags: `--concurrency` (default 6), `--delay` (default 100ms), `--since`,
+`--db` (default `~/.elm-docs/elm-packages.db`).
 
 -}
 
 import BackendTask exposing (BackendTask)
-import BackendTask.Glob as Glob
+import BackendTask.Custom
 import BackendTask.Http
+import BuildDb.TypeIndex as TypeIndex
 import Cli.Option as Option
 import Cli.OptionsParser as OptionsParser exposing (with)
 import Cli.Program as Program
 import FatalError exposing (FatalError)
-import Json.Decode
+import Json.Decode as Decode
+import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
-import Set exposing (Set)
 import Shared.Ansi exposing (dim, green, red)
+import Shared.CliHelpers exposing (parseIntOpt)
 import Shared.PackageVersion as PackageVersion exposing (PackageVersion)
-import Sync.Discovery as Discovery
-import Sync.Fetch as Fetch exposing (WriteAction(..))
-import Sync.Path as Path
 
 
 type alias CliOptions =
     { concurrency : Int
     , delay : Int
     , since : Maybe Int
+    , db : String
     }
 
 
@@ -53,9 +46,11 @@ run : Script
 run =
     Script.withCliOptions programConfig
         (\options ->
-            Script.log (dim "[sync]" ++ " Starting package sync")
-                |> BackendTask.andThen (\() -> discoverNewPackages options)
-                |> BackendTask.andThen (\() -> fetchPending options)
+            initDb options.db
+                |> BackendTask.andThen (\() -> Script.log (dim "[sync]" ++ " Starting package sync"))
+                |> BackendTask.andThen (\() -> discoverAndFetch options)
+                |> BackendTask.andThen (\() -> fetchSearchJson options.db)
+                |> BackendTask.andThen (\() -> buildTypeIndex options.db)
                 |> BackendTask.andThen (\() -> Script.log (dim "[sync]" ++ " Done"))
         )
 
@@ -67,65 +62,45 @@ programConfig =
             (OptionsParser.build CliOptions
                 |> with
                     (Option.optionalKeywordArg "concurrency"
-                        |> Option.validateMap
-                            (\maybeStr ->
-                                case maybeStr of
-                                    Nothing ->
-                                        Ok 6
-
-                                    Just str ->
-                                        case String.toInt str of
-                                            Just n ->
-                                                Ok n
-
-                                            Nothing ->
-                                                Err ("Invalid concurrency value: " ++ str)
-                            )
+                        |> Option.validateMap (parseIntOpt "concurrency" 6)
                     )
                 |> with
                     (Option.optionalKeywordArg "delay"
-                        |> Option.validateMap
-                            (\maybeStr ->
-                                case maybeStr of
-                                    Nothing ->
-                                        Ok 100
-
-                                    Just str ->
-                                        case String.toInt str of
-                                            Just n ->
-                                                Ok n
-
-                                            Nothing ->
-                                                Err ("Invalid delay value: " ++ str)
-                            )
+                        |> Option.validateMap (parseIntOpt "delay" 100)
                     )
                 |> with
                     (Option.optionalKeywordArg "since"
-                        |> Option.validateMap
-                            (\maybeStr ->
-                                case maybeStr of
-                                    Nothing ->
-                                        Ok Nothing
-
-                                    Just str ->
-                                        case String.toInt str of
-                                            Just n ->
-                                                Ok (Just n)
-
-                                            Nothing ->
-                                                Err ("Invalid since value: " ++ str)
-                            )
+                        |> Option.validateMap parseSince
+                    )
+                |> with
+                    (Option.optionalKeywordArg "db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
             )
 
 
+parseSince : Maybe String -> Result String (Maybe Int)
+parseSince maybeStr =
+    case maybeStr of
+        Nothing ->
+            Ok Nothing
 
--- Discovery phase
+        Just str ->
+            case String.toInt str of
+                Just n ->
+                    Ok (Just n)
+
+                Nothing ->
+                    Err ("Invalid since value: " ++ str)
 
 
-discoverNewPackages : CliOptions -> BackendTask FatalError ()
-discoverNewPackages options =
-    resolveIndex options.since
+
+-- Discovery & Fetch
+
+
+discoverAndFetch : CliOptions -> BackendTask FatalError ()
+discoverAndFetch options =
+    resolveIndex options
         |> BackendTask.andThen
             (\index ->
                 Script.log (dim "[discover]" ++ " Current index: " ++ String.fromInt index ++ indexLabel options.since)
@@ -140,25 +115,13 @@ discoverNewPackages options =
                                 |> BackendTask.andThen (\() -> fetchPackageList url)
                                 |> BackendTask.andThen
                                     (\rawPackages ->
-                                        Script.log (dim "[discover]" ++ " Found " ++ String.fromInt (List.length rawPackages) ++ " new package version(s)")
-                                            |> BackendTask.andThen (\() -> buildExistingKeys)
-                                            |> BackendTask.andThen
-                                                (\existingKeys ->
-                                                    let
-                                                        newPackages : List PackageVersion
-                                                        newPackages =
-                                                            Discovery.filterNew existingKeys rawPackages
-                                                    in
-                                                    queuePackages newPackages
-                                                        |> BackendTask.andThen
-                                                            (\queued ->
-                                                                if queued > 0 then
-                                                                    Script.log (dim "[discover]" ++ " Queued " ++ String.fromInt queued ++ " package(s)")
-
-                                                                else
-                                                                    BackendTask.succeed ()
-                                                            )
-                                                )
+                                        let
+                                            packages : List PackageVersion
+                                            packages =
+                                                List.filterMap PackageVersion.fromString rawPackages
+                                        in
+                                        Script.log (dim "[discover]" ++ " Found " ++ String.fromInt (List.length packages) ++ " new package version(s)")
+                                            |> BackendTask.andThen (\() -> fetchAllDocs options packages)
                                     )
                         )
             )
@@ -171,103 +134,27 @@ indexLabel maybeSince =
             " (manual)"
 
         Nothing ->
-            " docs.json files"
+            " (from DB)"
 
 
-resolveIndex : Maybe Int -> BackendTask FatalError Int
-resolveIndex maybeSince =
-    case maybeSince of
+resolveIndex : CliOptions -> BackendTask FatalError Int
+resolveIndex options =
+    case options.since of
         Just n ->
             BackendTask.succeed n
 
         Nothing ->
-            Glob.fromString (Path.contentDir ++ "/*/*/*/docs.json")
-                |> BackendTask.map List.length
+            getHighWaterMark options.db
 
 
 fetchPackageList : String -> BackendTask FatalError (List String)
 fetchPackageList url =
-    BackendTask.Http.getJson url (Json.Decode.list Json.Decode.string)
+    BackendTask.Http.getJson url (Decode.list Decode.string)
         |> BackendTask.allowFatal
 
 
-buildExistingKeys : BackendTask FatalError (Set String)
-buildExistingKeys =
-    Glob.fromString (Path.contentDir ++ "/*/*/*/docs.json")
-        |> BackendTask.map (\paths -> Set.fromList (List.map extractKey paths))
 
-
-queuePackages : List PackageVersion -> BackendTask FatalError Int
-queuePackages packages =
-    List.foldl
-        (\pv task ->
-            task
-                |> BackendTask.andThen
-                    (\count ->
-                        let
-                            dir : String
-                            dir =
-                                Path.toVersionDir pv
-                        in
-                        Script.makeDirectory { recursive = True } dir
-                            |> BackendTask.andThen
-                                (\() ->
-                                    Script.writeFile { path = Path.toDocsPath pv, body = "" }
-                                        |> BackendTask.allowFatal
-                                )
-                            |> BackendTask.andThen
-                                (\() ->
-                                    Script.writeFile { path = Path.toPendingPath pv, body = "" }
-                                        |> BackendTask.allowFatal
-                                )
-                            |> BackendTask.andThen
-                                (\() ->
-                                    Script.log (dim "[discover]" ++ " Queued " ++ PackageVersion.toLabel pv)
-                                        |> BackendTask.map (\() -> count + 1)
-                                )
-                    )
-        )
-        (BackendTask.succeed 0)
-        packages
-
-
-
--- Fetch phase
-
-
-fetchPending : CliOptions -> BackendTask FatalError ()
-fetchPending options =
-    Glob.fromString (Path.contentDir ++ "/*/*/*/pending")
-        |> BackendTask.andThen
-            (\pendingPaths ->
-                let
-                    total : Int
-                    total =
-                        List.length pendingPaths
-
-                    packages : List PackageVersion
-                    packages =
-                        List.filterMap parsePendingPath pendingPaths
-
-                    batches : List (List PackageVersion)
-                    batches =
-                        chunk options.concurrency packages
-                in
-                Script.log (dim "[fetch]" ++ " " ++ String.fromInt total ++ " pending package version(s) to download (concurrency: " ++ String.fromInt options.concurrency ++ ", delay: " ++ String.fromInt options.delay ++ "ms)")
-                    |> BackendTask.andThen (\() -> processBatches options batches { completed = 0, failed = 0, total = total, failures = [] })
-                    |> BackendTask.andThen
-                        (\result ->
-                            Script.log (dim "[fetch]" ++ " Completed: " ++ green (String.fromInt result.completed) ++ " succeeded, " ++ red (String.fromInt result.failed) ++ " failed")
-                                |> BackendTask.andThen
-                                    (\() ->
-                                        if List.isEmpty result.failures then
-                                            BackendTask.succeed ()
-
-                                        else
-                                            Script.log (formatFailures result.failures)
-                                    )
-                        )
-            )
+-- Fetch docs
 
 
 type alias FetchProgress =
@@ -278,6 +165,33 @@ type alias FetchProgress =
     }
 
 
+fetchAllDocs : CliOptions -> List PackageVersion -> BackendTask FatalError ()
+fetchAllDocs options packages =
+    let
+        total : Int
+        total =
+            List.length packages
+
+        batches : List (List PackageVersion)
+        batches =
+            chunk options.concurrency packages
+    in
+    Script.log (dim "[fetch]" ++ " " ++ String.fromInt total ++ " package version(s) to download (concurrency: " ++ String.fromInt options.concurrency ++ ", delay: " ++ String.fromInt options.delay ++ "ms)")
+        |> BackendTask.andThen (\() -> processBatches options batches { completed = 0, failed = 0, total = total, failures = [] })
+        |> BackendTask.andThen
+            (\result ->
+                Script.log (dim "[fetch]" ++ " Completed: " ++ green (String.fromInt result.completed) ++ " succeeded, " ++ red (String.fromInt result.failed) ++ " failed")
+                    |> BackendTask.andThen
+                        (\() ->
+                            if List.isEmpty result.failures then
+                                BackendTask.succeed ()
+
+                            else
+                                Script.log (formatFailures result.failures)
+                        )
+            )
+
+
 processBatches : CliOptions -> List (List PackageVersion) -> FetchProgress -> BackendTask FatalError FetchProgress
 processBatches options batches progress =
     case batches of
@@ -285,12 +199,7 @@ processBatches options batches progress =
             BackendTask.succeed progress
 
         batch :: rest ->
-            let
-                fetchTasks : List (BackendTask FatalError FetchResult)
-                fetchTasks =
-                    List.map fetchOnePackage batch
-            in
-            BackendTask.combine fetchTasks
+            BackendTask.combine (List.map (fetchOnePackage options.db) batch)
                 |> BackendTask.andThen
                     (\results ->
                         let
@@ -338,86 +247,246 @@ type alias FetchResult =
     }
 
 
-fetchOnePackage : PackageVersion -> BackendTask FatalError FetchResult
-fetchOnePackage pv =
+fetchOnePackage : String -> PackageVersion -> BackendTask FatalError FetchResult
+fetchOnePackage dbPath pv =
     let
         url : String
         url =
-            Path.toDocsUrl pv
-
-        docsPath : String
-        docsPath =
-            Path.toDocsPath pv
-
-        errorsPath : String
-        errorsPath =
-            Path.toErrorsPath pv
-
-        pendingPath : String
-        pendingPath =
-            Path.toPendingPath pv
-
-        paths : { docsPath : String, pendingPath : String, errorsPath : String }
-        paths =
-            { docsPath = docsPath, pendingPath = pendingPath, errorsPath = errorsPath }
+            "https://package.elm-lang.org/packages/"
+                ++ PackageVersion.org pv
+                ++ "/"
+                ++ PackageVersion.pkg pv
+                ++ "/"
+                ++ PackageVersion.version pv
+                ++ "/docs.json"
     in
     BackendTask.Http.get url BackendTask.Http.expectString
-        |> BackendTask.map (\body -> Fetch.onSuccess { docsPath = paths.docsPath, pendingPath = paths.pendingPath, errorsPath = paths.errorsPath, body = body })
-        |> BackendTask.onError
-            (\{ recoverable } ->
-                let
-                    errorMessage : String
-                    errorMessage =
-                        case recoverable of
-                            BackendTask.Http.BadUrl badUrl ->
-                                "BadUrl: " ++ badUrl
-
-                            BackendTask.Http.Timeout ->
-                                "Timeout"
-
-                            BackendTask.Http.NetworkError ->
-                                "Network Error"
-
-                            BackendTask.Http.BadStatus metadata _ ->
-                                "HTTP " ++ String.fromInt metadata.statusCode ++ " " ++ metadata.statusText
-
-                            BackendTask.Http.BadBody _ msg ->
-                                "Bad Body: " ++ msg
-                in
-                BackendTask.succeed
-                    (Fetch.onFailure { docsPath = paths.docsPath, pendingPath = paths.pendingPath, errorsPath = paths.errorsPath, url = url, error = errorMessage })
-            )
+        |> BackendTask.allowFatal
         |> BackendTask.andThen
-            (\actions ->
-                executeActions actions
-                    |> BackendTask.map (\() -> { ok = isSuccessActions actions, pv = pv })
+            (\body ->
+                upsertDocs dbPath (PackageVersion.org pv) (PackageVersion.pkg pv) (PackageVersion.version pv) body
+                    |> BackendTask.map (\_ -> { ok = True, pv = pv })
+            )
+        |> BackendTask.onError (\_ -> BackendTask.succeed { ok = False, pv = pv })
+
+
+
+-- Search.json
+
+
+fetchSearchJson : String -> BackendTask FatalError ()
+fetchSearchJson dbPath =
+    Script.log (dim "[search]" ++ " Fetching search.json")
+        |> BackendTask.andThen
+            (\() ->
+                BackendTask.Http.get "https://package.elm-lang.org/search.json" BackendTask.Http.expectString
+                    |> BackendTask.allowFatal
+                    |> BackendTask.andThen
+                        (\body ->
+                            ingestSearchJsonBody dbPath body
+                                |> BackendTask.andThen
+                                    (\count ->
+                                        Script.log (green ("  " ++ String.fromInt count ++ " packages from search.json"))
+                                    )
+                        )
+                    |> BackendTask.onError
+                        (\_ ->
+                            Script.log (red "  Failed to fetch search.json (continuing)")
+                        )
             )
 
 
-isSuccessActions : List WriteAction -> Bool
-isSuccessActions actions =
-    case actions of
-        (WriteFile { body }) :: _ ->
-            body /= ""
 
-        _ ->
-            False
+-- Type Index
 
 
-executeActions : List WriteAction -> BackendTask FatalError ()
-executeActions actions =
-    actions
-        |> List.map
-            (\action ->
-                case action of
-                    WriteFile { path, body } ->
-                        Script.writeFile { path = path, body = body }
-                            |> BackendTask.allowFatal
-
-                    DeleteFile path ->
-                        Script.removeFile path
+buildTypeIndex : String -> BackendTask FatalError ()
+buildTypeIndex dbPath =
+    Script.log "Building type index..."
+        |> BackendTask.andThen (\() -> typeIndexLoop dbPath 0 0)
+        |> BackendTask.andThen
+            (\totalInserted ->
+                Script.log (green ("  " ++ String.fromInt totalInserted ++ " type index entries"))
             )
-        |> BackendTask.doEach
+
+
+typeIndexLoop : String -> Int -> Int -> BackendTask FatalError Int
+typeIndexLoop dbPath parseErrors totalInserted =
+    let
+        pageSize : Int
+        pageSize =
+            500
+    in
+    getTypeEntriesToIndex dbPath 0 pageSize
+        |> BackendTask.andThen
+            (\result ->
+                let
+                    processedPackages : List TypeIndex.ProcessResult
+                    processedPackages =
+                        List.map
+                            (\pkg -> TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries)
+                            result.packages
+
+                    allRows : List TypeIndex.TypeIndexRow
+                    allRows =
+                        List.concatMap .rows processedPackages
+
+                    batchParseErrors : Int
+                    batchParseErrors =
+                        List.foldl (\p acc -> acc + p.parseErrors) 0 processedPackages
+
+                    deleteIds : List Int
+                    deleteIds =
+                        List.map .packageId result.packages
+                in
+                buildTypeIndexFfi dbPath allRows deleteIds
+                    |> BackendTask.andThen
+                        (\inserted ->
+                            let
+                                newTotal : Int
+                                newTotal =
+                                    totalInserted + inserted
+
+                                newErrors : Int
+                                newErrors =
+                                    parseErrors + batchParseErrors
+                            in
+                            if result.hasMore then
+                                typeIndexLoop dbPath newErrors newTotal
+
+                            else if newErrors > 0 then
+                                Script.log ("  (" ++ String.fromInt newErrors ++ " types skipped due to parse errors)")
+                                    |> BackendTask.map (\() -> newTotal)
+
+                            else
+                                BackendTask.succeed newTotal
+                        )
+            )
+
+
+
+-- FFI Calls
+
+
+initDb : String -> BackendTask FatalError ()
+initDb dbPath =
+    BackendTask.Custom.run "initDb"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "full", Encode.bool False )
+            ]
+        )
+        (Decode.succeed ())
+        |> BackendTask.allowFatal
+
+
+getHighWaterMark : String -> BackendTask FatalError Int
+getHighWaterMark dbPath =
+    BackendTask.Custom.run "getHighWaterMark"
+        (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
+        (Decode.field "count" Decode.int)
+        |> BackendTask.allowFatal
+
+
+upsertDocs : String -> String -> String -> String -> String -> BackendTask FatalError Int
+upsertDocs dbPath org name version docsJson =
+    BackendTask.Custom.run "upsertDocs"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "org", Encode.string org )
+            , ( "name", Encode.string name )
+            , ( "version", Encode.string version )
+            , ( "docsJson", Encode.string docsJson )
+            ]
+        )
+        (Decode.field "modules" Decode.int)
+        |> BackendTask.allowFatal
+
+
+ingestSearchJsonBody : String -> String -> BackendTask FatalError Int
+ingestSearchJsonBody dbPath body =
+    BackendTask.Custom.run "ingestSearchJsonBody"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "body", Encode.string body )
+            ]
+        )
+        (Decode.field "count" Decode.int)
+        |> BackendTask.allowFatal
+
+
+type alias TypeEntryPackage =
+    { packageId : Int
+    , versionId : Int
+    , entries : List TypeIndex.TypeEntry
+    }
+
+
+getTypeEntriesToIndex : String -> Int -> Int -> BackendTask FatalError { packages : List TypeEntryPackage, hasMore : Bool }
+getTypeEntriesToIndex dbPath offset limit =
+    BackendTask.Custom.run "getTypeEntriesToIndex"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "full", Encode.bool False )
+            , ( "offset", Encode.int offset )
+            , ( "limit", Encode.int limit )
+            ]
+        )
+        (Decode.map2 (\pkgs more -> { packages = pkgs, hasMore = more })
+            (Decode.field "packages" (Decode.list typeEntryPackageDecoder))
+            (Decode.field "hasMore" Decode.bool)
+        )
+        |> BackendTask.allowFatal
+
+
+typeEntryPackageDecoder : Decode.Decoder TypeEntryPackage
+typeEntryPackageDecoder =
+    Decode.map3 TypeEntryPackage
+        (Decode.field "packageId" Decode.int)
+        (Decode.field "versionId" Decode.int)
+        (Decode.field "entries" (Decode.list typeEntryDecoder))
+
+
+typeEntryDecoder : Decode.Decoder TypeIndex.TypeEntry
+typeEntryDecoder =
+    Decode.map4 TypeIndex.TypeEntry
+        (Decode.field "moduleName" Decode.string)
+        (Decode.field "name" Decode.string)
+        (Decode.field "kind" Decode.string)
+        (Decode.field "typeRaw" Decode.string)
+
+
+buildTypeIndexFfi : String -> List TypeIndex.TypeIndexRow -> List Int -> BackendTask FatalError Int
+buildTypeIndexFfi dbPath entries deletePackageIds =
+    BackendTask.Custom.run "buildTypeIndex"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "full", Encode.bool False )
+            , ( "entries", Encode.list encodeTypeIndexRow entries )
+            , ( "deletePackageIds", Encode.list Encode.int deletePackageIds )
+            ]
+        )
+        (Decode.field "inserted" Decode.int)
+        |> BackendTask.allowFatal
+
+
+encodeTypeIndexRow : TypeIndex.TypeIndexRow -> Encode.Value
+encodeTypeIndexRow row =
+    Encode.object
+        [ ( "packageId", Encode.int row.packageId )
+        , ( "versionId", Encode.int row.versionId )
+        , ( "moduleName", Encode.string row.moduleName )
+        , ( "name", Encode.string row.name )
+        , ( "kind", Encode.string row.kind )
+        , ( "typeRaw", Encode.string row.typeRaw )
+        , ( "typeAstJson", Encode.string row.typeAstJson )
+        , ( "fingerprint", Encode.string row.fingerprint )
+        , ( "argCount", Encode.int row.argCount )
+        ]
+
+
+
+-- Helpers
 
 
 formatFailures : List PackageVersion -> String
@@ -443,25 +512,6 @@ formatFailures failures =
         String.join "\n" (header :: items)
 
 
-
--- Helpers
-
-
-parsePendingPath : String -> Maybe PackageVersion
-parsePendingPath path =
-    PackageVersion.fromString (extractKey path)
-
-
-extractKey : String -> String
-extractKey path =
-    case List.reverse (String.split "/" path) of
-        _ :: ver :: p :: o :: _ ->
-            o ++ "/" ++ p ++ "@" ++ ver
-
-        _ ->
-            path
-
-
 chunk : Int -> List a -> List (List a)
 chunk size list =
     if size <= 0 || List.isEmpty list then
@@ -469,6 +519,3 @@ chunk size list =
 
     else
         List.take size list :: chunk size (List.drop size list)
-
-
-

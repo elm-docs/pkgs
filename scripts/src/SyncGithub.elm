@@ -1,32 +1,28 @@
 module SyncGithub exposing (run)
 
-{-| Fetch GitHub metadata for each package (not per version).
+{-| Fetch GitHub metadata for each package directly into SQLite.
 
-Writes one result file at `content/packages/{org}/{package}/`:
+For each package needing metadata:
 
-  - `github.json` — stars, last commit, open issues/PRs with age stats
-  - `github-redirect.json` — repo was renamed or moved
-  - `github-missing.json` — repo or user no longer exists (404)
-  - `github-errors.json` — transient error (rate limit, network, etc.)
+  - `info` — stars, last commit, open issues/PRs with age stats
+  - `redirect` — repo was renamed or moved
+  - `missing` — repo or user no longer exists (404)
 
-Only one file exists per package. On each run:
-
-1.  Skips packages that already have `github.json`, `github-redirect.json`,
-    or `github-missing.json`
-2.  Retries packages that only have `github-errors.json`
-3.  Cleans up stale files when status changes (e.g. on `--update`)
+Uses smart frequency: active packages (committed within 6 months) are
+re-fetched daily, inactive packages weekly. Use `--force` to re-fetch all.
 
 Reads GitHub's `x-ratelimit-remaining` and `retry-after` headers. When
 remaining requests drop to ≤ 10, pauses until the rate-limit window resets.
 
 Requires a GitHub token via `GITHUB_TOKEN` or `--token`.
-Flags: `--concurrency` (default 2), `--delay` (default 500ms), `--update`.
+Flags: `--concurrency` (default 2), `--delay` (default 500ms), `--force`,
+`--db` (default `~/.elm-docs/elm-packages.db`).
 
 -}
 
 import BackendTask exposing (BackendTask)
+import BackendTask.Custom
 import BackendTask.Env
-import BackendTask.Glob as Glob
 import BackendTask.Http
 import BackendTask.Time
 import Cli.Option as Option
@@ -38,23 +34,25 @@ import Iso8601
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
-import Set exposing (Set)
 import Shared.Ansi exposing (dim, green, red)
 import Shared.CliHelpers exposing (parseIntOpt)
-import Sync.Fetch exposing (WriteAction(..))
-import Sync.Path as SyncPath
 import SyncGithub.DateStats as DateStats exposing (DateStats, IssueInfo)
-import SyncGithub.Discovery as Discovery exposing (PackageId(..))
 import SyncGithub.ErrorClassification as ErrorClassification
-import SyncGithub.Result as GhResult exposing (GithubResult(..))
 import Time
 
 
 type alias CliOptions =
     { concurrency : Int
     , delay : Int
-    , update : Bool
+    , force : Bool
     , token : Maybe String
+    , db : String
+    }
+
+
+type alias PackageId =
+    { org : String
+    , name : String
     }
 
 
@@ -65,16 +63,18 @@ run =
             resolveToken options.token
                 |> BackendTask.andThen
                     (\token ->
-                        Script.log (dim "[syncGithub]" ++ " Starting GitHub metadata sync")
+                        initDb options.db
+                            |> BackendTask.andThen (\() -> Script.log (dim "[syncGithub]" ++ " Starting GitHub metadata sync"))
                             |> BackendTask.andThen
                                 (\() ->
-                                    if options.update then
-                                        Script.log (dim "[syncGithub]" ++ " --update: re-fetching all packages")
+                                    if options.force then
+                                        Script.log (dim "[syncGithub]" ++ " --force: re-fetching all packages")
 
                                     else
                                         BackendTask.succeed ()
                                 )
                             |> BackendTask.andThen (\() -> discoverAndFetch token options)
+                            |> BackendTask.andThen (\() -> computeRanks options.db)
                             |> BackendTask.andThen (\() -> Script.log (dim "[syncGithub]" ++ " Done"))
                     )
         )
@@ -93,8 +93,12 @@ programConfig =
                     (Option.optionalKeywordArg "delay"
                         |> Option.validateMap (parseIntOpt "delay" 500)
                     )
-                |> with (Option.flag "update")
+                |> with (Option.flag "force")
                 |> with (Option.optionalKeywordArg "token")
+                |> with
+                    (Option.optionalKeywordArg "db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
+                    )
             )
 
 
@@ -128,69 +132,17 @@ resolveToken maybeToken =
 
 discoverAndFetch : String -> CliOptions -> BackendTask FatalError ()
 discoverAndFetch token options =
-    discoverPackages
+    getPackagesForGithubSync options.db options.force
         |> BackendTask.andThen
-            (\( allPackages, existingKeys ) ->
+            (\toFetch ->
                 let
-                    toFetch : List PackageId
-                    toFetch =
-                        Discovery.filterNeedingGithub options.update existingKeys allPackages
-
                     total : Int
                     total =
-                        List.length allPackages
+                        List.length toFetch
                 in
-                Script.log (dim "[syncGithub]" ++ " Found " ++ String.fromInt total ++ " package(s) on disk")
-                    |> BackendTask.andThen (\() -> Script.log (dim "[syncGithub]" ++ " " ++ String.fromInt (List.length toFetch) ++ " package(s) need GitHub info"))
+                Script.log (dim "[syncGithub]" ++ " " ++ String.fromInt total ++ " package(s) need GitHub info")
                     |> BackendTask.andThen (\() -> fetchAll token options toFetch)
             )
-
-
-discoverPackages : BackendTask FatalError ( List PackageId, Set String )
-discoverPackages =
-    BackendTask.map2 Tuple.pair
-        (Glob.fromString (SyncPath.contentDir ++ "/*/*/")
-            |> BackendTask.map (List.filterMap parsePackagePath)
-        )
-        (BackendTask.map3
-            (\info redirect missing ->
-                Set.fromList
-                    (List.map extractPackageKey info
-                        ++ List.map extractPackageKey redirect
-                        ++ List.map extractPackageKey missing
-                    )
-            )
-            (Glob.fromString (SyncPath.contentDir ++ "/*/*/github.json"))
-            (Glob.fromString (SyncPath.contentDir ++ "/*/*/github-redirect.json"))
-            (Glob.fromString (SyncPath.contentDir ++ "/*/*/github-missing.json"))
-        )
-
-
-parsePackagePath : String -> Maybe PackageId
-parsePackagePath path =
-    -- path looks like "../.../content/packages/org/pkg/"
-    let
-        segments : List String
-        segments =
-            path |> String.split "/" |> List.filter ((/=) "")
-    in
-    case List.reverse segments of
-        pkg :: org :: _ ->
-            Just (PackageId org pkg)
-
-        _ ->
-            Nothing
-
-
-extractPackageKey : String -> String
-extractPackageKey path =
-    -- path looks like "../.../content/packages/org/pkg/github.json"
-    case List.reverse (String.split "/" path) of
-        _ :: pkg :: org :: _ ->
-            org ++ "/" ++ pkg
-
-        _ ->
-            path
 
 
 
@@ -247,7 +199,7 @@ processBatches token options batches progress =
             BackendTask.succeed progress
 
         batch :: rest ->
-            BackendTask.combine (List.map (fetchOne token) batch)
+            BackendTask.combine (List.map (fetchOne token options.db) batch)
                 |> BackendTask.andThen
                     (\results ->
                         let
@@ -293,45 +245,42 @@ type alias FetchResult =
     { ok : Bool, pkg : PackageId }
 
 
-fetchOne : String -> PackageId -> BackendTask FatalError FetchResult
-fetchOne token ((PackageId org pkg) as packageId) =
+fetchOne : String -> String -> PackageId -> BackendTask FatalError FetchResult
+fetchOne token dbPath pkg =
     BackendTask.Time.now
-        |> BackendTask.andThen (\now -> fetchGithubInfo token now org pkg)
+        |> BackendTask.andThen (\now -> fetchGithubInfo token now pkg.org pkg.name)
         |> BackendTask.andThen
             (\result ->
-                executeActions (GhResult.onResult org pkg result)
-                    |> BackendTask.map (\() -> { ok = True, pkg = packageId })
+                let
+                    ( resultType, data ) =
+                        githubResultToTypeAndData result
+                in
+                upsertGithubResult dbPath pkg.org pkg.name resultType data
+                    |> BackendTask.map (\() -> { ok = True, pkg = pkg })
             )
         |> BackendTask.onError
             (\_ ->
-                -- On any fatal error during fetch, write an error file and continue
-                let
-                    errMsg : String
-                    errMsg =
-                        "Error fetching GitHub info"
-                in
-                BackendTask.Time.now
-                    |> BackendTask.andThen
-                        (\now ->
-                            let
-                                failedAt : String
-                                failedAt =
-                                    Iso8601.fromTime now
-
-                                actions : List WriteAction
-                                actions =
-                                    GhResult.onError org
-                                        pkg
-                                        { reason = "unknown"
-                                        , status = Nothing
-                                        , error = errMsg
-                                        , failedAt = failedAt
-                                        }
-                            in
-                            executeActions actions
-                                |> BackendTask.map (\() -> { ok = False, pkg = packageId })
-                        )
+                BackendTask.succeed { ok = False, pkg = pkg }
             )
+
+
+type GithubResult
+    = Info String
+    | Redirect String
+    | Missing String
+
+
+githubResultToTypeAndData : GithubResult -> ( String, String )
+githubResultToTypeAndData result =
+    case result of
+        Info data ->
+            ( "info", data )
+
+        Redirect data ->
+            ( "redirect", data )
+
+        Missing data ->
+            ( "missing", data )
 
 
 
@@ -371,7 +320,6 @@ type RepoStep
 
 fetchGithubInfo : String -> Time.Posix -> String -> String -> BackendTask FatalError GithubResult
 fetchGithubInfo token now org pkg =
-    -- Step 1: fetch repo info with metadata to detect status code
     githubRequest token
         ("/repos/" ++ org ++ "/" ++ pkg)
         (BackendTask.Http.withMetadata Tuple.pair
@@ -388,7 +336,6 @@ fetchGithubInfo token now org pkg =
                 case recoverable of
                     BackendTask.Http.BadStatus metadata _ ->
                         if metadata.statusCode == 404 then
-                            -- Check if user exists
                             fetchUserExists token org
                                 |> BackendTask.map
                                     (\( userExists, userType ) ->
@@ -453,7 +400,6 @@ fetchGithubInfo token now org pkg =
                                 org ++ "/" ++ pkg
                         in
                         if String.toLower fullName /= String.toLower originalRepo then
-                            -- Redirect detected
                             let
                                 parts : List String
                                 parts =
@@ -482,7 +428,6 @@ fetchGithubInfo token now org pkg =
                             BackendTask.succeed (Redirect data)
 
                         else
-                            -- Normal repo — fetch commits, collaborators, issues
                             fetchRepoDetails token now org pkg starsCount
             )
 
@@ -758,6 +703,19 @@ enrichIssue token org pkg maintainers rawIssue =
 
 
 
+-- Compute ranks
+
+
+computeRanks : String -> BackendTask FatalError ()
+computeRanks dbPath =
+    computePackageRanks dbPath
+        |> BackendTask.andThen
+            (\count ->
+                Script.log (green ("  " ++ String.fromInt count ++ " package ranks computed"))
+            )
+
+
+
 -- Encoding
 
 
@@ -797,23 +755,63 @@ encodeIssueInfo item =
 
 
 
--- Helpers
+-- FFI Calls
 
 
-executeActions : List WriteAction -> BackendTask FatalError ()
-executeActions actions =
-    actions
-        |> List.map
-            (\action ->
-                case action of
-                    WriteFile { path, body } ->
-                        Script.writeFile { path = path, body = body }
-                            |> BackendTask.allowFatal
+initDb : String -> BackendTask FatalError ()
+initDb dbPath =
+    BackendTask.Custom.run "initDb"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "full", Encode.bool False )
+            ]
+        )
+        (Decode.succeed ())
+        |> BackendTask.allowFatal
 
-                    DeleteFile path ->
-                        Script.removeFile path
+
+getPackagesForGithubSync : String -> Bool -> BackendTask FatalError (List PackageId)
+getPackagesForGithubSync dbPath force =
+    BackendTask.Custom.run "getPackagesForGithubSync"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "force", Encode.bool force )
+            ]
+        )
+        (Decode.list
+            (Decode.map2 PackageId
+                (Decode.field "org" Decode.string)
+                (Decode.field "name" Decode.string)
             )
-        |> BackendTask.doEach
+        )
+        |> BackendTask.allowFatal
+
+
+upsertGithubResult : String -> String -> String -> String -> String -> BackendTask FatalError ()
+upsertGithubResult dbPath org name resultType data =
+    BackendTask.Custom.run "upsertGithubResult"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "org", Encode.string org )
+            , ( "name", Encode.string name )
+            , ( "resultType", Encode.string resultType )
+            , ( "data", Encode.string data )
+            ]
+        )
+        (Decode.succeed ())
+        |> BackendTask.allowFatal
+
+
+computePackageRanks : String -> BackendTask FatalError Int
+computePackageRanks dbPath =
+    BackendTask.Custom.run "computePackageRanks"
+        (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
+        (Decode.field "count" Decode.int)
+        |> BackendTask.allowFatal
+
+
+
+-- Helpers
 
 
 chunk : Int -> List a -> List (List a)
@@ -838,7 +836,7 @@ formatFailures failures =
 
         items : List String
         items =
-            List.map (\(PackageId o p) -> "  " ++ dim "•" ++ " " ++ o ++ "/" ++ p) shown
+            List.map (\p -> "  " ++ dim "•" ++ " " ++ p.org ++ "/" ++ p.name) shown
 
         remaining : Int
         remaining =

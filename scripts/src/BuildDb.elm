@@ -114,7 +114,7 @@ run =
                     (\() ->
                         Script.log "Building type index..."
                             |> BackendTask.andThen
-                                (\() -> typeIndexLoop options.db options.full 0 0 0)
+                                (\() -> typeIndexLoop options.db options.full 0 0)
                             |> BackendTask.andThen
                                 (\totalInserted ->
                                     Script.log (green ("  " ++ String.fromInt totalInserted ++ " type index entries"))
@@ -317,14 +317,14 @@ encodeTypeIndexRow row =
 -- TYPE INDEX LOOP
 
 
-typeIndexLoop : String -> Bool -> Int -> Int -> Int -> BackendTask FatalError Int
-typeIndexLoop dbPath full offset parseErrors totalInserted =
+typeIndexLoop : String -> Bool -> Int -> Int -> BackendTask FatalError Int
+typeIndexLoop dbPath full parseErrors totalInserted =
     let
         pageSize : Int
         pageSize =
-            50
+            500
     in
-    getTypeEntriesToIndex dbPath full offset pageSize
+    getTypeEntriesToIndex dbPath full 0 pageSize
         |> BackendTask.andThen
             (\result ->
                 let
@@ -359,7 +359,7 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                                     parseErrors + batchParseErrors
                             in
                             if result.hasMore then
-                                typeIndexLoop dbPath full (offset + pageSize) newErrors newTotal
+                                typeIndexLoop dbPath full newErrors newTotal
 
                             else if newErrors > 0 then
                                 Script.log ("  (" ++ String.fromInt newErrors ++ " types skipped due to parse errors)")

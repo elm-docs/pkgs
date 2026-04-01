@@ -20,8 +20,9 @@ type alias CliOptions =
     , since : Maybe Int
     , githubConcurrency : Int
     , githubDelay : Int
-    , update : Bool
+    , force : Bool
     , token : Maybe String
+    , db : String
     }
 
 
@@ -41,6 +42,7 @@ runSyncElmPackages options =
         args =
             [ "--concurrency", String.fromInt options.concurrency
             , "--delay", String.fromInt options.delay
+            , "--db", options.db
             ]
                 ++ (case options.since of
                         Just n ->
@@ -64,9 +66,10 @@ runSyncGithub options =
                     args =
                         [ "--concurrency", String.fromInt options.githubConcurrency
                         , "--delay", String.fromInt options.githubDelay
+                        , "--db", options.db
                         ]
-                            ++ (if options.update then
-                                    [ "--update" ]
+                            ++ (if options.force then
+                                    [ "--force" ]
 
                                 else
                                     []
@@ -132,8 +135,10 @@ programConfig =
                     (Option.optionalKeywordArg "github-delay"
                         |> Option.validateMap (parseIntOpt "github-delay" 500)
                     )
-                |> with (Option.flag "update")
+                |> with (Option.flag "force")
                 |> with (Option.optionalKeywordArg "token")
+                |> with
+                    (Option.optionalKeywordArg "db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
+                    )
             )
-
-

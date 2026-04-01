@@ -3,13 +3,13 @@ module Shared.PackageVersion exposing
     , fromString
     , org
     , pkg
-    , toKey
     , toLabel
     , version
     )
 
 {-| Opaque type representing an org/package@version triple.
 -}
+
 
 type PackageVersion
     = PackageVersion

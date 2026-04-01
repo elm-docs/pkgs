@@ -1,105 +1,126 @@
 module Status exposing (run)
 
-{-| Show sync status of all known packages.
+{-| Show sync status by querying the SQLite database.
 
-Fetches the full registry from `/all-packages/since/0`, classifies every
-version against the local `content/` directory, and prints a summary with
-counts and percentages for each state (success, pending, failure, missing).
+Reports counts of packages, versions, GitHub metadata, redirects,
+missing repos, and type-indexed packages.
 
 -}
 
 import BackendTask exposing (BackendTask)
-import BackendTask.Glob as Glob
-import BackendTask.Http
+import BackendTask.Custom
+import Cli.Option as Option
+import Cli.OptionsParser as OptionsParser exposing (with)
+import Cli.Program as Program
 import FatalError exposing (FatalError)
-import Json.Decode
+import Json.Decode as Decode
+import Json.Encode as Encode
 import Pages.Script as Script exposing (Script)
-import Set
-import Shared.Ansi exposing (dim, red, yellow)
-import Shared.PackageVersion as PackageVersion
-import Shared.Report as Report
-import Status.Classification as Classification
+import Shared.Ansi exposing (bold, dim, green, red, yellow)
+
+
+type alias CliOptions =
+    { db : String
+    }
+
+
+type alias DbStatus =
+    { totalPackages : Int
+    , totalVersions : Int
+    , withGithub : Int
+    , redirected : Int
+    , missing : Int
+    , typeIndexed : Int
+    }
 
 
 run : Script
 run =
-    Script.withoutCliOptions
-        (Script.log "Fetching all packages from registry…"
-            |> BackendTask.andThen (\() -> fetchAndReport)
+    Script.withCliOptions programConfig
+        (\options ->
+            getDbStatus options.db
+                |> BackendTask.andThen
+                    (\status ->
+                        Script.log (formatStatus status)
+                    )
         )
 
 
-fetchAndReport : BackendTask FatalError ()
-fetchAndReport =
-    fetchPackages
-        |> BackendTask.andThen
-            (\allPackageStrings ->
-                let
-                    packages : List PackageVersion.PackageVersion
-                    packages =
-                        List.filterMap PackageVersion.fromString allPackageStrings
-                in
-                Script.log ("Classifying " ++ String.fromInt (List.length packages) ++ " packages…\n")
-                    |> BackendTask.andThen (\() -> buildIndex)
-                    |> BackendTask.map
-                        (\index ->
-                            let
-                                classified : Classification.Classified
-                                classified =
-                                    Classification.classifyAll index packages
-
-                                summary : Classification.Summary
-                                summary =
-                                    Classification.summarize classified
-                            in
-                            [ Report.formatSummary summary
-                            , Report.formatDetailList "Pending packages" yellow classified.pending
-                            , Report.formatDetailList "Packages with errors" red classified.failure
-                            , Report.formatDetailList "Missing packages" dim classified.missing
-                            ]
-                                |> List.filter (not << String.isEmpty)
-                                |> String.join "\n\n"
-                        )
-                    |> BackendTask.andThen Script.log
+programConfig : Program.Config CliOptions
+programConfig =
+    Program.config
+        |> Program.add
+            (OptionsParser.build CliOptions
+                |> with
+                    (Option.optionalKeywordArg "db"
+                        |> Option.withDefault "~/.elm-docs/elm-packages.db"
+                    )
             )
 
 
-fetchPackages : BackendTask FatalError (List String)
-fetchPackages =
-    BackendTask.Http.getJson
-        "https://package.elm-lang.org/all-packages/since/0"
-        (Json.Decode.list Json.Decode.string)
-        |> BackendTask.allowFatal
-
-
-buildIndex : BackendTask FatalError Classification.FileIndex
-buildIndex =
-    BackendTask.map3
-        (\docs errors pending ->
-            { docsFiles = Set.fromList (List.map extractKey docs)
-            , errorsFiles = Set.fromList (List.map extractKey errors)
-            , pendingFiles = Set.fromList (List.map extractKey pending)
-            }
-        )
-        (Glob.fromString "../package-elm-lang-org/content/packages/*/*/*/docs.json")
-        (Glob.fromString "../package-elm-lang-org/content/packages/*/*/*/errors.json")
-        (Glob.fromString "../package-elm-lang-org/content/packages/*/*/*/pending")
-
-
-extractKey : String -> String
-extractKey path =
+formatStatus : DbStatus -> String
+formatStatus status =
     let
-        segments : List String
-        segments =
-            String.split "/" path
+        separator : String
+        separator =
+            String.repeat 40 "─"
+
+        githubPct : String
+        githubPct =
+            formatPercent status.withGithub status.totalPackages
+
+        typeIndexPct : String
+        typeIndexPct =
+            formatPercent status.typeIndexed status.totalPackages
     in
-    case List.reverse segments of
-        -- _filename :: version :: pkg :: org :: _rest
-        _ :: ver :: p :: o :: _ ->
-            o ++ "/" ++ p ++ "@" ++ ver
+    String.join "\n"
+        [ bold "Database Status"
+        , separator
+        , "  Packages:        " ++ bold (String.fromInt status.totalPackages)
+        , "  Versions:        " ++ bold (String.fromInt status.totalVersions)
+        , "  " ++ green "✓" ++ " With GitHub:   " ++ bold (String.fromInt status.withGithub) ++ " " ++ dim ("(" ++ githubPct ++ ")")
+        , "  " ++ yellow "→" ++ " Redirected:    " ++ bold (String.fromInt status.redirected)
+        , "  " ++ red "✗" ++ " Missing:       " ++ bold (String.fromInt status.missing)
+        , "  " ++ dim "⊕" ++ " Type indexed:  " ++ bold (String.fromInt status.typeIndexed) ++ " " ++ dim ("(" ++ typeIndexPct ++ ")")
+        ]
 
-        _ ->
-            path
+
+formatPercent : Int -> Int -> String
+formatPercent part total =
+    if total == 0 then
+        "0.0%"
+
+    else
+        let
+            scaled : Int
+            scaled =
+                (part * 1000) // total
+
+            whole : Int
+            whole =
+                scaled // 10
+
+            frac : Int
+            frac =
+                modBy 10 scaled
+        in
+        String.fromInt whole ++ "." ++ String.fromInt frac ++ "%"
 
 
 
+-- FFI
+
+
+getDbStatus : String -> BackendTask FatalError DbStatus
+getDbStatus dbPath =
+    BackendTask.Custom.run "getDbStatus"
+        (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
+        (Decode.map6 DbStatus
+            (Decode.field "totalPackages" Decode.int)
+            (Decode.field "totalVersions" Decode.int)
+            (Decode.field "withGithub" Decode.int)
+            (Decode.field "redirected" Decode.int)
+            (Decode.field "missing" Decode.int)
+            (Decode.field "typeIndexed" Decode.int)
+        )
+        |> BackendTask.allowFatal
