@@ -45,10 +45,15 @@ export function isProjectDbStale(projectDbPath, projectRoot) {
   const elmJsonPath = join(projectRoot, "elm.json");
   if (statSync(elmJsonPath).mtimeMs > dbMtime) return true;
 
-  // Check source files
+  // Check source files and directories (directory mtime changes when files are added/removed)
   const sourceDirs = getElmJsonSourceDirs(projectRoot);
   for (const srcDir of sourceDirs) {
     if (!existsSync(srcDir)) continue;
+    if (statSync(srcDir).mtimeMs > dbMtime) return true;
+    const subdirs = globSync("**/*/", { cwd: srcDir });
+    for (const d of subdirs) {
+      if (statSync(join(srcDir, d)).mtimeMs > dbMtime) return true;
+    }
     const files = globSync("**/*.elm", { cwd: srcDir });
     for (const f of files) {
       if (statSync(join(srcDir, f)).mtimeMs > dbMtime) return true;

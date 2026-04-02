@@ -57,15 +57,31 @@ function findElmJsonDir(dir) {
   return findElmJsonDir(parent);
 }
 
+/**
+ * Read direct dependencies from elm.json.
+ * Returns array of { name, version, majorVersion } or null on error.
+ * For applications: version is the exact pinned version.
+ * For packages: version is null (range constraints can't be pinned).
+ */
 function readDirectDeps(projectPath) {
   try {
     const elmJsonPath = join(projectPath, "elm.json");
     const elmJson = JSON.parse(readFileSync(elmJsonPath, "utf-8"));
 
     if (elmJson.type === "application") {
-      return Object.keys(elmJson.dependencies?.direct || {});
+      const deps = elmJson.dependencies?.direct || {};
+      return Object.entries(deps).map(([name, version]) => ({
+        name,
+        version,
+        majorVersion: parseInt(version.split(".")[0], 10),
+      }));
     } else if (elmJson.type === "package") {
-      return Object.keys(elmJson.dependencies || {});
+      const deps = elmJson.dependencies || {};
+      return Object.entries(deps).map(([name, constraint]) => ({
+        name,
+        version: null,
+        majorVersion: parseInt(constraint, 10),
+      }));
     }
     return null;
   } catch {
@@ -115,7 +131,8 @@ export async function startMcpServer(dbPath) {
             ? project_path
             : findElmJsonDir(project_path);
           if (projectDir) {
-            allowedPackages = readDirectDeps(projectDir);
+            const deps = readDirectDeps(projectDir);
+            if (deps) allowedPackages = deps.map((d) => d.name);
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
@@ -218,11 +235,20 @@ export async function startMcpServer(dbPath) {
       const db = openDb(dbPath);
       let projectDb = null;
       try {
+        let effectiveVersion = version;
         if (project_path) {
           const projectDir = existsSync(join(project_path, "elm.json"))
             ? project_path
             : findElmJsonDir(project_path);
           if (projectDir) {
+            // When no explicit version given, use the pinned version from elm.json
+            if (!version) {
+              const deps = readDirectDeps(projectDir);
+              if (deps) {
+                const dep = deps.find((d) => d.name === pkg);
+                if (dep && dep.version) effectiveVersion = dep.version;
+              }
+            }
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
@@ -230,7 +256,7 @@ export async function startMcpServer(dbPath) {
             }
           }
         }
-        const docs = getPackageDocs(db, { package: pkg, version, projectDb });
+        const docs = getPackageDocs(db, { package: pkg, version: effectiveVersion, projectDb });
         if (!docs) {
           return {
             content: [
@@ -283,11 +309,17 @@ export async function startMcpServer(dbPath) {
       const db = openDb(dbPath);
       let projectDb = null;
       try {
+        let pinnedVersion = null;
         if (project_path) {
           const projectDir = existsSync(join(project_path, "elm.json"))
             ? project_path
             : findElmJsonDir(project_path);
           if (projectDir) {
+            const deps = readDirectDeps(projectDir);
+            if (deps) {
+              const dep = deps.find((d) => d.name === pkg);
+              if (dep && dep.version) pinnedVersion = dep.version;
+            }
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
@@ -295,7 +327,7 @@ export async function startMcpServer(dbPath) {
             }
           }
         }
-        const result = getModuleDocs(db, { package: pkg, module: moduleName, projectDb });
+        const result = getModuleDocs(db, { package: pkg, module: moduleName, version: pinnedVersion, projectDb });
         if (!result) {
           return {
             content: [
@@ -341,12 +373,19 @@ export async function startMcpServer(dbPath) {
       let projectDb = null;
       try {
         let allowedPackages = null;
+        let dependencyVersions = null;
         if (project_path) {
           const projectDir = existsSync(join(project_path, "elm.json"))
             ? project_path
             : findElmJsonDir(project_path);
           if (projectDir) {
-            allowedPackages = readDirectDeps(projectDir);
+            const deps = readDirectDeps(projectDir);
+            if (deps) {
+              allowedPackages = deps.map((d) => d.name);
+              dependencyVersions = new Map(
+                deps.filter((d) => d.version).map((d) => [d.name, d.version]),
+              );
+            }
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
@@ -354,7 +393,7 @@ export async function startMcpServer(dbPath) {
             }
           }
         }
-        const results = lookupValue(db, { name, allowedPackages, projectDb });
+        const results = lookupValue(db, { name, allowedPackages, dependencyVersions, projectDb });
         if (results.length === 0) {
           return {
             content: [{ type: "text", text: `No results found for '${name}'.` }],

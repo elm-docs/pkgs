@@ -95,7 +95,7 @@ function generateDelta(db, deltaFrom) {
   );
   const fetchTypeIndex = db.prepare(`
     SELECT module_name, name, kind, type_raw, type_ast, fingerprint, arg_count,
-           package_id, version_id
+           package_id, version_id, major_version, is_latest
     FROM type_index WHERE version_id = ?
   `);
 
@@ -131,6 +131,7 @@ function generateDelta(db, deltaFrom) {
       typeRaw: ti.type_raw, typeAst: ti.type_ast,
       fingerprint: ti.fingerprint, argCount: ti.arg_count,
       packageId: ti.package_id, versionId: ti.version_id,
+      majorVersion: ti.major_version, isLatest: ti.is_latest,
     }));
 
     delta.push({

@@ -24,7 +24,7 @@ suite =
 
                     result : ProcessResult
                     result =
-                        processEntries 1 10 entries
+                        processEntries 1 10 0 True entries
                 in
                 case result.rows of
                     [ row ] ->
@@ -60,7 +60,7 @@ suite =
 
                     result : ProcessResult
                     result =
-                        processEntries 1 10 entries
+                        processEntries 1 10 0 True entries
                 in
                 Expect.all
                     [ \r -> Expect.equal [] r.rows
@@ -72,7 +72,7 @@ suite =
                 let
                     result : ProcessResult
                     result =
-                        processEntries 1 10 []
+                        processEntries 1 10 0 True []
                 in
                 Expect.equal { rows = [], parseErrors = 0 } result
         , test "typeAstJson round-trips back to parsed AST" <|
@@ -89,7 +89,7 @@ suite =
 
                     result : ProcessResult
                     result =
-                        processEntries 1 10 entries
+                        processEntries 1 10 0 True entries
                 in
                 case result.rows of
                     [ row ] ->

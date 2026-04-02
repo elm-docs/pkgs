@@ -149,11 +149,12 @@ fetchAllCandidates options minArgs maxArgs =
                 |> BackendTask.andThen
                     (\projectInfo ->
                         let
-                            directDeps : List String
-                            directDeps =
+                            allowedPackages : List String
+                            allowedPackages =
                                 ElmJson.directDeps projectInfo
+                                    |> List.map (\dep -> dep.name ++ "@" ++ String.fromInt dep.majorVersion)
                         in
-                        fetchFilteredCandidates options.db minArgs maxArgs directDeps
+                        fetchFilteredCandidates options.db minArgs maxArgs allowedPackages
                             |> BackendTask.andThen
                                 (\globalCandidates ->
                                     case options.projectDb of

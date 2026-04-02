@@ -324,7 +324,7 @@ typeIndexLoop dbPath parseErrors totalInserted =
                     processedPackages : List TypeIndex.ProcessResult
                     processedPackages =
                         List.map
-                            (\pkg -> TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries)
+                            (\pkg -> TypeIndex.processEntries pkg.packageId pkg.versionId pkg.majorVersion pkg.isLatest pkg.entries)
                             result.packages
 
                     allRows : List TypeIndex.TypeIndexRow
@@ -418,6 +418,8 @@ ingestSearchJsonBody dbPath body =
 type alias TypeEntryPackage =
     { packageId : Int
     , versionId : Int
+    , majorVersion : Int
+    , isLatest : Bool
     , entries : List TypeIndex.TypeEntry
     }
 
@@ -441,9 +443,11 @@ getTypeEntriesToIndex dbPath offset limit =
 
 typeEntryPackageDecoder : Decode.Decoder TypeEntryPackage
 typeEntryPackageDecoder =
-    Decode.map3 TypeEntryPackage
+    Decode.map5 TypeEntryPackage
         (Decode.field "packageId" Decode.int)
         (Decode.field "versionId" Decode.int)
+        (Decode.field "majorVersion" Decode.int)
+        (Decode.field "isLatest" Decode.bool)
         (Decode.field "entries" (Decode.list typeEntryDecoder))
 
 
@@ -482,6 +486,8 @@ encodeTypeIndexRow row =
         , ( "typeAstJson", Encode.string row.typeAstJson )
         , ( "fingerprint", Encode.string row.fingerprint )
         , ( "argCount", Encode.int row.argCount )
+        , ( "majorVersion", Encode.int row.majorVersion )
+        , ( "isLatest", Encode.bool row.isLatest )
         ]
 
 

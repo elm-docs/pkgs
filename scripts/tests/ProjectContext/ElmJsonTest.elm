@@ -14,13 +14,13 @@ suite =
                 let
                     json : String
                     json =
-                        """{"projectType":"application","name":"local/app","version":"1.0.0","directDeps":["elm/core","elm/html"],"sourceDirs":["/path/src"]}"""
+                        """{"projectType":"application","name":"local/app","version":"1.0.0","directDeps":[{"name":"elm/core","majorVersion":1},{"name":"elm/html","majorVersion":1}],"sourceDirs":["/path/src"]}"""
                 in
                 case Decode.decodeString ElmJson.decoder json of
                     Ok info ->
                         Expect.all
                             [ \i -> i.projectType |> Expect.equal Application
-                            , \i -> i.directDeps |> Expect.equal [ "elm/core", "elm/html" ]
+                            , \i -> i.directDeps |> Expect.equal [ { name = "elm/core", majorVersion = 1 }, { name = "elm/html", majorVersion = 1 } ]
                             , \i -> i.sourceDirs |> Expect.equal [ "/path/src" ]
                             ]
                             info
@@ -32,7 +32,7 @@ suite =
                 let
                     json : String
                     json =
-                        """{"projectType":"package","name":"author/pkg","version":"1.2.3","directDeps":["elm/core"],"sourceDirs":["/path/src"]}"""
+                        """{"projectType":"package","name":"author/pkg","version":"1.2.3","directDeps":[{"name":"elm/core","majorVersion":1}],"sourceDirs":["/path/src"]}"""
                 in
                 case Decode.decodeString ElmJson.decoder json of
                     Ok info ->
@@ -50,12 +50,12 @@ suite =
                 let
                     json : String
                     json =
-                        """{"projectType":"application","name":"local/app","version":"1.0.0","directDeps":["elm/core","elm/html"],"sourceDirs":["src"]}"""
+                        """{"projectType":"application","name":"local/app","version":"1.0.0","directDeps":[{"name":"elm/core","majorVersion":1},{"name":"elm/html","majorVersion":1}],"sourceDirs":["src"]}"""
                 in
                 case Decode.decodeString ElmJson.decoder json of
                     Ok info ->
                         ElmJson.directDeps info
-                            |> Expect.equal [ "elm/core", "elm/html" ]
+                            |> Expect.equal [ { name = "elm/core", majorVersion = 1 }, { name = "elm/html", majorVersion = 1 } ]
 
                     Err e ->
                         Expect.fail (Decode.errorToString e)

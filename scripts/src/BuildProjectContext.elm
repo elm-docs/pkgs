@@ -146,6 +146,8 @@ ingestLocalDocs dbPath docsPath packageName version =
 type alias TypeEntryPackage =
     { packageId : Int
     , versionId : Int
+    , majorVersion : Int
+    , isLatest : Bool
     , entries : List TypeIndex.TypeEntry
     }
 
@@ -169,9 +171,11 @@ getTypeEntriesToIndex dbPath full offset limit =
 
 typeEntryPackageDecoder : Decode.Decoder TypeEntryPackage
 typeEntryPackageDecoder =
-    Decode.map3 TypeEntryPackage
+    Decode.map5 TypeEntryPackage
         (Decode.field "packageId" Decode.int)
         (Decode.field "versionId" Decode.int)
+        (Decode.field "majorVersion" Decode.int)
+        (Decode.field "isLatest" Decode.bool)
         (Decode.field "entries" (Decode.list typeEntryDecoder))
 
 
@@ -210,6 +214,8 @@ encodeTypeIndexRow row =
         , ( "typeAstJson", Encode.string row.typeAstJson )
         , ( "fingerprint", Encode.string row.fingerprint )
         , ( "argCount", Encode.int row.argCount )
+        , ( "majorVersion", Encode.int row.majorVersion )
+        , ( "isLatest", Encode.bool row.isLatest )
         ]
 
 
@@ -232,7 +238,7 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                     allRows =
                         List.concatMap
                             (\pkg ->
-                                (TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries).rows
+                                (TypeIndex.processEntries pkg.packageId pkg.versionId pkg.majorVersion pkg.isLatest pkg.entries).rows
                             )
                             result.packages
 
@@ -240,7 +246,7 @@ typeIndexLoop dbPath full offset parseErrors totalInserted =
                     batchParseErrors =
                         List.foldl
                             (\pkg acc ->
-                                acc + (TypeIndex.processEntries pkg.packageId pkg.versionId pkg.entries).parseErrors
+                                acc + (TypeIndex.processEntries pkg.packageId pkg.versionId pkg.majorVersion pkg.isLatest pkg.entries).parseErrors
                             )
                             0
                             result.packages

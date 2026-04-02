@@ -38,6 +38,8 @@ type alias TypeIndexRow =
     , typeAstJson : String
     , fingerprint : String
     , argCount : Int
+    , majorVersion : Int
+    , isLatest : Bool
     }
 
 
@@ -47,14 +49,14 @@ type alias ProcessResult =
     }
 
 
-processEntries : Int -> Int -> List TypeEntry -> ProcessResult
-processEntries packageId versionId entries =
-    List.foldl (processEntry packageId versionId) { rows = [], parseErrors = 0 } entries
+processEntries : Int -> Int -> Int -> Bool -> List TypeEntry -> ProcessResult
+processEntries packageId versionId majorVersion isLatest entries =
+    List.foldl (processEntry packageId versionId majorVersion isLatest) { rows = [], parseErrors = 0 } entries
         |> (\r -> { r | rows = List.reverse r.rows })
 
 
-processEntry : Int -> Int -> TypeEntry -> ProcessResult -> ProcessResult
-processEntry packageId versionId entry acc =
+processEntry : Int -> Int -> Int -> Bool -> TypeEntry -> ProcessResult -> ProcessResult
+processEntry packageId versionId majorVersion isLatest entry acc =
     case Parse.parseLenient entry.typeRaw of
         Err _ ->
             { acc | parseErrors = acc.parseErrors + 1 }
@@ -89,6 +91,8 @@ processEntry packageId versionId entry acc =
                     , typeAstJson = astJson
                     , fingerprint = fp
                     , argCount = argCount
+                    , majorVersion = majorVersion
+                    , isLatest = isLatest
                     }
             in
             { acc | rows = row :: acc.rows }

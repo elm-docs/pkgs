@@ -214,7 +214,7 @@ function applyDelta(dbPath, deltaEntries) {
     );
     const deleteTypeIndex = db.prepare("DELETE FROM type_index WHERE package_id = ?");
     const insertTypeIndex = db.prepare(
-      "INSERT INTO type_index (package_id, version_id, module_name, name, kind, type_raw, type_ast, fingerprint, arg_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO type_index (package_id, version_id, module_name, name, kind, type_raw, type_ast, fingerprint, arg_count, major_version, is_latest) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     );
 
     const pkgIdCache = new Map();
@@ -258,6 +258,7 @@ function applyDelta(dbPath, deltaEntries) {
             insertTypeIndex.run(
               ti.packageId, ti.versionId, ti.moduleName, ti.name, ti.kind,
               ti.typeRaw, ti.typeAst, ti.fingerprint, ti.argCount,
+              ti.majorVersion ?? 0, ti.isLatest ?? 1,
             );
           }
         }

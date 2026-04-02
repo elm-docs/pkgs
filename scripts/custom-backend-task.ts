@@ -40,7 +40,8 @@ export async function queryTypeIndex(
                 p.org, p.name AS pkg_name
          FROM type_index ti
          JOIN packages p ON ti.package_id = p.id
-         WHERE ti.arg_count BETWEEN ? AND ?`,
+         WHERE ti.arg_count BETWEEN ? AND ?
+           AND ti.is_latest = 1`,
       )
       .all(input.minArgs, input.maxArgs) as TypeIndexRow[];
 
@@ -174,21 +175,24 @@ CREATE INDEX IF NOT EXISTS idx_aliases_name ON aliases(name);
 
 const TYPE_INDEX_DDL = `
 CREATE TABLE IF NOT EXISTS type_index (
-    id          INTEGER PRIMARY KEY,
-    package_id  INTEGER NOT NULL REFERENCES packages(id),
-    version_id  INTEGER NOT NULL REFERENCES package_versions(id),
-    module_name TEXT NOT NULL,
-    name        TEXT NOT NULL,
-    kind        TEXT NOT NULL,
-    type_raw    TEXT NOT NULL,
-    type_ast    TEXT NOT NULL,
-    fingerprint TEXT NOT NULL,
-    arg_count   INTEGER NOT NULL
+    id            INTEGER PRIMARY KEY,
+    package_id    INTEGER NOT NULL REFERENCES packages(id),
+    version_id    INTEGER NOT NULL REFERENCES package_versions(id),
+    module_name   TEXT NOT NULL,
+    name          TEXT NOT NULL,
+    kind          TEXT NOT NULL,
+    type_raw      TEXT NOT NULL,
+    type_ast      TEXT NOT NULL,
+    fingerprint   TEXT NOT NULL,
+    arg_count     INTEGER NOT NULL,
+    major_version INTEGER NOT NULL DEFAULT 0,
+    is_latest     INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE INDEX IF NOT EXISTS idx_type_index_fingerprint ON type_index(fingerprint);
 CREATE INDEX IF NOT EXISTS idx_type_index_arg_count ON type_index(arg_count);
 CREATE INDEX IF NOT EXISTS idx_type_index_package ON type_index(package_id);
+CREATE INDEX IF NOT EXISTS idx_type_index_pkg_major ON type_index(package_id, major_version);
 `;
 
 // Handler 1: initDb
@@ -210,6 +214,12 @@ export async function initDb(
 
   db.exec(SCHEMA);
   db.exec(TYPE_INDEX_DDL);
+
+  // Migration: add major_version/is_latest columns to existing DBs
+  try { db.exec("ALTER TABLE type_index ADD COLUMN major_version INTEGER NOT NULL DEFAULT 0"); } catch {}
+  try { db.exec("ALTER TABLE type_index ADD COLUMN is_latest INTEGER NOT NULL DEFAULT 1"); } catch {}
+  try { db.exec("CREATE INDEX IF NOT EXISTS idx_type_index_pkg_major ON type_index(package_id, major_version)"); } catch {}
+
   db.close();
   return {};
 }
@@ -294,6 +304,8 @@ interface TypeIndexEntry {
   typeAstJson: string;
   fingerprint: string;
   argCount: number;
+  majorVersion: number;
+  isLatest: boolean;
 }
 
 export async function buildTypeIndex(
@@ -307,8 +319,8 @@ export async function buildTypeIndex(
   try {
     const deleteStmt = db.prepare("DELETE FROM type_index WHERE package_id = ?");
     const insertStmt = db.prepare(`
-      INSERT INTO type_index (package_id, version_id, module_name, name, kind, type_raw, type_ast, fingerprint, arg_count)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO type_index (package_id, version_id, module_name, name, kind, type_raw, type_ast, fingerprint, arg_count, major_version, is_latest)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const tx = db.transaction(() => {
@@ -319,6 +331,7 @@ export async function buildTypeIndex(
         insertStmt.run(
           e.packageId, e.versionId, e.moduleName, e.name, e.kind,
           e.typeRaw, e.typeAstJson, e.fingerprint, e.argCount,
+          e.majorVersion, e.isLatest ? 1 : 0,
         );
       }
     });
@@ -334,6 +347,8 @@ export async function buildTypeIndex(
 interface PackageTypeEntries {
   packageId: number;
   versionId: number;
+  majorVersion: number;
+  isLatest: boolean;
   entries: { moduleName: string; name: string; kind: string; typeRaw: string }[];
 }
 
@@ -346,39 +361,59 @@ export async function getTypeEntriesToIndex(
   db.pragma("journal_mode = WAL");
 
   try {
-    let packagesToIndex: { package_id: number; version_id: number }[];
+    let packagesToIndex: { package_id: number; version_id: number; major_version: number; is_latest: number }[];
 
     if (input.full) {
+      // Index the latest minor.patch within each major version.
+      // Mark the overall latest version as is_latest = 1.
       packagesToIndex = db.prepare(`
-        SELECT p.id AS package_id, pv.id AS version_id
-        FROM packages p
-        JOIN package_versions pv ON pv.package_id = p.id
-        WHERE pv.version_sort = (
-          SELECT MAX(pv2.version_sort)
-          FROM package_versions pv2
-          WHERE pv2.package_id = p.id
-        )
-        ORDER BY p.id
+        SELECT sub.package_id, sub.version_id, sub.major_version,
+               CASE WHEN sub.version_sort = (
+                 SELECT MAX(pv3.version_sort) FROM package_versions pv3 WHERE pv3.package_id = sub.package_id
+               ) THEN 1 ELSE 0 END AS is_latest
+        FROM (
+          SELECT p.id AS package_id, pv.id AS version_id,
+                 pv.version_sort / 1000000 AS major_version,
+                 pv.version_sort
+          FROM packages p
+          JOIN package_versions pv ON pv.package_id = p.id
+          WHERE pv.version_sort = (
+            SELECT MAX(pv2.version_sort)
+            FROM package_versions pv2
+            WHERE pv2.package_id = p.id
+              AND pv2.version_sort / 1000000 = pv.version_sort / 1000000
+          )
+        ) sub
+        ORDER BY sub.package_id, sub.major_version
         LIMIT ? OFFSET ?
-      `).all(input.limit + 1, input.offset) as { package_id: number; version_id: number }[];
+      `).all(input.limit + 1, input.offset) as { package_id: number; version_id: number; major_version: number; is_latest: number }[];
     } else {
       packagesToIndex = db.prepare(`
-        SELECT p.id AS package_id, pv.id AS version_id
-        FROM packages p
-        JOIN package_versions pv ON pv.package_id = p.id
-        WHERE pv.version_sort = (
-          SELECT MAX(pv2.version_sort)
-          FROM package_versions pv2
-          WHERE pv2.package_id = p.id
+        SELECT sub.package_id, sub.version_id, sub.major_version,
+               CASE WHEN sub.version_sort = (
+                 SELECT MAX(pv3.version_sort) FROM package_versions pv3 WHERE pv3.package_id = sub.package_id
+               ) THEN 1 ELSE 0 END AS is_latest
+        FROM (
+          SELECT p.id AS package_id, pv.id AS version_id,
+                 pv.version_sort / 1000000 AS major_version,
+                 pv.version_sort
+          FROM packages p
+          JOIN package_versions pv ON pv.package_id = p.id
+          WHERE pv.version_sort = (
+            SELECT MAX(pv2.version_sort)
+            FROM package_versions pv2
+            WHERE pv2.package_id = p.id
+              AND pv2.version_sort / 1000000 = pv.version_sort / 1000000
+          )
+        ) sub
+        WHERE NOT EXISTS (
+          SELECT 1 FROM type_index ti
+          WHERE ti.package_id = sub.package_id
+            AND ti.version_id = sub.version_id
         )
-        AND pv.id NOT IN (
-          SELECT DISTINCT ti.version_id
-          FROM type_index ti
-          WHERE ti.package_id = p.id
-        )
-        ORDER BY p.id
+        ORDER BY sub.package_id, sub.major_version
         LIMIT ? OFFSET ?
-      `).all(input.limit + 1, input.offset) as { package_id: number; version_id: number }[];
+      `).all(input.limit + 1, input.offset) as { package_id: number; version_id: number; major_version: number; is_latest: number }[];
     }
 
     const hasMore = packagesToIndex.length > input.limit;
@@ -422,6 +457,8 @@ export async function getTypeEntriesToIndex(
       packages.push({
         packageId: pkg.package_id,
         versionId: pkg.version_id,
+        majorVersion: pkg.major_version,
+        isLatest: pkg.is_latest === 1,
         entries,
       });
     }
@@ -700,11 +737,16 @@ export async function getDbStatus(
 // ---------------------------------------------------------------------------
 
 // Handler 9: readProjectInfo
+interface DirectDep {
+  name: string;
+  majorVersion: number;
+}
+
 interface ProjectInfoResult {
   projectType: string;
   name: string;
   version: string;
-  directDeps: string[];
+  directDeps: DirectDep[];
   sourceDirs: string[];
 }
 
@@ -717,7 +759,11 @@ export async function readProjectInfo(
   const elmJson = JSON.parse(readFileSync(elmJsonPath, "utf-8"));
 
   if (elmJson.type === "application") {
-    const directDeps = Object.keys(elmJson.dependencies?.direct || {});
+    const deps = elmJson.dependencies?.direct || {};
+    const directDeps: DirectDep[] = Object.entries(deps).map(([name, version]) => ({
+      name,
+      majorVersion: parseInt((version as string).split(".")[0], 10),
+    }));
     const sourceDirs = (elmJson["source-directories"] || ["src"]).map(
       (d: string) => resolve(projectRoot, d),
     );
@@ -729,7 +775,12 @@ export async function readProjectInfo(
       sourceDirs,
     };
   } else if (elmJson.type === "package") {
-    const directDeps = Object.keys(elmJson.dependencies || {});
+    const deps = elmJson.dependencies || {};
+    // For packages, constraints look like "1.0.0 <= v < 2.0.0" — parseInt extracts major
+    const directDeps: DirectDep[] = Object.entries(deps).map(([name, constraint]) => ({
+      name,
+      majorVersion: parseInt(constraint as string, 10),
+    }));
     return {
       projectType: "package",
       name: elmJson.name,
@@ -867,6 +918,7 @@ export async function ingestLocalDocsJson(
 }
 
 // Handler 12: queryTypeIndexFiltered
+// allowedPackages items are "org/name@majorVersion" (e.g. "elm/core@1")
 interface QueryTypeIndexFilteredInput {
   dbPath: string;
   minArgs: number;
@@ -890,11 +942,13 @@ export async function queryTypeIndexFiltered(
                   p.org, p.name AS pkg_name
            FROM type_index ti
            JOIN packages p ON ti.package_id = p.id
-           WHERE ti.arg_count BETWEEN ? AND ?`,
+           WHERE ti.arg_count BETWEEN ? AND ?
+             AND ti.is_latest = 1`,
         )
         .all(input.minArgs, input.maxArgs) as TypeIndexRow[];
     }
 
+    // allowedPackages are "org/name@major" — filter by package name + major_version
     const placeholders = input.allowedPackages.map(() => "?").join(", ");
     return db
       .prepare(
@@ -903,7 +957,7 @@ export async function queryTypeIndexFiltered(
          FROM type_index ti
          JOIN packages p ON ti.package_id = p.id
          WHERE ti.arg_count BETWEEN ? AND ?
-           AND (p.org || '/' || p.name) IN (${placeholders})`,
+           AND (p.org || '/' || p.name || '@' || CAST(ti.major_version AS TEXT)) IN (${placeholders})`,
       )
       .all(input.minArgs, input.maxArgs, ...input.allowedPackages) as TypeIndexRow[];
   } finally {

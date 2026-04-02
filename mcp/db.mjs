@@ -132,7 +132,7 @@ export function getModuleDocs(db, { package: pkg, module: moduleName, version = 
  * (without redirect/missing filters or allowedPackages) and merges results
  * with local project values appearing first.
  */
-export function lookupValue(db, { name, allowedPackages = null, projectDb = null }) {
+export function lookupValue(db, { name, allowedPackages = null, dependencyVersions = null, projectDb = null }) {
   // Parse the input: optional "pkg:" prefix, optional "Module." qualifier
   let pkgFilter = null;
   let moduleFilter = null;
@@ -160,7 +160,7 @@ export function lookupValue(db, { name, allowedPackages = null, projectDb = null
   }
 
   const mainResults = lookupValueInDb(db, {
-    valueName, moduleFilter, pkgFilter, allowedPackages, filterRedirects: true,
+    valueName, moduleFilter, pkgFilter, allowedPackages, dependencyVersions, filterRedirects: true,
   });
   mainResults.sort((a, b) => b.rank - a.rank);
 
@@ -210,7 +210,7 @@ function getPackageDocsFromDb(db, pkg, version) {
   return { package: pkg, version: versionRow.version, modules };
 }
 
-function lookupValueInDb(db, { valueName, moduleFilter, pkgFilter, allowedPackages = null, filterRedirects = true }) {
+function lookupValueInDb(db, { valueName, moduleFilter, pkgFilter, allowedPackages = null, dependencyVersions = null, filterRedirects = true }) {
   const results = [];
 
   for (const { table, kind, extraCols } of [
@@ -244,6 +244,30 @@ function lookupValueInDb(db, { valueName, moduleFilter, pkgFilter, allowedPackag
       });
     }
 
+    // Build version-aware filter: use pinned version when available, fall back to latest
+    let versionFilter;
+    if (dependencyVersions && dependencyVersions.size > 0) {
+      const cases = [];
+      let idx = 0;
+      for (const [depPkg, depVer] of dependencyVersions) {
+        cases.push(`WHEN (p.org || '/' || p.name) = @depPkg${idx} THEN @depVer${idx}`);
+        params[`depPkg${idx}`] = depPkg;
+        params[`depVer${idx}`] = depVer;
+        idx++;
+      }
+      versionFilter = `AND pv.version = COALESCE(
+          CASE ${cases.join(" ")} END,
+          (SELECT pv2.version FROM package_versions pv2
+           WHERE pv2.package_id = p.id ORDER BY pv2.version_sort DESC LIMIT 1)
+        )`;
+    } else {
+      versionFilter = `AND pv.version_sort = (
+          SELECT MAX(pv2.version_sort)
+          FROM package_versions pv2
+          WHERE pv2.package_id = p.id
+        )`;
+    }
+
     const sql = `
       SELECT p.org || '/' || p.name AS package,
              pv.version,
@@ -257,11 +281,7 @@ function lookupValueInDb(db, { valueName, moduleFilter, pkgFilter, allowedPackag
       JOIN package_versions pv ON m.version_id = pv.id
       JOIN packages p ON pv.package_id = p.id
       ${where}
-        AND pv.version_sort = (
-          SELECT MAX(pv2.version_sort)
-          FROM package_versions pv2
-          WHERE pv2.package_id = p.id
-        )
+        ${versionFilter}
       ORDER BY p.rank DESC
       LIMIT 20
     `;
