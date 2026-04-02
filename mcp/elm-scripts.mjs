@@ -10,9 +10,9 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
-const scriptsDir = resolve(pkgRoot, "scripts");
+export const scriptsDir = resolve(pkgRoot, "scripts");
 
-function resolveElmPages() {
+export function resolveElmPages() {
   const local = resolve(pkgRoot, "node_modules", ".bin", "elm-pages");
   if (existsSync(local)) return local;
   return "elm-pages";

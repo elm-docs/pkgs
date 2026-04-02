@@ -28,7 +28,7 @@ The server exposes five tools:
 | `get_module_docs` | Documentation for a single module |
 | `lookup_value` | Look up a function or type by name |
 
-All tools that return cross-package results accept an optional `project_path` parameter pointing to a directory with an `elm.json`, restricting results to direct dependencies.
+All tools that return cross-package results accept an optional `project_path` parameter pointing to a directory with an `elm.json`, restricting results to direct dependencies and local project modules.
 
 ### Setup
 

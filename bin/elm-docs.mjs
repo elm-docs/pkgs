@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
-import { existsSync, statSync, mkdirSync, readFileSync, writeFileSync, globSync } from "node:fs";
+import { existsSync, statSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
-import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
+
+import { computeProjectDbPath, isProjectDbStale } from "../mcp/project-db.mjs";
 
 const require = createRequire(import.meta.url);
 
@@ -459,44 +460,6 @@ function resolveProjectRoot(args) {
     // --project (walk up from CWD)
     return findElmJsonDir(process.cwd());
   }
-}
-
-function computeProjectDbPath(projectRoot) {
-  const hash = createHash("sha256").update(projectRoot).digest("hex").slice(0, 16);
-  return resolve(homedir(), ".elm-docs", "projects", hash, "context.db");
-}
-
-function getElmJsonSourceDirs(projectRoot) {
-  try {
-    const data = JSON.parse(readFileSync(join(projectRoot, "elm.json"), "utf-8"));
-    if (data.type === "application") {
-      return (data["source-directories"] || ["src"]).map((d) => resolve(projectRoot, d));
-    }
-    return [resolve(projectRoot, "src")];
-  } catch {
-    return [resolve(projectRoot, "src")];
-  }
-}
-
-function isProjectDbStale(projectDbPath, projectRoot) {
-  if (!existsSync(projectDbPath)) return true;
-  const dbMtime = statSync(projectDbPath).mtimeMs;
-
-  // Check elm.json
-  const elmJsonPath = join(projectRoot, "elm.json");
-  if (statSync(elmJsonPath).mtimeMs > dbMtime) return true;
-
-  // Check source files
-  const sourceDirs = getElmJsonSourceDirs(projectRoot);
-  for (const srcDir of sourceDirs) {
-    if (!existsSync(srcDir)) continue;
-    const files = globSync("**/*.elm", { cwd: srcDir });
-    for (const f of files) {
-      if (statSync(join(srcDir, f)).mtimeMs > dbMtime) return true;
-    }
-  }
-
-  return false;
 }
 
 function ensureProjectDb(projectDbPath, projectRoot) {

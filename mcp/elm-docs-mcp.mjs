@@ -19,7 +19,6 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
-import { createHash } from "node:crypto";
 
 import { openDb, searchPackages, getPackageDocs, getModuleDocs, lookupValue } from "./db.mjs";
 import {
@@ -30,6 +29,7 @@ import {
   formatTypeSearchResults,
 } from "./format.mjs";
 import { typeSearch } from "./elm-scripts.mjs";
+import { computeProjectDbPath, ensureProjectDb } from "./project-db.mjs";
 
 // ---------------------------------------------------------------------------
 // CLI arg parsing
@@ -73,22 +73,6 @@ function readDirectDeps(projectPath) {
   }
 }
 
-function resolveProjectDeps(projectPath) {
-  if (!projectPath) return null;
-
-  const projectDir = existsSync(join(projectPath, "elm.json"))
-    ? projectPath
-    : findElmJsonDir(projectPath);
-
-  if (!projectDir) return null;
-  return readDirectDeps(projectDir);
-}
-
-function computeProjectDbPath(projectRoot) {
-  const hash = createHash("sha256").update(projectRoot).digest("hex").slice(0, 16);
-  return resolve(homedir(), ".elm-docs", "projects", hash, "context.db");
-}
-
 // ---------------------------------------------------------------------------
 // Server
 // ---------------------------------------------------------------------------
@@ -118,18 +102,33 @@ export async function startMcpServer(dbPath) {
         .string()
         .optional()
         .describe(
-          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies only.",
+          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies and local project modules.",
         ),
     },
     async ({ query, limit, project_path }) => {
       const db = openDb(dbPath);
+      let projectDb = null;
       try {
-        const allowedPackages = resolveProjectDeps(project_path);
-        const results = searchPackages(db, { query, limit, allowedPackages });
+        let allowedPackages = null;
+        if (project_path) {
+          const projectDir = existsSync(join(project_path, "elm.json"))
+            ? project_path
+            : findElmJsonDir(project_path);
+          if (projectDir) {
+            allowedPackages = readDirectDeps(projectDir);
+            const projectDbPath = computeProjectDbPath(projectDir);
+            await ensureProjectDb(projectDbPath, projectDir);
+            if (existsSync(projectDbPath)) {
+              projectDb = openDb(projectDbPath);
+            }
+          }
+        }
+        const results = searchPackages(db, { query, limit, allowedPackages, projectDb });
         const text = formatSearchResults(results);
         return { content: [{ type: "text", text }] };
       } finally {
         db.close();
+        if (projectDb) projectDb.close();
       }
     },
   );
@@ -152,7 +151,7 @@ export async function startMcpServer(dbPath) {
         .string()
         .optional()
         .describe(
-          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies only.",
+          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies and local project modules.",
         ),
     },
     async ({ query, limit, project_path }) => {
@@ -167,6 +166,7 @@ export async function startMcpServer(dbPath) {
           if (projectDir) {
             opts.projectRoot = projectDir;
             const projectDbPath = computeProjectDbPath(projectDir);
+            await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
               opts.projectDb = projectDbPath;
             }
@@ -195,7 +195,7 @@ export async function startMcpServer(dbPath) {
     {
       package: z
         .string()
-        .describe("Package identifier (e.g. 'elm/core', 'elm-community/list-extra')"),
+        .describe("Package identifier (e.g. 'elm/core', 'elm-community/list-extra', 'local/app')"),
       version: z
         .string()
         .optional()
@@ -207,11 +207,30 @@ export async function startMcpServer(dbPath) {
         .describe(
           "If true, show only type signatures without documentation comments. Useful for fitting more into context.",
         ),
+      project_path: z
+        .string()
+        .optional()
+        .describe(
+          "Path to a directory containing elm.json. Required when browsing local project modules (e.g. 'local/app').",
+        ),
     },
-    async ({ package: pkg, version, compact }) => {
+    async ({ package: pkg, version, compact, project_path }) => {
       const db = openDb(dbPath);
+      let projectDb = null;
       try {
-        const docs = getPackageDocs(db, { package: pkg, version });
+        if (project_path) {
+          const projectDir = existsSync(join(project_path, "elm.json"))
+            ? project_path
+            : findElmJsonDir(project_path);
+          if (projectDir) {
+            const projectDbPath = computeProjectDbPath(projectDir);
+            await ensureProjectDb(projectDbPath, projectDir);
+            if (existsSync(projectDbPath)) {
+              projectDb = openDb(projectDbPath);
+            }
+          }
+        }
+        const docs = getPackageDocs(db, { package: pkg, version, projectDb });
         if (!docs) {
           return {
             content: [
@@ -227,6 +246,7 @@ export async function startMcpServer(dbPath) {
         return { content: [{ type: "text", text }] };
       } finally {
         db.close();
+        if (projectDb) projectDb.close();
       }
     },
   );
@@ -241,7 +261,7 @@ export async function startMcpServer(dbPath) {
     {
       package: z
         .string()
-        .describe("Package identifier (e.g. 'elm/core', 'elm/json')"),
+        .describe("Package identifier (e.g. 'elm/core', 'elm/json', 'local/app')"),
       module: z
         .string()
         .describe("Module name (e.g. 'List', 'Json.Decode', 'Html.Attributes')"),
@@ -252,11 +272,30 @@ export async function startMcpServer(dbPath) {
         .describe(
           "If true, show only type signatures without documentation comments.",
         ),
+      project_path: z
+        .string()
+        .optional()
+        .describe(
+          "Path to a directory containing elm.json. Required when browsing local project modules (e.g. 'local/app').",
+        ),
     },
-    async ({ package: pkg, module: moduleName, compact }) => {
+    async ({ package: pkg, module: moduleName, compact, project_path }) => {
       const db = openDb(dbPath);
+      let projectDb = null;
       try {
-        const result = getModuleDocs(db, { package: pkg, module: moduleName });
+        if (project_path) {
+          const projectDir = existsSync(join(project_path, "elm.json"))
+            ? project_path
+            : findElmJsonDir(project_path);
+          if (projectDir) {
+            const projectDbPath = computeProjectDbPath(projectDir);
+            await ensureProjectDb(projectDbPath, projectDir);
+            if (existsSync(projectDbPath)) {
+              projectDb = openDb(projectDbPath);
+            }
+          }
+        }
+        const result = getModuleDocs(db, { package: pkg, module: moduleName, projectDb });
         if (!result) {
           return {
             content: [
@@ -272,6 +311,7 @@ export async function startMcpServer(dbPath) {
         return { content: [{ type: "text", text }] };
       } finally {
         db.close();
+        if (projectDb) projectDb.close();
       }
     },
   );
@@ -293,14 +333,28 @@ export async function startMcpServer(dbPath) {
         .string()
         .optional()
         .describe(
-          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies only.",
+          "Path to a directory containing elm.json. When provided, results are filtered to direct dependencies and local project modules.",
         ),
     },
     async ({ name, project_path }) => {
       const db = openDb(dbPath);
+      let projectDb = null;
       try {
-        const allowedPackages = resolveProjectDeps(project_path);
-        const results = lookupValue(db, { name, allowedPackages });
+        let allowedPackages = null;
+        if (project_path) {
+          const projectDir = existsSync(join(project_path, "elm.json"))
+            ? project_path
+            : findElmJsonDir(project_path);
+          if (projectDir) {
+            allowedPackages = readDirectDeps(projectDir);
+            const projectDbPath = computeProjectDbPath(projectDir);
+            await ensureProjectDb(projectDbPath, projectDir);
+            if (existsSync(projectDbPath)) {
+              projectDb = openDb(projectDbPath);
+            }
+          }
+        }
+        const results = lookupValue(db, { name, allowedPackages, projectDb });
         if (results.length === 0) {
           return {
             content: [{ type: "text", text: `No results found for '${name}'.` }],
@@ -310,6 +364,7 @@ export async function startMcpServer(dbPath) {
         return { content: [{ type: "text", text }] };
       } finally {
         db.close();
+        if (projectDb) projectDb.close();
       }
     },
   );

@@ -20,8 +20,12 @@ export function openDb(dbPath) {
 /**
  * Search packages by keyword. Matches against org, name, and summary.
  * Returns results ordered by rank (descending).
+ *
+ * When `projectDb` is provided, also queries the project context database
+ * (without redirect/missing filters or allowedPackages) and merges results
+ * with local project modules appearing first.
  */
-export function searchPackages(db, { query, limit = 20, allowedPackages = null }) {
+export function searchPackages(db, { query, limit = 20, allowedPackages = null, projectDb = null }) {
   const terms = query.trim().split(/\s+/).filter((t) => t.length > 0);
   if (terms.length === 0) return [];
 
@@ -29,10 +33,13 @@ export function searchPackages(db, { query, limit = 20, allowedPackages = null }
     (_, i) =>
       `LOWER(p.org || ' ' || p.name || ' ' || COALESCE(p.summary, '')) LIKE @term${i}`,
   );
-  const params = {};
+  const likeParams = {};
   terms.forEach((t, i) => {
-    params[`term${i}`] = `%${t.toLowerCase()}%`;
+    likeParams[`term${i}`] = `%${t.toLowerCase()}%`;
   });
+
+  // --- Main DB query ---
+  const params = { ...likeParams };
 
   let extraWhere = "";
   if (allowedPackages && allowedPackages.length > 0) {
@@ -59,51 +66,52 @@ export function searchPackages(db, { query, limit = 20, allowedPackages = null }
     LIMIT @limit
   `;
 
-  return db.prepare(sql).all(params);
+  const mainResults = db.prepare(sql).all(params);
+
+  if (!projectDb) return mainResults;
+
+  // --- Context DB query (no redirect/missing, no allowedPackages, no github) ---
+  const localSql = `
+    SELECT p.org || '/' || p.name AS package,
+           COALESCE(p.summary, '') AS summary,
+           p.rank,
+           0 AS stars
+    FROM packages p
+    WHERE ${likeClauses.join("\n      AND ")}
+    ORDER BY p.rank DESC
+    LIMIT @limit
+  `;
+
+  const localResults = projectDb.prepare(localSql).all({ ...likeParams, limit });
+
+  // Local results first, then main (deduplicated)
+  const seen = new Set(localResults.map((r) => r.package));
+  const merged = [...localResults, ...mainResults.filter((r) => !seen.has(r.package))];
+  return merged.slice(0, limit);
 }
 
 /**
  * Get full documentation for a package (latest version).
  * Returns { package, version, modules } where each module has
  * { name, comment, values, unions, aliases, binops }.
+ *
+ * When `projectDb` is provided, checks the context DB first
+ * (for local/app or the project's own package name), then falls through
+ * to the global DB.
  */
-export function getPackageDocs(db, { package: pkg, version = null }) {
-  const [org, name] = pkg.split("/");
-  if (!org || !name) return null;
-
-  // Find the package
-  const pkgRow = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?").get(org, name);
-  if (!pkgRow) return null;
-
-  // Find the version
-  let versionRow;
-  if (version) {
-    versionRow = db
-      .prepare("SELECT id, version FROM package_versions WHERE package_id = ? AND version = ?")
-      .get(pkgRow.id, version);
-  } else {
-    versionRow = db
-      .prepare(
-        "SELECT id, version FROM package_versions WHERE package_id = ? ORDER BY version_sort DESC LIMIT 1",
-      )
-      .get(pkgRow.id);
+export function getPackageDocs(db, { package: pkg, version = null, projectDb = null }) {
+  if (projectDb) {
+    const localResult = getPackageDocsFromDb(projectDb, pkg, version);
+    if (localResult) return localResult;
   }
-  if (!versionRow) return null;
-
-  const modules = fetchModules(db, versionRow.id);
-
-  return {
-    package: pkg,
-    version: versionRow.version,
-    modules,
-  };
+  return getPackageDocsFromDb(db, pkg, version);
 }
 
 /**
  * Get documentation for a specific module within a package.
  */
-export function getModuleDocs(db, { package: pkg, module: moduleName, version = null }) {
-  const result = getPackageDocs(db, { package: pkg, version });
+export function getModuleDocs(db, { package: pkg, module: moduleName, version = null, projectDb = null }) {
+  const result = getPackageDocs(db, { package: pkg, version, projectDb });
   if (!result) return null;
 
   const mod = result.modules.find((m) => m.name === moduleName);
@@ -119,8 +127,12 @@ export function getModuleDocs(db, { package: pkg, module: moduleName, version = 
 /**
  * Look up a value/type/binop by name.
  * Accepts: "map", "List.map", "elm/core:List.map"
+ *
+ * When `projectDb` is provided, also searches the project context database
+ * (without redirect/missing filters or allowedPackages) and merges results
+ * with local project values appearing first.
  */
-export function lookupValue(db, { name, allowedPackages = null }) {
+export function lookupValue(db, { name, allowedPackages = null, projectDb = null }) {
   // Parse the input: optional "pkg:" prefix, optional "Module." qualifier
   let pkgFilter = null;
   let moduleFilter = null;
@@ -147,17 +159,72 @@ export function lookupValue(db, { name, allowedPackages = null }) {
     }
   }
 
+  const mainResults = lookupValueInDb(db, {
+    valueName, moduleFilter, pkgFilter, allowedPackages, filterRedirects: true,
+  });
+  mainResults.sort((a, b) => b.rank - a.rank);
+
+  if (!projectDb) return mainResults;
+
+  const localResults = lookupValueInDb(projectDb, {
+    valueName, moduleFilter, pkgFilter, filterRedirects: false,
+  });
+  localResults.sort((a, b) => b.rank - a.rank);
+
+  // Local results first, then main (deduplicated by package+module+name+kind)
+  const seen = new Set(
+    localResults.map((r) => `${r.package}:${r.module}:${r.name}:${r.kind}`),
+  );
+  return [
+    ...localResults,
+    ...mainResults.filter((r) => !seen.has(`${r.package}:${r.module}:${r.name}:${r.kind}`)),
+  ];
+}
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+function getPackageDocsFromDb(db, pkg, version) {
+  const [org, name] = pkg.split("/");
+  if (!org || !name) return null;
+
+  const pkgRow = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?").get(org, name);
+  if (!pkgRow) return null;
+
+  let versionRow;
+  if (version) {
+    versionRow = db
+      .prepare("SELECT id, version FROM package_versions WHERE package_id = ? AND version = ?")
+      .get(pkgRow.id, version);
+  } else {
+    versionRow = db
+      .prepare(
+        "SELECT id, version FROM package_versions WHERE package_id = ? ORDER BY version_sort DESC LIMIT 1",
+      )
+      .get(pkgRow.id);
+  }
+  if (!versionRow) return null;
+
+  const modules = fetchModules(db, versionRow.id);
+  return { package: pkg, version: versionRow.version, modules };
+}
+
+function lookupValueInDb(db, { valueName, moduleFilter, pkgFilter, allowedPackages = null, filterRedirects = true }) {
   const results = [];
 
-  // Search across values, unions, aliases, and binops
   for (const { table, kind, extraCols } of [
     { table: '"values"', kind: "value", extraCols: "v.type" },
     { table: "unions", kind: "union", extraCols: "v.args, v.cases" },
     { table: "aliases", kind: "alias", extraCols: "v.args, v.type" },
     { table: "binops", kind: "binop", extraCols: "v.type, v.associativity, v.precedence" },
   ]) {
-    let where = "WHERE v.name = @name AND p.redirect_to IS NULL AND p.missing IS NULL";
+    let where = "WHERE v.name = @name";
     const params = { name: valueName };
+
+    if (filterRedirects) {
+      where += " AND p.redirect_to IS NULL AND p.missing IS NULL";
+    }
 
     if (moduleFilter) {
       where += " AND m.name = @module";
@@ -205,14 +272,8 @@ export function lookupValue(db, { name, allowedPackages = null }) {
     }
   }
 
-  // Sort all results by rank
-  results.sort((a, b) => b.rank - a.rank);
   return results;
 }
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
 
 function fetchModules(db, versionId) {
   const modules = db
