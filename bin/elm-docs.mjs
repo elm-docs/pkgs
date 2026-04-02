@@ -19,6 +19,7 @@ const ACTIONS = {
   search: { script: "src/TextSearch.elm", needsDb: true },
   sync: { script: null, needsDb: false },
   status: { script: "src/Status.elm", needsDb: false },
+  mcp: { script: null, needsDb: true },
   help: { script: null, needsDb: false },
 };
 
@@ -60,6 +61,7 @@ Actions:
   search <query>        Search for packages by keyword
   sync                  Download or update the package database
   status                Report database status
+  mcp                   Start an MCP server (for LLM tool use)
   help                  Show this help message
 
 Examples:
@@ -71,6 +73,7 @@ Examples:
   elm-docs search 'animation' --project
   elm-docs sync
   elm-docs status
+  elm-docs mcp
 
 Database:
   Default location: ~/.elm-docs/elm-packages.db
@@ -556,6 +559,13 @@ async function main() {
 
   if (action.needsDb) {
     await ensureDb(dbPath);
+  }
+
+  // Handle mcp action
+  if (actionName === "mcp") {
+    const { startMcpServer } = await import("../mcp/elm-docs-mcp.mjs");
+    await startMcpServer(dbPath);
+    return;
   }
 
   // Start freshness check in background (overlaps with command execution)

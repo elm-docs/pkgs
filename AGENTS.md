@@ -30,6 +30,10 @@ node bin/elm-docs.mjs help
 node bin/elm-docs.mjs type-search 'List a -> Maybe a'
 node bin/elm-docs.mjs build-db
 node bin/elm-docs.mjs status
+
+# MCP server (for LLM tool use)
+node bin/elm-docs.mjs mcp
+npm run mcp
 ```
 
 ## Architecture
@@ -59,6 +63,14 @@ Default location for `elm-packages.db` (SQLite). No source code.
 ### `type-search/` — Algorithm Documentation
 
 Contains `README.md` documenting the type search algorithm. No source code.
+
+### `mcp/` — MCP Server
+
+MCP (Model Context Protocol) server that exposes Elm package documentation to LLMs:
+- `elm-docs-mcp.mjs` — Server entry point with tool registration and stdio transport
+- `db.mjs` — Read-only database queries (shared, reusable by future llms.txt generator)
+- `format.mjs` — Markdown formatting for docs output (shared, reusable)
+- `elm-scripts.mjs` — Abstraction over elm-pages script execution for type search
 
 ### `bin/` — CLI Dispatcher
 
