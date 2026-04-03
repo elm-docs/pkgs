@@ -5,11 +5,8 @@ import { existsSync, statSync, mkdirSync, readFileSync, writeFileSync } from "no
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
-import { createRequire } from "node:module";
-
 import { computeProjectDbPath, isProjectDbStale } from "../mcp/project-db.mjs";
-
-const require = createRequire(import.meta.url);
+import { Database } from "../lib/sqlite.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
@@ -117,10 +114,9 @@ function runElmPages(script, args) {
 // Sync from GitHub Release
 // ---------------------------------------------------------------------------
 
-function getDbVersionCount(dbPath) {
+async function getDbVersionCount(dbPath) {
   try {
-    const Database = require("better-sqlite3");
-    const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+    const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
     db.pragma("journal_mode = WAL");
     const row = db.prepare("SELECT COUNT(*) as count FROM package_versions").get();
     db.close();
@@ -184,9 +180,8 @@ function computeVersionSort(version) {
   return major * 1_000_000 + minor * 1_000 + patch;
 }
 
-function applyDelta(dbPath, deltaEntries) {
-  const Database = require("better-sqlite3");
-  const db = new Database(dbPath);
+async function applyDelta(dbPath, deltaEntries) {
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = OFF");
 
@@ -270,9 +265,8 @@ function applyDelta(dbPath, deltaEntries) {
   }
 }
 
-function applyMetadata(dbPath, metadataEntries) {
-  const Database = require("better-sqlite3");
-  const db = new Database(dbPath);
+async function applyMetadata(dbPath, metadataEntries) {
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
 
   try {
@@ -311,7 +305,7 @@ async function syncFromRelease(dbPath) {
   }
 
   // 2. Determine strategy
-  const localCount = existsSync(dbPath) ? getDbVersionCount(dbPath) : null;
+  const localCount = existsSync(dbPath) ? await getDbVersionCount(dbPath) : null;
 
   if (localCount !== null && localCount >= manifest.fullDbAt) {
     console.error("Database is up to date.");
@@ -338,7 +332,7 @@ async function syncFromRelease(dbPath) {
       const metaResp = await fetch(`${RELEASE_BASE}/metadata.json`);
       if (metaResp.ok) {
         const metadata = await metaResp.json();
-        applyMetadata(dbPath, metadata);
+        await applyMetadata(dbPath, metadata);
       }
     } catch { /* metadata is optional */ }
   } else {
@@ -355,7 +349,7 @@ async function syncFromRelease(dbPath) {
     try { execFileSync("rm", [tmpDeltaZst]); } catch { /* ignore */ }
 
     const deltaEntries = JSON.parse(readFileSync(tmpDelta, "utf-8"));
-    applyDelta(dbPath, deltaEntries);
+    await applyDelta(dbPath, deltaEntries);
     try { execFileSync("rm", [tmpDelta]); } catch { /* ignore */ }
 
     // Apply metadata
@@ -364,7 +358,7 @@ async function syncFromRelease(dbPath) {
       const metaResp = await fetch(`${RELEASE_BASE}/metadata.json`);
       if (metaResp.ok) {
         const metadata = await metaResp.json();
-        applyMetadata(dbPath, metadata);
+        await applyMetadata(dbPath, metadata);
       }
     } catch { /* metadata is optional */ }
   }
@@ -415,7 +409,7 @@ function printDbLastUpdated(dbPath) {
 async function checkFreshness(dbPath) {
   try {
     const manifest = await fetchManifest();
-    const localCount = getDbVersionCount(dbPath);
+    const localCount = await getDbVersionCount(dbPath);
     if (localCount !== null && localCount < manifest.fullDbAt) {
       const newCount = manifest.fullDbAt - localCount;
       console.error(

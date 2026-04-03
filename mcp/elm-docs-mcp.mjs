@@ -122,7 +122,7 @@ export async function startMcpServer(dbPath) {
         ),
     },
     async ({ query, limit, project_path }) => {
-      const db = openDb(dbPath);
+      const db = await openDb(dbPath);
       let projectDb = null;
       try {
         let allowedPackages = null;
@@ -136,7 +136,7 @@ export async function startMcpServer(dbPath) {
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
-              projectDb = openDb(projectDbPath);
+              projectDb = await openDb(projectDbPath);
             }
           }
         }
@@ -232,7 +232,7 @@ export async function startMcpServer(dbPath) {
         ),
     },
     async ({ package: pkg, version, compact, project_path }) => {
-      const db = openDb(dbPath);
+      const db = await openDb(dbPath);
       let projectDb = null;
       try {
         let effectiveVersion = version;
@@ -252,7 +252,7 @@ export async function startMcpServer(dbPath) {
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
-              projectDb = openDb(projectDbPath);
+              projectDb = await openDb(projectDbPath);
             }
           }
         }
@@ -306,7 +306,7 @@ export async function startMcpServer(dbPath) {
         ),
     },
     async ({ package: pkg, module: moduleName, compact, project_path }) => {
-      const db = openDb(dbPath);
+      const db = await openDb(dbPath);
       let projectDb = null;
       try {
         let pinnedVersion = null;
@@ -323,7 +323,7 @@ export async function startMcpServer(dbPath) {
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
-              projectDb = openDb(projectDbPath);
+              projectDb = await openDb(projectDbPath);
             }
           }
         }
@@ -369,7 +369,7 @@ export async function startMcpServer(dbPath) {
         ),
     },
     async ({ name, project_path }) => {
-      const db = openDb(dbPath);
+      const db = await openDb(dbPath);
       let projectDb = null;
       try {
         let allowedPackages = null;
@@ -389,7 +389,7 @@ export async function startMcpServer(dbPath) {
             const projectDbPath = computeProjectDbPath(projectDir);
             await ensureProjectDb(projectDbPath, projectDir);
             if (existsSync(projectDbPath)) {
-              projectDb = openDb(projectDbPath);
+              projectDb = await openDb(projectDbPath);
             }
           }
         }

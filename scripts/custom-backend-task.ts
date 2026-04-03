@@ -2,7 +2,7 @@ import { resolve, join } from "node:path";
 import { readFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
-import Database from "better-sqlite3";
+import { Database } from "../lib/sqlite.mjs";
 
 interface QueryTypeIndexInput {
   dbPath: string;
@@ -30,7 +30,7 @@ export async function queryTypeIndex(
   context: Context,
 ): Promise<TypeIndexRow[]> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -201,7 +201,7 @@ export async function initDb(
   context: Context,
 ): Promise<Record<string, never>> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   db.pragma("synchronous = NORMAL");
@@ -238,7 +238,7 @@ export async function computePackageRanks(
   context: Context,
 ): Promise<{ count: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
 
   try {
@@ -313,7 +313,7 @@ export async function buildTypeIndex(
   context: Context,
 ): Promise<{ inserted: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
 
   try {
@@ -357,7 +357,7 @@ export async function getTypeEntriesToIndex(
   context: Context,
 ): Promise<{ packages: PackageTypeEntries[]; hasMore: boolean }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -479,7 +479,7 @@ export async function getHighWaterMark(
   context: Context,
 ): Promise<{ count: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
   try {
     const row = db.prepare("SELECT COUNT(*) AS count FROM package_versions").get() as { count: number };
@@ -495,7 +495,7 @@ export async function upsertDocs(
   context: Context,
 ): Promise<{ modules: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = OFF");
 
@@ -579,7 +579,7 @@ export async function upsertGithubResult(
   context: Context,
 ): Promise<Record<string, never>> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = OFF");
 
@@ -647,7 +647,7 @@ export async function getPackagesForGithubSync(
   context: Context,
 ): Promise<{ org: string; name: string }[]> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -679,7 +679,7 @@ export async function ingestSearchJsonBody(
   context: Context,
 ): Promise<{ count: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
 
@@ -716,7 +716,7 @@ export async function getDbStatus(
   typeIndexed: number;
 }> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -833,7 +833,7 @@ export async function ingestLocalDocsJson(
 ): Promise<{ modules: number }> {
   const dbPath = resolve(context.cwd, input.dbPath);
   const docsJsonPath = resolve(context.cwd, input.docsJsonPath);
-  const db = new Database(dbPath);
+  const db = await Database.open(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
 
@@ -931,7 +931,7 @@ export async function queryTypeIndexFiltered(
   context: Context,
 ): Promise<TypeIndexRow[]> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -1011,7 +1011,7 @@ export async function searchPackages(
   context: Context,
 ): Promise<PackageSearchRow[]> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {
@@ -1031,7 +1031,7 @@ export async function searchPackagesFiltered(
   context: Context,
 ): Promise<PackageSearchRow[]> {
   const dbPath = resolve(context.cwd, input.dbPath);
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
 
   try {

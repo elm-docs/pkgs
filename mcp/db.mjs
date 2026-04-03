@@ -3,16 +3,13 @@
  * Shared between MCP server and (future) llms.txt generator.
  */
 
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
+import { Database } from "../lib/sqlite.mjs";
 
 /**
  * Open a read-only connection to the SQLite database.
  */
-export function openDb(dbPath) {
-  const Database = require("better-sqlite3");
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+export async function openDb(dbPath) {
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
   return db;
 }

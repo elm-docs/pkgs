@@ -18,9 +18,7 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync, statSync } from "node:fs";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
+import { Database } from "../../lib/sqlite.mjs";
 
 function parseArgs(argv) {
   const args = { db: null, out: null, deltaFrom: null };
@@ -36,9 +34,8 @@ function parseArgs(argv) {
   return args;
 }
 
-function openDb(dbPath) {
-  const Database = require("better-sqlite3");
-  const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+async function openDb(dbPath) {
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
   db.pragma("journal_mode = WAL");
   return db;
 }
@@ -165,14 +162,14 @@ function sha256File(path) {
   return createHash("sha256").update(data).digest("hex");
 }
 
-function main() {
+async function main() {
   const args = parseArgs(process.argv.slice(2));
   const dbPath = resolve(args.db);
   const outDir = resolve(args.out);
 
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
 
-  const db = openDb(dbPath);
+  const db = await openDb(dbPath);
   const versionCount = getVersionCount(db);
 
   console.log(`Database has ${versionCount} package versions`);
@@ -219,4 +216,7 @@ function main() {
   console.log("Manifest written");
 }
 
-main();
+main().catch((err) => {
+  console.error(err.message);
+  process.exit(1);
+});

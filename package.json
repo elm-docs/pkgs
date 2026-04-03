@@ -17,7 +17,8 @@
     "sync-github": "cd scripts && elm-pages run src/SyncGithub.elm --",
     "type-search": "cd scripts && elm-pages run src/TypeSearch.elm --",
     "search": "cd scripts && elm-pages run src/TextSearch.elm --",
-    "mcp": "node mcp/elm-docs-mcp.mjs"
+    "mcp": "node mcp/elm-docs-mcp.mjs",
+    "test:db": "node --test test/db.test.mjs"
   },
   "repository": {
     "type": "git",
@@ -32,11 +33,10 @@
   "homepage": "https://github.com/elm-docs/pkgs#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "better-sqlite3": "^11.8.1",
+    "sql.js": "^1.14.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^25.5.0",
     "elm-doc-preview": "^6.0.1",
     "elm-optimize-level-2": "^0.3.5",
