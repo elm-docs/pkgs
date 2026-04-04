@@ -147,10 +147,27 @@ resolveIndex options =
             getHighWaterMark options.db
 
 
+elmRegistryRequest : String -> BackendTask.Http.Expect a -> BackendTask { fatal : FatalError, recoverable : BackendTask.Http.Error } a
+elmRegistryRequest url expect =
+    BackendTask.Http.request
+        { url = url
+        , method = "GET"
+        , headers = []
+        , body = BackendTask.Http.emptyBody
+        , retries = Just 2
+        , timeoutInMs = Just 60000
+        }
+        expect
+
+
 fetchPackageList : String -> BackendTask FatalError (List String)
 fetchPackageList url =
-    BackendTask.Http.getJson url (Decode.list Decode.string)
-        |> BackendTask.allowFatal
+    elmRegistryRequest url (BackendTask.Http.expectJson (Decode.list Decode.string))
+        |> BackendTask.onError
+            (\{ recoverable } ->
+                Script.log (red "[discover] Failed to fetch package list: " ++ httpErrorToString recoverable ++ " (will retry next run)")
+                    |> BackendTask.map (\() -> [])
+            )
 
 
 
@@ -160,6 +177,7 @@ fetchPackageList url =
 type alias FetchProgress =
     { completed : Int
     , failed : Int
+    , rateLimited : Int
     , total : Int
     , failures : List PackageVersion
     }
@@ -177,10 +195,26 @@ fetchAllDocs options packages =
             chunk options.concurrency packages
     in
     Script.log (dim "[fetch]" ++ " " ++ String.fromInt total ++ " package version(s) to download (concurrency: " ++ String.fromInt options.concurrency ++ ", delay: " ++ String.fromInt options.delay ++ "ms)")
-        |> BackendTask.andThen (\() -> processBatches options batches { completed = 0, failed = 0, total = total, failures = [] })
+        |> BackendTask.andThen (\() -> processBatches options 0 batches { completed = 0, failed = 0, rateLimited = 0, total = total, failures = [] })
         |> BackendTask.andThen
             (\result ->
-                Script.log (dim "[fetch]" ++ " Completed: " ++ green (String.fromInt result.completed) ++ " succeeded, " ++ red (String.fromInt result.failed) ++ " failed")
+                let
+                    summary : String
+                    summary =
+                        dim "[fetch]"
+                            ++ " Completed: "
+                            ++ green (String.fromInt result.completed)
+                            ++ " succeeded, "
+                            ++ red (String.fromInt result.failed)
+                            ++ " failed"
+                            ++ (if result.rateLimited > 0 then
+                                    ", " ++ red (String.fromInt result.rateLimited) ++ " rate-limited"
+
+                                else
+                                    ""
+                               )
+                in
+                Script.log summary
                     |> BackendTask.andThen
                         (\() ->
                             if List.isEmpty result.failures then
@@ -192,8 +226,8 @@ fetchAllDocs options packages =
             )
 
 
-processBatches : CliOptions -> List (List PackageVersion) -> FetchProgress -> BackendTask FatalError FetchProgress
-processBatches options batches progress =
+processBatches : CliOptions -> Int -> List (List PackageVersion) -> FetchProgress -> BackendTask FatalError FetchProgress
+processBatches options backoff batches progress =
     case batches of
         [] ->
             BackendTask.succeed progress
@@ -203,22 +237,30 @@ processBatches options batches progress =
                 |> BackendTask.andThen
                     (\results ->
                         let
+                            batchHasRateLimit : Bool
+                            batchHasRateLimit =
+                                List.any isRateLimited results
+
                             newProgress : FetchProgress
                             newProgress =
                                 List.foldl
                                     (\result acc ->
-                                        if result.ok then
-                                            { acc | completed = acc.completed + 1 }
+                                        case result of
+                                            FetchOk ->
+                                                { acc | completed = acc.completed + 1 }
 
-                                        else
-                                            { acc | failed = acc.failed + 1, failures = result.pv :: acc.failures }
+                                            FetchFailed pv ->
+                                                { acc | failed = acc.failed + 1, failures = pv :: acc.failures }
+
+                                            FetchRateLimited pv ->
+                                                { acc | rateLimited = acc.rateLimited + 1, failures = pv :: acc.failures }
                                     )
                                     progress
                                     results
 
                             done : Int
                             done =
-                                newProgress.completed + newProgress.failed
+                                newProgress.completed + newProgress.failed + newProgress.rateLimited
 
                             pct : String
                             pct =
@@ -227,27 +269,58 @@ processBatches options batches progress =
 
                                 else
                                     "0"
+
+                            nextBackoff : Int
+                            nextBackoff =
+                                if batchHasRateLimit then
+                                    min 60000 (max 5000 (backoff * 2))
+
+                                else
+                                    0
+
+                            delay : Int
+                            delay =
+                                if batchHasRateLimit then
+                                    max 5000 backoff
+
+                                else
+                                    options.delay
                         in
                         Script.log (dim "[fetch]" ++ " Progress: " ++ String.fromInt done ++ "/" ++ String.fromInt newProgress.total ++ dim (" (" ++ pct ++ "%)") ++ " (" ++ String.fromInt newProgress.failed ++ " errors)")
                             |> BackendTask.andThen
                                 (\() ->
-                                    if options.delay > 0 && not (List.isEmpty rest) then
-                                        Script.sleep options.delay
-                                            |> BackendTask.andThen (\() -> processBatches options rest newProgress)
+                                    if batchHasRateLimit then
+                                        Script.log (red "[fetch] Rate limited — backing off " ++ String.fromInt delay ++ "ms")
+                                            |> BackendTask.andThen (\() -> Script.sleep delay)
+                                            |> BackendTask.andThen (\() -> processBatches options nextBackoff rest newProgress)
+
+                                    else if delay > 0 && not (List.isEmpty rest) then
+                                        Script.sleep delay
+                                            |> BackendTask.andThen (\() -> processBatches options nextBackoff rest newProgress)
 
                                     else
-                                        processBatches options rest newProgress
+                                        processBatches options nextBackoff rest newProgress
                                 )
                     )
 
 
-type alias FetchResult =
-    { ok : Bool
-    , pv : PackageVersion
-    }
+isRateLimited : FetchOutcome -> Bool
+isRateLimited outcome =
+    case outcome of
+        FetchRateLimited _ ->
+            True
+
+        _ ->
+            False
 
 
-fetchOnePackage : String -> PackageVersion -> BackendTask FatalError FetchResult
+type FetchOutcome
+    = FetchOk
+    | FetchFailed PackageVersion
+    | FetchRateLimited PackageVersion
+
+
+fetchOnePackage : String -> PackageVersion -> BackendTask FatalError FetchOutcome
 fetchOnePackage dbPath pv =
     let
         url : String
@@ -260,14 +333,25 @@ fetchOnePackage dbPath pv =
                 ++ PackageVersion.version pv
                 ++ "/docs.json"
     in
-    BackendTask.Http.get url BackendTask.Http.expectString
-        |> BackendTask.allowFatal
+    elmRegistryRequest url BackendTask.Http.expectString
         |> BackendTask.andThen
             (\body ->
                 upsertDocs dbPath (PackageVersion.org pv) (PackageVersion.pkg pv) (PackageVersion.version pv) body
-                    |> BackendTask.map (\_ -> { ok = True, pv = pv })
+                    |> BackendTask.map (\_ -> FetchOk)
             )
-        |> BackendTask.onError (\_ -> BackendTask.succeed { ok = False, pv = pv })
+        |> BackendTask.onError
+            (\{ recoverable } ->
+                case recoverable of
+                    BackendTask.Http.BadStatus metadata _ ->
+                        if metadata.statusCode == 429 || metadata.statusCode == 503 then
+                            BackendTask.succeed (FetchRateLimited pv)
+
+                        else
+                            BackendTask.succeed (FetchFailed pv)
+
+                    _ ->
+                        BackendTask.succeed (FetchFailed pv)
+            )
 
 
 
@@ -279,8 +363,7 @@ fetchSearchJson dbPath =
     Script.log (dim "[search]" ++ " Fetching search.json")
         |> BackendTask.andThen
             (\() ->
-                BackendTask.Http.get "https://package.elm-lang.org/search.json" BackendTask.Http.expectString
-                    |> BackendTask.allowFatal
+                elmRegistryRequest "https://package.elm-lang.org/search.json" BackendTask.Http.expectString
                     |> BackendTask.andThen
                         (\body ->
                             ingestSearchJsonBody dbPath body
@@ -290,8 +373,8 @@ fetchSearchJson dbPath =
                                     )
                         )
                     |> BackendTask.onError
-                        (\_ ->
-                            Script.log (red "  Failed to fetch search.json (continuing)")
+                        (\{ recoverable } ->
+                            Script.log (red ("  Failed to fetch search.json: " ++ httpErrorToString recoverable ++ " (continuing)"))
                         )
             )
 
@@ -516,6 +599,25 @@ formatFailures failures =
 
     else
         String.join "\n" (header :: items)
+
+
+httpErrorToString : BackendTask.Http.Error -> String
+httpErrorToString err =
+    case err of
+        BackendTask.Http.BadUrl u ->
+            "BadUrl: " ++ u
+
+        BackendTask.Http.Timeout ->
+            "Timeout"
+
+        BackendTask.Http.NetworkError ->
+            "Network Error"
+
+        BackendTask.Http.BadStatus meta _ ->
+            "HTTP " ++ String.fromInt meta.statusCode ++ " " ++ meta.statusText
+
+        BackendTask.Http.BadBody _ msg ->
+            "Bad Body: " ++ msg
 
 
 chunk : Int -> List a -> List (List a)

@@ -3,6 +3,10 @@ name: Build Full Database
 on:
   workflow_dispatch:
 
+concurrency:
+  group: build-full-db
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -23,7 +27,7 @@ jobs:
 
       - name: Full sync from scratch
         run: |
-          nix develop --command npm run sync-elm-packages -- --db ./elm-packages.db
+          nix develop --command npm run sync-elm-packages -- --db ./elm-packages.db --concurrency 4 --delay 500
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
