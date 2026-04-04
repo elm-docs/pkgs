@@ -334,23 +334,29 @@ fetchOnePackage dbPath pv =
                 ++ "/docs.json"
     in
     elmRegistryRequest url BackendTask.Http.expectString
-        |> BackendTask.andThen
-            (\body ->
-                upsertDocs dbPath (PackageVersion.org pv) (PackageVersion.pkg pv) (PackageVersion.version pv) body
-                    |> BackendTask.map (\_ -> FetchOk)
-            )
+        |> BackendTask.map Ok
         |> BackendTask.onError
             (\{ recoverable } ->
                 case recoverable of
                     BackendTask.Http.BadStatus metadata _ ->
                         if metadata.statusCode == 429 || metadata.statusCode == 503 then
-                            BackendTask.succeed (FetchRateLimited pv)
+                            BackendTask.succeed (Err (FetchRateLimited pv))
 
                         else
-                            BackendTask.succeed (FetchFailed pv)
+                            BackendTask.succeed (Err (FetchFailed pv))
 
                     _ ->
-                        BackendTask.succeed (FetchFailed pv)
+                        BackendTask.succeed (Err (FetchFailed pv))
+            )
+        |> BackendTask.andThen
+            (\result ->
+                case result of
+                    Ok body ->
+                        upsertDocs dbPath (PackageVersion.org pv) (PackageVersion.pkg pv) (PackageVersion.version pv) body
+                            |> BackendTask.map (\_ -> FetchOk)
+
+                    Err outcome ->
+                        BackendTask.succeed outcome
             )
 
 
@@ -364,17 +370,23 @@ fetchSearchJson dbPath =
         |> BackendTask.andThen
             (\() ->
                 elmRegistryRequest "https://package.elm-lang.org/search.json" BackendTask.Http.expectString
-                    |> BackendTask.andThen
-                        (\body ->
-                            ingestSearchJsonBody dbPath body
-                                |> BackendTask.andThen
-                                    (\count ->
-                                        Script.log (green ("  " ++ String.fromInt count ++ " packages from search.json"))
-                                    )
-                        )
+                    |> BackendTask.map Ok
                     |> BackendTask.onError
                         (\{ recoverable } ->
-                            Script.log (red ("  Failed to fetch search.json: " ++ httpErrorToString recoverable ++ " (continuing)"))
+                            BackendTask.succeed (Err (httpErrorToString recoverable))
+                        )
+                    |> BackendTask.andThen
+                        (\result ->
+                            case result of
+                                Ok body ->
+                                    ingestSearchJsonBody dbPath body
+                                        |> BackendTask.andThen
+                                            (\count ->
+                                                Script.log (green ("  " ++ String.fromInt count ++ " packages from search.json"))
+                                            )
+
+                                Err errMsg ->
+                                    Script.log (red ("  Failed to fetch search.json: " ++ errMsg ++ " (continuing)"))
                         )
             )
 

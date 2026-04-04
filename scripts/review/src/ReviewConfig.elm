@@ -54,5 +54,6 @@ config =
     , NoUnused.Parameters.rule
     , NoUnused.Patterns.rule
     , NoUnused.Variables.rule
+        |> Rule.ignoreErrorsForFiles [ "tests/CompileCheckTest.elm" ]
     , Simplify.rule Simplify.defaults
     ]

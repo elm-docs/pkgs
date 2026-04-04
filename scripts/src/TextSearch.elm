@@ -90,6 +90,7 @@ fetchAllResults options =
                             directDeps : List String
                             directDeps =
                                 ElmJson.directDeps projectInfo
+                                    |> List.map .name
                         in
                         searchPackagesFiltered options.db options.query options.limit directDeps
                     )
