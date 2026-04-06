@@ -46,6 +46,7 @@ type alias CliOptions =
     , delay : Int
     , force : Bool
     , token : Maybe String
+    , limit : Maybe Int
     , db : String
     }
 
@@ -96,10 +97,33 @@ programConfig =
                 |> with (Option.flag "force")
                 |> with (Option.optionalKeywordArg "token")
                 |> with
+                    (Option.optionalKeywordArg "limit"
+                        |> Option.validateMap parseLimit
+                    )
+                |> with
                     (Option.optionalKeywordArg "db"
                         |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
             )
+
+
+parseLimit : Maybe String -> Result String (Maybe Int)
+parseLimit maybeStr =
+    case maybeStr of
+        Nothing ->
+            Ok Nothing
+
+        Just str ->
+            case String.toInt str of
+                Just n ->
+                    if n > 0 then
+                        Ok (Just n)
+
+                    else
+                        Err ("--limit must be positive, got: " ++ str)
+
+                Nothing ->
+                    Err ("Invalid --limit value: " ++ str)
 
 
 resolveToken : Maybe String -> BackendTask FatalError String
@@ -134,13 +158,40 @@ discoverAndFetch : String -> CliOptions -> BackendTask FatalError ()
 discoverAndFetch token options =
     getPackagesForGithubSync options.db options.force
         |> BackendTask.andThen
-            (\toFetch ->
+            (\allToFetch ->
                 let
+                    toFetch : List PackageId
+                    toFetch =
+                        case options.limit of
+                            Just n ->
+                                List.take n allToFetch
+
+                            Nothing ->
+                                allToFetch
+
                     total : Int
                     total =
                         List.length toFetch
+
+                    limitNote : String
+                    limitNote =
+                        case options.limit of
+                            Just n ->
+                                let
+                                    allCount : Int
+                                    allCount =
+                                        List.length allToFetch
+                                in
+                                if allCount > n then
+                                    " (limited from " ++ String.fromInt allCount ++ ")"
+
+                                else
+                                    ""
+
+                            Nothing ->
+                                ""
                 in
-                Script.log (dim "[syncGithub]" ++ " " ++ String.fromInt total ++ " package(s) need GitHub info")
+                Script.log (dim "[syncGithub]" ++ " " ++ String.fromInt total ++ " package(s) need GitHub info" ++ limitNote)
                     |> BackendTask.andThen (\() -> fetchAll token options toFetch)
             )
 
@@ -260,7 +311,8 @@ fetchOne token dbPath pkg =
             )
         |> BackendTask.onError
             (\_ ->
-                BackendTask.succeed { ok = False, pkg = pkg }
+                recordGithubError dbPath pkg.org pkg.name "GitHub API error"
+                    |> BackendTask.map (\() -> { ok = False, pkg = pkg })
             )
 
 
@@ -796,6 +848,20 @@ upsertGithubResult dbPath org name resultType data =
             , ( "name", Encode.string name )
             , ( "resultType", Encode.string resultType )
             , ( "data", Encode.string data )
+            ]
+        )
+        (Decode.succeed ())
+        |> BackendTask.allowFatal
+
+
+recordGithubError : String -> String -> String -> String -> BackendTask FatalError ()
+recordGithubError dbPath org name error =
+    BackendTask.Custom.run "recordGithubError"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "org", Encode.string org )
+            , ( "name", Encode.string name )
+            , ( "error", Encode.string error )
             ]
         )
         (Decode.succeed ())

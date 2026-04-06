@@ -79,6 +79,8 @@ CREATE TABLE IF NOT EXISTS packages (
     redirect_to TEXT,
     missing     TEXT CHECK(missing IN ('user', 'package')),
     rank REAL NOT NULL DEFAULT 0,
+    github_error    TEXT,
+    github_error_at TEXT,
     UNIQUE(org, name)
 );
 
@@ -104,10 +106,13 @@ CREATE TABLE IF NOT EXISTS package_tags (
 );
 
 CREATE TABLE IF NOT EXISTS package_versions (
-    id           INTEGER PRIMARY KEY,
-    package_id   INTEGER NOT NULL REFERENCES packages(id),
-    version      TEXT NOT NULL,
-    version_sort INTEGER NOT NULL DEFAULT 0,
+    id            INTEGER PRIMARY KEY,
+    package_id    INTEGER NOT NULL REFERENCES packages(id),
+    version       TEXT NOT NULL,
+    version_sort  INTEGER NOT NULL DEFAULT 0,
+    docs_status   TEXT NOT NULL DEFAULT 'ok' CHECK(docs_status IN ('pending', 'ok', 'error')),
+    docs_error    TEXT,
+    docs_error_at TEXT,
     UNIQUE(package_id, version)
 );
 
@@ -219,6 +224,13 @@ export async function initDb(
   try { db.exec("ALTER TABLE type_index ADD COLUMN major_version INTEGER NOT NULL DEFAULT 0"); } catch {}
   try { db.exec("ALTER TABLE type_index ADD COLUMN is_latest INTEGER NOT NULL DEFAULT 1"); } catch {}
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_type_index_pkg_major ON type_index(package_id, major_version)"); } catch {}
+
+  // Migration: add sync status columns
+  try { db.exec("ALTER TABLE package_versions ADD COLUMN docs_status TEXT NOT NULL DEFAULT 'ok' CHECK(docs_status IN ('pending', 'ok', 'error'))"); } catch {}
+  try { db.exec("ALTER TABLE package_versions ADD COLUMN docs_error TEXT"); } catch {}
+  try { db.exec("ALTER TABLE package_versions ADD COLUMN docs_error_at TEXT"); } catch {}
+  try { db.exec("ALTER TABLE packages ADD COLUMN github_error TEXT"); } catch {}
+  try { db.exec("ALTER TABLE packages ADD COLUMN github_error_at TEXT"); } catch {}
 
   db.close();
   return {};
@@ -519,7 +531,7 @@ export async function upsertDocs(
       "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO UPDATE SET org = org RETURNING id",
     );
     const insertVersion = db.prepare(
-      "INSERT INTO package_versions (package_id, version, version_sort) VALUES (?, ?, ?) ON CONFLICT(package_id, version) DO UPDATE SET package_id = package_id RETURNING id",
+      "INSERT INTO package_versions (package_id, version, version_sort, docs_status) VALUES (?, ?, ?, 'ok') ON CONFLICT(package_id, version) DO UPDATE SET docs_status = 'ok', docs_error = NULL, docs_error_at = NULL RETURNING id",
     );
     const insertModule = db.prepare(
       "INSERT INTO modules (version_id, name, comment) VALUES (?, ?, ?) ON CONFLICT(version_id, name) DO UPDATE SET comment = excluded.comment RETURNING id",
@@ -589,7 +601,7 @@ export async function upsertGithubResult(
     );
     const setRedirect = db.prepare("UPDATE packages SET redirect_to = ? WHERE id = ?");
     const setMissing = db.prepare("UPDATE packages SET missing = ? WHERE id = ?");
-    const clearRedirectMissing = db.prepare("UPDATE packages SET redirect_to = NULL, missing = NULL WHERE id = ?");
+    const clearRedirectMissing = db.prepare("UPDATE packages SET redirect_to = NULL, missing = NULL, github_error = NULL, github_error_at = NULL WHERE id = ?");
     const deleteGh = db.prepare("DELETE FROM github WHERE package_id = ?");
     const upsertGh = db.prepare(`
       INSERT INTO github (package_id, fetched_at, stargazers_count, last_commit_at,
@@ -714,6 +726,9 @@ export async function getDbStatus(
   redirected: number;
   missing: number;
   typeIndexed: number;
+  pendingDocs: number;
+  erroredDocs: number;
+  githubErrors: number;
 }> {
   const dbPath = resolve(context.cwd, input.dbPath);
   const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
@@ -726,7 +741,142 @@ export async function getDbStatus(
     const redirected = (db.prepare("SELECT COUNT(*) AS c FROM packages WHERE redirect_to IS NOT NULL").get() as { c: number }).c;
     const missing = (db.prepare("SELECT COUNT(*) AS c FROM packages WHERE missing IS NOT NULL").get() as { c: number }).c;
     const typeIndexed = (db.prepare("SELECT COUNT(DISTINCT package_id) AS c FROM type_index").get() as { c: number }).c;
-    return { totalPackages, totalVersions, withGithub, redirected, missing, typeIndexed };
+    const pendingDocs = (db.prepare("SELECT COUNT(*) AS c FROM package_versions WHERE docs_status = 'pending'").get() as { c: number }).c;
+    const erroredDocs = (db.prepare("SELECT COUNT(*) AS c FROM package_versions WHERE docs_status = 'error'").get() as { c: number }).c;
+    const githubErrors = (db.prepare("SELECT COUNT(*) AS c FROM packages WHERE github_error IS NOT NULL").get() as { c: number }).c;
+    return { totalPackages, totalVersions, withGithub, redirected, missing, typeIndexed, pendingDocs, erroredDocs, githubErrors };
+  } finally {
+    db.close();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Incremental sync handlers
+// ---------------------------------------------------------------------------
+
+// Handler: discoverVersions
+export async function discoverVersions(
+  input: { dbPath: string; versions: { org: string; name: string; version: string }[] },
+  context: Context,
+): Promise<{ inserted: number; alreadyKnown: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = await Database.open(dbPath);
+  db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = OFF");
+
+  try {
+    const upsertPkg = db.prepare(
+      "INSERT INTO packages (org, name) VALUES (?, ?) ON CONFLICT(org, name) DO NOTHING",
+    );
+    const getPkgId = db.prepare("SELECT id FROM packages WHERE org = ? AND name = ?");
+    const insertVersion = db.prepare(
+      "INSERT INTO package_versions (package_id, version, version_sort, docs_status) VALUES (?, ?, ?, 'pending') ON CONFLICT(package_id, version) DO NOTHING",
+    );
+
+    let inserted = 0;
+    let alreadyKnown = 0;
+
+    const tx = db.transaction(() => {
+      for (const v of input.versions) {
+        upsertPkg.run(v.org, v.name);
+        const row = getPkgId.get(v.org, v.name) as { id: number };
+        const versionSort = computeVersionSort(v.version);
+        const changes = insertVersion.run(row.id, v.version, versionSort);
+        if (changes.changes > 0) {
+          inserted++;
+        } else {
+          alreadyKnown++;
+        }
+      }
+    });
+    tx();
+
+    return { inserted, alreadyKnown };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: getPendingVersions
+export async function getPendingVersions(
+  input: { dbPath: string; limit: number },
+  context: Context,
+): Promise<{ org: string; name: string; version: string }[]> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    return db.prepare(`
+      SELECT p.org, p.name, pv.version
+      FROM package_versions pv
+      JOIN packages p ON pv.package_id = p.id
+      WHERE pv.docs_status IN ('pending', 'error')
+      ORDER BY pv.id ASC
+      LIMIT ?
+    `).all(input.limit) as { org: string; name: string; version: string }[];
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: isComplete
+export async function isComplete(
+  input: { dbPath: string },
+  context: Context,
+): Promise<{ complete: boolean; pending: number }> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = await Database.open(dbPath, { readonly: true, fileMustExist: true });
+  db.pragma("journal_mode = WAL");
+
+  try {
+    const row = db.prepare(
+      "SELECT COUNT(*) AS c FROM package_versions WHERE docs_status != 'ok'"
+    ).get() as { c: number };
+    return { complete: row.c === 0, pending: row.c };
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: recordDocsError
+export async function recordDocsError(
+  input: { dbPath: string; org: string; name: string; version: string; error: string },
+  context: Context,
+): Promise<Record<string, never>> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = await Database.open(dbPath);
+  db.pragma("journal_mode = WAL");
+
+  try {
+    db.prepare(`
+      UPDATE package_versions
+      SET docs_status = 'error', docs_error = ?, docs_error_at = datetime('now')
+      WHERE package_id = (SELECT id FROM packages WHERE org = ? AND name = ?)
+        AND version = ?
+    `).run(input.error, input.org, input.name, input.version);
+    return {};
+  } finally {
+    db.close();
+  }
+}
+
+// Handler: recordGithubError
+export async function recordGithubError(
+  input: { dbPath: string; org: string; name: string; error: string },
+  context: Context,
+): Promise<Record<string, never>> {
+  const dbPath = resolve(context.cwd, input.dbPath);
+  const db = await Database.open(dbPath);
+  db.pragma("journal_mode = WAL");
+
+  try {
+    db.prepare(`
+      UPDATE packages
+      SET github_error = ?, github_error_at = datetime('now')
+      WHERE org = ? AND name = ?
+    `).run(input.error, input.org, input.name);
+    return {};
   } finally {
     db.close();
   }

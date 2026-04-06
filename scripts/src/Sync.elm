@@ -18,6 +18,7 @@ type alias CliOptions =
     { concurrency : Int
     , delay : Int
     , since : Maybe Int
+    , limit : Maybe Int
     , githubConcurrency : Int
     , githubDelay : Int
     , force : Bool
@@ -51,6 +52,13 @@ runSyncElmPackages options =
                         Nothing ->
                             []
                    )
+                ++ (case options.limit of
+                        Just n ->
+                            [ "--limit", String.fromInt n ]
+
+                        Nothing ->
+                            []
+                   )
     in
     Stream.command "elm-pages" ("run" :: "src/SyncElmPackages.elm" :: "--" :: args)
         |> Stream.run
@@ -77,6 +85,13 @@ runSyncGithub options =
                             ++ (case maybeToken of
                                     Just t ->
                                         [ "--token", t ]
+
+                                    Nothing ->
+                                        []
+                               )
+                            ++ (case options.limit of
+                                    Just n ->
+                                        [ "--limit", String.fromInt n ]
 
                                     Nothing ->
                                         []
@@ -125,6 +140,27 @@ programConfig =
 
                                             Nothing ->
                                                 Err ("Invalid since value: " ++ str)
+                            )
+                    )
+                |> with
+                    (Option.optionalKeywordArg "limit"
+                        |> Option.validateMap
+                            (\maybeStr ->
+                                case maybeStr of
+                                    Nothing ->
+                                        Ok Nothing
+
+                                    Just str ->
+                                        case String.toInt str of
+                                            Just n ->
+                                                if n > 0 then
+                                                    Ok (Just n)
+
+                                                else
+                                                    Err ("--limit must be positive, got: " ++ str)
+
+                                            Nothing ->
+                                                Err ("Invalid --limit value: " ++ str)
                             )
                     )
                 |> with

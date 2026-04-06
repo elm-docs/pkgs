@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: build-full-db
+  group: sync
   cancel-in-progress: false
 
 permissions:
@@ -25,15 +25,33 @@ jobs:
       - name: Install dependencies
         run: nix develop --command npm ci
 
-      - name: Full sync from scratch
+      - name: Sync all Elm packages (batched)
         run: |
-          nix develop --command npm run sync-elm-packages -- --db ./elm-packages.db --concurrency 4 --delay 500
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BATCH=0
+          while true; do
+            BATCH=$((BATCH + 1))
+            echo "=== Elm packages batch $BATCH ==="
+            OUTPUT=$(nix develop --command npm run sync-elm-packages -- --db ./elm-packages-sync.db --limit 100 2>&1)
+            echo "$OUTPUT"
+            if echo "$OUTPUT" | grep -q "0 package version(s) to download"; then
+              echo "All packages synced"
+              break
+            fi
+          done
 
-      - name: Sync GitHub metadata
+      - name: Sync all GitHub metadata (batched)
         run: |
-          nix develop --command npm run sync-github -- --db ./elm-packages.db --force
+          BATCH=0
+          while true; do
+            BATCH=$((BATCH + 1))
+            echo "=== GitHub metadata batch $BATCH ==="
+            OUTPUT=$(nix develop --command npm run sync-github -- --db ./elm-packages-sync.db --limit 100 2>&1)
+            echo "$OUTPUT"
+            if echo "$OUTPUT" | grep -q "0 package(s) to fetch"; then
+              echo "All GitHub metadata synced"
+              break
+            fi
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -46,14 +64,20 @@ jobs:
       - name: Generate and upload release artifacts
         run: |
           nix develop --command node scripts/ci/generate-artifacts.mjs \
-            --db ./elm-packages.db \
+            --source-db ./elm-packages-sync.db \
             --out ./artifacts
 
           gh release upload packages \
-            artifacts/elm-packages.db.zst \
-            artifacts/elm-packages-delta.json.zst \
-            artifacts/metadata.json \
+            artifacts/elm-packages-sync.db.zst \
             artifacts/manifest.json \
             --clobber
+
+          if [ -f artifacts/elm-packages.db.zst ]; then
+            gh release upload packages \
+              artifacts/elm-packages.db.zst \
+              artifacts/elm-packages-delta.json.zst \
+              artifacts/metadata.json \
+              --clobber
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,89 @@
+name: Sync
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+        with:
+          use-flakehub: false
+
+      - name: Install dependencies
+        run: nix develop --command npm ci
+
+      - name: Download source DB and manifest from release
+        run: |
+          mkdir -p artifacts
+          gh release download packages -D artifacts \
+            -p 'elm-packages-sync.db.zst' \
+            -p 'manifest.json' 2>/dev/null || echo "No existing release"
+          if [ -f artifacts/elm-packages-sync.db.zst ]; then
+            zstd -d artifacts/elm-packages-sync.db.zst -o elm-packages-sync.db
+            DELTA_FROM=$(node -e "const m=JSON.parse(require('fs').readFileSync('artifacts/manifest.json','utf-8')); console.log(m.fullDbAt || 0)")
+          else
+            DELTA_FROM=0
+          fi
+          echo "DELTA_FROM=$DELTA_FROM" >> "$GITHUB_ENV"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync Elm packages
+        run: nix develop --command npm run sync-elm-packages -- --db ./elm-packages-sync.db --limit 100
+
+      - name: Sync GitHub metadata
+        run: nix develop --command npm run sync-github -- --db ./elm-packages-sync.db --limit 100
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release if needed
+        run: |
+          gh release create packages --title "Package Database" --notes "Pre-built Elm package database" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate release artifacts
+        run: |
+          nix develop --command node scripts/ci/generate-artifacts.mjs \
+            --source-db ./elm-packages-sync.db \
+            --out ./artifacts \
+            --delta-from "$DELTA_FROM"
+
+      - name: Upload source DB (always)
+        run: |
+          gh release upload packages \
+            artifacts/elm-packages-sync.db.zst \
+            artifacts/manifest.json \
+            --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload user-facing artifacts (only when complete)
+        run: |
+          if [ -f artifacts/elm-packages.db.zst ]; then
+            gh release upload packages \
+              artifacts/elm-packages.db.zst \
+              artifacts/elm-packages-delta.json.zst \
+              artifacts/metadata.json \
+              --clobber
+            echo "User-facing artifacts uploaded"
+          else
+            echo "DB incomplete — skipping user-facing artifacts"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,11 +2,10 @@ module SyncElmPackages exposing (run)
 
 {-| Sync package documentation from package.elm-lang.org directly into SQLite.
 
-**Discover** — queries the DB for a version count (high water mark), then
-calls `/all-packages/since/{count}` to find newly published versions.
+**Discovery** — when the DB is complete (no pending/errored docs), queries the
+registry for newly published versions and inserts them with `docs_status='pending'`.
 
-**Fetch** — downloads `docs.json` for each new version and upserts it into
-the database via the `upsertDocs` FFI handler.
+**Fetch** — downloads `docs.json` for pending/errored versions up to `--limit`.
 
 **Search metadata** — fetches `search.json` from the registry and upserts
 package summaries and licenses.
@@ -14,7 +13,7 @@ package summaries and licenses.
 **Type index** — builds the type index for any packages not yet indexed.
 
 Flags: `--concurrency` (default 6), `--delay` (default 100ms), `--since`,
-`--db` (default `~/.elm-docs/elm-packages.db`).
+`--limit` (default unlimited), `--db` (default `~/.elm-docs/elm-packages.db`).
 
 -}
 
@@ -38,6 +37,7 @@ type alias CliOptions =
     { concurrency : Int
     , delay : Int
     , since : Maybe Int
+    , limit : Maybe Int
     , db : String
     }
 
@@ -73,6 +73,10 @@ programConfig =
                         |> Option.validateMap parseSince
                     )
                 |> with
+                    (Option.optionalKeywordArg "limit"
+                        |> Option.validateMap parseLimit
+                    )
+                |> with
                     (Option.optionalKeywordArg "db"
                         |> Option.withDefault "~/.elm-docs/elm-packages.db"
                     )
@@ -94,12 +98,45 @@ parseSince maybeStr =
                     Err ("Invalid since value: " ++ str)
 
 
+parseLimit : Maybe String -> Result String (Maybe Int)
+parseLimit maybeStr =
+    case maybeStr of
+        Nothing ->
+            Ok Nothing
+
+        Just str ->
+            case String.toInt str of
+                Just n ->
+                    if n > 0 then
+                        Ok (Just n)
+
+                    else
+                        Err ("--limit must be positive, got: " ++ str)
+
+                Nothing ->
+                    Err ("Invalid --limit value: " ++ str)
+
+
 
 -- Discovery & Fetch
 
 
 discoverAndFetch : CliOptions -> BackendTask FatalError ()
 discoverAndFetch options =
+    isComplete options.db
+        |> BackendTask.andThen
+            (\completeness ->
+                if completeness.complete then
+                    discoverNewPackages options
+
+                else
+                    Script.log (dim "[discover]" ++ " DB incomplete (" ++ String.fromInt completeness.pending ++ " pending/errored) — skipping discovery, draining backlog")
+            )
+        |> BackendTask.andThen (\() -> fetchPending options)
+
+
+discoverNewPackages : CliOptions -> BackendTask FatalError ()
+discoverNewPackages options =
     resolveIndex options
         |> BackendTask.andThen
             (\index ->
@@ -119,11 +156,58 @@ discoverAndFetch options =
                                             packages : List PackageVersion
                                             packages =
                                                 List.filterMap PackageVersion.fromString rawPackages
+
+                                            versions : List { org : String, name : String, version : String }
+                                            versions =
+                                                List.map
+                                                    (\pv ->
+                                                        { org = PackageVersion.org pv
+                                                        , name = PackageVersion.pkg pv
+                                                        , version = PackageVersion.version pv
+                                                        }
+                                                    )
+                                                    packages
                                         in
-                                        Script.log (dim "[discover]" ++ " Found " ++ String.fromInt (List.length packages) ++ " new package version(s)")
-                                            |> BackendTask.andThen (\() -> fetchAllDocs options packages)
+                                        if List.isEmpty versions then
+                                            Script.log (dim "[discover]" ++ " No new package versions")
+
+                                        else
+                                            discoverVersions options.db versions
+                                                |> BackendTask.andThen
+                                                    (\result ->
+                                                        Script.log
+                                                            (dim "[discover]"
+                                                                ++ " Found "
+                                                                ++ String.fromInt (List.length versions)
+                                                                ++ " version(s): "
+                                                                ++ green (String.fromInt result.inserted ++ " new")
+                                                                ++ ", "
+                                                                ++ dim (String.fromInt result.alreadyKnown ++ " already known")
+                                                            )
+                                                    )
                                     )
                         )
+            )
+
+
+fetchPending : CliOptions -> BackendTask FatalError ()
+fetchPending options =
+    let
+        effectiveLimit : Int
+        effectiveLimit =
+            Maybe.withDefault 999999 options.limit
+    in
+    getPendingVersions options.db effectiveLimit
+        |> BackendTask.andThen
+            (\pendingVersions ->
+                let
+                    packages : List PackageVersion
+                    packages =
+                        List.filterMap
+                            (\v -> PackageVersion.fromString (v.org ++ "/" ++ v.name ++ "@" ++ v.version))
+                            pendingVersions
+                in
+                fetchAllDocs options packages
             )
 
 
@@ -340,13 +424,16 @@ fetchOnePackage dbPath pv =
                 case recoverable of
                     BackendTask.Http.BadStatus metadata _ ->
                         if metadata.statusCode == 429 || metadata.statusCode == 503 then
-                            BackendTask.succeed (Err (FetchRateLimited pv))
+                            recordDocsError dbPath pv ("HTTP " ++ String.fromInt metadata.statusCode)
+                                |> BackendTask.map (\() -> Err (FetchRateLimited pv))
 
                         else
-                            BackendTask.succeed (Err (FetchFailed pv))
+                            recordDocsError dbPath pv ("HTTP " ++ String.fromInt metadata.statusCode ++ " " ++ metadata.statusText)
+                                |> BackendTask.map (\() -> Err (FetchFailed pv))
 
                     _ ->
-                        BackendTask.succeed (Err (FetchFailed pv))
+                        recordDocsError dbPath pv (httpErrorToString recoverable)
+                            |> BackendTask.map (\() -> Err (FetchFailed pv))
             )
         |> BackendTask.andThen
             (\result ->
@@ -480,6 +567,75 @@ getHighWaterMark dbPath =
     BackendTask.Custom.run "getHighWaterMark"
         (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
         (Decode.field "count" Decode.int)
+        |> BackendTask.allowFatal
+
+
+isComplete : String -> BackendTask FatalError { complete : Bool, pending : Int }
+isComplete dbPath =
+    BackendTask.Custom.run "isComplete"
+        (Encode.object [ ( "dbPath", Encode.string dbPath ) ])
+        (Decode.map2 (\c p -> { complete = c, pending = p })
+            (Decode.field "complete" Decode.bool)
+            (Decode.field "pending" Decode.int)
+        )
+        |> BackendTask.allowFatal
+
+
+discoverVersions : String -> List { org : String, name : String, version : String } -> BackendTask FatalError { inserted : Int, alreadyKnown : Int }
+discoverVersions dbPath versions =
+    BackendTask.Custom.run "discoverVersions"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "versions"
+              , Encode.list
+                    (\v ->
+                        Encode.object
+                            [ ( "org", Encode.string v.org )
+                            , ( "name", Encode.string v.name )
+                            , ( "version", Encode.string v.version )
+                            ]
+                    )
+                    versions
+              )
+            ]
+        )
+        (Decode.map2 (\i a -> { inserted = i, alreadyKnown = a })
+            (Decode.field "inserted" Decode.int)
+            (Decode.field "alreadyKnown" Decode.int)
+        )
+        |> BackendTask.allowFatal
+
+
+getPendingVersions : String -> Int -> BackendTask FatalError (List { org : String, name : String, version : String })
+getPendingVersions dbPath limit =
+    BackendTask.Custom.run "getPendingVersions"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "limit", Encode.int limit )
+            ]
+        )
+        (Decode.list
+            (Decode.map3 (\o n v -> { org = o, name = n, version = v })
+                (Decode.field "org" Decode.string)
+                (Decode.field "name" Decode.string)
+                (Decode.field "version" Decode.string)
+            )
+        )
+        |> BackendTask.allowFatal
+
+
+recordDocsError : String -> PackageVersion -> String -> BackendTask FatalError ()
+recordDocsError dbPath pv error =
+    BackendTask.Custom.run "recordDocsError"
+        (Encode.object
+            [ ( "dbPath", Encode.string dbPath )
+            , ( "org", Encode.string (PackageVersion.org pv) )
+            , ( "name", Encode.string (PackageVersion.pkg pv) )
+            , ( "version", Encode.string (PackageVersion.version pv) )
+            , ( "error", Encode.string error )
+            ]
+        )
+        (Decode.succeed ())
         |> BackendTask.allowFatal
 
 
