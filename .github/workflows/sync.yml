@@ -52,8 +52,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release if needed
+        if: '!cancelled()'
         run: |
           gh release create packages --title "Package Database" --notes "Pre-built Elm package database" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload source DB (always)
+        if: '!cancelled()'
+        run: |
+          if [ -f elm-packages-sync.db ]; then
+            mkdir -p artifacts
+            zstd -f elm-packages-sync.db -o artifacts/elm-packages-sync.db.zst
+            gh release upload packages artifacts/elm-packages-sync.db.zst --clobber
+            echo "Source DB uploaded"
+          else
+            echo "No source DB to upload"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -64,17 +79,9 @@ jobs:
             --out ./artifacts \
             --delta-from "$DELTA_FROM"
 
-      - name: Upload source DB (always)
-        run: |
-          gh release upload packages \
-            artifacts/elm-packages-sync.db.zst \
-            artifacts/manifest.json \
-            --clobber
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload user-facing artifacts (only when complete)
         run: |
+          gh release upload packages artifacts/manifest.json --clobber
           if [ -f artifacts/elm-packages.db.zst ]; then
             gh release upload packages \
               artifacts/elm-packages.db.zst \
