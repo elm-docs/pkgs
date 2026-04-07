@@ -676,9 +676,14 @@ export async function getPackagesForGithubSync(
       FROM packages p LEFT JOIN github g ON g.package_id = p.id
       WHERE p.redirect_to IS NULL AND p.missing IS NULL
         AND (g.fetched_at IS NULL
+          OR p.github_error IS NOT NULL
           OR (g.last_commit_at > date('now', '-6 months')
               AND g.fetched_at < date('now', '-1 day'))
           OR g.fetched_at < date('now', '-7 days'))
+      ORDER BY
+        CASE WHEN g.fetched_at IS NULL THEN 0 ELSE 1 END,
+        CASE WHEN p.github_error IS NOT NULL THEN 0 ELSE 1 END,
+        g.fetched_at ASC
     `).all() as { org: string; name: string }[];
   } finally {
     db.close();
